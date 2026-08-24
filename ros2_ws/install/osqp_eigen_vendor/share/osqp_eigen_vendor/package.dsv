@@ -1,0 +1,8 @@
+source;share/osqp_eigen_vendor/hook/cmake_prefix_path.ps1
+source;share/osqp_eigen_vendor/hook/cmake_prefix_path.dsv
+source;share/osqp_eigen_vendor/hook/cmake_prefix_path.sh
+source;share/osqp_eigen_vendor/local_setup.bash
+source;share/osqp_eigen_vendor/local_setup.dsv
+source;share/osqp_eigen_vendor/local_setup.ps1
+source;share/osqp_eigen_vendor/local_setup.sh
+source;share/osqp_eigen_vendor/local_setup.zsh

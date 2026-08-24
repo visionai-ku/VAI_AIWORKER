@@ -1,0 +1,9 @@
+source;share/ffw_bringup/hook/pythonpath.ps1
+source;share/ffw_bringup/hook/pythonpath.dsv
+source;share/ffw_bringup/hook/pythonpath.sh
+source;share/ffw_bringup/hook/ament_prefix_path.ps1
+source;share/ffw_bringup/hook/ament_prefix_path.dsv
+source;share/ffw_bringup/hook/ament_prefix_path.sh
+source;../../build/ffw_bringup/share/ffw_bringup/hook/pythonpath_develop.ps1
+source;../../build/ffw_bringup/share/ffw_bringup/hook/pythonpath_develop.dsv
+source;../../build/ffw_bringup/share/ffw_bringup/hook/pythonpath_develop.sh

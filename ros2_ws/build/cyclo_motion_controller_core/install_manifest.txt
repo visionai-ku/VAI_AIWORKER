@@ -1,0 +1,3 @@
+/root/ros2_ws/install/cyclo_motion_controller_core/lib/libcyclo_motion_controller_core.so
+/root/ros2_ws/install/cyclo_motion_controller_core/lib/cmake/cyclo_motion_controller_core/cyclo_motion_controller_coreTargets.cmake
+/root/ros2_ws/install/cyclo_motion_controller_core/lib/cmake/cyclo_motion_controller_core/cyclo_motion_controller_coreTargets-release.cmake

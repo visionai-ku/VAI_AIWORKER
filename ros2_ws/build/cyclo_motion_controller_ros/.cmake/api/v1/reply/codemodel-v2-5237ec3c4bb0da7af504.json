@@ -1,0 +1,160 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Release-7ce0a624068fad6514ed.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "cyclo_motion_controller_ros",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8,
+						9,
+						10,
+						11
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ai_worker_movej_controller_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ai_worker_movej_controller_node-Release-d69f399cff659c7292f5.json",
+					"name" : "ai_worker_movej_controller_node",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ai_worker_movel_controller_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ai_worker_movel_controller_node-Release-c63e193535f40b5257b8.json",
+					"name" : "ai_worker_movel_controller_node",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "cyclo_motion_controller_ros_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-cyclo_motion_controller_ros_uninstall-Release-bda2d5ea8a0329e194b0.json",
+					"name" : "cyclo_motion_controller_ros_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "interactive_marker_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-interactive_marker_node-Release-d06b33a6efffe3bfedda.json",
+					"name" : "interactive_marker_node",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "leader_controller_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-leader_controller_node-Release-2c1cbfe44a117228cf55.json",
+					"name" : "leader_controller_node",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "omx_movej_controller_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-omx_movej_controller_node-Release-7f8d474da5d1b28389c3.json",
+					"name" : "omx_movej_controller_node",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "omx_movel_controller_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-omx_movel_controller_node-Release-19e2e9fec5f669fd948c.json",
+					"name" : "omx_movel_controller_node",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "omy_movej_controller_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-omy_movej_controller_node-Release-5d8ce1aa3621fc8538b8.json",
+					"name" : "omy_movej_controller_node",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "omy_movel_controller_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-omy_movel_controller_node-Release-9ae982722b5c3d4aa80c.json",
+					"name" : "omy_movel_controller_node",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "reference_checker_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-reference_checker_node-Release-44a035d93f88f9ecf7ee.json",
+					"name" : "reference_checker_node",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-Release-d7746dc6159665276396.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "vr_controller_node::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-vr_controller_node-Release-c27140d9e0429500ef12.json",
+					"name" : "vr_controller_node",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/root/ros2_ws/build/cyclo_motion_controller_ros",
+		"source" : "/root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 8
+	}
+}

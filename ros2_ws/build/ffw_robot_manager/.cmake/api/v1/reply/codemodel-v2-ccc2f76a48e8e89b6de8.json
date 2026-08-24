@@ -1,0 +1,88 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Release-1a8f5b83da1f46563eaa.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "ffw_robot_manager",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ffw_robot_manager::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ffw_robot_manager-Release-37b5f6b299c8762fef85.json",
+					"name" : "ffw_robot_manager",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ffw_robot_manager_parameters::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ffw_robot_manager_parameters-Release-94c63a361719622989ea.json",
+					"name" : "ffw_robot_manager_parameters",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "ffw_robot_manager_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ffw_robot_manager_uninstall-Release-84b19202d608eb113ac2.json",
+					"name" : "ffw_robot_manager_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-Release-b4d0d9f5f4daa36e28c0.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/root/ros2_ws/build/ffw_robot_manager",
+		"source" : "/root/ros2_ws/src/ai_worker/ffw_robot_manager"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 8
+	}
+}

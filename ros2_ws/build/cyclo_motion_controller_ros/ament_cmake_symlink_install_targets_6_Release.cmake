@@ -1,0 +1,1 @@
+ament_cmake_symlink_install_targets("TARGET_FILES" "/root/ros2_ws/build/cyclo_motion_controller_ros/omy_movej_controller_node" "TARGETS" "omy_movej_controller_node" "DESTINATION" "lib/cyclo_motion_controller_ros")

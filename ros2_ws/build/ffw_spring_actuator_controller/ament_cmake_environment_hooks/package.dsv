@@ -1,0 +1,4 @@
+source;share/ffw_spring_actuator_controller/local_setup.bash
+source;share/ffw_spring_actuator_controller/local_setup.dsv
+source;share/ffw_spring_actuator_controller/local_setup.sh
+source;share/ffw_spring_actuator_controller/local_setup.zsh

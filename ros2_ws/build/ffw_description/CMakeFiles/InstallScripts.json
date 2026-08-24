@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/root/ros2_ws/build/ffw_description/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

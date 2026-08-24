@@ -1,0 +1,315 @@
+[0.021s] Invoking command in '/root/ros2_ws/build/cyclo_motion_controller_ros': AMENT_PREFIX_PATH=/root/ros2_ws/install/cyclo_motion_controller_core:/root/ros2_ws/install/robotis_interfaces:/root/ros2_ws/install/osqp_eigen_vendor:/root/ros2_ws/install/cyclo_motion_controller_models:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/root/ros2_ws/install/cyclo_motion_controller_core:/root/ros2_ws/install/robotis_interfaces:/root/ros2_ws/install/osqp_eigen_vendor:/root/ros2_ws/install/cyclo_motion_controller_models:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy LD_LIBRARY_PATH=/root/ros2_ws/install/cyclo_motion_controller_core/lib:/root/ros2_ws/install/robotis_interfaces/lib:/root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib:/opt/ros/jazzy/opt/zenoh_cpp_vendor/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/aarch64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib:/usr/local/cuda/compat:/usr/local/cuda/lib64 PYTHONPATH=/root/ros2_ws/install/cyclo_motion_controller_core/lib/python3.12/site-packages:/root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages:/usr/local/lib /opt/venv/bin/cmake /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/cyclo_motion_controller_ros
+[0.436s] CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+[0.436s]   Compatibility with CMake < 3.10 will be removed from a future version of
+[0.436s]   CMake.
+[0.436s] 
+[0.436s]   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+[0.436s]   to tell CMake that the project requires at least <min> but has been updated
+[0.436s]   to work with policies introduced by <max> or earlier.
+[0.437s] 
+[0.437s] 
+[0.437s] -- The C compiler identification is GNU 13.3.0
+[0.480s] -- The CXX compiler identification is GNU 13.3.0
+[0.494s] -- Detecting C compiler ABI info
+[0.599s] -- Detecting C compiler ABI info - done
+[0.624s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.625s] -- Detecting C compile features
+[0.626s] -- Detecting C compile features - done
+[0.649s] -- Detecting CXX compiler ABI info
+[0.763s] -- Detecting CXX compiler ABI info - done
+[0.787s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.788s] -- Detecting CXX compile features
+[0.789s] -- Detecting CXX compile features - done
+[0.831s] -- Found ament_cmake: 2.5.4 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[1.377s] -- Found Python3: /opt/venv/bin/python3 (found version "3.12.3") found components: Interpreter
+[1.536s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[1.956s] -- Found rclcpp: 28.1.9 (/opt/ros/jazzy/share/rclcpp/cmake)
+[2.255s] -- Found rosidl_generator_c: 4.6.5 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+[2.360s] -- Found rosidl_generator_cpp: 4.6.5 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+[2.471s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[2.585s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[2.977s] -- Found rmw_implementation_cmake: 7.3.2 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+[3.009s] -- Found rmw_fastrtps_cpp: 8.4.2 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+[3.290s] -- Found OpenSSL: /usr/lib/aarch64-linux-gnu/libcrypto.so (found version "3.0.13")
+[3.332s] -- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13")
+[3.375s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[3.683s] -- Found std_msgs: 5.3.6 (/opt/ros/jazzy/share/std_msgs/cmake)
+[3.739s] -- Found std_srvs: 5.3.6 (/opt/ros/jazzy/share/std_srvs/cmake)
+[3.796s] -- Found geometry_msgs: 5.3.6 (/opt/ros/jazzy/share/geometry_msgs/cmake)
+[3.854s] -- Found visualization_msgs: 5.3.6 (/opt/ros/jazzy/share/visualization_msgs/cmake)
+[3.990s] -- Found trajectory_msgs: 5.3.6 (/opt/ros/jazzy/share/trajectory_msgs/cmake)
+[4.057s] -- Found interactive_markers: 2.5.5 (/opt/ros/jazzy/share/interactive_markers/cmake)
+[4.136s] -- Found tf2_ros: 0.36.11 (/opt/ros/jazzy/share/tf2_ros/cmake)
+[4.726s] -- pinocchio_default FOUND. pinocchio_default at /opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_default.so
+[4.727s] -- pinocchio_parsers FOUND. pinocchio_parsers at /opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_parsers.so
+[4.729s] -- boost_filesystem FOUND. boost_filesystem at /lib/aarch64-linux-gnu/libboost_filesystem.so
+[4.801s] CMake Warning (dev) at /opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeFindDependencyMacro.cmake:78 (find_package):
+[4.801s]   Policy CMP0167 is not set: The FindBoost module is removed.  Run "cmake
+[4.801s]   --help-policy CMP0167" for policy details.  Use the cmake_policy command to
+[4.801s]   set the policy and suppress this warning.
+[4.801s] 
+[4.801s] Call Stack (most recent call first):
+[4.801s]   /opt/ros/jazzy/lib/aarch64-linux-gnu/cmake/pinocchio/pinocchioConfig.cmake:160 (find_dependency)
+[4.802s]   CMakeLists.txt:23 (find_package)
+[4.802s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[4.802s] 
+[4.971s] -- Found Boost: /usr/include (found version "1.83.0") found components: filesystem serialization system
+[4.987s] -- eigenpy FOUND. eigenpy at /opt/ros/jazzy/lib/aarch64-linux-gnu/libeigenpy.so
+[5.029s] -- Checking for NumPy
+[5.424s] --   NUMPY_INCLUDE_DIRS=/opt/venv/lib/python3.12/site-packages/numpy/_core/include
+[5.621s] --   NUMPY_VERSION=2.4.4
+[6.279s] -- Found Python3: /opt/venv/bin/python3 (found version "3.12.3") found components: Interpreter Development.Module NumPy
+[6.280s] -- PythonLibraryDirs: 
+[6.280s] -- PythonLibVersionString: 3.12.3
+[6.313s] -- Python site lib: lib/python3.12/site-packages
+[6.313s] -- Python include dirs: /usr/include/python3.12
+[6.397s] -- Checking for NumPy
+[6.597s] --   NUMPY_INCLUDE_DIRS=/opt/venv/lib/python3.12/site-packages/numpy/_core/include
+[6.801s] --   NUMPY_VERSION=2.4.4
+[6.802s] -- NumPy include dir: /opt/venv/lib/python3.12/site-packages/numpy/_core/include
+[6.802s] CMake Warning (dev) at /opt/ros/jazzy/lib/aarch64-linux-gnu/cmake/eigenpy/boost.cmake:148 (find_package):
+[6.802s]   Policy CMP0167 is not set: The FindBoost module is removed.  Run "cmake
+[6.802s]   --help-policy CMP0167" for policy details.  Use the cmake_policy command to
+[6.802s]   set the policy and suppress this warning.
+[6.802s] 
+[6.802s] Call Stack (most recent call first):
+[6.802s]   /opt/ros/jazzy/lib/aarch64-linux-gnu/cmake/eigenpy/eigenpyConfig.cmake:149 (SEARCH_FOR_BOOST_PYTHON)
+[6.802s]   /opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeFindDependencyMacro.cmake:78 (find_package)
+[6.803s]   /opt/ros/jazzy/lib/aarch64-linux-gnu/cmake/pinocchio/pinocchioConfig.cmake:161 (find_dependency)
+[6.803s]   CMakeLists.txt:23 (find_package)
+[6.803s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[6.803s] 
+[6.818s] -- Found Boost: /usr/include (found version "1.83.0") found components: python312
+[7.387s] -- Default C++ standard: 201703
+[7.387s] -- Minimal C++ standard upgraded to 11
+[7.387s] -- C++ standard sufficient: Minimal required 11, currently defined: 17
+[7.403s] -- hpp-fcl FOUND. hpp-fcl at /opt/ros/jazzy/lib/aarch64-linux-gnu/libhpp-fcl.so
+[7.404s] CMake Warning (dev) at /opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeFindDependencyMacro.cmake:78 (find_package):
+[7.404s]   Policy CMP0167 is not set: The FindBoost module is removed.  Run "cmake
+[7.405s]   --help-policy CMP0167" for policy details.  Use the cmake_policy command to
+[7.405s]   set the policy and suppress this warning.
+[7.405s] 
+[7.405s] Call Stack (most recent call first):
+[7.405s]   /opt/ros/jazzy/lib/aarch64-linux-gnu/cmake/hpp-fcl/hpp-fclConfig.cmake:154 (find_dependency)
+[7.405s]   /opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeFindDependencyMacro.cmake:78 (find_package)
+[7.405s]   /opt/ros/jazzy/lib/aarch64-linux-gnu/cmake/pinocchio/pinocchioConfig.cmake:163 (find_dependency)
+[7.405s]   CMakeLists.txt:23 (find_package)
+[7.405s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[7.405s] 
+[7.421s] -- Found Boost: /usr/include (found version "1.83.0") found components: chrono serialization filesystem
+[7.482s] -- Minimal C++ standard upgraded to 14
+[7.482s] -- C++ standard sufficient: Minimal required 14, currently defined: 17
+[7.484s] -- C++ standard sufficient: Minimal required 14, currently defined: 17
+[7.486s] -- Found osqp_eigen_vendor: 0.10.3 (/root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/cmake)
+[7.516s] -- Found osqp_vendor: 0.2.0 (/opt/ros/jazzy/share/osqp_vendor/cmake)
+[7.541s] -- Found robotis_interfaces: 1.0.0 (/root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake)
+[7.573s] -- Found cyclo_motion_controller_core via find_package
+[7.574s] -- CYCLO_MOTION_CONTROLLER_CORE_INCLUDE_DIR = /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include
+[7.681s] -- Found ament_lint_auto: 0.17.2 (/opt/ros/jazzy/share/ament_lint_auto/cmake)
+[8.077s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[8.088s] -- Configured cppcheck include dirs: /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/include;/root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core
+[8.088s] -- Configured cppcheck exclude dirs and/or files: 
+[8.090s] -- Added test 'flake8' to check Python code syntax and style conventions
+[8.090s] -- Configured 'flake8' exclude dirs and/or files: 
+[8.093s] -- Added test 'lint_cmake' to check CMake code style
+[8.095s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[8.102s] -- Added test 'uncrustify' to check C / C++ code style
+[8.102s] -- Configured uncrustify additional arguments: 
+[8.104s] -- Added test 'xmllint' to check XML markup files
+[8.109s] -- Configuring done (7.8s)
+[12.493s] -- Generating done (4.4s)
+[12.736s] -- Build files have been written to: /root/ros2_ws/build/cyclo_motion_controller_ros
+[12.787s] Invoked command in '/root/ros2_ws/build/cyclo_motion_controller_ros' returned '0': AMENT_PREFIX_PATH=/root/ros2_ws/install/cyclo_motion_controller_core:/root/ros2_ws/install/robotis_interfaces:/root/ros2_ws/install/osqp_eigen_vendor:/root/ros2_ws/install/cyclo_motion_controller_models:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/root/ros2_ws/install/cyclo_motion_controller_core:/root/ros2_ws/install/robotis_interfaces:/root/ros2_ws/install/osqp_eigen_vendor:/root/ros2_ws/install/cyclo_motion_controller_models:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy LD_LIBRARY_PATH=/root/ros2_ws/install/cyclo_motion_controller_core/lib:/root/ros2_ws/install/robotis_interfaces/lib:/root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib:/opt/ros/jazzy/opt/zenoh_cpp_vendor/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/aarch64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib:/usr/local/cuda/compat:/usr/local/cuda/lib64 PYTHONPATH=/root/ros2_ws/install/cyclo_motion_controller_core/lib/python3.12/site-packages:/root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages:/usr/local/lib /opt/venv/bin/cmake /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/cyclo_motion_controller_ros
+[12.789s] Invoking command in '/root/ros2_ws/build/cyclo_motion_controller_ros': AMENT_PREFIX_PATH=/root/ros2_ws/install/cyclo_motion_controller_core:/root/ros2_ws/install/robotis_interfaces:/root/ros2_ws/install/osqp_eigen_vendor:/root/ros2_ws/install/cyclo_motion_controller_models:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/root/ros2_ws/install/cyclo_motion_controller_core:/root/ros2_ws/install/robotis_interfaces:/root/ros2_ws/install/osqp_eigen_vendor:/root/ros2_ws/install/cyclo_motion_controller_models:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy LD_LIBRARY_PATH=/root/ros2_ws/install/cyclo_motion_controller_core/lib:/root/ros2_ws/install/robotis_interfaces/lib:/root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib:/opt/ros/jazzy/opt/zenoh_cpp_vendor/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/aarch64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib:/usr/local/cuda/compat:/usr/local/cuda/lib64 PYTHONPATH=/root/ros2_ws/install/cyclo_motion_controller_core/lib/python3.12/site-packages:/root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages:/usr/local/lib /opt/venv/bin/cmake --build /root/ros2_ws/build/cyclo_motion_controller_ros -- -j12 -l12
+[13.117s] [  5%] Building CXX object CMakeFiles/omx_movej_controller_node.dir/src/nodes/omx/omx_movej_controller_node.cpp.o
+[13.117s] [ 10%] Building CXX object CMakeFiles/ai_worker_movej_controller_node.dir/src/nodes/ai_worker/ai_worker_movej_controller_node.cpp.o
+[13.117s] [ 15%] Building CXX object CMakeFiles/leader_controller_node.dir/src/nodes/ai_worker/leader_controller_node.cpp.o
+[13.121s] [ 20%] Building CXX object CMakeFiles/vr_controller_node.dir/src/nodes/ai_worker/vr_controller_node.cpp.o
+[13.123s] [ 25%] Building CXX object CMakeFiles/ai_worker_movel_controller_node.dir/src/nodes/ai_worker/ai_worker_movel_controller_node.cpp.o
+[23.588s] In file included from /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/include/cyclo_motion_controller_ros/nodes/omx/omx_movej_controller_node.hpp:33,
+[23.588s]                  from /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/src/nodes/omx/omx_movej_controller_node.cpp:17:
+[23.588s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp: In function ‘const Eigen::Vector3d cyclo_motion_controller::common::math_utils::rotationCubicDot(double, double, double, const Eigen::Vector3d&, const Eigen::Vector3d&, const Eigen::Matrix3d&, const Eigen::Matrix3d&)’:
+[23.588s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:248:56: warning: unused parameter ‘a_0’ [-Wunused-parameter]
+[23.588s]   248 |   const Eigen::Vector3d & w_0, const Eigen::Vector3d & a_0,
+[23.588s]       |                                ~~~~~~~~~~~~~~~~~~~~~~~~^~~
+[23.689s] In file included from /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/include/cyclo_motion_controller_ros/nodes/ai_worker/ai_worker_movej_controller_node.hpp:31,
+[23.689s]                  from /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/src/nodes/ai_worker/ai_worker_movej_controller_node.cpp:17:
+[23.689s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp: In function ‘const Eigen::Vector3d cyclo_motion_controller::common::math_utils::rotationCubicDot(double, double, double, const Eigen::Vector3d&, const Eigen::Vector3d&, const Eigen::Matrix3d&, const Eigen::Matrix3d&)’:
+[23.689s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:248:56: warning: unused parameter ‘a_0’ [-Wunused-parameter]
+[23.690s]   248 |   const Eigen::Vector3d & w_0, const Eigen::Vector3d & a_0,
+[23.690s]       |                                ~~~~~~~~~~~~~~~~~~~~~~~~^~~
+[23.799s] In file included from /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/include/cyclo_motion_controller_ros/nodes/ai_worker/vr_controller_node.hpp:36,
+[23.799s]                  from /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/src/nodes/ai_worker/vr_controller_node.cpp:17:
+[23.799s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp: In function ‘const Eigen::Vector3d cyclo_motion_controller::common::math_utils::rotationCubicDot(double, double, double, const Eigen::Vector3d&, const Eigen::Vector3d&, const Eigen::Matrix3d&, const Eigen::Matrix3d&)’:
+[23.799s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:248:56: warning: unused parameter ‘a_0’ [-Wunused-parameter]
+[23.799s]   248 |   const Eigen::Vector3d & w_0, const Eigen::Vector3d & a_0,
+[23.800s]       |                                ~~~~~~~~~~~~~~~~~~~~~~~~^~~
+[24.221s] In file included from /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/include/cyclo_motion_controller_ros/nodes/ai_worker/ai_worker_movel_controller_node.hpp:34,
+[24.221s]                  from /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/src/nodes/ai_worker/ai_worker_movel_controller_node.cpp:17:
+[24.221s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp: In function ‘const Eigen::Vector3d cyclo_motion_controller::common::math_utils::rotationCubicDot(double, double, double, const Eigen::Vector3d&, const Eigen::Vector3d&, const Eigen::Matrix3d&, const Eigen::Matrix3d&)’:
+[24.221s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:248:56: warning: unused parameter ‘a_0’ [-Wunused-parameter]
+[24.221s]   248 |   const Eigen::Vector3d & w_0, const Eigen::Vector3d & a_0,
+[24.221s]       |                                ~~~~~~~~~~~~~~~~~~~~~~~~^~~
+[28.106s] In file included from /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/kinematics/kinematics_solver.hpp:44,
+[28.106s]                  from /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/include/cyclo_motion_controller_ros/nodes/ai_worker/leader_controller_node.hpp:35,
+[28.106s]                  from /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/src/nodes/ai_worker/leader_controller_node.cpp:17:
+[28.106s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp: In function ‘const Eigen::Vector3d cyclo_motion_controller::common::math_utils::rotationCubicDot(double, double, double, const Eigen::Vector3d&, const Eigen::Vector3d&, const Eigen::Matrix3d&, const Eigen::Matrix3d&)’:
+[28.106s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:248:56: warning: unused parameter ‘a_0’ [-Wunused-parameter]
+[28.107s]   248 |   const Eigen::Vector3d & w_0, const Eigen::Vector3d & a_0,
+[28.107s]       |                                ~~~~~~~~~~~~~~~~~~~~~~~~^~~
+[46.755s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp: At global scope:
+[46.755s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:246:30: warning: ‘const Eigen::Vector3d cyclo_motion_controller::common::math_utils::rotationCubicDot(double, double, double, const Eigen::Vector3d&, const Eigen::Vector3d&, const Eigen::Matrix3d&, const Eigen::Matrix3d&)’ defined but not used [-Wunused-function]
+[46.756s]   246 | static const Eigen::Vector3d rotationCubicDot(
+[46.756s]       |                              ^~~~~~~~~~~~~~~~
+[46.756s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:223:30: warning: ‘const Eigen::Matrix3d cyclo_motion_controller::common::math_utils::rotationCubic(double, double, double, const Eigen::Matrix3d&, const Eigen::Matrix3d&)’ defined but not used [-Wunused-function]
+[46.756s]   223 | static const Eigen::Matrix3d rotationCubic(
+[46.756s]       |                              ^~~~~~~~~~~~~
+[47.402s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp: At global scope:
+[47.403s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:246:30: warning: ‘const Eigen::Vector3d cyclo_motion_controller::common::math_utils::rotationCubicDot(double, double, double, const Eigen::Vector3d&, const Eigen::Vector3d&, const Eigen::Matrix3d&, const Eigen::Matrix3d&)’ defined but not used [-Wunused-function]
+[47.403s]   246 | static const Eigen::Vector3d rotationCubicDot(
+[47.403s]       |                              ^~~~~~~~~~~~~~~~
+[47.403s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:223:30: warning: ‘const Eigen::Matrix3d cyclo_motion_controller::common::math_utils::rotationCubic(double, double, double, const Eigen::Matrix3d&, const Eigen::Matrix3d&)’ defined but not used [-Wunused-function]
+[47.403s]   223 | static const Eigen::Matrix3d rotationCubic(
+[47.403s]       |                              ^~~~~~~~~~~~~
+[52.113s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp: At global scope:
+[52.114s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:246:30: warning: ‘const Eigen::Vector3d cyclo_motion_controller::common::math_utils::rotationCubicDot(double, double, double, const Eigen::Vector3d&, const Eigen::Vector3d&, const Eigen::Matrix3d&, const Eigen::Matrix3d&)’ defined but not used [-Wunused-function]
+[52.114s]   246 | static const Eigen::Vector3d rotationCubicDot(
+[52.114s]       |                              ^~~~~~~~~~~~~~~~
+[52.114s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:223:30: warning: ‘const Eigen::Matrix3d cyclo_motion_controller::common::math_utils::rotationCubic(double, double, double, const Eigen::Matrix3d&, const Eigen::Matrix3d&)’ defined but not used [-Wunused-function]
+[52.114s]   223 | static const Eigen::Matrix3d rotationCubic(
+[52.114s]       |                              ^~~~~~~~~~~~~
+[52.114s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:203:24: warning: ‘Eigen::VectorXd cyclo_motion_controller::common::math_utils::cubicDotVector(double, double, double, const Eigen::VectorXd&, const Eigen::VectorXd&, const Eigen::VectorXd&, const Eigen::VectorXd&)’ defined but not used [-Wunused-function]
+[52.115s]   203 | static Eigen::VectorXd cubicDotVector(
+[52.115s]       |                        ^~~~~~~~~~~~~~
+[52.115s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:162:24: warning: ‘Eigen::VectorXd cyclo_motion_controller::common::math_utils::cubicVector(double, double, double, const Eigen::VectorXd&, const Eigen::VectorXd&, const Eigen::VectorXd&, const Eigen::VectorXd&)’ defined but not used [-Wunused-function]
+[52.115s]   162 | static Eigen::VectorXd cubicVector(
+[52.115s]       |                        ^~~~~~~~~~~
+[52.943s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp: At global scope:
+[52.943s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:203:24: warning: ‘Eigen::VectorXd cyclo_motion_controller::common::math_utils::cubicDotVector(double, double, double, const Eigen::VectorXd&, const Eigen::VectorXd&, const Eigen::VectorXd&, const Eigen::VectorXd&)’ defined but not used [-Wunused-function]
+[52.943s]   203 | static Eigen::VectorXd cubicDotVector(
+[52.943s]       |                        ^~~~~~~~~~~~~~
+[52.944s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:162:24: warning: ‘Eigen::VectorXd cyclo_motion_controller::common::math_utils::cubicVector(double, double, double, const Eigen::VectorXd&, const Eigen::VectorXd&, const Eigen::VectorXd&, const Eigen::VectorXd&)’ defined but not used [-Wunused-function]
+[52.944s]   162 | static Eigen::VectorXd cubicVector(
+[52.944s]       |                        ^~~~~~~~~~~
+[54.565s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp: At global scope:
+[54.565s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:246:30: warning: ‘const Eigen::Vector3d cyclo_motion_controller::common::math_utils::rotationCubicDot(double, double, double, const Eigen::Vector3d&, const Eigen::Vector3d&, const Eigen::Matrix3d&, const Eigen::Matrix3d&)’ defined but not used [-Wunused-function]
+[54.565s]   246 | static const Eigen::Vector3d rotationCubicDot(
+[54.565s]       |                              ^~~~~~~~~~~~~~~~
+[54.565s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:223:30: warning: ‘const Eigen::Matrix3d cyclo_motion_controller::common::math_utils::rotationCubic(double, double, double, const Eigen::Matrix3d&, const Eigen::Matrix3d&)’ defined but not used [-Wunused-function]
+[54.565s]   223 | static const Eigen::Matrix3d rotationCubic(
+[54.566s]       |                              ^~~~~~~~~~~~~
+[54.566s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:203:24: warning: ‘Eigen::VectorXd cyclo_motion_controller::common::math_utils::cubicDotVector(double, double, double, const Eigen::VectorXd&, const Eigen::VectorXd&, const Eigen::VectorXd&, const Eigen::VectorXd&)’ defined but not used [-Wunused-function]
+[54.566s]   203 | static Eigen::VectorXd cubicDotVector(
+[54.566s]       |                        ^~~~~~~~~~~~~~
+[54.566s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:162:24: warning: ‘Eigen::VectorXd cyclo_motion_controller::common::math_utils::cubicVector(double, double, double, const Eigen::VectorXd&, const Eigen::VectorXd&, const Eigen::VectorXd&, const Eigen::VectorXd&)’ defined but not used [-Wunused-function]
+[54.566s]   162 | static Eigen::VectorXd cubicVector(
+[54.566s]       |                        ^~~~~~~~~~~
+[68.397s] [ 30%] Linking CXX executable ai_worker_movej_controller_node
+[72.125s] [ 30%] Built target ai_worker_movej_controller_node
+[72.153s] [ 35%] Building CXX object CMakeFiles/reference_checker_node.dir/src/utils/reference_checker_node.cpp.o
+[72.184s] [ 40%] Building CXX object CMakeFiles/interactive_marker_node.dir/src/utils/eef_interactive_marker_node.cpp.o
+[72.193s] [ 45%] Building CXX object CMakeFiles/omy_movel_controller_node.dir/src/nodes/omy/omy_movel_controller_node.cpp.o
+[73.064s] [ 50%] Linking CXX executable omx_movej_controller_node
+[76.931s] [ 55%] Linking CXX executable leader_controller_node
+[78.544s] [ 55%] Built target omx_movej_controller_node
+[78.661s] [ 60%] Building CXX object CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node.cpp.o
+[78.668s] [ 65%] Building CXX object CMakeFiles/omx_movel_controller_node.dir/src/nodes/omx/omx_movel_controller_node.cpp.o
+[84.096s] In file included from /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/include/cyclo_motion_controller_ros/nodes/omy/omy_movel_controller_node.hpp:34,
+[84.097s]                  from /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/src/nodes/omy/omy_movel_controller_node.cpp:17:
+[84.097s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp: In function ‘const Eigen::Vector3d cyclo_motion_controller::common::math_utils::rotationCubicDot(double, double, double, const Eigen::Vector3d&, const Eigen::Vector3d&, const Eigen::Matrix3d&, const Eigen::Matrix3d&)’:
+[84.097s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:248:56: warning: unused parameter ‘a_0’ [-Wunused-parameter]
+[84.097s]   248 |   const Eigen::Vector3d & w_0, const Eigen::Vector3d & a_0,
+[84.097s]       |                                ~~~~~~~~~~~~~~~~~~~~~~~~^~~
+[84.833s] [ 65%] Built target leader_controller_node
+[86.388s] [ 70%] Linking CXX executable ai_worker_movel_controller_node
+[88.386s] [ 75%] Linking CXX executable interactive_marker_node
+[90.538s] In file included from /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/include/cyclo_motion_controller_ros/nodes/omy/omy_movej_controller_node.hpp:33,
+[90.539s]                  from /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/src/nodes/omy/omy_movej_controller_node.cpp:17:
+[90.539s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp: In function ‘const Eigen::Vector3d cyclo_motion_controller::common::math_utils::rotationCubicDot(double, double, double, const Eigen::Vector3d&, const Eigen::Vector3d&, const Eigen::Matrix3d&, const Eigen::Matrix3d&)’:
+[90.539s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:248:56: warning: unused parameter ‘a_0’ [-Wunused-parameter]
+[90.539s]   248 |   const Eigen::Vector3d & w_0, const Eigen::Vector3d & a_0,
+[90.539s]       |                                ~~~~~~~~~~~~~~~~~~~~~~~~^~~
+[91.066s] In file included from /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/include/cyclo_motion_controller_ros/nodes/omx/omx_movel_controller_node.hpp:34,
+[91.066s]                  from /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/src/nodes/omx/omx_movel_controller_node.cpp:17:
+[91.067s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp: In function ‘const Eigen::Vector3d cyclo_motion_controller::common::math_utils::rotationCubicDot(double, double, double, const Eigen::Vector3d&, const Eigen::Vector3d&, const Eigen::Matrix3d&, const Eigen::Matrix3d&)’:
+[91.067s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:248:56: warning: unused parameter ‘a_0’ [-Wunused-parameter]
+[91.067s]   248 |   const Eigen::Vector3d & w_0, const Eigen::Vector3d & a_0,
+[91.067s]       |                                ~~~~~~~~~~~~~~~~~~~~~~~~^~~
+[91.880s] [ 80%] Linking CXX executable vr_controller_node
+[92.663s] [ 80%] Built target ai_worker_movel_controller_node
+[99.163s] [ 80%] Built target vr_controller_node
+[99.502s] [ 85%] Linking CXX executable reference_checker_node
+[100.801s] [ 85%] Built target reference_checker_node
+[114.725s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp: At global scope:
+[114.725s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:246:30: warning: ‘const Eigen::Vector3d cyclo_motion_controller::common::math_utils::rotationCubicDot(double, double, double, const Eigen::Vector3d&, const Eigen::Vector3d&, const Eigen::Matrix3d&, const Eigen::Matrix3d&)’ defined but not used [-Wunused-function]
+[114.725s]   246 | static const Eigen::Vector3d rotationCubicDot(
+[114.725s]       |                              ^~~~~~~~~~~~~~~~
+[114.725s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:223:30: warning: ‘const Eigen::Matrix3d cyclo_motion_controller::common::math_utils::rotationCubic(double, double, double, const Eigen::Matrix3d&, const Eigen::Matrix3d&)’ defined but not used [-Wunused-function]
+[114.725s]   223 | static const Eigen::Matrix3d rotationCubic(
+[114.726s]       |                              ^~~~~~~~~~~~~
+[115.452s] [ 85%] Built target interactive_marker_node
+[115.529s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp: At global scope:
+[115.529s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:203:24: warning: ‘Eigen::VectorXd cyclo_motion_controller::common::math_utils::cubicDotVector(double, double, double, const Eigen::VectorXd&, const Eigen::VectorXd&, const Eigen::VectorXd&, const Eigen::VectorXd&)’ defined but not used [-Wunused-function]
+[115.529s]   203 | static Eigen::VectorXd cubicDotVector(
+[115.529s]       |                        ^~~~~~~~~~~~~~
+[115.529s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:162:24: warning: ‘Eigen::VectorXd cyclo_motion_controller::common::math_utils::cubicVector(double, double, double, const Eigen::VectorXd&, const Eigen::VectorXd&, const Eigen::VectorXd&, const Eigen::VectorXd&)’ defined but not used [-Wunused-function]
+[115.529s]   162 | static Eigen::VectorXd cubicVector(
+[115.529s]       |                        ^~~~~~~~~~~
+[120.241s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp: At global scope:
+[120.241s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:203:24: warning: ‘Eigen::VectorXd cyclo_motion_controller::common::math_utils::cubicDotVector(double, double, double, const Eigen::VectorXd&, const Eigen::VectorXd&, const Eigen::VectorXd&, const Eigen::VectorXd&)’ defined but not used [-Wunused-function]
+[120.241s]   203 | static Eigen::VectorXd cubicDotVector(
+[120.241s]       |                        ^~~~~~~~~~~~~~
+[120.241s] /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros/../cyclo_motion_controller_core/include/cyclo_motion_controller_core/common/type_define.hpp:162:24: warning: ‘Eigen::VectorXd cyclo_motion_controller::common::math_utils::cubicVector(double, double, double, const Eigen::VectorXd&, const Eigen::VectorXd&, const Eigen::VectorXd&, const Eigen::VectorXd&)’ defined but not used [-Wunused-function]
+[120.241s]   162 | static Eigen::VectorXd cubicVector(
+[120.241s]       |                        ^~~~~~~~~~~
+[140.774s] [ 90%] Linking CXX executable omy_movej_controller_node
+[145.666s] [ 90%] Built target omy_movej_controller_node
+[147.712s] [ 95%] Linking CXX executable omy_movel_controller_node
+[152.556s] [100%] Linking CXX executable omx_movel_controller_node
+[153.193s] [100%] Built target omy_movel_controller_node
+[157.766s] [100%] Built target omx_movel_controller_node
+[157.777s] Invoked command in '/root/ros2_ws/build/cyclo_motion_controller_ros' returned '0': AMENT_PREFIX_PATH=/root/ros2_ws/install/cyclo_motion_controller_core:/root/ros2_ws/install/robotis_interfaces:/root/ros2_ws/install/osqp_eigen_vendor:/root/ros2_ws/install/cyclo_motion_controller_models:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/root/ros2_ws/install/cyclo_motion_controller_core:/root/ros2_ws/install/robotis_interfaces:/root/ros2_ws/install/osqp_eigen_vendor:/root/ros2_ws/install/cyclo_motion_controller_models:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy LD_LIBRARY_PATH=/root/ros2_ws/install/cyclo_motion_controller_core/lib:/root/ros2_ws/install/robotis_interfaces/lib:/root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib:/opt/ros/jazzy/opt/zenoh_cpp_vendor/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/aarch64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib:/usr/local/cuda/compat:/usr/local/cuda/lib64 PYTHONPATH=/root/ros2_ws/install/cyclo_motion_controller_core/lib/python3.12/site-packages:/root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages:/usr/local/lib /opt/venv/bin/cmake --build /root/ros2_ws/build/cyclo_motion_controller_ros -- -j12 -l12
+[157.779s] Invoking command in '/root/ros2_ws/build/cyclo_motion_controller_ros': AMENT_PREFIX_PATH=/root/ros2_ws/install/cyclo_motion_controller_core:/root/ros2_ws/install/robotis_interfaces:/root/ros2_ws/install/osqp_eigen_vendor:/root/ros2_ws/install/cyclo_motion_controller_models:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/root/ros2_ws/install/cyclo_motion_controller_core:/root/ros2_ws/install/robotis_interfaces:/root/ros2_ws/install/osqp_eigen_vendor:/root/ros2_ws/install/cyclo_motion_controller_models:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy LD_LIBRARY_PATH=/root/ros2_ws/install/cyclo_motion_controller_core/lib:/root/ros2_ws/install/robotis_interfaces/lib:/root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib:/opt/ros/jazzy/opt/zenoh_cpp_vendor/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/aarch64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib:/usr/local/cuda/compat:/usr/local/cuda/lib64 PYTHONPATH=/root/ros2_ws/install/cyclo_motion_controller_core/lib/python3.12/site-packages:/root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages:/usr/local/lib /opt/venv/bin/cmake --install /root/ros2_ws/build/cyclo_motion_controller_ros
+[158.017s] -- Install configuration: "Release"
+[158.017s] -- Execute custom install script
+[158.018s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/lib/cyclo_motion_controller_ros/vr_controller_node
+[158.024s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/lib/cyclo_motion_controller_ros/ai_worker_movej_controller_node
+[158.029s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/lib/cyclo_motion_controller_ros/ai_worker_movel_controller_node
+[158.034s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/lib/cyclo_motion_controller_ros/leader_controller_node
+[158.040s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/lib/cyclo_motion_controller_ros/omx_movej_controller_node
+[158.045s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/lib/cyclo_motion_controller_ros/omx_movel_controller_node
+[158.050s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/lib/cyclo_motion_controller_ros/omy_movej_controller_node
+[158.056s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/lib/cyclo_motion_controller_ros/omy_movel_controller_node
+[158.061s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/lib/cyclo_motion_controller_ros/interactive_marker_node
+[158.066s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/lib/cyclo_motion_controller_ros/reference_checker_node
+[158.073s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/include/cyclo_motion_controller_ros/nodes/ai_worker/ai_worker_movej_controller_node.hpp
+[158.078s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/include/cyclo_motion_controller_ros/nodes/ai_worker/ai_worker_movel_controller_node.hpp
+[158.083s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/include/cyclo_motion_controller_ros/nodes/ai_worker/leader_controller_node.hpp
+[158.088s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/include/cyclo_motion_controller_ros/nodes/ai_worker/vr_controller_node.hpp
+[158.093s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/include/cyclo_motion_controller_ros/nodes/omx/omx_movej_controller_node.hpp
+[158.098s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/include/cyclo_motion_controller_ros/nodes/omx/omx_movel_controller_node.hpp
+[158.103s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/include/cyclo_motion_controller_ros/nodes/omy/omy_movej_controller_node.hpp
+[158.108s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/include/cyclo_motion_controller_ros/nodes/omy/omy_movel_controller_node.hpp
+[158.113s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/include/cyclo_motion_controller_ros/utils/reference_checker_node.hpp
+[158.119s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/share/cyclo_motion_controller_ros/launch/ai_worker_controller.launch.py
+[158.124s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/share/cyclo_motion_controller_ros/launch/omx_controller.launch.py
+[158.129s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/share/cyclo_motion_controller_ros/launch/omy_controller.launch.py
+[158.134s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/share/cyclo_motion_controller_ros/config/ai_worker_config.yaml
+[158.139s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/share/cyclo_motion_controller_ros/config/omx_config.yaml
+[158.145s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/share/cyclo_motion_controller_ros/config/omy_config.yaml
+[158.150s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/share/ament_index/resource_index/package_run_dependencies/cyclo_motion_controller_ros
+[158.156s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/share/ament_index/resource_index/parent_prefix_path/cyclo_motion_controller_ros
+[158.161s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/share/cyclo_motion_controller_ros/environment/ament_prefix_path.sh
+[158.166s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/share/cyclo_motion_controller_ros/environment/ament_prefix_path.dsv
+[158.171s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/share/cyclo_motion_controller_ros/environment/path.sh
+[158.176s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/share/cyclo_motion_controller_ros/environment/path.dsv
+[158.181s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/share/cyclo_motion_controller_ros/local_setup.bash
+[158.187s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/share/cyclo_motion_controller_ros/local_setup.sh
+[158.192s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/share/cyclo_motion_controller_ros/local_setup.zsh
+[158.197s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/share/cyclo_motion_controller_ros/local_setup.dsv
+[158.202s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/share/cyclo_motion_controller_ros/package.dsv
+[158.208s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/share/ament_index/resource_index/packages/cyclo_motion_controller_ros
+[158.213s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/share/cyclo_motion_controller_ros/cmake/cyclo_motion_controller_rosConfig.cmake
+[158.219s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/share/cyclo_motion_controller_ros/cmake/cyclo_motion_controller_rosConfig-version.cmake
+[158.224s] -- Symlinking: /root/ros2_ws/install/cyclo_motion_controller_ros/share/cyclo_motion_controller_ros/package.xml
+[158.231s] Invoked command in '/root/ros2_ws/build/cyclo_motion_controller_ros' returned '0': AMENT_PREFIX_PATH=/root/ros2_ws/install/cyclo_motion_controller_core:/root/ros2_ws/install/robotis_interfaces:/root/ros2_ws/install/osqp_eigen_vendor:/root/ros2_ws/install/cyclo_motion_controller_models:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/root/ros2_ws/install/cyclo_motion_controller_core:/root/ros2_ws/install/robotis_interfaces:/root/ros2_ws/install/osqp_eigen_vendor:/root/ros2_ws/install/cyclo_motion_controller_models:/opt/ros/jazzy/opt/gz_sim_vendor:/opt/ros/jazzy/opt/gz_sensors_vendor:/opt/ros/jazzy/opt/gz_physics_vendor:/opt/ros/jazzy/opt/sdformat_vendor:/opt/ros/jazzy/opt/gz_gui_vendor:/opt/ros/jazzy/opt/gz_transport_vendor:/opt/ros/jazzy/opt/gz_rendering_vendor:/opt/ros/jazzy/opt/gz_plugin_vendor:/opt/ros/jazzy/opt/gz_fuel_tools_vendor:/opt/ros/jazzy/opt/gz_msgs_vendor:/opt/ros/jazzy/opt/gz_common_vendor:/opt/ros/jazzy/opt/gz_math_vendor:/opt/ros/jazzy/opt/gz_utils_vendor:/opt/ros/jazzy/opt/gz_tools_vendor:/opt/ros/jazzy/opt/gz_ogre_next_vendor:/opt/ros/jazzy/opt/gz_dartsim_vendor:/opt/ros/jazzy/opt/gz_cmake_vendor:/opt/ros/jazzy LD_LIBRARY_PATH=/root/ros2_ws/install/cyclo_motion_controller_core/lib:/root/ros2_ws/install/robotis_interfaces/lib:/root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib:/opt/ros/jazzy/opt/zenoh_cpp_vendor/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/aarch64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib:/usr/local/cuda/compat:/usr/local/cuda/lib64 PYTHONPATH=/root/ros2_ws/install/cyclo_motion_controller_core/lib/python3.12/site-packages:/root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages:/opt/ros/jazzy/lib/python3.12/site-packages:/usr/local/lib /opt/venv/bin/cmake --install /root/ros2_ws/build/cyclo_motion_controller_ros

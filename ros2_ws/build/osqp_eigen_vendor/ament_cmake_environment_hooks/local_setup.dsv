@@ -1,0 +1,4 @@
+source;share/osqp_eigen_vendor/environment/ament_prefix_path.sh
+source;share/osqp_eigen_vendor/environment/path.sh
+source;share/osqp_eigen_vendor/environment/vendor_package.sh
+source;share/osqp_eigen_vendor/environment/vendor_package.dsv

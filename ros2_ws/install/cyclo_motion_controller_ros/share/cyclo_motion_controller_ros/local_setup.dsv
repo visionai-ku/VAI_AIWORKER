@@ -1,0 +1,2 @@
+source;share/cyclo_motion_controller_ros/environment/ament_prefix_path.sh
+source;share/cyclo_motion_controller_ros/environment/path.sh
