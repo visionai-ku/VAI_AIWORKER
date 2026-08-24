@@ -1,7 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/root/ros2_ws/build/ffw_joint_trajectory_command_broadcaster/cmake_install.cmake"
-	],
-	"Parallel" : false
-}

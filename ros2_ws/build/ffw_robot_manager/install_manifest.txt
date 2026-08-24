@@ -1,2 +1,0 @@
-/root/ros2_ws/install/ffw_robot_manager/share/ffw_robot_manager/cmake/export_ffw_robot_managerExport.cmake
-/root/ros2_ws/install/ffw_robot_manager/share/ffw_robot_manager/cmake/export_ffw_robot_managerExport-release.cmake

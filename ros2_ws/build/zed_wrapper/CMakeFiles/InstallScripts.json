@@ -1,7 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/root/ros2_ws/build/zed_wrapper/cmake_install.cmake"
-	],
-	"Parallel" : false
-}

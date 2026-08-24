@@ -1,8 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/root/ros2_ws/build/realsense2_camera_msgs/cmake_install.cmake",
-		"/root/ros2_ws/build/realsense2_camera_msgs/realsense2_camera_msgs__py/cmake_install.cmake"
-	],
-	"Parallel" : false
-}

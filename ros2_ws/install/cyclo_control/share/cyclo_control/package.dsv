@@ -1,8 +1,0 @@
-source;share/cyclo_control/hook/cmake_prefix_path.ps1
-source;share/cyclo_control/hook/cmake_prefix_path.dsv
-source;share/cyclo_control/hook/cmake_prefix_path.sh
-source;share/cyclo_control/local_setup.bash
-source;share/cyclo_control/local_setup.dsv
-source;share/cyclo_control/local_setup.ps1
-source;share/cyclo_control/local_setup.sh
-source;share/cyclo_control/local_setup.zsh
