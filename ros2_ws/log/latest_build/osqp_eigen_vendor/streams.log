@@ -1,0 +1,58 @@
+[0.078s] Invoking command in '/root/ros2_ws/build/osqp_eigen_vendor': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /opt/venv/bin/cmake --build /root/ros2_ws/build/osqp_eigen_vendor -- -j8 -l8
+[0.516s] [100%] Built target osqp_eigen_vendor
+[0.801s] Invoked command in '/root/ros2_ws/build/osqp_eigen_vendor' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /opt/venv/bin/cmake --build /root/ros2_ws/build/osqp_eigen_vendor -- -j8 -l8
+[0.803s] Invoking command in '/root/ros2_ws/build/osqp_eigen_vendor': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /opt/venv/bin/cmake --install /root/ros2_ws/build/osqp_eigen_vendor
+[1.217s] -- Install configuration: "Release"
+[1.218s] -- Execute custom install script
+[1.219s] -- Up-to-date symlink: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/environment/vendor_package.bat
+[1.220s] -- Up-to-date symlink: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/environment/vendor_package.dsv
+[1.220s] -- Up-to-date symlink: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/environment/vendor_package.sh
+[1.221s] -- Up-to-date symlink: /root/ros2_ws/install/osqp_eigen_vendor/share/ament_index/resource_index/vendor_packages/osqp_eigen_vendor
+[1.222s] -- Up-to-date symlink: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/THIRD_PARTY_NOTICES.md
+[1.222s] -- Up-to-date symlink: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/osqp-eigen-LICENSE
+[1.223s] -- Up-to-date symlink: /root/ros2_ws/install/osqp_eigen_vendor/share/ament_index/resource_index/package_run_dependencies/osqp_eigen_vendor
+[1.223s] -- Up-to-date symlink: /root/ros2_ws/install/osqp_eigen_vendor/share/ament_index/resource_index/parent_prefix_path/osqp_eigen_vendor
+[1.224s] -- Up-to-date symlink: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/environment/ament_prefix_path.sh
+[1.224s] -- Up-to-date symlink: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/environment/ament_prefix_path.dsv
+[1.225s] -- Up-to-date symlink: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/environment/path.sh
+[1.226s] -- Up-to-date symlink: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/environment/path.dsv
+[1.226s] -- Up-to-date symlink: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/local_setup.bash
+[1.227s] -- Up-to-date symlink: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/local_setup.sh
+[1.227s] -- Up-to-date symlink: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/local_setup.zsh
+[1.227s] -- Up-to-date symlink: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/local_setup.dsv
+[1.227s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/package.dsv
+[1.242s] -- Up-to-date symlink: /root/ros2_ws/install/osqp_eigen_vendor/share/ament_index/resource_index/packages/osqp_eigen_vendor
+[1.242s] -- Up-to-date symlink: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/cmake/vendor_package_cmake_prefix.cmake
+[1.245s] -- Up-to-date symlink: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/cmake/osqp_eigen_vendor-extras.cmake
+[1.245s] -- Up-to-date symlink: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/cmake/ament_cmake_export_dependencies-extras.cmake
+[1.245s] -- Up-to-date symlink: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/cmake/osqp_eigen_vendorConfig.cmake
+[1.246s] -- Up-to-date symlink: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/cmake/osqp_eigen_vendorConfig-version.cmake
+[1.246s] -- Up-to-date symlink: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/package.xml
+[1.246s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor
+[1.246s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/share
+[1.246s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/share/cmake
+[1.246s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/share/cmake/osqp-eigen
+[1.246s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/share/cmake/osqp-eigen/package.xml
+[1.246s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include
+[1.246s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen
+[1.247s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/SparseMatrixHelper.tpp
+[1.247s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/Debug.hpp
+[1.247s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/Solver.hpp
+[1.247s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/Solver.tpp
+[1.247s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/Data.hpp
+[1.247s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/Constants.hpp
+[1.247s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/Compat.hpp
+[1.247s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/Settings.hpp
+[1.248s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/Data.tpp
+[1.248s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/SparseMatrixHelper.hpp
+[1.248s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/OsqpEigen.h
+[1.248s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib
+[1.248s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib/libOsqpEigen.so
+[1.248s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib/libOsqpEigen.so.0.10.3
+[1.248s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib/cmake
+[1.248s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib/cmake/OsqpEigen
+[1.248s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib/cmake/OsqpEigen/OsqpEigenConfig.cmake
+[1.249s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib/cmake/OsqpEigen/OsqpEigenTargets.cmake
+[1.249s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib/cmake/OsqpEigen/OsqpEigenTargets-release.cmake
+[1.249s] -- Up-to-date: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib/cmake/OsqpEigen/OsqpEigenConfigVersion.cmake
+[1.283s] Invoked command in '/root/ros2_ws/build/osqp_eigen_vendor' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /opt/venv/bin/cmake --install /root/ros2_ws/build/osqp_eigen_vendor

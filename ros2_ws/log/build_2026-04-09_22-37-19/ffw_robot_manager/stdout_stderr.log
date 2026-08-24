@@ -1,0 +1,95 @@
+-- The C compiler identification is GNU 13.3.0
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ros2_control_cmake: 0.3.0 (/opt/ros/jazzy/share/ros2_control_cmake/cmake)
+-- Compiler warnings enabled for GNU
+-- Detected GCC Version: 13.3.0 (Major: 13, Minor: 3)
+-- Found ament_cmake: 2.5.4 (/opt/ros/jazzy/share/ament_cmake/cmake)
+-- Found Python3: /opt/venv/bin/python3 (found version "3.12.3") found components: Interpreter
+-- Override CMake install command with custom implementation using symlinks instead of copying resources
+-- Found rclcpp: 28.1.9 (/opt/ros/jazzy/share/rclcpp/cmake)
+-- Found rosidl_generator_c: 4.6.5 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+-- Found rosidl_generator_cpp: 4.6.5 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 7.3.2 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 8.4.2 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+-- Found OpenSSL: /usr/lib/aarch64-linux-gnu/libcrypto.so (found version "3.0.13")
+-- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13")
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Found controller_interface: 4.42.2 (/opt/ros/jazzy/share/controller_interface/cmake)
+CMake Warning (dev) at /opt/ros/jazzy/share/realtime_tools/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package):
+  Policy CMP0167 is not set: The FindBoost module is removed.  Run "cmake
+  --help-policy CMP0167" for policy details.  Use the cmake_policy command to
+  set the policy and suppress this warning.
+
+Call Stack (most recent call first):
+  /opt/ros/jazzy/share/realtime_tools/cmake/realtime_toolsConfig.cmake:41 (include)
+  /opt/ros/jazzy/share/hardware_interface/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+  /opt/ros/jazzy/share/hardware_interface/cmake/hardware_interfaceConfig.cmake:41 (include)
+  /opt/ros/jazzy/share/controller_interface/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+  /opt/ros/jazzy/share/controller_interface/cmake/controller_interfaceConfig.cmake:41 (include)
+  CMakeLists.txt:22 (find_package)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Found std_srvs: 5.3.6 (/opt/ros/jazzy/share/std_srvs/cmake)
+-- Found dynamixel_hardware_interface: 1.5.2 (/root/ros2_ws/install/dynamixel_hardware_interface/share/dynamixel_hardware_interface/cmake)
+-- Found generate_parameter_library: 0.6.0 (/opt/ros/jazzy/share/generate_parameter_library/cmake)
+-- Found parameter_traits: 0.6.0 (/opt/ros/jazzy/share/parameter_traits/cmake)
+-- Configuring done (5.6s)
+-- Generating done (0.1s)
+-- Build files have been written to: /root/ros2_ws/build/ffw_robot_manager
+[ 14%] Running `/opt/ros/jazzy/bin/generate_parameter_library_cpp /root/ros2_ws/build/ffw_robot_manager/include/ffw_robot_manager/ffw_robot_manager_parameters.hpp /root/ros2_ws/src/ai_worker/ffw_robot_manager/src/ffw_robot_manager_parameters.yaml `
+[ 28%] Creating deprecated header file /root/ros2_ws/build/ffw_robot_manager/include/ffw_robot_manager_parameters.hpp
+[ 28%] Built target ffw_robot_manager_parameters
+[ 42%] Building CXX object CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o
+[ 57%] Building CXX object CMakeFiles/ffw_robot_manager.dir/src/robot_type.cpp.o
+[ 71%] Building CXX object CMakeFiles/ffw_robot_manager.dir/src/ubetter_battery_model.cpp.o
+/root/ros2_ws/src/ai_worker/ffw_robot_manager/src/ubetter_battery_model.cpp: In member function ‘virtual std::pair<double, double> ffw_robot_manager::UbetterBatteryModel::get_voltage_range() const’:
+/root/ros2_ws/src/ai_worker/ffw_robot_manager/src/ubetter_battery_model.cpp:86:68: note: parameter passing for argument of type ‘std::pair<double, double>’ when C++17 is enabled changed to match C++14 in GCC 10.1
+   86 | std::pair<double, double> UbetterBatteryModel::get_voltage_range() const
+      |                                                                    ^~~~~
+[ 85%] Building CXX object CMakeFiles/ffw_robot_manager.dir/src/battery_model.cpp.o
+[100%] Linking CXX shared library libffw_robot_manager.so
+[100%] Built target ffw_robot_manager
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/include/ffw_robot_manager/ffw_robot_manager_parameters.hpp
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/share/ffw_robot_manager//ffw_robot_manager_plugin.xml
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/lib/libffw_robot_manager.so
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/include/ffw_robot_manager/ffw_robot_manager/battery_model.hpp
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/include/ffw_robot_manager/ffw_robot_manager/ffw_robot_manager.hpp
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/include/ffw_robot_manager/ffw_robot_manager/robot_type.hpp
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/include/ffw_robot_manager/ffw_robot_manager/topic_watchdog.hpp
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/include/ffw_robot_manager/ffw_robot_manager/ubetter_battery_model.hpp
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/share/ffw_robot_manager/environment/library_path.sh
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/share/ffw_robot_manager/environment/library_path.dsv
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/share/ament_index/resource_index/package_run_dependencies/ffw_robot_manager
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/share/ament_index/resource_index/parent_prefix_path/ffw_robot_manager
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/share/ffw_robot_manager/environment/ament_prefix_path.sh
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/share/ffw_robot_manager/environment/ament_prefix_path.dsv
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/share/ffw_robot_manager/environment/path.sh
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/share/ffw_robot_manager/environment/path.dsv
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/share/ffw_robot_manager/local_setup.bash
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/share/ffw_robot_manager/local_setup.sh
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/share/ffw_robot_manager/local_setup.zsh
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/share/ffw_robot_manager/local_setup.dsv
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/share/ffw_robot_manager/package.dsv
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/share/ament_index/resource_index/packages/ffw_robot_manager
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/share/ament_index/resource_index/controller_interface__pluginlib__plugin/ffw_robot_manager
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/share/ffw_robot_manager/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/share/ffw_robot_manager/cmake/ament_cmake_export_targets-extras.cmake
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/share/ffw_robot_manager/cmake/ffw_robot_managerConfig.cmake
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/share/ffw_robot_manager/cmake/ffw_robot_managerConfig-version.cmake
+-- Symlinking: /root/ros2_ws/install/ffw_robot_manager/share/ffw_robot_manager/package.xml
+-- Installing: /root/ros2_ws/install/ffw_robot_manager/share/ffw_robot_manager/cmake/export_ffw_robot_managerExport.cmake
+-- Installing: /root/ros2_ws/install/ffw_robot_manager/share/ffw_robot_manager/cmake/export_ffw_robot_managerExport-release.cmake

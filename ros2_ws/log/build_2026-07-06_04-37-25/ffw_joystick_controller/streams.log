@@ -1,0 +1,74 @@
+[0.046s] Invoking command in '/root/ros2_ws/build/ffw_joystick_controller': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /opt/venv/bin/cmake --build /root/ros2_ws/build/ffw_joystick_controller -- -j8 -l8
+[0.387s] -- Found ament_cmake: 2.5.4 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[0.913s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[0.946s] -- Found controller_interface: 4.42.2 (/opt/ros/jazzy/share/controller_interface/cmake)
+[1.044s] -- Found rosidl_generator_c: 4.6.5 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+[1.049s] -- Found rosidl_generator_cpp: 4.6.5 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+[1.074s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.101s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.399s] -- Found TinyXML2 via Config file: /usr/lib/aarch64-linux-gnu/cmake/tinyxml2
+[1.507s] -- Found rmw_implementation_cmake: 7.3.2 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+[1.508s] -- Found rmw_fastrtps_cpp: 8.4.2 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+[1.509s] -- Found TinyXML2 via Config file: /usr/lib/aarch64-linux-gnu/cmake/tinyxml2
+[1.513s] -- Found TinyXML2 via Config file: /usr/lib/aarch64-linux-gnu/cmake/tinyxml2
+[1.546s] -- Found TinyXML2 via Config file: /usr/lib/aarch64-linux-gnu/cmake/tinyxml2
+[1.565s] -- Found TinyXML2 via Config file: /usr/lib/aarch64-linux-gnu/cmake/tinyxml2
+[1.594s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[1.744s] [33mCMake Warning (dev) at /opt/ros/jazzy/share/realtime_tools/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package):
+[1.745s]   Policy CMP0167 is not set: The FindBoost module is removed.  Run "cmake
+[1.745s]   --help-policy CMP0167" for policy details.  Use the cmake_policy command to
+[1.746s]   set the policy and suppress this warning.
+[1.747s] 
+[1.747s] Call Stack (most recent call first):
+[1.747s]   /opt/ros/jazzy/share/realtime_tools/cmake/realtime_toolsConfig.cmake:41 (include)
+[1.747s]   /opt/ros/jazzy/share/hardware_interface/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+[1.747s]   /opt/ros/jazzy/share/hardware_interface/cmake/hardware_interfaceConfig.cmake:41 (include)
+[1.747s]   /opt/ros/jazzy/share/controller_interface/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+[1.748s]   /opt/ros/jazzy/share/controller_interface/cmake/controller_interfaceConfig.cmake:41 (include)
+[1.748s]   CMakeLists.txt:28 (find_package)
+[1.748s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[1.748s] [0m
+[1.813s] -- Found generate_parameter_library: 0.6.0 (/opt/ros/jazzy/share/generate_parameter_library/cmake)
+[1.814s] -- Found parameter_traits: 0.6.0 (/opt/ros/jazzy/share/parameter_traits/cmake)
+[2.131s] -- Configuring done (1.8s)
+[2.184s] -- Generating done (0.1s)
+[2.191s] -- Build files have been written to: /root/ros2_ws/build/ffw_joystick_controller
+[2.239s] [ 25%] [34m[1mRunning `/opt/ros/jazzy/bin/generate_parameter_library_cpp /root/ros2_ws/build/ffw_joystick_controller/include/ffw_joystick_controller/joystick_controller_parameters.hpp /root/ros2_ws/src/ai_worker/ffw_joystick_controller/src/joystick_controller_parameters.yaml `[0m
+[3.898s] [ 50%] [34m[1mCreating deprecated header file /root/ros2_ws/build/ffw_joystick_controller/include/joystick_controller_parameters.hpp[0m
+[3.993s] [ 50%] Built target joystick_controller_parameters
+[4.142s] [ 75%] [32mBuilding CXX object CMakeFiles/joystick_controller.dir/src/joystick_controller.cpp.o[0m
+[44.723s] [100%] [32m[1mLinking CXX shared library libjoystick_controller.so[0m
+[45.057s] [100%] Built target joystick_controller
+[45.065s] Invoked command in '/root/ros2_ws/build/ffw_joystick_controller' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /opt/venv/bin/cmake --build /root/ros2_ws/build/ffw_joystick_controller -- -j8 -l8
+[45.067s] Invoking command in '/root/ros2_ws/build/ffw_joystick_controller': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /opt/venv/bin/cmake --install /root/ros2_ws/build/ffw_joystick_controller
+[45.295s] -- Install configuration: "Release"
+[45.296s] -- Execute custom install script
+[45.297s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/include/ffw_joystick_controller/joystick_controller_parameters.hpp
+[45.297s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller//joystick_plugin.xml
+[45.297s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/include/joystick_controller/joystick_controller/joystick_controller.hpp
+[45.297s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/include/joystick_controller/joystick_controller/visibility_control.h
+[45.298s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/environment/library_path.sh
+[45.298s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/environment/library_path.dsv
+[45.298s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ament_index/resource_index/package_run_dependencies/ffw_joystick_controller
+[45.298s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ament_index/resource_index/parent_prefix_path/ffw_joystick_controller
+[45.299s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/environment/ament_prefix_path.sh
+[45.299s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/environment/ament_prefix_path.dsv
+[45.299s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/environment/path.sh
+[45.299s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/environment/path.dsv
+[45.299s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/local_setup.bash
+[45.300s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/local_setup.sh
+[45.300s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/local_setup.zsh
+[45.300s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/local_setup.dsv
+[45.300s] -- Symlinking: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/package.dsv
+[45.306s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ament_index/resource_index/packages/ffw_joystick_controller
+[45.307s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ament_index/resource_index/controller_interface__pluginlib__plugin/ffw_joystick_controller
+[45.307s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/cmake/ament_cmake_export_dependencies-extras.cmake
+[45.307s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/cmake/ament_cmake_export_targets-extras.cmake
+[45.307s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/cmake/ffw_joystick_controllerConfig.cmake
+[45.307s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/cmake/ffw_joystick_controllerConfig-version.cmake
+[45.308s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/package.xml
+[45.308s] -- Installing: /root/ros2_ws/install/ffw_joystick_controller/lib/libjoystick_controller.so
+[45.312s] -- Set non-toolchain portion of runtime path of "/root/ros2_ws/install/ffw_joystick_controller/lib/libjoystick_controller.so" to ""
+[45.312s] -- Up-to-date: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/cmake/export_joystick_controllerExport.cmake
+[45.328s] -- Up-to-date: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/cmake/export_joystick_controllerExport-release.cmake
+[45.336s] Invoked command in '/root/ros2_ws/build/ffw_joystick_controller' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /opt/venv/bin/cmake --install /root/ros2_ws/build/ffw_joystick_controller

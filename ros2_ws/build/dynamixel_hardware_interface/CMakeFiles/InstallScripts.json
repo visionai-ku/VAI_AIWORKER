@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/root/ros2_ws/build/dynamixel_hardware_interface/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

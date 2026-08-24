@@ -1,0 +1,37 @@
+[0.059s] Invoking command in '/root/ros2_ws/build/dual_laser_merger': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /opt/venv/bin/cmake --build /root/ros2_ws/build/dual_laser_merger -- -j8 -l8
+[1.218s] [ 50%] Built target dual_laser_merger_node
+[1.219s] [100%] Built target dual_laser_merger
+[1.289s] Invoked command in '/root/ros2_ws/build/dual_laser_merger' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /opt/venv/bin/cmake --build /root/ros2_ws/build/dual_laser_merger -- -j8 -l8
+[1.290s] Invoking command in '/root/ros2_ws/build/dual_laser_merger': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /opt/venv/bin/cmake --install /root/ros2_ws/build/dual_laser_merger
+[3.162s] -- Install configuration: "Release"
+[3.162s] -- Execute custom install script
+[3.163s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/lib/dual_laser_merger/dual_laser_merger_node
+[3.163s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/include/dual_laser_merger/include/dual_laser_merger/dual_laser_merger.hpp
+[3.163s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/demo_laser_merger.launch.py
+[3.163s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/bag/dual_lidar/dual_lidar_0.mcap
+[3.163s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/bag/dual_lidar/metadata.yaml
+[3.163s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/config/rviz_config.rviz
+[3.163s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/include/dual_laser_merger/dual_laser_merger.hpp
+[3.163s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/environment/library_path.sh
+[3.164s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/environment/library_path.dsv
+[3.164s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/lib/libdual_laser_merger.so
+[3.164s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/share/ament_index/resource_index/package_run_dependencies/dual_laser_merger
+[3.164s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/share/ament_index/resource_index/parent_prefix_path/dual_laser_merger
+[3.164s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/environment/ament_prefix_path.sh
+[3.164s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/environment/ament_prefix_path.dsv
+[3.164s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/environment/path.sh
+[3.164s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/environment/path.dsv
+[3.165s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/local_setup.bash
+[3.165s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/local_setup.sh
+[3.165s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/local_setup.zsh
+[3.165s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/local_setup.dsv
+[3.165s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/package.dsv
+[3.165s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/share/ament_index/resource_index/packages/dual_laser_merger
+[3.165s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/share/ament_index/resource_index/rclcpp_components/dual_laser_merger
+[3.166s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/cmake/ament_cmake_export_dependencies-extras.cmake
+[3.166s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/cmake/ament_cmake_export_include_directories-extras.cmake
+[3.166s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/cmake/ament_cmake_export_libraries-extras.cmake
+[3.166s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/cmake/dual_laser_mergerConfig.cmake
+[3.166s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/cmake/dual_laser_mergerConfig-version.cmake
+[3.166s] -- Up-to-date symlink: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/package.xml
+[3.251s] Invoked command in '/root/ros2_ws/build/dual_laser_merger' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /opt/venv/bin/cmake --install /root/ros2_ws/build/dual_laser_merger

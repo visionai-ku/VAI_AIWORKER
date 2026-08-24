@@ -1,0 +1,51 @@
+[0.181s] Invoking command in '/root/ros2_ws/build/ffw_moveit_config': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/ai_worker/ffw_moveit_config -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/ffw_moveit_config
+[0.826s] -- The C compiler identification is GNU 13.3.0
+[1.032s] -- The CXX compiler identification is GNU 13.3.0
+[1.060s] -- Detecting C compiler ABI info
+[1.422s] -- Detecting C compiler ABI info - done
+[1.496s] -- Check for working C compiler: /usr/bin/cc - skipped
+[1.497s] -- Detecting C compile features
+[1.497s] -- Detecting C compile features - done
+[1.545s] -- Detecting CXX compiler ABI info
+[1.850s] -- Detecting CXX compiler ABI info - done
+[1.913s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[1.913s] -- Detecting CXX compile features
+[1.913s] -- Detecting CXX compile features - done
+[2.100s] -- Found ament_cmake: 2.5.4 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[4.028s] -- Found Python3: /opt/venv/bin/python3 (found version "3.12.3") found components: Interpreter
+[4.354s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[6.576s] -- Configuring done (5.4s)
+[6.576s] -- Generating done (0.0s)
+[6.576s] -- Build files have been written to: /root/ros2_ws/build/ffw_moveit_config
+[6.578s] Invoked command in '/root/ros2_ws/build/ffw_moveit_config' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/ai_worker/ffw_moveit_config -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/ffw_moveit_config
+[6.579s] Invoking command in '/root/ros2_ws/build/ffw_moveit_config': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/ffw_moveit_config -- -j12 -l12
+[7.074s] Invoked command in '/root/ros2_ws/build/ffw_moveit_config' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/ffw_moveit_config -- -j12 -l12
+[7.075s] Invoking command in '/root/ros2_ws/build/ffw_moveit_config': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/ffw_moveit_config
+[7.528s] -- Install configuration: "Release"
+[7.529s] -- Execute custom install script
+[7.529s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ffw_moveit_config/launch/moveit.launch.py
+[7.551s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ffw_moveit_config/config/chomp_planning.yaml
+[7.562s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ffw_moveit_config/config/ffw.srdf
+[7.570s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ffw_moveit_config/config/joint_limits.yaml
+[7.610s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ffw_moveit_config/config/kinematics.yaml
+[7.629s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ffw_moveit_config/config/moveit.rviz
+[7.652s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ffw_moveit_config/config/moveit_controllers.yaml
+[7.656s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ffw_moveit_config/config/ompl_planning.yaml
+[7.671s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ffw_moveit_config/config/pilz_cartesian_limits.yaml
+[7.687s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ffw_moveit_config/config/pilz_industrial_motion_planner_planning.yaml
+[7.704s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ament_index/resource_index/package_run_dependencies/ffw_moveit_config
+[7.752s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ament_index/resource_index/parent_prefix_path/ffw_moveit_config
+[7.760s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ffw_moveit_config/environment/ament_prefix_path.sh
+[7.769s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ffw_moveit_config/environment/ament_prefix_path.dsv
+[7.783s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ffw_moveit_config/environment/path.sh
+[7.798s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ffw_moveit_config/environment/path.dsv
+[7.811s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ffw_moveit_config/local_setup.bash
+[7.829s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ffw_moveit_config/local_setup.sh
+[7.846s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ffw_moveit_config/local_setup.zsh
+[7.868s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ffw_moveit_config/local_setup.dsv
+[7.877s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ffw_moveit_config/package.dsv
+[7.900s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ament_index/resource_index/packages/ffw_moveit_config
+[7.906s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ffw_moveit_config/cmake/ffw_moveit_configConfig.cmake
+[7.922s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ffw_moveit_config/cmake/ffw_moveit_configConfig-version.cmake
+[7.936s] -- Symlinking: /root/ros2_ws/install/ffw_moveit_config/share/ffw_moveit_config/package.xml
+[7.957s] Invoked command in '/root/ros2_ws/build/ffw_moveit_config' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/ffw_moveit_config

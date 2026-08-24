@@ -1,0 +1,9 @@
+[submodule "ri_motion_v5_asset"]
+	path = ri_motion_v5_asset
+	url = https://github.com/sjchoi86/ri_motion_v5_asset.git
+[submodule "ri_motion_v5_package"]
+	path = ri_motion_v5_package
+	url = https://github.com/sjchoi86/ri_motion_v5_package.git
+[submodule "ri_motion_v5_notebook"]
+	path = ri_motion_v5_notebook
+	url = https://github.com/sjchoi86/ri_motion_v5_notebook.git

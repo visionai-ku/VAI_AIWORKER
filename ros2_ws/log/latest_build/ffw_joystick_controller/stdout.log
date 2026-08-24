@@ -1,0 +1,31 @@
+[ 50%] Built target joystick_controller_parameters
+[100%] Built target joystick_controller
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/include/ffw_joystick_controller/joystick_controller_parameters.hpp
+-- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller//joystick_plugin.xml
+-- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/include/joystick_controller/joystick_controller/joystick_controller.hpp
+-- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/include/joystick_controller/joystick_controller/visibility_control.h
+-- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/environment/library_path.sh
+-- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/environment/library_path.dsv
+-- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ament_index/resource_index/package_run_dependencies/ffw_joystick_controller
+-- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ament_index/resource_index/parent_prefix_path/ffw_joystick_controller
+-- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/environment/ament_prefix_path.sh
+-- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/environment/ament_prefix_path.dsv
+-- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/environment/path.sh
+-- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/environment/path.dsv
+-- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/local_setup.bash
+-- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/local_setup.sh
+-- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/local_setup.zsh
+-- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/local_setup.dsv
+-- Symlinking: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/package.dsv
+-- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ament_index/resource_index/packages/ffw_joystick_controller
+-- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ament_index/resource_index/controller_interface__pluginlib__plugin/ffw_joystick_controller
+-- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/cmake/ament_cmake_export_targets-extras.cmake
+-- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/cmake/ffw_joystick_controllerConfig.cmake
+-- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/cmake/ffw_joystick_controllerConfig-version.cmake
+-- Up-to-date symlink: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/package.xml
+-- Up-to-date: /root/ros2_ws/install/ffw_joystick_controller/lib/libjoystick_controller.so
+-- Up-to-date: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/cmake/export_joystick_controllerExport.cmake
+-- Up-to-date: /root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/cmake/export_joystick_controllerExport-release.cmake

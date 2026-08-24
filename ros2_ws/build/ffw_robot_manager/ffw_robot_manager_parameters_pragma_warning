@@ -1,0 +1,1 @@
+#pragma message("#include \"ffw_robot_manager_parameters.hpp\" is deprecated. Use #include <ffw_robot_manager/ffw_robot_manager_parameters.hpp> instead.")

@@ -1,0 +1,13 @@
+# generated from colcon_core/shell/template/command_prefix.sh.em
+. "/root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/package.sh"
+. "/root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/package.sh"
+. "/root/ros2_ws/install/ffw_description/share/ffw_description/package.sh"
+. "/root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/share/ffw_joint_trajectory_command_broadcaster/package.sh"
+. "/root/ros2_ws/install/ffw_joystick_controller/share/ffw_joystick_controller/package.sh"
+. "/root/ros2_ws/install/ffw_moveit_config/share/ffw_moveit_config/package.sh"
+. "/root/ros2_ws/install/ffw_spring_actuator_controller/share/ffw_spring_actuator_controller/package.sh"
+. "/root/ros2_ws/install/ffw_swerve_drive_controller/share/ffw_swerve_drive_controller/package.sh"
+. "/root/ros2_ws/install/ffw_teleop/share/ffw_teleop/package.sh"
+. "/root/ros2_ws/install/dynamixel_hardware_interface/share/dynamixel_hardware_interface/package.sh"
+. "/root/ros2_ws/install/ffw_bringup/share/ffw_bringup/package.sh"
+. "/root/ros2_ws/install/ffw_robot_manager/share/ffw_robot_manager/package.sh"

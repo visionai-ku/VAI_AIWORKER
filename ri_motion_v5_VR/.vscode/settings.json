@@ -1,0 +1,6 @@
+{
+    "cmake.ignoreCMakeListsMissing": true,
+    "python.analysis.extraPaths": [
+        "./project/T-FR_various_teleoperation_system/package"
+    ]
+}

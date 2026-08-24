@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/root/ros2_ws/build/cyclo_motion_controller_core/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

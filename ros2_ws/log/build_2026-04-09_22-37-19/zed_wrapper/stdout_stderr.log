@@ -1,0 +1,72 @@
+CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- The C compiler identification is GNU 13.3.0
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake_auto: 2.5.4 (/opt/ros/jazzy/share/ament_cmake_auto/cmake)
+-- Found Python3: /opt/venv/bin/python3 (found version "3.12.3") found components: Interpreter
+-- Override CMake install command with custom implementation using symlinks instead of copying resources
+-- Found rosidl_generator_c: 4.6.5 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+-- Found rosidl_generator_cpp: 4.6.5 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 7.3.2 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 8.4.2 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+-- Found OpenSSL: /usr/lib/aarch64-linux-gnu/libcrypto.so (found version "3.0.13")
+-- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13")
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Found eigen3_cmake_module: 0.3.0 (/opt/ros/jazzy/share/eigen3_cmake_module/cmake)
+-- Found Eigen3: TRUE (found version "3.4.0")
+-- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+-- Configuring done (5.6s)
+-- Generating done (0.0s)
+-- Build files have been written to: /root/ros2_ws/build/zed_wrapper
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/config/common_mono.yaml
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/config/common_stereo.yaml
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/config/ffmpeg.yaml
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/config/virtual.yaml
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/config/zed.yaml
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/config/zed2.yaml
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/config/zed2i.yaml
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/config/zedm.yaml
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/config/zedx.yaml
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/config/zedxm.yaml
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/config/zedxone4k.yaml
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/config/zedxonegs.yaml
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/urdf/include/materials.urdf.xacro
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/urdf/zed_descr.urdf.xacro
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/urdf/zed_macro.urdf.xacro
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/launch/zed_camera.launch.py
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/ament_index/resource_index/package_run_dependencies/zed_wrapper
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/ament_index/resource_index/parent_prefix_path/zed_wrapper
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/environment/ament_prefix_path.sh
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/environment/ament_prefix_path.dsv
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/environment/path.sh
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/environment/path.dsv
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/local_setup.bash
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/local_setup.sh
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/local_setup.zsh
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/local_setup.dsv
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/package.dsv
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/ament_index/resource_index/packages/zed_wrapper
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/cmake/zed_wrapperConfig.cmake
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/cmake/zed_wrapperConfig-version.cmake
+-- Symlinking: /root/ros2_ws/install/zed_wrapper/share/zed_wrapper/package.xml

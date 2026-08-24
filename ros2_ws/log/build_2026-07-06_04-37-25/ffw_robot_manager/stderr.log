@@ -1,0 +1,18 @@
+[33mCMake Warning (dev) at /opt/ros/jazzy/share/realtime_tools/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package):
+  Policy CMP0167 is not set: The FindBoost module is removed.  Run "cmake
+  --help-policy CMP0167" for policy details.  Use the cmake_policy command to
+  set the policy and suppress this warning.
+
+Call Stack (most recent call first):
+  /opt/ros/jazzy/share/realtime_tools/cmake/realtime_toolsConfig.cmake:41 (include)
+  /opt/ros/jazzy/share/hardware_interface/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+  /opt/ros/jazzy/share/hardware_interface/cmake/hardware_interfaceConfig.cmake:41 (include)
+  /opt/ros/jazzy/share/controller_interface/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+  /opt/ros/jazzy/share/controller_interface/cmake/controller_interfaceConfig.cmake:41 (include)
+  CMakeLists.txt:22 (find_package)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+[0m
+[01m[K/root/ros2_ws/src/ai_worker/ffw_robot_manager/src/ubetter_battery_model.cpp:[m[K In member function ‘[01m[Kvirtual std::pair<double, double> ffw_robot_manager::UbetterBatteryModel::[01;32m[Kget_voltage_range[m[K() const[m[K’:
+[01m[K/root/ros2_ws/src/ai_worker/ffw_robot_manager/src/ubetter_battery_model.cpp:86:68:[m[K [01;36m[Knote: [m[Kparameter passing for argument of type ‘[01m[Kstd::pair<double, double>[m[K’ when C++17 is enabled changed to match C++14 ]8;;https://gcc.gnu.org/gcc-10/changes.html#empty_basein GCC 10.1]8;;
+   86 | std::pair<double, double> UbetterBatteryModel::get_voltage_range() [01;36m[Kconst[m[K
+      |                                                                    [01;36m[K^~~~~[m[K

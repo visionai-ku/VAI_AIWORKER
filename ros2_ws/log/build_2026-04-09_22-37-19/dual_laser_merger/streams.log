@@ -1,0 +1,189 @@
+[0.022s] Invoking command in '/root/ros2_ws/build/dual_laser_merger': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/dual_laser_merger -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/dual_laser_merger
+[0.487s] CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+[0.487s]   Compatibility with CMake < 3.10 will be removed from a future version of
+[0.487s]   CMake.
+[0.487s] 
+[0.487s]   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+[0.487s]   to tell CMake that the project requires at least <min> but has been updated
+[0.488s]   to work with policies introduced by <max> or earlier.
+[0.488s] 
+[0.488s] 
+[0.705s] -- The C compiler identification is GNU 13.3.0
+[0.931s] -- The CXX compiler identification is GNU 13.3.0
+[0.954s] -- Detecting C compiler ABI info
+[1.291s] -- Detecting C compiler ABI info - done
+[1.343s] -- Check for working C compiler: /usr/bin/cc - skipped
+[1.343s] -- Detecting C compile features
+[1.343s] -- Detecting C compile features - done
+[1.403s] -- Detecting CXX compiler ABI info
+[1.726s] -- Detecting CXX compiler ABI info - done
+[1.799s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[1.799s] -- Detecting CXX compile features
+[1.800s] -- Detecting CXX compile features - done
+[1.888s] -- Found ament_cmake_auto: 2.5.4 (/opt/ros/jazzy/share/ament_cmake_auto/cmake)
+[3.147s] -- Found Python3: /opt/venv/bin/python3 (found version "3.12.3") found components: Interpreter
+[3.510s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[5.659s] -- Found rosidl_generator_c: 4.6.5 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+[5.870s] -- Found rosidl_generator_cpp: 4.6.5 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+[6.030s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[6.199s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[6.727s] -- Found rmw_implementation_cmake: 7.3.2 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+[6.776s] -- Found rmw_fastrtps_cpp: 8.4.2 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+[7.413s] -- Found OpenSSL: /usr/lib/aarch64-linux-gnu/libcrypto.so (found version "3.0.13")
+[7.531s] -- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13")
+[7.655s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[8.963s] CMake Warning (dev) at /usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:129 (find_package):
+[8.963s]   Policy CMP0167 is not set: The FindBoost module is removed.  Run "cmake
+[8.963s]   --help-policy CMP0167" for policy details.  Use the cmake_policy command to
+[8.963s]   set the policy and suppress this warning.
+[8.964s] 
+[8.964s] Call Stack (most recent call first):
+[8.964s]   /usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:302 (find_boost)
+[8.964s]   /usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:570 (find_external_library)
+[8.964s]   /opt/ros/jazzy/share/pcl_conversions/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+[8.964s]   /opt/ros/jazzy/share/pcl_conversions/cmake/pcl_conversionsConfig.cmake:41 (include)
+[8.964s]   /opt/ros/jazzy/share/pcl_ros/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+[8.964s]   /opt/ros/jazzy/share/pcl_ros/cmake/pcl_rosConfig.cmake:41 (include)
+[8.964s]   /opt/ros/jazzy/share/ament_cmake_auto/cmake/ament_auto_find_build_dependencies.cmake:67 (find_package)
+[8.965s]   CMakeLists.txt:9 (ament_auto_find_build_dependencies)
+[8.965s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[8.965s] 
+[9.343s] CMake Warning (dev) at /usr/lib/aarch64-linux-gnu/cmake/pcl/Modules/FindFLANN.cmake:45 (find_package):
+[9.344s]   Policy CMP0144 is not set: find_package uses upper-case <PACKAGENAME>_ROOT
+[9.344s]   variables.  Run "cmake --help-policy CMP0144" for policy details.  Use the
+[9.344s]   cmake_policy command to set the policy and suppress this warning.
+[9.344s] 
+[9.344s]   CMake variable FLANN_ROOT is set to:
+[9.344s] 
+[9.344s]     /usr
+[9.345s] 
+[9.345s]   For compatibility, find_package is ignoring the variable, but code in a
+[9.345s]   .cmake module might still use it.
+[9.345s] Call Stack (most recent call first):
+[9.345s]   /usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:261 (find_package)
+[9.346s]   /usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:306 (find_flann)
+[9.346s]   /usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:570 (find_external_library)
+[9.346s]   /opt/ros/jazzy/share/pcl_conversions/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+[9.347s]   /opt/ros/jazzy/share/pcl_conversions/cmake/pcl_conversionsConfig.cmake:41 (include)
+[9.347s]   /opt/ros/jazzy/share/pcl_ros/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+[9.347s]   /opt/ros/jazzy/share/pcl_ros/cmake/pcl_rosConfig.cmake:41 (include)
+[9.347s]   /opt/ros/jazzy/share/ament_cmake_auto/cmake/ament_auto_find_build_dependencies.cmake:67 (find_package)
+[9.348s]   CMakeLists.txt:9 (ament_auto_find_build_dependencies)
+[9.348s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[9.348s] 
+[9.357s] -- Found flann version 1.9.2
+[10.466s] -- Found OpenMP_CXX: -fopenmp (found version "4.5")
+[10.467s] -- Found OpenMP: TRUE (found version "4.5") found components: CXX
+[16.511s] -- Checking for module 'libusb-1.0'
+[16.607s] --   Found libusb-1.0, version 1.0.27
+[16.866s] -- Found libusb: /usr/lib/aarch64-linux-gnu/libusb-1.0.so
+[16.869s] -- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)
+[17.197s] -- OpenNI2 found (version: 2.2.0.33, include: /usr/include/openni2, lib: /usr/lib/aarch64-linux-gnu/libOpenNI2.so;libusb::libusb)
+[17.207s] -- Could NOT find Pcap (missing: PCAP_LIBRARIES PCAP_INCLUDE_DIRS) 
+[17.262s] -- Found ZLIB: /usr/lib/aarch64-linux-gnu/libz.so (found version "1.3")
+[17.329s] -- Found PNG: /usr/lib/aarch64-linux-gnu/libpng.so (found version "1.6.43")
+[19.105s] CMake Warning (dev) at /usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:129 (find_package):
+[19.105s]   Policy CMP0167 is not set: The FindBoost module is removed.  Run "cmake
+[19.106s]   --help-policy CMP0167" for policy details.  Use the cmake_policy command to
+[19.106s]   set the policy and suppress this warning.
+[19.106s] 
+[19.106s] Call Stack (most recent call first):
+[19.106s]   /usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:302 (find_boost)
+[19.106s]   /usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:570 (find_external_library)
+[19.106s]   /opt/ros/jazzy/share/pcl_conversions/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+[19.106s]   /opt/ros/jazzy/share/pcl_conversions/cmake/pcl_conversionsConfig.cmake:41 (include)
+[19.107s]   /opt/ros/jazzy/share/pcl_ros/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+[19.107s]   /opt/ros/jazzy/share/pcl_ros/cmake/pcl_rosConfig.cmake:41 (include)
+[19.107s]   /opt/ros/jazzy/share/ament_cmake_auto/cmake/ament_auto_find_build_dependencies.cmake:67 (find_package)
+[19.107s]   CMakeLists.txt:9 (ament_auto_find_build_dependencies)
+[19.107s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[19.107s] 
+[19.174s] -- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)
+[19.202s] -- OpenNI2 found (version: 2.2.0.33, include: /usr/include/openni2, lib: /usr/lib/aarch64-linux-gnu/libOpenNI2.so;libusb::libusb)
+[21.221s] -- Found Qhull version 8.0.2
+[23.023s] -- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)
+[24.881s] -- Found PCL_COMMON: /usr/lib/aarch64-linux-gnu/libpcl_common.so
+[24.883s] -- Found PCL_KDTREE: /usr/lib/aarch64-linux-gnu/libpcl_kdtree.so
+[24.885s] -- Found PCL_OCTREE: /usr/lib/aarch64-linux-gnu/libpcl_octree.so
+[24.887s] -- Found PCL_SEARCH: /usr/lib/aarch64-linux-gnu/libpcl_search.so
+[24.890s] -- Found PCL_SAMPLE_CONSENSUS: /usr/lib/aarch64-linux-gnu/libpcl_sample_consensus.so
+[24.892s] -- Found PCL_FILTERS: /usr/lib/aarch64-linux-gnu/libpcl_filters.so
+[24.893s] -- Found PCL_2D: /usr/include/pcl-1.14
+[24.893s] -- Found PCL_GEOMETRY: /usr/include/pcl-1.14
+[24.908s] -- Found PCL_IO: /usr/lib/aarch64-linux-gnu/libpcl_io.so
+[24.912s] -- Found PCL_FEATURES: /usr/lib/aarch64-linux-gnu/libpcl_features.so
+[24.915s] -- Found PCL_ML: /usr/lib/aarch64-linux-gnu/libpcl_ml.so
+[24.919s] -- Found PCL_SEGMENTATION: /usr/lib/aarch64-linux-gnu/libpcl_segmentation.so
+[24.923s] -- Found PCL_VISUALIZATION: /usr/lib/aarch64-linux-gnu/libpcl_visualization.so
+[24.927s] -- Found PCL_SURFACE: /usr/lib/aarch64-linux-gnu/libpcl_surface.so
+[24.930s] -- Found PCL_REGISTRATION: /usr/lib/aarch64-linux-gnu/libpcl_registration.so
+[24.934s] -- Found PCL_KEYPOINTS: /usr/lib/aarch64-linux-gnu/libpcl_keypoints.so
+[24.938s] -- Found PCL_TRACKING: /usr/lib/aarch64-linux-gnu/libpcl_tracking.so
+[24.941s] -- Found PCL_RECOGNITION: /usr/lib/aarch64-linux-gnu/libpcl_recognition.so
+[24.945s] -- Found PCL_STEREO: /usr/lib/aarch64-linux-gnu/libpcl_stereo.so
+[24.950s] -- Found PCL_APPS: /usr/lib/aarch64-linux-gnu/libpcl_apps.so
+[24.952s] -- Found PCL_IN_HAND_SCANNER: /usr/include/pcl-1.14
+[24.954s] -- Found PCL_MODELER: /usr/include/pcl-1.14
+[24.957s] -- Found PCL_POINT_CLOUD_EDITOR: /usr/include/pcl-1.14
+[24.960s] -- Found PCL_OUTOFCORE: /usr/lib/aarch64-linux-gnu/libpcl_outofcore.so
+[24.964s] -- Found PCL_PEOPLE: /usr/lib/aarch64-linux-gnu/libpcl_people.so
+[25.851s] -- Found eigen3_cmake_module: 0.3.0 (/opt/ros/jazzy/share/eigen3_cmake_module/cmake)
+[25.855s] -- Found Eigen3: TRUE (found version "3.4.0")
+[25.856s] -- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+[26.359s] -- Found ament_lint_auto: 0.17.2 (/opt/ros/jazzy/share/ament_lint_auto/cmake)
+[28.412s] In this package, headers install destination is set to `include` by ament_auto_package. It is recommended to install `include/dual_laser_merger` instead and will be the default behavior of ament_auto_package from ROS 2 Kilted Kaiju. On distributions before Kilted, ament_auto_package behaves the same way when you use USE_SCOPED_HEADER_INSTALL_DIR option.
+[28.477s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[28.477s] -- Configured cppcheck include dirs: /root/ros2_ws/src/dual_laser_merger/include
+[28.477s] -- Configured cppcheck exclude dirs and/or files: 
+[28.497s] -- Added test 'flake8' to check Python code syntax and style conventions
+[28.497s] -- Configured 'flake8' exclude dirs and/or files: 
+[28.502s] -- Added test 'lint_cmake' to check CMake code style
+[28.505s] -- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+[28.515s] -- Added test 'uncrustify' to check C / C++ code style
+[28.531s] -- Configured uncrustify additional arguments: 
+[28.535s] -- Added test 'xmllint' to check XML markup files
+[28.559s] -- Configuring done (28.1s)
+[28.769s] -- Generating done (0.2s)
+[28.800s] -- Build files have been written to: /root/ros2_ws/build/dual_laser_merger
+[28.958s] Invoked command in '/root/ros2_ws/build/dual_laser_merger' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/dual_laser_merger -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/dual_laser_merger
+[28.959s] Invoking command in '/root/ros2_ws/build/dual_laser_merger': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/dual_laser_merger -- -j12 -l12
+[29.456s] [ 25%] Building CXX object CMakeFiles/dual_laser_merger.dir/src/dual_laser_merger.cpp.o
+[90.968s] [ 50%] Linking CXX shared library libdual_laser_merger.so
+[92.136s] [ 50%] Built target dual_laser_merger
+[92.157s] [ 75%] Building CXX object CMakeFiles/dual_laser_merger_node.dir/rclcpp_components/node_main_dual_laser_merger_node.cpp.o
+[98.813s] [100%] Linking CXX executable dual_laser_merger_node
+[99.027s] [100%] Built target dual_laser_merger_node
+[99.039s] Invoked command in '/root/ros2_ws/build/dual_laser_merger' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/dual_laser_merger -- -j12 -l12
+[99.040s] Invoking command in '/root/ros2_ws/build/dual_laser_merger': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/dual_laser_merger
+[99.299s] -- Install configuration: "Release"
+[99.300s] -- Execute custom install script
+[99.300s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/lib/dual_laser_merger/dual_laser_merger_node
+[99.307s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/include/dual_laser_merger/include/dual_laser_merger/dual_laser_merger.hpp
+[99.315s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/demo_laser_merger.launch.py
+[99.323s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/bag/dual_lidar/dual_lidar_0.mcap
+[99.330s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/bag/dual_lidar/metadata.yaml
+[99.337s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/config/rviz_config.rviz
+[99.345s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/include/dual_laser_merger/dual_laser_merger.hpp
+[99.353s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/environment/library_path.sh
+[99.360s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/environment/library_path.dsv
+[99.367s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/lib/libdual_laser_merger.so
+[99.375s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/ament_index/resource_index/package_run_dependencies/dual_laser_merger
+[99.385s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/ament_index/resource_index/parent_prefix_path/dual_laser_merger
+[99.391s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/environment/ament_prefix_path.sh
+[99.398s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/environment/ament_prefix_path.dsv
+[99.405s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/environment/path.sh
+[99.412s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/environment/path.dsv
+[99.421s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/local_setup.bash
+[99.428s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/local_setup.sh
+[99.435s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/local_setup.zsh
+[99.442s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/local_setup.dsv
+[99.449s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/package.dsv
+[99.457s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/ament_index/resource_index/packages/dual_laser_merger
+[99.465s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/ament_index/resource_index/rclcpp_components/dual_laser_merger
+[99.473s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/cmake/ament_cmake_export_dependencies-extras.cmake
+[99.480s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/cmake/ament_cmake_export_include_directories-extras.cmake
+[99.488s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/cmake/ament_cmake_export_libraries-extras.cmake
+[99.495s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/cmake/dual_laser_mergerConfig.cmake
+[99.503s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/cmake/dual_laser_mergerConfig-version.cmake
+[99.510s] -- Symlinking: /root/ros2_ws/install/dual_laser_merger/share/dual_laser_merger/package.xml
+[99.522s] Invoked command in '/root/ros2_ws/build/dual_laser_merger' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/dual_laser_merger
