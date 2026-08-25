@@ -90,7 +90,6 @@ SG2_COLLISION_IK_JOINT_NAMES = (
     + SG2_ARM_JOINT_NAMES["right"]
 )
 SG2_UPPER_ARM_YAW_JOINT_NAMES = ("arm_r_joint3", "arm_l_joint3")
-
 SG2_NULL_REFERENCE_MODES = ("previous", "home")
 
 SG2_COLLISION_AWARE_IK_MODULE_NAME = "_mujoco_collision_aware_ik_bind"
@@ -1359,6 +1358,7 @@ def make_idle_collision_ik_result(active_solver, safe_margin=0.05):
         "track_weight": 0.0,
         "upper_arm_yaw_info": None,
         "null_reference": None,
+        "relax_upper_arm_yaw": None,
     }
 
 
@@ -1371,7 +1371,7 @@ def set_sg2_null_space_reference(ik_solver, env, null_reference="previous"):
 
     "previous" points the objective at the pose the solver ended on last tick,
     which turns the null-space term into "move the joints as little as
-    possible". "home" leaves the startup snapshot captured when the solver was
+    possible".  "home" leaves the startup snapshot captured when the solver was
     created, i.e. the original behavior.
     """
     if null_reference not in SG2_NULL_REFERENCE_MODES:
@@ -1458,6 +1458,7 @@ def solve_sg2_collision_aware_wrist_ik(
         dep_step=0.01,
         enable_depenetration=True,
         null_reference="previous",
+        relax_upper_arm_yaw=True,
     ):
     wrist_targets_by_hand = _normalize_wrist_targets(wrist_targets_by_hand)
     signed_distance_infos, min_signed_dist = env.get_geom_pair_signed_distance_infos_bind(
@@ -1480,6 +1481,7 @@ def solve_sg2_collision_aware_wrist_ik(
         "track_weight": 0.0,
         "upper_arm_yaw_info": None,
         "null_reference": null_reference,
+        "relax_upper_arm_yaw": bool(relax_upper_arm_yaw),
     }
     if len(wrist_targets_by_hand) == 0:
         tracking_solver.reset_buffers(env=env)
@@ -1491,7 +1493,8 @@ def solve_sg2_collision_aware_wrist_ik(
         out["mode"] = "tracking" if is_safe else "tracking_unsafe"
         out["solver"] = tracking_solver
         set_sg2_null_space_reference(tracking_solver, env, null_reference)
-        out["upper_arm_yaw_info"] = relax_sg2_upper_arm_yaw_joints(env)
+        if relax_upper_arm_yaw:
+            out["upper_arm_yaw_info"] = relax_sg2_upper_arm_yaw_joints(env)
         tracking_solver.reset_buffers(env=env)
         for hand_type, T_target in wrist_targets_by_hand.items():
             add_sg2_wrist_ik_coordinate_target(
@@ -1966,8 +1969,8 @@ __all__ = [
     "create_sg2_collision_candidate_geom_pairs",
     "print_sg2_collision_candidate_summary",
     "make_idle_collision_ik_result",
-    "relax_sg2_upper_arm_yaw_joints",
     "set_sg2_null_space_reference",
+    "relax_sg2_upper_arm_yaw_joints",
     "get_solver_target_infos",
     "solve_sg2_collision_aware_wrist_ik",
     "make_signed_distance_draw_cmds",
