@@ -1,0 +1,13 @@
+<mujoco model="table">
+    <worldbody>
+        <body name="table" pos="0.45 0.0 0.0">
+            <!-- Tabletop (center height 0.74m, thickness 0.04m -> top surface at 0.76m) -->
+            <geom name="table_top" type="box" pos="0 0 0.84" size="0.35 0.55 0.02" rgba="0.82 0.71 0.55 1"/>
+            <!-- Four Legs -->
+            <geom name="table_leg1" type="cylinder" pos=" 0.30  0.50 0.42" size="0.02 0.42" rgba="0.2 0.2 0.2 1"/>
+            <geom name="table_leg2" type="cylinder" pos="-0.30  0.50 0.42" size="0.02 0.42" rgba="0.2 0.2 0.2 1"/>
+            <geom name="table_leg3" type="cylinder" pos=" 0.30 -0.50 0.42" size="0.02 0.42" rgba="0.2 0.2 0.2 1"/>
+            <geom name="table_leg4" type="cylinder" pos="-0.30 -0.50 0.42" size="0.02 0.42" rgba="0.2 0.2 0.2 1"/>
+        </body>
+    </worldbody>
+</mujoco>
