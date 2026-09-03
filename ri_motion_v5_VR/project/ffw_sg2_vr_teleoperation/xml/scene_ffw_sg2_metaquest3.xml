@@ -2,5 +2,6 @@
 <mujoco model="scene">
     <include file="floor_simple_white.xml"/>
     <include file="ffw_sg2.xml"/>
+    <include file="table.xml"/>
     <option timestep="0.002" integrator="implicitfast"/>
 </mujoco>

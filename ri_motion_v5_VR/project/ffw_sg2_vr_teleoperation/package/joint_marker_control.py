@@ -30,7 +30,7 @@ from utils import (
     SG2_HAND_TYPES,
     set_sg2_gripper_qpos,
 )
-from VAI_AIWORKER.ri_motion_v5_VR.project.ffw_sg2_vr_teleoperation.package.joint_control import (
+from project.ffw_sg2_vr_teleoperation.package.joint_control import (
     SG2_JOINT_COMMAND_ROWS,
     SG2_JOINT_PRESETS,
     SG2_JOINT_QPOS_PATH,

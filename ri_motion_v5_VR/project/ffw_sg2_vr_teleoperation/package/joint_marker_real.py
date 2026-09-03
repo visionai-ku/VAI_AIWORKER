@@ -28,8 +28,8 @@ from utils import (
     get_sg2_wrist_control_T,
     set_sg2_gripper_qpos,
 )
-from VAI_AIWORKER.ri_motion_v5_VR.project.ffw_sg2_vr_teleoperation.package.joint_control import SG2_JOINT_QPOS_PATH
-from VAI_AIWORKER.ri_motion_v5_VR.project.ffw_sg2_vr_teleoperation.package.joint_marker_control import (
+from project.ffw_sg2_vr_teleoperation.package.joint_control import SG2_JOINT_QPOS_PATH
+from project.ffw_sg2_vr_teleoperation.package.joint_marker_control import (
     SG2_JOINT_MARKER_GROUPS,
     handle_sg2_joint_marker_command_widget,
 )
