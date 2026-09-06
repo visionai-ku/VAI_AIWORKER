@@ -170,14 +170,22 @@ def plan_min_jerk(q_start, q_goal, v_max, a_max, hz=100.0, min_duration=0.5, dur
 # docstring for why a bare 19-vector is a trap here.
 SG2_BRINGUP_WAYPOINTS = {
     "start": {
-        "arm_l_joint1": 0.2, "arm_l_joint4": -0.3, "arm_l_joint6": -0.2,
-        "arm_r_joint1": 0.2, "arm_r_joint4": -0.3, "arm_r_joint6": -0.2,
+        "arm_l_joint1": 0.2, "arm_l_joint6": 0.2,
+        "arm_r_joint1": 0.2, "arm_r_joint6": 0.2,
     },
     "step1": {
+        "arm_l_joint1": 1.0, "arm_l_joint4": -0.3, "arm_l_joint6": -1.4,
+        "arm_r_joint1": 1.0, "arm_r_joint4": -0.3, "arm_r_joint6": -1.4
+    },
+    "step2": {
+        "arm_l_joint1": 1.32, "arm_l_joint4": -1.5, "arm_l_joint6": -1.4,
+        "arm_r_joint1": 1.32, "arm_r_joint4": -1.5, "arm_r_joint6": -1.4
+    },
+    "step3": {
         "arm_l_joint1": 1.57, "arm_l_joint4": -2.8,
         "arm_r_joint1": 1.57, "arm_r_joint4": -2.8,
     },
-    "step2": {
+    "step4": {
         "arm_l_joint4": -0.5 * np.pi,
         "arm_r_joint4": -0.5 * np.pi,
     },
@@ -192,8 +200,8 @@ SG2_BRINGUP_WAYPOINTS = {
 # given (open the grippers, then lift the wrists clear) -- see
 # `build_sg2_shut_down_goals`.
 SG2_MOTION_SEQUENCES = {
-    "bring_up" : ["start", "step1", "step2"],
-    "shut_down": ["step2", "step1", "start"],
+    "bring_up" : ["start", "step1", "step2", "step3", "step4"],
+    "shut_down": ["step4", "step3", "step2", "step1", "start"],
 }
 
 # rh_p12_rn driver joint, range 0 ~ 1.1: 0 is fully open, 1.1 fully closed. Same
@@ -310,23 +318,34 @@ def solve_sg2_wrist_lift_goal(
         env.forward(q=q_save, joint_names=joint_names)
 
 
-def build_sg2_shut_down_goals(env, joint_names, ik_solvers=None, lift_reference="step2"):
+def build_sg2_shut_down_goals(env, joint_names, ik_solvers=None, lift_reference=None):
     """The full shut-down goal list, computed from the pose the robot is in now.
 
         1. open both grippers        (gripper joints only)
         2. lift both wrists          (to the wrist height of the `lift_reference`
                                       waypoint -- IK, skipped when ik_solvers is None
                                       or the wrists are already high enough)
-        3. step2 -> step1 -> start   (SG2_MOTION_SEQUENCES["shut_down"])
+        3. the joint-space legs      (SG2_MOTION_SEQUENCES["shut_down"])
 
     Steps 1 and 2 cannot be constants: they depend on where the arms happen to be
     when the command is given, which is the whole reason they exist.
+
+    `lift_reference` names the waypoint whose wrist height the lift aims for. It
+    defaults to the FIRST leg of the shut-down sequence -- the pose the fold-in
+    starts from -- rather than a hard-coded name: editing SG2_MOTION_SEQUENCES
+    (adding a step, renaming one) would otherwise leave the lift silently aiming
+    at a mid-sequence pose, which raises the wrists to the wrong height without
+    raising an error.
 
     Returns (goals, notes) where goals is the [(label, qpos), ...] list the
     executor takes and notes is a short human-readable trail.
     """
     joint_names = list(joint_names)
     notes = []
+
+    shut_down_steps = SG2_MOTION_SEQUENCES["shut_down"]
+    if lift_reference is None:
+        lift_reference = shut_down_steps[0]
 
     q_open = make_sg2_gripper_qpos_goal(env, joint_names, SG2_GRIPPER_OPEN_QPOS)
     goals = [("gripper_open", q_open)]
@@ -347,11 +366,11 @@ def build_sg2_shut_down_goals(env, joint_names, ik_solvers=None, lift_reference=
             notes.append(f"wrist lift skipped: {lift_info['skipped']}")
         else:
             goals.append(("wrist_lift", q_lift))
-            notes.append("wrist lift to z " + ", ".join(
+            notes.append(f"wrist lift to [{lift_reference}] z " + ", ".join(
                 f"{hand_type}={z:.3f}m" for hand_type, z in lift_info["lifted"].items()))
 
     goals += [(step, expand_sg2_qpos(joint_names, SG2_BRINGUP_WAYPOINTS[step]))
-              for step in SG2_MOTION_SEQUENCES["shut_down"]]
+              for step in shut_down_steps]
     return goals, notes
 
 
