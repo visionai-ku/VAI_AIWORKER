@@ -1,0 +1,18 @@
+# Direct dependencies observed in the working Python 3.10/macOS environment.
+# This is a baseline version list, not a cross-platform transitive lock file.
+numpy==2.2.6
+scipy==1.15.3
+matplotlib==3.10.8
+pillow==12.1.1
+networkx==3.4.2
+termcolor==3.3.0
+mujoco==3.6.0
+glfw==2.10.0
+nanobind==2.13.0
+PyQt5==5.15.11
+pyqtgraph==0.14.0
+PyAutoGUI==0.9.54
+pyzmq==27.1.0
+opencv-python==4.12.0.88
+websockets==15.0.1
+IPython==8.39.0

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>SG2 · Fixed Quest</title>
+  <style>
+    :root { font-family: system-ui, sans-serif; color: #e5edf5; background: #111a23; }
+    body { max-width: 880px; margin: 0 auto; padding: 44px 28px; }
+    .eyebrow { color: #7edfc2; letter-spacing: .12em; font-size: 14px; font-weight: 600; }
+    h1 { font-size: 38px; margin: 14px 0 10px; font-weight: 650; }
+    p { color: #b8c8d8; line-height: 1.65; }
+    .panel { background: #1a2734; border: 1px solid #324557; border-radius: 16px; padding: 24px; margin-top: 28px; }
+    .status { display: flex; justify-content: space-between; gap: 20px; margin: 0 0 24px; }
+    #status { color: #7edfc2; font-weight: 600; }
+    button { border: 0; border-radius: 10px; padding: 15px 22px; margin: 0 10px 12px 0; font: inherit; font-weight: 600; cursor: pointer; background: #7edfc2; color: #102720; }
+    button.secondary { background: #34485a; color: #e5edf5; }
+    button:disabled { opacity: .4; cursor: default; }
+    .hands { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; }
+    .hand { background: #111a23; padding: 18px; border-radius: 10px; }
+    .hand strong { display: block; margin-bottom: 8px; }
+    .hand span { color: #b8c8d8; font-variant-numeric: tabular-nums; }
+    .note { font-size: 14px; color: #94a9bd; }
+    #error { color: #ffb59f; white-space: pre-wrap; }
+    details { margin-top: 20px; border-top: 1px solid #324557; padding-top: 16px; }
+    summary { cursor: pointer; color: #b8c8d8; }
+    dl { display: grid; grid-template-columns: minmax(130px, .8fr) 2fr; gap: 9px 16px; font-size: 14px; }
+    dt { color: #94a9bd; }
+    dd { margin: 0; overflow-wrap: anywhere; }
+    a { color: #7edfc2; }
+  </style>
+</head>
+<body>
+  <div class="eyebrow">ROBOTIS SG2 / CONTROLLER INPUT</div>
+  <h1>Fixed Quest</h1>
+  <p>Quest 3의 카메라를 조작자 방향으로 고정하고, 양손 컨트롤러로 시뮬레이션의 팔을 움직입니다.<br>이 페이지는 컨트롤러 입력만 전송합니다. 제어와 시뮬레이션은 PC 노트북에서 실행됩니다.</p>
+  <p class="note">이 주소는 Quest Browser에서 여세요. PC에서는 SIM 노트북의 제어창을 사용합니다. ‘다른 Quest 탭’ 연결 오류가 나오면 이전 Quest 탭을 닫거나 XR을 종료한 뒤 다시 연결하세요.</p>
+  <div class="panel">
+    <div class="status"><span>입력 연결</span><span id="status">연결 중…</span></div>
+    <button id="start" disabled>Quest에서 XR 시작</button>
+    <button id="stop" class="secondary" disabled>XR 종료</button>
+    <button id="connect" class="secondary" hidden>PC에 지금 다시 연결</button>
+    <div class="hands">
+      <div class="hand"><strong>왼손</strong><span id="left">입력 대기</span></div>
+      <div class="hand"><strong>오른손</strong><span id="right">입력 대기</span></div>
+    </div>
+    <p id="error" role="alert"></p>
+    <details>
+      <summary>입력이 안 될 때: 단계별 상태 보기</summary>
+      <dl>
+        <dt>보안 컨텍스트</dt><dd id="diag-secure">확인 중</dd>
+        <dt>WebXR API</dt><dd id="diag-xr">확인 중</dd>
+        <dt>VR 세션 지원</dt><dd id="diag-support">확인 중</dd>
+        <dt>PC 입력 연결</dt><dd id="diag-socket">연결 전</dd>
+        <dt>XR 세션</dt><dd id="diag-session">시작 전</dd>
+        <dt>세션 표시 상태</dt><dd id="diag-visibility">—</dd>
+        <dt>헤드셋 위치</dt><dd id="diag-viewer">프레임 대기</dd>
+        <dt>인식한 입력 장치</dt><dd id="diag-sources">0개</dd>
+        <dt>왼손 입력</dt><dd id="diag-left">프레임 대기</dd>
+        <dt>오른손 입력</dt><dd id="diag-right">프레임 대기</dd>
+        <dt>전송한 프레임</dt><dd id="diag-sent">0개</dd>
+        <dt>최근 상태 변화</dt><dd id="diag-event">페이지 열림</dd>
+      </dl>
+      <p class="note">추적 정보는 XR 세션 중에 갱신됩니다. 세션 종료 후 마지막 관측값을 여기서 볼 수 있으며, 같은 진단 정보가 PC 기록에도 저장됩니다. 프레임 전송 수는 로봇의 명령 수신·동작을 뜻하지 않습니다.</p>
+    </details>
+  </div>
+  <p><strong>측면 grip:</strong> 누른 동안 팔 이동 · 놓으면 정지 · 다시 누르면 현재 위치에서 시작<br><strong>검지 trigger:</strong> grip을 누른 동안 그리퍼 개폐</p>
+  <p class="note">XR은 처음 한 번 Quest Browser에서 시작합니다. XR을 켜 둔 동안에는 PC 수신기를 다시 실행해도 자동으로 재연결하므로 이 버튼을 반복해서 누를 필요가 없습니다. 재연결 후에는 양손 grip을 놓고 PC의 SIM 제어를 켠 뒤 다시 누르세요. 페이지를 새로고침하거나 XR 세션이 종료되면 Quest에서 시작 버튼을 다시 눌러야 합니다.</p>
+  <p class="note">먼저 PC에서 SIM 노트북을 실행하세요. Quest Browser에서 이 PC의 HTTPS 주소를 열고 인증서를 신뢰해야 합니다. 헤드셋을 벗었을 때 XR 세션이 멈추는지는 기기 설정과 실제 고정 배치에서 확인해야 합니다. 추적이 복구되면 양손 grip을 놓은 뒤 다시 눌러 시작합니다.</p>
+  <script type="module" src="/client.js"></script>
+</body>
+</html>
