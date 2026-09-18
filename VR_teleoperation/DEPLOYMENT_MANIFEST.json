@@ -22,7 +22,7 @@
     "notebook_setup": "PASS: both notebooks; repo-root/notebook-directory lookup; profile and review hashes; FK/IK; local module and mesh isolation",
     "regression_tests": {
       "command": "python -m unittest discover -s tests -p 'test_*.py'",
-      "tests": 219,
+      "tests": 223,
       "result": "PASS"
     },
     "synthetic_pipeline": {
@@ -39,7 +39,8 @@
   "known_limits": [
     "Robot model contains no physical desk geometry.",
     "Selected v1 personal profile remains accepted=false with its existing reviewed candidate path.",
-    "Existing long-run feedback boundary, tracking and IK interruptions were not changed by packaging."
+    "Existing long-run feedback boundary and IK interruptions were not changed by packaging.",
+    "Emulated-pose tracking mode (notebook default since 2026-09-18) has not yet been exercised with deliberate tracking losses on the real robot."
   ],
   "files": [
     {
@@ -61,7 +62,7 @@
       "path": "README.md",
       "source_path": null,
       "source_sha256": null,
-      "deployed_sha256": "0c7d28d00bfe70249d4ebfb878960d5e75d8efa0b3b813dee901685a6c081a56",
+      "deployed_sha256": "0012a24474227cb25cc084073ab6f1c133aa2aa74ed88beec64386fbf33511f4",
       "status": "new_document"
     },
     {
@@ -138,7 +139,7 @@
       "path": "docs/WORKER_SETUP.md",
       "source_path": null,
       "source_sha256": null,
-      "deployed_sha256": "9e707649872597ad1f942b7aee6a70cec4f81c2ba0a268de36a1ab14a4a6756f",
+      "deployed_sha256": "2198d953444c4771c223973e324f33bff9fb7aac93174f5a380f2d63179bbbe1",
       "status": "new_document"
     },
     {
@@ -151,15 +152,15 @@
     {
       "path": "package/controller_mapping.py",
       "source_path": "project_v2/package/controller_mapping.py",
-      "source_sha256": "200e7327915f72118c383e9015d158dd441f4e801e933104a629eaaef4feee1f",
-      "deployed_sha256": "200e7327915f72118c383e9015d158dd441f4e801e933104a629eaaef4feee1f",
+      "source_sha256": "d96aaa242afb9fb3fdff6d7af55536233dca0ad813d13bd8cf9b95bef340b333",
+      "deployed_sha256": "d96aaa242afb9fb3fdff6d7af55536233dca0ad813d13bd8cf9b95bef340b333",
       "status": "identical_copy"
     },
     {
       "path": "package/fixed_quest_real.py",
       "source_path": "project_v2/package/fixed_quest_real.py",
-      "source_sha256": "ff7f267724a7bc3e7889914dc8c086d6d831b6a724f268021f50906ba2728c90",
-      "deployed_sha256": "ff7f267724a7bc3e7889914dc8c086d6d831b6a724f268021f50906ba2728c90",
+      "source_sha256": "91b111951e7d56a4e69fdbe5ede63dd1502118876c3f8ea763adf87b1974f2d2",
+      "deployed_sha256": "91b111951e7d56a4e69fdbe5ede63dd1502118876c3f8ea763adf87b1974f2d2",
       "status": "identical_copy"
     },
     {
@@ -229,8 +230,8 @@
     {
       "path": "package/intent_teleop.py",
       "source_path": "project_v2/package/intent_teleop.py",
-      "source_sha256": "3660c2fb5f16ebaa57bc70d5c3bcb6de4cab322c338eeb9e5a8d36995dea0b20",
-      "deployed_sha256": "3660c2fb5f16ebaa57bc70d5c3bcb6de4cab322c338eeb9e5a8d36995dea0b20",
+      "source_sha256": "4b5e80f09d9ed00761ba3e16edaa8b520b1e3d25dcec5b0c9a4f8d8674d9618f",
+      "deployed_sha256": "4b5e80f09d9ed00761ba3e16edaa8b520b1e3d25dcec5b0c9a4f8d8674d9618f",
       "status": "identical_copy"
     },
     {
@@ -318,12 +319,12 @@
       "status": "identical_copy"
     },
     {
-      "path": "real_notebook/real_intent_teleop.ipynb",
+      "path": "real_notebook/real_vr_teleop.ipynb",
       "source_path": "project_v2/real_notebook/real_intent_teleop.ipynb",
-      "source_sha256": "d453d6f7aa85c5d8068b1a4c935f89ff2633a3735b585520b971e58455843f0a",
-      "deployed_sha256": "dde757ca9db16aabe7de05510fd62e2c125ad2fdab923569b63e7e53c2c567a0",
+      "source_sha256": "35a7d8b26d867c75761b100eaceab04dcf11a3970adb88a24e567cb2c2b6ce1c",
+      "deployed_sha256": "24c33dcfc90c25f25eb12dea191877a2780cfb2e2c459185b8eaea3c9e8d632e",
       "status": "deployment_adjustment",
-      "adjustment": "Discover VR_teleoperation from repository root; update missing-workspace message."
+      "adjustment": "Discover VR_teleoperation from repository root; update missing-workspace message; renamed from real_intent_teleop.ipynb. All other cells match the source."
     },
     {
       "path": "requirements-notebook.txt",
@@ -343,9 +344,9 @@
       "path": "scripts/check_workspace.py",
       "source_path": "project_v2/scripts/check_workspace.py",
       "source_sha256": "0f99efb2b92fcb1b0630da823e114309ef74ba9b26d00c52364b0f33bc6dc2c7",
-      "deployed_sha256": "b6c1661471123ae8b5dd936f7432efff6594a9796b96b6c1350d72b457900fe8",
+      "deployed_sha256": "3bb8198c072bad73c51d60761d6b76e1e27ceddb4404a697a8c98b0769ab00eb",
       "status": "deployment_adjustment",
-      "adjustment": "Limit verification to the two included notebooks; verify root lookup, local modules/assets and matching worker hashes."
+      "adjustment": "Limit verification to the two included notebooks; verify root lookup, local modules/assets and matching worker hashes. Notebook names follow the *_vr_teleop.ipynb rename."
     },
     {
       "path": "scripts/validate_intent_pipeline.py",
@@ -355,18 +356,18 @@
       "status": "identical_copy"
     },
     {
-      "path": "sim_notebook/sim_intent_teleop.ipynb",
+      "path": "sim_notebook/sim_vr_teleop.ipynb",
       "source_path": "project_v2/sim_notebook/sim_intent_teleop.ipynb",
-      "source_sha256": "d276695614cf66f5c876992a3198db72cdfc6eadea3f2fa39db70cda81c4a88f",
-      "deployed_sha256": "3c7a1b906ddafd252a25131f91688092adce06b4d4bcdb813cf93ad3ba17d6a0",
+      "source_sha256": "e90167a8a7ae5c4f9fc61d427c251737839f38eb810300c380ac1e1aca3cd194",
+      "deployed_sha256": "319669a948752e34bdd5331f1fec8f08894d31e716c2b4105ad70880654ae8c9",
       "status": "deployment_adjustment",
-      "adjustment": "Discover VR_teleoperation from repository root; update missing-workspace message."
+      "adjustment": "Discover VR_teleoperation from repository root; update missing-workspace message; renamed from sim_intent_teleop.ipynb. All other cells match the source."
     },
     {
       "path": "tests/test_controller_mapping.py",
       "source_path": "project_v2/tests/test_controller_mapping.py",
-      "source_sha256": "12b5dba2d5132ede6a6a31a59a4b9bf8196479b35446b4f8228fba4d53dc8f44",
-      "deployed_sha256": "12b5dba2d5132ede6a6a31a59a4b9bf8196479b35446b4f8228fba4d53dc8f44",
+      "source_sha256": "75f64ae1deea0902b2ed93d3264b31a2936220fbeda5297bd396e16b0678207e",
+      "deployed_sha256": "75f64ae1deea0902b2ed93d3264b31a2936220fbeda5297bd396e16b0678207e",
       "status": "identical_copy"
     },
     {
@@ -393,8 +394,8 @@
     {
       "path": "tests/test_fixed_quest_real.py",
       "source_path": "project_v2/tests/test_fixed_quest_real.py",
-      "source_sha256": "2978b94611244d5392470744de3035f09c4818dc7f33cba9c75b888153f4da63",
-      "deployed_sha256": "2978b94611244d5392470744de3035f09c4818dc7f33cba9c75b888153f4da63",
+      "source_sha256": "2f26aa5379353820c589c37d0e9f64a835ea27d1896299f4e8255b2d93e72959",
+      "deployed_sha256": "2f26aa5379353820c589c37d0e9f64a835ea27d1896299f4e8255b2d93e72959",
       "status": "identical_copy"
     },
     {
@@ -837,6 +838,32 @@
       "source_sha256": "94fcdf63f23b4ba03e3f6ce07aa24c6bab0ca4faff0d18342f26be460e0dbf99",
       "deployed_sha256": "94fcdf63f23b4ba03e3f6ce07aa24c6bab0ca4faff0d18342f26be460e0dbf99",
       "status": "identical_copy"
+    }
+  ],
+  "updates": [
+    {
+      "date": "2026-09-18",
+      "summary": "Tracking-loss modes: both notebooks start with Quest emulated poses and offer a 0.5 s pause mode; the robot worker is unchanged. Notebook references updated for the *_vr_teleop.ipynb rename.",
+      "files": [
+        "package/controller_mapping.py",
+        "package/fixed_quest_real.py",
+        "package/intent_teleop.py",
+        "tests/test_controller_mapping.py",
+        "tests/test_fixed_quest_real.py",
+        "sim_notebook/sim_vr_teleop.ipynb",
+        "real_notebook/real_vr_teleop.ipynb",
+        "scripts/check_workspace.py",
+        "README.md",
+        "docs/WORKER_SETUP.md",
+        "DEPLOYMENT_MANIFEST.json"
+      ],
+      "validation": {
+        "regression_tests": "223 PASS",
+        "check_workspace": "PASS",
+        "validate_intent_pipeline": "PASS",
+        "ui_smoke": "PASS: SIM and REAL DRY RUN (localhost robot) show 2 mode buttons; start emulated; switch applies when released",
+        "live_robot_or_quest_connection": false
+      }
     }
   ]
 }

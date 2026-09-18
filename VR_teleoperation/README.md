@@ -1,6 +1,6 @@
 # VR_teleoperation
 
-FFW-SG2 SIM/REAL intent teleoperation 배포 폴더. 2026-09-17 현재 `FtF_VR/project_v2`에서 두 노트북의 실행 파일, 선택된 보정 데이터, 모델, 공용 Python 런타임, 최신 worker와 관련 오프라인 검사를 복사했다. 원본 `project_v2`와 저장소의 기존 `ri_motion_v5_VR`, `ros2_ws` 파일은 변경하지 않았다.
+FFW-SG2 SIM/REAL intent teleoperation 배포 폴더. 2026-09-17 현재 `FtF_VR/project_v2`에서 두 노트북의 실행 파일, 선택된 보정 데이터, 모델, 공용 Python 런타임, 최신 worker와 관련 오프라인 검사를 복사했다. 원본 `project_v2`와 저장소의 기존 `ri_motion_v5_VR`, `ros2_ws` 파일은 변경하지 않았다. 2026-09-18에 같은 원본의 추적 손실 모드 변경(공용 코드 3개, 두 노트북의 설정·안내 셀, 관련 테스트 2개)을 다시 반영했다.
 
 ## 실행
 
@@ -13,8 +13,8 @@ python -m ipykernel install --user --name ffw-sg2-vr --display-name "FFW SG2 VR"
 python -m jupyterlab
 ```
 
-- [SIM 노트북](sim_notebook/sim_intent_teleop.ipynb)을 먼저 실행한다.
-- [REAL 노트북](real_notebook/real_intent_teleop.ipynb)은 DRY RUN으로 시작하며 실제 로봇 피드백이 필요하다. [로봇 worker 적용 안내](docs/WORKER_SETUP.md)를 따른다.
+- [SIM 노트북](sim_notebook/sim_vr_teleop.ipynb)을 먼저 실행한다.
+- [REAL 노트북](real_notebook/real_vr_teleop.ipynb)은 DRY RUN으로 시작하며 실제 로봇 피드백이 필요하다. [로봇 worker 적용 안내](docs/WORKER_SETUP.md)를 따른다.
 - 각 노트북은 새 커널에서 첫 셀부터 실행한다. 기존 프로젝트 모듈을 불러온 커널은 재시작한다.
 - `QUEST_HOST` 자동 감지가 맞지 않으면 PC LAN IP를 지정한다. 기본 로봇 IP는 `192.168.6.2`다. HTTPS 인증서 생성에는 `openssl`이 필요하다.
 
@@ -30,7 +30,9 @@ python -m jupyterlab
 
 이는 특정 사용자가 SIM에서 확인한 후보이며 `accepted=false`를 유지한다. REAL의 별도 확인 기록은 해당 프로필/시연 해시와 연결된다. 다른 사용자·Quest 방향·작업 위치에 대해 검증된 일반 보정값이라는 뜻은 아니다. 배포 시 확인 옵션이나 제어 설정은 변경하지 않았다.
 
-팔과 그리퍼 시작 상한은 각각 60°/s다. 최신 worker에서 그리퍼 10~120°/s 설정을 지원하며 HOME/수동 조정은 최대 10°/s다. 기존 충돌 모델에는 로봇과 바닥만 있고 실제 책상이 포함되지 않는다. 장시간 실행에서 관찰된 lift/그리퍼 경계 피드백 거부와 추적/IK 중단 등은 이번 파일 배포에서 수정하지 않았다.
+팔과 그리퍼 시작 상한은 각각 60°/s다. 최신 worker에서 그리퍼 10~120°/s 설정을 지원하며 HOME/수동 조정은 최대 10°/s다. 기존 충돌 모델에는 로봇과 바닥만 있고 실제 책상이 포함되지 않는다. 장시간 실행에서 관찰된 lift/그리퍼 경계 피드백 거부와 IK 중단 등은 이번 파일 배포에서 수정하지 않았다.
+
+추적 손실 모드: 두 노트북은 `추정 위치 사용`으로 시작한다. 한 손의 광학 추적이 끊겨도 Quest 추정 위치로 조작을 이어가며, 컨트롤러가 아예 사라지면 0.1초 뒤 정지한다. 실행 창의 `정지 0.5초` 버튼을 누르면 추적 손실 중 현재 명령을 최대 0.5초 유지하는 방식으로 바뀐다. 전환은 양손 grip을 놓은 상태에서 적용된다. 두 모드 모두 한 프레임 20cm 초과 점프·grip 해제·피드백 오류 시 정지하고, 작업범위·속도·충돌 제한은 같다. 로봇 worker는 바뀌지 않았다.
 
 ## 오프라인 검증
 

@@ -1,6 +1,6 @@
 # REAL worker 배포
 
-PC는 [real_intent_teleop.ipynb](../real_notebook/real_intent_teleop.ipynb)를 사용한다. 포함된 [20260917-home-gripper-worker](../deploy/20260917-home-gripper-worker/README.txt)는 `package/worker/`의 세 파일과 해시가 동일하다.
+PC는 [real_vr_teleop.ipynb](../real_notebook/real_vr_teleop.ipynb)를 사용한다. 포함된 [20260917-home-gripper-worker](../deploy/20260917-home-gripper-worker/README.txt)는 `package/worker/`의 세 파일과 해시가 동일하다.
 
 로봇 컨테이너의 실제 실행 위치는 `/root/ros2_ws/src/ai_worker/zmq/`다. 로봇 조작과 기존 inbound/outbound 프로세스를 정지하고 기존 세 파일을 별도 백업한 후 다음 세 파일을 한 세트로 복사한다.
 

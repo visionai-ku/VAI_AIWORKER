@@ -444,6 +444,75 @@ class FixedQuestRealTest(unittest.TestCase):
         self.assertEqual(result["state"], "HOLD")
         self.assertEqual(self.publisher.messages[-1]["mode"], "stop")
 
+    def test_selected_long_tracking_pause_keeps_command_lease_then_holds(self):
+        for bad in (True, "0.5", -.01, 1.01, float("nan")):
+            with self.subTest(bad=bad), self.assertRaises(ValueError):
+                self.make_real(tracking_pause_s=bad)
+        self.start_grip()
+        self.real.tracking_pause_s = .5
+        session = self.real.session_id
+        command = self.planner.q_command.copy()
+        for i in range(2, 52):
+            bad = self.frame(i, grip=True)
+            bad["hands"]["left"].update(valid=False, emulated=True)
+            result = self.real.tick_grip(bad, self.armed_feedback(i/100), now=i/100)
+            self.assertEqual(result["state"], "TRACKING_PAUSED", (i, result["reason"]))
+            self.assertEqual(self.publisher.messages[-1]["mode"], "command")
+            np.testing.assert_array_equal(result["q_command"], command)
+        self.assertEqual(self.real.session_id, session)
+        bad = self.frame(52, grip=True)
+        bad["hands"]["left"].update(valid=False, emulated=True)
+        result = self.real.tick_grip(bad, self.armed_feedback(.52), now=.52)
+        self.assertEqual(result["state"], "HOLD")
+        self.assertEqual(result["reason"], "controller tracking pause exceeded 500 ms")
+        self.assertEqual(self.publisher.messages[-1]["mode"], "stop")
+
+    def test_tracking_loss_mode_switches_both_readers_only_between_clutches(self):
+        real = self.make_real(tracking_pause_s=.1)
+        with self.assertRaises(ValueError):
+            real.set_tracking_loss_mode(.5, False, now=0.)
+        real.tick_grip(self.frame(0), self.feedback(0.), now=0.)
+        for pause, emulated in ((True, False), (1.01, False), (.5, 1), (.5, None)):
+            with self.subTest(pause=pause, emulated=emulated), self.assertRaises(ValueError):
+                real.set_tracking_loss_mode(pause, emulated, now=0.)
+        self.assertEqual(real.tracking_loss_mode, {"tracking_pause_s": .1, "accept_emulated": False})
+        self.assertEqual(real.set_tracking_loss_mode(1., True, now=0.),
+                         {"tracking_pause_s": 1., "accept_emulated": True})
+        self.assertTrue(self.planner.mapper.accept_emulated)
+        self.assertTrue(real._grip_reader.accept_emulated)
+        result = real.tick_grip(self.frame(1, grip=True), self.feedback(.01), now=.01)
+        self.assertEqual(result["state"], "ARMING")
+        self.assertEqual(result["tracking_loss_mode"], {"tracking_pause_s": 1., "accept_emulated": True})
+        with self.assertRaises(ValueError):
+            real.set_tracking_loss_mode(.1, False, now=.01)
+        self.assertEqual(real.tracking_loss_mode, {"tracking_pause_s": 1., "accept_emulated": True})
+
+    def test_emulated_mode_follows_estimated_pose_in_real_and_still_stops_on_jump(self):
+        real = self.make_real()
+        real.tick_grip(self.frame(0), self.feedback(0.), now=0.)
+        real.set_tracking_loss_mode(.1, True, now=0.)
+        estimated = self.frame(1, grip=True)
+        estimated["hands"]["left"].update(valid=False, emulated=True)
+        self.assertEqual(real.tick_grip(estimated, self.feedback(.01), now=.01)["state"], "ARMING")
+        result = real.tick_grip(self.frame(2, grip=True), self.armed_feedback(.02), now=.02)
+        self.assertEqual(result["state"], "ACTIVE", result["reason"])
+        session = real.session_id
+        for i in range(3, 30):
+            estimated = self.frame(i, grip=True, height=.001 * (i - 2))
+            estimated["hands"]["left"].update(valid=False, emulated=True)
+            result = real.tick_grip(estimated, self.armed_feedback(i/100), now=i/100)
+            self.assertEqual(result["state"], "ACTIVE", (i, result["reason"]))
+            self.assertEqual(self.publisher.messages[-1]["mode"], "command")
+        self.assertEqual(real.session_id, session)
+        self.assertTrue(result["mapping_stages"]["left"]["input_emulated"])
+        self.assertFalse(result["mapping_stages"]["right"]["input_emulated"])
+        jump = self.frame(30, grip=True, height=.25)
+        jump["hands"]["left"].update(valid=False, emulated=True)
+        result = real.tick_grip(jump, self.armed_feedback(.30), now=.30)
+        self.assertEqual(result["state"], "HOLD")
+        self.assertEqual(result["reason"], "pose_jump_left")
+        self.assertEqual(self.publisher.messages[-1]["mode"], "stop")
+
     def test_manual_position_gains_idle_preserve_home_speed_and_comfortable_anchor(self):
         real = self.make_real(dry_run=True)
         real.tick_grip(self.frame(0), self.feedback(0.), now=0.)

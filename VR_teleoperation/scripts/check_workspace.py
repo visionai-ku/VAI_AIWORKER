@@ -11,8 +11,8 @@ import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 NOTEBOOKS = (
-    "sim_notebook/sim_intent_teleop.ipynb",
-    "real_notebook/real_intent_teleop.ipynb",
+    "sim_notebook/sim_vr_teleop.ipynb",
+    "real_notebook/real_vr_teleop.ipynb",
 )
 
 

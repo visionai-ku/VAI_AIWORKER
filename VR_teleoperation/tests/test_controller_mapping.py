@@ -277,6 +277,32 @@ class ControllerMapperTest(unittest.TestCase):
                 self.assertEqual(self.update(sample)["state"], "WAIT_RELEASE")
                 self.assertEqual(self.update(frame(4, 100.04))["state"], "READY")
 
+    def test_accept_emulated_uses_estimated_pose_but_keeps_other_guards(self):
+        with self.assertRaises(ValueError):
+            ControllerMapper(accept_emulated=1)
+        self.mapper.accept_emulated = True
+        sample = self.arm()
+        sample.update(seq=2, received_at=100.02, sample_time_ms=10020.)
+        sample["hands"]["left"].update(valid=False, emulated=True)
+        sample["hands"]["left"]["position_m"][0] += 0.05
+        result = self.update(sample)
+        self.assertEqual(result["state"], "ACTIVE", result["reason"])
+        np.testing.assert_allclose(result["targets"]["left"][:3, 3],
+                                   self.eef["left"][:3, 3] + [0., 0.05, 0.])
+        self.assertTrue(result["mapping_stages"]["left"]["input_emulated"])
+        # A vanished controller is still lost, and estimated jumps still hold.
+        missing = copy.deepcopy(sample)
+        missing.update(seq=3, received_at=100.03, sample_time_ms=10030.)
+        missing["hands"]["right"].update(valid=False, emulated=False)
+        self.assertEqual(self.update(missing)["reason"], "tracking_lost_right")
+        self.mapper.reset()
+        self.mapper.accept_emulated = True
+        sample = self.arm()
+        sample.update(seq=2, received_at=100.02, sample_time_ms=10020.)
+        sample["hands"]["left"].update(valid=False, emulated=True)
+        sample["hands"]["left"]["position_m"][1] -= 0.25
+        self.assertEqual(self.update(sample)["reason"], "pose_jump_left")
+
     def test_invalid_numbers_and_missing_hand_hold(self):
         for field, value in (("position_m", [np.nan, 0., 0.]),
                              ("quaternion_xyzw", [0., 0., 0., 0.]),

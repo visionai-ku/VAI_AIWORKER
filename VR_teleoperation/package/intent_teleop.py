@@ -13,7 +13,8 @@ from pathlib import Path
 from numbers import Real
 
 import numpy as np
-from PyQt5.QtWidgets import QApplication, QPushButton, QLabel, QLineEdit, QWidget, QHBoxLayout, QGridLayout, QComboBox, QVBoxLayout, QScrollArea
+from PyQt5.QtWidgets import (QApplication, QPushButton, QLabel, QLineEdit, QWidget, QHBoxLayout, QGridLayout, QComboBox,
+                             QVBoxLayout, QScrollArea, QButtonGroup)
 from ri_motion_v5_package.mujoco_sim import MuJoCoParser, BodyPositionIKSolverRevPriBase, MuJoCoRenderProcess
 from ri_motion_v5_package.qt import MultiRadioQtWidget
 from ri_motion_v5_package.utility import get_ip_address
@@ -26,7 +27,7 @@ from package.fixed_quest_scene import build_fixed_quest_scene, SG2CommandGuard
 from package.fixed_quest_sim import reset_sg2_sim, SG2FixedQuestSimulation, ControllerRecorder
 from package.fixed_quest_transport import SG2RobotStateReceiver, SG2RobotCommandPublisher
 from package.fixed_quest_real import (SG2FixedQuestReal, FIXED_QUEST_MIN_GRIPPER_SPEED,
-                                      FIXED_QUEST_MAX_GRIPPER_SPEED)
+                                      FIXED_QUEST_MAX_GRIPPER_SPEED, FIXED_QUEST_MAX_TRACKING_PAUSE_S)
 from package.worker.fixed_quest_protocol import (JOINT_NAMES, JOINT_LIMITS, FIXED_QUEST_DEFAULT_ARM_SPEED, FIXED_QUEST_MAX_ARM_SPEED,
     OFFICIAL_VR_CONTROL_HZ, OFFICIAL_VR_RAMP_S, VR_ARM_TRACKING_LAG, FIXED_QUEST_VR_BRIDGE_LIMITS)
 from dataclasses import dataclass
@@ -54,6 +55,8 @@ class IntentTeleopSettings:
     VIEWER_MODE: str = "process" if sys.platform == "darwin" else "direct"
     COORDINATED_ARM_RATE_LIMIT: bool = True
     TRACKING_PAUSE_S: float = .10
+    ACCEPT_EMULATED_POSE: bool = False  # use Quest estimated poses instead of pausing
+    TRACKING_MODE_BUTTONS: tuple = ()  # TRACKING_MODES keys shown as buttons; () shows none
     RETRY_IK_NEAR_TARGET: bool = True
     IK_RECOVERY_TIMEOUT_S: float = 1.0
     NULL_REFERENCE: str = "self_motion"
@@ -112,6 +115,20 @@ class IntentTeleopSettings:
             raise ValueError("IK_RECOVERY_TIMEOUT_S must be a finite number in 0..5 seconds; 0 disables recovery")
         if self.NULL_REFERENCE not in SG2_NULL_REFERENCE_MODES:
             raise ValueError("NULL_REFERENCE must be one of %s" % (SG2_NULL_REFERENCE_MODES,))
+        pause = self.TRACKING_PAUSE_S
+        if (isinstance(pause, (bool, np.bool_)) or not isinstance(pause, Real)
+                or not np.isfinite(pause) or not 0 <= pause <= FIXED_QUEST_MAX_TRACKING_PAUSE_S):
+            raise ValueError("TRACKING_PAUSE_S must be a finite number in 0..%g seconds" % FIXED_QUEST_MAX_TRACKING_PAUSE_S)
+        if type(self.ACCEPT_EMULATED_POSE) is not bool:
+            raise ValueError("ACCEPT_EMULATED_POSE must be bool")
+        buttons = self.TRACKING_MODE_BUTTONS
+        known = [key for key, _, _, _ in TRACKING_MODES]
+        if (not isinstance(buttons, (tuple, list)) or not all(isinstance(key, str) for key in buttons)
+                or len(set(buttons)) != len(buttons) or any(key not in known for key in buttons)):
+            raise ValueError("TRACKING_MODE_BUTTONS must list distinct keys from %s" % known)
+        start = tracking_mode_key({"tracking_pause_s": pause, "accept_emulated": self.ACCEPT_EMULATED_POSE})
+        if buttons and start not in buttons:
+            raise ValueError("TRACKING_MODE_BUTTONS must include the start mode set by TRACKING_PAUSE_S/ACCEPT_EMULATED_POSE")
         return self
 
 
@@ -179,6 +196,30 @@ def ik_recovery_status_text(result):
     if recovery.get("reason"):
         text += "\n원인: " + str(recovery["reason"])
     return text
+
+
+# Tracking-loss modes: (key, button label, pause seconds, accept emulated).
+# The emulated mode keeps the 0.1 s pause for controllers that vanish entirely.
+TRACKING_MODES = (
+    ("pause_0.1", "정지 0.1초", .1, False),
+    ("pause_0.5", "정지 0.5초", .5, False),
+    ("pause_1.0", "정지 1.0초", 1., False),
+    ("emulated", "추정 위치 사용", .1, True),
+)
+
+
+def tracking_mode_key(mode):
+    """Button key for an applied adapter mode, or None for a custom setting."""
+    for key, _, pause, emulated in TRACKING_MODES:
+        if np.isclose(mode["tracking_pause_s"], pause) and mode["accept_emulated"] == emulated:
+            return key
+    return None
+
+
+def tracking_mode_text(mode):
+    if mode["accept_emulated"]:
+        return "추정 위치 사용 (완전 소실 시 정지 %.1f초)" % mode["tracking_pause_s"]
+    return "정지 %.1f초" % mode["tracking_pause_s"]
 
 
 HOME_STRATEGY_LABELS = {
@@ -274,7 +315,8 @@ def build_planner(models, cfg, profile=None, intent_matrices=None):
     guard = models['guard']
     mapper = ControllerMapper(scale=cfg.POSITION_SCALE, timeout_s=cfg.INPUT_TIMEOUT_S, R_BQ=cfg.R_BQ,
                               position_scales=cfg.POSITION_SCALES, intent_matrices=intent_matrices,
-                              intent_profile_id=None if profile is None else profile["profile_id"])
+                              intent_profile_id=None if profile is None else profile["profile_id"],
+                              accept_emulated=cfg.ACCEPT_EMULATED_POSE)
     planner = SG2FixedQuestSimulation(
         env, env_ik, ik_solvers, arm_joint_names, command_joint_names, mapper, guard,
         mode="kinematic", ik_hz=cfg.IK_HZ, max_joint_speed=cfg.MAX_JOINT_SPEED,
@@ -316,6 +358,8 @@ def run_intent_teleop(cfg=None):
     gripper_speed_requests = []
     position_gain_requests = []
     joint_preview_requests = []
+    tracking_mode_requests = []
+    pending_tracking_mode = None
     speed_error = None
     gripper_speed_error = None
     last_stop_reason = ""
@@ -413,6 +457,29 @@ def run_intent_teleop(cfg=None):
         position_status.setWordWrap(True)
         controls.layout().addWidget(position_row)
         controls.layout().addWidget(position_status)
+        tracking_mode_status = None
+        if cfg.TRACKING_MODE_BUTTONS:
+            tracking_row = QWidget(controls)
+            tracking_layout = QGridLayout(tracking_row)
+            tracking_layout.setContentsMargins(0, 0, 0, 0)
+            tracking_group = QButtonGroup(tracking_row)
+            tracking_group.setExclusive(True)
+            initial_tracking_mode = {"tracking_pause_s": cfg.TRACKING_PAUSE_S, "accept_emulated": cfg.ACCEPT_EMULATED_POSE}
+            shown = [mode for key in cfg.TRACKING_MODE_BUTTONS for mode in TRACKING_MODES if mode[0] == key]
+            for index, (key, label, _, _) in enumerate(shown):
+                button = QPushButton(label, tracking_row)
+                button.setObjectName("tracking_mode_" + key)
+                button.setCheckable(True)
+                button.setChecked(key == tracking_mode_key(initial_tracking_mode))
+                tracking_group.addButton(button)
+                tracking_layout.addWidget(button, index // 2, index % 2)
+                button.clicked.connect(lambda checked=False, key=key: tracking_mode_requests.append(key))
+            tracking_mode_status = QLabel("적용: " + tracking_mode_text(initial_tracking_mode), controls)
+            tracking_mode_status.setObjectName("tracking_mode_status")
+            tracking_mode_status.setWordWrap(True)
+            controls.layout().addWidget(QLabel("추적 손실 모드 · 양손 grip을 놓으면 전환", controls))
+            controls.layout().addWidget(tracking_row)
+            controls.layout().addWidget(tracking_mode_status)
         home_button = QPushButton("Initial pose", controls)
         home_button.setToolTip("처음 수신한 실제 시작 자세까지 전체 경로를 검사한 뒤 복귀합니다.")
         cancel_button = QPushButton("Cancel return", controls)
@@ -503,6 +570,10 @@ def run_intent_teleop(cfg=None):
             "control_source": "both_grips",
             "coordinated_arm_rate_limit": cfg.COORDINATED_ARM_RATE_LIMIT,
             "tracking_pause_s": cfg.TRACKING_PAUSE_S, "retry_ik_near_target": cfg.RETRY_IK_NEAR_TARGET,
+            "accept_emulated_pose": cfg.ACCEPT_EMULATED_POSE,
+            "tracking_mode_buttons": [{"key": key, "tracking_pause_s": pause, "accept_emulated": emulated}
+                                      for button in cfg.TRACKING_MODE_BUTTONS
+                                      for key, _, pause, emulated in TRACKING_MODES if key == button],
             "ik_recovery_timeout_s": cfg.IK_RECOVERY_TIMEOUT_S, "null_reference": cfg.NULL_REFERENCE,
             "position_scales": cfg.POSITION_SCALES, "position_gain_mode": "intent_then_positive_xyz",
             "R_BQ": cfg.R_BQ, "control_hz": cfg.CONTROL_HZ, "ik_hz": cfg.IK_HZ, "max_joint_speed_rad_s": cfg.MAX_JOINT_SPEED,
@@ -619,6 +690,24 @@ def run_intent_teleop(cfg=None):
                     current_gains = mapper.position_scales["left"]
                     position_status.setText("배율 유지 X %g / Y %g / Z %g · %s" % (*current_gains, str(gain_error)))
             result["position_gain_change"] = position_gain_change
+            tracking_mode_change = None
+            if tracking_mode_requests:
+                pending_tracking_mode = tracking_mode_requests[-1]
+                tracking_mode_requests.clear()
+            if pending_tracking_mode is not None:
+                if tracking_mode_key(real.tracking_loss_mode) == pending_tracking_mode:
+                    pending_tracking_mode = None
+                else:
+                    _, _, pause, emulated = next(mode for mode in TRACKING_MODES if mode[0] == pending_tracking_mode)
+                    try:
+                        # Retried every tick; applies only once both grips are released and idle.
+                        applied = real.set_tracking_loss_mode(pause, emulated, now=time.monotonic())
+                        tracking_mode_change = dict(applied, mode=pending_tracking_mode, accepted=True)
+                        pending_tracking_mode = None
+                    except ValueError:
+                        pass
+            result["tracking_mode_change"] = tracking_mode_change
+            result["tracking_mode_pending"] = pending_tracking_mode
             result["control_compute_ms"] = (time.perf_counter() - tick_started) * 1000
             result["speed_change"] = speed_change
             result["gripper_speed_change"] = gripper_speed_change
@@ -716,6 +805,12 @@ def run_intent_teleop(cfg=None):
                         "직선 경로가 막히면 J3·J5 먼저 풀기 등 단계 경로를 사용합니다. 모든 경로가 막히면 움직이지 않습니다. "
                         "REAL RUN은 로봇 승인 후 10°/s로 복귀하고, DRY RUN은 미리보기만 복귀합니다.")
                 cancel_button.setEnabled(returning)
+                if tracking_mode_status is not None:
+                    tracking_text = "적용: " + tracking_mode_text(real.tracking_loss_mode)
+                    if pending_tracking_mode is not None:
+                        pending_label = next(mode[1] for mode in TRACKING_MODES if mode[0] == pending_tracking_mode)
+                        tracking_text += "\n대기: %s · 양손 grip을 놓고 추적이 유효하면 전환" % pending_label
+                    tracking_mode_status.setText(tracking_text)
                 tracking_status = {}
                 for hand in SG2_HAND_TYPES:
                     if frame is None:
@@ -726,6 +821,8 @@ def run_intent_teleop(cfg=None):
                         hand_input = frame["hands"][hand]
                         if hand_input["valid"] and not hand_input["emulated"]:
                             tracking_status[hand] = "추적 유효 · grip %.2f" % hand_input["grip"]
+                        elif hand_input["emulated"] and mapper.accept_emulated:
+                            tracking_status[hand] = "추정 위치 사용 중 · grip %.2f" % hand_input["grip"]
                         else:
                             detail = frame.get("diagnostics", {}).get("hands", {}).get(hand, {})
                             tracking_status[hand] = detail.get("reason", "컨트롤러 추적 없음")
@@ -734,7 +831,7 @@ def run_intent_teleop(cfg=None):
                 if result["state"] == "IK_WAIT":
                     state_text = recovery_text or "IK 재시도 중 · 현재 명령 유지"
                 elif result["state"] == "TRACKING_PAUSED":
-                    state_text = "추적 일시정지 · 현재 명령 유지 · 최대 100ms 복구 대기"
+                    state_text = "추적 일시정지 · 현재 명령 유지 · 최대 %.0fms 복구 대기" % (1000 * real.tracking_pause_s)
                 elif result["state"] in ("DISABLED", "WAIT_GRIP"):
                     state_text = "WAIT_GRIP · 양손 grip을 모두 잡으면 시작"
                 elif result["state"] == "WAIT_RELEASE":

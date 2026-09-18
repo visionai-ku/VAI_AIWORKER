@@ -22,6 +22,16 @@ from .worker.fixed_quest_protocol import (
 
 # Requested gripper speed is negotiated separately from head/arm/HOME limits.
 FIXED_QUEST_MIN_GRIPPER_SPEED = np.deg2rad(10.)
+# Hold commands keep refreshing the bridge lease while paused, so a pause may
+# outlast the 200 ms command TTL.
+FIXED_QUEST_MAX_TRACKING_PAUSE_S = 1.
+
+
+def _tracking_pause(value):
+    if (isinstance(value, (bool, np.bool_)) or not isinstance(value, (int, float, np.integer, np.floating))
+            or not np.isfinite(value) or not 0 <= value <= FIXED_QUEST_MAX_TRACKING_PAUSE_S):
+        raise ValueError("tracking_pause_s must be between 0 and %g seconds" % FIXED_QUEST_MAX_TRACKING_PAUSE_S)
+    return float(value)
 
 
 _STARTUP_INPUT_REASONS = frozenset({
@@ -123,7 +133,8 @@ class SG2FixedQuestReal:
         self._manual_motion = False
         self._grip_reader = ControllerMapper(timeout_s=planner.mapper.timeout_s,
                                              grip_threshold=planner.mapper.grip_threshold,
-                                             R_BQ=planner.mapper.R_BQ)
+                                             R_BQ=planner.mapper.R_BQ,
+                                             accept_emulated=planner.mapper.accept_emulated)
         self._grip_engaged = False
         self._grip_start_requested = False
         self._grip_home_active = False
@@ -134,9 +145,7 @@ class SG2FixedQuestReal:
         self._grip_last_now = None
         self._grip_frame = None
         self._grip_intent = None
-        if isinstance(tracking_pause_s, bool) or not np.isfinite(tracking_pause_s) or not 0 <= tracking_pause_s <= .1:
-            raise ValueError("tracking_pause_s must be between 0 and 0.1 seconds")
-        self.tracking_pause_s = float(tracking_pause_s)
+        self.tracking_pause_s = _tracking_pause(tracking_pause_s)
         self._tracking_pause_started = None
         self._tracking_pause_seq = -1
         self._grip_mode_barrier_pending = False
@@ -208,14 +217,7 @@ class SG2FixedQuestReal:
         if (any(not np.isfinite(v) for v in values) or not .05 <= lateral <= 3.
                 or not -3. <= vertical <= 3. or (forward is not None and not .05 <= forward <= 3.)):
             raise ValueError("위치 배율 범위: X/Y 0.05~3.0, Z -3.0~3.0")
-        now = time.monotonic() if now is None else float(now)
-        if self._grip_engaged or self.armed or self._grip_home_active or self.home_pending or self.planner.homing:
-            raise ValueError("조작·복귀가 끝난 뒤 양손 grip을 놓고 배율을 적용하세요.")
-        intent = self._grip_intent
-        if (not np.isfinite(now) or not intent or not intent["valid"] or not intent["both_released"]
-                or self._grip_last_now is None or now < self._grip_last_now
-                or not 0 <= now - intent["effective_sample_at"] <= self.planner.mapper.timeout_s):
-            raise ValueError("양손 컨트롤러 추적이 유효하고 두 grip을 놓은 상태에서 적용하세요.")
+        self._require_released_idle(now, "배율을")
         scales = self.planner.mapper.position_scales
         for gains in scales.values():
             if forward is not None:
@@ -223,6 +225,38 @@ class SG2FixedQuestReal:
             gains[1:] = [float(lateral), float(vertical)]
         self.planner.mapper.set_position_scales(scales)
         return {hand: gains.tolist() for hand, gains in scales.items()}
+
+    def _require_released_idle(self, now, subject):
+        """Allow input-policy changes only between clutches, after a recent both-released sample."""
+        now = time.monotonic() if now is None else float(now)
+        if self._grip_engaged or self.armed or self._grip_home_active or self.home_pending or self.planner.homing:
+            raise ValueError("조작·복귀가 끝난 뒤 양손 grip을 놓고 %s 적용하세요." % subject)
+        intent = self._grip_intent
+        if (not np.isfinite(now) or not intent or not intent["valid"] or not intent["both_released"]
+                or self._grip_last_now is None or now < self._grip_last_now
+                or not 0 <= now - intent["effective_sample_at"] <= self.planner.mapper.timeout_s):
+            raise ValueError("양손 컨트롤러 추적이 유효하고 두 grip을 놓은 상태에서 적용하세요.")
+
+    @property
+    def tracking_loss_mode(self):
+        return {"tracking_pause_s": self.tracking_pause_s,
+                "accept_emulated": self.planner.mapper.accept_emulated}
+
+    def set_tracking_loss_mode(self, tracking_pause_s, accept_emulated, now=None):
+        """Test switch for tracking loss: pause length and emulated-pose use.
+
+        Applies to SIM and REAL/DRY RUN alike, only between clutches. Both the
+        planner mapper and the grip reader switch together so a start/stop
+        gesture and its targets read the same poses.
+        """
+        pause = _tracking_pause(tracking_pause_s)
+        if type(accept_emulated) is not bool:
+            raise ValueError("accept_emulated must be a bool")
+        self._require_released_idle(now, "추적 손실 모드를")
+        self.tracking_pause_s = pause
+        self.planner.mapper.accept_emulated = accept_emulated
+        self._grip_reader.accept_emulated = accept_emulated
+        return self.tracking_loss_mode
 
     @property
     def requested_teleop_speed_deg_s(self):
@@ -531,7 +565,8 @@ class SG2FixedQuestReal:
                     speed_change_pending=self._pending_teleop_speed is not None,
                     gripper_speed_deg_s=self.gripper_speed_deg_s,
                     requested_gripper_speed_deg_s=self.requested_gripper_speed_deg_s,
-                    gripper_speed_change_pending=self._pending_gripper_speed is not None)
+                    gripper_speed_change_pending=self._pending_gripper_speed is not None,
+                    tracking_loss_mode=self.tracking_loss_mode)
 
     def _hold(self, frame, feedback, now, reason, latch, state="HOLD"):
         reason = reason.replace("SIM control", "control")
@@ -898,7 +933,8 @@ class SG2FixedQuestReal:
         if self._grip_engaged:
             pausing = self._tracking_pause_started is not None
             if pausing and now - self._tracking_pause_started >= self.tracking_pause_s - 1e-9:
-                result = self._hold(frame, feedback, now, "controller tracking pause exceeded 100 ms", True)
+                result = self._hold(frame, feedback, now, "controller tracking pause exceeded %.0f ms"
+                                    % (1000 * self.tracking_pause_s), True)
                 return self._grip_failure(result)
             if not intent["valid"]:
                 if self.tracking_pause_s > 0 and self._released_button_during_tracking_loss(frame, now):

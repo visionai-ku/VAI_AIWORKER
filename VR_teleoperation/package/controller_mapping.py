@@ -83,7 +83,13 @@ class ControllerMapper:
     def __init__(self, scale=0.5, timeout_s=0.2, grip_threshold=0.5,
                  max_translation_m=0.20, R_BQ=None,
                  max_position_step_m=0.20, max_rotation_step_rad=np.pi/2,
-                 position_scales=None, intent_matrices=None, intent_profile_id=None):
+                 position_scales=None, intent_matrices=None, intent_profile_id=None,
+                 accept_emulated=False):
+        if type(accept_emulated) is not bool:
+            raise ValueError("accept_emulated must be a bool")
+        # Test mode: consume Quest's estimated (emulatedPosition) poses as-is.
+        # Jump, workspace and timeout checks still apply to those poses.
+        self.accept_emulated = accept_emulated
         self.scale = _number(scale, "invalid_scale")
         self.timeout_s = _number(timeout_s, "invalid_timeout")
         self.grip_threshold = _number(grip_threshold, "invalid_grip_threshold")
@@ -239,10 +245,14 @@ class ControllerMapper:
         hands = {}
         for hand in HANDS:
             data = frame.get("hands", {}).get(hand)
-            if not isinstance(data, dict) or data.get("valid") is not True:
-                raise ValueError("tracking_lost_" + hand)
-            if data.get("emulated") is not False:
-                raise ValueError("emulated_pose_" + hand)
+            # The Quest client marks estimated poses valid=False, emulated=True.
+            estimated = (self.accept_emulated and isinstance(data, dict)
+                         and data.get("emulated") is True and type(data.get("valid")) is bool)
+            if not estimated:
+                if not isinstance(data, dict) or data.get("valid") is not True:
+                    raise ValueError("tracking_lost_" + hand)
+                if data.get("emulated") is not False:
+                    raise ValueError("emulated_pose_" + hand)
             position = np.asarray(data.get("position_m"), dtype=float)
             if (position.shape != (3,) or not np.all(np.isfinite(position))
                     or np.max(np.abs(position)) > 100.):
@@ -252,7 +262,7 @@ class ControllerMapper:
             if not 0 <= grip <= 1 or not 0 <= trigger <= 1:
                 raise ValueError("invalid_button_" + hand)
             hands[hand] = {"p": position.copy(), "R": _rotation(data.get("quaternion_xyzw")),
-                           "grip": grip, "trigger": trigger}
+                           "grip": grip, "trigger": trigger, "emulated": estimated}
 
         changed = self._key is not None and key != self._key
         sample = {"seq": seq, "received_at": received_at, "source_time": source_time,
@@ -355,6 +365,7 @@ class ControllerMapper:
                 "anchor_eef_m": anchor["eef_T"][:3, 3].copy(),
                 "requested_eef_m": anchor["eef_T"][:3, 3] + requested_delta,
                 "bounded_eef_m": target[:3, 3].copy(),
+                "input_emulated": data["emulated"],
             }
         return self._result("ACTIVE" if targets else "READY",
                             "workspace_clamped" if clamped else ("tracking" if targets else "ready"),
