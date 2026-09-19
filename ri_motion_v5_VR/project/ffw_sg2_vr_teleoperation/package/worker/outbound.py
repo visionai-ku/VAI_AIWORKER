@@ -1,3 +1,4 @@
+import argparse
 import os
 import platform
 import subprocess
@@ -5,6 +6,7 @@ import time
 import traceback
 
 import rclpy
+from rclpy.executors import MultiThreadedExecutor
 from rclpy.node import Node
 from sensor_msgs.msg import JointState
 import zmq
@@ -114,11 +116,24 @@ class SG2OutboundZMQ(Node):
 
 
 def main():
-    rclpy.init()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--meta", action="store_true",
+                        help="also publish cameras (camera_outbound.py, :5570/5571/5572)")
+    args, ros_args = parser.parse_known_args()
+
+    rclpy.init(args=ros_args)
     node = SG2OutboundZMQ()
+    nodes = [node]
+    if args.meta:
+        from camera_outbound import SG2CameraOutboundZMQ
+        nodes.append(SG2CameraOutboundZMQ())
+
+    executor = MultiThreadedExecutor()
+    for n in nodes:
+        executor.add_node(n)
 
     try:
-        rclpy.spin(node)
+        executor.spin()
     except KeyboardInterrupt:
         pass
     except Exception as exc:
@@ -127,9 +142,15 @@ def main():
     finally:
         node.get_logger().info("Shutting down SG2 outbound ZMQ...")
         node.socket.close()
-        node.destroy_node()
-        rclpy.shutdown()
-        node.zmq_ctx.term()
+        for n in nodes[1:]:
+            for socket in n.sockets.values():
+                socket.close()
+        for n in nodes:
+            n.destroy_node()
+        if rclpy.ok():
+            rclpy.shutdown()
+        for n in nodes:
+            n.zmq_ctx.term()
 
 
 if __name__ == "__main__":
