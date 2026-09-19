@@ -67,7 +67,7 @@ class FeedbackGripperUpgradeTest(unittest.TestCase):
         p = packet(1, 1.02, q, gripper_speed_rad_s=math.radians(120))
         self.assertTrue(gate.receive(p, 1.02)['accepted'])
         self.assertAlmostEqual(gate.speed[1], math.radians(60))
-        self.assertAlmostEqual(gate.home_speed[-1], math.radians(10))
+        self.assertAlmostEqual(gate.home_speed[-1], math.radians(30))  # VR gate: button reset pose at 3x home speed
         q[-1] += math.radians(120) * .02
         p = packet(2, 1.04, q, gripper_speed_rad_s=math.radians(120)); p['motion'] = 'home'
         self.assertEqual(gate.receive(p, 1.04)['reason'], 'joint_rate_limit')

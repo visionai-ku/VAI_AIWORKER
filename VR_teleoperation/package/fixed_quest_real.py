@@ -130,6 +130,7 @@ class SG2FixedQuestReal:
         self.home_pending = False
         self._home_arm_deferred = False
         self._joint_preview = None
+        self._pose_request = None
         self._manual_motion = False
         self._grip_reader = ControllerMapper(timeout_s=planner.mapper.timeout_s,
                                              grip_threshold=planner.mapper.grip_threshold,
@@ -194,6 +195,20 @@ class SG2FixedQuestReal:
         self._set_q(self.planner.env_ik, target)
         return {"joint": joint_name, "degrees": float(degrees), "duration_s": plan["duration_s"],
                 "q_target": target.copy(), "plan": home_plan_summary(plan)}
+
+    def request_pose_target(self, target):
+        """Queue a full-pose target for the next "home" action (controller buttons).
+
+        Uses the same path as manual adjustment: the straight joint path is
+        guard-checked before anything is sent, then HOME's 10 deg/s runner moves
+        there. A blocked path sends nothing. q_home (Initial pose) is untouched.
+        """
+        target = np.asarray(target, dtype=float).copy()
+        if target.shape != (len(JOINT_NAMES),) or not np.isfinite(target).all():
+            raise ValueError("invalid pose target")
+        if np.any(target < self.bounds[:, 0]) or np.any(target > self.bounds[:, 1]):
+            raise ValueError("pose target outside verified joint limits")
+        self._pose_request = target
 
     def _sync_command(self, q):
         self._set_q(self.planner.env, q)
@@ -660,6 +675,8 @@ class SG2FixedQuestReal:
                 target[selected] = preview["target"][selected]
             else:
                 self._joint_preview = None
+                if self._pose_request is not None:
+                    target, self._pose_request = self._pose_request, None
             if not self.dry_run and self.armed:
                 # Checking the path can outlast the 200 ms command lease, so
                 # release it first; the return re-arms at the measured pose.

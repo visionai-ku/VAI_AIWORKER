@@ -68,10 +68,19 @@ class SG2CommandGuard:
     Sampling bounds joint increments, not continuous collision clearance.
     """
 
-    def __init__(self,env_check,joint_names,safe_margin=0.005,sweep_step_rad=np.deg2rad(1.0)):
+    def __init__(self,env_check,joint_names,safe_margin=0.005,sweep_step_rad=np.deg2rad(1.0),
+                 escape_min_distance=None):
         self.env_check = env_check
         self.joint_names = list(joint_names)
         self.safe_margin = float(safe_margin)
+        # Opt-in escape: a path that STARTS inside the margin (but at least this far apart,
+        # i.e. not touching) is accepted while every sample stays at least as far apart as the
+        # start (0.2 mm sampling tolerance); samples above the margin are always fine. Without it, a
+        # measured pose that drifted a fraction of a millimetre inside the margin rejects
+        # every command, including the ones that would move the arms apart.
+        self.escape_min_distance = None if escape_min_distance is None else float(escape_min_distance)
+        if self.escape_min_distance is not None and not 0 < self.escape_min_distance < self.safe_margin:
+            raise ValueError("escape_min_distance must be in (0, safe_margin).")
         self.sweep_step_rad = float(sweep_step_rad)
         if not np.isfinite(self.safe_margin) or self.safe_margin < 0:
             raise ValueError("safe_margin must be finite and nonnegative.")
@@ -241,8 +250,9 @@ class SG2CommandGuard:
             return check_info
         n_segments = max(1,int(n_steps))
         qpos_saved = self.env_check.data.qpos.copy()
+        escape_floor = None
         try:
-            for alpha in np.linspace(0.0,1.0,n_segments+1):
+            for index,alpha in enumerate(np.linspace(0.0,1.0,n_segments+1)):
                 self._set_q((1.0-alpha)*q_start+alpha*q_end)
                 distance_info = self._minimum_distance()
                 check_info["samples_checked"] += 1
@@ -257,6 +267,13 @@ class SG2CommandGuard:
                         "geom_ids":(int(distance_info["geom1_idx"]),int(distance_info["geom2_idx"])),
                         "body_names":(distance_info["body1_name"],distance_info["body2_name"]),
                     }
+                if (index == 0 and self.escape_min_distance is not None
+                        and self.escape_min_distance <= distance < self.safe_margin):
+                    escape_floor = distance
+                    check_info["escape_start_distance_m"] = distance
+                    continue
+                if escape_floor is not None and escape_floor - 2e-4 <= distance < self.safe_margin:
+                    continue   # never closer than the start pose (0.2 mm sampling tolerance)
                 if distance < self.safe_margin:
                     check_info["reason"] = "collision_clearance"
                     check_info["sweep_fraction"] = float(alpha)

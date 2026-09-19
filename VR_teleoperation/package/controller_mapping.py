@@ -64,6 +64,28 @@ def _position_scales(value):
     return result
 
 
+def _rotvec(R):
+    """Rotation matrix -> rotation vector (axis * angle), numerically safe near 0 and pi."""
+    angle = np.arccos(np.clip((np.trace(R) - 1.0) / 2.0, -1.0, 1.0))
+    if angle < 1e-9:
+        return np.zeros(3)
+    axis = np.array([R[2, 1] - R[1, 2], R[0, 2] - R[2, 0], R[1, 0] - R[0, 1]])
+    norm = np.linalg.norm(axis)
+    if norm < 1e-9:   # angle ~ pi: axis from the symmetric part
+        axis = np.sqrt(np.clip((np.diag(R) + 1.0) / 2.0, 0.0, None))
+        norm = np.linalg.norm(axis)
+    return axis / norm * angle
+
+
+def _rotmat(v):
+    angle = np.linalg.norm(v)
+    if angle < 1e-12:
+        return np.eye(3)
+    k = v / angle
+    K = np.array([[0, -k[2], k[1]], [k[2], 0, -k[0]], [-k[1], k[0], 0]])
+    return np.eye(3) + np.sin(angle) * K + (1 - np.cos(angle)) * K @ K
+
+
 class ControllerMapper:
     """Map active grip poses to relative EEF targets, with release-to-rearm.
 
@@ -84,7 +106,12 @@ class ControllerMapper:
                  max_translation_m=0.20, R_BQ=None,
                  max_position_step_m=0.20, max_rotation_step_rad=np.pi/2,
                  position_scales=None, intent_matrices=None, intent_profile_id=None,
-                 accept_emulated=False):
+                 accept_emulated=False, rotation_deadband_rad=0.0):
+        # Soft deadband on each clutch's relative controller rotation: rotations up to
+        # this angle are ignored, larger ones apply only the excess (continuous, no jump).
+        self.rotation_deadband_rad = float(rotation_deadband_rad)
+        if not 0.0 <= self.rotation_deadband_rad <= np.pi / 6:
+            raise ValueError("rotation_deadband_rad must be in 0..30 degrees")
         if type(accept_emulated) is not bool:
             raise ValueError("accept_emulated must be a bool")
         # Test mode: consume Quest's estimated (emulatedPosition) poses as-is.
@@ -353,8 +380,13 @@ class ControllerMapper:
                 clamped.append(hand)
             target = anchor["eef_T"].copy()
             target[:3, 3] += delta
-            target[:3, :3] = (self._R_BQ @ data["R"] @ anchor["R"].T
-                              @ self._R_BQ.T @ anchor["eef_T"][:3, :3])
+            R_rel = self._R_BQ @ data["R"] @ anchor["R"].T @ self._R_BQ.T
+            rotation = _rotvec(R_rel)
+            rotation_angle = float(np.linalg.norm(rotation))
+            if self.rotation_deadband_rad > 0:
+                applied = max(0.0, rotation_angle - self.rotation_deadband_rad)
+                R_rel = _rotmat(rotation * (applied / rotation_angle)) if applied > 0 else np.eye(3)
+            target[:3, :3] = R_rel @ anchor["eef_T"][:3, :3]
             targets[hand], triggers[hand] = target, data["trigger"]
             self._mapping_stages[hand] = {
                 "controller_delta_quest_m": data["p"] - anchor["p"],
@@ -366,6 +398,8 @@ class ControllerMapper:
                 "requested_eef_m": anchor["eef_T"][:3, 3] + requested_delta,
                 "bounded_eef_m": target[:3, 3].copy(),
                 "input_emulated": data["emulated"],
+                "controller_rotation_deg": float(np.degrees(rotation_angle)),
+                "rotation_deadband_deg": float(np.degrees(self.rotation_deadband_rad)),
             }
         return self._result("ACTIVE" if targets else "READY",
                             "workspace_clamped" if clamped else ("tracking" if targets else "ready"),

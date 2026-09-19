@@ -59,7 +59,7 @@ class SG2FixedQuestSimulation:
                  max_ik_position_error=.03, max_ik_rotation_error=np.deg2rad(15),
                  max_command_dt=.02, ik_position_step=.02, ik_rotation_step=np.deg2rad(10),
                  coordinated_arm_rate_limit=False, retry_ik_near_target=False,
-                 ik_recovery_timeout_s=0., null_reference="self_motion"):
+                 ik_recovery_timeout_s=0., null_reference="self_motion", null_anchor_on_grip=False):
         if mode not in ("kinematic", "dynamic"):
             raise ValueError("mode must be kinematic or dynamic")
         if null_reference not in SG2_NULL_REFERENCE_MODES:
@@ -67,6 +67,12 @@ class SG2FixedQuestSimulation:
         # "self_motion" holds the arm's unobservable joint coordinate near the
         # startup posture; "previous" leaves it free to wind joint3/joint5 up.
         self.null_reference = null_reference
+        if type(null_anchor_on_grip) is not bool:
+            raise ValueError("null_anchor_on_grip must be a bool")
+        # Re-anchor the self-motion reference at each clutch engagement, so the
+        # twist is held where the operator started this grip.
+        self.null_anchor_on_grip = null_anchor_on_grip
+        self._null_anchor_engaged = False
         if type(coordinated_arm_rate_limit) is not bool:
             raise ValueError("coordinated_arm_rate_limit must be a bool")
         self.coordinated_arm_rate_limit = coordinated_arm_rate_limit
@@ -133,6 +139,16 @@ class SG2FixedQuestSimulation:
         self.home_path = None
         self.last_enabled = False
         self._clear_ik_recovery()
+
+    def _reanchor_null_space(self):
+        """Point every arm solver's self-motion anchor at the current command pose."""
+        rev_pri = list(self.env_ik.rev_pri_joint_names)
+        anchor = self.env_ik.get_qpos(joint_names=rev_pri).copy()
+        for name, value in zip(self.joint_names, self.q_command):
+            if name in rev_pri:
+                anchor[rev_pri.index(name)] = value
+        for solver in self.ik_solvers.values():
+            solver.q_null_anchor_rev_pri = anchor.copy()
 
     def plan_home(self, q_start=None, speed_limits=None, target=None):
         """Check the whole return to q_home before any HOME command is made.
@@ -298,6 +314,10 @@ class SG2FixedQuestSimulation:
             mapping = self.mapper.update(frame, eef, enabled=enabled and self.fault_reason is None
                                          and not self.homing and not self.home_rearm_required, now=now)
         targets, active = mapping["targets"], tuple(mapping["active"])
+        if self.null_anchor_on_grip:
+            if active and not self._null_anchor_engaged:
+                self._reanchor_null_space()
+            self._null_anchor_engaged = bool(active)
         guard_info = home_blocked or {"accepted": True, "reason": "hold", "min_distance_m": None}
         limited = False
         arm_rate_scales = {}

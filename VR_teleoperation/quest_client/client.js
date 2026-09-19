@@ -22,6 +22,12 @@ let startingSession = false;
 let transportError = false;
 let head = {position_m: [0, 0, 0], quaternion_xyzw: [0, 0, 0, 1]};
 let trackingDiagnostics = {};
+// Face buttons for PC-side shortcuts (xr-standard: 3 thumbstick, 4 A/X, 5 B/Y).
+// Read even without a pose; the Meta/menu buttons are reserved by the system.
+function emptyButtons() {
+  return {left: {x: false, y: false, stick: false}, right: {a: false, b: false, stick: false}};
+}
+let buttons = emptyButtons();
 const diagnosticText = {secure: window.isSecureContext ? "예" : "아니요",
   xr: navigator.xr ? "있음" : "없음", support: "확인 중", socket: "연결 전",
   session: "시작 전", visibility: "—", viewer: "프레임 대기", sources: "0개",
@@ -75,11 +81,12 @@ function sendFrame(timestamp, hands, visibility = session?.visibilityState ?? "h
   // A queued packet will already be stale by the time another pose is ready.
   if (!socket || socket.readyState !== WebSocket.OPEN || socket.bufferedAmount !== 0) return;
   socket.send(JSON.stringify({version: 1, session_id: sessionId, origin_id: originId,
-    seq: sequence++, sample_time_ms: timestamp, visibility, head, hands,
+    seq: sequence++, sample_time_ms: timestamp, visibility, head, hands, buttons,
     diagnostics: {...trackingDiagnostics, visibility, sent_frames: sequence}}));
 }
 
 function invalidate(visibility = "hidden") {
+  buttons = emptyButtons();
   trackingDiagnostics = {...trackingDiagnostics, input_invalidated: true,
     invalidated_reason: diagnosticText.event.slice(0, 300)};
   sendFrame(performance.now(), {left: emptyHand(), right: emptyHand()}, visibility);
@@ -284,6 +291,7 @@ function sourceSummary(source) {
 
 function updateFrame(timestamp, frame, activeSession) {
   const hands = {left: emptyHand(), right: emptyHand()};
+  const nextButtons = emptyButtons();
   const viewerPose = frame.getViewerPose(referenceSpace);
   if (viewerPose) head = poseData(viewerPose);
   const inputSources = Array.from(activeSession.inputSources);
@@ -305,6 +313,12 @@ function updateFrame(timestamp, frame, activeSession) {
     if (sources.length === 1) {
       const source = sources[0];
       Object.assign(detail, sourceSummary(source));
+      const pressed = (index) => Boolean(source.gamepad?.buttons?.[index]?.pressed);
+      if (source.gamepad?.mapping === "xr-standard") {
+        nextButtons[handedness] = handedness === "left"
+          ? {x: pressed(4), y: pressed(5), stick: pressed(3)}
+          : {a: pressed(4), b: pressed(5), stick: pressed(3)};
+      }
       const pose = source.gripSpace && activeSession.visibilityState === "visible"
         ? frame.getPose(source.gripSpace, referenceSpace) : null;
       detail.pose_available = Boolean(pose);
@@ -331,6 +345,7 @@ function updateFrame(timestamp, frame, activeSession) {
     trackingDiagnostics.hands[handedness] = detail;
     diagnosticText[handedness] = `${reason} · 장치 ${detail.controller_source_count}개 · 매핑 ${detail.gamepad_mapping ?? "없음"}${detail.blocked_by ? ` · 입력 차단: ${detail.blocked_by}` : ""}`;
   }
+  buttons = activeSession.visibilityState === "visible" ? nextButtons : emptyButtons();
   // A 60 Hz cap limits Wi-Fi load; latest-only transport skips busy sockets.
   if (timestamp - lastSentTime >= 1000 / 60) {
     sendFrame(timestamp, hands);

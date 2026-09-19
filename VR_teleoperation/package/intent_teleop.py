@@ -60,6 +60,11 @@ class IntentTeleopSettings:
     RETRY_IK_NEAR_TARGET: bool = True
     IK_RECOVERY_TIMEOUT_S: float = 1.0
     NULL_REFERENCE: str = "self_motion"
+    # True: re-anchor the self-motion (J3/J5 twist) reference to the arm pose at every
+    # both-grip start, instead of the SIM startup pose captured when the solvers were built.
+    NULL_ANCHOR_ON_GRIP: bool = False
+    # Ignore controller rotations up to this angle per clutch (soft deadband); 0 = off.
+    ROTATION_DEADBAND_DEG: float = 0.0
     CONTROL_HZ: float = OFFICIAL_VR_CONTROL_HZ
     IK_HZ: float = 50.
     RENDER_HZ: float = 25.
@@ -81,6 +86,9 @@ class IntentTeleopSettings:
     MAX_LOOP_DT_S: float = .10
     MAX_COMMAND_DT_S: float = .02
     COLLISION_MARGIN_M: float = .005
+    # Allow commands that move OUT of the margin (clearance never decreasing) when the measured
+    # pose drifted inside it, down to this distance [m]; None = off (original strict guard).
+    COLLISION_ESCAPE_MIN_M: object = None
     R_BQ: object = None
 
     @property
@@ -115,6 +123,12 @@ class IntentTeleopSettings:
             raise ValueError("IK_RECOVERY_TIMEOUT_S must be a finite number in 0..5 seconds; 0 disables recovery")
         if self.NULL_REFERENCE not in SG2_NULL_REFERENCE_MODES:
             raise ValueError("NULL_REFERENCE must be one of %s" % (SG2_NULL_REFERENCE_MODES,))
+        if type(self.NULL_ANCHOR_ON_GRIP) is not bool:
+            raise ValueError("NULL_ANCHOR_ON_GRIP must be a bool")
+        deadband = self.ROTATION_DEADBAND_DEG
+        if (isinstance(deadband, (bool, np.bool_)) or not isinstance(deadband, Real)
+                or not np.isfinite(deadband) or not 0 <= deadband <= 30):
+            raise ValueError("ROTATION_DEADBAND_DEG must be a number in 0..30")
         pause = self.TRACKING_PAUSE_S
         if (isinstance(pause, (bool, np.bool_)) or not isinstance(pause, Real)
                 or not np.isfinite(pause) or not 0 <= pause <= FIXED_QUEST_MAX_TRACKING_PAUSE_S):
@@ -300,7 +314,8 @@ def build_models(cfg):
     }
     q_msg_layout = build_q_msg_layout(env, q_msg_format_dict, use_joint_names=command_joint_names)
     ik_solvers, arm_joint_names = create_sg2_arm_ik_solvers(env_ik, MuJoCoParser, BodyPositionIKSolverRevPriBase)
-    guard = SG2CommandGuard(env_check, command_joint_names, safe_margin=cfg.COLLISION_MARGIN_M)
+    guard = SG2CommandGuard(env_check, command_joint_names, safe_margin=cfg.COLLISION_MARGIN_M,
+                            escape_min_distance=cfg.COLLISION_ESCAPE_MIN_M)
     print("Command joints:", len(command_joint_names), "| Collision pairs:", len(guard.candidate_geom_pairs))
     print("No robot connection or commands in this setup cell.")
     return {'xml_path': xml_path, 'env': env, 'env_ik': env_ik, 'env_check': env_check, 'env_measured': env_measured, 'command_joint_names': command_joint_names, 'q_msg_layout': q_msg_layout, 'ik_solvers': ik_solvers, 'arm_joint_names': arm_joint_names, 'guard': guard}
@@ -316,13 +331,15 @@ def build_planner(models, cfg, profile=None, intent_matrices=None):
     mapper = ControllerMapper(scale=cfg.POSITION_SCALE, timeout_s=cfg.INPUT_TIMEOUT_S, R_BQ=cfg.R_BQ,
                               position_scales=cfg.POSITION_SCALES, intent_matrices=intent_matrices,
                               intent_profile_id=None if profile is None else profile["profile_id"],
-                              accept_emulated=cfg.ACCEPT_EMULATED_POSE)
+                              accept_emulated=cfg.ACCEPT_EMULATED_POSE,
+                              rotation_deadband_rad=np.deg2rad(cfg.ROTATION_DEADBAND_DEG))
     planner = SG2FixedQuestSimulation(
         env, env_ik, ik_solvers, arm_joint_names, command_joint_names, mapper, guard,
         mode="kinematic", ik_hz=cfg.IK_HZ, max_joint_speed=cfg.MAX_JOINT_SPEED,
         max_loop_dt=cfg.MAX_LOOP_DT_S, max_command_dt=cfg.MAX_COMMAND_DT_S,
         coordinated_arm_rate_limit=cfg.COORDINATED_ARM_RATE_LIMIT, retry_ik_near_target=cfg.RETRY_IK_NEAR_TARGET,
         ik_recovery_timeout_s=cfg.IK_RECOVERY_TIMEOUT_S, null_reference=cfg.NULL_REFERENCE,
+        null_anchor_on_grip=cfg.NULL_ANCHOR_ON_GRIP,
     )
     for index, name in enumerate(command_joint_names):
         if name == "lift_joint":
@@ -334,7 +351,10 @@ def build_planner(models, cfg, profile=None, intent_matrices=None):
     return mapper, planner
 
 
-def run_intent_teleop(cfg=None):
+def run_intent_teleop(cfg=None, on_tick=None):
+    """on_tick (optional): object with __call__(now, frame, result, real, ui_actions),
+    and attributes lock_input (bool: ignore Quest input for teleop) and status (str: shown
+    in the control window). Called once per control tick after the result is logged."""
     cfg = (cfg or IntentTeleopSettings()).validate()
     profile, intent_matrices = selected_profile(cfg)
     if cfg.QUEST_HOST is None: cfg.QUEST_HOST = get_ip_address()
@@ -365,6 +385,8 @@ def run_intent_teleop(cfg=None):
     last_stop_reason = ""
     last_home_text = ""
     recent_ik_recovery = None
+    last_ik_warning = None   # (time, state, reason, {hand: target xyz}) shown in the viewer for 3 s
+    last_targets = {}
     results = deque(maxlen=int(cfg.CONTROL_HZ * 60))
     mode_label = "SIM" if cfg.backend == "sim" else ("SHADOW" if cfg.DRY_RUN else "REAL")
     speed_label = "팔 최대 %.0f°/s · 복귀 %.0f°/s · 시작 ramp 8초" % (np.rad2deg(cfg.MAX_JOINT_SPEED), np.rad2deg(cfg.MAX_HOME_JOINT_SPEED))
@@ -651,7 +673,8 @@ def run_intent_teleop(cfg=None):
                     gripper_speed_change = {"requested_text": requested_text, "accepted": False,
                                             "reason": gripper_speed_error}
             tick_started = time.perf_counter()
-            result = real.tick_grip(frame, feedback, now=now, action=action)
+            control_frame = None if getattr(on_tick, "lock_input", False) else frame
+            result = real.tick_grip(control_frame, feedback, now=now, action=action)
             if action == "joint_adjust":
                 joint_status.setText(result["reason"])
                 controls.set_button_option("View", "Preview")
@@ -761,9 +784,17 @@ def run_intent_teleop(cfg=None):
             result["bridge_limits"] = (feedback["bridge"] or {}).get("limits")
             result["bridge_rejection_detail"] = (feedback["bridge"] or {}).get("rejection_detail")
             execution_diagnostics(result, env, env_measured)
+            for hand, T in (result.get("targets") or {}).items():
+                last_targets[hand] = np.asarray(T, dtype=float)[:3, 3].copy()
+            if "IK" in result["reason"] and result["state"] in ("IK_WAIT", "HOLD", "FAULT"):
+                ik_hands = [hand for hand in SG2_HAND_TYPES if hand in result["reason"]] or list(SG2_HAND_TYPES)
+                last_ik_warning = (now, result["state"], result["reason"],
+                                   {hand: last_targets[hand] for hand in ik_hands if hand in last_targets})
             result["backend"] = cfg.backend
             recorder.write(now, frame, result)
             results.append(result)
+            if on_tick is not None:
+                on_tick(now, frame, result, real, ui_actions)
             next_control = now + 1 / cfg.CONTROL_HZ
             if now >= next_render:
                 rows = []
@@ -857,13 +888,23 @@ def run_intent_teleop(cfg=None):
                     state_text, feedback["reason"], age_text, tracking_status["left"], tracking_status["right"], lag_text)
                     + ("\n최근 중단: " + last_stop_reason if last_stop_reason else "")
                     + "\nBridge: " + result["bridge_reason"]
+                    + ("\n버튼: " + on_tick.status if getattr(on_tick, "status", "") else "")
                     + feedback_diagnostic_text(feedback))
                 overlays = [(mode_label, "%s | %s | %s" % (view, result["state"], result["reason"])),
                             ("Feedback", "%s | age %s | bridge %s" % (feedback["reason"], age_text, feedback["bridge_state"])),
                             ("Command / measured", lag_text)]
+                ik_spheres = []
+                if last_ik_warning is not None and now - last_ik_warning[0] < 3.:
+                    _, ik_state, _, ik_targets = last_ik_warning
+                    ik_side = "/".join(ik_targets) or "arm"
+                    overlays.insert(0, ("!! IK FAILED (%s)" % ik_side,
+                        "target unreachable - retrying, move hand back" if ik_state == "IK_WAIT"
+                        else "stopped - move hand back, release both grips, grab again"))
+                    ik_spheres = list(ik_targets.values())
                 if rp is not None:
                     rp.render(display_env, mode="snapshot", overlays=[rp.overlay(label, text, loc="top left") for label, text in overlays],
-                        draws=[rp.draw("plot_global_coordinate_axes")] + [rp.draw("plot_T", T=T, axis_len=.1) for T in frames])
+                        draws=[rp.draw("plot_global_coordinate_axes")] + [rp.draw("plot_T", T=T, axis_len=.1) for T in frames]
+                              + [rp.draw("plot_sphere", p=p, r=.04, rgba=[1., 0., 0., .6], label="IK FAIL") for p in ik_spheres])
                 else:
                     # The direct viewer belongs to env; measured q is passed only for drawing.
                     preview_qpos = env.data.qpos.copy()
@@ -873,6 +914,8 @@ def run_intent_teleop(cfg=None):
                         env.plot_global_coordinate_axes()
                         for T in frames:
                             env.plot_T(T=T, axis_len=.1)
+                        for p in ik_spheres:
+                            env.plot_sphere(p=p, r=.04, rgba=[1., 0., 0., .6], label="IK FAIL")
                         for label, text in overlays:
                             env.viewer_text_overlay(label, text, loc="top left")
                         env.render()
