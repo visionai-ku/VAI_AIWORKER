@@ -25,6 +25,7 @@ def get_qt_app(argv: Optional[list[str]] = None,style: str = "Fusion"):
     if app is None:
         if argv is None:
             argv = sys.argv
+        use_pyqt_platform_plugins()
         app = QApplication(argv)
 
     if style:

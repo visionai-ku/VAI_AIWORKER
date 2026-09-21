@@ -4,6 +4,7 @@ from enum import IntEnum
 from pathlib import Path
 import time
 
+import mujoco
 import numpy as np
 
 try:
@@ -26,7 +27,7 @@ from ri_motion_v5_package.utility import ZMQPubSub, get_idxs, group_by_prefix
 
 THIS_FILE = Path(__file__).resolve()
 PROJECT_DIR = THIS_FILE.parents[1]
-REPO_ROOT = PROJECT_DIR.parents[1]
+REPO_ROOT = PROJECT_DIR
 
 
 def quat2r_mj(q):
@@ -90,6 +91,7 @@ SG2_COLLISION_IK_JOINT_NAMES = (
     + SG2_ARM_JOINT_NAMES["right"]
 )
 SG2_UPPER_ARM_YAW_JOINT_NAMES = ("arm_r_joint3", "arm_l_joint3")
+SG2_NULL_REFERENCE_MODES = ("previous", "home", "self_motion")
 
 SG2_COLLISION_AWARE_IK_MODULE_NAME = "_mujoco_collision_aware_ik_bind"
 SG2_COLLISION_AWARE_IK_CPP_SOURCE_NAMES = (
@@ -1249,7 +1251,8 @@ def create_sg2_arm_ik_solvers(env, mujoco_parser_cls, body_ik_solver_cls):
         dls_damping = 1e-6 * np.ones(len(joints_use), dtype=np.float64)
         if len(dls_damping) > 0:
             dls_damping[-1] = 1e-4
-        solvers[hand_type] = body_ik_solver_cls(
+        q_home_rev_pri = env.get_qpos(joint_names=env.rev_pri_joint_names)
+        solver = body_ik_solver_cls(
             name="%s SG2 arm IK" % hand_type,
             ik_env=mujoco_parser_cls(rel_xml_path=env.rel_xml_path, verbose=False),
             joints_use=joints_use,
@@ -1262,8 +1265,13 @@ def create_sg2_arm_ik_solvers(env, mujoco_parser_cls, body_ik_solver_cls):
             max_probe_rev=np.deg2rad(3.0),
             max_probe_pri=0.01,
             k_null=0.5,
-            q_home_rev_pri=env.get_qpos(joint_names=env.rev_pri_joint_names),
+            q_home_rev_pri=q_home_rev_pri,
         )
+        # Keep the startup posture: the "self_motion" null reference anchors the
+        # arm's unobservable coordinate to it, while every tick overwrites
+        # q_home_rev_pri itself.  "previous" and "home" ignore this copy.
+        solver.q_null_anchor_rev_pri = np.array(q_home_rev_pri, dtype=np.float64, copy=True)
+        solvers[hand_type] = solver
     return solvers, arm_joint_names
 
 
@@ -1356,7 +1364,99 @@ def make_idle_collision_ik_result(active_solver, safe_margin=0.05):
         "depenetration_target_info": None,
         "track_weight": 0.0,
         "upper_arm_yaw_info": None,
+        "null_reference": None,
+        "relax_upper_arm_yaw": None,
     }
+
+
+def get_sg2_arm_self_motion_direction(env, joint_names, hand_type):
+    """Return the unit joint direction the wrist control pose cannot see.
+
+    A seven-joint arm holding a six-dimensional pose has exactly one such
+    direction, its self-motion.  On this robot it is dominated by "joint3 up /
+    joint5 down" - the two rolls that sit on either side of the elbow - but the
+    other components matter away from the straight-elbow poses, so it is solved
+    per tick instead of assumed.
+
+    Returns ``None`` when the arm is not redundant for this target or the model
+    produces a non-finite Jacobian, so callers can fall back.
+    """
+    hand_type = normalize_hand_type(hand_type)
+    model = env.model
+    cache = getattr(env, "_sg2_self_motion_cache", None)
+    if cache is None or cache[0] is not model:
+        cache = env._sg2_self_motion_cache = (model, mujoco.MjData(model))
+    data = cache[1]
+    # Read the pose on a private MjData so the caller's own state is untouched.
+    data.qpos[:] = env.data.qpos
+    mujoco.mj_kinematics(model, data)
+    mujoco.mj_comPos(model, data)
+    body = mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_BODY, SG2_WRIST_BODY_NAMES[hand_type])
+    point = data.xpos[body] + data.xmat[body].reshape(3, 3) @ SG2_WRIST_P_LOCAL[hand_type]
+    jacp = np.zeros((3, model.nv), dtype=np.float64)
+    jacr = np.zeros((3, model.nv), dtype=np.float64)
+    mujoco.mj_jac(model, data, jacp, jacr, point, body)
+    columns = [int(model.joint(name).dofadr[0]) for name in joint_names]
+    jacobian = np.vstack([jacp[:, columns], jacr[:, columns]])
+    if jacobian.shape[0] >= jacobian.shape[1] or not np.isfinite(jacobian).all():
+        return None
+    direction = np.linalg.svd(jacobian)[2][-1]
+    norm = float(np.linalg.norm(direction))
+    return None if norm < 1e-12 else direction / norm
+
+
+def _sg2_self_motion_reference(ik_solver, env, q_rev_pri):
+    """Restore only the self-motion coordinate toward the solver's anchor pose."""
+    anchor = getattr(ik_solver, "q_null_anchor_rev_pri", None)
+    joint_names = list(getattr(ik_solver, "joints_use", ()))
+    hand_type = next(
+        (hand for hand in SG2_HAND_TYPES if list(SG2_ARM_JOINT_NAMES[hand]) == joint_names),
+        None,
+    )
+    if anchor is None or hand_type is None:
+        # Not a single-arm SG2 solver, or no anchor was captured: keep "previous".
+        return q_rev_pri
+    direction = get_sg2_arm_self_motion_direction(env, joint_names, hand_type)
+    if direction is None:
+        return q_rev_pri
+    index = [env.rev_pri_joint_names.index(name) for name in joint_names]
+    offset = np.asarray(anchor, dtype=np.float64)[index] - q_rev_pri[index]
+    reference = np.array(q_rev_pri, dtype=np.float64, copy=True)
+    reference[index] += float(offset @ direction) * direction
+    return reference
+
+
+def set_sg2_null_space_reference(ik_solver, env, null_reference="previous"):
+    """Choose what the solver's null-space term pulls the arm toward.
+
+    The solver reads ``q_home_rev_pri`` on every solve tick, on both the Python
+    and the compiled backend path, so rebinding the attribute is enough to
+    change the null-space objective without touching the solver package.
+
+    "previous" points the objective at the pose the solver ended on last tick,
+    which turns the null-space term into "move the joints as little as
+    possible".  "home" leaves the startup snapshot captured when the solver was
+    created, i.e. the original behavior.
+
+    "self_motion" points it at the current pose corrected along the arm's
+    self-motion direction only, so the one coordinate the end-effector cannot
+    see is held near the startup posture while every task-relevant component is
+    left to the IK.  "previous" leaves that coordinate with no restoring term at
+    all, which let joint3 and joint5 wind up to nearly +-180 degrees in the
+    2026-09-15 REAL logs while the tracking error stayed under a millimetre.
+    """
+    if null_reference not in SG2_NULL_REFERENCE_MODES:
+        raise ValueError(
+            "null_reference must be one of %s." % (SG2_NULL_REFERENCE_MODES,)
+        )
+    if null_reference == "home":
+        return None
+
+    q_prev_rev_pri = env.get_qpos(joint_names=env.rev_pri_joint_names)
+    if null_reference == "self_motion":
+        q_prev_rev_pri = _sg2_self_motion_reference(ik_solver, env, q_prev_rev_pri)
+    ik_solver.q_home_rev_pri = q_prev_rev_pri
+    return q_prev_rev_pri
 
 
 def relax_sg2_upper_arm_yaw_joints(
@@ -1430,6 +1530,8 @@ def solve_sg2_collision_aware_wrist_ik(
         signed_distance_topk=5,
         dep_step=0.01,
         enable_depenetration=True,
+        null_reference="previous",
+        relax_upper_arm_yaw=True,
     ):
     wrist_targets_by_hand = _normalize_wrist_targets(wrist_targets_by_hand)
     signed_distance_infos, min_signed_dist = env.get_geom_pair_signed_distance_infos_bind(
@@ -1451,6 +1553,8 @@ def solve_sg2_collision_aware_wrist_ik(
         "depenetration_target_info": None,
         "track_weight": 0.0,
         "upper_arm_yaw_info": None,
+        "null_reference": null_reference,
+        "relax_upper_arm_yaw": bool(relax_upper_arm_yaw),
     }
     if len(wrist_targets_by_hand) == 0:
         tracking_solver.reset_buffers(env=env)
@@ -1461,7 +1565,9 @@ def solve_sg2_collision_aware_wrist_ik(
     if is_safe or (not enable_depenetration) or depenetration_solver is None:
         out["mode"] = "tracking" if is_safe else "tracking_unsafe"
         out["solver"] = tracking_solver
-        out["upper_arm_yaw_info"] = relax_sg2_upper_arm_yaw_joints(env)
+        set_sg2_null_space_reference(tracking_solver, env, null_reference)
+        if relax_upper_arm_yaw:
+            out["upper_arm_yaw_info"] = relax_sg2_upper_arm_yaw_joints(env)
         tracking_solver.reset_buffers(env=env)
         for hand_type, T_target in wrist_targets_by_hand.items():
             add_sg2_wrist_ik_coordinate_target(
@@ -1484,6 +1590,7 @@ def solve_sg2_collision_aware_wrist_ik(
     else:
         out["mode"] = "depenetration"
         out["solver"] = depenetration_solver
+        set_sg2_null_space_reference(depenetration_solver, env, null_reference)
         depenetration_solver.reset_buffers(env=env)
         dep_targets, dep_target_info = env.get_dep_trgts_from_signed_dists(
             signed_distance_infos,
@@ -1876,6 +1983,7 @@ __all__ = [
     "SG2_REAL_COMMAND_JOINT_NAMES",
     "SG2_COLLISION_IK_JOINT_NAMES",
     "SG2_UPPER_ARM_YAW_JOINT_NAMES",
+    "SG2_NULL_REFERENCE_MODES",
     "SG2_COLLISION_AWARE_IK_MODULE_NAME",
     "SG2_COLLISION_AWARE_IK_CPP_SOURCE_NAMES",
     "SG2_COLLISION_AWARE_IK_HPP_HEADER_NAMES",
@@ -1892,6 +2000,7 @@ __all__ = [
     "get_sg2_wrist_body_name",
     "get_sg2_wrist_local_T",
     "get_sg2_wrist_control_T",
+    "get_sg2_arm_self_motion_direction",
     "compute_quest_target_T_from_wrist_transform",
     "transform_T_between_frames",
     "get_quest_wrist_joint_idx",
@@ -1934,6 +2043,7 @@ __all__ = [
     "create_sg2_collision_candidate_geom_pairs",
     "print_sg2_collision_candidate_summary",
     "make_idle_collision_ik_result",
+    "set_sg2_null_space_reference",
     "relax_sg2_upper_arm_yaw_joints",
     "get_solver_target_infos",
     "solve_sg2_collision_aware_wrist_ik",

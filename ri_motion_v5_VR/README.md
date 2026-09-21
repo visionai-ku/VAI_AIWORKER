@@ -75,6 +75,24 @@ jupyter lab
 
 Use `ri_motion_v5_env` as the notebook kernel.
 
+### Ubuntu
+
+The `ffw_sg2_vr_teleoperation` notebooks only need the smaller requirement set
+used by `VR_teleoperation`. From the repository root (`VAI_AIWORKER`):
+
+```bash
+bash setup_ubuntu_env.sh          # creates ri_motion_v5_env + Jupyter kernel
+conda activate ri_motion_v5_env
+jupyter lab
+```
+
+- The script removes `/usr/lib/x86_64-linux-gnu` from `LD_LIBRARY_PATH` inside
+  the env and kernel. If it is listed there (e.g. by `~/.bashrc` for CUDA/ROS),
+  PyQt5 loads the system Qt 5.12 and aborts with
+  `Could not load the Qt platform plugin "xcb"`.
+- `build_sg2_collision_aware_ik_backend(...)` compiles the native IK with `g++`
+  (`build-essential`) into `mujoco_sim/so/*-linux-gnu.so`.
+
 ## Notebook Usage
 
 Most notebooks use relative paths to the workspace folders. Keep the repository

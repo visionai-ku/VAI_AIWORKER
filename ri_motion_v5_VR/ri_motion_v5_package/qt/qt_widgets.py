@@ -4,7 +4,9 @@ qt_widgets.py
 
 from __future__ import annotations
 
+import os
 import re
+import sys
 import numbers
 import time
 from typing import Any, Optional, Sequence, Union, List, Tuple
@@ -30,6 +32,27 @@ from PyQt5.QtWidgets import (
 # -----------------------------------------------------------------------------
 # Shared helpers (screen-aware geometry)
 # -----------------------------------------------------------------------------
+def use_pyqt_platform_plugins() -> None:
+    """
+    Drop Qt plugin paths that `opencv-python` points at its own bundled Qt.
+
+    On Linux, `import cv2` sets `QT_QPA_PLATFORM_PLUGIN_PATH` to `cv2/qt/plugins`.
+    A PyQt5 `QApplication` created afterwards then loads cv2's incompatible
+    `xcb` plugin and aborts. Call this right before creating a `QApplication`.
+
+    Parameters:
+        None.
+
+    Returns:
+        None.
+    """
+    if not sys.platform.startswith("linux"):
+        return
+    for key in ("QT_QPA_PLATFORM_PLUGIN_PATH","QT_QPA_FONTDIR"):
+        value = os.environ.get(key,"")
+        if "cv2" in value.split(os.sep):
+            os.environ.pop(key)
+
 def get_monitor_size_fallback() -> Tuple[int, int]:
     """
     Returns (screen_w, screen_h) via pyautogui.size().
@@ -1205,6 +1228,7 @@ class LivePlotWidget(pg.PlotWidget):
         # Ensure QApplication exists
         app = QApplication.instance()
         if app is None:
+            use_pyqt_platform_plugins()
             app = QApplication([])
 
         # Get monitor size
@@ -1945,6 +1969,7 @@ def pick_pos_neg_points_qt(
     app=QApplication.instance()
     created=False
     if app is None:
+        use_pyqt_platform_plugins()
         app=QApplication(sys.argv)
         created=True
 

@@ -6,7 +6,6 @@ import time
 import numpy as np
 import matplotlib.pyplot as plt
 import xml.etree.ElementTree as ET
-import pyautogui
 import platform
 import subprocess
 import zmq
@@ -338,7 +337,13 @@ def get_monitor_size():
     Returns:
         Any: Requested value computed from the current inputs.
     """
-    w,h = pyautogui.size()
+    # pyautogui connects to X11 at import time on Linux, so import it lazily
+    # and fall back to a common size when no display is available.
+    try:
+        import pyautogui
+        w,h = pyautogui.size()
+    except Exception:
+        w,h = 1920,1080
     return w,h
 
 def wait_frontend_render():

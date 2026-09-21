@@ -1,0 +1,1183 @@
+{
+  "snapshot_date": "2026-09-15",
+  "source_root": "FtF_VR",
+  "scope": "selected baseline source for SIM/REAL v2 development; personal intent calibration not implemented",
+  "files": [
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/package/controller_mapping.py",
+      "destination": "package/controller_mapping.py",
+      "group": "application",
+      "source_sha256": "22a869de1c648ea8950db89bc3a6a3442604dee8758d9eb2ae9b091040e9374a",
+      "snapshot_sha256": "22a869de1c648ea8950db89bc3a6a3442604dee8758d9eb2ae9b091040e9374a",
+      "bytes": 16220,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/package/fixed_quest_real.py",
+      "destination": "package/fixed_quest_real.py",
+      "group": "application",
+      "source_sha256": "3424b55da9c43af769803547adada70437fec09a7c917af7a18c35aa9b02d3f7",
+      "snapshot_sha256": "3424b55da9c43af769803547adada70437fec09a7c917af7a18c35aa9b02d3f7",
+      "bytes": 43646,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/package/fixed_quest_scene.py",
+      "destination": "package/fixed_quest_scene.py",
+      "group": "application",
+      "source_sha256": "d2f3bf541ef994b4e42849d42bb87d1ec4b3cceddb60fc35f0075497c20d219a",
+      "snapshot_sha256": "d2f3bf541ef994b4e42849d42bb87d1ec4b3cceddb60fc35f0075497c20d219a",
+      "bytes": 15155,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/package/fixed_quest_sim.py",
+      "destination": "package/fixed_quest_sim.py",
+      "group": "application",
+      "source_sha256": "7c07c069f054221d3a217e0f2d9fabde7e1dcafa718592ba4dd221e0ec989bf1",
+      "snapshot_sha256": "7c07c069f054221d3a217e0f2d9fabde7e1dcafa718592ba4dd221e0ec989bf1",
+      "bytes": 21305,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/package/fixed_quest_transport.py",
+      "destination": "package/fixed_quest_transport.py",
+      "group": "application",
+      "source_sha256": "ac5a6f55107fead01fedbedb9b7b66a0e98885f63222581d2cec88845f7d329f",
+      "snapshot_sha256": "ac5a6f55107fead01fedbedb9b7b66a0e98885f63222581d2cec88845f7d329f",
+      "bytes": 14854,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/package/init_project.py",
+      "destination": "package/init_project.py",
+      "group": "application",
+      "source_sha256": "4a8bbd3c3aef95bfaf2daa117b12d9df480ef090b895925553ac1f12af373eb9",
+      "snapshot_sha256": "4dcacb50dfc557836ab82267f37b3d69fbb2b61a8c46194e6bcad4d075717cda",
+      "bytes": 1569,
+      "modified_for_v2": true,
+      "adaptation": "Standalone project/vendor search paths, reject already imported v1 modules, export bootstrap names."
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/package/joint_control.py",
+      "destination": "package/joint_control.py",
+      "group": "application",
+      "source_sha256": "30e06b9487bc3a313c22c067340d745e851469b386f9427d484ce4e2a7a11e77",
+      "snapshot_sha256": "30e06b9487bc3a313c22c067340d745e851469b386f9427d484ce4e2a7a11e77",
+      "bytes": 14318,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/package/joint_marker_control.py",
+      "destination": "package/joint_marker_control.py",
+      "group": "application",
+      "source_sha256": "bf969211d0d47e1d1f3137cc0d5fef5ecba13efeead5d474c242b90ba602f789",
+      "snapshot_sha256": "bf969211d0d47e1d1f3137cc0d5fef5ecba13efeead5d474c242b90ba602f789",
+      "bytes": 14933,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/package/joint_marker_real.py",
+      "destination": "package/joint_marker_real.py",
+      "group": "application",
+      "source_sha256": "508089baa02469720650533b6cac07a4082750c9628352d9311dfeaaa5465007",
+      "snapshot_sha256": "508089baa02469720650533b6cac07a4082750c9628352d9311dfeaaa5465007",
+      "bytes": 7942,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/package/quest_calibration_robot.py",
+      "destination": "package/quest_calibration_robot.py",
+      "group": "application",
+      "source_sha256": "a79c4573d33a5a4008f0be30284766d3fdc30b2a0053dacf0cb54839c3469a46",
+      "snapshot_sha256": "a79c4573d33a5a4008f0be30284766d3fdc30b2a0053dacf0cb54839c3469a46",
+      "bytes": 9265,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/package/quest_controller_server.py",
+      "destination": "package/quest_controller_server.py",
+      "group": "application",
+      "source_sha256": "f4e7a116d0f974702ed7416388e06e26e5d047c80edadd796285a4c104129fe5",
+      "snapshot_sha256": "f4e7a116d0f974702ed7416388e06e26e5d047c80edadd796285a4c104129fe5",
+      "bytes": 11741,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/package/quest_local_axis_diagnostic.py",
+      "destination": "package/quest_local_axis_diagnostic.py",
+      "group": "application",
+      "source_sha256": "5b135148f05026dcecbec03611a410a843450a75b17208d7fc9436ac8bded24f",
+      "snapshot_sha256": "5b135148f05026dcecbec03611a410a843450a75b17208d7fc9436ac8bded24f",
+      "bytes": 20961,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/package/quest_pose_calibration.py",
+      "destination": "package/quest_pose_calibration.py",
+      "group": "application",
+      "source_sha256": "ab1d1949358a7c10f17cac93a0363382b8bde065cb794bbccc76c7bbc35c5309",
+      "snapshot_sha256": "ab1d1949358a7c10f17cac93a0363382b8bde065cb794bbccc76c7bbc35c5309",
+      "bytes": 29121,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/package/quest_reference_diagnostic.py",
+      "destination": "package/quest_reference_diagnostic.py",
+      "group": "application",
+      "source_sha256": "a7fc83dd9a63565ac74f7025e6995b836976d85968e9beb031d791785399f2fe",
+      "snapshot_sha256": "a7fc83dd9a63565ac74f7025e6995b836976d85968e9beb031d791785399f2fe",
+      "bytes": 12854,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/package/utils.py",
+      "destination": "package/utils.py",
+      "group": "application",
+      "source_sha256": "00107a9b2c777638375ccd6dd9d594da868fb2b45604f16be04d84fbab478b73",
+      "snapshot_sha256": "08fde40fa851acfaad2c4ce823e42b11e240953cc7f5dafbd1a472486a436a3f",
+      "bytes": 70647,
+      "modified_for_v2": true,
+      "adaptation": "REPO_ROOT now resolves to the standalone project directory."
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/package/worker/__init__.py",
+      "destination": "package/worker/__init__.py",
+      "group": "worker",
+      "source_sha256": "b113e046a4fd35feed585a059dcdaef89ae6f7408d40add8ea20ba6caf92657f",
+      "snapshot_sha256": "b113e046a4fd35feed585a059dcdaef89ae6f7408d40add8ea20ba6caf92657f",
+      "bytes": 51,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/package/worker/fixed_quest_protocol.py",
+      "destination": "package/worker/fixed_quest_protocol.py",
+      "group": "worker",
+      "source_sha256": "e2dd10a58a3a40e3585ddec324fdb3d2252553e6be817d6b5737c2d0f47f6bc5",
+      "snapshot_sha256": "e2dd10a58a3a40e3585ddec324fdb3d2252553e6be817d6b5737c2d0f47f6bc5",
+      "bytes": 18589,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/package/worker/inbound.py",
+      "destination": "package/worker/inbound.py",
+      "group": "worker",
+      "source_sha256": "f378e40bcd648c87a11726b7641d4657be3b7aff50b8fbf919806083ea3edaa6",
+      "snapshot_sha256": "f378e40bcd648c87a11726b7641d4657be3b7aff50b8fbf919806083ea3edaa6",
+      "bytes": 7968,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/package/worker/outbound.py",
+      "destination": "package/worker/outbound.py",
+      "group": "worker",
+      "source_sha256": "9bcbf491191f535faaa36ccfd24d2c0274c32c6771f3adea0b44022f96ccd040",
+      "snapshot_sha256": "9bcbf491191f535faaa36ccfd24d2c0274c32c6771f3adea0b44022f96ccd040",
+      "bytes": 6176,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/__init__.py",
+      "destination": "vendor/ri_motion_v5_package/__init__.py",
+      "group": "shared_runtime",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "snapshot_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/kinematics/README.md",
+      "destination": "vendor/ri_motion_v5_package/kinematics/README.md",
+      "group": "shared_runtime",
+      "source_sha256": "b354ef7e8da5ceb3ea7bb304cbeb3d56f3d8659d6e92433befcf9462f718ad3b",
+      "snapshot_sha256": "b354ef7e8da5ceb3ea7bb304cbeb3d56f3d8659d6e92433befcf9462f718ad3b",
+      "bytes": 1098,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/kinematics/__init__.py",
+      "destination": "vendor/ri_motion_v5_package/kinematics/__init__.py",
+      "group": "shared_runtime",
+      "source_sha256": "9cfa4d42156537e082e24454c82f491309870616c6e3148ef9aec18e8a8b6b6d",
+      "snapshot_sha256": "9cfa4d42156537e082e24454c82f491309870616c6e3148ef9aec18e8a8b6b6d",
+      "bytes": 79,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/kinematics/numpy_chain.py",
+      "destination": "vendor/ri_motion_v5_package/kinematics/numpy_chain.py",
+      "group": "shared_runtime",
+      "source_sha256": "1961342d3396ef961472a33a1f7e616ddc90cd0e5fb4215f0f6611d502afc4fc",
+      "snapshot_sha256": "1961342d3396ef961472a33a1f7e616ddc90cd0e5fb4215f0f6611d502afc4fc",
+      "bytes": 24359,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/kinematics/screw_chain.py",
+      "destination": "vendor/ri_motion_v5_package/kinematics/screw_chain.py",
+      "group": "shared_runtime",
+      "source_sha256": "2c390bbc713452decd9e3a7b4c7c337f8bf68b5e2d96b8daf6bd55181d28f3fd",
+      "snapshot_sha256": "2c390bbc713452decd9e3a7b4c7c337f8bf68b5e2d96b8daf6bd55181d28f3fd",
+      "bytes": 8629,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/kinematics/transforms.py",
+      "destination": "vendor/ri_motion_v5_package/kinematics/transforms.py",
+      "group": "shared_runtime",
+      "source_sha256": "a2b5d32097aaa3909858813f72ae7375e05904bb3b1a3fd2d4503222a52c70f5",
+      "snapshot_sha256": "a2b5d32097aaa3909858813f72ae7375e05904bb3b1a3fd2d4503222a52c70f5",
+      "bytes": 26301,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/utility/README.md",
+      "destination": "vendor/ri_motion_v5_package/utility/README.md",
+      "group": "shared_runtime",
+      "source_sha256": "c3816c9f50e0a69281c5b286269f645c6888d919af77c9ab41605356adacab52",
+      "snapshot_sha256": "c3816c9f50e0a69281c5b286269f645c6888d919af77c9ab41605356adacab52",
+      "bytes": 1596,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/utility/__init__.py",
+      "destination": "vendor/ri_motion_v5_package/utility/__init__.py",
+      "group": "shared_runtime",
+      "source_sha256": "553a72b2e6da0528d14beddbec79b4b03f2310d7252325bb7dd8278f66707220",
+      "snapshot_sha256": "553a72b2e6da0528d14beddbec79b4b03f2310d7252325bb7dd8278f66707220",
+      "bytes": 62,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/utility/filters.py",
+      "destination": "vendor/ri_motion_v5_package/utility/filters.py",
+      "group": "shared_runtime",
+      "source_sha256": "83efcc3b11a25af286e848b60f467f254d4c1de960f33271a07a49c9ffb618e7",
+      "snapshot_sha256": "83efcc3b11a25af286e848b60f467f254d4c1de960f33271a07a49c9ffb618e7",
+      "bytes": 9596,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/utility/utils.py",
+      "destination": "vendor/ri_motion_v5_package/utility/utils.py",
+      "group": "shared_runtime",
+      "source_sha256": "06ba0672634bec9aa259b6d23304e6be521add1ae85496eb6259708bea74e53a",
+      "snapshot_sha256": "06ba0672634bec9aa259b6d23304e6be521add1ae85496eb6259708bea74e53a",
+      "bytes": 58586,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/utility/viz.py",
+      "destination": "vendor/ri_motion_v5_package/utility/viz.py",
+      "group": "shared_runtime",
+      "source_sha256": "eea60ea142d51fafcf0a2cbe2f167a2ecd545c3013e56777769a7fab06febb7f",
+      "snapshot_sha256": "eea60ea142d51fafcf0a2cbe2f167a2ecd545c3013e56777769a7fab06febb7f",
+      "bytes": 13038,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/README.md",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/README.md",
+      "group": "shared_runtime",
+      "source_sha256": "2757f0cef44ad6033512f7e542658dc0cbf7664e44c320ba46179b0f1941a6b5",
+      "snapshot_sha256": "2757f0cef44ad6033512f7e542658dc0cbf7664e44c320ba46179b0f1941a6b5",
+      "bytes": 11586,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/__init__.py",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/__init__.py",
+      "group": "shared_runtime",
+      "source_sha256": "d124cbb2a1aa1f59b5f861b867d924c39cfb084a6e28c417c9e6e080a24d70fc",
+      "snapshot_sha256": "d124cbb2a1aa1f59b5f861b867d924c39cfb084a6e28c417c9e6e080a24d70fc",
+      "bytes": 247,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/_native.py",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/_native.py",
+      "group": "shared_runtime",
+      "source_sha256": "594fcaebfc2e58c414f279376caa970595731b6c079cb0e53ce0d3eb90615802",
+      "snapshot_sha256": "594fcaebfc2e58c414f279376caa970595731b6c079cb0e53ce0d3eb90615802",
+      "bytes": 20099,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/_native_build.py",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/_native_build.py",
+      "group": "shared_runtime",
+      "source_sha256": "37a8af2f2b3b65d084764744eac69f9bb0fa60bccab422b5fd5f7aad72844946",
+      "snapshot_sha256": "37a8af2f2b3b65d084764744eac69f9bb0fa60bccab422b5fd5f7aad72844946",
+      "bytes": 16349,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/interactive_marker.py",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/interactive_marker.py",
+      "group": "shared_runtime",
+      "source_sha256": "3b579aad2a3f7671a00af8560490168e01943cbf83242af16786047739f6dd92",
+      "snapshot_sha256": "3b579aad2a3f7671a00af8560490168e01943cbf83242af16786047739f6dd92",
+      "bytes": 48626,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/mujoco_draw.py",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/mujoco_draw.py",
+      "group": "shared_runtime",
+      "source_sha256": "d7423644c7c924a37eabe0324dcef99643b644c437f75f048ca83342c8df63e1",
+      "snapshot_sha256": "d7423644c7c924a37eabe0324dcef99643b644c437f75f048ca83342c8df63e1",
+      "bytes": 8558,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/mujoco_ik.py",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/mujoco_ik.py",
+      "group": "shared_runtime",
+      "source_sha256": "0a0c7086a905fd4e8907f83e711f4ff1f3dd48ba7a89d5692e2dcc6c29ed0f4d",
+      "snapshot_sha256": "0a0c7086a905fd4e8907f83e711f4ff1f3dd48ba7a89d5692e2dcc6c29ed0f4d",
+      "bytes": 93018,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/mujoco_replay.py",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/mujoco_replay.py",
+      "group": "shared_runtime",
+      "source_sha256": "e22cb88762145dd1e68d971372aa36b83e0828cbb31bfa8104b0093f9b264d09",
+      "snapshot_sha256": "e22cb88762145dd1e68d971372aa36b83e0828cbb31bfa8104b0093f9b264d09",
+      "bytes": 25479,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/mujoco_utils.py",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/mujoco_utils.py",
+      "group": "shared_runtime",
+      "source_sha256": "3862ca504898e2b636a2d47791a8a30273baf96b99c22c38245110995c7a2f43",
+      "snapshot_sha256": "3862ca504898e2b636a2d47791a8a30273baf96b99c22c38245110995c7a2f43",
+      "bytes": 14412,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/parser.py",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/parser.py",
+      "group": "shared_runtime",
+      "source_sha256": "7950e08381da8d8476e37b3b86480181ae33f8344cfad70b986a13f35e12140f",
+      "snapshot_sha256": "7950e08381da8d8476e37b3b86480181ae33f8344cfad70b986a13f35e12140f",
+      "bytes": 341597,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/render_process.py",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/render_process.py",
+      "group": "shared_runtime",
+      "source_sha256": "2cb2300baace211bc62698964f88b5c38838ad2249efb0a5c2e064e6279622b8",
+      "snapshot_sha256": "2cb2300baace211bc62698964f88b5c38838ad2249efb0a5c2e064e6279622b8",
+      "bytes": 65248,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/qt/README.md",
+      "destination": "vendor/ri_motion_v5_package/qt/README.md",
+      "group": "shared_runtime",
+      "source_sha256": "f57e66b2df65da9a60194abbabf6a930030b1020cecd8084fbdbe22b261dda04",
+      "snapshot_sha256": "f57e66b2df65da9a60194abbabf6a930030b1020cecd8084fbdbe22b261dda04",
+      "bytes": 1278,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/qt/__init__.py",
+      "destination": "vendor/ri_motion_v5_package/qt/__init__.py",
+      "group": "shared_runtime",
+      "source_sha256": "f21965b3d3db5a590abfea13b6c4f3f68437c17e8a8bd3b3b697a1d8c7392eb8",
+      "snapshot_sha256": "f21965b3d3db5a590abfea13b6c4f3f68437c17e8a8bd3b3b697a1d8c7392eb8",
+      "bytes": 52,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/qt/env_widgets.py",
+      "destination": "vendor/ri_motion_v5_package/qt/env_widgets.py",
+      "group": "shared_runtime",
+      "source_sha256": "aaf3e33e52c27279b6040af2904f913536396376e58a0676576f46e756bc49d1",
+      "snapshot_sha256": "aaf3e33e52c27279b6040af2904f913536396376e58a0676576f46e756bc49d1",
+      "bytes": 30055,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/qt/qt_widgets.py",
+      "destination": "vendor/ri_motion_v5_package/qt/qt_widgets.py",
+      "group": "shared_runtime",
+      "source_sha256": "bd3f972412ae9c3aefa5781087094b82fd40112f69ccc0ee0ebceafde6926f66",
+      "snapshot_sha256": "bd3f972412ae9c3aefa5781087094b82fd40112f69ccc0ee0ebceafde6926f66",
+      "bytes": 67782,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/so/__init__.py",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/so/__init__.py",
+      "group": "shared_runtime",
+      "source_sha256": "fd93be943e7c5fd307dd67a6b83f2934de656a3873c1447acab54fa967ee1aeb",
+      "snapshot_sha256": "fd93be943e7c5fd307dd67a6b83f2934de656a3873c1447acab54fa967ee1aeb",
+      "bytes": 58,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/cpp/bindings.cpp",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/cpp/bindings.cpp",
+      "group": "optional_native_source",
+      "source_sha256": "f1cdb83f4d697f31da2156b93a70a5715e573fe0786fd860a46ea25bb00ee832",
+      "snapshot_sha256": "f1cdb83f4d697f31da2156b93a70a5715e573fe0786fd860a46ea25bb00ee832",
+      "bytes": 1155,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/cpp/ik.cpp",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/cpp/ik.cpp",
+      "group": "optional_native_source",
+      "source_sha256": "d9afcbedb1bceb43b58807720d2eff877b989a50212ad07b06d6c7ad368623d8",
+      "snapshot_sha256": "d9afcbedb1bceb43b58807720d2eff877b989a50212ad07b06d6c7ad368623d8",
+      "bytes": 29195,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/cpp/ik.hpp",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/cpp/ik.hpp",
+      "group": "optional_native_source",
+      "source_sha256": "5fb56412492190488143f55ae821b0abbb81bf05db42e1cbf890d6f6c4a183a8",
+      "snapshot_sha256": "5fb56412492190488143f55ae821b0abbb81bf05db42e1cbf890d6f6c4a183a8",
+      "bytes": 1965,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/cpp/ik_bindings.cpp",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/cpp/ik_bindings.cpp",
+      "group": "optional_native_source",
+      "source_sha256": "8f10c06f51820cba0b57f56caaa46a07efb4b9d1a93f847189aefc4ba189e6cf",
+      "snapshot_sha256": "8f10c06f51820cba0b57f56caaa46a07efb4b9d1a93f847189aefc4ba189e6cf",
+      "bytes": 235,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/cpp/ik_bindings.hpp",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/cpp/ik_bindings.hpp",
+      "group": "optional_native_source",
+      "source_sha256": "abdabb8282ff12f7fb3f7574d1ba6b0d2e5727881afef68a986f202d9c9d9f13",
+      "snapshot_sha256": "abdabb8282ff12f7fb3f7574d1ba6b0d2e5727881afef68a986f202d9c9d9f13",
+      "bytes": 102,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/cpp/mujoco_echo.cpp",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/cpp/mujoco_echo.cpp",
+      "group": "optional_native_source",
+      "source_sha256": "8e7a718457da18484e95975c8a5e17725b2ba5f2f00664feeae517828165cea9",
+      "snapshot_sha256": "8e7a718457da18484e95975c8a5e17725b2ba5f2f00664feeae517828165cea9",
+      "bytes": 2641,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/cpp/mujoco_echo.hpp",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/cpp/mujoco_echo.hpp",
+      "group": "optional_native_source",
+      "source_sha256": "f3762ee4ecd036f09784bbcb47e800a2cabd81a0e3da7b8c4d383e1d555035b6",
+      "snapshot_sha256": "f3762ee4ecd036f09784bbcb47e800a2cabd81a0e3da7b8c4d383e1d555035b6",
+      "bytes": 176,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/cpp/mujoco_echo_bindings.cpp",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/cpp/mujoco_echo_bindings.cpp",
+      "group": "optional_native_source",
+      "source_sha256": "d43feeb9df2f2b9cde0a3696eb6821f29c9ed6e12e110e59e61f57defc26a585",
+      "snapshot_sha256": "d43feeb9df2f2b9cde0a3696eb6821f29c9ed6e12e110e59e61f57defc26a585",
+      "bytes": 246,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/cpp/mujoco_echo_bindings.hpp",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/cpp/mujoco_echo_bindings.hpp",
+      "group": "optional_native_source",
+      "source_sha256": "73583b4375ad8902964c8994429c0bde70559bdfda6533ab495494cb5ec483e4",
+      "snapshot_sha256": "73583b4375ad8902964c8994429c0bde70559bdfda6533ab495494cb5ec483e4",
+      "bytes": 111,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/cpp/mujoco_handles.hpp",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/cpp/mujoco_handles.hpp",
+      "group": "optional_native_source",
+      "source_sha256": "836930aad8ec1bdffa6d1ca7a0b82c413c626fa8b31eec46782203f1b2454c42",
+      "snapshot_sha256": "836930aad8ec1bdffa6d1ca7a0b82c413c626fa8b31eec46782203f1b2454c42",
+      "bytes": 688,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/cpp/signed_distance.cpp",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/cpp/signed_distance.cpp",
+      "group": "optional_native_source",
+      "source_sha256": "34638f4f1bba0dedd75c2751c61b74f5ae56a05b6a32274ae5ad88a65e4d3b32",
+      "snapshot_sha256": "34638f4f1bba0dedd75c2751c61b74f5ae56a05b6a32274ae5ad88a65e4d3b32",
+      "bytes": 9973,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/cpp/signed_distance.hpp",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/cpp/signed_distance.hpp",
+      "group": "optional_native_source",
+      "source_sha256": "f55d64e0e4efe9407ef414bc16150ee3d8cf1d22ac264bb742bd18d0c3675259",
+      "snapshot_sha256": "f55d64e0e4efe9407ef414bc16150ee3d8cf1d22ac264bb742bd18d0c3675259",
+      "bytes": 433,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/cpp/signed_distance_bindings.cpp",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/cpp/signed_distance_bindings.cpp",
+      "group": "optional_native_source",
+      "source_sha256": "a1573cf8915a77b5c465ad283e58329fdfe78a7491ffa8d949a24aed84c37f9c",
+      "snapshot_sha256": "a1573cf8915a77b5c465ad283e58329fdfe78a7491ffa8d949a24aed84c37f9c",
+      "bytes": 275,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/cpp/signed_distance_bindings.hpp",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/cpp/signed_distance_bindings.hpp",
+      "group": "optional_native_source",
+      "source_sha256": "d77ad9c47d73f8a486cbdb153a3d630adf401de69ba1a90c2c3db57447eeaaad",
+      "snapshot_sha256": "d77ad9c47d73f8a486cbdb153a3d630adf401de69ba1a90c2c3db57447eeaaad",
+      "bytes": 115,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/cpp/tutorial.cpp",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/cpp/tutorial.cpp",
+      "group": "optional_native_source",
+      "source_sha256": "bb0ebd1a8c6a03a0298c4885e8d8f4e840ed8d0bd0215c7f6980c70b880a854d",
+      "snapshot_sha256": "bb0ebd1a8c6a03a0298c4885e8d8f4e840ed8d0bd0215c7f6980c70b880a854d",
+      "bytes": 116,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/cpp/tutorial.hpp",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/cpp/tutorial.hpp",
+      "group": "optional_native_source",
+      "source_sha256": "52598533a3a520c6e22e5ecd71371ff05e8b8acca311aa7f62b564673943e722",
+      "snapshot_sha256": "52598533a3a520c6e22e5ecd71371ff05e8b8acca311aa7f62b564673943e722",
+      "bytes": 54,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/cpp/tutorial_bindings.cpp",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/cpp/tutorial_bindings.cpp",
+      "group": "optional_native_source",
+      "source_sha256": "8dd8744f80c466242e51e5d087ccc2264e385ff4fb26bf8b7501d4f6a015e8a7",
+      "snapshot_sha256": "8dd8744f80c466242e51e5d087ccc2264e385ff4fb26bf8b7501d4f6a015e8a7",
+      "bytes": 184,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/ri_motion_v5_package/mujoco_sim/cpp/tutorial_bindings.hpp",
+      "destination": "vendor/ri_motion_v5_package/mujoco_sim/cpp/tutorial_bindings.hpp",
+      "group": "optional_native_source",
+      "source_sha256": "85a272cb7b119b280c9f3bf31406c232251c20ed67d923a68c3223e8fd84d225",
+      "snapshot_sha256": "85a272cb7b119b280c9f3bf31406c232251c20ed67d923a68c3223e8fd84d225",
+      "bytes": 108,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/ROBOTIS_LICENSE",
+      "destination": "xml/ROBOTIS_LICENSE",
+      "group": "robot_assets",
+      "source_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "snapshot_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "bytes": 11357,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/ffw_sg2.xml",
+      "destination": "xml/ffw_sg2.xml",
+      "group": "robot_assets",
+      "source_sha256": "d73b3432df0673a2df2849b4f18ebe4a6507f2de1ba8090073c3e600464f825e",
+      "snapshot_sha256": "d73b3432df0673a2df2849b4f18ebe4a6507f2de1ba8090073c3e600464f825e",
+      "bytes": 27478,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/ffw_sg2_body_added_vis.xml",
+      "destination": "xml/ffw_sg2_body_added_vis.xml",
+      "group": "robot_assets",
+      "source_sha256": "61610c3de45f92ffb4bb118495893491ada9a4e9ddcd17a5475f53b4319bf312",
+      "snapshot_sha256": "61610c3de45f92ffb4bb118495893491ada9a4e9ddcd17a5475f53b4319bf312",
+      "bytes": 21416,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/floor_simple_white.xml",
+      "destination": "xml/floor_simple_white.xml",
+      "group": "robot_assets",
+      "source_sha256": "c8671224afaf5f361ae2b5754098df620e10871e803e6d7aa5f290001a0b086b",
+      "snapshot_sha256": "c8671224afaf5f361ae2b5754098df620e10871e803e6d7aa5f290001a0b086b",
+      "bytes": 1167,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/arm_l_link1.stl",
+      "destination": "xml/mesh/ffw_s/arm_l_link1.stl",
+      "group": "robot_assets",
+      "source_sha256": "089f3c0008409182fc66c4ad1bc0d2e2f98e62c76fe0530b22cd07f0150c93c9",
+      "snapshot_sha256": "089f3c0008409182fc66c4ad1bc0d2e2f98e62c76fe0530b22cd07f0150c93c9",
+      "bytes": 2233484,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/arm_l_link2.stl",
+      "destination": "xml/mesh/ffw_s/arm_l_link2.stl",
+      "group": "robot_assets",
+      "source_sha256": "920544da98e13a38699414aea1b682a52917bba1c295a445908e413e2ab151ef",
+      "snapshot_sha256": "920544da98e13a38699414aea1b682a52917bba1c295a445908e413e2ab151ef",
+      "bytes": 1849884,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/arm_l_link3.stl",
+      "destination": "xml/mesh/ffw_s/arm_l_link3.stl",
+      "group": "robot_assets",
+      "source_sha256": "c4fdb4904c116d0d15df31c8010555fc1b76f75a267b5f125836471fcf12aff8",
+      "snapshot_sha256": "c4fdb4904c116d0d15df31c8010555fc1b76f75a267b5f125836471fcf12aff8",
+      "bytes": 1872584,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/arm_l_link4.stl",
+      "destination": "xml/mesh/ffw_s/arm_l_link4.stl",
+      "group": "robot_assets",
+      "source_sha256": "e46e67c96fc4410649de6136297b537048198c530ad1252ec1af1942668e1b03",
+      "snapshot_sha256": "e46e67c96fc4410649de6136297b537048198c530ad1252ec1af1942668e1b03",
+      "bytes": 1487684,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/arm_l_link5.stl",
+      "destination": "xml/mesh/ffw_s/arm_l_link5.stl",
+      "group": "robot_assets",
+      "source_sha256": "8fd2ec10ed01e74caff0e3aa594814266ea629428340ede6574d70dc3a0cb3f3",
+      "snapshot_sha256": "8fd2ec10ed01e74caff0e3aa594814266ea629428340ede6574d70dc3a0cb3f3",
+      "bytes": 1354484,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/arm_l_link6.stl",
+      "destination": "xml/mesh/ffw_s/arm_l_link6.stl",
+      "group": "robot_assets",
+      "source_sha256": "3c9258f77996205946522313c115b2fee85645a839946ace6844a9ddd7ed0079",
+      "snapshot_sha256": "3c9258f77996205946522313c115b2fee85645a839946ace6844a9ddd7ed0079",
+      "bytes": 471984,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/arm_l_link7.stl",
+      "destination": "xml/mesh/ffw_s/arm_l_link7.stl",
+      "group": "robot_assets",
+      "source_sha256": "00d6e742c9b7dd52c57ac0b0a59ae2e1cb93581f00e877a27add5ce20b1544f3",
+      "snapshot_sha256": "00d6e742c9b7dd52c57ac0b0a59ae2e1cb93581f00e877a27add5ce20b1544f3",
+      "bytes": 511184,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/arm_r_link1.stl",
+      "destination": "xml/mesh/ffw_s/arm_r_link1.stl",
+      "group": "robot_assets",
+      "source_sha256": "cf2a61ea5a3fc87811960ea7a75932bd3b9fb416437f06b952466f4491e9818e",
+      "snapshot_sha256": "cf2a61ea5a3fc87811960ea7a75932bd3b9fb416437f06b952466f4491e9818e",
+      "bytes": 2233484,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/arm_r_link2.stl",
+      "destination": "xml/mesh/ffw_s/arm_r_link2.stl",
+      "group": "robot_assets",
+      "source_sha256": "179e7a3c4b8377ffbfaf2bc661873bdc856d6a16a0b654e9ff145056a4dc2e09",
+      "snapshot_sha256": "179e7a3c4b8377ffbfaf2bc661873bdc856d6a16a0b654e9ff145056a4dc2e09",
+      "bytes": 1849884,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/arm_r_link3.stl",
+      "destination": "xml/mesh/ffw_s/arm_r_link3.stl",
+      "group": "robot_assets",
+      "source_sha256": "f34527d6456c0517168c374692aa7b6464d582b273f0be6ae262a3cc72eab843",
+      "snapshot_sha256": "f34527d6456c0517168c374692aa7b6464d582b273f0be6ae262a3cc72eab843",
+      "bytes": 1872584,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/arm_r_link4.stl",
+      "destination": "xml/mesh/ffw_s/arm_r_link4.stl",
+      "group": "robot_assets",
+      "source_sha256": "694a5a4e4ca123702525c0050be223560c239f64af3b4875622ff1b9cafb5cf6",
+      "snapshot_sha256": "694a5a4e4ca123702525c0050be223560c239f64af3b4875622ff1b9cafb5cf6",
+      "bytes": 1470084,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/arm_r_link5.stl",
+      "destination": "xml/mesh/ffw_s/arm_r_link5.stl",
+      "group": "robot_assets",
+      "source_sha256": "f576912dfd9661c1c84f6e378784e75aa8de9ed77605a4555b7a400f8e1d40bc",
+      "snapshot_sha256": "f576912dfd9661c1c84f6e378784e75aa8de9ed77605a4555b7a400f8e1d40bc",
+      "bytes": 1354484,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/arm_r_link6.stl",
+      "destination": "xml/mesh/ffw_s/arm_r_link6.stl",
+      "group": "robot_assets",
+      "source_sha256": "24a3f115545efa8a3c8168e72fba6a4d25aee7e1728e4620142734b78de04140",
+      "snapshot_sha256": "24a3f115545efa8a3c8168e72fba6a4d25aee7e1728e4620142734b78de04140",
+      "bytes": 471984,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/arm_r_link7.stl",
+      "destination": "xml/mesh/ffw_s/arm_r_link7.stl",
+      "group": "robot_assets",
+      "source_sha256": "034897030b5b5cb8dab31f03bb5e956a770e8f574212260961f75fd3101384c3",
+      "snapshot_sha256": "034897030b5b5cb8dab31f03bb5e956a770e8f574212260961f75fd3101384c3",
+      "bytes": 511184,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/base_mobile_assy.stl",
+      "destination": "xml/mesh/ffw_s/base_mobile_assy.stl",
+      "group": "robot_assets",
+      "source_sha256": "3d5537ab5cf9d7dd9ccf75172cceb8af641d3db442354fbe95925c2fedc28764",
+      "snapshot_sha256": "3d5537ab5cf9d7dd9ccf75172cceb8af641d3db442354fbe95925c2fedc28764",
+      "bytes": 6020284,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/body_arm_assy.stl",
+      "destination": "xml/mesh/ffw_s/body_arm_assy.stl",
+      "group": "robot_assets",
+      "source_sha256": "3e9fc2a8b03df196027a182975627de26fd6b3894757cc90412666bf2142d073",
+      "snapshot_sha256": "3e9fc2a8b03df196027a182975627de26fd6b3894757cc90412666bf2142d073",
+      "bytes": 888784,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/head_link1.stl",
+      "destination": "xml/mesh/ffw_s/head_link1.stl",
+      "group": "robot_assets",
+      "source_sha256": "9ed4cf30e2c3426ceb7b98bf7ba2c070cf8e37a75bdc060fe77b488ea5e5de2e",
+      "snapshot_sha256": "9ed4cf30e2c3426ceb7b98bf7ba2c070cf8e37a75bdc060fe77b488ea5e5de2e",
+      "bytes": 105484,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/head_link2.stl",
+      "destination": "xml/mesh/ffw_s/head_link2.stl",
+      "group": "robot_assets",
+      "source_sha256": "9c653dcbdc5b5c030d57d01852c9dd157b0e2cc469756d1c76140edd764c1227",
+      "snapshot_sha256": "9c653dcbdc5b5c030d57d01852c9dd157b0e2cc469756d1c76140edd764c1227",
+      "bytes": 366384,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/left_wheel_drive_link.stl",
+      "destination": "xml/mesh/ffw_s/left_wheel_drive_link.stl",
+      "group": "robot_assets",
+      "source_sha256": "90f676631634ae26be362782322d2cc37f770c1dbb314d445b0709fc9f09c83c",
+      "snapshot_sha256": "90f676631634ae26be362782322d2cc37f770c1dbb314d445b0709fc9f09c83c",
+      "bytes": 49684,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/left_wheel_steer_link.stl",
+      "destination": "xml/mesh/ffw_s/left_wheel_steer_link.stl",
+      "group": "robot_assets",
+      "source_sha256": "c82fe2b71bed6c317a689f511022d50fd8470e6e02a78fb0d3c913c4394e05b8",
+      "snapshot_sha256": "c82fe2b71bed6c317a689f511022d50fd8470e6e02a78fb0d3c913c4394e05b8",
+      "bytes": 311184,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/lift_link.stl",
+      "destination": "xml/mesh/ffw_s/lift_link.stl",
+      "group": "robot_assets",
+      "source_sha256": "e0939a4ffa69f11c6e3f160e78ce8c492d3ece706c4a9be2057a0a74c84c9f66",
+      "snapshot_sha256": "e0939a4ffa69f11c6e3f160e78ce8c492d3ece706c4a9be2057a0a74c84c9f66",
+      "bytes": 918284,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/rear_wheel_drive_link.stl",
+      "destination": "xml/mesh/ffw_s/rear_wheel_drive_link.stl",
+      "group": "robot_assets",
+      "source_sha256": "1d914cf96410a6f369097d6aac43655c2a27359a46b36ab952eec083c5a84ecc",
+      "snapshot_sha256": "1d914cf96410a6f369097d6aac43655c2a27359a46b36ab952eec083c5a84ecc",
+      "bytes": 49484,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/rear_wheel_steer_link.stl",
+      "destination": "xml/mesh/ffw_s/rear_wheel_steer_link.stl",
+      "group": "robot_assets",
+      "source_sha256": "944a9965aa2cfbf6ce4155a534726b7afce0e37779231dd9208361358e94b10a",
+      "snapshot_sha256": "944a9965aa2cfbf6ce4155a534726b7afce0e37779231dd9208361358e94b10a",
+      "bytes": 326484,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/right_wheel_drive_link.stl",
+      "destination": "xml/mesh/ffw_s/right_wheel_drive_link.stl",
+      "group": "robot_assets",
+      "source_sha256": "1d914cf96410a6f369097d6aac43655c2a27359a46b36ab952eec083c5a84ecc",
+      "snapshot_sha256": "1d914cf96410a6f369097d6aac43655c2a27359a46b36ab952eec083c5a84ecc",
+      "bytes": 49484,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/ffw_s/right_wheel_steer_link.stl",
+      "destination": "xml/mesh/ffw_s/right_wheel_steer_link.stl",
+      "group": "robot_assets",
+      "source_sha256": "b519ec195a4a5cbfb96f0a4064cba5a60436d1a769dc749aca409db5720df8c0",
+      "snapshot_sha256": "b519ec195a4a5cbfb96f0a4064cba5a60436d1a769dc749aca409db5720df8c0",
+      "bytes": 326484,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/rh_p12_rn/base.stl",
+      "destination": "xml/mesh/rh_p12_rn/base.stl",
+      "group": "robot_assets",
+      "source_sha256": "71c5b655e9e410f3c59a5e6b24f396cd7b73c505ee2a323c1f9f2f50f1b73bb4",
+      "snapshot_sha256": "71c5b655e9e410f3c59a5e6b24f396cd7b73c505ee2a323c1f9f2f50f1b73bb4",
+      "bytes": 24884,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/rh_p12_rn/l1.stl",
+      "destination": "xml/mesh/rh_p12_rn/l1.stl",
+      "group": "robot_assets",
+      "source_sha256": "c08b45dce10d59dbef15ef2f41bae6549783015ea16b7498ec07b108a9cbfa6f",
+      "snapshot_sha256": "c08b45dce10d59dbef15ef2f41bae6549783015ea16b7498ec07b108a9cbfa6f",
+      "bytes": 6284,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/rh_p12_rn/l2.stl",
+      "destination": "xml/mesh/rh_p12_rn/l2.stl",
+      "group": "robot_assets",
+      "source_sha256": "039d4c7b7ed390c894b10d1f0a5e6c53c39e2ad6553ad6de7823450cbc5e42be",
+      "snapshot_sha256": "039d4c7b7ed390c894b10d1f0a5e6c53c39e2ad6553ad6de7823450cbc5e42be",
+      "bytes": 7684,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/rh_p12_rn/r1.stl",
+      "destination": "xml/mesh/rh_p12_rn/r1.stl",
+      "group": "robot_assets",
+      "source_sha256": "7310e06490a483e59a104ee09f0655450f54c406b3034cdaadf60ae42667f509",
+      "snapshot_sha256": "7310e06490a483e59a104ee09f0655450f54c406b3034cdaadf60ae42667f509",
+      "bytes": 6284,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/mesh/rh_p12_rn/r2.stl",
+      "destination": "xml/mesh/rh_p12_rn/r2.stl",
+      "group": "robot_assets",
+      "source_sha256": "94fcdf63f23b4ba03e3f6ce07aa24c6bab0ca4faff0d18342f26be460e0dbf99",
+      "snapshot_sha256": "94fcdf63f23b4ba03e3f6ce07aa24c6bab0ca4faff0d18342f26be460e0dbf99",
+      "bytes": 7684,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/xml/scene_ffw_sg2_metaquest3.xml",
+      "destination": "xml/scene_ffw_sg2_metaquest3.xml",
+      "group": "robot_assets",
+      "source_sha256": "544b1d06bef664b1d311410890ccedb19a7d1405b2d18358a67217f5248a9209",
+      "snapshot_sha256": "544b1d06bef664b1d311410890ccedb19a7d1405b2d18358a67217f5248a9209",
+      "bytes": 191,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/quest_client/index.html",
+      "destination": "quest_client/index.html",
+      "group": "quest_client",
+      "source_sha256": "6659809c2ce98ca094cc62686f0aadf4d7388b17e1d0460c51c9bc9c04cf40a6",
+      "snapshot_sha256": "6659809c2ce98ca094cc62686f0aadf4d7388b17e1d0460c51c9bc9c04cf40a6",
+      "bytes": 5420,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/quest_client/client.js",
+      "destination": "quest_client/client.js",
+      "group": "quest_client",
+      "source_sha256": "5648fdf72a75ee08cc1bd5a3bc3a6c13fd3797261a15174e63b6cff63bf0114a",
+      "snapshot_sha256": "5648fdf72a75ee08cc1bd5a3bc3a6c13fd3797261a15174e63b6cff63bf0114a",
+      "bytes": 17090,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/sim_notebook/sim_fixed_quest_sg2_teleop.ipynb",
+      "destination": "sim_notebook/sim_fixed_quest_sg2_teleop.ipynb",
+      "group": "notebook_baseline",
+      "source_sha256": "eeb9a30dd940b524523d05afd3aeb372aa12cd2444409f36beb4ed0ff1266fa1",
+      "snapshot_sha256": "50524c3a108ce902081a4d34bfc92a6b9a80b830b72cc3ea8b3df177c8dd5c59",
+      "bytes": 23564,
+      "modified_for_v2": true,
+      "adaptation": "Portable bootstrap, baseline note, execution output cleared; control settings preserved."
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/real_notebook/fixed_real_fixed_quest_sg2_teleop.ipynb",
+      "destination": "real_notebook/real_fixed_quest_sg2_teleop.ipynb",
+      "group": "notebook_baseline",
+      "source_sha256": "2bf5ed5357c5f69ebef83efdbf33800611744de8d7212985a2472b90f7049cca",
+      "snapshot_sha256": "9a3afcb133ea87eeff6ae7d32eabfa84089767f8a2d4ad083f2bcc7da7cb2587",
+      "bytes": 41871,
+      "modified_for_v2": true,
+      "adaptation": "Renamed from fixed_real_fixed_quest notebook; portable bootstrap/docs links, baseline note, output cleared; control settings preserved."
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/calibration_notebook/diagnose_fixed_quest_local_axes.ipynb",
+      "destination": "calibration_notebook/diagnose_fixed_quest_local_axes.ipynb",
+      "group": "notebook_baseline",
+      "source_sha256": "aca6f8223a6d2e38666eb99249a1f5c60930a304d66bd716c130e403e4379f66",
+      "snapshot_sha256": "d17f521cd2ee88e6121eab019094412aaa85611845a307aad5d61625f5e97e39",
+      "bytes": 36633,
+      "modified_for_v2": true,
+      "adaptation": "Portable bootstrap, relocated SIM reference, baseline note, output cleared; diagnostic logic preserved."
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/calibration/analysis/20260914-workspace-diagnostic/robot_reference.json",
+      "destination": "calibration/reference/workspace_diagnostic.json",
+      "group": "sim_calibration_reference",
+      "source_sha256": "56e9095d787f58ade99f4529f3f450660cb89e515f34a49ef59b7f9a38b5dbcb",
+      "snapshot_sha256": "56e9095d787f58ade99f4529f3f450660cb89e515f34a49ef59b7f9a38b5dbcb",
+      "bytes": 24361,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/tests/test_controller_mapping.py",
+      "destination": "tests/test_controller_mapping.py",
+      "group": "regression_tests",
+      "source_sha256": "12b5dba2d5132ede6a6a31a59a4b9bf8196479b35446b4f8228fba4d53dc8f44",
+      "snapshot_sha256": "12b5dba2d5132ede6a6a31a59a4b9bf8196479b35446b4f8228fba4d53dc8f44",
+      "bytes": 18025,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/tests/test_fixed_quest_integration.py",
+      "destination": "tests/test_fixed_quest_integration.py",
+      "group": "regression_tests",
+      "source_sha256": "0ebd028721a07e41549172f7cad6cbea212342df9957a77a812b2b2be047964b",
+      "snapshot_sha256": "0ebd028721a07e41549172f7cad6cbea212342df9957a77a812b2b2be047964b",
+      "bytes": 34945,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/tests/test_fixed_quest_protocol.py",
+      "destination": "tests/test_fixed_quest_protocol.py",
+      "group": "regression_tests",
+      "source_sha256": "8e84514a0b3ae986320d6a98bda0430cfd619527497dd463f60a3365e9723a27",
+      "snapshot_sha256": "8e84514a0b3ae986320d6a98bda0430cfd619527497dd463f60a3365e9723a27",
+      "bytes": 29827,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/tests/test_fixed_quest_real.py",
+      "destination": "tests/test_fixed_quest_real.py",
+      "group": "regression_tests",
+      "source_sha256": "afcd08a9b62cae15eb79603640b2d5724910885d4faf509f0c729acd97598dde",
+      "snapshot_sha256": "afcd08a9b62cae15eb79603640b2d5724910885d4faf509f0c729acd97598dde",
+      "bytes": 100110,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/tests/test_fixed_quest_scene.py",
+      "destination": "tests/test_fixed_quest_scene.py",
+      "group": "regression_tests",
+      "source_sha256": "31281ad545df825f70ee65592a311cc74e38d1c2ef91b0c2b4e1fe76183be910",
+      "snapshot_sha256": "31281ad545df825f70ee65592a311cc74e38d1c2ef91b0c2b4e1fe76183be910",
+      "bytes": 8361,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/tests/test_fixed_quest_sim.py",
+      "destination": "tests/test_fixed_quest_sim.py",
+      "group": "regression_tests",
+      "source_sha256": "e18033ce7ee64380771dd7711e84bfe5dca870d60317c9311325d04dee34bf2c",
+      "snapshot_sha256": "e18033ce7ee64380771dd7711e84bfe5dca870d60317c9311325d04dee34bf2c",
+      "bytes": 24379,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/tests/test_fixed_quest_transport.py",
+      "destination": "tests/test_fixed_quest_transport.py",
+      "group": "regression_tests",
+      "source_sha256": "3fcd10f1168bbc6379e9d11c0872e2d266c29dd97743c19f7766471dd93e465c",
+      "snapshot_sha256": "3fcd10f1168bbc6379e9d11c0872e2d266c29dd97743c19f7766471dd93e465c",
+      "bytes": 13777,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/tests/test_quest_calibration_robot.py",
+      "destination": "tests/test_quest_calibration_robot.py",
+      "group": "regression_tests",
+      "source_sha256": "d2a6b9b46102a26e806f79a8867dcec7f5c0dba885ca53611fb1bbe5451ce6b4",
+      "snapshot_sha256": "d2a6b9b46102a26e806f79a8867dcec7f5c0dba885ca53611fb1bbe5451ce6b4",
+      "bytes": 17436,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/tests/test_quest_client.js",
+      "destination": "tests/test_quest_client.js",
+      "group": "regression_tests",
+      "source_sha256": "2935689d26bc3b25cf574abcbddcca39d252e4866ed05b2f40466ee424665985",
+      "snapshot_sha256": "2935689d26bc3b25cf574abcbddcca39d252e4866ed05b2f40466ee424665985",
+      "bytes": 15732,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/tests/test_quest_controller_server.py",
+      "destination": "tests/test_quest_controller_server.py",
+      "group": "regression_tests",
+      "source_sha256": "b0411729555da0a3a2a29cdbf08f06f0939715343e9c2a1fef2d0dbdc09c6c92",
+      "snapshot_sha256": "b0411729555da0a3a2a29cdbf08f06f0939715343e9c2a1fef2d0dbdc09c6c92",
+      "bytes": 13206,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/tests/test_quest_local_axis_diagnostic.py",
+      "destination": "tests/test_quest_local_axis_diagnostic.py",
+      "group": "regression_tests",
+      "source_sha256": "dab9c8419bc6306c575f3a38ed79bdfd074cc28b7d6472a4097cba308fe022cc",
+      "snapshot_sha256": "dab9c8419bc6306c575f3a38ed79bdfd074cc28b7d6472a4097cba308fe022cc",
+      "bytes": 29634,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/tests/test_quest_pose_calibration.py",
+      "destination": "tests/test_quest_pose_calibration.py",
+      "group": "regression_tests",
+      "source_sha256": "07a90d2541c0297e573fbba9379608bce29c310e19ce229276968406db5539ae",
+      "snapshot_sha256": "07a90d2541c0297e573fbba9379608bce29c310e19ce229276968406db5539ae",
+      "bytes": 23092,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/tests/test_quest_reference_diagnostic.py",
+      "destination": "tests/test_quest_reference_diagnostic.py",
+      "group": "regression_tests",
+      "source_sha256": "fce88532e8476904a94300687b0c6a4b8f4b4f6466c0e694de6ad5c9b95603f0",
+      "snapshot_sha256": "fce88532e8476904a94300687b0c6a4b8f4b4f6466c0e694de6ad5c9b95603f0",
+      "bytes": 20146,
+      "modified_for_v2": false
+    },
+    {
+      "source": "ri_motion_v5_VR/project/ffw_sg2_vr_teleoperation/tests/test_render_initial_camera.py",
+      "destination": "tests/test_render_initial_camera.py",
+      "group": "regression_tests",
+      "source_sha256": "0eb994014214bc9ee53a425ddf8f3df81e23145f94342f2ff57aabc91a81b4a7",
+      "snapshot_sha256": "0eb994014214bc9ee53a425ddf8f3df81e23145f94342f2ff57aabc91a81b4a7",
+      "bytes": 4557,
+      "modified_for_v2": false
+    }
+  ],
+  "created_files": [
+    {
+      "path": ".gitignore",
+      "snapshot_sha256": "a3a474a0d1d1d67828a0b514a55756b4e82c1b91bc8d44345ebc4893d5467d02",
+      "bytes": 277
+    },
+    {
+      "path": ".project_v2",
+      "snapshot_sha256": "a5df063c81295b1cfe0caf715c00268b321829cd16eb8f1d37bcae781bfd8cfb",
+      "bytes": 19
+    },
+    {
+      "path": "README.md",
+      "snapshot_sha256": "0ed2343193a176c35bc1d48d4097bc7dc31b1839f06f955f80c05236ddae8d07",
+      "bytes": 5127
+    },
+    {
+      "path": "THIRD_PARTY.md",
+      "snapshot_sha256": "51cf8e1eee764dcd2c6112cfe406f5481f29132794c9dc0d33fddc9e62b9c257",
+      "bytes": 1430
+    },
+    {
+      "path": "calibration/diagnostics/.gitkeep",
+      "snapshot_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "calibration/profiles/.gitkeep",
+      "snapshot_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "docs/INTENT_PIPELINE.md",
+      "snapshot_sha256": "e37e077233af6a81f35877232f08b306aeca4a34f9552233b52b89f3d45349e7",
+      "bytes": 3658
+    },
+    {
+      "path": "docs/VALIDATION.md",
+      "snapshot_sha256": "956ea2ddfa102062d130ea009e5eac3107df84102bbe580ec665a5d838a174a6",
+      "bytes": 2519
+    },
+    {
+      "path": "docs/WORKER_SETUP.md",
+      "snapshot_sha256": "e5c1efa71effee38ef2819518f8d61d9aabd6b56139c7759b6cca907616edbb0",
+      "bytes": 1757
+    },
+    {
+      "path": "package/__init__.py",
+      "snapshot_sha256": "07c85f1e82a9ddf158357ed2875229fe17e282b166f41d612e11273d0e5b301a",
+      "bytes": 78
+    },
+    {
+      "path": "requirements-notebook.txt",
+      "snapshot_sha256": "038d9f9e6efb48b3abc8cbeb78ec72f5fcc1bd7c332d7faca6cb933737725022",
+      "bytes": 56
+    },
+    {
+      "path": "requirements.txt",
+      "snapshot_sha256": "d7a02ea29a5eb1079c563f0b7ac8c856f25612cd5b87165b7770046f649f60f5",
+      "bytes": 418
+    },
+    {
+      "path": "scripts/check_workspace.py",
+      "snapshot_sha256": "caebb7520152f8cf812538763e815d75b482393a6d15cd6729ef0325808c8c7e",
+      "bytes": 4169
+    }
+  ],
+  "excluded": [
+    "v1 generated .cache scenes, TLS keys/certificates and recordings",
+    "personal calibration profiles/diagnostics",
+    "old execution outputs, screenshots and analysis archives",
+    "utils_old.py, unrelated and historical notebooks",
+    "unrelated shared packages such as LLM/HF/Leap/mocap and heavy model assets",
+    "compiled native binaries/build artifacts",
+    "upstream packaging files that include omitted packages"
+  ],
+  "validation": {
+    "offline_notebook_setup": "3 passed",
+    "existing_regression_tests": 225,
+    "relocated_copy": "passed; different folder name, module/mesh paths local",
+    "old_kernel_module_guard": "passed",
+    "original_sources_unchanged": true,
+    "robot_or_quest_connection_performed": false
+  },
+  "counts": {
+    "copied_source_files": 119,
+    "created_files_excluding_manifest": 13,
+    "copied_bytes": 30846470,
+    "by_group": {
+      "application": 15,
+      "worker": 4,
+      "shared_runtime": 27,
+      "optional_native_source": 18,
+      "robot_assets": 35,
+      "quest_client": 2,
+      "notebook_baseline": 3,
+      "sim_calibration_reference": 1,
+      "regression_tests": 14
+    }
+  }
+}

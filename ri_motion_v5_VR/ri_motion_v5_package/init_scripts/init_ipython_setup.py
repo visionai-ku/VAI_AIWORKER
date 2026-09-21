@@ -30,6 +30,9 @@ print (" from PIL import Image")
 %gui qt
 """
 if ipython:
+    # `%gui qt` creates the QApplication; drop cv2's Qt plugin path first (Linux).
+    from ri_motion_v5_package.qt.qt_widgets import use_pyqt_platform_plugins
+    use_pyqt_platform_plugins()
     ipython.run_line_magic('config', 'InlineBackend.figure_format = "retina"')
     ipython.run_line_magic('matplotlib', 'inline')
     ipython.run_line_magic('gui', 'qt')

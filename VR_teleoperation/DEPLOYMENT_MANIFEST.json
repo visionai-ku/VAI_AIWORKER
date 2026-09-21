@@ -1,0 +1,869 @@
+{
+  "format_version": 1,
+  "snapshot_date": "2026-09-17",
+  "source_workspace": "FtF_VR/project_v2",
+  "destination": "VAI_AIWORKER/VR_teleoperation",
+  "repository_base_commit": "50bcf23dbf5664114fcce9a4a1f84077506d790a",
+  "scope": "Two intent teleoperation notebooks, their runtime/assets/profile dependencies, matching HOME/gripper worker bundle, and focused offline regression tests.",
+  "manifest_excludes": "This manifest itself and runtime-generated ignored .cache files.",
+  "counts": {
+    "copied_from_source": 111,
+    "identical_copies": 106,
+    "deployment_adjustments": 5,
+    "new_documents": 2,
+    "deliverable_files_including_manifest": 114
+  },
+  "source_preservation": {
+    "selected_source_files_rehashed": 111,
+    "all_match_before_copy": true
+  },
+  "validation": {
+    "python": "3.10.20 (existing ri_motion_v5_env, macOS)",
+    "notebook_setup": "PASS: both notebooks; repo-root/notebook-directory lookup; profile and review hashes; FK/IK; local module and mesh isolation",
+    "regression_tests": {
+      "command": "python -m unittest discover -s tests -p 'test_*.py'",
+      "tests": 223,
+      "result": "PASS"
+    },
+    "synthetic_pipeline": {
+      "command": "python scripts/validate_intent_pipeline.py",
+      "passed": true,
+      "faults": 0,
+      "bridge_rejections": 0
+    },
+    "python_syntax_files": 59,
+    "worker_bundle_hashes": "PASS: package/worker matches deploy/20260917-home-gripper-worker/SHA256.json",
+    "live_robot_or_quest_connection": false,
+    "js_syntax_check": "Not run: node executable unavailable. Client JavaScript is an unchanged byte-verified copy."
+  },
+  "known_limits": [
+    "Robot model contains no physical desk geometry.",
+    "Selected v1 personal profile remains accepted=false with its existing reviewed candidate path.",
+    "Existing long-run feedback boundary and IK interruptions were not changed by packaging.",
+    "Emulated-pose tracking mode (notebook default since 2026-09-18) has not yet been exercised with deliberate tracking losses on the real robot."
+  ],
+  "files": [
+    {
+      "path": ".gitignore",
+      "source_path": "project_v2/.gitignore",
+      "source_sha256": "3dfd8f0f75bfae302f22fcea88a84a7441024aeb4533441fa4c927434f6e3edf",
+      "deployed_sha256": "ca636eb779d192ecd6eff1b5a43cf77ede6bb7f8480260a5e63a609fb0969a8e",
+      "status": "deployment_adjustment",
+      "adjustment": "Allow only the three explicitly selected calibration JSON files to be committed."
+    },
+    {
+      "path": ".project_v2",
+      "source_path": "project_v2/.project_v2",
+      "source_sha256": "a5df063c81295b1cfe0caf715c00268b321829cd16eb8f1d37bcae781bfd8cfb",
+      "deployed_sha256": "a5df063c81295b1cfe0caf715c00268b321829cd16eb8f1d37bcae781bfd8cfb",
+      "status": "identical_copy"
+    },
+    {
+      "path": "README.md",
+      "source_path": null,
+      "source_sha256": null,
+      "deployed_sha256": "0012a24474227cb25cc084073ab6f1c133aa2aa74ed88beec64386fbf33511f4",
+      "status": "new_document"
+    },
+    {
+      "path": "SOURCE_MANIFEST.json",
+      "source_path": "project_v2/SOURCE_MANIFEST.json",
+      "source_sha256": "d3b8ffb4e0ae453d3eeda38481d6b2a76bc067e2d229140105dc020ac6ca90ed",
+      "deployed_sha256": "d3b8ffb4e0ae453d3eeda38481d6b2a76bc067e2d229140105dc020ac6ca90ed",
+      "status": "identical_copy"
+    },
+    {
+      "path": "THIRD_PARTY.md",
+      "source_path": "project_v2/THIRD_PARTY.md",
+      "source_sha256": "51cf8e1eee764dcd2c6112cfe406f5481f29132794c9dc0d33fddc9e62b9c257",
+      "deployed_sha256": "51cf8e1eee764dcd2c6112cfe406f5481f29132794c9dc0d33fddc9e62b9c257",
+      "status": "identical_copy"
+    },
+    {
+      "path": "calibration/diagnostics/v1.json",
+      "source_path": "project_v2/calibration/diagnostics/v1.json",
+      "source_sha256": "f6bd1ec7abc22251df6b1c5ffaf1f012f88264c5fe5229f72ddeb17f6fa41dd0",
+      "deployed_sha256": "f6bd1ec7abc22251df6b1c5ffaf1f012f88264c5fe5229f72ddeb17f6fa41dd0",
+      "status": "identical_copy"
+    },
+    {
+      "path": "calibration/diagnostics/v1_trajectory.json",
+      "source_path": "project_v2/calibration/diagnostics/v1_trajectory.json",
+      "source_sha256": "cde195a985e8c50530b7cacdf59ae55ae7dafa820415d4d904c70808ebdee7fe",
+      "deployed_sha256": "cde195a985e8c50530b7cacdf59ae55ae7dafa820415d4d904c70808ebdee7fe",
+      "status": "identical_copy"
+    },
+    {
+      "path": "calibration/reviews/v1-sim-reviewed-real-trial.json",
+      "source_path": "project_v2/calibration/reviews/v1-sim-reviewed-real-trial.json",
+      "source_sha256": "ee4db67a820e462ec5d0095800cd699dc93ce4e9eb01595d8816c081f3fc7f0d",
+      "deployed_sha256": "ee4db67a820e462ec5d0095800cd699dc93ce4e9eb01595d8816c081f3fc7f0d",
+      "status": "identical_copy"
+    },
+    {
+      "path": "deploy/20260917-home-gripper-worker/README.txt",
+      "source_path": "project_v2/deploy/20260917-home-gripper-worker/README.txt",
+      "source_sha256": "49de38dda6d7404f159dd8a734f2495960ee2addc3fc40df4b4ea488fb6fc5a3",
+      "deployed_sha256": "49de38dda6d7404f159dd8a734f2495960ee2addc3fc40df4b4ea488fb6fc5a3",
+      "status": "identical_copy"
+    },
+    {
+      "path": "deploy/20260917-home-gripper-worker/SHA256.json",
+      "source_path": "project_v2/deploy/20260917-home-gripper-worker/SHA256.json",
+      "source_sha256": "95614eed13486b61b30edc7484c7c5d39fb8899d144925c18db7ba154f8019d7",
+      "deployed_sha256": "95614eed13486b61b30edc7484c7c5d39fb8899d144925c18db7ba154f8019d7",
+      "status": "identical_copy"
+    },
+    {
+      "path": "deploy/20260917-home-gripper-worker/fixed_quest_protocol.py",
+      "source_path": "project_v2/deploy/20260917-home-gripper-worker/fixed_quest_protocol.py",
+      "source_sha256": "3637f7f67989fcd9abdfb1259102e72996446f810c87c3d5b447ae84a04e0d8f",
+      "deployed_sha256": "3637f7f67989fcd9abdfb1259102e72996446f810c87c3d5b447ae84a04e0d8f",
+      "status": "identical_copy"
+    },
+    {
+      "path": "deploy/20260917-home-gripper-worker/inbound.py",
+      "source_path": "project_v2/deploy/20260917-home-gripper-worker/inbound.py",
+      "source_sha256": "e417652e9248cc681f88c73b97cd0e4de9ef776b25a2c2490b2392d018221039",
+      "deployed_sha256": "e417652e9248cc681f88c73b97cd0e4de9ef776b25a2c2490b2392d018221039",
+      "status": "identical_copy"
+    },
+    {
+      "path": "deploy/20260917-home-gripper-worker/outbound.py",
+      "source_path": "project_v2/deploy/20260917-home-gripper-worker/outbound.py",
+      "source_sha256": "9bcbf491191f535faaa36ccfd24d2c0274c32c6771f3adea0b44022f96ccd040",
+      "deployed_sha256": "9bcbf491191f535faaa36ccfd24d2c0274c32c6771f3adea0b44022f96ccd040",
+      "status": "identical_copy"
+    },
+    {
+      "path": "docs/WORKER_SETUP.md",
+      "source_path": null,
+      "source_sha256": null,
+      "deployed_sha256": "2198d953444c4771c223973e324f33bff9fb7aac93174f5a380f2d63179bbbe1",
+      "status": "new_document"
+    },
+    {
+      "path": "package/__init__.py",
+      "source_path": "project_v2/package/__init__.py",
+      "source_sha256": "07c85f1e82a9ddf158357ed2875229fe17e282b166f41d612e11273d0e5b301a",
+      "deployed_sha256": "07c85f1e82a9ddf158357ed2875229fe17e282b166f41d612e11273d0e5b301a",
+      "status": "identical_copy"
+    },
+    {
+      "path": "package/controller_mapping.py",
+      "source_path": "project_v2/package/controller_mapping.py",
+      "source_sha256": "d96aaa242afb9fb3fdff6d7af55536233dca0ad813d13bd8cf9b95bef340b333",
+      "deployed_sha256": "d96aaa242afb9fb3fdff6d7af55536233dca0ad813d13bd8cf9b95bef340b333",
+      "status": "identical_copy"
+    },
+    {
+      "path": "package/fixed_quest_real.py",
+      "source_path": "project_v2/package/fixed_quest_real.py",
+      "source_sha256": "91b111951e7d56a4e69fdbe5ede63dd1502118876c3f8ea763adf87b1974f2d2",
+      "deployed_sha256": "91b111951e7d56a4e69fdbe5ede63dd1502118876c3f8ea763adf87b1974f2d2",
+      "status": "identical_copy"
+    },
+    {
+      "path": "package/fixed_quest_scene.py",
+      "source_path": "project_v2/package/fixed_quest_scene.py",
+      "source_sha256": "d2f3bf541ef994b4e42849d42bb87d1ec4b3cceddb60fc35f0075497c20d219a",
+      "deployed_sha256": "d2f3bf541ef994b4e42849d42bb87d1ec4b3cceddb60fc35f0075497c20d219a",
+      "status": "identical_copy"
+    },
+    {
+      "path": "package/fixed_quest_sim.py",
+      "source_path": "project_v2/package/fixed_quest_sim.py",
+      "source_sha256": "98cf41af9e2240eb074e22b4eec10318558b8dbb79cd02d275feb7986d7c2459",
+      "deployed_sha256": "98cf41af9e2240eb074e22b4eec10318558b8dbb79cd02d275feb7986d7c2459",
+      "status": "identical_copy"
+    },
+    {
+      "path": "package/fixed_quest_transport.py",
+      "source_path": "project_v2/package/fixed_quest_transport.py",
+      "source_sha256": "add24be98ed289612702d9a48e6c9e82c0846f7c93b58d2a393e9ac61973ac3e",
+      "deployed_sha256": "add24be98ed289612702d9a48e6c9e82c0846f7c93b58d2a393e9ac61973ac3e",
+      "status": "identical_copy"
+    },
+    {
+      "path": "package/home_path.py",
+      "source_path": "project_v2/package/home_path.py",
+      "source_sha256": "5b13df66916ad6ffee15f3ab70913f907f46e4ca202b135c0095e4a93bbf4d8f",
+      "deployed_sha256": "5b13df66916ad6ffee15f3ab70913f907f46e4ca202b135c0095e4a93bbf4d8f",
+      "status": "identical_copy"
+    },
+    {
+      "path": "package/init_project.py",
+      "source_path": "project_v2/package/init_project.py",
+      "source_sha256": "4dcacb50dfc557836ab82267f37b3d69fbb2b61a8c46194e6bcad4d075717cda",
+      "deployed_sha256": "741e80bb60df35fb3c3c9289224572359c89f688548ae38c72d27bdfe1ddd70d",
+      "status": "deployment_adjustment",
+      "adjustment": "Change workspace display/error wording to VR_teleoperation; runtime path policy unchanged."
+    },
+    {
+      "path": "package/intent_calibration.py",
+      "source_path": "project_v2/package/intent_calibration.py",
+      "source_sha256": "899fe2586922fd73b71b3d4bed72146dde22eceb12aeda84b28d4e793d8af1ac",
+      "deployed_sha256": "899fe2586922fd73b71b3d4bed72146dde22eceb12aeda84b28d4e793d8af1ac",
+      "status": "identical_copy"
+    },
+    {
+      "path": "package/intent_offline.py",
+      "source_path": "project_v2/package/intent_offline.py",
+      "source_sha256": "354e1ad64c7783c710c74eff9fd1b4b05529690e160390608202dd07d436b083",
+      "deployed_sha256": "354e1ad64c7783c710c74eff9fd1b4b05529690e160390608202dd07d436b083",
+      "status": "identical_copy"
+    },
+    {
+      "path": "package/intent_sim_bridge.py",
+      "source_path": "project_v2/package/intent_sim_bridge.py",
+      "source_sha256": "93bc72731c57d79471af7b2f6f41e73b189327d74886b8cb3f399698d7fc4f06",
+      "deployed_sha256": "93bc72731c57d79471af7b2f6f41e73b189327d74886b8cb3f399698d7fc4f06",
+      "status": "identical_copy"
+    },
+    {
+      "path": "package/intent_sim_candidate.py",
+      "source_path": "project_v2/package/intent_sim_candidate.py",
+      "source_sha256": "d3b3253f6b9a7c68d392a459078488cab9f843fa16a32b163402586cea4e1c60",
+      "deployed_sha256": "d3b3253f6b9a7c68d392a459078488cab9f843fa16a32b163402586cea4e1c60",
+      "status": "identical_copy"
+    },
+    {
+      "path": "package/intent_teleop.py",
+      "source_path": "project_v2/package/intent_teleop.py",
+      "source_sha256": "4b5e80f09d9ed00761ba3e16edaa8b520b1e3d25dcec5b0c9a4f8d8674d9618f",
+      "deployed_sha256": "4b5e80f09d9ed00761ba3e16edaa8b520b1e3d25dcec5b0c9a4f8d8674d9618f",
+      "status": "identical_copy"
+    },
+    {
+      "path": "package/joint_control.py",
+      "source_path": "project_v2/package/joint_control.py",
+      "source_sha256": "30e06b9487bc3a313c22c067340d745e851469b386f9427d484ce4e2a7a11e77",
+      "deployed_sha256": "30e06b9487bc3a313c22c067340d745e851469b386f9427d484ce4e2a7a11e77",
+      "status": "identical_copy"
+    },
+    {
+      "path": "package/joint_marker_control.py",
+      "source_path": "project_v2/package/joint_marker_control.py",
+      "source_sha256": "bf969211d0d47e1d1f3137cc0d5fef5ecba13efeead5d474c242b90ba602f789",
+      "deployed_sha256": "bf969211d0d47e1d1f3137cc0d5fef5ecba13efeead5d474c242b90ba602f789",
+      "status": "identical_copy"
+    },
+    {
+      "path": "package/joint_marker_real.py",
+      "source_path": "project_v2/package/joint_marker_real.py",
+      "source_sha256": "508089baa02469720650533b6cac07a4082750c9628352d9311dfeaaa5465007",
+      "deployed_sha256": "508089baa02469720650533b6cac07a4082750c9628352d9311dfeaaa5465007",
+      "status": "identical_copy"
+    },
+    {
+      "path": "package/quest_controller_server.py",
+      "source_path": "project_v2/package/quest_controller_server.py",
+      "source_sha256": "f4e7a116d0f974702ed7416388e06e26e5d047c80edadd796285a4c104129fe5",
+      "deployed_sha256": "f4e7a116d0f974702ed7416388e06e26e5d047c80edadd796285a4c104129fe5",
+      "status": "identical_copy"
+    },
+    {
+      "path": "package/quest_pose_calibration.py",
+      "source_path": "project_v2/package/quest_pose_calibration.py",
+      "source_sha256": "ab1d1949358a7c10f17cac93a0363382b8bde065cb794bbccc76c7bbc35c5309",
+      "deployed_sha256": "ab1d1949358a7c10f17cac93a0363382b8bde065cb794bbccc76c7bbc35c5309",
+      "status": "identical_copy"
+    },
+    {
+      "path": "package/utils.py",
+      "source_path": "project_v2/package/utils.py",
+      "source_sha256": "690fe4f2890d228b1a4e7b1acc70a852ed996cb15ce0446ab96ba2524c7fe9a7",
+      "deployed_sha256": "690fe4f2890d228b1a4e7b1acc70a852ed996cb15ce0446ab96ba2524c7fe9a7",
+      "status": "identical_copy"
+    },
+    {
+      "path": "package/worker/__init__.py",
+      "source_path": "project_v2/package/worker/__init__.py",
+      "source_sha256": "b113e046a4fd35feed585a059dcdaef89ae6f7408d40add8ea20ba6caf92657f",
+      "deployed_sha256": "b113e046a4fd35feed585a059dcdaef89ae6f7408d40add8ea20ba6caf92657f",
+      "status": "identical_copy"
+    },
+    {
+      "path": "package/worker/fixed_quest_protocol.py",
+      "source_path": "project_v2/package/worker/fixed_quest_protocol.py",
+      "source_sha256": "3637f7f67989fcd9abdfb1259102e72996446f810c87c3d5b447ae84a04e0d8f",
+      "deployed_sha256": "3637f7f67989fcd9abdfb1259102e72996446f810c87c3d5b447ae84a04e0d8f",
+      "status": "identical_copy"
+    },
+    {
+      "path": "package/worker/inbound.py",
+      "source_path": "project_v2/package/worker/inbound.py",
+      "source_sha256": "e417652e9248cc681f88c73b97cd0e4de9ef776b25a2c2490b2392d018221039",
+      "deployed_sha256": "e417652e9248cc681f88c73b97cd0e4de9ef776b25a2c2490b2392d018221039",
+      "status": "identical_copy"
+    },
+    {
+      "path": "package/worker/outbound.py",
+      "source_path": "project_v2/package/worker/outbound.py",
+      "source_sha256": "9bcbf491191f535faaa36ccfd24d2c0274c32c6771f3adea0b44022f96ccd040",
+      "deployed_sha256": "9bcbf491191f535faaa36ccfd24d2c0274c32c6771f3adea0b44022f96ccd040",
+      "status": "identical_copy"
+    },
+    {
+      "path": "quest_client/client.js",
+      "source_path": "project_v2/quest_client/client.js",
+      "source_sha256": "5648fdf72a75ee08cc1bd5a3bc3a6c13fd3797261a15174e63b6cff63bf0114a",
+      "deployed_sha256": "5648fdf72a75ee08cc1bd5a3bc3a6c13fd3797261a15174e63b6cff63bf0114a",
+      "status": "identical_copy"
+    },
+    {
+      "path": "quest_client/index.html",
+      "source_path": "project_v2/quest_client/index.html",
+      "source_sha256": "6659809c2ce98ca094cc62686f0aadf4d7388b17e1d0460c51c9bc9c04cf40a6",
+      "deployed_sha256": "6659809c2ce98ca094cc62686f0aadf4d7388b17e1d0460c51c9bc9c04cf40a6",
+      "status": "identical_copy"
+    },
+    {
+      "path": "real_notebook/real_vr_teleop.ipynb",
+      "source_path": "project_v2/real_notebook/real_intent_teleop.ipynb",
+      "source_sha256": "35a7d8b26d867c75761b100eaceab04dcf11a3970adb88a24e567cb2c2b6ce1c",
+      "deployed_sha256": "24c33dcfc90c25f25eb12dea191877a2780cfb2e2c459185b8eaea3c9e8d632e",
+      "status": "deployment_adjustment",
+      "adjustment": "Discover VR_teleoperation from repository root; update missing-workspace message; renamed from real_intent_teleop.ipynb. All other cells match the source."
+    },
+    {
+      "path": "requirements-notebook.txt",
+      "source_path": "project_v2/requirements-notebook.txt",
+      "source_sha256": "038d9f9e6efb48b3abc8cbeb78ec72f5fcc1bd7c332d7faca6cb933737725022",
+      "deployed_sha256": "038d9f9e6efb48b3abc8cbeb78ec72f5fcc1bd7c332d7faca6cb933737725022",
+      "status": "identical_copy"
+    },
+    {
+      "path": "requirements.txt",
+      "source_path": "project_v2/requirements.txt",
+      "source_sha256": "d7a02ea29a5eb1079c563f0b7ac8c856f25612cd5b87165b7770046f649f60f5",
+      "deployed_sha256": "d7a02ea29a5eb1079c563f0b7ac8c856f25612cd5b87165b7770046f649f60f5",
+      "status": "identical_copy"
+    },
+    {
+      "path": "scripts/check_workspace.py",
+      "source_path": "project_v2/scripts/check_workspace.py",
+      "source_sha256": "0f99efb2b92fcb1b0630da823e114309ef74ba9b26d00c52364b0f33bc6dc2c7",
+      "deployed_sha256": "3bb8198c072bad73c51d60761d6b76e1e27ceddb4404a697a8c98b0769ab00eb",
+      "status": "deployment_adjustment",
+      "adjustment": "Limit verification to the two included notebooks; verify root lookup, local modules/assets and matching worker hashes. Notebook names follow the *_vr_teleop.ipynb rename."
+    },
+    {
+      "path": "scripts/validate_intent_pipeline.py",
+      "source_path": "project_v2/scripts/validate_intent_pipeline.py",
+      "source_sha256": "b46f8be756f30972db19865ae80305b453105207fa00f7f8dd5170da73fe7a4c",
+      "deployed_sha256": "b46f8be756f30972db19865ae80305b453105207fa00f7f8dd5170da73fe7a4c",
+      "status": "identical_copy"
+    },
+    {
+      "path": "sim_notebook/sim_vr_teleop.ipynb",
+      "source_path": "project_v2/sim_notebook/sim_intent_teleop.ipynb",
+      "source_sha256": "e90167a8a7ae5c4f9fc61d427c251737839f38eb810300c380ac1e1aca3cd194",
+      "deployed_sha256": "319669a948752e34bdd5331f1fec8f08894d31e716c2b4105ad70880654ae8c9",
+      "status": "deployment_adjustment",
+      "adjustment": "Discover VR_teleoperation from repository root; update missing-workspace message; renamed from sim_intent_teleop.ipynb. All other cells match the source."
+    },
+    {
+      "path": "tests/test_controller_mapping.py",
+      "source_path": "project_v2/tests/test_controller_mapping.py",
+      "source_sha256": "75f64ae1deea0902b2ed93d3264b31a2936220fbeda5297bd396e16b0678207e",
+      "deployed_sha256": "75f64ae1deea0902b2ed93d3264b31a2936220fbeda5297bd396e16b0678207e",
+      "status": "identical_copy"
+    },
+    {
+      "path": "tests/test_feedback_gripper_upgrade.py",
+      "source_path": "project_v2/tests/test_feedback_gripper_upgrade.py",
+      "source_sha256": "5f1446fa34b7d83ca7d78a57de406ced353a33da83f83a6f01ca0cdac5f56b71",
+      "deployed_sha256": "5f1446fa34b7d83ca7d78a57de406ced353a33da83f83a6f01ca0cdac5f56b71",
+      "status": "identical_copy"
+    },
+    {
+      "path": "tests/test_fixed_quest_integration.py",
+      "source_path": "project_v2/tests/test_fixed_quest_integration.py",
+      "source_sha256": "95717e7a09d07f1c347a6a3e082185aba5bad6f04e9685767eae3b1fb8339cb3",
+      "deployed_sha256": "95717e7a09d07f1c347a6a3e082185aba5bad6f04e9685767eae3b1fb8339cb3",
+      "status": "identical_copy"
+    },
+    {
+      "path": "tests/test_fixed_quest_protocol.py",
+      "source_path": "project_v2/tests/test_fixed_quest_protocol.py",
+      "source_sha256": "9cf3fe73dba7045b55ec2a5438baf9407dfa3e375fdeff7811bb88ddf386c682",
+      "deployed_sha256": "9cf3fe73dba7045b55ec2a5438baf9407dfa3e375fdeff7811bb88ddf386c682",
+      "status": "identical_copy"
+    },
+    {
+      "path": "tests/test_fixed_quest_real.py",
+      "source_path": "project_v2/tests/test_fixed_quest_real.py",
+      "source_sha256": "2f26aa5379353820c589c37d0e9f64a835ea27d1896299f4e8255b2d93e72959",
+      "deployed_sha256": "2f26aa5379353820c589c37d0e9f64a835ea27d1896299f4e8255b2d93e72959",
+      "status": "identical_copy"
+    },
+    {
+      "path": "tests/test_fixed_quest_scene.py",
+      "source_path": "project_v2/tests/test_fixed_quest_scene.py",
+      "source_sha256": "31281ad545df825f70ee65592a311cc74e38d1c2ef91b0c2b4e1fe76183be910",
+      "deployed_sha256": "31281ad545df825f70ee65592a311cc74e38d1c2ef91b0c2b4e1fe76183be910",
+      "status": "identical_copy"
+    },
+    {
+      "path": "tests/test_fixed_quest_sim.py",
+      "source_path": "project_v2/tests/test_fixed_quest_sim.py",
+      "source_sha256": "186effeb7f5099751b3f19ad1cab9d639124a408960c802fbf1efa2ae1e7c85a",
+      "deployed_sha256": "186effeb7f5099751b3f19ad1cab9d639124a408960c802fbf1efa2ae1e7c85a",
+      "status": "identical_copy"
+    },
+    {
+      "path": "tests/test_home_path.py",
+      "source_path": "project_v2/tests/test_home_path.py",
+      "source_sha256": "7fb7b5739aa1f1013e274edd59bda3587dc72243020ae11777bf3e82bfec05a9",
+      "deployed_sha256": "7fb7b5739aa1f1013e274edd59bda3587dc72243020ae11777bf3e82bfec05a9",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/__init__.py",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/__init__.py",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "deployed_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/kinematics/README.md",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/kinematics/README.md",
+      "source_sha256": "b354ef7e8da5ceb3ea7bb304cbeb3d56f3d8659d6e92433befcf9462f718ad3b",
+      "deployed_sha256": "b354ef7e8da5ceb3ea7bb304cbeb3d56f3d8659d6e92433befcf9462f718ad3b",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/kinematics/__init__.py",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/kinematics/__init__.py",
+      "source_sha256": "9cfa4d42156537e082e24454c82f491309870616c6e3148ef9aec18e8a8b6b6d",
+      "deployed_sha256": "9cfa4d42156537e082e24454c82f491309870616c6e3148ef9aec18e8a8b6b6d",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/kinematics/numpy_chain.py",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/kinematics/numpy_chain.py",
+      "source_sha256": "1961342d3396ef961472a33a1f7e616ddc90cd0e5fb4215f0f6611d502afc4fc",
+      "deployed_sha256": "1961342d3396ef961472a33a1f7e616ddc90cd0e5fb4215f0f6611d502afc4fc",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/kinematics/screw_chain.py",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/kinematics/screw_chain.py",
+      "source_sha256": "2c390bbc713452decd9e3a7b4c7c337f8bf68b5e2d96b8daf6bd55181d28f3fd",
+      "deployed_sha256": "2c390bbc713452decd9e3a7b4c7c337f8bf68b5e2d96b8daf6bd55181d28f3fd",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/kinematics/transforms.py",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/kinematics/transforms.py",
+      "source_sha256": "a2b5d32097aaa3909858813f72ae7375e05904bb3b1a3fd2d4503222a52c70f5",
+      "deployed_sha256": "a2b5d32097aaa3909858813f72ae7375e05904bb3b1a3fd2d4503222a52c70f5",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/mujoco_sim/README.md",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/mujoco_sim/README.md",
+      "source_sha256": "2757f0cef44ad6033512f7e542658dc0cbf7664e44c320ba46179b0f1941a6b5",
+      "deployed_sha256": "2757f0cef44ad6033512f7e542658dc0cbf7664e44c320ba46179b0f1941a6b5",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/mujoco_sim/__init__.py",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/mujoco_sim/__init__.py",
+      "source_sha256": "d124cbb2a1aa1f59b5f861b867d924c39cfb084a6e28c417c9e6e080a24d70fc",
+      "deployed_sha256": "d124cbb2a1aa1f59b5f861b867d924c39cfb084a6e28c417c9e6e080a24d70fc",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/mujoco_sim/_native.py",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/mujoco_sim/_native.py",
+      "source_sha256": "594fcaebfc2e58c414f279376caa970595731b6c079cb0e53ce0d3eb90615802",
+      "deployed_sha256": "594fcaebfc2e58c414f279376caa970595731b6c079cb0e53ce0d3eb90615802",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/mujoco_sim/_native_build.py",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/mujoco_sim/_native_build.py",
+      "source_sha256": "37a8af2f2b3b65d084764744eac69f9bb0fa60bccab422b5fd5f7aad72844946",
+      "deployed_sha256": "37a8af2f2b3b65d084764744eac69f9bb0fa60bccab422b5fd5f7aad72844946",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/mujoco_sim/interactive_marker.py",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/mujoco_sim/interactive_marker.py",
+      "source_sha256": "3b579aad2a3f7671a00af8560490168e01943cbf83242af16786047739f6dd92",
+      "deployed_sha256": "3b579aad2a3f7671a00af8560490168e01943cbf83242af16786047739f6dd92",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/mujoco_sim/mujoco_draw.py",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/mujoco_sim/mujoco_draw.py",
+      "source_sha256": "d7423644c7c924a37eabe0324dcef99643b644c437f75f048ca83342c8df63e1",
+      "deployed_sha256": "d7423644c7c924a37eabe0324dcef99643b644c437f75f048ca83342c8df63e1",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/mujoco_sim/mujoco_ik.py",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/mujoco_sim/mujoco_ik.py",
+      "source_sha256": "0a0c7086a905fd4e8907f83e711f4ff1f3dd48ba7a89d5692e2dcc6c29ed0f4d",
+      "deployed_sha256": "0a0c7086a905fd4e8907f83e711f4ff1f3dd48ba7a89d5692e2dcc6c29ed0f4d",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/mujoco_sim/mujoco_replay.py",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/mujoco_sim/mujoco_replay.py",
+      "source_sha256": "e22cb88762145dd1e68d971372aa36b83e0828cbb31bfa8104b0093f9b264d09",
+      "deployed_sha256": "e22cb88762145dd1e68d971372aa36b83e0828cbb31bfa8104b0093f9b264d09",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/mujoco_sim/mujoco_utils.py",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/mujoco_sim/mujoco_utils.py",
+      "source_sha256": "3862ca504898e2b636a2d47791a8a30273baf96b99c22c38245110995c7a2f43",
+      "deployed_sha256": "3862ca504898e2b636a2d47791a8a30273baf96b99c22c38245110995c7a2f43",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/mujoco_sim/parser.py",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/mujoco_sim/parser.py",
+      "source_sha256": "7950e08381da8d8476e37b3b86480181ae33f8344cfad70b986a13f35e12140f",
+      "deployed_sha256": "7950e08381da8d8476e37b3b86480181ae33f8344cfad70b986a13f35e12140f",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/mujoco_sim/render_process.py",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/mujoco_sim/render_process.py",
+      "source_sha256": "2cb2300baace211bc62698964f88b5c38838ad2249efb0a5c2e064e6279622b8",
+      "deployed_sha256": "2cb2300baace211bc62698964f88b5c38838ad2249efb0a5c2e064e6279622b8",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/mujoco_sim/so/__init__.py",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/mujoco_sim/so/__init__.py",
+      "source_sha256": "fd93be943e7c5fd307dd67a6b83f2934de656a3873c1447acab54fa967ee1aeb",
+      "deployed_sha256": "fd93be943e7c5fd307dd67a6b83f2934de656a3873c1447acab54fa967ee1aeb",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/qt/README.md",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/qt/README.md",
+      "source_sha256": "f57e66b2df65da9a60194abbabf6a930030b1020cecd8084fbdbe22b261dda04",
+      "deployed_sha256": "f57e66b2df65da9a60194abbabf6a930030b1020cecd8084fbdbe22b261dda04",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/qt/__init__.py",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/qt/__init__.py",
+      "source_sha256": "f21965b3d3db5a590abfea13b6c4f3f68437c17e8a8bd3b3b697a1d8c7392eb8",
+      "deployed_sha256": "f21965b3d3db5a590abfea13b6c4f3f68437c17e8a8bd3b3b697a1d8c7392eb8",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/qt/env_widgets.py",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/qt/env_widgets.py",
+      "source_sha256": "aaf3e33e52c27279b6040af2904f913536396376e58a0676576f46e756bc49d1",
+      "deployed_sha256": "aaf3e33e52c27279b6040af2904f913536396376e58a0676576f46e756bc49d1",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/qt/qt_widgets.py",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/qt/qt_widgets.py",
+      "source_sha256": "bd3f972412ae9c3aefa5781087094b82fd40112f69ccc0ee0ebceafde6926f66",
+      "deployed_sha256": "bd3f972412ae9c3aefa5781087094b82fd40112f69ccc0ee0ebceafde6926f66",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/utility/README.md",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/utility/README.md",
+      "source_sha256": "c3816c9f50e0a69281c5b286269f645c6888d919af77c9ab41605356adacab52",
+      "deployed_sha256": "c3816c9f50e0a69281c5b286269f645c6888d919af77c9ab41605356adacab52",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/utility/__init__.py",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/utility/__init__.py",
+      "source_sha256": "553a72b2e6da0528d14beddbec79b4b03f2310d7252325bb7dd8278f66707220",
+      "deployed_sha256": "553a72b2e6da0528d14beddbec79b4b03f2310d7252325bb7dd8278f66707220",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/utility/filters.py",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/utility/filters.py",
+      "source_sha256": "83efcc3b11a25af286e848b60f467f254d4c1de960f33271a07a49c9ffb618e7",
+      "deployed_sha256": "83efcc3b11a25af286e848b60f467f254d4c1de960f33271a07a49c9ffb618e7",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/utility/utils.py",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/utility/utils.py",
+      "source_sha256": "06ba0672634bec9aa259b6d23304e6be521add1ae85496eb6259708bea74e53a",
+      "deployed_sha256": "06ba0672634bec9aa259b6d23304e6be521add1ae85496eb6259708bea74e53a",
+      "status": "identical_copy"
+    },
+    {
+      "path": "vendor/ri_motion_v5_package/utility/viz.py",
+      "source_path": "project_v2/vendor/ri_motion_v5_package/utility/viz.py",
+      "source_sha256": "eea60ea142d51fafcf0a2cbe2f167a2ecd545c3013e56777769a7fab06febb7f",
+      "deployed_sha256": "eea60ea142d51fafcf0a2cbe2f167a2ecd545c3013e56777769a7fab06febb7f",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/ROBOTIS_LICENSE",
+      "source_path": "project_v2/xml/ROBOTIS_LICENSE",
+      "source_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "deployed_sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/ffw_sg2.xml",
+      "source_path": "project_v2/xml/ffw_sg2.xml",
+      "source_sha256": "d73b3432df0673a2df2849b4f18ebe4a6507f2de1ba8090073c3e600464f825e",
+      "deployed_sha256": "d73b3432df0673a2df2849b4f18ebe4a6507f2de1ba8090073c3e600464f825e",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/floor_simple_white.xml",
+      "source_path": "project_v2/xml/floor_simple_white.xml",
+      "source_sha256": "c8671224afaf5f361ae2b5754098df620e10871e803e6d7aa5f290001a0b086b",
+      "deployed_sha256": "c8671224afaf5f361ae2b5754098df620e10871e803e6d7aa5f290001a0b086b",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/arm_l_link1.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/arm_l_link1.stl",
+      "source_sha256": "089f3c0008409182fc66c4ad1bc0d2e2f98e62c76fe0530b22cd07f0150c93c9",
+      "deployed_sha256": "089f3c0008409182fc66c4ad1bc0d2e2f98e62c76fe0530b22cd07f0150c93c9",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/arm_l_link2.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/arm_l_link2.stl",
+      "source_sha256": "920544da98e13a38699414aea1b682a52917bba1c295a445908e413e2ab151ef",
+      "deployed_sha256": "920544da98e13a38699414aea1b682a52917bba1c295a445908e413e2ab151ef",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/arm_l_link3.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/arm_l_link3.stl",
+      "source_sha256": "c4fdb4904c116d0d15df31c8010555fc1b76f75a267b5f125836471fcf12aff8",
+      "deployed_sha256": "c4fdb4904c116d0d15df31c8010555fc1b76f75a267b5f125836471fcf12aff8",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/arm_l_link4.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/arm_l_link4.stl",
+      "source_sha256": "e46e67c96fc4410649de6136297b537048198c530ad1252ec1af1942668e1b03",
+      "deployed_sha256": "e46e67c96fc4410649de6136297b537048198c530ad1252ec1af1942668e1b03",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/arm_l_link5.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/arm_l_link5.stl",
+      "source_sha256": "8fd2ec10ed01e74caff0e3aa594814266ea629428340ede6574d70dc3a0cb3f3",
+      "deployed_sha256": "8fd2ec10ed01e74caff0e3aa594814266ea629428340ede6574d70dc3a0cb3f3",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/arm_l_link6.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/arm_l_link6.stl",
+      "source_sha256": "3c9258f77996205946522313c115b2fee85645a839946ace6844a9ddd7ed0079",
+      "deployed_sha256": "3c9258f77996205946522313c115b2fee85645a839946ace6844a9ddd7ed0079",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/arm_l_link7.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/arm_l_link7.stl",
+      "source_sha256": "00d6e742c9b7dd52c57ac0b0a59ae2e1cb93581f00e877a27add5ce20b1544f3",
+      "deployed_sha256": "00d6e742c9b7dd52c57ac0b0a59ae2e1cb93581f00e877a27add5ce20b1544f3",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/arm_r_link1.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/arm_r_link1.stl",
+      "source_sha256": "cf2a61ea5a3fc87811960ea7a75932bd3b9fb416437f06b952466f4491e9818e",
+      "deployed_sha256": "cf2a61ea5a3fc87811960ea7a75932bd3b9fb416437f06b952466f4491e9818e",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/arm_r_link2.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/arm_r_link2.stl",
+      "source_sha256": "179e7a3c4b8377ffbfaf2bc661873bdc856d6a16a0b654e9ff145056a4dc2e09",
+      "deployed_sha256": "179e7a3c4b8377ffbfaf2bc661873bdc856d6a16a0b654e9ff145056a4dc2e09",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/arm_r_link3.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/arm_r_link3.stl",
+      "source_sha256": "f34527d6456c0517168c374692aa7b6464d582b273f0be6ae262a3cc72eab843",
+      "deployed_sha256": "f34527d6456c0517168c374692aa7b6464d582b273f0be6ae262a3cc72eab843",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/arm_r_link4.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/arm_r_link4.stl",
+      "source_sha256": "694a5a4e4ca123702525c0050be223560c239f64af3b4875622ff1b9cafb5cf6",
+      "deployed_sha256": "694a5a4e4ca123702525c0050be223560c239f64af3b4875622ff1b9cafb5cf6",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/arm_r_link5.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/arm_r_link5.stl",
+      "source_sha256": "f576912dfd9661c1c84f6e378784e75aa8de9ed77605a4555b7a400f8e1d40bc",
+      "deployed_sha256": "f576912dfd9661c1c84f6e378784e75aa8de9ed77605a4555b7a400f8e1d40bc",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/arm_r_link6.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/arm_r_link6.stl",
+      "source_sha256": "24a3f115545efa8a3c8168e72fba6a4d25aee7e1728e4620142734b78de04140",
+      "deployed_sha256": "24a3f115545efa8a3c8168e72fba6a4d25aee7e1728e4620142734b78de04140",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/arm_r_link7.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/arm_r_link7.stl",
+      "source_sha256": "034897030b5b5cb8dab31f03bb5e956a770e8f574212260961f75fd3101384c3",
+      "deployed_sha256": "034897030b5b5cb8dab31f03bb5e956a770e8f574212260961f75fd3101384c3",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/base_mobile_assy.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/base_mobile_assy.stl",
+      "source_sha256": "3d5537ab5cf9d7dd9ccf75172cceb8af641d3db442354fbe95925c2fedc28764",
+      "deployed_sha256": "3d5537ab5cf9d7dd9ccf75172cceb8af641d3db442354fbe95925c2fedc28764",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/body_arm_assy.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/body_arm_assy.stl",
+      "source_sha256": "3e9fc2a8b03df196027a182975627de26fd6b3894757cc90412666bf2142d073",
+      "deployed_sha256": "3e9fc2a8b03df196027a182975627de26fd6b3894757cc90412666bf2142d073",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/head_link1.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/head_link1.stl",
+      "source_sha256": "9ed4cf30e2c3426ceb7b98bf7ba2c070cf8e37a75bdc060fe77b488ea5e5de2e",
+      "deployed_sha256": "9ed4cf30e2c3426ceb7b98bf7ba2c070cf8e37a75bdc060fe77b488ea5e5de2e",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/head_link2.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/head_link2.stl",
+      "source_sha256": "9c653dcbdc5b5c030d57d01852c9dd157b0e2cc469756d1c76140edd764c1227",
+      "deployed_sha256": "9c653dcbdc5b5c030d57d01852c9dd157b0e2cc469756d1c76140edd764c1227",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/left_wheel_drive_link.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/left_wheel_drive_link.stl",
+      "source_sha256": "90f676631634ae26be362782322d2cc37f770c1dbb314d445b0709fc9f09c83c",
+      "deployed_sha256": "90f676631634ae26be362782322d2cc37f770c1dbb314d445b0709fc9f09c83c",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/left_wheel_steer_link.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/left_wheel_steer_link.stl",
+      "source_sha256": "c82fe2b71bed6c317a689f511022d50fd8470e6e02a78fb0d3c913c4394e05b8",
+      "deployed_sha256": "c82fe2b71bed6c317a689f511022d50fd8470e6e02a78fb0d3c913c4394e05b8",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/lift_link.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/lift_link.stl",
+      "source_sha256": "e0939a4ffa69f11c6e3f160e78ce8c492d3ece706c4a9be2057a0a74c84c9f66",
+      "deployed_sha256": "e0939a4ffa69f11c6e3f160e78ce8c492d3ece706c4a9be2057a0a74c84c9f66",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/rear_wheel_drive_link.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/rear_wheel_drive_link.stl",
+      "source_sha256": "1d914cf96410a6f369097d6aac43655c2a27359a46b36ab952eec083c5a84ecc",
+      "deployed_sha256": "1d914cf96410a6f369097d6aac43655c2a27359a46b36ab952eec083c5a84ecc",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/rear_wheel_steer_link.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/rear_wheel_steer_link.stl",
+      "source_sha256": "944a9965aa2cfbf6ce4155a534726b7afce0e37779231dd9208361358e94b10a",
+      "deployed_sha256": "944a9965aa2cfbf6ce4155a534726b7afce0e37779231dd9208361358e94b10a",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/right_wheel_drive_link.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/right_wheel_drive_link.stl",
+      "source_sha256": "1d914cf96410a6f369097d6aac43655c2a27359a46b36ab952eec083c5a84ecc",
+      "deployed_sha256": "1d914cf96410a6f369097d6aac43655c2a27359a46b36ab952eec083c5a84ecc",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/ffw_s/right_wheel_steer_link.stl",
+      "source_path": "project_v2/xml/mesh/ffw_s/right_wheel_steer_link.stl",
+      "source_sha256": "b519ec195a4a5cbfb96f0a4064cba5a60436d1a769dc749aca409db5720df8c0",
+      "deployed_sha256": "b519ec195a4a5cbfb96f0a4064cba5a60436d1a769dc749aca409db5720df8c0",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/rh_p12_rn/base.stl",
+      "source_path": "project_v2/xml/mesh/rh_p12_rn/base.stl",
+      "source_sha256": "71c5b655e9e410f3c59a5e6b24f396cd7b73c505ee2a323c1f9f2f50f1b73bb4",
+      "deployed_sha256": "71c5b655e9e410f3c59a5e6b24f396cd7b73c505ee2a323c1f9f2f50f1b73bb4",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/rh_p12_rn/l1.stl",
+      "source_path": "project_v2/xml/mesh/rh_p12_rn/l1.stl",
+      "source_sha256": "c08b45dce10d59dbef15ef2f41bae6549783015ea16b7498ec07b108a9cbfa6f",
+      "deployed_sha256": "c08b45dce10d59dbef15ef2f41bae6549783015ea16b7498ec07b108a9cbfa6f",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/rh_p12_rn/l2.stl",
+      "source_path": "project_v2/xml/mesh/rh_p12_rn/l2.stl",
+      "source_sha256": "039d4c7b7ed390c894b10d1f0a5e6c53c39e2ad6553ad6de7823450cbc5e42be",
+      "deployed_sha256": "039d4c7b7ed390c894b10d1f0a5e6c53c39e2ad6553ad6de7823450cbc5e42be",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/rh_p12_rn/r1.stl",
+      "source_path": "project_v2/xml/mesh/rh_p12_rn/r1.stl",
+      "source_sha256": "7310e06490a483e59a104ee09f0655450f54c406b3034cdaadf60ae42667f509",
+      "deployed_sha256": "7310e06490a483e59a104ee09f0655450f54c406b3034cdaadf60ae42667f509",
+      "status": "identical_copy"
+    },
+    {
+      "path": "xml/mesh/rh_p12_rn/r2.stl",
+      "source_path": "project_v2/xml/mesh/rh_p12_rn/r2.stl",
+      "source_sha256": "94fcdf63f23b4ba03e3f6ce07aa24c6bab0ca4faff0d18342f26be460e0dbf99",
+      "deployed_sha256": "94fcdf63f23b4ba03e3f6ce07aa24c6bab0ca4faff0d18342f26be460e0dbf99",
+      "status": "identical_copy"
+    }
+  ],
+  "updates": [
+    {
+      "date": "2026-09-18",
+      "summary": "Tracking-loss modes: both notebooks start with Quest emulated poses and offer a 0.5 s pause mode; the robot worker is unchanged. Notebook references updated for the *_vr_teleop.ipynb rename.",
+      "files": [
+        "package/controller_mapping.py",
+        "package/fixed_quest_real.py",
+        "package/intent_teleop.py",
+        "tests/test_controller_mapping.py",
+        "tests/test_fixed_quest_real.py",
+        "sim_notebook/sim_vr_teleop.ipynb",
+        "real_notebook/real_vr_teleop.ipynb",
+        "scripts/check_workspace.py",
+        "README.md",
+        "docs/WORKER_SETUP.md",
+        "DEPLOYMENT_MANIFEST.json"
+      ],
+      "validation": {
+        "regression_tests": "223 PASS",
+        "check_workspace": "PASS",
+        "validate_intent_pipeline": "PASS",
+        "ui_smoke": "PASS: SIM and REAL DRY RUN (localhost robot) show 2 mode buttons; start emulated; switch applies when released",
+        "live_robot_or_quest_connection": false
+      }
+    }
+  ]
+}
