@@ -709,10 +709,22 @@ class SG2FixedQuestReal:
             self._sync_command(q)
             # An explicit Initial pose request needs measured robot feedback,
             # not controller tracking. Ordinary teleoperation still needs both.
-            arming_result = self.planner.tick(frame, enabled=not self.home_pending, now=now)
+            arming_result = self.planner.tick(
+                frame, enabled=not self.home_pending, now=now,
+                posture_reference_qpos=self.env_measured.data.qpos.copy())
             if arming_result["state"] in ("HOLD", "FAULT"):
                 return self._hold(frame, feedback, now, arming_result["reason"], True,
                                   arming_result["state"])
+            if self.home_pending:
+                self.planner.guard.env_check.data.qpos[:] = self.env_measured.data.qpos
+                self.planner.guard.env_check.data.qvel[:] = 0
+                self.planner.guard.env_check.forward()
+                arming_check = self.planner.check_command(q, q, motion="home")
+                if not arming_check["accepted"]:
+                    held = self._hold(frame, feedback, now,
+                                      "initial pose arming rejected: " + arming_check["reason"], True, "FAULT")
+                    held["guard"] = arming_check
+                    return held
             if feedback.get("owner_session_id") == self.session_id and feedback.get("bridge_state") in ("ACTIVE", "active"):
                 self.armed = True
             elif now - self.arm_started > .5:
@@ -760,7 +772,8 @@ class SG2FixedQuestReal:
                     return self._hold(frame, feedback, now, initialized["reason"], True)
                 self._grip_start_requested = False
             result = self.planner.tick(frame, enabled=True, now=now, action=home_action, eef_poses=eef,
-                                       pause_motion=pause_motion)
+                                       pause_motion=pause_motion,
+                                       posture_reference_qpos=self.env_measured.data.qpos.copy())
         if result["state"] in ("HOLD", "FAULT"):
             if (result["state"] == "HOLD" and result["reason"] in _STARTUP_INPUT_REASONS
                     and not self.control_has_started and self.session_id is None):
@@ -772,11 +785,15 @@ class SG2FixedQuestReal:
             # are rejected targets, not commands that the robot executed.
             held["attempted_mapping_stages"] = result.get("mapping_stages", {})
             held["attempted_ik_errors"] = result.get("ik_errors", {})
+            held["attempted_posture_ik"] = result.get("posture_ik", {})
             held["ik_recovery"] = result.get("ik_recovery", held["ik_recovery"])
             return held
         if self.dry_run and result["state"] in ("ACTIVE", "HOMING", "HOME"):
             self.control_has_started = True
         candidate = result["q_command"]
+        # Capture the automatic-motion policy through the final HOME tick,
+        # even after the planner has cleared its homing flag on arrival.
+        guard_motion = "home" if returning or result["state"] in ("HOMING", "HOME") else "teleop"
         if np.any(candidate < self.bounds[:, 0]) or np.any(candidate > self.bounds[:, 1]):
             return self._hold(frame, feedback, now, "candidate outside verified real joint limits", True, "FAULT")
         if not self.dry_run and self.armed:
@@ -791,7 +808,7 @@ class SG2FixedQuestReal:
                 self.planner.guard.env_check.data.qpos[:] = self.planner.env.data.qpos
                 self.planner.guard.env_check.data.qvel[:] = 0
                 self.planner.guard.env_check.forward()
-                paced_check = self.planner.guard.check(previous, paced)
+                paced_check = self.planner.check_command(previous, paced, motion=guard_motion)
                 if not paced_check["accepted"]:
                     held = self._hold(frame, feedback, now, "paced path rejected: " + paced_check["reason"], True, "FAULT")
                     held["guard"] = paced_check
@@ -802,13 +819,24 @@ class SG2FixedQuestReal:
                     self._ack_travel is None or not np.allclose(candidate, self.planner.return_target, rtol=0, atol=1e-9)):
                 self.planner.homing = True
                 result.update(state="HOMING", reason="returning to initial pose", homing=True)
+        if result["state"] in ("ACTIVE", "IK_WAIT"):
+            posture_check = self.planner.check_posture_command(candidate)
+            result["posture_command_guard"] = posture_check
+            if not posture_check["accepted"]:
+                held = self._hold(frame, feedback, now,
+                                  "posture command rejected: " + posture_check["reason"], True, "FAULT")
+                held["attempted_mapping_stages"] = result.get("mapping_stages", {})
+                held["attempted_ik_errors"] = result.get("ik_errors", {})
+                held["attempted_posture_ik"] = result.get("posture_ik", {})
+                held["posture_command_guard"] = posture_check
+                return held
         if not self.dry_run and self.armed and np.any(np.abs(candidate - q) > self.lag_limits):
             return self._hold(frame, feedback, now, "candidate/feedback tracking difference exceeds limit", True, "FAULT")
         # Validate physical-to-command lag as well as the planner's own sweep.
         self.planner.guard.env_check.data.qpos[:] = self.env_measured.data.qpos
         self.planner.guard.env_check.data.qvel[:] = 0
         self.planner.guard.env_check.forward()
-        check = self.planner.guard.check(q, candidate)
+        check = self.planner.check_command(q, candidate, motion=guard_motion)
         if not check["accepted"]:
             held = self._hold(frame, feedback, now, "measured path rejected: " + check["reason"], True, "FAULT")
             held["guard"] = check

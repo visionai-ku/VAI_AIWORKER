@@ -34,6 +34,7 @@ from dataclasses import dataclass
 from .intent_calibration import load_intent_profile
 from .intent_sim_bridge import IntentSimBridge
 from .home_path import HOME_PATH_STRATEGIES
+from .posture_ik import SG2PostureIK
 
 @dataclass
 class IntentTeleopSettings:
@@ -63,6 +64,12 @@ class IntentTeleopSettings:
     # True: re-anchor the self-motion (J3/J5 twist) reference to the arm pose at every
     # both-grip start, instead of the SIM startup pose captured when the solvers were built.
     NULL_ANCHOR_ON_GRIP: bool = False
+    # Full-pose constrained IK; posture reference is captured once at first
+    # active grip from feedback, including DRY RUN, and survives re-gripping.
+    POSTURE_IK_ENABLED: bool = True
+    POSTURE_POSITION_TOLERANCE_M: float = .001
+    POSTURE_ROTATION_TOLERANCE_DEG: float = .5
+    POSTURE_ELBOW_LIMIT_DEG: float = 85.
     # Ignore controller rotations up to this angle per clutch (soft deadband); 0 = off.
     ROTATION_DEADBAND_DEG: float = 0.0
     CONTROL_HZ: float = OFFICIAL_VR_CONTROL_HZ
@@ -85,6 +92,9 @@ class IntentTeleopSettings:
     COMMAND_TTL_S: float = .2
     MAX_LOOP_DT_S: float = .10
     MAX_COMMAND_DT_S: float = .02
+    # Operator-controlled motion may bring both grippers together. Automatic
+    # Initial pose / Reset pose / manual joint moves always check clearance.
+    TELEOP_COLLISION_CHECK: bool = False
     COLLISION_MARGIN_M: float = .005
     # Allow commands that move OUT of the margin (clearance never decreasing) when the measured
     # pose drifted inside it, down to this distance [m]; None = off (original strict guard).
@@ -105,6 +115,8 @@ class IntentTeleopSettings:
         if self.REAL_CANDIDATE_REVIEW_PATH is not None and self.backend != 'real':
             raise ValueError('REAL candidate review requires real backend')
         if type(self.DRY_RUN) is not bool: raise ValueError("DRY_RUN must be bool")
+        if type(self.TELEOP_COLLISION_CHECK) is not bool:
+            raise ValueError("TELEOP_COLLISION_CHECK must be bool")
         if self.backend == "sim": self.DRY_RUN = False  # in-process gate only; no robot connection
         if not np.deg2rad(10) <= self.MAX_JOINT_SPEED <= FIXED_QUEST_MAX_ARM_SPEED:
             raise ValueError("arm speed must be 10..120 deg/s")
@@ -125,6 +137,15 @@ class IntentTeleopSettings:
             raise ValueError("NULL_REFERENCE must be one of %s" % (SG2_NULL_REFERENCE_MODES,))
         if type(self.NULL_ANCHOR_ON_GRIP) is not bool:
             raise ValueError("NULL_ANCHOR_ON_GRIP must be a bool")
+        if type(self.POSTURE_IK_ENABLED) is not bool:
+            raise ValueError("POSTURE_IK_ENABLED must be a bool")
+        for name, maximum in (("POSTURE_POSITION_TOLERANCE_M", .01),
+                              ("POSTURE_ROTATION_TOLERANCE_DEG", 5.),
+                              ("POSTURE_ELBOW_LIMIT_DEG", 89.)):
+            value = getattr(self, name)
+            if (isinstance(value, (bool, np.bool_)) or not isinstance(value, Real)
+                    or not np.isfinite(value) or not 0 < value <= maximum):
+                raise ValueError(name + " must be finite and positive, at most " + str(maximum))
         deadband = self.ROTATION_DEADBAND_DEG
         if (isinstance(deadband, (bool, np.bool_)) or not isinstance(deadband, Real)
                 or not np.isfinite(deadband) or not 0 <= deadband <= 30):
@@ -328,6 +349,11 @@ def build_planner(models, cfg, profile=None, intent_matrices=None):
     arm_joint_names = models['arm_joint_names']
     command_joint_names = models['command_joint_names']
     guard = models['guard']
+    posture_solvers = ({hand: SG2PostureIK(
+        env_ik, hand, position_tolerance=cfg.POSTURE_POSITION_TOLERANCE_M,
+        rotation_tolerance=np.deg2rad(cfg.POSTURE_ROTATION_TOLERANCE_DEG),
+        elbow_limit_rad=np.deg2rad(cfg.POSTURE_ELBOW_LIMIT_DEG)) for hand in SG2_HAND_TYPES}
+        if cfg.POSTURE_IK_ENABLED else None)
     mapper = ControllerMapper(scale=cfg.POSITION_SCALE, timeout_s=cfg.INPUT_TIMEOUT_S, R_BQ=cfg.R_BQ,
                               position_scales=cfg.POSITION_SCALES, intent_matrices=intent_matrices,
                               intent_profile_id=None if profile is None else profile["profile_id"],
@@ -340,6 +366,8 @@ def build_planner(models, cfg, profile=None, intent_matrices=None):
         coordinated_arm_rate_limit=cfg.COORDINATED_ARM_RATE_LIMIT, retry_ik_near_target=cfg.RETRY_IK_NEAR_TARGET,
         ik_recovery_timeout_s=cfg.IK_RECOVERY_TIMEOUT_S, null_reference=cfg.NULL_REFERENCE,
         null_anchor_on_grip=cfg.NULL_ANCHOR_ON_GRIP,
+        posture_solvers=posture_solvers,
+        teleop_collision_check=cfg.TELEOP_COLLISION_CHECK,
     )
     for index, name in enumerate(command_joint_names):
         if name == "lift_joint":
@@ -479,6 +507,10 @@ def run_intent_teleop(cfg=None, on_tick=None):
         position_status.setWordWrap(True)
         controls.layout().addWidget(position_row)
         controls.layout().addWidget(position_status)
+        collision_status = QLabel("충돌 검사: Teleoperation %s · Initial pose / Reset pose / 수동 조정 ON" % (
+            "ON" if cfg.TELEOP_COLLISION_CHECK else "OFF"), controls)
+        collision_status.setWordWrap(True)
+        controls.layout().addWidget(collision_status)
         tracking_mode_status = None
         if cfg.TRACKING_MODE_BUTTONS:
             tracking_row = QWidget(controls)
@@ -562,6 +594,10 @@ def run_intent_teleop(cfg=None, on_tick=None):
         if cfg.backend == "real":
             print("Robot workers: SG2_FIXED_QUEST=1 | inbound SG2_ZMQ_SUB_IP=" + cfg.QUEST_HOST)
         print(mode_label, "| 양손 grip으로 시작 · 한쪽이라도 놓으면 양팔 정지")
+        print("IK:", "초기 팔 자세 유지 · 첫 조작 자세를 기준으로 고정" if cfg.POSTURE_IK_ENABLED
+              else "기존 IK", "| 위치/방향 허용오차:",
+              ("%g mm / %g°" % (1000 * cfg.POSTURE_POSITION_TOLERANCE_M,
+                                 cfg.POSTURE_ROTATION_TOLERANCE_DEG)) if cfg.POSTURE_IK_ENABLED else "기존 설정")
         profile_widget = QLabel("개인 의도 보정: " + ("미적용 (identity)" if profile is None else profile["profile_id"]), controls)
         profile_widget.setWordWrap(True)
         if cfg.ALLOW_FAILED_PROFILE_IN_SIM:
@@ -597,6 +633,11 @@ def run_intent_teleop(cfg=None, on_tick=None):
                                       for button in cfg.TRACKING_MODE_BUTTONS
                                       for key, _, pause, emulated in TRACKING_MODES if key == button],
             "ik_recovery_timeout_s": cfg.IK_RECOVERY_TIMEOUT_S, "null_reference": cfg.NULL_REFERENCE,
+            "posture_ik_enabled": cfg.POSTURE_IK_ENABLED,
+            "posture_reference": "first_active_measured_pose_including_dry_run",
+            "posture_position_tolerance_m": cfg.POSTURE_POSITION_TOLERANCE_M,
+            "posture_rotation_tolerance_deg": cfg.POSTURE_ROTATION_TOLERANCE_DEG,
+            "posture_elbow_limit_deg": cfg.POSTURE_ELBOW_LIMIT_DEG,
             "position_scales": cfg.POSITION_SCALES, "position_gain_mode": "intent_then_positive_xyz",
             "R_BQ": cfg.R_BQ, "control_hz": cfg.CONTROL_HZ, "ik_hz": cfg.IK_HZ, "max_joint_speed_rad_s": cfg.MAX_JOINT_SPEED,
             "max_aux_joint_speed_rad_s": cfg.MAX_AUX_JOINT_SPEED, "max_gripper_speed_rad_s": cfg.MAX_GRIPPER_SPEED,
@@ -607,6 +648,9 @@ def run_intent_teleop(cfg=None, on_tick=None):
             "home_target": "first_measured_pose_of_run",
             "home_path_strategies": [name for name, _ in HOME_PATH_STRATEGIES],
             "feedback_timeout_s": cfg.FEEDBACK_TIMEOUT_S, "command_ttl_s": cfg.COMMAND_TTL_S, "collision_margin_m": cfg.COLLISION_MARGIN_M,
+            "teleop_collision_check": cfg.TELEOP_COLLISION_CHECK,
+            "home_collision_check": True,
+            "collision_escape_min_m": cfg.COLLISION_ESCAPE_MIN_M,
         })
         next_control = next_render = time.monotonic()
         while True:

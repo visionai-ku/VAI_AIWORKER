@@ -224,9 +224,12 @@ class SG2CommandGuard:
                 }
         return closest
 
-    def check(self,q_start,q_end):
-        """Reject malformed, out-of-range or insufficient-clearance commands."""
-        check_info = {"accepted":False,"reason":"invalid_command","min_distance_m":float("nan"),"pair":None,"samples_checked":0}
+    def check(self,q_start,q_end,*,check_collision=True):
+        """Validate every command; optionally omit only collision clearance checks."""
+        if type(check_collision) is not bool:
+            raise ValueError("check_collision must be a bool.")
+        check_info = {"accepted":False,"reason":"invalid_command","min_distance_m":float("nan"),
+                      "pair":None,"samples_checked":0,"collision_check_enabled":check_collision}
         try:
             if np.asarray(q_start).dtype.kind not in "fiu" or np.asarray(q_end).dtype.kind not in "fiu":
                 return check_info
@@ -247,6 +250,9 @@ class SG2CommandGuard:
             n_steps = np.ceil(np.max(np.abs(q_end-q_start)/self.sweep_steps))
         if not np.isfinite(n_steps) or n_steps > 10000:
             check_info["reason"] = "sweep_too_large"
+            return check_info
+        if not check_collision:
+            check_info.update(accepted=True,reason="accepted")
             return check_info
         n_segments = max(1,int(n_steps))
         qpos_saved = self.env_check.data.qpos.copy()

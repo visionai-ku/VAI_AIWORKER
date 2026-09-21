@@ -43,7 +43,7 @@ class FixedQuestProtocolTest(unittest.TestCase):
         from package.worker.fixed_quest_protocol import FIXED_QUEST_VR_GATE_OPTIONS
         for joint, motion, speed in (("arm_l_joint1", "teleop", math.radians(120)),
                                     ("arm_r_joint1", "teleop", math.radians(120)),
-                                    ("arm_l_joint1", "home", math.radians(10)),
+                                    ("arm_l_joint1", "home", math.radians(60)),
                                     ("gripper_r_joint1", "teleop", math.radians(60))):
             for extra, accepted in ((0., True), (.005, False)):
                 with self.subTest(joint=joint, motion=motion, extra=extra):
@@ -472,12 +472,15 @@ class FixedQuestProtocolTest(unittest.TestCase):
                 self.header = SimpleNamespace(stamp=SimpleNamespace(sec=0, nanosec=0))
                 self.__dict__.update(kwargs)
         modules = {}
-        for module_name in ("rclpy", "rclpy.node", "rclpy.qos", "builtin_interfaces", "builtin_interfaces.msg",
+        for module_name in ("rclpy", "rclpy.node", "rclpy.qos", "rclpy.executors",
+                            "builtin_interfaces", "builtin_interfaces.msg", "geometry_msgs", "geometry_msgs.msg",
                             "trajectory_msgs", "trajectory_msgs.msg", "sensor_msgs", "sensor_msgs.msg", "std_msgs", "std_msgs.msg"):
             modules[module_name] = ModuleType(module_name)
         modules["rclpy.node"].Node = object
+        modules["rclpy.executors"].MultiThreadedExecutor = object
         modules["rclpy.qos"].qos_profile_sensor_data = object()
         for module_name, symbols in (("builtin_interfaces.msg", ["Duration"]),
+                                     ("geometry_msgs.msg", ["Twist"]),
                                      ("trajectory_msgs.msg", ["JointTrajectory", "JointTrajectoryPoint"]),
                                      ("sensor_msgs.msg", ["JointState"]), ("std_msgs.msg", ["String"])):
             for symbol in symbols:

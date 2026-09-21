@@ -98,6 +98,43 @@ class FixedQuestSceneTest(unittest.TestCase):
         np.testing.assert_array_equal(q_main_before,self.env.data.qpos)
         np.testing.assert_array_equal(self.q_init,self.env_check.get_qpos(joint_names=self.joint_names))
 
+    def test_collision_can_be_skipped_without_changing_check_environment(self):
+        q_collision = self.q_init.copy()
+        q_collision[2] = -2.0
+        q_check_before = self.env_check.data.qpos.copy()
+        strict = self.guard.check(self.q_init,q_collision)
+        self.assertFalse(strict["accepted"])
+        self.assertTrue(strict["collision_check_enabled"])
+        with patch.object(self.guard,"_minimum_distance",side_effect=AssertionError("collision query ran")):
+            unchecked = self.guard.check(self.q_init,q_collision,check_collision=False)
+        self.assertTrue(unchecked["accepted"],unchecked)
+        self.assertFalse(unchecked["collision_check_enabled"])
+        self.assertEqual(unchecked["samples_checked"],0)
+        self.assertTrue(np.isnan(unchecked["min_distance_m"]))
+        np.testing.assert_array_equal(q_check_before,self.env_check.data.qpos)
+
+    def test_collision_skip_preserves_command_and_environment_validation(self):
+        invalid_vectors = [None,[0.0],np.zeros((2,7)),["0"]*14,[False]*14]
+        for value in (np.nan,np.inf,-.01):
+            q_bad = self.q_init.copy()
+            q_bad[1] = value
+            invalid_vectors.append(q_bad)
+        for q_bad in invalid_vectors:
+            for q_start,q_end in ((self.q_init,q_bad),(q_bad,self.q_init)):
+                with self.subTest(start=q_start,end=q_end):
+                    check_info = self.guard.check(q_start,q_end,check_collision=False)
+                    self.assertFalse(check_info["accepted"],check_info)
+                    self.assertFalse(check_info["collision_check_enabled"])
+        self.env_check.data.qpos[0] = np.nan
+        check_info = self.guard.check(self.q_init,self.q_init,check_collision=False)
+        self.assertEqual(check_info["reason"],"invalid_check_environment")
+        self.assertFalse(check_info["accepted"])
+
+    def test_collision_check_option_requires_a_boolean(self):
+        for invalid in (None,0,1,"false"):
+            with self.subTest(value=invalid), self.assertRaises(ValueError):
+                self.guard.check(self.q_init,self.q_init,check_collision=invalid)
+
     def test_tiny_ik_motion_does_not_accept_unbounded_zero_distance(self):
         # Recorded from the first 0.08 s of a 2 cm controller translation.
         # lift_link/link4 can return d=0 with nearest points 0.398 m apart.

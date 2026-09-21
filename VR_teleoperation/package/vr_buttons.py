@@ -8,8 +8,11 @@ Quest controller shortcuts for run_intent_teleop(on_tick=...).
     right A          -           nothing
 
 Poses go through SG2FixedQuestReal.request_pose_target(): each straight joint path is
-guard-checked before anything is sent, then HOME's runner moves there at speed_scale x the
-10 deg/s home speed (default 3 -> 30 deg/s; the robot gate allows up to 30 deg/s). The
+guard-checked before anything is sent. The wrist lift/spread and shutdown1 alignment use
+speed_scale x the 10 deg/s home speed (default 3 -> 30 deg/s). After shutdown1 is reached,
+shutdown2 onward uses twice that speed (default 60 deg/s; the robot gate ceiling). The
+live bridge's HOME ceiling also caps every step; an older 30 deg/s worker runs the full
+sequence at its supported speed and reports that the faster profile needs an update. The
 on-screen Initial pose / manual adjustment keep 10 deg/s. A blocked path sends nothing and
 the sequence stops. Teleop input is ignored while the sequence runs. Requires the Quest page
 to send "buttons" (quest_client/client.js); older pages never trigger anything.
@@ -127,23 +130,24 @@ class ControllerButtonActions:
         self.record_control = record_control
         self.hold_s = float(hold_s)
         if not 0 < speed_scale <= 3.0:
-            raise ValueError("speed_scale must be in (0, 3]; the robot gate allows 30 deg/s")
+            raise ValueError("speed_scale must be in (0, 3]; alignment uses up to 30 deg/s, then up to 60 deg/s")
         self.speed_scale = float(speed_scale)
         self.lift_dz = float(lift_dz)
         # Hands held together make the fold path pass within millimetres; spreading them
         # first keeps every step clear of the 5 mm collision margin.
         self.spread_dy = float(spread_dy)
         self._base_home_speed = None
+        self._speed_notice = ""
         self.lock_input = False
         self.status = "X 녹화 · Y(1초) 삭제 · B(1초) reset pose (위로·바깥 5cm → 접기 → bringup)"
         self._prev = {}
         self._held_since = {}
         self._fired = set()
-        self._sequence = []          # remaining (label, {joint: value} or full q vector)
+        self._sequence = []          # remaining (label, pose dict or full q vector, speed scale)
         self._seq_name = None
         self._step_active = False
         self._step_reached = False
-        self._current = None          # (label, pose) of the running step, for retries
+        self._current = None          # (label, pose, speed scale) of the running step, for retries
         self._retries = 0
         self._retry_at = None
 
@@ -177,20 +181,32 @@ class ControllerButtonActions:
         return " · ".join(parts)
 
     # ---------- pose sequence ----------
-    def _set_sequence_speed(self, real, on):
+    @staticmethod
+    def _bridge_home_speed(real):
+        if real.dry_run:
+            return np.inf
+        limits = ((real.last_feedback or {}).get("bridge") or {}).get("limits") or {}
+        speed = limits.get("home_joint_speed_rad_s")
+        if (isinstance(speed, bool) or not isinstance(speed, (int, float))
+                or not np.isfinite(speed) or speed <= 0):
+            raise ValueError("로봇 HOME 속도 제한 확인 불가: worker 피드백을 확인하세요")
+        return float(speed)
+
+    def _set_sequence_speed(self, real, speed_scale=None):
         """Scale only rotary home speeds while a button sequence runs; restore afterwards."""
         if self._base_home_speed is None:
             self._base_home_speed = real.home_speed_limits.copy()
         speeds = self._base_home_speed.copy()
-        if on:
+        if speed_scale is not None:
             rotary = np.asarray([name != "lift_joint" for name in real.planner.joint_names])
-            speeds[rotary] = np.minimum(real.teleop_speed_limits[rotary], speeds[rotary] * self.speed_scale)
+            speeds[rotary] = np.minimum(real.teleop_speed_limits[rotary], speeds[rotary] * speed_scale)
+            speeds[rotary] = np.minimum(speeds[rotary], self._bridge_home_speed(real))
         real.home_speed_limits = speeds
 
     def _finish(self, real, message):
         self._sequence = []
         self._step_active = False
-        self._set_sequence_speed(real, False)
+        self._set_sequence_speed(real)
         self.lock_input = False
         self.status = message
         print("[buttons]", message)
@@ -200,18 +216,36 @@ class ControllerButtonActions:
         if q_now is None:
             self.status = "reset pose 불가: 로봇 피드백 없음"
             return
+        try:
+            bridge_speed = self._bridge_home_speed(real)
+        except ValueError as exc:
+            self.status = "reset pose 불가: " + str(exc)
+            print("[buttons]", self.status)
+            return
+        rotary = np.asarray([name != "lift_joint" for name in real.planner.joint_names])
+        base = real.home_speed_limits if self._base_home_speed is None else self._base_home_speed
+        requested = float(np.max(np.minimum(real.teleop_speed_limits[rotary],
+                                            base[rotary] * 2 * self.speed_scale)))
+        self._speed_notice = ""
+        if bridge_speed + 1e-9 < requested:
+            self._speed_notice = " · 로봇 상한 %.0f°/s (고속 reset: Orin protocol 업데이트·inbound 재시작 필요)" % np.rad2deg(bridge_speed)
+            print("[buttons] 전체 접기·펴기 유지" + self._speed_notice)
         steps = []
         names = list(real.planner.joint_names)
         err = np.nan
         for dz, dy in ((self.lift_dz, self.spread_dy), (self.lift_dz, 0.0), (self.lift_dz / 2, 0.0)):
             q_up, ok, err = lifted_arm_pose(real.env_measured, names, q_now, dz=dz, dy=dy)
             if ok:
-                steps.append(("위로 %.1fcm%s" % (100 * dz, " · 바깥 %.0fcm" % (100 * dy) if dy else ""), q_up))
+                steps.append(("위로 %.1fcm%s" % (100 * dz, " · 바깥 %.0fcm" % (100 * dy) if dy else ""), q_up, self.speed_scale))
                 break
         else:
             print("[buttons] 위로 올리기 IK 실패 (오차 %.1f cm) - 올리기 없이 접기부터 진행" % (100 * err))
-        steps += FOLD_STEPS + BRINGUP_STEPS
-        self._sequence = [("%d/%d %s" % (i + 1, len(steps), label), pose) for i, (label, pose) in enumerate(steps)]
+        # shutdown1 is the first fixed arm alignment pose. Only accelerate after
+        # HOME confirms it was reached, even if the optional lift IK was skipped.
+        steps.append((*FOLD_STEPS[0], self.speed_scale))
+        steps += [(label, pose, 2 * self.speed_scale) for label, pose in FOLD_STEPS[1:] + BRINGUP_STEPS]
+        self._sequence = [("%d/%d %s" % (i + 1, len(steps), label), pose, scale)
+                          for i, (label, pose, scale) in enumerate(steps)]
         self._seq_name = "reset pose (B)"
         self._step_active = False
         self._current, self._retries, self._retry_at = None, 0, None
@@ -258,23 +292,23 @@ class ControllerButtonActions:
             if now < self._retry_at:
                 return
             self._retry_at = None
-        label, values = self._sequence.pop(0)
-        self._current = (label, values)
+        label, values, speed_scale = self._sequence.pop(0)
+        self._current = (label, values, speed_scale)
         q_now = (real.last_feedback or {}).get("q")
         if q_now is None:
             self.status = "%s 대기: 로봇 피드백 없음" % self._seq_name
-            self._sequence.insert(0, (label, values))
+            self._sequence.insert(0, self._current)
             return
         try:
+            self._set_sequence_speed(real, speed_scale)
             real.request_pose_target(self._pose_vector(real, values, q_now))
         except ValueError as exc:
             self._finish(real, "%s 중단: %s" % (self._seq_name, exc))
             return
-        self._set_sequence_speed(real, True)
         ui_actions.append("home")
         self._step_active, self._step_reached = True, False
         self.status = "%s: %s 이동 중 (%.0f°/s)" % (
-            self._seq_name, label, np.rad2deg(np.max(real.home_speed_limits[real.arm_mask])))
+            self._seq_name, label, np.rad2deg(np.max(real.home_speed_limits[real.arm_mask]))) + self._speed_notice
         print("[buttons]", self.status)
 
     # ---------- per tick ----------

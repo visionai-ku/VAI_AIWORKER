@@ -260,6 +260,13 @@ class SG2RobotStateReceiver:
                     raw = self._socket.recv(flags=zmq.NOBLOCK)
                 except zmq.Again:
                     break
+                # Legacy outbound.send_pyobj starts with pickle's binary PROTO
+                # marker. Inspect only those two bytes; never deserialize it.
+                if isinstance(raw, bytes) and len(raw) >= 2 and raw[0] == 0x80 and 2 <= raw[1] <= 5:
+                    self.cache.reject(
+                        "protocol_mismatch_legacy_pickle: robot feedback is legacy pickle; "
+                        "restart both outbound.py and inbound.py with SG2_FIXED_QUEST=1")
+                    continue
                 try:
                     payload = load_json_message(raw)
                 except (TypeError, ValueError, UnicodeDecodeError) as exc:

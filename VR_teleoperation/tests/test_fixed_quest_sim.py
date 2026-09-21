@@ -42,12 +42,12 @@ class FixedQuestSimulationTest(unittest.TestCase):
     def setUp(self):
         self.sim = self.make_sim()
 
-    def make_sim(self, mode="kinematic"):
+    def make_sim(self, mode="kinematic", **options):
         for model_env in (self.env, self.env_ik, self.env_check):
             reset_sg2_sim(model_env)
         self.q_init = self.env.get_qpos(joint_names=self.names).copy()
         return SG2FixedQuestSimulation(self.env, self.env_ik, self.solvers, self.arms,
-                                       self.names, ControllerMapper(), self.guard, mode=mode)
+                                       self.names, ControllerMapper(), self.guard, mode=mode, **options)
 
     def run_source(self, sim, duration=5.5):
         source = SyntheticControllerSource()
@@ -99,6 +99,94 @@ class FixedQuestSimulationTest(unittest.TestCase):
         q = np.array([row["q_command"] for row in rows])
         self.assertTrue(np.all(np.abs(np.diff(q, axis=0)) <= self.sim.speed_limits * .01 + 1e-12))
         np.testing.assert_allclose(rows[-1]["home_error"], 0., atol=1e-9)
+
+    def test_teleop_collision_policy_is_explicit_and_home_stays_guarded(self):
+        self.assertTrue(self.sim.teleop_collision_check)
+        q_collision = self.sim.q_home.copy()
+        q_collision[self.names.index("arm_l_joint3")] = -2.
+        self.assertFalse(self.sim.check_command(q_collision,q_collision)["accepted"])
+        self.sim.teleop_collision_check = False
+        unchecked = self.sim.check_command(q_collision,q_collision)
+        self.assertTrue(unchecked["accepted"],unchecked)
+        self.assertFalse(unchecked["collision_check_enabled"])
+        home = self.sim.check_command(q_collision,q_collision,motion="home")
+        self.assertFalse(home["accepted"],home)
+        self.assertTrue(home["collision_check_enabled"])
+        with self.assertRaises(ValueError):
+            self.sim.check_command(q_collision,q_collision,motion="typo")
+        for invalid in (None,0,1,"false"):
+            with self.subTest(value=invalid), self.assertRaises(ValueError):
+                self.make_sim(teleop_collision_check=invalid)
+
+    def test_teleop_near_contact_advances_with_collision_off_and_keeps_rate_limit(self):
+        sim = self.make_sim(teleop_collision_check=False)
+        q_collision = sim.q_home.copy()
+        q_collision[self.names.index("arm_l_joint3")] = -2.
+        self.env.forward(q=q_collision,joint_names=self.names)
+        sim.reset()
+        goal = q_collision.copy()
+        goal[self.names.index("arm_l_joint1")] += .1
+        sim.tick(self.controller_frame(0,False),True,0.)
+        with patch.object(sim,"_solve",return_value=goal), \
+                patch.object(sim.guard,"_minimum_distance",side_effect=AssertionError("collision query ran")):
+            result = sim.tick(self.controller_frame(1,True),True,.01)
+        self.assertEqual(result["state"],"ACTIVE",result["reason"])
+        self.assertFalse(result["guard"]["collision_check_enabled"])
+        movement = np.abs(result["q_command"]-q_collision)
+        self.assertGreater(np.max(movement),0.)
+        self.assertTrue(np.all(movement <= sim.speed_limits*.01+1e-12))
+
+    def test_teleop_collision_off_applies_to_dynamic_and_ik_wait_checks(self):
+        for mode in ("kinematic","dynamic"):
+            with self.subTest(mode=mode):
+                sim = self.make_sim(mode,teleop_collision_check=False,ik_recovery_timeout_s=1.)
+                sim.tick(self.controller_frame(0,False),True,0.)
+                with patch.object(sim.guard,"_minimum_distance",side_effect=AssertionError("collision query ran")), \
+                        patch.object(sim.guard,"check",wraps=sim.guard.check) as guard:
+                    active = sim.tick(self.controller_frame(1,True),True,.01)
+                    self.assertEqual(active["state"],"ACTIVE",active["reason"])
+                    self.assertEqual(guard.call_count,2 if mode == "dynamic" else 1)
+                    for call in guard.call_args_list:
+                        self.assertEqual(call.kwargs,{"check_collision":False})
+                    guard.reset_mock()
+                    with patch.object(sim,"_solve",side_effect=IKTargetUnreachable("left unavailable")):
+                        waiting = sim.tick(self.controller_frame(5,True),True,.05)
+                        still_waiting = sim.tick(self.controller_frame(6,True),True,.06)
+                    self.assertEqual(waiting["state"],"IK_WAIT",waiting["reason"])
+                    self.assertEqual(still_waiting["state"],"IK_WAIT",still_waiting["reason"])
+                    self.assertEqual(guard.call_count,4 if mode == "dynamic" else 2)
+                    for call in guard.call_args_list:
+                        self.assertEqual(call.kwargs,{"check_collision":False})
+                    np.testing.assert_array_equal(still_waiting["q_command"],active["q_command"])
+
+    def test_home_final_step_checks_collision_when_teleop_check_is_off(self):
+        for mode in ("kinematic","dynamic"):
+            with self.subTest(mode=mode):
+                sim = self.make_sim(mode,teleop_collision_check=False)
+                q_start = self.offset_home_start(sim,angle=np.deg2rad(.1))
+                first = sim.tick(None,False,0.,action="home")
+                self.assertEqual(first["state"],"HOMING",first["reason"])
+                with patch.object(sim.guard,"check",wraps=sim.guard.check) as guard:
+                    completed = sim.tick(None,False,.01)
+                self.assertEqual(completed["state"],"HOME",completed["reason"])
+                self.assertFalse(sim.homing)
+                self.assertTrue(completed["guard"]["collision_check_enabled"])
+                self.assertEqual(guard.call_count,2 if mode == "dynamic" else 1)
+                for call in guard.call_args_list:
+                    self.assertEqual(call.kwargs,{})
+
+                sim = self.make_sim(mode,teleop_collision_check=False)
+                q_start = self.offset_home_start(sim,angle=np.deg2rad(.1))
+                sim.tick(None,False,0.,action="home")
+                collision = {"signed_dist":-.001,"is_lower_bound":False,"geom1_idx":1,
+                             "geom2_idx":2,"body1_name":"arm_l_link7","body2_name":"arm_r_link7"}
+                with patch.object(sim.guard,"_minimum_distance",return_value=collision):
+                    rejected = sim.tick(None,False,.01)
+                self.assertEqual(rejected["state"],"FAULT",rejected["reason"])
+                self.assertTrue(rejected["guard"]["collision_check_enabled"])
+                self.assertEqual(rejected["guard"]["reason"],"collision_clearance")
+                self.assertTrue(sim.home_failed)
+                np.testing.assert_array_equal(rejected["q_command"],q_start)
 
     def test_coordinated_limiter_preserves_each_arm_ratio_and_auxiliary_limits(self):
         previous = self.q_init.copy()
@@ -336,6 +424,7 @@ class FixedQuestSimulationTest(unittest.TestCase):
         self.assertIsNone(self.sim.fault_reason)
 
     def test_home_does_not_bypass_existing_collision(self):
+        self.sim.teleop_collision_check = False
         q_collision = self.sim.q_home.copy()
         q_collision[self.names.index("arm_l_joint3")] = -2.
         self.env.forward(q=q_collision, joint_names=self.names)

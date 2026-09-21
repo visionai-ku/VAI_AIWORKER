@@ -33,8 +33,9 @@ FIXED_QUEST_MAX_GRIPPER_SPEED = math.radians(120)
 # shoulder joints whose home position lies exactly on a mechanical bound.
 # Commands retain JOINT_LIMITS without any allowance.
 FEEDBACK_BOUNDARY_TOLERANCES = {"arm_l_joint2": .0005, "arm_r_joint2": .0005}
-# Controller-button reset pose (lift/fold/bringup) runs at 3x the 10 deg/s home speed.
-FIXED_QUEST_VR_HOME_SPEED = math.radians(30)
+# Controller-button reset keeps initial arm alignment at 30 deg/s, then permits
+# the remaining fold/bringup steps at 60 deg/s. Normal HOME still requests 10 deg/s.
+FIXED_QUEST_VR_HOME_SPEED = math.radians(60)
 FIXED_QUEST_VR_GATE_OPTIONS = {
     "max_home_joint_speed": FIXED_QUEST_VR_HOME_SPEED,
     "max_arm_joint_speed": FIXED_QUEST_MAX_ARM_SPEED,

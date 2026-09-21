@@ -59,7 +59,8 @@ class SG2FixedQuestSimulation:
                  max_ik_position_error=.03, max_ik_rotation_error=np.deg2rad(15),
                  max_command_dt=.02, ik_position_step=.02, ik_rotation_step=np.deg2rad(10),
                  coordinated_arm_rate_limit=False, retry_ik_near_target=False,
-                 ik_recovery_timeout_s=0., null_reference="self_motion", null_anchor_on_grip=False):
+                 ik_recovery_timeout_s=0., null_reference="self_motion", null_anchor_on_grip=False,
+                 posture_solvers=None, teleop_collision_check=True):
         if mode not in ("kinematic", "dynamic"):
             raise ValueError("mode must be kinematic or dynamic")
         if null_reference not in SG2_NULL_REFERENCE_MODES:
@@ -79,6 +80,9 @@ class SG2FixedQuestSimulation:
         if type(retry_ik_near_target) is not bool:
             raise ValueError("retry_ik_near_target must be a bool")
         self.retry_ik_near_target = retry_ik_near_target
+        if type(teleop_collision_check) is not bool:
+            raise ValueError("teleop_collision_check must be a bool")
+        self.teleop_collision_check = teleop_collision_check
         if (isinstance(ik_recovery_timeout_s, (bool, np.bool_))
                 or not isinstance(ik_recovery_timeout_s, (int, float, np.integer, np.floating))
                 or not np.isfinite(ik_recovery_timeout_s) or not 0 <= ik_recovery_timeout_s <= 5.):
@@ -105,6 +109,11 @@ class SG2FixedQuestSimulation:
             hand: [self.joint_names.index(name) for name in arm_joint_names[hand]]
             for hand in SG2_HAND_TYPES
         }
+        # Captured at the first active, feedback-anchored clutch. Ordinary
+        # reset()/release/re-arm must never adopt an already twisted posture.
+        self.posture_solvers = dict(posture_solvers or {})
+        if self.posture_solvers and set(self.posture_solvers) != set(SG2_HAND_TYPES):
+            raise ValueError("posture_solvers must contain both arms")
         self.gripper_indices = {
             hand: self.joint_names.index(SG2_GRIPPER_DRIVER_JOINT_NAMES[hand])
             for hand in SG2_HAND_TYPES
@@ -131,6 +140,7 @@ class SG2FixedQuestSimulation:
         self.ik_errors = {}
         self.ik_retries = {}
         self.ik_targets = {}
+        self.posture_ik = {}
         self.ik_target_limited = False
         self.homing = False
         self.home_failed = False
@@ -149,6 +159,48 @@ class SG2FixedQuestSimulation:
                 anchor[rev_pri.index(name)] = value
         for solver in self.ik_solvers.values():
             solver.q_null_anchor_rev_pri = anchor.copy()
+
+    def capture_posture_reference(self, qpos):
+        """Capture the initial measured full configuration once per runtime."""
+        qpos = np.asarray(qpos, dtype=float)
+        pending = [solver for solver in self.posture_solvers.values() if not solver.has_reference]
+        try:
+            for solver in pending:
+                solver.capture_reference(qpos)
+        except (ValueError, FloatingPointError):
+            for solver in pending:
+                solver.reset_reference()
+            raise
+
+    def check_posture_command(self, q):
+        """Check the actual limited command, not just the IK endpoint."""
+        result = {"accepted": True, "reason": "posture disabled", "by_hand": {}}
+        if not self.posture_solvers:
+            return result
+        q = np.asarray(q, dtype=float)
+        if q.shape != (len(self.joint_names),) or not np.isfinite(q).all():
+            return dict(result, accepted=False, reason="invalid posture command")
+        full = self.env.data.qpos.copy()
+        for name, value in zip(self.joint_names, q):
+            full[int(self.env.model.joint(name).qposadr[0])] = value
+        result["reason"] = "posture accepted"
+        for hand, solver in self.posture_solvers.items():
+            if not solver.has_reference:
+                continue
+            info = solver.configuration_info(full)
+            result["by_hand"][hand] = info
+            if not info["valid"]:
+                result.update(accepted=False, reason=hand + " " + info["reason"])
+                break
+        return result
+
+    def check_command(self, q_start, q_end, *, motion="teleop"):
+        """Keep automatic moves guarded while teleoperation may skip collision checks."""
+        if motion not in ("teleop", "home"):
+            raise ValueError("motion must be teleop or home")
+        if motion == "home" or self.teleop_collision_check:
+            return self.guard.check(q_start, q_end)
+        return self.guard.check(q_start, q_end, check_collision=False)
 
     def plan_home(self, q_start=None, speed_limits=None, target=None):
         """Check the whole return to q_home before any HOME command is made.
@@ -204,6 +256,7 @@ class SG2FixedQuestSimulation:
         self.ik_retries = {}
         self.ik_targets = {}
         self.ik_target_limited = False
+        self.posture_ik = {}
         for hand, target in targets.items():
             # Give the existing IK a nearby target when input outruns the arm.
             # Keep the full operator target for tracking-error reporting.
@@ -224,24 +277,38 @@ class SG2FixedQuestSimulation:
                 self.ik_target_limited |= fraction * retry_scale < 1.
                 self.ik_retries[hand] = attempt
                 # Retry from the same pose with a nearer target, never a looser tolerance.
-                set_sg2_null_space_reference(solver, self.env_ik, null_reference=self.null_reference)
-                solver.reset_buffers(self.env_ik)
-                add_sg2_wrist_ik_coordinate_target(solver, self.env_ik, hand, solve_target, axis_width=.10)
-                _, info = solver.solve_ik(env=self.env_ik, joint_limit_handle_flag=True, nullspace_control_flag=True)
+                posture_solver = self.posture_solvers.get(hand)
+                if posture_solver is not None:
+                    info = posture_solver.solve(self.env_ik, solve_target)
+                    self.posture_ik[hand] = {key: value for key, value in info.items()
+                                             if key != "qpos_used_best"}
+                    position_tolerance = min(posture_solver.position_tolerance,
+                                             self.ik_position_step * retry_scale / 2)
+                    rotation_tolerance = min(posture_solver.rotation_tolerance,
+                                             self.ik_rotation_step * retry_scale / 2)
+                else:
+                    set_sg2_null_space_reference(solver, self.env_ik, null_reference=self.null_reference)
+                    solver.reset_buffers(self.env_ik)
+                    add_sg2_wrist_ik_coordinate_target(solver, self.env_ik, hand, solve_target, axis_width=.10)
+                    _, info = solver.solve_ik(env=self.env_ik, joint_limit_handle_flag=True, nullspace_control_flag=True)
+                    position_tolerance = min(self.max_ik_position_error, self.ik_position_step * retry_scale / 2)
+                    rotation_tolerance = min(self.max_ik_rotation_error, self.ik_rotation_step * retry_scale / 2)
                 if not np.all(np.isfinite(info["qpos_used_best"])):
                     raise FloatingPointError("%s IK returned non-finite joints" % hand)
                 self.env_ik.forward(q=info["qpos_used_best"], joint_names=solver.joints_use)
                 errors[hand] = wrist_error(get_sg2_wrist_control_T(self.env_ik, hand), solve_target)
                 if not all(np.isfinite(value) for value in errors[hand].values()):
                     raise FloatingPointError("%s IK returned non-finite error" % hand)
-                if (errors[hand]["position_m"] <= min(self.max_ik_position_error, self.ik_position_step * retry_scale / 2)
-                        and errors[hand]["rotation_rad"] <= min(self.max_ik_rotation_error, self.ik_rotation_step * retry_scale / 2)):
+                if (info.get("success", True)
+                        and errors[hand]["position_m"] <= position_tolerance
+                        and errors[hand]["rotation_rad"] <= rotation_tolerance):
                     break
             else:
                 raise IKTargetUnreachable("%s IK target unavailable; release both grips and retry" % hand)
         return self.env_ik.get_qpos(joint_names=self.joint_names).copy()
 
-    def tick(self, frame, enabled=False, now=None, action=None, eef_poses=None, pause_motion=False):
+    def tick(self, frame, enabled=False, now=None, action=None, eef_poses=None, pause_motion=False,
+             posture_reference_qpos=None):
         """Validate input, solve at ik_hz, limit/check one command, then apply to SIM."""
         started = time.perf_counter()
         now = time.monotonic() if now is None else float(now)
@@ -314,7 +381,13 @@ class SG2FixedQuestSimulation:
             mapping = self.mapper.update(frame, eef, enabled=enabled and self.fault_reason is None
                                          and not self.homing and not self.home_rearm_required, now=now)
         targets, active = mapping["targets"], tuple(mapping["active"])
-        if self.null_anchor_on_grip:
+        if active and self.posture_solvers:
+            try:
+                self.capture_posture_reference(self.env.data.qpos if posture_reference_qpos is None
+                                               else posture_reference_qpos)
+            except (ValueError, FloatingPointError) as exc:
+                self.fault_reason = "posture reference unavailable: " + str(exc)
+        if self.null_anchor_on_grip and not self.posture_solvers:
             if active and not self._null_anchor_engaged:
                 self._reanchor_null_space()
             self._null_anchor_engaged = bool(active)
@@ -423,10 +496,16 @@ class SG2FixedQuestSimulation:
             arm_rate_scales = dict(zip(coordinated_hands, rate_info["group_scales"]))
             candidate, limited = rate_info["qpos"], rate_info["limited"]
             self._copy_context(self.guard.env_check)
-            guard_info = self.guard.check(self.q_command, candidate)
+            motion = "home" if self.homing else "teleop"
+            guard_info = self.check_command(self.q_command, candidate, motion=motion)
+            if guard_info["accepted"] and not self.homing:
+                posture_check = self.check_posture_command(candidate)
+                if not posture_check["accepted"]:
+                    guard_info = dict(guard_info, accepted=False,
+                                      reason=posture_check["reason"], posture=posture_check)
             # Also check measured-to-command lag in a dynamic run.
             if guard_info["accepted"] and self.mode == "dynamic":
-                guard_info = self.guard.check(measured, candidate)
+                guard_info = self.check_command(measured, candidate, motion=motion)
             if guard_info["accepted"]:
                 self.q_command = candidate.copy()
             else:
@@ -437,12 +516,12 @@ class SG2FixedQuestSimulation:
                 mapping = dict(mapping, state="FAULT", reason=self.fault_reason)
                 targets, active = {}, ()
         elif self._ik_recovery_started is not None:
-            # Holding is still subject to the guard, including physical drift
-            # toward a held target in a dynamic SIM. No solver candidate is used.
+            # A held target uses the teleoperation policy, including measured
+            # drift in a dynamic SIM. No solver candidate is used.
             self._copy_context(self.guard.env_check)
-            guard_info = self.guard.check(self.q_command, self.q_command)
+            guard_info = self.check_command(self.q_command, self.q_command, motion="teleop")
             if guard_info["accepted"] and self.mode == "dynamic":
-                guard_info = self.guard.check(measured, self.q_command)
+                guard_info = self.check_command(measured, self.q_command, motion="teleop")
             if not guard_info["accepted"]:
                 self.fault_reason = "held command rejected: " + guard_info["reason"]
                 recovery = dict(self.ik_recovery_info(now, "cancelled"), reason=self.fault_reason)
@@ -487,6 +566,9 @@ class SG2FixedQuestSimulation:
             "pose_age_s": mapping.get("pose_age_s"), "targets": targets,
             "q_command": self.q_command.copy(), "q_measured": measured,
             "eef_errors": errors, "ik_errors": copy.deepcopy(self.ik_errors),
+            "posture_ik": copy.deepcopy(self.posture_ik),
+            "posture_reference_captured": bool(self.posture_solvers) and all(
+                solver.has_reference for solver in self.posture_solvers.values()),
             "ik_recovery": recovery,
             "mapping_stages": copy.deepcopy(mapping.get("mapping_stages", {})),
             "intent_profile_id": self.mapper.intent_profile_id,

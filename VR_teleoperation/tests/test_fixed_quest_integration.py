@@ -228,6 +228,62 @@ class FixedQuestIntegrationTest(unittest.TestCase):
         self.assertEqual(result["state"], "HOME")
         self.assertTrue(all(outcome["accepted"] for outcome in self.publisher.outcomes), self.publisher.outcomes)
 
+    def assert_button_reset_reaches_every_pose(self, worker_home_speed_deg_s):
+        from package.vr_buttons import ControllerButtonActions, FOLD_STEPS, BRINGUP_STEPS
+        from package.worker.fixed_quest_protocol import FIXED_QUEST_VR_GATE_OPTIONS
+
+        self.configure_adjustable_profile()
+        gate_options = dict(FIXED_QUEST_VR_GATE_OPTIONS,
+                            max_home_joint_speed=float(np.deg2rad(worker_home_speed_deg_s)))
+        self.gate = StrictCommandGate(self.tracker, **gate_options)
+        self.publisher.gate = self.gate
+        buttons = ControllerButtonActions(hold_s=.04)
+        actions, requested, reached, step_speeds = [], [], [], []
+        request_pose = self.real.request_pose_target
+
+        def capture_target(q):
+            request_pose(q)
+            requested.append(q.copy())
+
+        self.real.request_pose_target = capture_target
+        for index in range(3000):
+            frame, feedback, now = self.inputs(index)
+            frame["buttons"] = {"right": {"b": index < 8}}
+            action = actions[-1] if actions else None
+            actions.clear()
+            result = self.real.tick_grip(None if buttons.lock_input else frame,
+                                         feedback, now=now, action=action)
+            if result["state"] == "HOME":
+                self.assertEqual(len(requested), len(reached) + 1)
+                self.assertTrue(np.all(np.abs(self.publisher.q - requested[-1])
+                                       <= self.real.home_tolerance), buttons.status)
+                reached.append(requested[-1])
+            request_count = len(requested)
+            buttons(now, frame, result, self.real, actions)
+            if len(requested) > request_count:
+                step_speeds.append(np.rad2deg(self.real.home_speed_limits[self.real.arm_mask]).copy())
+            if requested and not buttons.lock_input:
+                break
+        self.assertIn("완료", buttons.status)
+        self.assertEqual(len(requested), 10)
+        self.assertEqual(len(reached), 10)
+        for target, (label, pose) in zip(reached[1:], FOLD_STEPS + BRINGUP_STEPS):
+            for joint, value in pose.items():
+                self.assertEqual(target[list(JOINT_NAMES).index(joint)], value, (label, joint))
+        self.assertTrue(all(outcome["accepted"] for outcome in self.publisher.outcomes),
+                        self.publisher.outcomes)
+        expected_speeds = [30., 30.] + [min(60., worker_home_speed_deg_s)] * 8
+        self.assertEqual(len(step_speeds), len(expected_speeds))
+        for speeds, expected in zip(step_speeds, expected_speeds):
+            np.testing.assert_allclose(speeds, expected)
+        np.testing.assert_allclose(self.real.home_speed_limits[1:], np.deg2rad(10))
+
+    def test_button_reset_reaches_every_pose_with_60_degree_worker_cap(self):
+        self.assert_button_reset_reaches_every_pose(60.)
+
+    def test_button_reset_reaches_every_pose_with_legacy_30_degree_worker_cap(self):
+        self.assert_button_reset_reaches_every_pose(30.)
+
     def test_live_speed_decrease_drains_ack_before_lower_packet_cap(self):
         self.configure_adjustable_profile()
         self.arm()
