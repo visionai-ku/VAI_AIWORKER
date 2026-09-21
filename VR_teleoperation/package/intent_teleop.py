@@ -29,7 +29,7 @@ from package.fixed_quest_transport import SG2RobotStateReceiver, SG2RobotCommand
 from package.fixed_quest_real import (SG2FixedQuestReal, FIXED_QUEST_MIN_GRIPPER_SPEED,
                                       FIXED_QUEST_MAX_GRIPPER_SPEED, FIXED_QUEST_MAX_TRACKING_PAUSE_S)
 from package.worker.fixed_quest_protocol import (JOINT_NAMES, JOINT_LIMITS, FIXED_QUEST_DEFAULT_ARM_SPEED, FIXED_QUEST_MAX_ARM_SPEED,
-    OFFICIAL_VR_CONTROL_HZ, OFFICIAL_VR_RAMP_S, VR_ARM_TRACKING_LAG, FIXED_QUEST_VR_BRIDGE_LIMITS)
+    OFFICIAL_VR_CONTROL_HZ, VR_ARM_TRACKING_LAG, FIXED_QUEST_VR_BRIDGE_LIMITS)
 from dataclasses import dataclass
 from .intent_calibration import load_intent_profile
 from .intent_sim_bridge import IntentSimBridge
@@ -81,7 +81,7 @@ class IntentTeleopSettings:
     MAX_JOINT_SPEED: float = FIXED_QUEST_DEFAULT_ARM_SPEED
     MAX_AUX_JOINT_SPEED: float = np.deg2rad(60.)
     MAX_GRIPPER_SPEED: float = np.deg2rad(60.)
-    TELEOP_RAMP_S: float = OFFICIAL_VR_RAMP_S
+    TELEOP_RAMP_S: float = 3.0
     MAX_ARM_JOINT_LAG: float = VR_ARM_TRACKING_LAG
     MAX_HOME_JOINT_SPEED: float = np.deg2rad(10.)
     MAX_LIFT_SPEED: float = .01
@@ -417,7 +417,8 @@ def run_intent_teleop(cfg=None, on_tick=None):
     last_targets = {}
     results = deque(maxlen=int(cfg.CONTROL_HZ * 60))
     mode_label = "SIM" if cfg.backend == "sim" else ("SHADOW" if cfg.DRY_RUN else "REAL")
-    speed_label = "팔 최대 %.0f°/s · 복귀 %.0f°/s · 시작 ramp 8초" % (np.rad2deg(cfg.MAX_JOINT_SPEED), np.rad2deg(cfg.MAX_HOME_JOINT_SPEED))
+    speed_label = "팔 최대 %.0f°/s · 복귀 %.0f°/s · 시작 ramp %g초" % (
+        np.rad2deg(cfg.MAX_JOINT_SPEED), np.rad2deg(cfg.MAX_HOME_JOINT_SPEED), cfg.TELEOP_RAMP_S)
     log_path = PROJECT_DIR / ".cache" / "fixed_quest" / "recordings" / (datetime.now().strftime("%Y%m%d-%H%M%S-%f") + "-intent-" + cfg.backend + ".jsonl")
     exit_reason = "startup_incomplete"
     if not isinstance(cfg.QUEST_HOST, str) or not cfg.QUEST_HOST:
