@@ -42,7 +42,12 @@ class TeleopCollisionPolicyTest(unittest.TestCase):
         f = self.flow
         real = f.make_real()
         real.tick_grip(None, f.feedback(0.), now=0.)
-        f.planner.q_home[f.names.index("arm_l_joint1")] += target_delta
+        # Relative to robot_initial (what feedback() always reports), not the
+        # BRINGUP_POSE-derived q_home: target_delta=0 means "already home" for
+        # tests that need instant arrival, matching this file's pre-BRINGUP-fix
+        # semantics regardless of where BRINGUP_POSE itself sits.
+        f.planner.q_home[f.names.index("arm_l_joint1")] = (
+            f.robot_initial[f.names.index("arm_l_joint1")] + target_delta)
         requested = real.tick_grip(None, f.feedback(.01), now=.01, action="home")
         self.assertEqual(requested["state"], "ARMING", requested["reason"])
         self.assertEqual(f.publisher.messages, [])

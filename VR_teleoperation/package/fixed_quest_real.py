@@ -15,6 +15,7 @@ from utils import get_qmsg_from_qpos, get_sg2_wrist_control_T, set_sg2_gripper_q
 from .controller_mapping import ControllerMapper
 from .fixed_quest_sim import wrist_error
 from .home_path import home_plan_summary, plan_home_path
+from .vr_buttons import BRINGUP_POSE
 from .worker.fixed_quest_protocol import (
     JOINT_NAMES, JOINT_LIMITS, FIXED_QUEST_MIN_ARM_SPEED, FIXED_QUEST_MAX_ARM_SPEED,
     FIXED_QUEST_MAX_GRIPPER_SPEED,
@@ -152,6 +153,11 @@ class SG2FixedQuestReal:
         self._grip_mode_barrier_pending = False
         self.home_tolerance = np.full(len(JOINT_NAMES), np.deg2rad(.5))
         self.home_tolerance[list(JOINT_NAMES).index("lift_joint")] = .001
+        # The head settles ~0.7 deg off its target, so the 0.5 deg arm tolerance would keep a
+        # return waiting until the settling timeout. It is a low-force pointing axis whose
+        # exact angle does not gate anything, so it gets its own tolerance.
+        for _head in ("head_joint1", "head_joint2"):
+            self.home_tolerance[list(JOINT_NAMES).index(_head)] = np.deg2rad(2.)
         self.ack_window_s = .04
         self.tracking_soft_fraction = .8
         self._reset_command_window()
@@ -624,10 +630,17 @@ class SG2FixedQuestReal:
             self.stop()
             self._sync_command(q)
             if not self.initialized:
-                # Real home is this run's first measured pose. A worker/bridge
-                # restart resynchronizes commands but keeps that target, so a
-                # restart in a wound-up pose never becomes the Initial pose.
-                self.planner.q_home = q.copy()
+                # Initial pose is always the fixed worker_bringup pose (BRINGUP_POSE),
+                # not whatever pose the robot happened to be in when this session
+                # connected -- head_joint2 (yaw) is not part of BRINGUP_POSE (see
+                # vr_buttons.py), so it keeps whatever this run's first measured
+                # value was. A worker/bridge restart resynchronizes commands but
+                # keeps this target, so a restart in a wound-up pose never becomes
+                # the Initial pose.
+                q_home = q.copy()
+                for name, value in BRINGUP_POSE.items():
+                    q_home[JOINT_NAMES.index(name)] = value
+                self.planner.q_home = q_home
             self.initialized = True
             self.generation, self.bridge_id = feedback["generation"], feedback["bridge_id"]
             if enabled:

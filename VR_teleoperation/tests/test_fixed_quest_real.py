@@ -21,6 +21,7 @@ from package.fixed_quest_sim import (SG2FixedQuestSimulation, SyntheticControlle
                                      reset_sg2_sim, IKTargetUnreachable)
 from package.fixed_quest_real import SG2FixedQuestReal
 from package.intent_sim_bridge import IntentSimBridge
+from package.vr_buttons import BRINGUP_POSE, HEAD_TILT
 from package.worker.fixed_quest_protocol import parse_joint_groups
 
 
@@ -83,8 +84,20 @@ class FixedQuestRealTest(unittest.TestCase):
         self.sim_initial = self.env.get_qpos(joint_names=self.names).copy()
         self.robot_initial = self.sim_initial.copy()
         self.robot_initial[self.names.index("arm_l_joint1")] = .04
-        self.robot_initial[self.names.index("lift_joint")] = -.10
-        self.robot_initial[self.names.index("head_joint1")] = .05
+        # lift_joint and head_joint1 are left at their BRINGUP_POSE values:
+        # configure_teleop_speed gives lift a deliberately slow .01 rad/s cap below,
+        # head_joint1 now tilts to HEAD_TILT, and Initial pose always targets
+        # BRINGUP_POSE (see SG2FixedQuestReal.tick), so displacing either here would
+        # add seconds of travel to every "return home" test. head_joint2 keeps the
+        # offset instead: it is the one joint BRINGUP_POSE does not command.
+        self.robot_initial[self.names.index("head_joint1")] = HEAD_TILT
+        self.robot_initial[self.names.index("head_joint2")] = .05
+        # BRINGUP_POSE covers every joint here except head_joint2, which the button
+        # reset intentionally leaves alone (see vr_buttons.py); that is exactly what
+        # "Initial pose" (action="home") converges on.
+        self.bringup_target = self.robot_initial.copy()
+        for _name, _value in BRINGUP_POSE.items():
+            self.bringup_target[self.names.index(_name)] = _value
         self.planner = SG2FixedQuestSimulation(
             self.env, self.env_ik, self.solvers, self.arms, self.names,
             ControllerMapper(), self.guard, mode="kinematic", max_joint_speed=np.deg2rad(5))
@@ -333,8 +346,18 @@ class FixedQuestRealTest(unittest.TestCase):
                     end_index = 5
                     if finish:
                         self.assertEqual(result["state"], "HOMING", result["reason"])
-                        result = self.real.tick_grip(None, self.armed_feedback(.06), now=.06)
-                        end_index = 6
+                        # Home now genuinely travels (BRINGUP_POSE differs from
+                        # robot_initial's arm_l_joint1); feed each measured tick
+                        # back so a perfectly-tracking robot actually arrives,
+                        # rather than staying frozen at the pre-home pose.
+                        previous = result["q_command"].copy()
+                        for index in range(6, 200):
+                            result = self.real.tick_grip(None, self.armed_feedback(index / 100, q=previous),
+                                                         now=index / 100)
+                            previous = result["q_command"].copy()
+                            if result["state"] == "HOME":
+                                break
+                        end_index = index
                     self.assertEqual(result["state"], "HOME" if finish else "HOLD", result["reason"])
                     self.assertEqual(solve.call_count, 1, "HOME must not retry the controller IK goal")
                 self.assertFalse(result["homing"])
@@ -755,26 +778,37 @@ class FixedQuestRealTest(unittest.TestCase):
                 result = real.tick_grip(None, self.feedback(.01), now=.01, action="home")
                 if cancel:
                     result = real.tick_grip(None, self.feedback(.02), now=.02, action="cancel_home")
+                    now = .02
                 else:
-                    result = real.tick_grip(None, self.feedback(.02), now=.02)
-                    self.assertEqual(result["state"], "HOME")
+                    # Home now genuinely travels (BRINGUP_POSE differs from
+                    # robot_initial's arm_l_joint1), so this takes several
+                    # ticks at the 10 deg/s home speed, not just one.
+                    for index in range(2, 200):
+                        now = index / 100
+                        result = real.tick_grip(None, self.feedback(now), now=now)
+                        if result["state"] == "HOME":
+                            break
+                    self.assertEqual(result["state"], "HOME", result["reason"])
                 self.assertTrue(result["grip_rearm_required"])
                 self.assertNotIn("control OFF", result["reason"])
-                self.assertEqual(real.tick_grip(self.frame(3, grip=True), self.feedback(.03), now=.03)["state"], "WAIT_RELEASE")
-                self.assertEqual(real.tick_grip(self.frame(4), self.feedback(.04), now=.04)["state"], "WAIT_GRIP")
-                self.assertEqual(real.tick_grip(self.frame(5, grip=True), self.feedback(.05), now=.05)["state"], "ACTIVE")
+                # frame()'s own sample_time_ms must track the same now, or a
+                # frame timestamped far in the past reads as stale input.
+                next_index = int(round(now * 100)) + 1
+                self.assertEqual(real.tick_grip(self.frame(next_index, grip=True), self.feedback(now + .01), now=now + .01)["state"], "WAIT_RELEASE")
+                self.assertEqual(real.tick_grip(self.frame(next_index + 1), self.feedback(now + .02), now=now + .02)["state"], "WAIT_GRIP")
+                self.assertEqual(real.tick_grip(self.frame(next_index + 2, grip=True), self.feedback(now + .03), now=now + .03)["state"], "ACTIVE")
 
     def test_dry_run_synchronizes_actual_start_and_never_sends(self):
         real = self.make_real(dry_run=True)
         result = real.tick(self.frame(0), self.feedback(0.), enabled=False, now=0.)
         np.testing.assert_array_equal(result["q_command"], self.robot_initial)
-        np.testing.assert_array_equal(self.planner.q_home, self.robot_initial)
+        np.testing.assert_array_equal(self.planner.q_home, self.bringup_target)
         self.assertFalse(np.array_equal(self.robot_initial, self.sim_initial))
         moved = self.robot_initial.copy()
         moved[self.names.index("arm_l_joint1")] += .01
         result = real.tick(self.frame(1), self.feedback(.01, q=moved), enabled=False, now=.01)
         np.testing.assert_array_equal(result["q_command"], moved)
-        np.testing.assert_array_equal(self.planner.q_home, self.robot_initial)
+        np.testing.assert_array_equal(self.planner.q_home, self.bringup_target)
         real.tick(self.frame(2), self.feedback(.02, q=moved), enabled=True, now=.02)
         real.tick(self.frame(3, grip=True), self.feedback(.03, q=moved), enabled=True, now=.03)
         real.tick(self.frame(4, grip=True, height=.002), self.feedback(.04, q=moved), enabled=True, now=.04)
@@ -1059,7 +1093,7 @@ class FixedQuestRealTest(unittest.TestCase):
             if result["state"] == "HOME":
                 break
         self.assertEqual(result["state"], "HOME", result["reason"])
-        np.testing.assert_allclose(result["q_command"], self.robot_initial, atol=1e-9)
+        np.testing.assert_allclose(result["q_command"], self.bringup_target, atol=1e-9)
         self.assertTrue(result["needs_disable"])
         self.assertEqual(self.publisher.messages[-1]["mode"], "stop")
 
@@ -1290,7 +1324,12 @@ class FixedQuestRealTest(unittest.TestCase):
     def test_home_waits_for_measured_arrival_before_releasing_lease(self):
         self.make_real()
         self.real.tick(self.frame(0), self.feedback(0.), enabled=False, now=0.)
-        measured = self.robot_initial.copy()
+        # Offset from bringup_target (the home target), not robot_initial: a
+        # frozen "measured" far from the target (robot_initial is ~2.3 deg off
+        # bringup_target on this joint) would make the command's own tracking
+        # pacer cap progress once it drifts too far from a stalled measured
+        # reading -- a real safety feature, but not what this test is for.
+        measured = self.bringup_target.copy()
         measured[self.names.index("arm_l_joint1")] += np.deg2rad(2)
         self.real.tick(self.frame(1), self.feedback(.01, q=measured), enabled=False, now=.01)
         self.real.tick(self.frame(2), self.feedback(.02, q=measured), enabled=True, now=.02)
@@ -1304,16 +1343,23 @@ class FixedQuestRealTest(unittest.TestCase):
                 self.assertEqual(result["state"], "ARMING", result["reason"])
                 continue
             self.assertEqual(result["state"], "HOMING", "Command arrival must not cancel physical return")
-        np.testing.assert_allclose(result["q_command"], self.robot_initial, atol=1e-9)
-        np.testing.assert_allclose(result["home_error"], measured - self.robot_initial, atol=1e-9)
+        np.testing.assert_allclose(result["q_command"], self.bringup_target, atol=1e-9)
+        np.testing.assert_allclose(result["home_error"], measured - self.bringup_target, atol=1e-9)
         self.assertEqual(self.publisher.messages[-1]["mode"], "command")
-        result = self.real.tick(None, self.armed_feedback(.65), enabled=True, now=.65)
+        result = self.real.tick(None, self.armed_feedback(.65, q=self.bringup_target), enabled=True, now=.65)
         self.assertEqual(result["state"], "HOME")
         self.assertEqual(self.publisher.messages[-1]["mode"], "stop")
 
     def test_home_settling_timeout_stops_an_unresponsive_robot(self):
         self.arm()
-        self.planner.q_home[self.names.index("arm_l_joint1")] += np.deg2rad(2)
+        # Set (not +=) 2 deg off robot_initial, not BRINGUP_POSE's 0: the frozen
+        # "unresponsive" feedback below always reports robot_initial's .04 rad on
+        # this joint, so the target must stay close to it -- clearly outside the
+        # 0.5 deg home tolerance (so arrival never reports early) but still
+        # within the command's tracking pacer's travel budget relative to that
+        # stalled measured reading (so the command can actually reach it).
+        self.planner.q_home[self.names.index("arm_l_joint1")] = (
+            self.robot_initial[self.names.index("arm_l_joint1")] + np.deg2rad(2))
         for index in range(3, 405):
             now = index / 100
             result = self.real.tick(None, self.armed_feedback(now), enabled=True, now=now,
@@ -1427,7 +1473,7 @@ class FixedQuestRealTest(unittest.TestCase):
     def test_bridge_restart_keeps_first_measured_home(self):
         real = self.make_real()
         real.tick(None, self.feedback(0.), enabled=False, now=0.)
-        np.testing.assert_array_equal(self.planner.q_home, self.robot_initial)
+        np.testing.assert_array_equal(self.planner.q_home, self.bringup_target)
         wound = self.robot_initial.copy()
         wound[self.names.index("arm_r_joint3")] += 1.
         real.tick(None, self.feedback(.01, q=wound), enabled=False, now=.01)
@@ -1435,7 +1481,7 @@ class FixedQuestRealTest(unittest.TestCase):
         result = real.tick(None, self.feedback(.02, q=wound), enabled=False, now=.02)
         self.assertEqual(real.generation, self.generation)
         np.testing.assert_array_equal(result["q_command"], wound)
-        np.testing.assert_array_equal(self.planner.q_home, self.robot_initial)
+        np.testing.assert_array_equal(self.planner.q_home, self.bringup_target)
 
     def test_invalid_measured_state_never_arms(self):
         self.make_real()
@@ -1634,7 +1680,11 @@ class FixedQuestRealTest(unittest.TestCase):
         self.configure_teleop_speed(60)
         real = self.make_real(dry_run=True, max_home_joint_speed=np.deg2rad(10))
         real.tick(None, self.feedback(0.), enabled=False, now=0.)
-        self.planner.q_home[self.names.index("arm_l_joint1")] += .04
+        # +.08, not +.04: home_target's arm_l_joint1 is 0 (BRINGUP_POSE) and
+        # feedback below always reports robot_initial's .04 rad on that joint,
+        # so a +.04 offset would coincidentally retarget exactly onto the
+        # measured pose (zero distance) instead of the intended .04 rad move.
+        self.planner.q_home[self.names.index("arm_l_joint1")] += .08
         result = real.tick(None, self.feedback(.01), enabled=True, now=.01, action="home")
         self.assertEqual(result["state"], "HOMING")
         home = real.home_speed_limits.copy()

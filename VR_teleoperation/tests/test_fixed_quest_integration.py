@@ -20,6 +20,7 @@ from package.controller_mapping import ControllerMapper
 from package.fixed_quest_scene import SG2CommandGuard, build_fixed_quest_scene
 from package.fixed_quest_sim import SG2FixedQuestSimulation, SyntheticControllerSource, reset_sg2_sim
 from package.fixed_quest_real import SG2FixedQuestReal
+from package.vr_buttons import BRINGUP_POSE, HEAD_TILT
 from package.fixed_quest_transport import SG2RobotFeedbackCache
 from package.worker.fixed_quest_protocol import JOINT_GROUPS, JOINT_NAMES, JointStateTracker, StrictCommandGate, parse_joint_groups
 
@@ -92,7 +93,19 @@ class FixedQuestIntegrationTest(unittest.TestCase):
         for model_env in (self.env, self.env_ik, self.env_check, self.env_measured):
             reset_sg2_sim(model_env)
         self.initial = self.env.get_qpos(joint_names=JOINT_NAMES).copy()
-        self.initial[0], self.initial[1], self.initial[3] = -.1, .05, .04
+        # lift_joint and head_joint1 are left at their BRINGUP_POSE values:
+        # planner.speed_limits gives lift a deliberately slow .01 rad/s teleop cap
+        # below, head_joint1 now tilts to HEAD_TILT, and Initial pose always targets
+        # BRINGUP_POSE (see SG2FixedQuestReal.tick), so displacing either here would
+        # add seconds of travel to every "return home" test. head_joint2 (index 2)
+        # keeps the offset instead: it is the one joint BRINGUP_POSE does not command.
+        self.initial[1], self.initial[2], self.initial[3] = HEAD_TILT, .05, .04
+        # BRINGUP_POSE covers every joint here except head_joint2, which the button
+        # reset intentionally leaves alone (see vr_buttons.py); that is exactly what
+        # "Initial pose" (action="home") converges on.
+        self.home_target = self.initial.copy()
+        for _name, _value in BRINGUP_POSE.items():
+            self.home_target[list(JOINT_NAMES).index(_name)] = _value
         self.tracker = JointStateTracker()
         self.gate = StrictCommandGate(self.tracker)
         self.feedback_cache = SG2RobotFeedbackCache()
@@ -188,7 +201,7 @@ class FixedQuestIntegrationTest(unittest.TestCase):
                 break
         self.assertEqual(result["state"], "HOME")
         self.assertTrue(result["needs_disable"])
-        np.testing.assert_allclose(result["q_command"], self.initial, atol=1e-9)
+        np.testing.assert_allclose(result["q_command"], self.home_target, atol=1e-9)
         self.assertTrue(all(outcome["accepted"] for outcome in self.publisher.outcomes), self.publisher.outcomes)
         self.assertEqual(self.publisher.messages[-1]["mode"], "stop")
         self.assertEqual(self.gate.state, "STOPPED")
@@ -273,7 +286,10 @@ class FixedQuestIntegrationTest(unittest.TestCase):
                 self.assertEqual(target[list(JOINT_NAMES).index(joint)], value, (label, joint))
         self.assertTrue(all(outcome["accepted"] for outcome in self.publisher.outcomes),
                         self.publisher.outcomes)
-        expected_speeds = [30., 30.] + [min(60., worker_home_speed_deg_s)] * 8
+        # speed_scale defaults to 6 (base 10 deg/s), so both the alignment stage
+        # (1x) and the fold/bringup stage (2x) request at least the worker's
+        # reported HOME ceiling; the worker cap is always the binding constraint.
+        expected_speeds = [min(60., worker_home_speed_deg_s)] * 10
         self.assertEqual(len(step_speeds), len(expected_speeds))
         for speeds, expected in zip(step_speeds, expected_speeds):
             np.testing.assert_allclose(speeds, expected)
@@ -378,7 +394,7 @@ class FixedQuestIntegrationTest(unittest.TestCase):
         home_packets = [packet for packet in self.publisher.messages[start_message:] if packet["mode"] == "command"]
         self.assertGreater(len(home_packets), 1)
         self.assertTrue(all(packet["motion"] == "home" for packet in home_packets))
-        np.testing.assert_allclose(result["q_command"], self.initial, atol=1e-9)
+        np.testing.assert_allclose(result["q_command"], self.home_target, atol=1e-9)
         self.assertTrue(all(outcome["accepted"] for outcome in self.publisher.outcomes), self.publisher.outcomes)
         self.assertEqual(self.gate.state, "STOPPED")
 
@@ -490,9 +506,9 @@ class FixedQuestIntegrationTest(unittest.TestCase):
         self.assertTrue(all(packet["motion"] == "home" for _, packet in commands))
         last_drop_end = max(end for _, end in self.publisher.drop_windows)
         self.assertTrue(any(time > last_drop_end for time, _ in commands))
-        np.testing.assert_allclose(result["q_command"], self.initial, atol=1e-9)
-        self.assertTrue(np.all(np.abs(result["robot_q"] - self.initial) <= self.real.home_tolerance))
-        self.assertTrue(np.all(np.abs(self.publisher.q - self.initial) <= self.real.home_tolerance))
+        np.testing.assert_allclose(result["q_command"], self.home_target, atol=1e-9)
+        self.assertTrue(np.all(np.abs(result["robot_q"] - self.home_target) <= self.real.home_tolerance))
+        self.assertTrue(np.all(np.abs(self.publisher.q - self.home_target) <= self.real.home_tolerance))
         self.assertEqual(self.publisher.messages[-1]["mode"], "stop")
         self.assertEqual(self.gate.state, "STOPPED")
         self.assertIsNone(self.gate.owner_session_id)
@@ -534,10 +550,10 @@ class FixedQuestIntegrationTest(unittest.TestCase):
                 self.assertEqual(rejected_at, stopped_at)
                 self.assertEqual(stopped_packet["mode"], "stop")
                 self.assertTrue(stopped_outcome["accepted"])
-                self.assertTrue(np.all(np.abs(result["robot_q"] - self.initial) <= self.real.home_tolerance))
-        np.testing.assert_allclose(result["q_command"], self.initial, atol=1e-9)
-        self.assertTrue(np.all(np.abs(result["robot_q"] - self.initial) <= self.real.home_tolerance))
-        self.assertTrue(np.all(np.abs(self.publisher.q - self.initial) <= self.real.home_tolerance))
+                self.assertTrue(np.all(np.abs(result["robot_q"] - self.home_target) <= self.real.home_tolerance))
+        np.testing.assert_allclose(result["q_command"], self.home_target, atol=1e-9)
+        self.assertTrue(np.all(np.abs(result["robot_q"] - self.home_target) <= self.real.home_tolerance))
+        self.assertTrue(np.all(np.abs(self.publisher.q - self.home_target) <= self.real.home_tolerance))
         self.assertEqual(self.publisher.messages[-1]["mode"], "stop")
         self.assertEqual(self.gate.state, "STOPPED")
         self.assertIsNone(self.gate.owner_session_id)
@@ -668,7 +684,7 @@ class FixedQuestIntegrationTest(unittest.TestCase):
         commands = [packet for packet in self.publisher.messages if packet["mode"] == "command"]
         self.assertGreater(len(commands), 1)
         self.assertTrue(all(packet["motion"] == "home" for packet in commands))
-        np.testing.assert_allclose(result["q_command"], self.initial, atol=1e-9)
+        np.testing.assert_allclose(result["q_command"], self.home_target, atol=1e-9)
         count = len(self.publisher.messages)
         for held_index in range(index + 1, index + 6):
             result = self.tick_grip(held_index, grips=(True, True), height=.16)

@@ -1,8 +1,11 @@
 """
-Episode recorder for SG2 VR teleop (strict JSON workers).
+Episode recorder for SG2 VR teleop (strict JSON workers), writing directly to a
+LeRobot v3.0 dataset (https://huggingface.co/docs/lerobot/en/lerobot-dataset-v3)
+via the `lerobot` package's LeRobotDataset.
 
 Runs next to run_intent_teleop() without changing it:
-  - a background thread receives and writes data (camera decode / video write never block the control loop)
+  - a background thread receives ZMQ messages and calls dataset.add_frame() /
+    save_episode() (video encoding never blocks the control loop)
   - a small Qt window (Record: STOP / REC / DEL) driven by a QTimer, which fires inside the
     teleop loop's app.processEvents()
 
@@ -11,17 +14,22 @@ Sources (all ZMQ SUB, extra subscribers do not affect the teleop):
   cameras       tcp://<robot>:5570/5571/5572   camera_outbound.py / outbound.py --meta (pickle)
   teleop action tcp://127.0.0.1:5561 this PC's own command publisher (strict JSON "sg2_command")
 
-Saved per episode (<task_dir>/episode_NNN/):
-  joints.npz        t, q, names                           robot state
-  action.npz        t, q, names, valid, mode, motion      last teleop command (valid = fresh "command")
-  rgb_<cam>.mp4     per-camera video
-  rgb_<cam>_t.npy   per-camera frame time [s] since episode start
-  meta.json
+The LeRobot dataset schema (action / observation.state / observation.images.<cam>) is fixed
+for the whole dataset root at creation time, so recording cannot start until at least one
+frame has arrived from every camera in `cameras` -- that is what fixes each camera's
+resolution. Pass a smaller `cameras` dict (e.g. {"head": 5570}) if some cameras are not wired
+up. `action`/`observation.state` follow JOINT_NAMES order; camera frames are converted from
+the wire's BGR to RGB (the convention LeRobot's own camera backends use).
+
+An existing `root` (one with meta/info.json) is resumed and appended to, matching
+lerobot-record --resume; a fresh `root` is created with LeRobotDataset.create(). The default
+`vcodec="h264"` targets a software libx264 encoder available on stock ffmpeg builds; the
+LeRobotDataset default ("libsvtav1") needs an ffmpeg built with libsvtav1, which is not
+guaranteed to be installed.
 """
 import json
 import pickle
 import platform
-import shutil
 import subprocess
 import threading
 import time
@@ -29,15 +37,21 @@ from pathlib import Path
 
 import cv2
 import numpy as np
+import pandas as pd
+import pyarrow.parquet as pq
 import zmq
 from PyQt5.QtCore import QTimer
 
 from ri_motion_v5_package.qt import MultiRadioQtWidget
+from lerobot.datasets.lerobot_dataset import LeRobotDataset
 from package.worker.fixed_quest_protocol import JOINT_NAMES, parse_joint_groups
 
 
 DEFAULT_CAMERAS = {"head": 5570, "wrist_left": 5571, "wrist_right": 5572}
 ACTION_FRESH_S = 0.2
+DEFAULT_TASK = "SG2 VR teleoperation"
+DEFAULT_VCODEC = "h264"
+REJECTED_PATH = "rejected_episodes.json"
 
 
 def find_lan_ip(robot_ip="192.168.6.2"):
@@ -91,18 +105,35 @@ def decode_message(raw):
     return pickle.loads(raw)
 
 
+def rejected_episodes(root):
+    """Episode indices the operator marked bad while recording (the Y button).
+
+    A saved episode cannot be removed in place -- LeRobot v3 packs many of them into shared
+    parquet/mp4 files -- so Y records a mark here instead. It is reversible (pressing Y again
+    clears it) and review_dataset.ipynb drops the marked episodes when it builds the final
+    dataset with delete_episodes().
+    """
+    path = Path(root) / REJECTED_PATH
+    if not path.exists():
+        return []
+    try:
+        return sorted({int(index) for index in json.loads(path.read_text())})
+    except (TypeError, ValueError):
+        return []
+
+
 def parse_robot_state(msg):
-    """-> (names, q) or None when the state is not ready / incomplete."""
+    """-> q in JOINT_NAMES order, or None when the state is not ready / incomplete."""
     if not isinstance(msg, dict) or msg.get("ready") is False:
         return None
     joints = msg.get("joints") or {}
-    names, pos = [], []
+    by_name = {}
     for grp, st in joints.items():
-        names += list(st["name"])
-        pos += [float(p) for p in st["position"]]
-    if not names:
+        for name, pos in zip(st["name"], st["position"]):
+            by_name[name] = float(pos)
+    if not all(name in by_name for name in JOINT_NAMES):
         return None
-    return names, np.asarray(pos, dtype=np.float64)
+    return np.asarray([by_name[name] for name in JOINT_NAMES], dtype=np.float64)
 
 
 def parse_command(msg):
@@ -117,99 +148,123 @@ def parse_command(msg):
 
 
 def decode_frame(msg):
+    """-> HWC BGR uint8 (OpenCV convention; callers convert to RGB for LeRobot)."""
     img = cv2.imdecode(np.frombuffer(msg["data"], dtype=np.uint8), cv2.IMREAD_COLOR)
     if img is None:
         return None
     return img[:, :img.shape[1] // 2, :] if msg.get("stereo", True) else img
 
 
-def list_episodes(task_dir):
-    return sorted(p for p in Path(task_dir).glob("episode_*") if (p / "meta.json").exists())
+ROOT_ABSENT, ROOT_EMPTY, ROOT_READY, ROOT_UNFINALIZED, ROOT_FOREIGN = (
+    "absent", "empty", "ready", "unfinalized", "foreign")
 
 
-def next_episode_dir(task_dir):
-    idx = 0
-    while (Path(task_dir) / ("episode_%03d" % idx)).exists():
-        idx += 1
-    return Path(task_dir) / ("episode_%03d" % idx)
+def readable_episode_files(root):
+    """meta/episodes parquet files that actually have a footer, oldest first.
+
+    A file written by a session that died is present but unreadable, so existence alone is
+    not enough: pyarrow raises ArrowInvalid("Parquet magic bytes not found in footer").
+    ParquetFile() only reads the footer, so this stays cheap.
+    """
+    files = []
+    for path in sorted((Path(root) / "meta" / "episodes").rglob("*.parquet")):
+        try:
+            pq.ParquetFile(path)
+        except Exception:
+            continue
+        files.append(path)
+    return files
 
 
-class EpisodeBuffer:
-    def __init__(self, ep_dir, hz):
-        self.ep_dir, self.hz = ep_dir, hz
-        self.t0 = time.time()
-        self.jt, self.jq, self.jnames = [], [], None
-        self.at, self.aq, self.avalid, self.amode, self.amotion = [], [], [], [], []
-        self.rt = {}
-        self.writers = {}
-        ep_dir.mkdir(parents=True)
+def dataset_status(root):
+    """How `root` can be used, decided from local files only (never hits the Hub).
 
-    def elapsed(self):
-        return time.time() - self.t0
+    LeRobotDataset() falls back to downloading `repo_id` when local metadata is incomplete,
+    so an interrupted session surfaces as a confusing "Repository Not Found" 404 instead of
+    the local problem it is.
+    """
+    root = Path(root)
+    if not root.exists():
+        return ROOT_ABSENT
+    if not any(root.iterdir()):
+        return ROOT_EMPTY
+    if not (root / "meta" / "info.json").exists():
+        return ROOT_FOREIGN
+    if readable_episode_files(root):
+        return ROOT_READY
+    return ROOT_UNFINALIZED
 
-    def add_joint(self, names, q):
-        if self.jnames is None:
-            self.jnames = list(names)
-        self.jt.append(self.elapsed())
-        self.jq.append(q)
 
-    def add_action(self, q, valid, mode, motion):
-        self.at.append(self.elapsed())
-        self.aq.append(q)
-        self.avalid.append(bool(valid))
-        self.amode.append(mode)
-        self.amotion.append(motion)
+def _root_error(root, status):
+    root = Path(root)
+    if status == ROOT_FOREIGN:
+        return FileExistsError(
+            "%s 는 LeRobot 데이터셋이 아닌데 (meta/info.json 없음) 내용이 있습니다: %s. "
+            "다른 이름을 쓰거나, 이 디렉터리를 비우거나 옮기세요."
+            % (root, ", ".join(sorted(p.name for p in list(root.iterdir())[:5]))))
+    videos = len(list((root / "videos").rglob("*.mp4")))
+    return FileExistsError(
+        "%s 는 finalize 되지 않은 데이터셋입니다 (meta/episodes 없음). 이전 세션이 finalize 전에 "
+        "끝나서 data/*.parquet 에 footer가 없고 관절·action 을 읽을 수 없습니다"
+        "%s. 이 디렉터리를 옮기거나 지운 뒤 새 이름으로 시작하세요."
+        % (root, " (videos/*.mp4 %d개는 온전할 수 있습니다)" % videos if videos else ""))
 
-    def add_frame(self, cam, bgr):
-        if cam not in self.writers:
-            h, w = bgr.shape[:2]
-            self.writers[cam] = cv2.VideoWriter(
-                str(self.ep_dir / ("rgb_%s.mp4" % cam)), cv2.VideoWriter_fourcc(*"mp4v"), self.hz, (w, h))
-            self.rt[cam] = []
-        self.writers[cam].write(bgr)
-        self.rt[cam].append(self.elapsed())
 
-    def _release(self):
-        for w in self.writers.values():
-            w.release()
+def list_episodes(root):
+    """Saved episode records of the LeRobot dataset at `root`, oldest first.
 
-    def stop(self, **meta_extra):
-        self._release()
-        np.savez(self.ep_dir / "joints.npz", t=np.asarray(self.jt), q=np.asarray(self.jq),
-                 names=np.asarray(self.jnames or []))
-        np.savez(self.ep_dir / "action.npz", t=np.asarray(self.at), q=np.asarray(self.aq),
-                 names=np.asarray(JOINT_NAMES), valid=np.asarray(self.avalid, dtype=bool),
-                 mode=np.asarray(self.amode), motion=np.asarray(self.amotion))
-        for cam, ts in self.rt.items():
-            np.save(self.ep_dir / ("rgb_%s_t.npy" % cam), np.asarray(ts))
-        meta = dict(hz=self.hz, duration_sec=self.elapsed(),
-                    n_joint_samples=len(self.jt), n_action_samples=len(self.at),
-                    n_action_valid=int(np.sum(self.avalid)),
-                    n_frames={c: len(ts) for c, ts in self.rt.items()}, cameras=list(self.rt),
-                    joint_names=self.jnames, action_names=list(JOINT_NAMES),
-                    recorded_at=time.strftime("%Y-%m-%d %H:%M:%S"))
-        meta.update(meta_extra)
-        (self.ep_dir / "meta.json").write_text(json.dumps(meta, indent=2, ensure_ascii=False))
-        return meta
+    Empty when `root` holds no dataset yet, so `len(list_episodes(root))` still answers "how
+    many episodes so far" the way it did when each episode was its own directory. Each record
+    is the dataset's own episode row (episode_index, length, tasks, ...). Reads
+    meta/episodes/*.parquet directly, so counting never opens a second writer on the dataset.
+    LeRobotDataset buffers episode metadata, so an episode shows up here once save_episode()
+    has flushed it -- VREpisodeRecorder.close() (finalize) guarantees that.
+    """
+    root = Path(root)
+    if not (root / "meta" / "info.json").exists():
+        return []
+    files = readable_episode_files(root)
+    if not files:
+        return []
+    rows = pd.concat([pd.read_parquet(f) for f in files], ignore_index=True)
+    return rows.sort_values("episode_index").to_dict("records")
 
-    def discard(self):
-        self._release()
-        shutil.rmtree(self.ep_dir, ignore_errors=True)
+
+def build_features(camera_shapes):
+    """LeRobot features dict: action / observation.state (JOINT_NAMES order) + one
+    observation.images.<cam> video feature per camera, shape (h, w, c)."""
+    features = {
+        "action": {"dtype": "float32", "shape": (len(JOINT_NAMES),), "names": list(JOINT_NAMES)},
+        "observation.state": {"dtype": "float32", "shape": (len(JOINT_NAMES),), "names": list(JOINT_NAMES)},
+    }
+    for cam, shape in camera_shapes.items():
+        features["observation.images.%s" % cam] = {
+            "dtype": "video", "shape": tuple(shape), "names": ["height", "width", "channels"],
+        }
+    return features
 
 
 class VREpisodeRecorder:
-    def __init__(self, robot_ip, task_dir, hz=30, max_sec=120, cameras=None,
-                 state_port=5560, command_endpoint="tcp://127.0.0.1:5561", meta=None):
-        self.robot_ip, self.task_dir = robot_ip, Path(task_dir)
-        self.hz, self.max_sec = float(hz), float(max_sec)
+    def __init__(self, robot_ip, repo_id, root, hz=30, max_sec=120, cameras=None,
+                 state_port=5560, command_endpoint="tcp://127.0.0.1:5561",
+                 task=DEFAULT_TASK, vcodec=DEFAULT_VCODEC):
+        self.robot_ip = robot_ip
+        self.repo_id, self.root = repo_id, Path(root)
+        self.hz, self.max_sec = int(hz), float(max_sec)
         self.cameras = dict(DEFAULT_CAMERAS if cameras is None else cameras)
         self.state_endpoint = "tcp://%s:%d" % (robot_ip, state_port)
         self.command_endpoint = command_endpoint
-        self.meta = dict(meta or {})
-        self.task_dir.mkdir(parents=True, exist_ok=True)
+        self.task, self.vcodec = str(task), vcodec
+        # Fail here rather than inside the receive thread: `root` either holds a finalized
+        # LeRobot dataset to append to, or must be free for LeRobotDataset.create().
+        status = dataset_status(self.root)
+        if status in (ROOT_FOREIGN, ROOT_UNFINALIZED):
+            raise _root_error(self.root, status)
 
         self.lock = threading.Lock()
-        self.buf, self.last_saved, self.msg = None, None, "ready"
+        self.dataset = None                          # created once every camera has a frame
+        self.is_recording, self.ep_started_at, self.ep_frames = False, None, 0
+        self.last_saved_episode, self.msg = None, "카메라 대기 중"
         self.rates = {"joint": 0.0, "action": 0.0, **{c: 0.0 for c in self.cameras}}
         self.error = None
         self._stop_evt = threading.Event()
@@ -217,8 +272,12 @@ class VREpisodeRecorder:
 
     # ---------- control (main / Qt thread) ----------
     @property
+    def ready(self):
+        return self.dataset is not None
+
+    @property
     def recording(self):
-        return self.buf is not None
+        return self.is_recording
 
     def start_thread(self):
         self._thread = threading.Thread(target=self._run, name="vr-episode-recorder", daemon=True)
@@ -227,63 +286,138 @@ class VREpisodeRecorder:
 
     def start(self):
         with self.lock:
-            if self.buf is None:
-                self.buf = EpisodeBuffer(next_episode_dir(self.task_dir), self.hz)
-                self.msg = "recording %s" % self.buf.ep_dir.name
+            if self.dataset is None:
+                self.msg = "녹화 불가: 카메라 프레임 대기 중 (%d/%d)" % (0, len(self.cameras))
+            elif not self.is_recording:
+                self.is_recording, self.ep_started_at, self.ep_frames = True, time.time(), 0
+                self.msg = "recording episode_%06d" % self.dataset.meta.total_episodes
         print("[rec]", self.msg)
 
     def stop(self):
         with self.lock:
-            if self.buf is None:
+            if not self.is_recording:
                 return None
-            meta = self.buf.stop(robot_ip=self.robot_ip, **self.meta)
-            self.last_saved, self.buf = self.buf.ep_dir, None
-        nf = "/".join(str(v) for v in meta["n_frames"].values()) or "0"
-        self.msg = "saved %s (%.1fs, %d joint / %d action(valid %d) / %s frames)" % (
-            self.last_saved.name, meta["duration_sec"], meta["n_joint_samples"],
-            meta["n_action_samples"], meta["n_action_valid"], nf)
+            self.is_recording = False
+            episode_index, n_frames = self.dataset.meta.total_episodes, self.ep_frames
+            duration = time.time() - self.ep_started_at
+            dataset = self.dataset
+        # Video encoding happens here; kept outside the lock so status() stays responsive.
+        dataset.save_episode()
+        # Durability: LeRobotDataset keeps its parquet writers open across episodes, so a
+        # session that dies before finalize() leaves *every* episode it recorded unreadable
+        # (no footer). Finalize each episode instead, then re-open: a finalized-but-reused
+        # object would truncate meta/episodes on its next flush, while a fresh load recomputes
+        # the chunk/file indices from disk and rolls to new files. Only the episode being
+        # recorded can now be lost.
+        dataset.finalize()
+        reopened = LeRobotDataset(self.repo_id, root=self.root, vcodec=self.vcodec,
+                                  video_backend="pyav")
+        meta = {"episode_index": episode_index, "duration_sec": duration, "n_frames": n_frames}
+        with self.lock:
+            self.dataset = reopened
+            self.last_saved_episode = episode_index
+            self.msg = "saved episode_%06d (%.1fs, %d frames) · 디스크 기록 완료" % (
+                episode_index, duration, n_frames)
         print("[rec]", self.msg)
         return meta
 
     def discard_or_delete_last(self):
+        """Throw away the running episode, else toggle the reject mark on the last saved one.
+
+        A saved episode cannot be deleted in place (see rejected_episodes), so it is marked
+        instead; pressing again clears the mark.
+        """
         with self.lock:
-            if self.buf is not None:
-                name = self.buf.ep_dir.name
-                self.buf.discard()
-                self.buf = None
-                self.msg = "discarded (recording) %s" % name
-            elif self.last_saved is not None and self.last_saved.exists():
-                shutil.rmtree(self.last_saved)
-                self.msg = "deleted %s" % self.last_saved.name
-                self.last_saved = None
+            if self.is_recording:
+                self.is_recording, dataset, target = False, self.dataset, None
             else:
-                self.msg = "nothing to delete"
-        print("[rec]", self.msg)
+                dataset, target = None, self.last_saved_episode
+        if dataset is not None:
+            dataset.clear_episode_buffer()
+            message = "discarded (recording)"
+        elif target is None:
+            message = "삭제할 녹화 없음"
+        else:
+            marks = set(rejected_episodes(self.root))
+            if target in marks:
+                marks.discard(target)
+                message = "episode_%06d 폐기 표시 해제" % target
+            else:
+                marks.add(target)
+                message = "episode_%06d 폐기 표시 · 최종 데이터셋에서 제외됩니다" % target
+            (self.root / REJECTED_PATH).write_text(json.dumps(sorted(marks)))
+        with self.lock:
+            self.msg = message
+        print("[rec]", message)
 
     def status(self):
-        n_done = len(list_episodes(self.task_dir))
         hz = " ".join("%s %.0f" % (k, v) for k, v in self.rates.items())
         if self.error:
             return "REC ERROR: %s" % self.error
-        buf = self.buf
-        if buf is not None:
-            return "● REC %s %.1fs | saved %d | Hz %s" % (buf.ep_dir.name, buf.elapsed(), n_done, hz)
+        n_done = self.dataset.meta.total_episodes if self.dataset is not None else 0
+        if self.is_recording:
+            return "● REC episode_%06d %.1fs | saved %d | Hz %s" % (
+                n_done, time.time() - self.ep_started_at, n_done, hz)
         return "IDLE | saved %d | Hz %s | %s" % (n_done, hz, self.msg)
 
     def close(self):
-        if self.buf is not None:
-            self.stop()
-        self._stop_evt.set()
-        if self._thread is not None:
-            self._thread.join(timeout=2.0)
+        """Stop recording and finalize the dataset.
+
+        finalize() is what writes the parquet footers and flushes meta/episodes; until it
+        runs, every episode saved in this session is unreadable (LeRobotDataset keeps one
+        writer open across episodes by design). So it runs in a finally, and a
+        KeyboardInterrupt while the last episode is still encoding video cannot skip it --
+        interrupting again during "finalizing" is what loses a session's joint data.
+        """
+        try:
+            with self.lock:
+                was_recording = self.is_recording
+            if was_recording:
+                self.stop()
+        finally:
+            self._stop_evt.set()
+            if self._thread is not None:
+                self._thread.join(timeout=5.0)
+            if self.dataset is not None:
+                with self.lock:
+                    self.msg = "finalizing (중단하지 마세요)"
+                print("[rec]", self.msg)
+                self.dataset.finalize()
+                with self.lock:
+                    self.msg = "finalized · %d episodes in %s" % (
+                        self.dataset.meta.total_episodes, self.root)
+                print("[rec]", self.msg)
 
     # ---------- receive / write (background thread) ----------
+    def _open_dataset(self, camera_shapes):
+        # video_backend="pyav": this machine's torchcodec build (LeRobotDataset's own
+        # default) fails to load its ffmpeg shared libraries; pyav works against the
+        # system ffmpeg. Pass the same video_backend when loading this dataset later
+        # (e.g. for training) instead of relying on the default.
+        status = dataset_status(self.root)
+        if status in (ROOT_FOREIGN, ROOT_UNFINALIZED):
+            raise _root_error(self.root, status)
+        if status == ROOT_READY:
+            self.dataset = LeRobotDataset(self.repo_id, root=self.root, vcodec=self.vcodec,
+                                          video_backend="pyav")
+        else:
+            # LeRobotDataset.create() creates `root` itself and refuses an existing directory,
+            # so a leftover empty one (deleting every episode leaves it behind) has to go first.
+            if status == ROOT_EMPTY:
+                self.root.rmdir()
+            self.dataset = LeRobotDataset.create(
+                self.repo_id, self.hz, build_features(camera_shapes), root=self.root,
+                use_videos=True, vcodec=self.vcodec, image_writer_threads=4,
+                video_backend="pyav")
+        self.msg = "ready (%d cameras, %d saved)" % (len(camera_shapes), self.dataset.meta.total_episodes)
+        print("[rec]", self.msg)
+
     def _run(self):
         ctx = zmq.Context()
         state_sock = _sub(ctx, self.state_endpoint)
         cmd_sock = _sub(ctx, self.command_endpoint, conflate=False)
         cam_socks = {c: _sub(ctx, "tcp://%s:%d" % (self.robot_ip, p)) for c, p in self.cameras.items()}
-        last_cmd, last_cmd_t = None, -np.inf
+        last_state, last_cmd, last_cmd_t, last_frame = None, None, -np.inf, {}
         counts = {k: 0 for k in self.rates}
         t_rate, dt, t_next = time.time(), 1.0 / self.hz, time.time()
         try:
@@ -295,37 +429,45 @@ class VREpisodeRecorder:
                 t_next = max(t_next + dt, now)
 
                 state = parse_robot_state(decode_message(_recv_latest(state_sock)))
+                if state is not None:
+                    last_state = state
                 cmd_raw = _recv_latest(cmd_sock)
                 if cmd_raw is not None:
                     parsed = parse_command(decode_message(cmd_raw))
                     if parsed is not None:
                         last_cmd, last_cmd_t = parsed, now
-                frames = {}
                 for cam, sock in cam_socks.items():
                     raw = _recv_latest(sock)
                     if raw is None:
                         continue
                     bgr = decode_frame(pickle.loads(raw))
                     if bgr is not None:
-                        frames[cam] = bgr
+                        last_frame[cam] = bgr
+
+                if self.dataset is None and len(last_frame) == len(self.cameras):
+                    self._open_dataset({cam: img.shape for cam, img in last_frame.items()})
 
                 valid = last_cmd is not None and last_cmd[1] == "command" and now - last_cmd_t <= ACTION_FRESH_S
+                ready = (self.dataset is not None and last_state is not None
+                         and len(last_frame) == len(self.cameras))
                 with self.lock:
-                    buf = self.buf
-                    if buf is not None:
-                        if state is not None:
-                            buf.add_joint(*state)
-                        if last_cmd is not None:
-                            buf.add_action(last_cmd[0], valid, last_cmd[1], last_cmd[2])
-                        else:
-                            buf.add_action(np.full(len(JOINT_NAMES), np.nan), False, "none", "none")
-                        for cam, bgr in frames.items():
-                            buf.add_frame(cam, bgr)
-                timeout = buf is not None and buf.elapsed() > self.max_sec
+                    recording, dataset = self.is_recording, self.dataset
+                    if recording and ready:
+                        action_q = last_cmd[0] if last_cmd is not None else np.full(len(JOINT_NAMES), np.nan)
+                        frame = {
+                            "task": self.task,
+                            "observation.state": last_state.astype(np.float32),
+                            "action": np.asarray(action_q, dtype=np.float32),
+                        }
+                        for cam, bgr in last_frame.items():
+                            frame["observation.images.%s" % cam] = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
+                        dataset.add_frame(frame)
+                        self.ep_frames += 1
+                    timeout = recording and self.ep_started_at is not None and now - self.ep_started_at > self.max_sec
 
                 counts["joint"] += state is not None
                 counts["action"] += bool(valid)
-                for cam in frames:
+                for cam in last_frame:
                     counts[cam] += 1
                 if now - t_rate >= 1.0:
                     self.rates = {k: v / (now - t_rate) for k, v in counts.items()}
@@ -362,6 +504,9 @@ class RecordControl:
         if opt != self.prev:
             if opt == "REC":
                 self.recorder.start()
+                if not self.recorder.recording:    # dataset not ready yet (camera warm-up)
+                    self.widget.set_button_option(label_text="Record", option_text="STOP")
+                    opt = "STOP"
             elif opt == "STOP":
                 self.recorder.stop()
             elif opt == "DEL":

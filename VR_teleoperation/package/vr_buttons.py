@@ -2,19 +2,29 @@
 Quest controller shortcuts for run_intent_teleop(on_tick=...).
 
     left  X          press       toggle recording (REC <-> STOP)
-    left  Y          hold 1 s    delete: discard the running episode, else the last saved one
+    left  Y          press       discard the running episode, else mark the last saved one as
+                                 rejected (reversible; review_dataset.ipynb drops the marks).
+                                 Measured Quest taps are 0.03-0.26 s, so only B still asks for
+                                 a hold -- it is the one that moves the whole robot.
+    right A          press       Initial pose: guarded return to the fixed worker_bringup pose.
+                                 A single press, exactly like clicking the "Initial pose" button:
+                                 the whole path is guard-checked before anything is sent and the
+                                 return runs at the 10 deg/s HOME speed, so there is nothing for a
+                                 hold-to-confirm to protect. Quest taps are often shorter than
+                                 100 ms, so a hold would simply never fire.
     right B          hold 1 s    reset pose: both wrists up 5 cm + 5 cm apart -> fold like worker_shutdown
                                  (4 steps) -> worker_bringup initial pose (5 steps)
-    right A          -           nothing
+
+Both A and B leave the head tilted HEAD_TILT down; head_joint2 (yaw) keeps its measured value.
 
 Poses go through SG2FixedQuestReal.request_pose_target(): each straight joint path is
 guard-checked before anything is sent. The wrist lift/spread and shutdown1 alignment use
-speed_scale x the 10 deg/s home speed (default 3 -> 30 deg/s). After shutdown1 is reached,
-shutdown2 onward uses twice that speed (default 60 deg/s; the robot gate ceiling). The
-live bridge's HOME ceiling also caps every step; an older 30 deg/s worker runs the full
-sequence at its supported speed and reports that the faster profile needs an update. The
-on-screen Initial pose / manual adjustment keep 10 deg/s. A blocked path sends nothing and
-the sequence stops. Teleop input is ignored while the sequence runs. Requires the Quest page
+speed_scale x the 10 deg/s home speed (default 6 -> 60 deg/s, the robot gate ceiling).
+Shutdown2 onward requests twice that, which the live bridge's HOME ceiling clamps back
+down to the same 60 deg/s; an older 30 deg/s worker runs the full sequence at its
+supported speed and reports that the faster profile needs an update. The on-screen
+Initial pose / manual adjustment keep 10 deg/s. A blocked path sends nothing and the
+sequence stops. Teleop input is ignored while the B sequence runs. Requires the Quest page
 to send "buttons" (quest_client/client.js); older pages never trigger anything.
 """
 import mujoco
@@ -48,9 +58,13 @@ for _i, _step in enumerate(_FOLD_LEFT):
     }))
 
 # ffw_bringup/config/ffw_sg2_rev1_follower/ffw_sg2_follower_initial_positions.yaml
-# start -> step1 -> step2 -> step3 -> step4 (both arms identical); lift goes home [0] with the
-# first step. The head is left alone: head_joint2 settles ~0.7 deg off 0, beyond the 0.5 deg
-# HOME tolerance, so a head target never "arrives" (worker_bringup_teleop already homes it).
+# start -> step1 -> step2 -> step3 -> step4 (both arms identical); lift goes home [0] and the
+# head tilts down with the first step.
+# head_joint1 is the pitch axis (world +y), where positive looks down: 0.3 rad puts the head
+# camera ~17 deg below level, and its limit is (-0.2317, 0.6951). head_joint2 (yaw) is still
+# left alone because it settles ~0.7 deg off its target. SG2FixedQuestReal widens the HOME
+# tolerance for both head joints so that settling error cannot stall a return.
+HEAD_TILT = .3
 _BRINGUP_ARM = [
     ("start", [0.2, 0.0, 0.0, 0.0, 0.0, 0.2, 0.0, 0.0]),
     ("step1", [1.0, 0.0, 0.0, -0.3, 0.0, -1.4, 0.0, 0.0]),
@@ -66,8 +80,9 @@ for _i, (_name, _step) in enumerate(_BRINGUP_ARM):
         _pose["gripper_%s_joint1" % _side] = _step[7]
     if _i == 0:
         _pose["lift_joint"] = 0.0
+        _pose["head_joint1"] = HEAD_TILT
     BRINGUP_STEPS.append(("bringup " + _name, _pose))
-BRINGUP_POSE = dict(BRINGUP_STEPS[-1][1], lift_joint=0.0)
+BRINGUP_POSE = dict(BRINGUP_STEPS[-1][1], lift_joint=0.0, head_joint1=HEAD_TILT)
 
 
 def lifted_arm_pose(env, joint_names, q_now, dz=0.05, dy=0.0, iters=200, pos_tol=2e-3, rot_tol=np.deg2rad(1.)):
@@ -126,11 +141,12 @@ def lifted_arm_pose(env, joint_names, q_now, dz=0.05, dy=0.0, iters=200, pos_tol
 
 
 class ControllerButtonActions:
-    def __init__(self, record_control=None, hold_s=1.0, speed_scale=3.0, lift_dz=0.05, spread_dy=0.05):
+    def __init__(self, record_control=None, hold_s=1.0, speed_scale=6.0, lift_dz=0.05, spread_dy=0.05):
         self.record_control = record_control
         self.hold_s = float(hold_s)
-        if not 0 < speed_scale <= 3.0:
-            raise ValueError("speed_scale must be in (0, 3]; alignment uses up to 30 deg/s, then up to 60 deg/s")
+        if not 0 < speed_scale <= 6.0:
+            raise ValueError("speed_scale must be in (0, 6]; both alignment and fold/bringup are "
+                              "clamped to the robot's reported HOME speed ceiling regardless")
         self.speed_scale = float(speed_scale)
         self.lift_dz = float(lift_dz)
         # Hands held together make the fold path pass within millimetres; spreading them
@@ -139,7 +155,7 @@ class ControllerButtonActions:
         self._base_home_speed = None
         self._speed_notice = ""
         self.lock_input = False
-        self.status = "X 녹화 · Y(1초) 삭제 · B(1초) reset pose (위로·바깥 5cm → 접기 → bringup)"
+        self.status = "X 녹화 · Y 삭제 · A Initial pose · B(1초) reset pose (위로·바깥 5cm → 접기 → bringup)"
         self._prev = {}
         self._held_since = {}
         self._fired = set()
@@ -156,7 +172,8 @@ class ControllerButtonActions:
     def _read(frame):
         b = (frame or {}).get("buttons") or {}
         left, right = b.get("left") or {}, b.get("right") or {}
-        return {"X": bool(left.get("x")), "Y": bool(left.get("y")), "B": bool(right.get("b"))}
+        return {"X": bool(left.get("x")), "Y": bool(left.get("y")),
+                "A": bool(right.get("a")), "B": bool(right.get("b"))}
 
     def _pressed_edge(self, name, state):
         return state[name] and not self._prev.get(name, False)
@@ -175,7 +192,7 @@ class ControllerButtonActions:
 
     def _hold_progress(self, now):
         parts = []
-        for name in ("Y", "B"):
+        for name in ("B",):
             if name in self._held_since and name not in self._fired:
                 parts.append("%s %.0f%%" % (name, 100 * min(1.0, (now - self._held_since[name]) / self.hold_s)))
         return " · ".join(parts)
@@ -210,6 +227,17 @@ class ControllerButtonActions:
         self.lock_input = False
         self.status = message
         print("[buttons]", message)
+
+    def _start_home(self, real, ui_actions):
+        """Request the same guarded return the "Initial pose" button/action performs
+        (SG2FixedQuestReal.tick_grip(action="home")), targeting the fixed worker_bringup
+        pose (planner.q_home; see SG2FixedQuestReal.tick's initialization)."""
+        if (real.last_feedback or {}).get("q") is None:
+            self.status = "Initial pose 불가: 로봇 피드백 없음"
+            return
+        ui_actions.append("home")
+        self.status = "Initial pose로 복귀 요청 (A)"
+        print("[buttons]", self.status)
 
     def _start_reset(self, real):
         q_now = (real.last_feedback or {}).get("q")
@@ -320,9 +348,11 @@ class ControllerButtonActions:
             recording = self.record_control.widget.get_button_option(label_text="Record") == "REC"
             self.record_control.widget.set_button_option(label_text="Record", option_text="STOP" if recording else "REC")
             self.status = "녹화 %s (X)" % ("종료" if recording else "시작")
-        if self._held("Y", state, now) and self.record_control is not None:
+        if self._pressed_edge("Y", state) and self.record_control is not None:
             self.record_control.widget.set_button_option(label_text="Record", option_text="DEL")
             self.status = "삭제 (Y)"
+        if self._pressed_edge("A", state) and not busy:
+            self._start_home(real, ui_actions)
         if self._held("B", state, now) and not busy:
             self._start_reset(real)
 

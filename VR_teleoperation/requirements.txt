@@ -16,3 +16,10 @@ pyzmq==27.1.0
 opencv-python==4.12.0.88
 websockets==15.0.1
 IPython==8.39.0
+lerobot==0.4.4  # episode_recorder.py writes directly to a LeRobotDataset (v3.0)
+# lerobot depends on opencv-python-headless, which unpacks over the SAME cv2/ directory as
+# opencv-python; whichever is installed last wins. The headless build reports "GUI: NONE" and
+# makes cv2.namedWindow/imshow raise "The function is not implemented". After installing or
+# upgrading lerobot, put the GUI build back:
+#   pip install --force-reinstall --no-deps opencv-python==4.12.0.88
+# Verify with: python -c "import cv2; print(cv2.getBuildInformation())" | grep GUI   -> QT5

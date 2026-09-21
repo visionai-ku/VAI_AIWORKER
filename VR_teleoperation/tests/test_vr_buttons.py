@@ -46,43 +46,98 @@ class ControllerButtonActionsTest(unittest.TestCase):
         np.testing.assert_allclose(self.real.home_speed_limits[1:], np.deg2rad(degrees))
         self.assertEqual(self.real.home_speed_limits[0], .01)
 
+    def tick(self, now=1., state="READY", **pressed):
+        """One on_tick call with the given face buttons down."""
+        self.actions.clear()
+        frame = {"buttons": {"left": {"x": pressed.get("x", False), "y": pressed.get("y", False)},
+                             "right": {"a": pressed.get("a", False), "b": pressed.get("b", False)}}}
+        self.buttons(now, frame, {"state": state, "reason": ""}, self.real, self.actions)
+
+    def test_x_and_y_act_on_a_single_press(self):
+        # Measured Quest taps last 0.03-0.26 s, so a 1 s hold never fired for these.
+        from types import SimpleNamespace
+        pressed = []
+        widget = SimpleNamespace(
+            get_button_option=lambda label_text: "STOP",
+            set_button_option=lambda label_text, option_text: pressed.append(option_text))
+        self.buttons.record_control = SimpleNamespace(widget=widget)
+        self.tick(x=True)
+        self.tick(now=1.01)
+        self.tick(now=1.02, y=True)
+        self.assertEqual(pressed, ["REC", "DEL"])
+
+    def test_a_requests_initial_pose_on_a_single_press(self):
+        # Quest taps last well under the 1 s hold used by Y/B: measured presses were
+        # 0.00-0.26 s, so A must fire on the press edge like the on-screen button.
+        self.tick(a=True)
+        self.assertEqual(self.actions, ["home"])
+        self.assertIn("Initial pose", self.buttons.status)
+        self.assertFalse(self.buttons.lock_input, "the guarded return does not lock teleop input")
+
+    def test_held_a_requests_the_return_only_once(self):
+        self.tick(now=1., a=True)
+        self.assertEqual(self.actions, ["home"])
+        for now in (1.01, 1.5, 3.):
+            self.tick(now=now, a=True)
+            self.assertEqual(self.actions, [], "holding A must not resend the request")
+        self.tick(now=3.1)               # release
+        self.tick(now=3.2, a=True)       # press again
+        self.assertEqual(self.actions, ["home"])
+
+    def test_a_without_robot_feedback_requests_nothing(self):
+        self.real.last_feedback = None
+        self.tick(a=True)
+        self.assertEqual(self.actions, [])
+        self.assertIn("로봇 피드백 없음", self.buttons.status)
+
+    def test_a_is_ignored_while_the_reset_sequence_runs(self):
+        self.start(lift_ok=False)
+        self.assertTrue(self.buttons.lock_input)
+        with patch.object(self.buttons, "_start_home") as start_home:
+            self.tick(now=2., a=True)
+        start_home.assert_not_called()
+
     def test_reset_only_accelerates_after_alignment_completes_and_restores_speed(self):
+        # A worker ceiling above both stages' nominal speeds keeps the 1x/2x
+        # split visible; the default 60 deg/s ceiling (other tests) saturates
+        # both stages at the same value instead.
+        self.real.last_feedback["bridge"]["limits"]["home_joint_speed_rad_s"] = np.deg2rad(200.)
         self.start()
-        self.assert_speed(30)
+        self.assert_speed(60)
         self.assertIn("위로", self.buttons.status)
         self.advance("HOME")
         self.assertIn("shutdown1", self.buttons.status)
-        self.assert_speed(30)
+        self.assert_speed(60)
         self.real.planner.homing = True
         self.advance("HOMING")  # Alignment has not reached its measured target yet.
         self.assertEqual(len(self.targets), 2)
         self.assertFalse(self.actions)
-        self.assert_speed(30)
+        self.assert_speed(60)
         self.real.planner.homing = False
         for label in ("shutdown2", "shutdown3", "shutdown4", "bringup start",
                       "bringup step1", "bringup step2", "bringup step3", "bringup step4"):
             self.advance("HOME")
             self.assertIn(label, self.buttons.status)
             self.assertEqual(self.actions, ["home"])
-            self.assert_speed(60)
+            self.assert_speed(120)
         self.advance("HOME")
         self.assertFalse(self.buttons.lock_input)
         self.assertIn("완료", self.buttons.status)
         np.testing.assert_array_equal(self.real.home_speed_limits, self.base_speed)
         self.start()  # A later reset must start slowly again.
-        self.assert_speed(30)
+        self.assert_speed(60)
 
-    def test_skipped_lift_still_keeps_alignment_slow(self):
+    def test_skipped_lift_still_keeps_alignment_speed(self):
         self.start(lift_ok=False)
         self.assertIn("1/9 shutdown1", self.buttons.status)
-        self.assert_speed(30)
+        self.assert_speed(60)
         self.advance("HOME")
         self.assertIn("2/9 shutdown2", self.buttons.status)
         self.assert_speed(60)
 
     def test_retry_keeps_each_stage_speed(self):
         self.start(lift_ok=False)
-        for label, speed in (("shutdown1", 30), ("shutdown2", 60)):
+        for label, speed in (("shutdown1", 60), ("shutdown2", 60)):
             target = self.targets[-1].copy()
             self.advance("FAULT", now=2., reason="stale_joint_state")
             self.assertIn("재시도", self.buttons.status)
@@ -114,7 +169,7 @@ class ControllerButtonActionsTest(unittest.TestCase):
     def test_lower_teleop_limits_are_respected(self):
         self.real.teleop_speed_limits[1:] = np.deg2rad(40)
         self.start(lift_ok=False)
-        self.assert_speed(30)
+        self.assert_speed(40)
         self.advance("HOME")
         self.assert_speed(40)
 
@@ -123,7 +178,7 @@ class ControllerButtonActionsTest(unittest.TestCase):
         self.real.last_feedback = None
         self.advance("HOME")
         self.assertEqual(len(self.targets), 1)
-        self.assert_speed(30)
+        self.assert_speed(60)
         self.real.last_feedback = {"q": self.targets[-1],
                                    "bridge": {"limits": {"home_joint_speed_rad_s": np.deg2rad(60.)}}}
         self.advance("IDLE")
@@ -157,7 +212,7 @@ class ControllerButtonActionsTest(unittest.TestCase):
         self.real.last_feedback.pop("bridge")
         self.start(lift_ok=False)
         self.advance("HOME")
-        self.assert_speed(60)
+        self.assert_speed(120)
 
 
 if __name__ == "__main__":
