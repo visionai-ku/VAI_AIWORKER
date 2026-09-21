@@ -5,6 +5,7 @@ import math
 import time
 
 from builtin_interfaces.msg import Duration
+from geometry_msgs.msg import Twist
 import rclpy
 from rclpy.node import Node
 from trajectory_msgs.msg import JointTrajectory, JointTrajectoryPoint
@@ -48,8 +49,11 @@ CONTROLLER_CONFIG = {
     },
 }
 
-ZMQ_SUB_IP = os.environ.get("SG2_ZMQ_SUB_IP", "192.168.6.102")
+ZMQ_SUB_IP = os.environ.get("SG2_ZMQ_SUB_IP", "192.168.6.100")
 ZMQ_SUB_PORT = 5561
+CMD_VEL_TOPIC = "/cmd_vel"   # swerve_drive_controller (cmd_vel_timeout 1.0s)
+BASE_MAX_LIN = 0.3           # [m/s]
+BASE_MAX_ANG = 0.6           # [rad/s]
 QOS_DEPTH = 10
 PUBLISH_HZ = 100.0
 
@@ -82,6 +86,11 @@ class SG2ZMQRosBridge(Node):
             self.get_logger().info(
                 "  Publisher: %s -> %s" % (module, cfg["topic"])
             )
+
+        self.cmd_vel_pub = self.create_publisher(Twist, CMD_VEL_TOPIC, QOS_DEPTH)
+        self.get_logger().info(
+            "  Publisher: base -> %s (|v|<=%.2fm/s, |w|<=%.2frad/s)" % (CMD_VEL_TOPIC, BASE_MAX_LIN, BASE_MAX_ANG)
+        )
 
         self.timer = self.create_timer(1.0 / PUBLISH_HZ, self.on_timer)
         if self.strict:
@@ -174,6 +183,24 @@ class SG2ZMQRosBridge(Node):
             return
 
         self.publish_joint_groups(data)
+        if isinstance(data, dict) and data.get("base") is not None:
+            self.publish_base(data["base"])
+
+    def publish_base(self, base):
+        """base = [vx, vy, wz] in base_link frame [m/s, m/s, rad/s]."""
+        try:
+            vx, vy, wz = (float(v) for v in base)
+        except (TypeError, ValueError):
+            self.report_warning("Skip base: expected [vx, vy, wz], got %r" % (base,))
+            return
+        if not all(math.isfinite(v) for v in (vx, vy, wz)):
+            self.report_warning("Skip base: non-finite command %r" % (base,))
+            return
+        msg = Twist()
+        msg.linear.x = max(-BASE_MAX_LIN, min(BASE_MAX_LIN, vx))
+        msg.linear.y = max(-BASE_MAX_LIN, min(BASE_MAX_LIN, vy))
+        msg.angular.z = max(-BASE_MAX_ANG, min(BASE_MAX_ANG, wz))
+        self.cmd_vel_pub.publish(msg)
 
     def publish_joint_groups(self, data):
         for module, cfg in CONTROLLER_CONFIG.items():

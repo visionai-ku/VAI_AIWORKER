@@ -1,13 +1,14 @@
 # REAL worker 배포
 
-PC는 [real_vr_teleop.ipynb](../real_notebook/real_vr_teleop.ipynb)를 사용한다. 포함된 [20260917-home-gripper-worker](../deploy/20260917-home-gripper-worker/README.txt)는 `package/worker/`의 세 파일과 해시가 동일하다.
+PC는 [real_vr_teleop.ipynb](../real_notebook/real_vr_teleop.ipynb)를 사용한다. `package/worker/`의 네 파일은 2026-09-21 기준 로봇에서 실행 중인 실물과 해시가 동일하다.
 
-로봇 컨테이너의 실제 실행 위치는 `/root/ros2_ws/src/ai_worker/zmq/`다. 로봇 조작과 기존 inbound/outbound 프로세스를 정지하고 기존 세 파일을 별도 백업한 후 다음 세 파일을 한 세트로 복사한다.
+로봇 컨테이너의 실제 실행 위치는 `/root/ros2_ws/src/ai_worker/zmq/`다. 로봇 조작과 기존 inbound/outbound 프로세스를 정지하고 기존 파일을 별도 백업한 후 다음 네 파일을 한 세트로 복사한다.
 
 ```text
-deploy/20260917-home-gripper-worker/inbound.py
-deploy/20260917-home-gripper-worker/outbound.py
-deploy/20260917-home-gripper-worker/fixed_quest_protocol.py
+package/worker/inbound.py
+package/worker/outbound.py
+package/worker/fixed_quest_protocol.py
+package/worker/camera_outbound.py
 ```
 
 두 worker를 모두 재시작해야 새 protocol이 적용된다. ROS 환경이 설정된 컨테이너의 별도 터미널에서 실행하며 `<PC_IP>`는 노트북 PC LAN IP로 바꾼다.

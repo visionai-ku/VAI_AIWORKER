@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import ast
-import hashlib
 import json
 import os
 from pathlib import Path
@@ -19,7 +18,7 @@ NOTEBOOKS = (
 def check_workspace():
     previous_cwd = Path.cwd()
     report = {"root": str(ROOT), "scope": "offline notebook setup; no viewer, Quest or robot transport",
-              "notebooks": [], "module_origins": {}, "worker_bundle": {}}
+              "notebooks": [], "module_origins": {}}
     try:
         for relative in NOTEBOOKS:
             notebook = json.loads((ROOT / relative).read_text())
@@ -67,16 +66,10 @@ def check_workspace():
                     report["module_origins"][name] = str(path.relative_to(ROOT))
         for relative in ("quest_client/index.html", "quest_client/client.js"):
             assert (ROOT / relative).is_file(), relative
-        bundle = ROOT / "deploy/20260917-home-gripper-worker"
-        for filename, expected in json.loads((bundle / "SHA256.json").read_text()).items():
-            local = hashlib.sha256((ROOT / "package/worker" / filename).read_bytes()).hexdigest()
-            packed = hashlib.sha256((bundle / filename).read_bytes()).hexdigest()
-            assert local == packed == expected, filename
-            report["worker_bundle"][filename] = expected
         destination = ROOT / ".cache/validation/workspace.json"
         destination.parent.mkdir(parents=True, exist_ok=True)
         destination.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
-        print("PASS: both notebook setups, profiles, FK/IK, local mesh/module isolation and worker hashes")
+        print("PASS: both notebook setups, profiles, FK/IK, local mesh/module isolation")
         print("Report:", destination)
         return report
     finally:

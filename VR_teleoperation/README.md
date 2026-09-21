@@ -48,7 +48,9 @@ python scripts/validate_intent_pipeline.py
 
 ## 배포 범위
 
-`DEPLOYMENT_MANIFEST.json`에 각 파일의 원본/배포 SHA-256과 조정 사항을 기록한다. 복사한 파일 중에서는 경로 안내를 바꾼 `init_project.py`, 두 노트북, `.gitignore`, 이 배포 범위에 맞춘 검사 스크립트만 조정했다. README와 worker 안내는 이 배포 폴더에 맞게 새로 작성했다. 그 외 복사한 실행 코드와 worker는 현재 원본과 같다.
+`DEPLOYMENT_MANIFEST.json`에 2026-09-17 배포 당시 각 파일의 원본/배포 SHA-256과 조정 사항을 기록한다. 복사한 파일 중에서는 경로 안내를 바꾼 `init_project.py`, 두 노트북, `.gitignore`, 이 배포 범위에 맞춘 검사 스크립트만 조정했다.
+
+로봇용 worker는 `package/worker/`가 정본이며 2026-09-21에 로봇에서 실행 중인 실물로 갱신했다. 이전에 두던 `deploy/20260917-home-gripper-worker/` 스냅샷은 내용이 뒤처져 제거했고, `check_workspace.py`의 번들 해시 검증도 함께 뺐다.
 
 `SOURCE_MANIFEST.json`은 2026-09-15 작업공간 생성 당시의 출처 기록으로 보존한 것이며 현재 파일 해시 목록은 아니다. 출처·라이선스는 [THIRD_PARTY.md](THIRD_PARTY.md), 로봇 자산 고지는 [ROBOTIS_LICENSE](xml/ROBOTIS_LICENSE)에 있다.
 
