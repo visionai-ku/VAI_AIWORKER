@@ -72,6 +72,7 @@ class MemoryBridgePublisher:
 class FixedQuestIntegrationTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        (PROJECT_DIR / ".cache").mkdir(exist_ok=True)  # ignored by Git, so absent on a fresh clone
         cls.cache_dir = tempfile.TemporaryDirectory(dir=PROJECT_DIR / ".cache")
         xml = build_fixed_quest_scene(PROJECT_DIR / "xml/ffw_sg2.xml", PROJECT_DIR / "xml/floor_simple_white.xml",
                                       Path(cls.cache_dir.name) / "scene.xml")

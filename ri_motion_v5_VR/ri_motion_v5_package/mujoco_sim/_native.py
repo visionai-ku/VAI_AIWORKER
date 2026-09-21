@@ -27,14 +27,14 @@ def _native_platform_supported():
         None.
 
     Returns:
-        bool: True on macOS, False elsewhere.
+        bool: True on macOS and Linux, False elsewhere.
     """
-    return sys.platform == "darwin"
+    return sys.platform == "darwin" or sys.platform.startswith("linux")
 
 
 def _warn_unsupported_native_platform(action,module_name):
     """
-    Warn that native extension support is currently macOS-only.
+    Warn that native extension support is currently macOS/Linux-only.
 
     Parameters:
         action (str): Action being skipped.
@@ -46,7 +46,7 @@ def _warn_unsupported_native_platform(action,module_name):
     warnings.warn(
         (
             "mujoco_sim native extension support is currently enabled only on "
-            "macOS. Skipping %s for module [%s] on platform [%s]."
+            "macOS and Linux. Skipping %s for module [%s] on platform [%s]."
         )%(action,module_name,sys.platform),
         RuntimeWarning,
         stacklevel=2,

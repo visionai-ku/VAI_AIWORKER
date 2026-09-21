@@ -79,8 +79,10 @@ be = get_native_backend(required=True, module_name=module_name)
   the caller and pass the compiled backend explicitly, for example
   `env.get_geom_pair_signed_distance_infos_bind(..., be=be)` or
   `ik_body_solver.solve_ik_bind(..., be=be)`.
-- Native extension builds are currently macOS-only. On Linux, build/import
-  helpers warn and skip rather than raising during normal notebook execution.
+- Native extension builds are supported on macOS and Linux. On Linux the
+  extension is linked against the `libmujoco.so.*` shipped in the `mujoco`
+  Python package. On other platforms, build/import helpers warn and skip
+  rather than raising during normal notebook execution.
 
 ## Render Process Layout
 

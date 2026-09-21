@@ -16,7 +16,7 @@ import numpy as np
 from PyQt5.QtWidgets import (QApplication, QPushButton, QLabel, QLineEdit, QWidget, QHBoxLayout, QGridLayout, QComboBox,
                              QVBoxLayout, QScrollArea, QButtonGroup)
 from ri_motion_v5_package.mujoco_sim import MuJoCoParser, BodyPositionIKSolverRevPriBase, MuJoCoRenderProcess
-from ri_motion_v5_package.qt import MultiRadioQtWidget
+from ri_motion_v5_package.qt import MultiRadioQtWidget, use_pyqt_platform_plugins
 from ri_motion_v5_package.utility import get_ip_address
 from utils import (PROJECT_DIR, FLOOR_XML_PATH, SG2_XML_PATH, SG2_HAND_TYPES,
                    SG2_NULL_REFERENCE_MODES,
@@ -423,6 +423,7 @@ def run_intent_teleop(cfg=None, on_tick=None):
     if not isinstance(cfg.QUEST_HOST, str) or not cfg.QUEST_HOST:
         raise ValueError("QUEST_HOST를 Quest와 로봇이 접근할 수 있는 PC LAN IP로 지정하세요.")
     try:
+        use_pyqt_platform_plugins()
         app = QApplication.instance() or QApplication([])
         if cfg.VIEWER_MODE == "process":
             rp = MuJoCoRenderProcess(xml_path=xml_path, title="SG2 Fixed Quest",
