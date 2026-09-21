@@ -191,9 +191,38 @@ SG2_BRINGUP_WAYPOINTS = {
     },
 }
 
+# ---------------------------------------------------------------------------
+# Shut-down sequence
+# ---------------------------------------------------------------------------
+# The poses the arms fold through before the robot is powered off. These used to
+# be SG2_BRINGUP_WAYPOINTS walked backwards, which forced the fold-in to retrace
+# the power-on path; they are their own table now, so the two can be tuned
+# independently. Walked FORWARD, step1 -> step4, and step4 is the stowed pose.
+SG2_SHUTDOWN_WAYPOINTS = {
+    "step1": {
+        "arm_l_joint1": 0.3, "arm_l_joint4": -1.8,
+        "arm_r_joint1": 0.3, "arm_r_joint4": -1.8,
+    },
+    "step2": {
+        "arm_l_joint1": 0.3, "arm_l_joint3": 1.5, "arm_l_joint4": -1.8,
+        "arm_r_joint1": 0.3, "arm_r_joint3": -1.5, "arm_r_joint4": -1.8,
+    },
+    "step3": {
+        "arm_l_joint1": 0.3, "arm_l_joint3": 1.5, "arm_l_joint4": -0.45, "arm_l_joint5": 0.2,
+        "arm_r_joint1": 0.3, "arm_r_joint3": -1.5, "arm_r_joint4": -0.45, "arm_r_joint5": 0.2,
+    },
+    "step4": {
+        "arm_l_joint1": 0.2, "arm_l_joint6": 0.2,
+        "arm_r_joint1": 0.2, "arm_r_joint6": 0.2,
+    },
+}
+
 # "bring_up" is the ROS term for powering a robot into its ready pose; "shut_down"
-# is its counterpart -- the same waypoints walked backwards, which is what folds
-# the arms back in before the robot is powered off.
+# is its counterpart -- the fold-in that precedes power-off.
+#
+# The two read their poses from different tables: bring_up from
+# SG2_BRINGUP_WAYPOINTS, shut_down from SG2_SHUTDOWN_WAYPOINTS. Both are walked
+# in list order.
 #
 # These are the *joint-space* legs only. `shut_down` additionally gets two
 # pre-steps computed from the pose the robot is actually in when the command is
@@ -201,7 +230,8 @@ SG2_BRINGUP_WAYPOINTS = {
 # `build_sg2_shut_down_goals`.
 SG2_MOTION_SEQUENCES = {
     "bring_up" : ["start", "step1", "step2", "step3", "step4"],
-    "shut_down": ["step4", "step3", "step2", "step1", "start"],
+    "bring_up_origin" : ["start", "step3", "step4"],
+    "shut_down": ["step1", "step2", "step3", "step4"],
 }
 
 # rh_p12_rn driver joint, range 0 ~ 1.1: 0 is fully open, 1.1 fully closed. Same
@@ -325,7 +355,8 @@ def build_sg2_shut_down_goals(env, joint_names, ik_solvers=None, lift_reference=
         2. lift both wrists          (to the wrist height of the `lift_reference`
                                       waypoint -- IK, skipped when ik_solvers is None
                                       or the wrists are already high enough)
-        3. the joint-space legs      (SG2_MOTION_SEQUENCES["shut_down"])
+        3. the joint-space legs      (SG2_MOTION_SEQUENCES["shut_down"], posed
+                                      from SG2_SHUTDOWN_WAYPOINTS)
 
     Steps 1 and 2 cannot be constants: they depend on where the arms happen to be
     when the command is given, which is the whole reason they exist.
@@ -355,7 +386,7 @@ def build_sg2_shut_down_goals(env, joint_names, ik_solvers=None, lift_reference=
     else:
         z_by_hand = {hand_type: float(p[2]) for hand_type, p in
                      get_sg2_wrist_p_at_qpos(env, joint_names,
-                                             SG2_BRINGUP_WAYPOINTS[lift_reference]).items()}
+                                             SG2_SHUTDOWN_WAYPOINTS[lift_reference]).items()}
         q_lift, lift_info = solve_sg2_wrist_lift_goal(
             env         = env,
             joint_names = joint_names,
@@ -369,7 +400,7 @@ def build_sg2_shut_down_goals(env, joint_names, ik_solvers=None, lift_reference=
             notes.append(f"wrist lift to [{lift_reference}] z " + ", ".join(
                 f"{hand_type}={z:.3f}m" for hand_type, z in lift_info["lifted"].items()))
 
-    goals += [(step, expand_sg2_qpos(joint_names, SG2_BRINGUP_WAYPOINTS[step]))
+    goals += [(step, expand_sg2_qpos(joint_names, SG2_SHUTDOWN_WAYPOINTS[step]))
               for step in shut_down_steps]
     return goals, notes
 
@@ -670,7 +701,7 @@ class SG2MotionExecutor(object):
 #   - `Show` selects which *wrist* gizmo is live, since this notebook drives the
 #     arms through EEF markers and IK, not one marker per joint.
 SG2_MOTION_COMMAND_ROWS = {
-    "Motion"   : ["idle", "bring_up", "grip_close", "grip_open", "shut_down", "stop"],
+    "Motion"   : ["idle", "bring_up", "bring_up_origin", "grip_close", "grip_open", "shut_down", "stop"],
     "Preset"   : ["idle", "zero", "init", "sync"],
     "File"     : ["idle", "save", "load"],
     "Collision": ["off", "on"],
@@ -800,6 +831,7 @@ __all__ = [
     "SG2_MOTION_COMMAND_LAYOUT",
     "SG2_MOTION_COMMAND_ROWS",
     "SG2_MOTION_SEQUENCES",
+    "SG2_SHUTDOWN_WAYPOINTS",
     "build_sg2_shut_down_goals",
     "check_sg2_joint_limits",
     "create_sg2_motion_command_widget",

@@ -1,13 +1,17 @@
 <mujoco model="table">
     <worldbody>
         <body name="table" pos="0.45 0.0 0.0">
-            <!-- Tabletop (center height 0.74m, thickness 0.04m -> top surface at 0.76m) -->
-            <geom name="table_top" type="box" pos="0 0 0.84" size="0.35 0.55 0.02" rgba="0.82 0.71 0.55 1"/>
-            <!-- Four Legs -->
-            <geom name="table_leg1" type="cylinder" pos=" 0.30  0.50 0.42" size="0.02 0.42" rgba="0.2 0.2 0.2 1"/>
-            <geom name="table_leg2" type="cylinder" pos="-0.30  0.50 0.42" size="0.02 0.42" rgba="0.2 0.2 0.2 1"/>
-            <geom name="table_leg3" type="cylinder" pos=" 0.30 -0.50 0.42" size="0.02 0.42" rgba="0.2 0.2 0.2 1"/>
-            <geom name="table_leg4" type="cylinder" pos="-0.30 -0.50 0.42" size="0.02 0.42" rgba="0.2 0.2 0.2 1"/>
+            <!-- Tabletop: 1.60 m wide (y, left-right) x 0.75 m deep (x, toward the robot),
+                 thickness 0.04 m -> top surface at z = 0.86 m -->
+            <geom name="table_top" type="box" pos="0 0 0.84" size="0.375 0.80 0.02" rgba="0.82 0.71 0.55 1"/>
+            <!-- Four Legs (inset 0.05 m from each edge) -->
+            <geom name="table_leg1" type="cylinder" pos=" 0.325  0.75 0.42" size="0.02 0.42" rgba="0.2 0.2 0.2 1"/>
+            <geom name="table_leg2" type="cylinder" pos="-0.325  0.75 0.42" size="0.02 0.42" rgba="0.2 0.2 0.2 1"/>
+            <geom name="table_leg3" type="cylinder" pos=" 0.325 -0.75 0.42" size="0.02 0.42" rgba="0.2 0.2 0.2 1"/>
+            <geom name="table_leg4" type="cylinder" pos="-0.325 -0.75 0.42" size="0.02 0.42" rgba="0.2 0.2 0.2 1"/>
+            <!-- Black post on the left edge (+y), 0.31 m in from the robot-side edge (x = -0.375).
+                 Diameter 0.02 m, height 0.58 m, standing on the top surface (0.86 -> 1.44 m). -->
+            <geom name="table_post" type="cylinder" pos="-0.065 0.79 1.15" size="0.01 0.29" rgba="0.05 0.05 0.05 1"/>
         </body>
     </worldbody>
 </mujoco>
