@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import os
 import shlex
+import shutil
 import subprocess
 import sys
 import sysconfig
@@ -23,14 +24,14 @@ def _native_platform_supported():
         None.
 
     Returns:
-        bool: True on macOS, False elsewhere.
+        bool: True on macOS and Linux, False elsewhere.
     """
-    return sys.platform == "darwin"
+    return sys.platform == "darwin" or sys.platform.startswith("linux")
 
 
 def _warn_unsupported_native_platform(action,module_name):
     """
-    Warn that native extension support is currently macOS-only.
+    Warn that native extension support is currently macOS/Linux-only.
 
     Parameters:
         action (str): Action being skipped.
@@ -42,11 +43,83 @@ def _warn_unsupported_native_platform(action,module_name):
     warnings.warn(
         (
             "mujoco_sim native extension support is currently enabled only on "
-            "macOS. Skipping %s for module [%s] on platform [%s]."
+            "macOS and Linux. Skipping %s for module [%s] on platform [%s]."
         )%(action,module_name,sys.platform),
         RuntimeWarning,
         stacklevel=2,
     )
+
+
+def _resolve_cxx():
+    """
+    Return the C++ compiler command as an argument list.
+
+    Parameters:
+        None.
+
+    Returns:
+        list[str]: Compiler executable followed by its default flags.
+    """
+    for candidate in (os.environ.get("CXX"),sysconfig.get_config_var("CXX")):
+        if not candidate:
+            continue
+        # sysconfig may hold flags too, e.g. `g++ -pthread -B <conda>/compiler_compat`.
+        cxx = shlex.split(candidate)
+        if cxx and shutil.which(cxx[0]):
+            return cxx
+    return ["c++"]
+
+
+def _mujoco_shared_library():
+    """
+    Return the MuJoCo shared library shipped inside the `mujoco` Python package.
+
+    Parameters:
+        None.
+
+    Returns:
+        Path: Path to `libmujoco.so.*`.
+    """
+    mujoco_dir = Path(mujoco.__file__).resolve().parent
+    candidates = sorted(mujoco_dir.glob("libmujoco.so*"))
+    if not candidates:
+        raise FileNotFoundError("libmujoco.so* not found under %s" % mujoco_dir)
+    return candidates[-1]
+
+
+def _platform_link_flags():
+    """
+    Return platform-specific flags for linking a Python extension module.
+
+    Parameters:
+        None.
+
+    Returns:
+        list[str]: Linker flags.
+    """
+    if sys.platform == "darwin":
+        # Python and MuJoCo symbols are resolved from the host process at import time.
+        return ["-bundle","-undefined","dynamic_lookup"]
+    return ["-shared"]
+
+
+def _platform_link_libs():
+    """
+    Return platform-specific libraries linked after the object files.
+
+    Parameters:
+        None.
+
+    Returns:
+        list[str]: Linker inputs and flags.
+    """
+    if sys.platform == "darwin":
+        return []
+    # On Linux the `mujoco` package loads libmujoco with RTLD_LOCAL, so its
+    # symbols are not visible to other extensions. Link the same library
+    # explicitly; the loader reuses the already loaded copy via its SONAME.
+    mujoco_lib = _mujoco_shared_library()
+    return [str(mujoco_lib),"-Wl,-rpath,%s" % mujoco_lib.parent]
 
 
 def _native_paths(module_name="_mujoco_native"):
@@ -348,7 +421,7 @@ def build_native(
             print("[build_native]")
             print("  module      : %s" % module_name)
             print("  platform    : %s" % sys.platform)
-            print("  status      : skipped; native builds are currently macOS-only")
+            print("  status      : skipped; native builds are currently macOS/Linux-only")
         _warn_unsupported_native_platform("build_native",module_name)
         return None
 
@@ -363,7 +436,7 @@ def build_native(
         str(cpp_dir),
     ]
 
-    cxx = os.environ.get("CXX") or sysconfig.get_config_var("CXX") or "c++"
+    cxx = _resolve_cxx()
     cpp_source_paths = _resolve_cpp_dir_files(
         cpp_dir,cpp_source_names,(".cpp",".cc",".cxx"),"C++ source"
     )
@@ -379,7 +452,7 @@ def build_native(
         print("[build_native]")
         print("  module      : %s" % module_name)
         print("  output      : %s" % _display_path(out_path,package_dir))
-        print("  compiler    : %s" % cxx)
+        print("  compiler    : %s" % " ".join(cxx))
         _print_numbered_paths("project cpp",cpp_source_paths,package_dir)
         _print_numbered_paths("project hpp",hpp_header_paths,package_dir)
         _print_numbered_names("defines",compile_define_names)
@@ -394,7 +467,7 @@ def build_native(
     for src in sources:
         obj = build_dir / ("%s.o" % src.stem)
         cmd = [
-            cxx,
+            *cxx,
             "-std=c++17",
             "-O2",
             "-fPIC",
@@ -424,13 +497,12 @@ def build_native(
         objects.append(obj)
 
     link_cmd = [
-        cxx,
-        "-bundle",
-        "-undefined",
-        "dynamic_lookup",
+        *cxx,
+        *_platform_link_flags(),
         *[str(obj) for obj in objects],
         "-o",
         str(out_path),
+        *_platform_link_libs(),
     ]
     if verbose:
         print("[build_native] link")
