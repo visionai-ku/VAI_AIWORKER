@@ -43,7 +43,7 @@ class FixedQuestProtocolTest(unittest.TestCase):
         from package.worker.fixed_quest_protocol import FIXED_QUEST_VR_GATE_OPTIONS
         for joint, motion, speed in (("arm_l_joint1", "teleop", math.radians(120)),
                                     ("arm_r_joint1", "teleop", math.radians(120)),
-                                    ("arm_l_joint1", "home", math.radians(60)),
+                                    ("arm_l_joint1", "home", math.radians(100)),
                                     ("gripper_r_joint1", "teleop", math.radians(60))):
             for extra, accepted in ((0., True), (.005, False)):
                 with self.subTest(joint=joint, motion=motion, extra=extra):

@@ -68,14 +68,14 @@ class FeedbackGripperUpgradeTest(unittest.TestCase):
         p = packet(1, 1.02, q, gripper_speed_rad_s=math.radians(120))
         self.assertTrue(gate.receive(p, 1.02)['accepted'])
         self.assertAlmostEqual(gate.speed[1], math.radians(60))
-        self.assertAlmostEqual(gate.home_speed[-1], math.radians(60))  # B reset after initial arm alignment
+        self.assertAlmostEqual(gate.home_speed[-1], math.radians(100))  # B reset after initial arm alignment
         q[-1] += math.radians(120) * .02
         p = packet(2, 1.04, q, gripper_speed_rad_s=math.radians(120)); p['motion'] = 'home'
         self.assertEqual(gate.receive(p, 1.04)['reason'], 'joint_rate_limit')
 
-    def test_reset_home_accepts_sixty_and_rejects_faster_rotary_commands(self):
+    def test_reset_home_accepts_one_hundred_and_rejects_faster_rotary_commands(self):
         for joint in ('arm_l_joint1', 'arm_r_joint1', 'gripper_l_joint1', 'gripper_r_joint1'):
-            for speed, accepted in ((60., True), (70., False)):
+            for speed, accepted in ((100., True), (110., False)):
                 with self.subTest(joint=joint, speed=speed):
                     tracker, gate, packet = self.setup_gate()
                     q = self.q.copy()
@@ -83,12 +83,13 @@ class FeedbackGripperUpgradeTest(unittest.TestCase):
                     p = packet(1, 1.02, q); p['motion'] = 'home'
                     result = gate.receive(p, 1.02)
                     self.assertEqual(result['accepted'], accepted, result)
-                    self.assertAlmostEqual(gate.status(1.02)['limits']['home_joint_speed_rad_s'], math.radians(60))
+                    self.assertAlmostEqual(gate.status(1.02)['limits']['home_joint_speed_rad_s'], math.radians(100))
+                    self.assertAlmostEqual(gate.home_speed[1], math.radians(60))
                     if accepted:
                         self.assertEqual(parse_joint_groups(result['publish_joints']), q)
                     else:
                         self.assertEqual(result['reason'], 'joint_rate_limit')
-                        self.assertAlmostEqual(gate.rejection_detail['speed_limit'], math.radians(60))
+                        self.assertAlmostEqual(gate.rejection_detail['speed_limit'], math.radians(100))
                         self.assertEqual(gate.last_command_seq, 0)
                         self.assertEqual(gate.deadline, 1.2)
 
@@ -111,6 +112,18 @@ class FeedbackGripperUpgradeTest(unittest.TestCase):
                         self.assertAlmostEqual(gate.home_speed[3], math.radians(10))
                     if not accepted:
                         self.assertEqual(result['reason'], 'joint_rate_limit')
+
+    def test_higher_home_ceiling_does_not_raise_head_rate_limit(self):
+        for speed, accepted in ((60., True), (100., False)):
+            with self.subTest(speed=speed):
+                tracker, gate, packet = self.setup_gate()
+                q = self.q.copy()
+                q[JOINT_NAMES.index('head_joint1')] += math.radians(speed) * .02
+                p = packet(1, 1.02, q); p['motion'] = 'home'
+                result = gate.receive(p, 1.02)
+                self.assertEqual(result['accepted'], accepted, result)
+                if not accepted:
+                    self.assertEqual(result['reason'], 'joint_rate_limit')
 
     def test_invalid_gripper_speed_and_compressed_arrival_do_not_renew_lease(self):
         tracker, gate, packet = self.setup_gate()

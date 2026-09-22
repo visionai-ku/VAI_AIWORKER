@@ -19,10 +19,11 @@ Both A and B leave the head tilted HEAD_TILT down; head_joint2 (yaw) keeps its m
 
 Poses go through SG2FixedQuestReal.request_pose_target(): each straight joint path is
 guard-checked before anything is sent. The wrist lift/spread and shutdown1 alignment use
-speed_scale x the 10 deg/s home speed (default 6 -> 60 deg/s, the robot gate ceiling).
-Shutdown2 onward requests twice that, which the live bridge's HOME ceiling clamps back
-down to the same 60 deg/s; an older 30 deg/s worker runs the full sequence at its
-supported speed and reports that the faster profile needs an update. The on-screen
+speed_scale x the 10 deg/s home speed (default 3 -> 30 deg/s).
+Shutdown2 onward uses fold_speed_scale (default 10 -> 100 deg/s). Arm reset speeds
+are independent of the teleop speed setting; head/grippers keep their existing caps.
+The live bridge's HOME ceiling caps every step, so older 30/60 deg/s workers run the
+full sequence at their supported speed and report that an update is needed. The on-screen
 Initial pose / manual adjustment keep 10 deg/s. A blocked path sends nothing and the
 sequence stops. Teleop input is ignored while the B sequence runs. Requires the Quest page
 to send "buttons" (quest_client/client.js); older pages never trigger anything.
@@ -31,7 +32,7 @@ import mujoco
 import numpy as np
 
 from utils import SG2_ARM_JOINT_NAMES, SG2_HAND_TYPES, SG2_WRIST_BODY_NAMES, SG2_WRIST_P_LOCAL
-from package.worker.fixed_quest_protocol import JOINT_LIMITS
+from package.worker.fixed_quest_protocol import JOINT_LIMITS, FIXED_QUEST_MAX_ARM_SPEED
 
 # Step interruptions that are worth retrying from the current pose (loop stall, robot
 # settling late, command lease expiry). Guard/collision refusals are never retried.
@@ -141,13 +142,16 @@ def lifted_arm_pose(env, joint_names, q_now, dz=0.05, dy=0.0, iters=200, pos_tol
 
 
 class ControllerButtonActions:
-    def __init__(self, record_control=None, hold_s=1.0, speed_scale=6.0, lift_dz=0.05, spread_dy=0.05):
+    def __init__(self, record_control=None, hold_s=1.0, speed_scale=3.0, lift_dz=0.05,
+                 spread_dy=0.05, *, fold_speed_scale=10.0):
         self.record_control = record_control
         self.hold_s = float(hold_s)
-        if not 0 < speed_scale <= 6.0:
-            raise ValueError("speed_scale must be in (0, 6]; both alignment and fold/bringup are "
-                              "clamped to the robot's reported HOME speed ceiling regardless")
+        if not 0 < speed_scale <= 3.0:
+            raise ValueError("speed_scale must be in (0, 3]; alignment uses up to 30 deg/s")
+        if not 0 < fold_speed_scale <= 10.0:
+            raise ValueError("fold_speed_scale must be in (0, 10]; fold/bringup uses up to 100 deg/s")
         self.speed_scale = float(speed_scale)
+        self.fold_speed_scale = float(fold_speed_scale)
         self.lift_dz = float(lift_dz)
         # Hands held together make the fold path pass within millimetres; spreading them
         # first keeps every step clear of the 5 mm collision margin.
@@ -209,14 +213,24 @@ class ControllerButtonActions:
             raise ValueError("로봇 HOME 속도 제한 확인 불가: worker 피드백을 확인하세요")
         return float(speed)
 
-    def _set_sequence_speed(self, real, speed_scale=None):
-        """Scale only rotary home speeds while a button sequence runs; restore afterwards."""
+    def _sequence_speed_limits(self, real, speed_scale):
         if self._base_home_speed is None:
             self._base_home_speed = real.home_speed_limits.copy()
         speeds = self._base_home_speed.copy()
         if speed_scale is not None:
             rotary = np.asarray([name != "lift_joint" for name in real.planner.joint_names])
             speeds[rotary] = np.minimum(real.teleop_speed_limits[rotary], speeds[rotary] * speed_scale)
+            # B's automatic arm motion has its own speed profile. A normal
+            # teleop setting of 60 deg/s must not silently cap the 100 deg/s reset.
+            speeds[real.arm_mask] = np.minimum(FIXED_QUEST_MAX_ARM_SPEED,
+                                               self._base_home_speed[real.arm_mask] * speed_scale)
+        return speeds
+
+    def _set_sequence_speed(self, real, speed_scale=None):
+        """Scale rotary reset speeds; preserve lift and restore normal HOME afterwards."""
+        speeds = self._sequence_speed_limits(real, speed_scale)
+        if speed_scale is not None:
+            rotary = np.asarray([name != "lift_joint" for name in real.planner.joint_names])
             speeds[rotary] = np.minimum(speeds[rotary], self._bridge_home_speed(real))
         real.home_speed_limits = speeds
 
@@ -251,9 +265,8 @@ class ControllerButtonActions:
             print("[buttons]", self.status)
             return
         rotary = np.asarray([name != "lift_joint" for name in real.planner.joint_names])
-        base = real.home_speed_limits if self._base_home_speed is None else self._base_home_speed
-        requested = float(np.max(np.minimum(real.teleop_speed_limits[rotary],
-                                            base[rotary] * 2 * self.speed_scale)))
+        requested = float(np.max(self._sequence_speed_limits(
+            real, max(self.speed_scale, self.fold_speed_scale))[rotary]))
         self._speed_notice = ""
         if bridge_speed + 1e-9 < requested:
             self._speed_notice = " · 로봇 상한 %.0f°/s (고속 reset: Orin protocol 업데이트·inbound 재시작 필요)" % np.rad2deg(bridge_speed)
@@ -271,7 +284,7 @@ class ControllerButtonActions:
         # shutdown1 is the first fixed arm alignment pose. Only accelerate after
         # HOME confirms it was reached, even if the optional lift IK was skipped.
         steps.append((*FOLD_STEPS[0], self.speed_scale))
-        steps += [(label, pose, 2 * self.speed_scale) for label, pose in FOLD_STEPS[1:] + BRINGUP_STEPS]
+        steps += [(label, pose, self.fold_speed_scale) for label, pose in FOLD_STEPS[1:] + BRINGUP_STEPS]
         self._sequence = [("%d/%d %s" % (i + 1, len(steps), label), pose, scale)
                           for i, (label, pose, scale) in enumerate(steps)]
         self._seq_name = "reset pose (B)"

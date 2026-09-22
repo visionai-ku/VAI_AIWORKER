@@ -106,7 +106,7 @@ class SG2ZMQRosBridge(Node):
                 "lift %.3f m/s; acknowledgment 50Hz" % (
                     math.degrees(self.gate.speed[3]),
                     math.degrees(self.gate.speed[-1]),
-                    math.degrees(self.gate.home_speed[1]), self.gate.speed[0]))
+                    math.degrees(max(self.gate.home_speed[1:])), self.gate.speed[0]))
         self.get_logger().info("SG2 ZMQ ROS2 Bridge ready (%.0fHz)" % PUBLISH_HZ)
         self.get_logger().info("Protocol: %s" % ("strict JSON; explicit arm required" if self.strict else "legacy pickle"))
 

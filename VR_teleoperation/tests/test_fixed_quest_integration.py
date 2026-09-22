@@ -247,12 +247,15 @@ class FixedQuestIntegrationTest(unittest.TestCase):
         from package.worker.fixed_quest_protocol import FIXED_QUEST_VR_GATE_OPTIONS
 
         self.configure_adjustable_profile()
+        self.real.teleop_speed_limits[self.real.arm_mask] = np.deg2rad(60.)
+        teleop_limits = self.real.teleop_speed_limits.copy()
         gate_options = dict(FIXED_QUEST_VR_GATE_OPTIONS,
                             max_home_joint_speed=float(np.deg2rad(worker_home_speed_deg_s)))
         self.gate = StrictCommandGate(self.tracker, **gate_options)
         self.publisher.gate = self.gate
         buttons = ControllerButtonActions(hold_s=.04)
         actions, requested, reached, step_speeds = [], [], [], []
+        peak_arm_speed = 0.
         request_pose = self.real.request_pose_target
 
         def capture_target(q):
@@ -261,12 +264,15 @@ class FixedQuestIntegrationTest(unittest.TestCase):
 
         self.real.request_pose_target = capture_target
         for index in range(3000):
+            previous_q = self.publisher.q.copy()
             frame, feedback, now = self.inputs(index)
             frame["buttons"] = {"right": {"b": index < 8}}
             action = actions[-1] if actions else None
             actions.clear()
             result = self.real.tick_grip(None if buttons.lock_input else frame,
                                          feedback, now=now, action=action)
+            peak_arm_speed = max(peak_arm_speed, float(np.max(np.rad2deg(
+                np.abs(self.publisher.q - previous_q)[self.real.arm_mask]) / .02)))
             if result["state"] == "HOME":
                 self.assertEqual(len(requested), len(reached) + 1)
                 self.assertTrue(np.all(np.abs(self.publisher.q - requested[-1])
@@ -286,14 +292,17 @@ class FixedQuestIntegrationTest(unittest.TestCase):
                 self.assertEqual(target[list(JOINT_NAMES).index(joint)], value, (label, joint))
         self.assertTrue(all(outcome["accepted"] for outcome in self.publisher.outcomes),
                         self.publisher.outcomes)
-        # speed_scale defaults to 6 (base 10 deg/s), so both the alignment stage
-        # (1x) and the fold/bringup stage (2x) request at least the worker's
-        # reported HOME ceiling; the worker cap is always the binding constraint.
-        expected_speeds = [min(60., worker_home_speed_deg_s)] * 10
+        expected_speeds = ([min(30., worker_home_speed_deg_s)] * 2
+                           + [min(100., worker_home_speed_deg_s)] * 8)
         self.assertEqual(len(step_speeds), len(expected_speeds))
         for speeds, expected in zip(step_speeds, expected_speeds):
             np.testing.assert_allclose(speeds, expected)
+        self.assertAlmostEqual(peak_arm_speed, min(100., worker_home_speed_deg_s), places=6)
         np.testing.assert_allclose(self.real.home_speed_limits[1:], np.deg2rad(10))
+        np.testing.assert_array_equal(self.real.teleop_speed_limits, teleop_limits)
+
+    def test_button_reset_reaches_every_pose_with_100_degree_worker_cap(self):
+        self.assert_button_reset_reaches_every_pose(100.)
 
     def test_button_reset_reaches_every_pose_with_60_degree_worker_cap(self):
         self.assert_button_reset_reaches_every_pose(60.)

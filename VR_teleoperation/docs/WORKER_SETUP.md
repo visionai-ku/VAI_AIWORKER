@@ -33,9 +33,11 @@ SG2_FIXED_QUEST=1 SG2_ZMQ_SUB_IP=<PC_IP> python3 /root/ros2_ws/src/ai_worker/zmq
 
 outbound 시작 로그는 `Protocol: strict JSON with source freshness`, inbound는 `Protocol: strict JSON; explicit arm required`여야 한다. `legacy pickle`이 표시되면 시작 환경이 적용되지 않은 것이다. 기존 worker가 남아 있으면 5560 포트를 새 worker가 사용할 수 없으므로 먼저 기존 프로세스가 종료되었는지 확인한다. 그다음 노트북을 재실행한다. DRY RUN에서도 두 strict worker의 정상 피드백이 필요하다.
 
-inbound 시작 로그의 상한은 arm 120, gripper 120, home 60°/s다. B 버튼 reset은 양손 위·바깥 이동과 첫 팔 정렬(`shutdown1`)까지 30°/s, 도달 확인 후 `shutdown2`부터 접기·bringup은 60°/s다. 낮게 설정한 관절 속도 상한과 lift 속도는 유지된다. 일반 Initial pose와 수동 조정은 기존 10°/s다. PC의 초기 팔/그리퍼 설정은 60°/s다. 기본 연결은 로봇 IP `192.168.6.2`, 상태 5560, PC 명령 5561, Quest HTTPS 8443이다. 로봇 측에는 ROS2의 `rclpy`, 메시지 패키지와 `pyzmq`가 필요하다.
+inbound 시작 로그의 상한은 arm 120, gripper 120, home 100°/s다. B 버튼 reset은 양손 위·바깥 이동과 첫 팔 정렬(`shutdown1`)까지 30°/s, 도달 확인 후 `shutdown2`부터 뒤로 접기·앞으로 펴기는 팔 100°/s다. B 팔 속도는 일반 조작 속도와 별도로 적용하며, 머리·그리퍼 상한과 lift 속도는 유지된다. 일반 Initial pose와 수동 조정은 기존 10°/s다. PC의 초기 팔/그리퍼 조작 설정은 60°/s다. 기본 연결은 로봇 IP `192.168.6.2`, 상태 5560, PC 명령 5561, Quest HTTPS 8443이다. 로봇 측에는 ROS2의 `rclpy`, 메시지 패키지와 `pyzmq`가 필요하다.
 
-PC는 실제 bridge 피드백의 `home_joint_speed_rad_s`도 적용한다. 구버전 worker의 상한이 30°/s라면 업데이트 안내와 함께 모든 접기·펴기를 30°/s 이내로 수행한다. 이를 무시하고 60°/s를 전송하면 첫 고속 단계(`shutdown2`)에서 `joint_rate_limit` 거절과 command lease 만료가 반복된다. 60°/s 적용 후에는 피드백 값이 약 `1.04719755` rad/s인지 확인한다. PC 코드 변경은 노트북 커널을 재시작해야 반영된다.
+PC는 실제 bridge 피드백의 `home_joint_speed_rad_s`도 적용한다. 구버전 worker의 상한이 30/60°/s라면 업데이트 안내와 함께 모든 접기·펴기를 해당 상한 이내로 수행한다. 이를 무시하고 더 빠른 명령을 전송하면 `shutdown2`에서 `joint_rate_limit` 거절과 command lease 만료가 반복될 수 있다.
+
+100°/s 적용 시 `FIXED_QUEST_VR_HOME_SPEED = math.radians(100)`뿐 아니라 **`fixed_quest_protocol.py`와 `inbound.py` 전체를 이번 버전으로 교체**한다. 이전 코드의 피드백·시작 로그는 머리 관절의 60°/s 상한을 HOME 전체 상한으로 보고하므로 상수만 수정해서는 PC가 팔 100°/s를 사용할 수 없다. 새 코드도 각 관절의 기존 상한을 적용하며 머리 상한은 60°/s다. inbound 재시작 후 `home 100.0 deg/s`, 피드백 `home_joint_speed_rad_s` 약 `1.74532925` rad/s를 확인한다. PC 코드 변경은 노트북 커널을 재시작해야 반영된다.
 
 노트북도 새 커널에서 실행한다. SIM 확인 후 REAL DRY RUN으로 피드백과 동작을 확인하고 실제 운용을 진행한다. DRY RUN도 로봇 피드백이 필요하다. HOME와 수동 미리보기의 모델에는 실제 책상이 없다는 점은 [README](../README.md)의 현재 동작 설명과 같다.
 

@@ -23,7 +23,7 @@ class ControllerButtonActionsTest(unittest.TestCase):
             planner=SimpleNamespace(joint_names=JOINT_NAMES, homing=False),
             arm_mask=np.array([name.startswith("arm_") for name in JOINT_NAMES]),
             last_feedback={"q": np.zeros(len(JOINT_NAMES)),
-                           "bridge": {"limits": {"home_joint_speed_rad_s": np.deg2rad(60.)}}},
+                           "bridge": {"limits": {"home_joint_speed_rad_s": np.deg2rad(100.)}}},
             dry_run=False,
             env_measured=None, _grip_home_active=False, home_pending=False,
         )
@@ -98,46 +98,42 @@ class ControllerButtonActionsTest(unittest.TestCase):
         start_home.assert_not_called()
 
     def test_reset_only_accelerates_after_alignment_completes_and_restores_speed(self):
-        # A worker ceiling above both stages' nominal speeds keeps the 1x/2x
-        # split visible; the default 60 deg/s ceiling (other tests) saturates
-        # both stages at the same value instead.
-        self.real.last_feedback["bridge"]["limits"]["home_joint_speed_rad_s"] = np.deg2rad(200.)
         self.start()
-        self.assert_speed(60)
+        self.assert_speed(30)
         self.assertIn("위로", self.buttons.status)
         self.advance("HOME")
         self.assertIn("shutdown1", self.buttons.status)
-        self.assert_speed(60)
+        self.assert_speed(30)
         self.real.planner.homing = True
         self.advance("HOMING")  # Alignment has not reached its measured target yet.
         self.assertEqual(len(self.targets), 2)
         self.assertFalse(self.actions)
-        self.assert_speed(60)
+        self.assert_speed(30)
         self.real.planner.homing = False
         for label in ("shutdown2", "shutdown3", "shutdown4", "bringup start",
                       "bringup step1", "bringup step2", "bringup step3", "bringup step4"):
             self.advance("HOME")
             self.assertIn(label, self.buttons.status)
             self.assertEqual(self.actions, ["home"])
-            self.assert_speed(120)
+            self.assert_speed(100)
         self.advance("HOME")
         self.assertFalse(self.buttons.lock_input)
         self.assertIn("완료", self.buttons.status)
         np.testing.assert_array_equal(self.real.home_speed_limits, self.base_speed)
         self.start()  # A later reset must start slowly again.
-        self.assert_speed(60)
+        self.assert_speed(30)
 
     def test_skipped_lift_still_keeps_alignment_speed(self):
         self.start(lift_ok=False)
         self.assertIn("1/9 shutdown1", self.buttons.status)
-        self.assert_speed(60)
+        self.assert_speed(30)
         self.advance("HOME")
         self.assertIn("2/9 shutdown2", self.buttons.status)
-        self.assert_speed(60)
+        self.assert_speed(100)
 
     def test_retry_keeps_each_stage_speed(self):
         self.start(lift_ok=False)
-        for label, speed in (("shutdown1", 60), ("shutdown2", 60)):
+        for label, speed in (("shutdown1", 30), ("shutdown2", 100)):
             target = self.targets[-1].copy()
             self.advance("FAULT", now=2., reason="stale_joint_state")
             self.assertIn("재시도", self.buttons.status)
@@ -161,29 +157,33 @@ class ControllerButtonActionsTest(unittest.TestCase):
     def test_fast_stage_failure_restores_normal_home_speed(self):
         self.start(lift_ok=False)
         self.advance("HOME")
-        self.assert_speed(60)
+        self.assert_speed(100)
         self.advance("FAULT", reason="collision guard blocked")
         self.assertFalse(self.buttons.lock_input)
         np.testing.assert_array_equal(self.real.home_speed_limits, self.base_speed)
 
-    def test_lower_teleop_limits_are_respected(self):
-        self.real.teleop_speed_limits[1:] = np.deg2rad(40)
+    def test_reset_arm_speed_is_independent_of_teleop_but_auxiliary_caps_are_kept(self):
+        self.real.teleop_speed_limits[1:] = np.deg2rad(60)
+        teleop = self.real.teleop_speed_limits.copy()
         self.start(lift_ok=False)
-        self.assert_speed(40)
+        self.assert_speed(30)
         self.advance("HOME")
-        self.assert_speed(40)
+        np.testing.assert_allclose(self.real.home_speed_limits[self.real.arm_mask], np.deg2rad(100))
+        np.testing.assert_allclose(self.real.home_speed_limits[[1, 2, 17, 18]], np.deg2rad(60))
+        self.assertEqual(self.real.home_speed_limits[0], .01)
+        np.testing.assert_array_equal(self.real.teleop_speed_limits, teleop)
 
     def test_missing_feedback_keeps_next_stage_and_its_speed(self):
         self.start(lift_ok=False)
         self.real.last_feedback = None
         self.advance("HOME")
         self.assertEqual(len(self.targets), 1)
-        self.assert_speed(60)
+        self.assert_speed(30)
         self.real.last_feedback = {"q": self.targets[-1],
-                                   "bridge": {"limits": {"home_joint_speed_rad_s": np.deg2rad(60.)}}}
+                                   "bridge": {"limits": {"home_joint_speed_rad_s": np.deg2rad(100.)}}}
         self.advance("IDLE")
         self.assertIn("shutdown2", self.buttons.status)
-        self.assert_speed(60)
+        self.assert_speed(100)
 
     def test_old_worker_caps_every_step_without_skipping_the_fold(self):
         self.real.last_feedback["bridge"]["limits"]["home_joint_speed_rad_s"] = np.deg2rad(30.)
@@ -212,7 +212,7 @@ class ControllerButtonActionsTest(unittest.TestCase):
         self.real.last_feedback.pop("bridge")
         self.start(lift_ok=False)
         self.advance("HOME")
-        self.assert_speed(120)
+        self.assert_speed(100)
 
 
 if __name__ == "__main__":

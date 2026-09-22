@@ -34,8 +34,8 @@ FIXED_QUEST_MAX_GRIPPER_SPEED = math.radians(120)
 # Commands retain JOINT_LIMITS without any allowance.
 FEEDBACK_BOUNDARY_TOLERANCES = {"arm_l_joint2": .0005, "arm_r_joint2": .0005}
 # Controller-button reset keeps initial arm alignment at 30 deg/s, then permits
-# the remaining fold/bringup steps at 60 deg/s. Normal HOME still requests 10 deg/s.
-FIXED_QUEST_VR_HOME_SPEED = math.radians(60)
+# the remaining fold/bringup steps at 100 deg/s. Normal HOME still requests 10 deg/s.
+FIXED_QUEST_VR_HOME_SPEED = math.radians(100)
 FIXED_QUEST_VR_GATE_OPTIONS = {
     "max_home_joint_speed": FIXED_QUEST_VR_HOME_SPEED,
     "max_arm_joint_speed": FIXED_QUEST_MAX_ARM_SPEED,
@@ -283,7 +283,9 @@ class StrictCommandGate:
             "command_arm_speed_limit": True,
             "teleop_gripper_joint_speed_rad_s": float(max_gripper_joint_speed),
             "command_gripper_speed_limit": True,
-            "home_joint_speed_rad_s": float(min(max_joint_speed, max_home_joint_speed)),
+            # Advertise the rotary ceiling, not the lower head-only speed.
+            # Each joint still enforces its own home_speed above.
+            "home_joint_speed_rad_s": float(max(self.home_speed[1:])),
             "lift_speed_m_s": float(max_lift_speed), "max_step_dt_s": float(max_step_dt),
             "max_tracking_lag_rad": float(max_tracking_lag), "max_lift_lag_m": float(max_lift_lag),
         }
