@@ -26,12 +26,12 @@ import numpy as np
 SAFETY_BOX = {
     "left": {
         "x": (-0.30, np.inf),
-        "y": (-np.inf, 0.60),
+        "y": (-np.inf, 0.59),
         "z": (0.95, np.inf),
     },
     "right": {
         "x": (-0.30, np.inf),
-        "y": (-0.60, np.inf),
+        "y": (-0.59, np.inf),
         "z": (0.95, np.inf),
     },
 }
