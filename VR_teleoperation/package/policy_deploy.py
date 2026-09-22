@@ -129,12 +129,34 @@ class PolicyDeployment:
         self.publisher.close()
 
     # ---------- control ----------
-    def step(self, now=None):
-        """One control tick. Call at self.hz from run(), or drive it yourself."""
+    def step(self, now=None, action=None):
+        """One control tick. Call at self.hz from run(), or drive it yourself.
+
+        action="home": request a guarded return to the initial pose (see
+        fixed_quest_real.py's SG2FixedQuestReal.tick, action="home") instead of
+        a policy prediction this tick -- e.g. wired to a keyboard key alongside
+        recording (see real_policy_inference.ipynb). Once requested, the return
+        self-sustains across ticks via self.real.planner.homing, the same way
+        teleop's Initial-pose button works (package/intent_teleop.py's
+        run_intent_teleop passes action=None on every tick after the one that
+        requested it). So pass action=None again on the next call: this method
+        checks that flag itself and keeps stepping the return, skipping policy
+        prediction, until it clears. Never let a bare step(action=None) call
+        run the policy mid-return: its q_target would overwrite the return
+        path's target (see fixed_quest_sim.py's tick()).
+        """
         if not self.running:
             raise RuntimeError("call start() before step()")
         now = time.monotonic() if now is None else float(now)
         feedback = self.receiver.latest(now)
+        if action == "home":
+            result = self.real.tick(None, feedback, enabled=True, now=now, action="home")
+            self.last_result = result
+            return result
+        if self.real.planner.homing:
+            result = self.real.tick(None, feedback, enabled=True, now=now)
+            self.last_result = result
+            return result
         frames = self._poll_cameras()
         ready = feedback.get("ready") and feedback.get("q") is not None and len(frames) == len(self.cameras)
         if not ready:
