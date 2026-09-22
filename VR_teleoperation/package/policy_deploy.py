@@ -129,8 +129,13 @@ class PolicyDeployment:
         self.publisher.close()
 
     # ---------- control ----------
-    def step(self, now=None, action=None):
+    def step(self, now=None, action=None, enabled=True):
         """One control tick. Call at self.hz from run(), or drive it yourself.
+
+        enabled=False: hold position and never predict -- e.g. between
+        episodes, so the policy only drives while a caller (see
+        policy_record_control.py) has actually engaged it, the same way a
+        released VR grip holds teleop still.
 
         action="home": request a guarded return to the initial pose (see
         fixed_quest_real.py's SG2FixedQuestReal.tick, action="home") instead of
@@ -155,6 +160,10 @@ class PolicyDeployment:
             return result
         if self.real.planner.homing:
             result = self.real.tick(None, feedback, enabled=True, now=now)
+            self.last_result = result
+            return result
+        if not enabled:
+            result = self.real.tick(None, feedback, enabled=False, now=now)
             self.last_result = result
             return result
         frames = self._poll_cameras()

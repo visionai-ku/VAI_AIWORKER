@@ -1,4 +1,4 @@
-"""Keyboard-driven "record while running a policy" session for the real robot.
+"""Keyboard-driven "record one episode, running the policy only for it" session.
 
 Mirrors two things from lerobot (github.com/huggingface/lerobot, pinned 0.4.4,
 see also github.com/plaxxma/DiffusionPoicy_UR5e_real's lerobot/ tree):
@@ -16,18 +16,24 @@ see also github.com/plaxxma/DiffusionPoicy_UR5e_real's lerobot/ tree):
 
 The specific keys are this repo's own VR button scheme (package/vr_buttons.py)
 rather than lerobot's fixed right/left/esc set, since that set has no "start
-recording" or "return to initial pose" event and this session needs both:
+recording" or "return to initial pose" event and this one needs both:
 
-    x   toggle recording (REC <-> STOP), like vr_buttons.py's left X
+    x   start this episode: engage the policy AND start recording together
+        (resets the policy's internal state -- ACT's action queue/temporal
+        ensemble should not carry over a gap). Pressed again: stop the policy
+        AND save the episode together, same as releasing teleop's grip while
+        pressing REC off. The robot holds position whenever no episode is
+        running, exactly like a released VR grip.
     y   discard the running episode, else toggle reject on the last saved
         one (episode_recorder.VREpisodeRecorder.discard_or_delete_last),
-        like vr_buttons.py's left Y
+        like vr_buttons.py's left Y. Also disengages the policy if an episode
+        was running, matching the recorder's own state change.
     a   guarded return to the initial pose, like vr_buttons.py's right A
     q / Esc   stop the whole session
 
-The policy keeps driving the robot regardless of recording state -- x only
-starts/stops capturing the already-running rollout into an episode, exactly
-like teleop's REC button does for teleop's own already-running motion.
+A one-line status (episode in progress / saved count / policy state) is
+printed each tick via IPython.display.clear_output, similar in spirit to the
+on-screen status text lerobot's own recording tools show.
 """
 from __future__ import annotations
 
@@ -60,19 +66,28 @@ def _make_listener(on_key):
     return listener
 
 
-def run_policy_with_keyboard_recording(deploy, recorder, duration_s=None):
-    """Blocking loop: the policy always drives the robot once ready (see
-    PolicyDeployment.step()); x/y/a/q control recording and homing as above.
+def _status_line(recorder, result):
+    return "%s | policy: %s (%s)" % (recorder.status(), result["state"], result["reason"])
+
+
+def run_policy_with_keyboard_recording(deploy, recorder, duration_s=None, status_hz=2.0):
+    """Blocking loop: x starts/stops one episode (policy + recording together),
+    y/a/q as above. The policy only drives the robot while an episode is
+    running (see PolicyDeployment.step(enabled=...)); it holds position the
+    rest of the time.
 
     `recorder` (episode_recorder.VREpisodeRecorder) must already point at the
     same robot_ip as `deploy`. Always releases both sessions on the way out
-    (FAULT, duration_s elapsing, 'q'/Esc, or Ctrl-C).
+    (FAULT, duration_s elapsing, 'q'/Esc, or Ctrl-C) -- an episode still being
+    recorded when the loop exits is saved, not dropped.
     """
-    events = {"toggle_record": False, "discard": False, "home": False, "quit": False}
+    from IPython.display import clear_output
+
+    events = {"toggle_episode": False, "discard": False, "home": False, "quit": False}
 
     def on_key(name):
         if name == "x":
-            events["toggle_record"] = True
+            events["toggle_episode"] = True
         elif name == "y":
             events["discard"] = True
         elif name == "a":
@@ -81,13 +96,14 @@ def run_policy_with_keyboard_recording(deploy, recorder, duration_s=None):
             events["quit"] = True
 
     listener = _make_listener(on_key)
-    print("[record] x=toggle recording  y=discard/reject last  a=Initial pose  q/Esc=stop")
+    print("[record] x=start/stop episode (policy+recording)  y=discard/reject last  a=Initial pose  q/Esc=stop")
 
     deploy.start()
     recorder.start_thread()
     try:
         t_next = time.monotonic()
         end = None if duration_s is None else t_next + duration_s
+        last_status_at = 0.0
         while (end is None or time.monotonic() < end) and not events["quit"]:
             now = time.monotonic()
 
@@ -98,14 +114,24 @@ def run_policy_with_keyboard_recording(deploy, recorder, duration_s=None):
                 # self.real.planner.homing), so nothing else re-requests it.
                 result = deploy.step(now, action="home")
             else:
-                result = deploy.step(now)
+                result = deploy.step(now, enabled=recorder.recording)
 
-            if events["toggle_record"]:
-                events["toggle_record"] = False
-                recorder.stop() if recorder.recording else recorder.start()
+            if events["toggle_episode"]:
+                events["toggle_episode"] = False
+                if recorder.recording:
+                    recorder.stop()
+                else:
+                    deploy.policy.reset()
+                    recorder.start()
             if events["discard"]:
                 events["discard"] = False
                 recorder.discard_or_delete_last()
+
+            if now - last_status_at >= 1.0 / status_hz:
+                last_status_at = now
+                clear_output(wait=True)
+                print("[record] x=start/stop episode  y=discard/reject last  a=Initial pose  q/Esc=stop")
+                print(_status_line(recorder, result))
 
             if result["state"] == "FAULT":
                 print("[policy] FAULT:", result["reason"])
