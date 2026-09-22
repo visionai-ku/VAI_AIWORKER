@@ -19,7 +19,9 @@ for the whole dataset root at creation time, so recording cannot start until at 
 frame has arrived from every camera in `cameras` -- that is what fixes each camera's
 resolution. Pass a smaller `cameras` dict (e.g. {"head": 5570}) if some cameras are not wired
 up. `action`/`observation.state` follow JOINT_NAMES order; camera frames are converted from
-the wire's BGR to RGB (the convention LeRobot's own camera backends use).
+the wire's BGR to RGB (the convention LeRobot's own camera backends use). With
+record_eef=True the schema also has observation.eef_pose / action.eef_pose (package/eef_pose.py:
+FK of the measured / commanded joints, per hand xyz + quat wxyz in base_link).
 
 An existing `root` (one with meta/info.json) is resumed and appended to, matching
 lerobot-record --resume; a fresh `root` is created with LeRobotDataset.create(). The default
@@ -230,13 +232,20 @@ def list_episodes(root):
     return rows.sort_values("episode_index").to_dict("records")
 
 
-def build_features(camera_shapes):
+EEF_OBS_KEY, EEF_ACTION_KEY = "observation.eef_pose", "action.eef_pose"
+
+
+def build_features(camera_shapes, eef_names=None):
     """LeRobot features dict: action / observation.state (JOINT_NAMES order) + one
-    observation.images.<cam> video feature per camera, shape (h, w, c)."""
+    observation.images.<cam> video feature per camera, shape (h, w, c). With `eef_names`,
+    also observation.eef_pose / action.eef_pose (FK of the measured / commanded joints)."""
     features = {
         "action": {"dtype": "float32", "shape": (len(JOINT_NAMES),), "names": list(JOINT_NAMES)},
         "observation.state": {"dtype": "float32", "shape": (len(JOINT_NAMES),), "names": list(JOINT_NAMES)},
     }
+    if eef_names:
+        for key in (EEF_OBS_KEY, EEF_ACTION_KEY):
+            features[key] = {"dtype": "float32", "shape": (len(eef_names),), "names": list(eef_names)}
     for cam, shape in camera_shapes.items():
         features["observation.images.%s" % cam] = {
             "dtype": "video", "shape": tuple(shape), "names": ["height", "width", "channels"],
@@ -247,8 +256,14 @@ def build_features(camera_shapes):
 class VREpisodeRecorder:
     def __init__(self, robot_ip, repo_id, root, hz=30, max_sec=120, cameras=None,
                  state_port=5560, command_endpoint="tcp://127.0.0.1:5561",
-                 task=DEFAULT_TASK, vcodec=DEFAULT_VCODEC):
+                 task=DEFAULT_TASK, vcodec=DEFAULT_VCODEC, record_eef=False):
         self.robot_ip = robot_ip
+        self.eef_names, self._eef_obs, self._eef_action = None, None, None
+        if record_eef:
+            from package.eef_pose import SG2EEFPose, EEF_POSE_NAMES
+            # Separate instances: each keeps its own quaternion-sign continuity.
+            self.eef_names = list(EEF_POSE_NAMES)
+            self._eef_obs, self._eef_action = SG2EEFPose(), SG2EEFPose()
         self.repo_id, self.root = repo_id, Path(root)
         self.hz, self.max_sec = int(hz), float(max_sec)
         self.cameras = dict(DEFAULT_CAMERAS if cameras is None else cameras)
@@ -289,6 +304,9 @@ class VREpisodeRecorder:
             if self.dataset is None:
                 self.msg = "녹화 불가: 카메라 프레임 대기 중 (%d/%d)" % (0, len(self.cameras))
             elif not self.is_recording:
+                if self.eef_names:
+                    self._eef_obs.reset()
+                    self._eef_action.reset()
                 self.is_recording, self.ep_started_at, self.ep_frames = True, time.time(), 0
                 self.msg = "recording episode_%06d" % self.dataset.meta.total_episodes
         print("[rec]", self.msg)
@@ -389,6 +407,19 @@ class VREpisodeRecorder:
                 print("[rec]", self.msg)
 
     # ---------- receive / write (background thread) ----------
+    def _build_frame(self, state_q, action_q, frames_bgr):
+        frame = {
+            "task": self.task,
+            "observation.state": np.asarray(state_q, dtype=np.float32),
+            "action": np.asarray(action_q, dtype=np.float32),
+        }
+        if self.eef_names:
+            frame[EEF_OBS_KEY] = self._eef_obs(state_q)
+            frame[EEF_ACTION_KEY] = self._eef_action(action_q)
+        for cam, bgr in frames_bgr.items():
+            frame["observation.images.%s" % cam] = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
+        return frame
+
     def _open_dataset(self, camera_shapes):
         # video_backend="pyav": this machine's torchcodec build (LeRobotDataset's own
         # default) fails to load its ffmpeg shared libraries; pyav works against the
@@ -400,13 +431,19 @@ class VREpisodeRecorder:
         if status == ROOT_READY:
             self.dataset = LeRobotDataset(self.repo_id, root=self.root, vcodec=self.vcodec,
                                           video_backend="pyav")
+            has_eef = EEF_OBS_KEY in self.dataset.meta.features
+            if has_eef != bool(self.eef_names):
+                self.dataset = None
+                raise ValueError(
+                    "%s 는 EEF pose %s 데이터셋입니다. record_eef=%s 로는 이어서 녹화할 수 없으니 "
+                    "다른 이름(root)을 쓰세요." % (self.root, "포함" if has_eef else "없는", bool(self.eef_names)))
         else:
             # LeRobotDataset.create() creates `root` itself and refuses an existing directory,
             # so a leftover empty one (deleting every episode leaves it behind) has to go first.
             if status == ROOT_EMPTY:
                 self.root.rmdir()
             self.dataset = LeRobotDataset.create(
-                self.repo_id, self.hz, build_features(camera_shapes), root=self.root,
+                self.repo_id, self.hz, build_features(camera_shapes, self.eef_names), root=self.root,
                 use_videos=True, vcodec=self.vcodec, image_writer_threads=4,
                 video_backend="pyav")
         self.msg = "ready (%d cameras, %d saved)" % (len(camera_shapes), self.dataset.meta.total_episodes)
@@ -454,14 +491,7 @@ class VREpisodeRecorder:
                     recording, dataset = self.is_recording, self.dataset
                     if recording and ready:
                         action_q = last_cmd[0] if last_cmd is not None else np.full(len(JOINT_NAMES), np.nan)
-                        frame = {
-                            "task": self.task,
-                            "observation.state": last_state.astype(np.float32),
-                            "action": np.asarray(action_q, dtype=np.float32),
-                        }
-                        for cam, bgr in last_frame.items():
-                            frame["observation.images.%s" % cam] = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
-                        dataset.add_frame(frame)
+                        dataset.add_frame(self._build_frame(last_state, action_q, last_frame))
                         self.ep_frames += 1
                     timeout = recording and self.ep_started_at is not None and now - self.ep_started_at > self.max_sec
 
