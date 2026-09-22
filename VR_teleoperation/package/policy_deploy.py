@@ -17,8 +17,11 @@ this hz ever falls behind.
 
 Session control: intentionally bare. Call start()/step()/stop() (or the
 blocking run()) from a notebook cell, a keypress loop, whatever the caller
-wants -- there is no VR-button UI here, since a policy session has no VR
-controller.
+wants -- this class itself has no VR-button UI, since a policy session has no
+VR controller. For a keyboard-driven session with episode recording and a
+live status/camera window instead of a bare loop, see
+policy_record_control.run_policy_with_keyboard_recording(), which drives this
+class through step(enabled=..., action=...) rather than run().
 """
 from __future__ import annotations
 
