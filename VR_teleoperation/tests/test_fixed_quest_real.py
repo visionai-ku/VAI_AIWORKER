@@ -2368,6 +2368,100 @@ class FixedQuestRealTest(unittest.TestCase):
         self.assertTrue(real.home_pending)
         np.testing.assert_allclose(self.planner.speed_limits[real.gripper_mask], np.deg2rad(10))
 
+    # ---------- action="policy" (autonomous joint target, no VR frame/grip) ----------
+
+    def arm_policy(self, q_target=None, **options):
+        self.make_real(**options)
+        q_target = self.robot_initial.copy() if q_target is None else q_target
+        self.real.tick(None, self.feedback(0.), enabled=False, now=0.)
+        first = self.real.tick(None, self.feedback(.01), enabled=True, now=.01,
+                               action="policy", q_target=q_target)
+        self.assertEqual(first["state"], "ARMING", first["reason"])
+        self.assertEqual([m["mode"] for m in self.publisher.messages], ["arm"])
+        ready = self.real.tick(None, self.armed_feedback(.02), enabled=True, now=.02,
+                               action="policy", q_target=q_target)
+        self.assertEqual(ready["state"], "POLICY", ready["reason"])
+        self.assertTrue(ready["armed"])
+        self.assertEqual(self.publisher.messages[-1]["mode"], "command")
+        return ready
+
+    def test_policy_action_requires_finite_q_target_of_right_shape(self):
+        real = self.make_real()
+        for bad in (None, np.zeros(3), np.full(len(self.names), np.nan)):
+            with self.subTest(bad=None if bad is None else bad.shape):
+                with self.assertRaises(ValueError):
+                    real.tick(None, self.feedback(0.), enabled=True, now=0., action="policy", q_target=bad)
+
+    def test_q_target_without_policy_action_is_rejected(self):
+        real = self.make_real()
+        q = self.robot_initial.copy()
+        with self.assertRaises(ValueError):
+            real.tick(None, self.feedback(0.), enabled=True, now=0., q_target=q)
+        with self.assertRaises(ValueError):
+            real.tick(None, self.feedback(0.), enabled=True, now=0., action="home", q_target=q)
+
+    def test_policy_arms_and_executes_without_vr_frame(self):
+        self.arm_policy()
+        self.assertEqual(self.publisher.messages[-1]["motion"], "teleop")
+
+    def test_policy_disabled_holds_without_arming(self):
+        real = self.make_real()
+        q_target = self.robot_initial.copy()
+        result = real.tick(None, self.feedback(0.), enabled=False, now=0., action="policy", q_target=q_target)
+        self.assertFalse(result["armed"])
+        self.assertIsNone(real.session_id)
+        self.assertEqual(self.publisher.messages, [])
+
+    def test_policy_moves_toward_target_progressively(self):
+        self.configure_teleop_speed(60)
+        target = self.robot_initial.copy()
+        target[self.names.index("arm_l_joint1")] += np.deg2rad(5)
+        self.arm_policy(q_target=self.robot_initial.copy())
+        result = self.real.tick(None, self.armed_feedback(.03, q=self.robot_initial), enabled=True, now=.03,
+                                action="policy", q_target=target)
+        self.assertEqual(result["state"], "POLICY", result["reason"])
+        index = self.names.index("arm_l_joint1")
+        moved = result["q_command"][index] - self.robot_initial[index]
+        full = target[index] - self.robot_initial[index]
+        self.assertGreater(moved, 0.)
+        self.assertLess(moved, full, "one 10ms tick must not already reach a 5deg target")
+
+    def test_policy_target_causing_collision_is_rejected_even_when_teleop_check_disabled(self):
+        self.configure_teleop_speed(60)
+        self.planner.teleop_collision_check = False
+        self.arm_policy()
+        q_collision = self.robot_initial.copy()
+        q_collision[self.names.index("arm_l_joint3")] = -2.
+        result, measured = None, self.robot_initial.copy()
+        for index in range(400):
+            now = .03 + index * .01
+            # A real robot tracks its commands; feed back the previous q_command
+            # so the tracking-lag pacer does not stall progress before the
+            # candidate ever reaches the colliding pose.
+            result = self.real.tick(None, self.armed_feedback(now, q=measured), enabled=True, now=now,
+                                    action="policy", q_target=q_collision)
+            if result["state"] == "FAULT":
+                break
+            measured = result["q_command"].copy()
+        self.assertEqual(result["state"], "FAULT", result["reason"])
+        self.assertFalse(self.real.armed)
+
+    def test_policy_stop_releases_session(self):
+        self.arm_policy()
+        self.assertTrue(self.real.stop())
+        self.assertIsNone(self.real.session_id)
+        self.assertFalse(self.real.armed)
+        self.assertEqual(self.publisher.messages[-1]["mode"], "stop")
+
+    def test_policy_dry_run_executes_without_arming(self):
+        real = self.make_real(dry_run=True)
+        q_target = self.robot_initial.copy()
+        q_target[self.names.index("arm_l_joint1")] += np.deg2rad(5)
+        real.tick(None, self.feedback(0.), enabled=False, now=0.)
+        result = real.tick(None, self.feedback(.01), enabled=True, now=.01, action="policy", q_target=q_target)
+        self.assertEqual(result["state"], "POLICY", result["reason"])
+        self.assertIsNone(real.session_id)
+        self.assertEqual(self.publisher.messages, [])
 
 
 if __name__ == "__main__":

@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import asyncio
 from enum import IntEnum
 from pathlib import Path
+import threading
 import time
 
 import numpy as np
@@ -10,6 +12,20 @@ try:
     import zmq
 except ModuleNotFoundError:
     zmq = None
+
+try:
+    import nest_asyncio as _nest_asyncio
+except ModuleNotFoundError:
+    _nest_asyncio = None
+
+try:
+    import vuer as _vuer_module
+    from vuer.schemas import Body as _VuerBody, MotionControllers as _VuerMotionControllers, Scene as _VuerScene
+except ModuleNotFoundError:
+    _vuer_module = None
+    _VuerBody = None
+    _VuerMotionControllers = None
+    _VuerScene = None
 
 from ri_motion_v5_package.kinematics.transforms import (
     pr2t,
@@ -63,7 +79,7 @@ SG2_WRIST_P_LOCAL = {
     "right": np.array([0.0, 0.0, -0.08], dtype=np.float64),
 }
 SG2_WRIST_R_LOCAL = {
-    "left": quat2r_mj(np.array([0.5, -0.5, 0.5, 0.5], dtype=np.float64)),
+    "left": quat2r_mj(np.array([0.5, -0.5, 0.5, 0.5], dtype=np.float64)), #(w, x, y, z)
     "right": quat2r_mj(np.array([0.5, 0.5, 0.5, -0.5], dtype=np.float64)),
 }
 
@@ -1890,6 +1906,319 @@ def copy_hand_T_dict(T_by_hand):
     return {hand_type: copy_T(T_by_hand.get(hand_type, None)) for hand_type in SG2_HAND_TYPES}
 
 
+# ---------------------------------------------------------------------------
+# MetaQuest3 *controller* (joystick) teleoperation via Vuer/WebXR.
+#
+# Unlike the hand-tracking pipeline above (raw ZMQ packets from a native
+# Quest app), controller data is streamed from the Quest's built-in browser
+# over WebXR, using the `vuer` library as a local HTTPS websocket server.
+# This mirrors ROBOTIS' `vr_publisher_sg2.py` (ROS2 + Vuer) controller
+# handling, but stores state locally instead of publishing to ROS topics,
+# so it can drive the same MuJoCo collision-aware wrist IK used by the
+# hand-tracking sim notebook.
+# ---------------------------------------------------------------------------
+
+# Head-relative VR frame from (head_inverse @ world):
+# +Y=forward, +Z=right, +X=down. Convert to ROS (+X forward, +Y left, +Z up).
+# (ROBOTIS vr_publisher_sg2.py original constant.)
+VR_HEAD_TO_ROS = np.array([
+    [0.0, 1.0, 0.0],   # ROS X = head +Y
+    [0.0, 0.0, -1.0],  # ROS Y = -head Z
+    [-1.0, 0.0, 0.0],  # ROS Z = -head X
+], dtype=np.float64)
+
+SG2_CONTROLLER_BACK_OFFSET_M = 0.12
+# Target frame = world/robot-ego axes as-is (X=forward, Y=left, Z=up), identical
+# for both hands - confirmed against sim_eef_controller_sg2_teleop.ipynb's
+# reference gizmo, which shows R=forward, G=left, B=up on BOTH arms (no
+# left/right mirroring). Since our sim world frame already is X=forward,
+# Y=left, Z=up, no offset rotation is needed.
+SG2_CONTROLLER_ROTATION_OFFSET_DEG = {
+    "left": (0.0, 0.0, 0.0),
+    "right": (0.0, 0.0, 0.0),
+}
+SG2_CONTROLLER_ATTACH_START_DISTANCE = 10.0  # effectively unlimited: engage anywhere, assumes user pre-aligned
+SG2_CONTROLLER_ATTACH_SECONDS = 0.3  # near-instant snap to the offset, then follow controller delta
+SG2_CONTROLLER_SQUEEZE_THRESHOLD = 0.5
+
+
+def _require_vuer():
+    if _vuer_module is None:
+        raise ModuleNotFoundError(
+            "vuer is required for MetaQuest3 controller teleoperation. "
+            "Install with `pip install vuer nest_asyncio`."
+        )
+    return _vuer_module, _VuerMotionControllers, _VuerBody, _VuerScene
+
+
+def euler_xyz_deg_to_R(roll_deg, pitch_deg, yaw_deg):
+    """Intrinsic x-y-z Euler angles (degrees) -> 3x3 rotation matrix."""
+    rx, ry, rz = np.deg2rad([roll_deg, pitch_deg, yaw_deg])
+    cx, sx = np.cos(rx), np.sin(rx)
+    cy, sy = np.cos(ry), np.sin(ry)
+    cz, sz = np.cos(rz), np.sin(rz)
+    R_x = np.array([[1.0, 0.0, 0.0], [0.0, cx, -sx], [0.0, sx, cx]], dtype=np.float64)
+    R_y = np.array([[cy, 0.0, sy], [0.0, 1.0, 0.0], [-sy, 0.0, cy]], dtype=np.float64)
+    R_z = np.array([[cz, -sz, 0.0], [sz, cz, 0.0], [0.0, 0.0, 1.0]], dtype=np.float64)
+    return R_x @ R_y @ R_z
+
+
+class VuerControllerBridge:
+    """Headless (no ROS2) Vuer bridge exposing MetaQuest3 controller state.
+
+    Runs a local HTTPS websocket server (via `vuer`) in a background thread.
+    Open the printed URL in the Meta Quest browser to stream controller
+    (and head) tracking data. Latest state is exposed as plain attributes
+    that a sim teleop loop can poll each tick.
+    """
+
+    BODY_HEAD_INDEX = 6  # XRBodyJoint 'head'
+
+    def __init__(self, host="0.0.0.0", port=8012, cert_file=None, key_file=None, fps=30):
+        vuer_module, motion_controllers_cls, body_cls, scene_cls = _require_vuer()
+        self._Vuer = vuer_module.Vuer
+        self._MotionControllers = motion_controllers_cls
+        self._Body = body_cls
+        self._Scene = scene_cls
+
+        self.fps = int(fps)
+        self.host = host
+        self.port = int(port)
+        self.left_matrix = None
+        self.right_matrix = None
+        self.left_state = {}
+        self.right_state = {}
+        self.head_matrix = np.eye(4, dtype=np.float64)
+        self.head_inverse_matrix = np.eye(4, dtype=np.float64)
+        self.connected = False
+
+        # Diagnostics: inspect these if left/right_matrix stay None despite
+        # squeezing a controller - it usually means the installed vuer
+        # version emits different event/field names than expected below.
+        self.body_event_count = 0
+        self.controller_event_count = 0
+        self.last_body_event_type = None
+        self.last_controller_event_type = None
+        self.last_body_raw = None
+        self.last_controller_raw = None
+
+        vuer_kwargs = dict(
+            host=host,
+            port=self.port,
+            queries={"grid": False, "reconnect": True},
+            queue_len=3,
+        )
+        if cert_file is not None and key_file is not None:
+            vuer_kwargs.update(cert=str(cert_file), key=str(key_file))
+        self.vuer = self._Vuer(**vuer_kwargs)
+        self.vuer.add_handler("BODY_MOVE")(self._on_body_move)
+        self.vuer.add_handler("CONTROLLER_MOVE")(self._on_controller_move)
+
+        scheme = "https" if cert_file is not None and key_file is not None else "http"
+        self.url = "%s://%s:%d" % (scheme, host, self.port)
+
+        self._loop = asyncio.new_event_loop()
+        self._thread = threading.Thread(target=self._run, daemon=True)
+
+    def start(self):
+        self._thread.start()
+        return self
+
+    def _run(self):
+        try:
+            asyncio.set_event_loop(self._loop)
+            if _nest_asyncio is not None:
+                _nest_asyncio.apply(self._loop)
+            self.vuer.spawn(start=True)(self._session)
+        except Exception as e:
+            print("VuerControllerBridge server error: %s" % e)
+
+    async def _session(self, session):
+        self.connected = True
+        session.set @ self._Scene(
+            self._Body(
+                fps=self.fps,
+                stream=True,
+                key="body_tracking",
+                leftHand=False,
+                rightHand=False,
+                showFrame=True,
+                showBody=True,
+                frameScale=0.02,
+            ),
+            bgChildren=[
+                self._MotionControllers(
+                    stream=True,
+                    key="motion-controller",
+                    left=True,
+                    right=True,
+                ),
+            ],
+        )
+        while True:
+            await asyncio.sleep(1.0 / self.fps)
+
+    async def _on_body_move(self, event, session):
+        try:
+            self.body_event_count += 1
+            self.last_body_event_type = getattr(event, "etype", getattr(event, "type", None))
+            self.last_body_raw = event.value
+            if not isinstance(event.value, dict):
+                return
+            body_data = event.value.get("body")
+            if not isinstance(body_data, (list, tuple, np.ndarray)):
+                return
+            body_array = (
+                body_data if isinstance(body_data, np.ndarray)
+                else np.asarray(body_data, dtype=np.float64)
+            )
+            start_idx = self.BODY_HEAD_INDEX * 16
+            end_idx = start_idx + 16
+            if body_array.size < end_idx:
+                return
+            head_matrix = np.asarray(
+                body_array[start_idx:end_idx], dtype=np.float64
+            ).reshape(4, 4, order="F")
+            if not np.all(np.isfinite(head_matrix)):
+                return
+            if abs(float(np.linalg.det(head_matrix[:3, :3]))) < 1e-6:
+                return
+            self.head_matrix = head_matrix
+            self.head_inverse_matrix = np.linalg.inv(head_matrix)
+        except Exception:
+            pass
+
+    async def _on_controller_move(self, event, session):
+        try:
+            self.controller_event_count += 1
+            self.last_controller_event_type = getattr(event, "etype", getattr(event, "type", None))
+            self.last_controller_raw = event.value
+            if not isinstance(event.value, dict):
+                return
+            data = event.value
+
+            left_state = data.get("leftState")
+            if isinstance(left_state, dict):
+                self.left_state = left_state
+            right_state = data.get("rightState")
+            if isinstance(right_state, dict):
+                self.right_state = right_state
+
+            left_matrix_raw = data.get("left")
+            if isinstance(left_matrix_raw, (list, np.ndarray)) and len(left_matrix_raw) == 16:
+                self.left_matrix = np.asarray(
+                    left_matrix_raw, dtype=np.float64
+                ).reshape(4, 4, order="F")
+            right_matrix_raw = data.get("right")
+            if isinstance(right_matrix_raw, (list, np.ndarray)) and len(right_matrix_raw) == 16:
+                self.right_matrix = np.asarray(
+                    right_matrix_raw, dtype=np.float64
+                ).reshape(4, 4, order="F")
+        except Exception:
+            pass
+
+    def stop(self):
+        try:
+            self._loop.call_soon_threadsafe(self._loop.stop)
+        except Exception:
+            pass
+
+
+def print_controller_bridge_debug(bridge):
+    """Print live bridge state - use this to diagnose why controller data isn't arriving."""
+    print("connected:", bridge.connected)
+    print("body events received:", bridge.body_event_count, "| last type:", bridge.last_body_event_type)
+    print("controller events received:", bridge.controller_event_count, "| last type:", bridge.last_controller_event_type)
+    if bridge.controller_event_count == 0:
+        print("-> No CONTROLLER_MOVE events at all. Check: Quest browser actually connected + Entered VR?")
+    elif bridge.last_controller_raw is not None:
+        print("last controller event keys:", list(bridge.last_controller_raw.keys()))
+        left_state = bridge.last_controller_raw.get("leftState")
+        right_state = bridge.last_controller_raw.get("rightState")
+        print("leftState keys:", list(left_state.keys()) if isinstance(left_state, dict) else left_state)
+        print("rightState keys:", list(right_state.keys()) if isinstance(right_state, dict) else right_state)
+    print("left_matrix is None:", bridge.left_matrix is None, "| right_matrix is None:", bridge.right_matrix is None)
+    print("left_state:", bridge.left_state)
+    print("right_state:", bridge.right_state)
+
+
+def create_sg2_vuer_controller_bridge(host="0.0.0.0", port=8012, cert_file=None, key_file=None, fps=30):
+    bridge = VuerControllerBridge(host=host, port=port, cert_file=cert_file, key_file=key_file, fps=fps)
+    bridge.start()
+    return bridge
+
+
+def get_controller_matrix(bridge, hand_type):
+    hand_type = normalize_hand_type(hand_type)
+    return bridge.left_matrix if hand_type == "left" else bridge.right_matrix
+
+
+def get_controller_state(bridge, hand_type):
+    hand_type = normalize_hand_type(hand_type)
+    state = bridge.left_state if hand_type == "left" else bridge.right_state
+    return state if isinstance(state, dict) else {}
+
+
+def get_controller_trigger_value(bridge, hand_type):
+    value = get_controller_state(bridge, hand_type).get("triggerValue", 0.0)
+    return float(value) if isinstance(value, (int, float)) and np.isfinite(value) else 0.0
+
+
+def get_controller_squeeze_value(bridge, hand_type):
+    value = get_controller_state(bridge, hand_type).get("squeezeValue", 0.0)
+    return float(value) if isinstance(value, (int, float)) and np.isfinite(value) else 0.0
+
+
+def vr_head_relative_T_to_mujoco_frame(T_head_relative):
+    """Convert a head-relative VR pose (Vuer/WebXR axes) to MuJoCo/ROS axes."""
+    T_head_relative = np.asarray(T_head_relative, dtype=np.float64).reshape(4, 4)
+    p_head = T_head_relative[:3, 3]
+    R_head = T_head_relative[:3, :3]
+    p_mj = VR_HEAD_TO_ROS @ p_head
+    R_mj = VR_HEAD_TO_ROS @ R_head @ VR_HEAD_TO_ROS.T
+    return pr2t(p=p_mj, R=R_mj)
+
+
+def compute_sg2_controller_wrist_target(
+        bridge,
+        hand_type,
+        start_T_anchor,
+        position_offset=None,
+        rotation_offset_R=None,
+        controller_back_offset_m=SG2_CONTROLLER_BACK_OFFSET_M,
+        position_scale=1.0,
+    ):
+    """Return a MuJoCo-world-frame 4x4 wrist target from live controller pose, or None."""
+    hand_type = normalize_hand_type(hand_type)
+    world_matrix = get_controller_matrix(bridge, hand_type)
+    if world_matrix is None:
+        return None
+
+    world_matrix = np.asarray(world_matrix, dtype=np.float64).reshape(4, 4).copy()
+    if controller_back_offset_m:
+        local_back_axis = np.array([0.0, 0.0, 1.0], dtype=np.float64)
+        world_matrix[:3, 3] += world_matrix[:3, :3] @ (local_back_axis * float(controller_back_offset_m))
+
+    head_inverse_matrix = np.asarray(bridge.head_inverse_matrix, dtype=np.float64).reshape(4, 4)
+    T_head_relative = head_inverse_matrix @ world_matrix
+    T_head_relative_mj = vr_head_relative_T_to_mujoco_frame(T_head_relative)
+
+    p_mj = t2p(T_head_relative_mj) * float(position_scale)
+    R_mj = t2r(T_head_relative_mj)
+    if position_offset is not None:
+        p_mj = p_mj + np.asarray(position_offset, dtype=np.float64)
+    if rotation_offset_R is not None:
+        R_mj = R_mj @ np.asarray(rotation_offset_R, dtype=np.float64)
+
+    T_head_relative_offset = pr2t(p=p_mj, R=R_mj)
+    return np.asarray(start_T_anchor, dtype=np.float64).reshape(4, 4) @ T_head_relative_offset
+
+
+def get_sg2_gripper_driver_qpos_from_trigger(trigger_value, q_open=0.0, q_closed=1.1):
+    trigger_value = float(np.clip(trigger_value, 0.0, 1.0))
+    return float(q_open) + trigger_value * (float(q_closed) - float(q_open))
+
+
 __all__ = [
     "PROJECT_DIR",
     "REPO_ROOT",
@@ -1987,4 +2316,21 @@ __all__ = [
     "copy_T",
     "copy_T_dict",
     "copy_hand_T_dict",
+    "VR_HEAD_TO_ROS",
+    "SG2_CONTROLLER_BACK_OFFSET_M",
+    "SG2_CONTROLLER_ROTATION_OFFSET_DEG",
+    "SG2_CONTROLLER_ATTACH_START_DISTANCE",
+    "SG2_CONTROLLER_ATTACH_SECONDS",
+    "SG2_CONTROLLER_SQUEEZE_THRESHOLD",
+    "euler_xyz_deg_to_R",
+    "VuerControllerBridge",
+    "create_sg2_vuer_controller_bridge",
+    "get_controller_matrix",
+    "get_controller_state",
+    "get_controller_trigger_value",
+    "get_controller_squeeze_value",
+    "vr_head_relative_T_to_mujoco_frame",
+    "compute_sg2_controller_wrist_target",
+    "get_sg2_gripper_driver_qpos_from_trigger",
+    "print_controller_bridge_debug",
 ]
