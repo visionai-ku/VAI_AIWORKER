@@ -44,10 +44,20 @@ class PolicyDeployment:
     """One checkpoint, one robot session. Build once; start()/stop() may repeat."""
 
     def __init__(self, checkpoint_path, robot_ip="192.168.6.2", cameras=None, hz=30,
-                 task=None, device=None, dry_run=True):
+                 task=None, device=None, dry_run=True, collision_margin_m=0.0005):
         if not 0 < hz <= 200:
             raise ValueError("hz must be in (0, 200]")
-        self.cfg = IntentTeleopSettings(backend="real", ROBOT_IP=robot_ip, DRY_RUN=dry_run)
+        # Policy actions are always collision-checked (see fixed_quest_sim.py's
+        # tick(), which forces motion="home" for action="policy" regardless of
+        # TELEOP_COLLISION_CHECK). The default 5mm margin (COLLISION_MARGIN_M)
+        # exists for teleop's early-warning purposes; here it would reject a
+        # policy step for merely approaching a pose the demonstrations may have
+        # legitimately reached (e.g. both grippers close together during a
+        # handoff), holding position instead of continuing the trained motion.
+        # A near-zero margin only rejects a step whose swept path would actually
+        # overlap, not one that just comes close.
+        self.cfg = IntentTeleopSettings(backend="real", ROBOT_IP=robot_ip, DRY_RUN=dry_run,
+                                        COLLISION_MARGIN_M=collision_margin_m)
         self.models = build_models(self.cfg)
         _, self.planner = build_planner(self.models, self.cfg)
         self.publisher = SG2RobotCommandPublisher(enabled=not dry_run, port=self.cfg.ROBOT_COMMAND_PORT)
