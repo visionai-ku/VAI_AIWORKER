@@ -31,13 +31,54 @@ recording" or "return to initial pose" event and this one needs both:
     a   guarded return to the initial pose, like vr_buttons.py's right A
     q / Esc   stop the whole session
 
-A one-line status (episode in progress / saved count / policy state) is
-printed each tick via IPython.display.clear_output, similar in spirit to the
-on-screen status text lerobot's own recording tools show.
+A small floating Qt window shows live status (episode in progress / saved
+count / policy state) -- the same idea as episode_recorder.RecordControl's
+window (whose title bar shows recorder.status()) for teleop recording, just
+read-only here since keyboard already drives start/stop/discard/home. Falls
+back to printing the status line in the cell output if a window cannot be
+opened (e.g. no display).
 """
 from __future__ import annotations
 
 import time
+
+
+class _StatusWindow:
+    """Read-only floating window mirroring episode_recorder.RecordControl's
+    window, without its REC/STOP/DEL buttons (keyboard already covers those)."""
+
+    def __init__(self, x_offset=0.0, y_offset=0.72, width=0.28, height=0.12):
+        from PyQt5.QtWidgets import QApplication, QLabel, QVBoxLayout, QWidget
+        from ri_motion_v5_package.utility import get_monitor_size
+
+        self.app = QApplication.instance() or QApplication([])
+        w_monitor, h_monitor = get_monitor_size()
+        self.widget = QWidget()
+        self.widget.setWindowTitle("SG2 Policy Recording")
+        self.widget.setGeometry(int(x_offset * w_monitor), int(y_offset * h_monitor),
+                                int(width * w_monitor), int(height * h_monitor))
+        layout = QVBoxLayout(self.widget)
+        self.label = QLabel("starting...")
+        self.label.setStyleSheet("font-family: monospace; font-size: 13px;")
+        self.label.setWordWrap(True)
+        layout.addWidget(self.label)
+        self.widget.show()
+
+    def set_text(self, text):
+        self.label.setText(text)
+        self.app.processEvents()
+
+    def close(self):
+        self.widget.close()
+        self.app.processEvents()
+
+
+def _open_status_window():
+    try:
+        return _StatusWindow()
+    except Exception as exc:
+        print("[record] status window unavailable (%s); printing status in the cell instead." % exc)
+        return None
 
 
 def _make_listener(on_key):
@@ -81,8 +122,6 @@ def run_policy_with_keyboard_recording(deploy, recorder, duration_s=None, status
     (FAULT, duration_s elapsing, 'q'/Esc, or Ctrl-C) -- an episode still being
     recorded when the loop exits is saved, not dropped.
     """
-    from IPython.display import clear_output
-
     events = {"toggle_episode": False, "discard": False, "home": False, "quit": False}
 
     def on_key(name):
@@ -97,6 +136,7 @@ def run_policy_with_keyboard_recording(deploy, recorder, duration_s=None, status
 
     listener = _make_listener(on_key)
     print("[record] x=start/stop episode (policy+recording)  y=discard/reject last  a=Initial pose  q/Esc=stop")
+    status_window = _open_status_window()
 
     deploy.start()
     recorder.start_thread()
@@ -127,11 +167,15 @@ def run_policy_with_keyboard_recording(deploy, recorder, duration_s=None, status
                 events["discard"] = False
                 recorder.discard_or_delete_last()
 
+            if status_window is not None:
+                status_window.app.processEvents()  # keep the window responsive every tick
             if now - last_status_at >= 1.0 / status_hz:
                 last_status_at = now
-                clear_output(wait=True)
-                print("[record] x=start/stop episode  y=discard/reject last  a=Initial pose  q/Esc=stop")
-                print(_status_line(recorder, result))
+                text = _status_line(recorder, result)
+                if status_window is not None:
+                    status_window.set_text(text)
+                else:
+                    print("\r" + text + " " * 10, end="", flush=True)
 
             if result["state"] == "FAULT":
                 print("[policy] FAULT:", result["reason"])
@@ -148,6 +192,8 @@ def run_policy_with_keyboard_recording(deploy, recorder, duration_s=None, status
     finally:
         if listener is not None:
             listener.stop()
+        if status_window is not None:
+            status_window.close()
         deploy.stop()
         recorder.close()
     return deploy.last_result
