@@ -2174,6 +2174,7 @@ librealsense2_camera_msgs__rosidl_generator_c.so: /lib/aarch64-linux-gnu/libc.so
   /usr/lib/aarch64-linux-gnu/libgcc_s.so.1 \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o \
+  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so \
   CMakeFiles/realsense2_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/realsense2_camera_msgs/action/detail/triggered_calibration__description.c.o \
@@ -2235,6 +2236,8 @@ CMakeFiles/realsense2_camera_msgs__rosidl_generator_c.dir/rosidl_generator_c/rea
 /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o:
 

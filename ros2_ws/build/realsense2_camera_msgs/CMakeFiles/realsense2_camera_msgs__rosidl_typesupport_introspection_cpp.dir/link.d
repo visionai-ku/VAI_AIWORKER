@@ -29,6 +29,7 @@ librealsense2_camera_msgs__rosidl_typesupport_introspection_cpp.so: \
   /opt/ros/jazzy/lib/librosidl_runtime_c.so \
   /opt/ros/jazzy/lib/librcutils.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libdl.a \
+  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libstdc++.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libm.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libm.so \
@@ -113,6 +114,8 @@ librealsense2_camera_msgs__rosidl_generator_c.so:
 /opt/ros/jazzy/lib/librcutils.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libdl.a:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/libstdc++.so:
 

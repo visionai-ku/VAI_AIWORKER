@@ -1,0 +1,90 @@
+[2.113s] Invoking command in '/root/ros2_ws/build/ffw_bringup': AMENT_PREFIX_PATH=/root/ros2_ws/install/dynamixel_hardware_interface:/root/ros2_ws/install/ffw_description:/root/ros2_ws/install/dynamixel_sdk:/root/ros2_ws/install/dynamixel_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/root/ros2_ws/install/dynamixel_hardware_interface:/root/ros2_ws/install/ffw_description:/root/ros2_ws/install/dynamixel_sdk:/root/ros2_ws/install/dynamixel_interfaces:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/root/ros2_ws/install/dynamixel_hardware_interface/lib:/root/ros2_ws/install/dynamixel_sdk/lib:/root/ros2_ws/install/dynamixel_interfaces/lib:/opt/ros/jazzy/opt/zenoh_cpp_vendor/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/aarch64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib:/usr/local/cuda/compat:/usr/local/cuda/lib64 PYTHONPATH=/root/ros2_ws/build/ffw_bringup/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/root/ros2_ws/install/ffw_bringup/lib/python3.12/site-packages:/root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages:/root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /root/ros2_ws/build/ffw_bringup/build --no-deps symlink_data
+[2.745s] running develop
+[3.100s] running egg_info
+[3.100s] creating ffw_bringup.egg-info
+[3.132s] writing ffw_bringup.egg-info/PKG-INFO
+[3.133s] writing dependency_links to ffw_bringup.egg-info/dependency_links.txt
+[3.134s] writing entry points to ffw_bringup.egg-info/entry_points.txt
+[3.135s] writing requirements to ffw_bringup.egg-info/requires.txt
+[3.135s] writing top-level names to ffw_bringup.egg-info/top_level.txt
+[3.136s] writing manifest file 'ffw_bringup.egg-info/SOURCES.txt'
+[3.207s] reading manifest file 'ffw_bringup.egg-info/SOURCES.txt'
+[3.209s] writing manifest file 'ffw_bringup.egg-info/SOURCES.txt'
+[3.246s] running build_ext
+[3.247s] Creating /root/ros2_ws/install/ffw_bringup/lib/python3.12/site-packages/ffw-bringup.egg-link (link to .)
+[3.249s] Installing head_eef_tracker script to /root/ros2_ws/install/ffw_bringup/lib/ffw_bringup
+[3.250s] Installing joint_trajectory_executor script to /root/ros2_ws/install/ffw_bringup/lib/ffw_bringup
+[3.251s] 
+[3.251s] Installed /root/ros2_ws/build/ffw_bringup
+[3.251s] running symlink_data
+[3.252s] creating /root/ros2_ws/install/ffw_bringup/share/ament_index
+[3.252s] creating /root/ros2_ws/install/ffw_bringup/share/ament_index/resource_index
+[3.252s] creating /root/ros2_ws/install/ffw_bringup/share/ament_index/resource_index/packages
+[3.253s] symbolically linking /root/ros2_ws/build/ffw_bringup/resource/ffw_bringup -> /root/ros2_ws/install/ffw_bringup/share/ament_index/resource_index/packages
+[3.254s] symbolically linking /root/ros2_ws/build/ffw_bringup/package.xml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup
+[3.254s] creating /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/launch
+[3.255s] symbolically linking /root/ros2_ws/build/ffw_bringup/launch/ffw_sh5_follower_ai.launch.py -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/launch
+[3.255s] symbolically linking /root/ros2_ws/build/ffw_bringup/launch/ffw_lg2_leader_ai.launch.py -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/launch
+[3.256s] symbolically linking /root/ros2_ws/build/ffw_bringup/launch/ffw_mobile_base_ai.launch.py -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/launch
+[3.256s] symbolically linking /root/ros2_ws/build/ffw_bringup/launch/ffw_f2_follower_ai.launch.py -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/launch
+[3.257s] symbolically linking /root/ros2_ws/build/ffw_bringup/launch/ffw_f1_follower_ai_gazebo.launch.py -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/launch
+[3.257s] symbolically linking /root/ros2_ws/build/ffw_bringup/launch/ffw_bh5_follower_ai_gazebo.launch.py -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/launch
+[3.257s] symbolically linking /root/ros2_ws/build/ffw_bringup/launch/lidar_dual.launch.py -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/launch
+[3.258s] symbolically linking /root/ros2_ws/build/ffw_bringup/launch/ffw_f2_follower_ai_gazebo.launch.py -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/launch
+[3.258s] symbolically linking /root/ros2_ws/build/ffw_bringup/launch/ffw_f1_follower_ai.launch.py -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/launch
+[3.259s] symbolically linking /root/ros2_ws/build/ffw_bringup/launch/camera.launch.py -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/launch
+[3.259s] symbolically linking /root/ros2_ws/build/ffw_bringup/launch/camera_realsense.launch.py -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/launch
+[3.259s] symbolically linking /root/ros2_ws/build/ffw_bringup/launch/ffw_bg2_follower_ai.launch.py -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/launch
+[3.260s] symbolically linking /root/ros2_ws/build/ffw_bringup/launch/ffw_f1_ai.launch.py -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/launch
+[3.260s] symbolically linking /root/ros2_ws/build/ffw_bringup/launch/ffw_sg2_follower_ai.launch.py -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/launch
+[3.261s] symbolically linking /root/ros2_ws/build/ffw_bringup/launch/ffw_pack.launch.py -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/launch
+[3.261s] symbolically linking /root/ros2_ws/build/ffw_bringup/launch/ffw_bh5_follower_ai.launch.py -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/launch
+[3.261s] symbolically linking /root/ros2_ws/build/ffw_bringup/launch/ffw_f2_ai.launch.py -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/launch
+[3.262s] symbolically linking /root/ros2_ws/build/ffw_bringup/launch/ffw_sg2_ai.launch.py -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/launch
+[3.262s] symbolically linking /root/ros2_ws/build/ffw_bringup/launch/ffw_bg2_ai.launch.py -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/launch
+[3.262s] symbolically linking /root/ros2_ws/build/ffw_bringup/launch/ffw_sg2_follower_ai_gazebo.launch.py -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/launch
+[3.263s] symbolically linking /root/ros2_ws/build/ffw_bringup/launch/ffw_bg2_follower_ai_gazebo.launch.py -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/launch
+[3.263s] symbolically linking /root/ros2_ws/build/ffw_bringup/launch/ffw_sh5_follower_ai_gazebo.launch.py -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/launch
+[3.264s] symbolically linking /root/ros2_ws/build/ffw_bringup/launch/camera_zed.launch.py -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/launch
+[3.264s] creating /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config
+[3.264s] creating /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_bg2_rev2_follower
+[3.265s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_bg2_rev2_follower/ffw_bg2_follower_ai_hardware_controller.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_bg2_rev2_follower
+[3.265s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_bg2_rev2_follower/ffw_bg2_follower_initial_positions.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_bg2_rev2_follower
+[3.266s] creating /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_bg2_rev3_follower
+[3.266s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_bg2_rev3_follower/ffw_bg2_follower_ai_hardware_controller.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_bg2_rev3_follower
+[3.267s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_bg2_rev3_follower/ffw_bg2_follower_initial_positions.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_bg2_rev3_follower
+[3.267s] creating /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_bg2_rev4_follower
+[3.267s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_bg2_rev4_follower/ffw_bg2_follower_ai_hardware_controller.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_bg2_rev4_follower
+[3.268s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_bg2_rev4_follower/ffw_bg2_follower_initial_positions.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_bg2_rev4_follower
+[3.268s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_bg2_rev4_follower/pack_position.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_bg2_rev4_follower
+[3.269s] creating /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_bh5_rev1_follower
+[3.269s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_bh5_rev1_follower/ffw_bh5_follower_ai_hardware_controller.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_bh5_rev1_follower
+[3.270s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_bh5_rev1_follower/ffw_bh5_follower_initial_positions.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_bh5_rev1_follower
+[3.270s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_bh5_rev1_follower/pack_position.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_bh5_rev1_follower
+[3.270s] creating /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_f1_follower
+[3.271s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_f1_follower/ffw_f1_follower_initial_positions.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_f1_follower
+[3.271s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_f1_follower/ffw_f1_follower_ai_hardware_controller.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_f1_follower
+[3.272s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_f1_follower/pack_position.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_f1_follower
+[3.272s] creating /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_f2_follower
+[3.272s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_f2_follower/ffw_f2_follower_initial_positions.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_f2_follower
+[3.273s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_f2_follower/ffw_f2_follower_ai_hardware_controller.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_f2_follower
+[3.273s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_f2_follower/pack_position.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_f2_follower
+[3.274s] creating /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_sg2_rev1_follower
+[3.274s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_sg2_rev1_follower/ffw_sg2_follower_ai_hardware_controller.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_sg2_rev1_follower
+[3.275s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_sg2_rev1_follower/ffw_sg2_follower_initial_positions.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_sg2_rev1_follower
+[3.275s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_sg2_rev1_follower/pack_position.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_sg2_rev1_follower
+[3.276s] creating /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_lg2_leader
+[3.276s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_lg2_leader/ffw_lg2_leader_ai_hardware_controller.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_lg2_leader
+[3.277s] creating /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_sh5_rev1_follower
+[3.277s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_sh5_rev1_follower/ffw_sh5_follower_ai_hardware_controller.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_sh5_rev1_follower
+[3.278s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_sh5_rev1_follower/ffw_sh5_follower_initial_positions.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_sh5_rev1_follower
+[3.278s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_sh5_rev1_follower/pack_position.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_sh5_rev1_follower
+[3.278s] creating /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/common
+[3.279s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/common/gz_bridge.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/common
+[3.279s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/common/common_stereo.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/common
+[3.280s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/common/zedm.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/common
+[3.280s] symbolically linking /root/ros2_ws/build/ffw_bringup/config/common/rs_serial.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/common
+[3.281s] creating /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/worlds
+[3.281s] symbolically linking /root/ros2_ws/build/ffw_bringup/worlds/default.sdf -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/worlds
+[3.281s] symbolically linking /root/ros2_ws/build/ffw_bringup/worlds/empty_world.sdf -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/worlds
+[3.402s] Invoked command in '/root/ros2_ws/build/ffw_bringup' returned '0': AMENT_PREFIX_PATH=/root/ros2_ws/install/dynamixel_hardware_interface:/root/ros2_ws/install/ffw_description:/root/ros2_ws/install/dynamixel_sdk:/root/ros2_ws/install/dynamixel_interfaces:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/root/ros2_ws/install/dynamixel_hardware_interface:/root/ros2_ws/install/ffw_description:/root/ros2_ws/install/dynamixel_sdk:/root/ros2_ws/install/dynamixel_interfaces:${CMAKE_PREFIX_PATH} LD_LIBRARY_PATH=/root/ros2_ws/install/dynamixel_hardware_interface/lib:/root/ros2_ws/install/dynamixel_sdk/lib:/root/ros2_ws/install/dynamixel_interfaces/lib:/opt/ros/jazzy/opt/zenoh_cpp_vendor/lib:/opt/ros/jazzy/opt/gz_sim_vendor/lib:/opt/ros/jazzy/opt/gz_sensors_vendor/lib:/opt/ros/jazzy/opt/gz_physics_vendor/lib:/opt/ros/jazzy/opt/sdformat_vendor/lib:/opt/ros/jazzy/opt/rviz_ogre_vendor/lib:/opt/ros/jazzy/lib/aarch64-linux-gnu:/opt/ros/jazzy/opt/gz_gui_vendor/lib:/opt/ros/jazzy/opt/gz_transport_vendor/lib:/opt/ros/jazzy/opt/gz_rendering_vendor/lib:/opt/ros/jazzy/opt/gz_plugin_vendor/lib:/opt/ros/jazzy/opt/gz_fuel_tools_vendor/lib:/opt/ros/jazzy/opt/gz_msgs_vendor/lib:/opt/ros/jazzy/opt/gz_common_vendor/lib:/opt/ros/jazzy/opt/gz_math_vendor/lib:/opt/ros/jazzy/opt/gz_utils_vendor/lib:/opt/ros/jazzy/opt/gz_tools_vendor/lib:/opt/ros/jazzy/opt/gz_ogre_next_vendor/lib:/opt/ros/jazzy/opt/gz_dartsim_vendor/lib:/opt/ros/jazzy/opt/gz_cmake_vendor/lib:/opt/ros/jazzy/lib:/usr/local/cuda/compat:/usr/local/cuda/lib64 PYTHONPATH=/root/ros2_ws/build/ffw_bringup/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/root/ros2_ws/install/ffw_bringup/lib/python3.12/site-packages:/root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages:/root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /root/ros2_ws/build/ffw_bringup/build --no-deps symlink_data

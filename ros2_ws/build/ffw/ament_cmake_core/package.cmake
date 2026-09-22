@@ -1,5 +1,5 @@
 set(_AMENT_PACKAGE_NAME "ffw")
-set(ffw_VERSION "1.2.1")
+set(ffw_VERSION "2.2.5")
 set(ffw_MAINTAINER "Pyo <pyo@robotis.com>")
 set(ffw_BUILD_DEPENDS )
 set(ffw_BUILDTOOL_DEPENDS "ament_cmake")

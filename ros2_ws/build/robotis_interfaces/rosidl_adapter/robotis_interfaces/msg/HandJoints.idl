@@ -13,7 +13,7 @@ module robotis_interfaces {
       "HandJoints.msg")
     struct HandJoints {
       @verbatim (language="comment", text=
-        "Standard header for timestamps and frame_id")
+        "Standard header for timestamps and frame_id.")
       std_msgs::msg::Header header;
 
       @verbatim (language="comment", text=

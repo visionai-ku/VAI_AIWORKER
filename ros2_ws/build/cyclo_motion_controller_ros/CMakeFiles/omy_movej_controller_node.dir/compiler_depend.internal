@@ -15,6 +15,32 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/duration.hpp
  /opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp
  /opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/time.hpp
+ /opt/ros/jazzy/include/coal/BV/AABB.h
+ /opt/ros/jazzy/include/coal/collision.h
+ /opt/ros/jazzy/include/coal/collision_data.h
+ /opt/ros/jazzy/include/coal/collision_func_matrix.h
+ /opt/ros/jazzy/include/coal/collision_object.h
+ /opt/ros/jazzy/include/coal/config.hh
+ /opt/ros/jazzy/include/coal/contact_patch.h
+ /opt/ros/jazzy/include/coal/contact_patch/contact_patch_solver.h
+ /opt/ros/jazzy/include/coal/contact_patch/contact_patch_solver.hxx
+ /opt/ros/jazzy/include/coal/contact_patch_func_matrix.h
+ /opt/ros/jazzy/include/coal/data_types.h
+ /opt/ros/jazzy/include/coal/deprecated.hh
+ /opt/ros/jazzy/include/coal/distance.h
+ /opt/ros/jazzy/include/coal/distance_func_matrix.h
+ /opt/ros/jazzy/include/coal/fwd.hh
+ /opt/ros/jazzy/include/coal/logging.h
+ /opt/ros/jazzy/include/coal/math/transform.h
+ /opt/ros/jazzy/include/coal/narrowphase/gjk.h
+ /opt/ros/jazzy/include/coal/narrowphase/minkowski_difference.h
+ /opt/ros/jazzy/include/coal/narrowphase/narrowphase.h
+ /opt/ros/jazzy/include/coal/narrowphase/narrowphase_defaults.h
+ /opt/ros/jazzy/include/coal/narrowphase/support_functions.h
+ /opt/ros/jazzy/include/coal/shape/geometric_shapes.h
+ /opt/ros/jazzy/include/coal/shape/geometric_shapes_traits.h
+ /opt/ros/jazzy/include/coal/timings.h
+ /opt/ros/jazzy/include/coal/warning.hh
  /opt/ros/jazzy/include/geometry_msgs/geometry_msgs/msg/detail/point__struct.hpp
  /opt/ros/jazzy/include/geometry_msgs/geometry_msgs/msg/detail/point__traits.hpp
  /opt/ros/jazzy/include/geometry_msgs/geometry_msgs/msg/detail/pose__struct.hpp
@@ -27,24 +53,6 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /opt/ros/jazzy/include/geometry_msgs/geometry_msgs/msg/detail/quaternion__traits.hpp
  /opt/ros/jazzy/include/geometry_msgs/geometry_msgs/msg/pose_stamped.hpp
  /opt/ros/jazzy/include/geometry_msgs/geometry_msgs/msg/rosidl_generator_cpp__visibility_control.hpp
- /opt/ros/jazzy/include/hpp/fcl/BV/AABB.h
- /opt/ros/jazzy/include/hpp/fcl/collision.h
- /opt/ros/jazzy/include/hpp/fcl/collision_data.h
- /opt/ros/jazzy/include/hpp/fcl/collision_func_matrix.h
- /opt/ros/jazzy/include/hpp/fcl/collision_object.h
- /opt/ros/jazzy/include/hpp/fcl/config.hh
- /opt/ros/jazzy/include/hpp/fcl/data_types.h
- /opt/ros/jazzy/include/hpp/fcl/deprecated.hh
- /opt/ros/jazzy/include/hpp/fcl/distance.h
- /opt/ros/jazzy/include/hpp/fcl/distance_func_matrix.h
- /opt/ros/jazzy/include/hpp/fcl/fwd.hh
- /opt/ros/jazzy/include/hpp/fcl/math/transform.h
- /opt/ros/jazzy/include/hpp/fcl/narrowphase/gjk.h
- /opt/ros/jazzy/include/hpp/fcl/narrowphase/narrowphase.h
- /opt/ros/jazzy/include/hpp/fcl/serialization/eigen.h
- /opt/ros/jazzy/include/hpp/fcl/shape/geometric_shapes.h
- /opt/ros/jazzy/include/hpp/fcl/timings.h
- /opt/ros/jazzy/include/hpp/fcl/warning.hh
  /opt/ros/jazzy/include/libstatistics_collector/libstatistics_collector/collector/collector.hpp
  /opt/ros/jazzy/include/libstatistics_collector/libstatistics_collector/collector/generate_statistics_message.hpp
  /opt/ros/jazzy/include/libstatistics_collector/libstatistics_collector/collector/metric_details_interface.hpp
@@ -67,183 +75,235 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /opt/ros/jazzy/include/osqp/util.h
  /opt/ros/jazzy/include/pinocchio/algorithm/check-base.hpp
  /opt/ros/jazzy/include/pinocchio/algorithm/check-data.hpp
- /opt/ros/jazzy/include/pinocchio/algorithm/check-data.hxx
  /opt/ros/jazzy/include/pinocchio/algorithm/check-model.hpp
- /opt/ros/jazzy/include/pinocchio/algorithm/check-model.hxx
  /opt/ros/jazzy/include/pinocchio/algorithm/check.hpp
- /opt/ros/jazzy/include/pinocchio/algorithm/constraints/constraint-data-base.hpp
- /opt/ros/jazzy/include/pinocchio/algorithm/constraints/constraint-model-base.hpp
- /opt/ros/jazzy/include/pinocchio/algorithm/constraints/fwd.hpp
- /opt/ros/jazzy/include/pinocchio/algorithm/contact-cholesky.hpp
- /opt/ros/jazzy/include/pinocchio/algorithm/contact-cholesky.hxx
- /opt/ros/jazzy/include/pinocchio/algorithm/contact-cholesky.txx
- /opt/ros/jazzy/include/pinocchio/algorithm/contact-info.hpp
+ /opt/ros/jazzy/include/pinocchio/algorithm/constraint-cholesky-decl.hpp
  /opt/ros/jazzy/include/pinocchio/algorithm/crba.hpp
- /opt/ros/jazzy/include/pinocchio/algorithm/crba.hxx
- /opt/ros/jazzy/include/pinocchio/algorithm/crba.txx
- /opt/ros/jazzy/include/pinocchio/algorithm/delassus-operator-base.hpp
  /opt/ros/jazzy/include/pinocchio/algorithm/frames.hpp
- /opt/ros/jazzy/include/pinocchio/algorithm/frames.hxx
- /opt/ros/jazzy/include/pinocchio/algorithm/frames.txx
  /opt/ros/jazzy/include/pinocchio/algorithm/fwd.hpp
  /opt/ros/jazzy/include/pinocchio/algorithm/geometry.hpp
- /opt/ros/jazzy/include/pinocchio/algorithm/geometry.hxx
- /opt/ros/jazzy/include/pinocchio/algorithm/geometry.txx
  /opt/ros/jazzy/include/pinocchio/algorithm/jacobian.hpp
- /opt/ros/jazzy/include/pinocchio/algorithm/jacobian.hxx
- /opt/ros/jazzy/include/pinocchio/algorithm/jacobian.txx
  /opt/ros/jazzy/include/pinocchio/algorithm/joint-configuration.hpp
- /opt/ros/jazzy/include/pinocchio/algorithm/joint-configuration.hxx
- /opt/ros/jazzy/include/pinocchio/algorithm/joint-configuration.txx
  /opt/ros/jazzy/include/pinocchio/algorithm/kinematics.hpp
- /opt/ros/jazzy/include/pinocchio/algorithm/kinematics.hxx
- /opt/ros/jazzy/include/pinocchio/algorithm/kinematics.txx
  /opt/ros/jazzy/include/pinocchio/algorithm/model.hpp
- /opt/ros/jazzy/include/pinocchio/algorithm/model.hxx
- /opt/ros/jazzy/include/pinocchio/algorithm/model.txx
  /opt/ros/jazzy/include/pinocchio/algorithm/rnea-derivatives.hpp
- /opt/ros/jazzy/include/pinocchio/algorithm/rnea-derivatives.hxx
- /opt/ros/jazzy/include/pinocchio/algorithm/rnea-derivatives.txx
  /opt/ros/jazzy/include/pinocchio/algorithm/rnea.hpp
- /opt/ros/jazzy/include/pinocchio/algorithm/rnea.hxx
- /opt/ros/jazzy/include/pinocchio/algorithm/rnea.txx
+ /opt/ros/jazzy/include/pinocchio/collision/coal-pinocchio-conversions.hpp
  /opt/ros/jazzy/include/pinocchio/collision/config.hpp
  /opt/ros/jazzy/include/pinocchio/collision/distance.hpp
- /opt/ros/jazzy/include/pinocchio/collision/distance.hxx
- /opt/ros/jazzy/include/pinocchio/collision/distance.txx
- /opt/ros/jazzy/include/pinocchio/collision/fcl-pinocchio-conversions.hpp
+ /opt/ros/jazzy/include/pinocchio/common.hpp
  /opt/ros/jazzy/include/pinocchio/config.hpp
- /opt/ros/jazzy/include/pinocchio/container/aligned-vector.hpp
- /opt/ros/jazzy/include/pinocchio/container/boost-container-limits.hpp
+ /opt/ros/jazzy/include/pinocchio/container/double-entry-container.hpp
+ /opt/ros/jazzy/include/pinocchio/container/eigen-storage.hpp
+ /opt/ros/jazzy/include/pinocchio/container/matrix-stack.hpp
  /opt/ros/jazzy/include/pinocchio/context.hpp
- /opt/ros/jazzy/include/pinocchio/context/default.hpp
- /opt/ros/jazzy/include/pinocchio/context/generic.hpp
- /opt/ros/jazzy/include/pinocchio/core/binary-op.hpp
- /opt/ros/jazzy/include/pinocchio/core/unary-op.hpp
- /opt/ros/jazzy/include/pinocchio/deprecated-macros.hpp
- /opt/ros/jazzy/include/pinocchio/deprecated-namespaces.hpp
  /opt/ros/jazzy/include/pinocchio/deprecated.hpp
- /opt/ros/jazzy/include/pinocchio/deprecation.hpp
- /opt/ros/jazzy/include/pinocchio/eigen-macros.hpp
+ /opt/ros/jazzy/include/pinocchio/deprecated/pinocchio/collision/fcl-pinocchio-conversions.hpp
+ /opt/ros/jazzy/include/pinocchio/eigen-common.hpp
  /opt/ros/jazzy/include/pinocchio/fwd.hpp
+ /opt/ros/jazzy/include/pinocchio/geometry.hpp
+ /opt/ros/jazzy/include/pinocchio/geometry/fwd.hpp
  /opt/ros/jazzy/include/pinocchio/macros.hpp
- /opt/ros/jazzy/include/pinocchio/math/comparison-operators.hpp
- /opt/ros/jazzy/include/pinocchio/math/eigenvalues.hpp
- /opt/ros/jazzy/include/pinocchio/math/fwd.hpp
- /opt/ros/jazzy/include/pinocchio/math/matrix-block.hpp
- /opt/ros/jazzy/include/pinocchio/math/matrix.hpp
- /opt/ros/jazzy/include/pinocchio/math/quaternion.hpp
- /opt/ros/jazzy/include/pinocchio/math/rotation.hpp
- /opt/ros/jazzy/include/pinocchio/math/sincos.hpp
- /opt/ros/jazzy/include/pinocchio/math/taylor-expansion.hpp
- /opt/ros/jazzy/include/pinocchio/math/tensor.hpp
- /opt/ros/jazzy/include/pinocchio/math/triangular-matrix.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/data.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/data.hxx
- /opt/ros/jazzy/include/pinocchio/multibody/data.txx
- /opt/ros/jazzy/include/pinocchio/multibody/fcl.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/frame.hpp
+ /opt/ros/jazzy/include/pinocchio/math.hpp
+ /opt/ros/jazzy/include/pinocchio/multibody.hpp
  /opt/ros/jazzy/include/pinocchio/multibody/fwd.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/geometry-object.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/geometry-object.hxx
- /opt/ros/jazzy/include/pinocchio/multibody/geometry.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/geometry.hxx
- /opt/ros/jazzy/include/pinocchio/multibody/joint-motion-subspace-base.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint-motion-subspace-generic.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint-motion-subspace.hpp
+ /opt/ros/jazzy/include/pinocchio/multibody/joint.hpp
  /opt/ros/jazzy/include/pinocchio/multibody/joint/fwd.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-base.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-basic-visitors.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-basic-visitors.hxx
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-collection.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-common-operations.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-composite.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-composite.hxx
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-data-base.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-free-flyer.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-generic.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-helical-unaligned.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-helical.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-mimic.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-model-base.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-planar.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-prismatic-unaligned.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-prismatic.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-revolute-unaligned.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-revolute-unbounded-unaligned.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-revolute-unbounded.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-revolute.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-spherical-ZYX.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-spherical.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-translation.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joint-universal.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/joint/joints.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/liegroup/cartesian-product.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/liegroup/fwd.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/liegroup/liegroup-algo.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/liegroup/liegroup-algo.hxx
- /opt/ros/jazzy/include/pinocchio/multibody/liegroup/liegroup-base.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/liegroup/liegroup-base.hxx
- /opt/ros/jazzy/include/pinocchio/multibody/liegroup/liegroup.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/liegroup/special-euclidean.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/liegroup/special-orthogonal.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/liegroup/vector-space.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/model-item.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/model.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/model.hxx
- /opt/ros/jazzy/include/pinocchio/multibody/model.txx
+ /opt/ros/jazzy/include/pinocchio/multibody/liegroup.hpp
  /opt/ros/jazzy/include/pinocchio/multibody/visitor.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/visitor/fusion.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/visitor/joint-binary-visitor.hpp
- /opt/ros/jazzy/include/pinocchio/multibody/visitor/joint-unary-visitor.hpp
  /opt/ros/jazzy/include/pinocchio/parsers/config.hpp
- /opt/ros/jazzy/include/pinocchio/parsers/meshloader-fwd.hpp
  /opt/ros/jazzy/include/pinocchio/parsers/srdf.hpp
- /opt/ros/jazzy/include/pinocchio/parsers/srdf.hxx
  /opt/ros/jazzy/include/pinocchio/parsers/urdf.hpp
- /opt/ros/jazzy/include/pinocchio/parsers/urdf/geometry.hxx
- /opt/ros/jazzy/include/pinocchio/parsers/urdf/model.hxx
  /opt/ros/jazzy/include/pinocchio/serialization/archive.hpp
- /opt/ros/jazzy/include/pinocchio/serialization/eigen.hpp
  /opt/ros/jazzy/include/pinocchio/serialization/fwd.hpp
  /opt/ros/jazzy/include/pinocchio/serialization/serializable.hpp
- /opt/ros/jazzy/include/pinocchio/serialization/static-buffer.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/act-on-set.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/act-on-set.hxx
- /opt/ros/jazzy/include/pinocchio/spatial/cartesian-axis.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/explog-quaternion.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/explog.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/fcl-pinocchio-conversions.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/force-base.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/force-dense.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/force-ref.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/force-tpl.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/force.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/fwd.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/inertia.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/log.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/log.hxx
- /opt/ros/jazzy/include/pinocchio/spatial/motion-base.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/motion-dense.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/motion-ref.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/motion-tpl.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/motion-zero.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/motion.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/se3-base.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/se3-tpl.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/se3.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/skew.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/spatial-axis.hpp
- /opt/ros/jazzy/include/pinocchio/spatial/symmetric3.hpp
- /opt/ros/jazzy/include/pinocchio/unsupported.hpp
- /opt/ros/jazzy/include/pinocchio/utils/axis-label.hpp
+ /opt/ros/jazzy/include/pinocchio/spatial.hpp
+ /opt/ros/jazzy/include/pinocchio/src/algorithm/check-base.hxx
+ /opt/ros/jazzy/include/pinocchio/src/algorithm/check-data.hxx
+ /opt/ros/jazzy/include/pinocchio/src/algorithm/check-model.hxx
+ /opt/ros/jazzy/include/pinocchio/src/algorithm/constraint-cholesky-decl.hxx
+ /opt/ros/jazzy/include/pinocchio/src/algorithm/crba.hxx
+ /opt/ros/jazzy/include/pinocchio/src/algorithm/frames.hxx
+ /opt/ros/jazzy/include/pinocchio/src/algorithm/fwd.hxx
+ /opt/ros/jazzy/include/pinocchio/src/algorithm/geometry.hxx
+ /opt/ros/jazzy/include/pinocchio/src/algorithm/jacobian.hxx
+ /opt/ros/jazzy/include/pinocchio/src/algorithm/joint-configuration.hxx
+ /opt/ros/jazzy/include/pinocchio/src/algorithm/kinematics.hxx
+ /opt/ros/jazzy/include/pinocchio/src/algorithm/model.hxx
+ /opt/ros/jazzy/include/pinocchio/src/algorithm/rnea-derivatives.hxx
+ /opt/ros/jazzy/include/pinocchio/src/algorithm/rnea.hxx
+ /opt/ros/jazzy/include/pinocchio/src/collision/distance.hxx
+ /opt/ros/jazzy/include/pinocchio/src/common/data-entity.hxx
+ /opt/ros/jazzy/include/pinocchio/src/common/fwd.hxx
+ /opt/ros/jazzy/include/pinocchio/src/common/model-entity.hxx
+ /opt/ros/jazzy/include/pinocchio/src/container/aligned-vector.hxx
+ /opt/ros/jazzy/include/pinocchio/src/container/double-entry-container.hxx
+ /opt/ros/jazzy/include/pinocchio/src/container/eigen-storage.hxx
+ /opt/ros/jazzy/include/pinocchio/src/container/matrix-stack.hxx
+ /opt/ros/jazzy/include/pinocchio/src/context.hxx
+ /opt/ros/jazzy/include/pinocchio/src/context/default.hxx
+ /opt/ros/jazzy/include/pinocchio/src/context/generic.hxx
+ /opt/ros/jazzy/include/pinocchio/src/eigen-align.hxx
+ /opt/ros/jazzy/include/pinocchio/src/eigen-macros.hxx
+ /opt/ros/jazzy/include/pinocchio/src/eigen-ref.hxx
+ /opt/ros/jazzy/include/pinocchio/src/fwd.hxx
+ /opt/ros/jazzy/include/pinocchio/src/geometry/coal.hxx
+ /opt/ros/jazzy/include/pinocchio/src/geometry/fwd.hxx
+ /opt/ros/jazzy/include/pinocchio/src/geometry/geometry-object-filter.hxx
+ /opt/ros/jazzy/include/pinocchio/src/geometry/geometry-object.hxx
+ /opt/ros/jazzy/include/pinocchio/src/geometry/geometry.hxx
+ /opt/ros/jazzy/include/pinocchio/src/geometry/instance-filter.hxx
+ /opt/ros/jazzy/include/pinocchio/src/macros.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/alias.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/arithmetic-operators.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/assign-operators.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/block-diagonal-matrix-base.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/block-diagonal-matrix-expression.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/block-diagonal-matrix-inverse.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/block-diagonal-matrix-sum.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/block-diagonal-matrix.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/comparison-operators.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/details/matrix-inverse-10x10.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/details/matrix-inverse-11x11.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/details/matrix-inverse-12x12.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/details/matrix-inverse-1x1.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/details/matrix-inverse-2x2.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/details/matrix-inverse-3x3.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/details/matrix-inverse-4x4.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/details/matrix-inverse-5x5.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/details/matrix-inverse-6x6.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/details/matrix-inverse-7x7.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/details/matrix-inverse-8x8.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/details/matrix-inverse-9x9.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/eigen-helpers.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/eigenvalues-tridiagonal-matrix.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/eigenvalues.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/fwd.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/gram-schmidt-orthonormalisation.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/lanczos-decomposition.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/matrix-block-element-base.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/matrix-block-element-operation.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/matrix-block-element-operations.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/matrix-block-element-plain.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/matrix-block-element.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/matrix-block-type.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/matrix-block.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/matrix-info.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/matrix-inverse-code-generated.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/matrix-inverse.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/matrix-product.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/matrix.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/quaternion.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/rotation.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/rpy.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/sign.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/sincos.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/taylor-expansion.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/tensor.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/triangular-matrix.hxx
+ /opt/ros/jazzy/include/pinocchio/src/math/tridiagonal-matrix.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/data.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/force-set.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/frame.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/fwd.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint-motion-subspace-base.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint-motion-subspace-generic.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint/fwd.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint/joint-basic-visitors.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint/joint-collection.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint/joint-common-operations.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint/joint-composite.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint/joint-data-base.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint/joint-ellipsoid.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint/joint-free-flyer.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint/joint-generic.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint/joint-helical-unaligned.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint/joint-helical.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint/joint-mimic.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint/joint-model-base.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint/joint-planar.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint/joint-prismatic-unaligned.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint/joint-prismatic.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint/joint-revolute-unaligned.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint/joint-revolute-unbounded-unaligned.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint/joint-revolute-unbounded.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint/joint-revolute.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint/joint-spherical-ZYX.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint/joint-spherical.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint/joint-translation.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/joint/joint-universal.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/liegroup/cartesian-product-variant-fwd.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/liegroup/cartesian-product-variant.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/liegroup/cartesian-product.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/liegroup/fwd.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/liegroup/liegroup-algo.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/liegroup/liegroup-base.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/liegroup/liegroup-collection.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/liegroup/liegroup-generic.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/liegroup/liegroup-joint.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/liegroup/liegroup-map.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/liegroup/liegroup-variant-visitors.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/liegroup/special-euclidean.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/liegroup/special-orthogonal.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/liegroup/vector-space.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/model-item.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/model.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/visitor/fusion.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/visitor/joint-binary-visitor.hxx
+ /opt/ros/jazzy/include/pinocchio/src/multibody/visitor/joint-unary-visitor.hxx
+ /opt/ros/jazzy/include/pinocchio/src/parsers/meshloader-fwd.hxx
+ /opt/ros/jazzy/include/pinocchio/src/parsers/scalar-model.hxx
+ /opt/ros/jazzy/include/pinocchio/src/parsers/srdf/srdf.hxx
+ /opt/ros/jazzy/include/pinocchio/src/parsers/urdf/geometry.hxx
+ /opt/ros/jazzy/include/pinocchio/src/parsers/urdf/model.hxx
+ /opt/ros/jazzy/include/pinocchio/src/parsers/urdf/urdf.hxx
+ /opt/ros/jazzy/include/pinocchio/src/parsers/urdf/utils.hxx
+ /opt/ros/jazzy/include/pinocchio/src/serialization/archive.hxx
+ /opt/ros/jazzy/include/pinocchio/src/serialization/fwd.hxx
+ /opt/ros/jazzy/include/pinocchio/src/serialization/serializable.hxx
+ /opt/ros/jazzy/include/pinocchio/src/serialization/static-buffer.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/act-on-set.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/cartesian-axis.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/classic-acceleration.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/explog-quaternion.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/explog.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/force-base.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/force-common.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/force-dense.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/force-ref.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/force-tpl.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/fwd.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/inertia.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/log-common.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/log.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/motion-base.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/motion-common.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/motion-dense.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/motion-ref.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/motion-tpl.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/motion-zero.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/se3-base.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/se3-common.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/se3-tpl-interpolate.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/se3-tpl.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/skew.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/spatial-axis.hxx
+ /opt/ros/jazzy/include/pinocchio/src/spatial/symmetric3.hxx
+ /opt/ros/jazzy/include/pinocchio/src/utils/alloca.hxx
+ /opt/ros/jazzy/include/pinocchio/src/utils/cast.hxx
+ /opt/ros/jazzy/include/pinocchio/src/utils/check.hxx
+ /opt/ros/jazzy/include/pinocchio/src/utils/eigen-fix.hxx
+ /opt/ros/jazzy/include/pinocchio/src/utils/eigen-helpers.hxx
+ /opt/ros/jazzy/include/pinocchio/src/utils/shared-ptr.hxx
+ /opt/ros/jazzy/include/pinocchio/src/utils/size-in-bytes.hxx
+ /opt/ros/jazzy/include/pinocchio/src/utils/static-if.hxx
+ /opt/ros/jazzy/include/pinocchio/utils/alloca.hpp
  /opt/ros/jazzy/include/pinocchio/utils/cast.hpp
  /opt/ros/jazzy/include/pinocchio/utils/check.hpp
- /opt/ros/jazzy/include/pinocchio/utils/eigen-fix.hpp
- /opt/ros/jazzy/include/pinocchio/utils/helpers.hpp
+ /opt/ros/jazzy/include/pinocchio/utils/eigen-helpers.hpp
  /opt/ros/jazzy/include/pinocchio/utils/shared-ptr.hpp
+ /opt/ros/jazzy/include/pinocchio/utils/size-in-bytes.hpp
  /opt/ros/jazzy/include/pinocchio/utils/static-if.hpp
- /opt/ros/jazzy/include/pinocchio/utils/string-generator.hpp
  /opt/ros/jazzy/include/pinocchio/warning.hpp
  /opt/ros/jazzy/include/rcl/rcl/allocator.h
  /opt/ros/jazzy/include/rcl/rcl/arguments.h
@@ -648,6 +708,14 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /opt/ros/jazzy/include/type_description_interfaces/type_description_interfaces/srv/detail/get_type_description__struct.h
  /opt/ros/jazzy/include/type_description_interfaces/type_description_interfaces/srv/detail/get_type_description__type_support.h
  /opt/ros/jazzy/include/type_description_interfaces/type_description_interfaces/srv/get_type_description.h
+ /opt/ros/jazzy/include/urdfdom_headers/urdf_exception/exception.h
+ /opt/ros/jazzy/include/urdfdom_headers/urdf_model/color.h
+ /opt/ros/jazzy/include/urdfdom_headers/urdf_model/joint.h
+ /opt/ros/jazzy/include/urdfdom_headers/urdf_model/link.h
+ /opt/ros/jazzy/include/urdfdom_headers/urdf_model/model.h
+ /opt/ros/jazzy/include/urdfdom_headers/urdf_model/pose.h
+ /opt/ros/jazzy/include/urdfdom_headers/urdf_model/types.h
+ /opt/ros/jazzy/include/urdfdom_headers/urdf_model/utils.h
  /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/Compat.hpp
  /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/Constants.hpp
  /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/Data.hpp
@@ -823,7 +891,6 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/asm-generic/posix_types.h
  /usr/include/asm-generic/types.h
  /usr/include/assert.h
- /usr/include/boost/aligned_storage.hpp
  /usr/include/boost/any.hpp
  /usr/include/boost/any/bad_any_cast.hpp
  /usr/include/boost/any/detail/placeholder.hpp
@@ -1008,82 +1075,17 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/function_types/property_tags.hpp
  /usr/include/boost/function_types/result_type.hpp
  /usr/include/boost/functional/hash_fwd.hpp
- /usr/include/boost/fusion/adapted/mpl.hpp
- /usr/include/boost/fusion/adapted/mpl/detail/at_impl.hpp
  /usr/include/boost/fusion/adapted/mpl/detail/begin_impl.hpp
- /usr/include/boost/fusion/adapted/mpl/detail/category_of_impl.hpp
- /usr/include/boost/fusion/adapted/mpl/detail/empty_impl.hpp
  /usr/include/boost/fusion/adapted/mpl/detail/end_impl.hpp
- /usr/include/boost/fusion/adapted/mpl/detail/has_key_impl.hpp
- /usr/include/boost/fusion/adapted/mpl/detail/is_sequence_impl.hpp
- /usr/include/boost/fusion/adapted/mpl/detail/is_view_impl.hpp
- /usr/include/boost/fusion/adapted/mpl/detail/size_impl.hpp
- /usr/include/boost/fusion/adapted/mpl/detail/value_at_impl.hpp
  /usr/include/boost/fusion/adapted/mpl/mpl_iterator.hpp
- /usr/include/boost/fusion/algorithm.hpp
- /usr/include/boost/fusion/algorithm/iteration.hpp
  /usr/include/boost/fusion/algorithm/iteration/accumulate.hpp
  /usr/include/boost/fusion/algorithm/iteration/accumulate_fwd.hpp
- /usr/include/boost/fusion/algorithm/iteration/detail/for_each.hpp
  /usr/include/boost/fusion/algorithm/iteration/detail/preprocessed/fold.hpp
- /usr/include/boost/fusion/algorithm/iteration/detail/preprocessed/iter_fold.hpp
- /usr/include/boost/fusion/algorithm/iteration/detail/preprocessed/reverse_fold.hpp
- /usr/include/boost/fusion/algorithm/iteration/detail/preprocessed/reverse_iter_fold.hpp
  /usr/include/boost/fusion/algorithm/iteration/detail/segmented_fold.hpp
- /usr/include/boost/fusion/algorithm/iteration/detail/segmented_for_each.hpp
  /usr/include/boost/fusion/algorithm/iteration/fold.hpp
  /usr/include/boost/fusion/algorithm/iteration/fold_fwd.hpp
- /usr/include/boost/fusion/algorithm/iteration/for_each.hpp
- /usr/include/boost/fusion/algorithm/iteration/for_each_fwd.hpp
- /usr/include/boost/fusion/algorithm/iteration/iter_fold.hpp
- /usr/include/boost/fusion/algorithm/iteration/iter_fold_fwd.hpp
- /usr/include/boost/fusion/algorithm/iteration/reverse_fold.hpp
- /usr/include/boost/fusion/algorithm/iteration/reverse_fold_fwd.hpp
- /usr/include/boost/fusion/algorithm/iteration/reverse_iter_fold.hpp
- /usr/include/boost/fusion/algorithm/iteration/reverse_iter_fold_fwd.hpp
- /usr/include/boost/fusion/algorithm/query.hpp
- /usr/include/boost/fusion/algorithm/query/all.hpp
- /usr/include/boost/fusion/algorithm/query/any.hpp
- /usr/include/boost/fusion/algorithm/query/count.hpp
- /usr/include/boost/fusion/algorithm/query/count_if.hpp
- /usr/include/boost/fusion/algorithm/query/detail/all.hpp
- /usr/include/boost/fusion/algorithm/query/detail/any.hpp
- /usr/include/boost/fusion/algorithm/query/detail/count.hpp
- /usr/include/boost/fusion/algorithm/query/detail/count_if.hpp
- /usr/include/boost/fusion/algorithm/query/detail/find_if.hpp
- /usr/include/boost/fusion/algorithm/query/detail/segmented_find.hpp
- /usr/include/boost/fusion/algorithm/query/detail/segmented_find_if.hpp
- /usr/include/boost/fusion/algorithm/query/find.hpp
- /usr/include/boost/fusion/algorithm/query/find_fwd.hpp
- /usr/include/boost/fusion/algorithm/query/find_if.hpp
- /usr/include/boost/fusion/algorithm/query/find_if_fwd.hpp
- /usr/include/boost/fusion/algorithm/query/none.hpp
- /usr/include/boost/fusion/algorithm/transformation.hpp
- /usr/include/boost/fusion/algorithm/transformation/clear.hpp
- /usr/include/boost/fusion/algorithm/transformation/detail/preprocessed/zip.hpp
- /usr/include/boost/fusion/algorithm/transformation/detail/preprocessed/zip10.hpp
- /usr/include/boost/fusion/algorithm/transformation/detail/replace.hpp
- /usr/include/boost/fusion/algorithm/transformation/detail/replace_if.hpp
- /usr/include/boost/fusion/algorithm/transformation/erase.hpp
- /usr/include/boost/fusion/algorithm/transformation/erase_key.hpp
- /usr/include/boost/fusion/algorithm/transformation/filter.hpp
- /usr/include/boost/fusion/algorithm/transformation/filter_if.hpp
- /usr/include/boost/fusion/algorithm/transformation/flatten.hpp
- /usr/include/boost/fusion/algorithm/transformation/insert.hpp
- /usr/include/boost/fusion/algorithm/transformation/insert_range.hpp
- /usr/include/boost/fusion/algorithm/transformation/join.hpp
- /usr/include/boost/fusion/algorithm/transformation/pop_back.hpp
- /usr/include/boost/fusion/algorithm/transformation/pop_front.hpp
  /usr/include/boost/fusion/algorithm/transformation/push_back.hpp
  /usr/include/boost/fusion/algorithm/transformation/push_front.hpp
- /usr/include/boost/fusion/algorithm/transformation/remove.hpp
- /usr/include/boost/fusion/algorithm/transformation/remove_if.hpp
- /usr/include/boost/fusion/algorithm/transformation/replace.hpp
- /usr/include/boost/fusion/algorithm/transformation/replace_if.hpp
- /usr/include/boost/fusion/algorithm/transformation/reverse.hpp
- /usr/include/boost/fusion/algorithm/transformation/transform.hpp
- /usr/include/boost/fusion/algorithm/transformation/zip.hpp
- /usr/include/boost/fusion/container/deque/deque_fwd.hpp
  /usr/include/boost/fusion/container/generation/make_list.hpp
  /usr/include/boost/fusion/container/generation/make_vector.hpp
  /usr/include/boost/fusion/container/list.hpp
@@ -1107,8 +1109,6 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/fusion/container/list/list.hpp
  /usr/include/boost/fusion/container/list/list_fwd.hpp
  /usr/include/boost/fusion/container/list/nil.hpp
- /usr/include/boost/fusion/container/map/map_fwd.hpp
- /usr/include/boost/fusion/container/set/set_fwd.hpp
  /usr/include/boost/fusion/container/vector.hpp
  /usr/include/boost/fusion/container/vector/convert.hpp
  /usr/include/boost/fusion/container/vector/detail/advance_impl.hpp
@@ -1126,13 +1126,11 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/fusion/container/vector/detail/value_at_impl.hpp
  /usr/include/boost/fusion/container/vector/detail/value_of_impl.hpp
  /usr/include/boost/fusion/container/vector/vector.hpp
- /usr/include/boost/fusion/container/vector/vector10.hpp
  /usr/include/boost/fusion/container/vector/vector_fwd.hpp
  /usr/include/boost/fusion/container/vector/vector_iterator.hpp
  /usr/include/boost/fusion/functional/invocation/detail/that_ptr.hpp
  /usr/include/boost/fusion/functional/invocation/invoke.hpp
  /usr/include/boost/fusion/functional/invocation/limits.hpp
- /usr/include/boost/fusion/include/equal_to.hpp
  /usr/include/boost/fusion/include/invoke.hpp
  /usr/include/boost/fusion/iterator/advance.hpp
  /usr/include/boost/fusion/iterator/deref.hpp
@@ -1147,10 +1145,8 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/fusion/iterator/detail/segmented_next_impl.hpp
  /usr/include/boost/fusion/iterator/distance.hpp
  /usr/include/boost/fusion/iterator/equal_to.hpp
- /usr/include/boost/fusion/iterator/iterator_adapter.hpp
  /usr/include/boost/fusion/iterator/iterator_facade.hpp
  /usr/include/boost/fusion/iterator/key_of.hpp
- /usr/include/boost/fusion/iterator/mpl.hpp
  /usr/include/boost/fusion/iterator/mpl/convert_iterator.hpp
  /usr/include/boost/fusion/iterator/mpl/fusion_iterator.hpp
  /usr/include/boost/fusion/iterator/next.hpp
@@ -1158,29 +1154,8 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/fusion/iterator/segmented_iterator.hpp
  /usr/include/boost/fusion/iterator/value_of.hpp
  /usr/include/boost/fusion/iterator/value_of_data.hpp
- /usr/include/boost/fusion/mpl.hpp
- /usr/include/boost/fusion/mpl/at.hpp
- /usr/include/boost/fusion/mpl/back.hpp
  /usr/include/boost/fusion/mpl/begin.hpp
- /usr/include/boost/fusion/mpl/clear.hpp
- /usr/include/boost/fusion/mpl/detail/clear.hpp
- /usr/include/boost/fusion/mpl/empty.hpp
  /usr/include/boost/fusion/mpl/end.hpp
- /usr/include/boost/fusion/mpl/erase.hpp
- /usr/include/boost/fusion/mpl/erase_key.hpp
- /usr/include/boost/fusion/mpl/front.hpp
- /usr/include/boost/fusion/mpl/has_key.hpp
- /usr/include/boost/fusion/mpl/insert.hpp
- /usr/include/boost/fusion/mpl/insert_range.hpp
- /usr/include/boost/fusion/mpl/pop_back.hpp
- /usr/include/boost/fusion/mpl/pop_front.hpp
- /usr/include/boost/fusion/mpl/push_back.hpp
- /usr/include/boost/fusion/mpl/push_front.hpp
- /usr/include/boost/fusion/mpl/size.hpp
- /usr/include/boost/fusion/sequence/comparison/detail/equal_to.hpp
- /usr/include/boost/fusion/sequence/comparison/enable_comparison.hpp
- /usr/include/boost/fusion/sequence/comparison/equal_to.hpp
- /usr/include/boost/fusion/sequence/convert.hpp
  /usr/include/boost/fusion/sequence/intrinsic/at.hpp
  /usr/include/boost/fusion/sequence/intrinsic/begin.hpp
  /usr/include/boost/fusion/sequence/intrinsic/detail/segmented_begin.hpp
@@ -1191,12 +1166,10 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/fusion/sequence/intrinsic/empty.hpp
  /usr/include/boost/fusion/sequence/intrinsic/end.hpp
  /usr/include/boost/fusion/sequence/intrinsic/front.hpp
- /usr/include/boost/fusion/sequence/intrinsic/has_key.hpp
  /usr/include/boost/fusion/sequence/intrinsic/segments.hpp
  /usr/include/boost/fusion/sequence/intrinsic/size.hpp
  /usr/include/boost/fusion/sequence/intrinsic/value_at.hpp
  /usr/include/boost/fusion/sequence/intrinsic_fwd.hpp
- /usr/include/boost/fusion/support/as_const.hpp
  /usr/include/boost/fusion/support/category_of.hpp
  /usr/include/boost/fusion/support/config.hpp
  /usr/include/boost/fusion/support/detail/access.hpp
@@ -1207,7 +1180,6 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/fusion/support/detail/is_mpl_sequence.hpp
  /usr/include/boost/fusion/support/detail/is_native_fusion_sequence.hpp
  /usr/include/boost/fusion/support/detail/mpl_iterator_category.hpp
- /usr/include/boost/fusion/support/detail/pp_round.hpp
  /usr/include/boost/fusion/support/detail/segmented_fold_until_impl.hpp
  /usr/include/boost/fusion/support/is_iterator.hpp
  /usr/include/boost/fusion/support/is_segmented.hpp
@@ -1218,24 +1190,7 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/fusion/support/sequence_base.hpp
  /usr/include/boost/fusion/support/tag_of.hpp
  /usr/include/boost/fusion/support/tag_of_fwd.hpp
- /usr/include/boost/fusion/support/unused.hpp
  /usr/include/boost/fusion/support/void.hpp
- /usr/include/boost/fusion/view/detail/strictest_traversal.hpp
- /usr/include/boost/fusion/view/filter_view/detail/begin_impl.hpp
- /usr/include/boost/fusion/view/filter_view/detail/deref_data_impl.hpp
- /usr/include/boost/fusion/view/filter_view/detail/deref_impl.hpp
- /usr/include/boost/fusion/view/filter_view/detail/end_impl.hpp
- /usr/include/boost/fusion/view/filter_view/detail/equal_to_impl.hpp
- /usr/include/boost/fusion/view/filter_view/detail/key_of_impl.hpp
- /usr/include/boost/fusion/view/filter_view/detail/next_impl.hpp
- /usr/include/boost/fusion/view/filter_view/detail/size_impl.hpp
- /usr/include/boost/fusion/view/filter_view/detail/value_of_data_impl.hpp
- /usr/include/boost/fusion/view/filter_view/detail/value_of_impl.hpp
- /usr/include/boost/fusion/view/filter_view/filter_view.hpp
- /usr/include/boost/fusion/view/filter_view/filter_view_iterator.hpp
- /usr/include/boost/fusion/view/flatten_view.hpp
- /usr/include/boost/fusion/view/flatten_view/flatten_view.hpp
- /usr/include/boost/fusion/view/flatten_view/flatten_view_iterator.hpp
  /usr/include/boost/fusion/view/iterator_range.hpp
  /usr/include/boost/fusion/view/iterator_range/detail/at_impl.hpp
  /usr/include/boost/fusion/view/iterator_range/detail/begin_impl.hpp
@@ -1246,7 +1201,6 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/fusion/view/iterator_range/detail/size_impl.hpp
  /usr/include/boost/fusion/view/iterator_range/detail/value_at_impl.hpp
  /usr/include/boost/fusion/view/iterator_range/iterator_range.hpp
- /usr/include/boost/fusion/view/joint_view.hpp
  /usr/include/boost/fusion/view/joint_view/detail/begin_impl.hpp
  /usr/include/boost/fusion/view/joint_view/detail/deref_data_impl.hpp
  /usr/include/boost/fusion/view/joint_view/detail/deref_impl.hpp
@@ -1258,21 +1212,6 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/fusion/view/joint_view/joint_view.hpp
  /usr/include/boost/fusion/view/joint_view/joint_view_fwd.hpp
  /usr/include/boost/fusion/view/joint_view/joint_view_iterator.hpp
- /usr/include/boost/fusion/view/reverse_view/detail/advance_impl.hpp
- /usr/include/boost/fusion/view/reverse_view/detail/at_impl.hpp
- /usr/include/boost/fusion/view/reverse_view/detail/begin_impl.hpp
- /usr/include/boost/fusion/view/reverse_view/detail/deref_data_impl.hpp
- /usr/include/boost/fusion/view/reverse_view/detail/deref_impl.hpp
- /usr/include/boost/fusion/view/reverse_view/detail/distance_impl.hpp
- /usr/include/boost/fusion/view/reverse_view/detail/end_impl.hpp
- /usr/include/boost/fusion/view/reverse_view/detail/key_of_impl.hpp
- /usr/include/boost/fusion/view/reverse_view/detail/next_impl.hpp
- /usr/include/boost/fusion/view/reverse_view/detail/prior_impl.hpp
- /usr/include/boost/fusion/view/reverse_view/detail/value_at_impl.hpp
- /usr/include/boost/fusion/view/reverse_view/detail/value_of_data_impl.hpp
- /usr/include/boost/fusion/view/reverse_view/detail/value_of_impl.hpp
- /usr/include/boost/fusion/view/reverse_view/reverse_view.hpp
- /usr/include/boost/fusion/view/reverse_view/reverse_view_iterator.hpp
  /usr/include/boost/fusion/view/single_view/detail/advance_impl.hpp
  /usr/include/boost/fusion/view/single_view/detail/at_impl.hpp
  /usr/include/boost/fusion/view/single_view/detail/begin_impl.hpp
@@ -1287,39 +1226,6 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/fusion/view/single_view/detail/value_of_impl.hpp
  /usr/include/boost/fusion/view/single_view/single_view.hpp
  /usr/include/boost/fusion/view/single_view/single_view_iterator.hpp
- /usr/include/boost/fusion/view/transform_view/detail/advance_impl.hpp
- /usr/include/boost/fusion/view/transform_view/detail/at_impl.hpp
- /usr/include/boost/fusion/view/transform_view/detail/begin_impl.hpp
- /usr/include/boost/fusion/view/transform_view/detail/deref_data_impl.hpp
- /usr/include/boost/fusion/view/transform_view/detail/deref_impl.hpp
- /usr/include/boost/fusion/view/transform_view/detail/distance_impl.hpp
- /usr/include/boost/fusion/view/transform_view/detail/end_impl.hpp
- /usr/include/boost/fusion/view/transform_view/detail/equal_to_impl.hpp
- /usr/include/boost/fusion/view/transform_view/detail/key_of_impl.hpp
- /usr/include/boost/fusion/view/transform_view/detail/next_impl.hpp
- /usr/include/boost/fusion/view/transform_view/detail/prior_impl.hpp
- /usr/include/boost/fusion/view/transform_view/detail/value_at_impl.hpp
- /usr/include/boost/fusion/view/transform_view/detail/value_of_data_impl.hpp
- /usr/include/boost/fusion/view/transform_view/detail/value_of_impl.hpp
- /usr/include/boost/fusion/view/transform_view/transform_view.hpp
- /usr/include/boost/fusion/view/transform_view/transform_view_fwd.hpp
- /usr/include/boost/fusion/view/transform_view/transform_view_iterator.hpp
- /usr/include/boost/fusion/view/zip_view.hpp
- /usr/include/boost/fusion/view/zip_view/detail/advance_impl.hpp
- /usr/include/boost/fusion/view/zip_view/detail/at_impl.hpp
- /usr/include/boost/fusion/view/zip_view/detail/begin_impl.hpp
- /usr/include/boost/fusion/view/zip_view/detail/deref_impl.hpp
- /usr/include/boost/fusion/view/zip_view/detail/distance_impl.hpp
- /usr/include/boost/fusion/view/zip_view/detail/end_impl.hpp
- /usr/include/boost/fusion/view/zip_view/detail/equal_to_impl.hpp
- /usr/include/boost/fusion/view/zip_view/detail/next_impl.hpp
- /usr/include/boost/fusion/view/zip_view/detail/prior_impl.hpp
- /usr/include/boost/fusion/view/zip_view/detail/size_impl.hpp
- /usr/include/boost/fusion/view/zip_view/detail/value_at_impl.hpp
- /usr/include/boost/fusion/view/zip_view/detail/value_of_impl.hpp
- /usr/include/boost/fusion/view/zip_view/zip_view.hpp
- /usr/include/boost/fusion/view/zip_view/zip_view_iterator.hpp
- /usr/include/boost/fusion/view/zip_view/zip_view_iterator_fwd.hpp
  /usr/include/boost/get_pointer.hpp
  /usr/include/boost/integer.hpp
  /usr/include/boost/integer/common_factor_ct.hpp
@@ -1361,7 +1267,6 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/iostreams/detail/forward.hpp
  /usr/include/boost/iostreams/detail/functional.hpp
  /usr/include/boost/iostreams/detail/ios.hpp
- /usr/include/boost/iostreams/detail/iostream.hpp
  /usr/include/boost/iostreams/detail/is_dereferenceable.hpp
  /usr/include/boost/iostreams/detail/is_iterator_range.hpp
  /usr/include/boost/iostreams/detail/optional.hpp
@@ -1391,7 +1296,6 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/iostreams/put.hpp
  /usr/include/boost/iostreams/read.hpp
  /usr/include/boost/iostreams/seek.hpp
- /usr/include/boost/iostreams/stream.hpp
  /usr/include/boost/iostreams/stream_buffer.hpp
  /usr/include/boost/iostreams/traits.hpp
  /usr/include/boost/iostreams/traits_fwd.hpp
@@ -1480,7 +1384,6 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/mpl/aux_/arity.hpp
  /usr/include/boost/mpl/aux_/arity_spec.hpp
  /usr/include/boost/mpl/aux_/at_impl.hpp
- /usr/include/boost/mpl/aux_/back_impl.hpp
  /usr/include/boost/mpl/aux_/begin_end_impl.hpp
  /usr/include/boost/mpl/aux_/clear_impl.hpp
  /usr/include/boost/mpl/aux_/common_name_wknd.hpp
@@ -1515,8 +1418,6 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/mpl/aux_/config/workaround.hpp
  /usr/include/boost/mpl/aux_/contains_impl.hpp
  /usr/include/boost/mpl/aux_/empty_impl.hpp
- /usr/include/boost/mpl/aux_/erase_impl.hpp
- /usr/include/boost/mpl/aux_/erase_key_impl.hpp
  /usr/include/boost/mpl/aux_/find_if_pred.hpp
  /usr/include/boost/mpl/aux_/fold_impl.hpp
  /usr/include/boost/mpl/aux_/fold_impl_body.hpp
@@ -1555,7 +1456,6 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/mpl/aux_/numeric_cast_utils.hpp
  /usr/include/boost/mpl/aux_/numeric_op.hpp
  /usr/include/boost/mpl/aux_/overload_names.hpp
- /usr/include/boost/mpl/aux_/pop_back_impl.hpp
  /usr/include/boost/mpl/aux_/pop_front_impl.hpp
  /usr/include/boost/mpl/aux_/preprocessor/add.hpp
  /usr/include/boost/mpl/aux_/preprocessor/def_params_tail.hpp
@@ -1574,17 +1474,14 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/mpl/aux_/reverse_fold_impl_body.hpp
  /usr/include/boost/mpl/aux_/reverse_iter_fold_impl.hpp
  /usr/include/boost/mpl/aux_/sequence_wrapper.hpp
- /usr/include/boost/mpl/aux_/single_element_iter.hpp
  /usr/include/boost/mpl/aux_/size_impl.hpp
  /usr/include/boost/mpl/aux_/static_cast.hpp
  /usr/include/boost/mpl/aux_/template_arity.hpp
  /usr/include/boost/mpl/aux_/template_arity_fwd.hpp
  /usr/include/boost/mpl/aux_/traits_lambda_spec.hpp
- /usr/include/boost/mpl/aux_/transform_iter.hpp
  /usr/include/boost/mpl/aux_/type_wrapper.hpp
  /usr/include/boost/mpl/aux_/value_wknd.hpp
  /usr/include/boost/mpl/aux_/yes_no.hpp
- /usr/include/boost/mpl/back.hpp
  /usr/include/boost/mpl/back_fwd.hpp
  /usr/include/boost/mpl/back_inserter.hpp
  /usr/include/boost/mpl/base.hpp
@@ -1611,9 +1508,7 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/mpl/end.hpp
  /usr/include/boost/mpl/equal.hpp
  /usr/include/boost/mpl/equal_to.hpp
- /usr/include/boost/mpl/erase.hpp
  /usr/include/boost/mpl/erase_fwd.hpp
- /usr/include/boost/mpl/erase_key.hpp
  /usr/include/boost/mpl/erase_key_fwd.hpp
  /usr/include/boost/mpl/eval_if.hpp
  /usr/include/boost/mpl/find.hpp
@@ -1678,7 +1573,6 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/mpl/long.hpp
  /usr/include/boost/mpl/long_fwd.hpp
  /usr/include/boost/mpl/max_element.hpp
- /usr/include/boost/mpl/min.hpp
  /usr/include/boost/mpl/min_max.hpp
  /usr/include/boost/mpl/minus.hpp
  /usr/include/boost/mpl/multiplies.hpp
@@ -1693,7 +1587,6 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/mpl/pair_view.hpp
  /usr/include/boost/mpl/placeholders.hpp
  /usr/include/boost/mpl/plus.hpp
- /usr/include/boost/mpl/pop_back.hpp
  /usr/include/boost/mpl/pop_back_fwd.hpp
  /usr/include/boost/mpl/pop_front.hpp
  /usr/include/boost/mpl/pop_front_fwd.hpp
@@ -1729,7 +1622,6 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/mpl/set/aux_/tag.hpp
  /usr/include/boost/mpl/set/aux_/value_type_impl.hpp
  /usr/include/boost/mpl/set/set0.hpp
- /usr/include/boost/mpl/single_view.hpp
  /usr/include/boost/mpl/size.hpp
  /usr/include/boost/mpl/size_fwd.hpp
  /usr/include/boost/mpl/size_t.hpp
@@ -1738,8 +1630,6 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/mpl/tag.hpp
  /usr/include/boost/mpl/times.hpp
  /usr/include/boost/mpl/transform.hpp
- /usr/include/boost/mpl/transform_view.hpp
- /usr/include/boost/mpl/unpack_args.hpp
  /usr/include/boost/mpl/value_type_fwd.hpp
  /usr/include/boost/mpl/vector.hpp
  /usr/include/boost/mpl/vector/aux_/O1_size.hpp
@@ -1765,7 +1655,6 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/mpl/vector/vector30.hpp
  /usr/include/boost/mpl/void.hpp
  /usr/include/boost/mpl/void_fwd.hpp
- /usr/include/boost/mpl/zip_view.hpp
  /usr/include/boost/multi_index/detail/access_specifier.hpp
  /usr/include/boost/multi_index/detail/adl_swap.hpp
  /usr/include/boost/multi_index/detail/allocator_traits.hpp
@@ -1878,6 +1767,8 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/predef/other/endian.h
  /usr/include/boost/predef/platform/android.h
  /usr/include/boost/predef/version_number.h
+ /usr/include/boost/preprocessor.hpp
+ /usr/include/boost/preprocessor/arithmetic.hpp
  /usr/include/boost/preprocessor/arithmetic/add.hpp
  /usr/include/boost/preprocessor/arithmetic/dec.hpp
  /usr/include/boost/preprocessor/arithmetic/detail/div_base.hpp
@@ -1885,24 +1776,43 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/preprocessor/arithmetic/detail/is_maximum_number.hpp
  /usr/include/boost/preprocessor/arithmetic/detail/is_minimum_number.hpp
  /usr/include/boost/preprocessor/arithmetic/detail/maximum_number.hpp
+ /usr/include/boost/preprocessor/arithmetic/div.hpp
  /usr/include/boost/preprocessor/arithmetic/inc.hpp
  /usr/include/boost/preprocessor/arithmetic/limits/dec_256.hpp
  /usr/include/boost/preprocessor/arithmetic/limits/inc_256.hpp
  /usr/include/boost/preprocessor/arithmetic/mod.hpp
+ /usr/include/boost/preprocessor/arithmetic/mul.hpp
  /usr/include/boost/preprocessor/arithmetic/sub.hpp
+ /usr/include/boost/preprocessor/array.hpp
  /usr/include/boost/preprocessor/array/data.hpp
+ /usr/include/boost/preprocessor/array/detail/get_data.hpp
  /usr/include/boost/preprocessor/array/elem.hpp
+ /usr/include/boost/preprocessor/array/enum.hpp
+ /usr/include/boost/preprocessor/array/insert.hpp
+ /usr/include/boost/preprocessor/array/pop_back.hpp
+ /usr/include/boost/preprocessor/array/pop_front.hpp
+ /usr/include/boost/preprocessor/array/push_back.hpp
+ /usr/include/boost/preprocessor/array/push_front.hpp
+ /usr/include/boost/preprocessor/array/remove.hpp
+ /usr/include/boost/preprocessor/array/replace.hpp
+ /usr/include/boost/preprocessor/array/reverse.hpp
  /usr/include/boost/preprocessor/array/size.hpp
+ /usr/include/boost/preprocessor/array/to_list.hpp
+ /usr/include/boost/preprocessor/array/to_seq.hpp
+ /usr/include/boost/preprocessor/array/to_tuple.hpp
  /usr/include/boost/preprocessor/cat.hpp
  /usr/include/boost/preprocessor/comma_if.hpp
+ /usr/include/boost/preprocessor/comparison.hpp
  /usr/include/boost/preprocessor/comparison/equal.hpp
  /usr/include/boost/preprocessor/comparison/greater.hpp
+ /usr/include/boost/preprocessor/comparison/greater_equal.hpp
  /usr/include/boost/preprocessor/comparison/less.hpp
  /usr/include/boost/preprocessor/comparison/less_equal.hpp
  /usr/include/boost/preprocessor/comparison/limits/not_equal_256.hpp
  /usr/include/boost/preprocessor/comparison/not_equal.hpp
  /usr/include/boost/preprocessor/config/config.hpp
  /usr/include/boost/preprocessor/config/limits.hpp
+ /usr/include/boost/preprocessor/control.hpp
  /usr/include/boost/preprocessor/control/deduce_d.hpp
  /usr/include/boost/preprocessor/control/detail/limits/while_256.hpp
  /usr/include/boost/preprocessor/control/detail/while.hpp
@@ -1912,27 +1822,39 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/preprocessor/control/iif.hpp
  /usr/include/boost/preprocessor/control/limits/while_256.hpp
  /usr/include/boost/preprocessor/control/while.hpp
+ /usr/include/boost/preprocessor/debug.hpp
+ /usr/include/boost/preprocessor/debug/assert.hpp
  /usr/include/boost/preprocessor/debug/error.hpp
+ /usr/include/boost/preprocessor/debug/line.hpp
  /usr/include/boost/preprocessor/dec.hpp
  /usr/include/boost/preprocessor/detail/auto_rec.hpp
  /usr/include/boost/preprocessor/detail/check.hpp
  /usr/include/boost/preprocessor/detail/is_binary.hpp
+ /usr/include/boost/preprocessor/detail/is_unary.hpp
  /usr/include/boost/preprocessor/detail/limits/auto_rec_256.hpp
  /usr/include/boost/preprocessor/empty.hpp
  /usr/include/boost/preprocessor/enum.hpp
  /usr/include/boost/preprocessor/enum_params.hpp
  /usr/include/boost/preprocessor/enum_params_with_a_default.hpp
  /usr/include/boost/preprocessor/enum_shifted_params.hpp
+ /usr/include/boost/preprocessor/facilities.hpp
+ /usr/include/boost/preprocessor/facilities/apply.hpp
  /usr/include/boost/preprocessor/facilities/check_empty.hpp
+ /usr/include/boost/preprocessor/facilities/detail/is_empty.hpp
  /usr/include/boost/preprocessor/facilities/empty.hpp
  /usr/include/boost/preprocessor/facilities/expand.hpp
  /usr/include/boost/preprocessor/facilities/identity.hpp
  /usr/include/boost/preprocessor/facilities/intercept.hpp
+ /usr/include/boost/preprocessor/facilities/is_1.hpp
+ /usr/include/boost/preprocessor/facilities/is_empty.hpp
+ /usr/include/boost/preprocessor/facilities/is_empty_variadic.hpp
  /usr/include/boost/preprocessor/facilities/limits/intercept_256.hpp
  /usr/include/boost/preprocessor/facilities/overload.hpp
+ /usr/include/boost/preprocessor/facilities/va_opt.hpp
  /usr/include/boost/preprocessor/identity.hpp
  /usr/include/boost/preprocessor/inc.hpp
  /usr/include/boost/preprocessor/iterate.hpp
+ /usr/include/boost/preprocessor/iteration.hpp
  /usr/include/boost/preprocessor/iteration/detail/bounds/lower1.hpp
  /usr/include/boost/preprocessor/iteration/detail/bounds/lower2.hpp
  /usr/include/boost/preprocessor/iteration/detail/bounds/upper1.hpp
@@ -1947,71 +1869,154 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/preprocessor/iteration/detail/local.hpp
  /usr/include/boost/preprocessor/iteration/iterate.hpp
  /usr/include/boost/preprocessor/iteration/local.hpp
+ /usr/include/boost/preprocessor/iteration/self.hpp
+ /usr/include/boost/preprocessor/library.hpp
+ /usr/include/boost/preprocessor/list.hpp
  /usr/include/boost/preprocessor/list/adt.hpp
+ /usr/include/boost/preprocessor/list/append.hpp
+ /usr/include/boost/preprocessor/list/at.hpp
+ /usr/include/boost/preprocessor/list/cat.hpp
  /usr/include/boost/preprocessor/list/detail/fold_left.hpp
  /usr/include/boost/preprocessor/list/detail/fold_right.hpp
  /usr/include/boost/preprocessor/list/detail/limits/fold_left_256.hpp
  /usr/include/boost/preprocessor/list/detail/limits/fold_right_256.hpp
+ /usr/include/boost/preprocessor/list/enum.hpp
+ /usr/include/boost/preprocessor/list/filter.hpp
+ /usr/include/boost/preprocessor/list/first_n.hpp
  /usr/include/boost/preprocessor/list/fold_left.hpp
  /usr/include/boost/preprocessor/list/fold_right.hpp
+ /usr/include/boost/preprocessor/list/for_each.hpp
+ /usr/include/boost/preprocessor/list/for_each_i.hpp
+ /usr/include/boost/preprocessor/list/for_each_product.hpp
  /usr/include/boost/preprocessor/list/limits/fold_left_256.hpp
+ /usr/include/boost/preprocessor/list/rest_n.hpp
  /usr/include/boost/preprocessor/list/reverse.hpp
+ /usr/include/boost/preprocessor/list/size.hpp
+ /usr/include/boost/preprocessor/list/to_array.hpp
+ /usr/include/boost/preprocessor/list/to_seq.hpp
+ /usr/include/boost/preprocessor/list/to_tuple.hpp
+ /usr/include/boost/preprocessor/list/transform.hpp
+ /usr/include/boost/preprocessor/logical.hpp
  /usr/include/boost/preprocessor/logical/and.hpp
  /usr/include/boost/preprocessor/logical/bitand.hpp
+ /usr/include/boost/preprocessor/logical/bitnor.hpp
  /usr/include/boost/preprocessor/logical/bitor.hpp
+ /usr/include/boost/preprocessor/logical/bitxor.hpp
  /usr/include/boost/preprocessor/logical/bool.hpp
  /usr/include/boost/preprocessor/logical/compl.hpp
  /usr/include/boost/preprocessor/logical/limits/bool_256.hpp
+ /usr/include/boost/preprocessor/logical/nor.hpp
  /usr/include/boost/preprocessor/logical/not.hpp
+ /usr/include/boost/preprocessor/logical/or.hpp
+ /usr/include/boost/preprocessor/logical/xor.hpp
+ /usr/include/boost/preprocessor/punctuation.hpp
  /usr/include/boost/preprocessor/punctuation/comma.hpp
  /usr/include/boost/preprocessor/punctuation/comma_if.hpp
+ /usr/include/boost/preprocessor/punctuation/detail/is_begin_parens.hpp
+ /usr/include/boost/preprocessor/punctuation/is_begin_parens.hpp
  /usr/include/boost/preprocessor/punctuation/paren.hpp
+ /usr/include/boost/preprocessor/punctuation/paren_if.hpp
+ /usr/include/boost/preprocessor/punctuation/remove_parens.hpp
  /usr/include/boost/preprocessor/repeat.hpp
+ /usr/include/boost/preprocessor/repetition.hpp
+ /usr/include/boost/preprocessor/repetition/deduce_r.hpp
+ /usr/include/boost/preprocessor/repetition/deduce_z.hpp
  /usr/include/boost/preprocessor/repetition/detail/for.hpp
  /usr/include/boost/preprocessor/repetition/detail/limits/for_256.hpp
  /usr/include/boost/preprocessor/repetition/enum.hpp
  /usr/include/boost/preprocessor/repetition/enum_binary_params.hpp
  /usr/include/boost/preprocessor/repetition/enum_params.hpp
  /usr/include/boost/preprocessor/repetition/enum_params_with_a_default.hpp
+ /usr/include/boost/preprocessor/repetition/enum_params_with_defaults.hpp
  /usr/include/boost/preprocessor/repetition/enum_shifted.hpp
+ /usr/include/boost/preprocessor/repetition/enum_shifted_binary_params.hpp
  /usr/include/boost/preprocessor/repetition/enum_shifted_params.hpp
+ /usr/include/boost/preprocessor/repetition/enum_trailing.hpp
+ /usr/include/boost/preprocessor/repetition/enum_trailing_binary_params.hpp
  /usr/include/boost/preprocessor/repetition/enum_trailing_params.hpp
  /usr/include/boost/preprocessor/repetition/for.hpp
  /usr/include/boost/preprocessor/repetition/limits/for_256.hpp
  /usr/include/boost/preprocessor/repetition/limits/repeat_256.hpp
  /usr/include/boost/preprocessor/repetition/repeat.hpp
  /usr/include/boost/preprocessor/repetition/repeat_from_to.hpp
+ /usr/include/boost/preprocessor/selection.hpp
+ /usr/include/boost/preprocessor/selection/max.hpp
+ /usr/include/boost/preprocessor/selection/min.hpp
+ /usr/include/boost/preprocessor/seq.hpp
  /usr/include/boost/preprocessor/seq/cat.hpp
+ /usr/include/boost/preprocessor/seq/detail/binary_transform.hpp
  /usr/include/boost/preprocessor/seq/detail/is_empty.hpp
  /usr/include/boost/preprocessor/seq/detail/limits/split_256.hpp
  /usr/include/boost/preprocessor/seq/detail/split.hpp
  /usr/include/boost/preprocessor/seq/elem.hpp
  /usr/include/boost/preprocessor/seq/enum.hpp
+ /usr/include/boost/preprocessor/seq/filter.hpp
  /usr/include/boost/preprocessor/seq/first_n.hpp
  /usr/include/boost/preprocessor/seq/fold_left.hpp
+ /usr/include/boost/preprocessor/seq/fold_right.hpp
+ /usr/include/boost/preprocessor/seq/for_each.hpp
  /usr/include/boost/preprocessor/seq/for_each_i.hpp
+ /usr/include/boost/preprocessor/seq/for_each_product.hpp
+ /usr/include/boost/preprocessor/seq/insert.hpp
  /usr/include/boost/preprocessor/seq/limits/elem_256.hpp
  /usr/include/boost/preprocessor/seq/limits/enum_256.hpp
  /usr/include/boost/preprocessor/seq/limits/fold_left_256.hpp
+ /usr/include/boost/preprocessor/seq/limits/fold_right_256.hpp
  /usr/include/boost/preprocessor/seq/limits/size_256.hpp
+ /usr/include/boost/preprocessor/seq/pop_back.hpp
+ /usr/include/boost/preprocessor/seq/pop_front.hpp
+ /usr/include/boost/preprocessor/seq/push_back.hpp
+ /usr/include/boost/preprocessor/seq/push_front.hpp
+ /usr/include/boost/preprocessor/seq/remove.hpp
+ /usr/include/boost/preprocessor/seq/replace.hpp
  /usr/include/boost/preprocessor/seq/rest_n.hpp
+ /usr/include/boost/preprocessor/seq/reverse.hpp
  /usr/include/boost/preprocessor/seq/seq.hpp
  /usr/include/boost/preprocessor/seq/size.hpp
  /usr/include/boost/preprocessor/seq/subseq.hpp
+ /usr/include/boost/preprocessor/seq/to_array.hpp
+ /usr/include/boost/preprocessor/seq/to_list.hpp
+ /usr/include/boost/preprocessor/seq/to_tuple.hpp
  /usr/include/boost/preprocessor/seq/transform.hpp
+ /usr/include/boost/preprocessor/seq/variadic_seq_to_seq.hpp
+ /usr/include/boost/preprocessor/slot.hpp
  /usr/include/boost/preprocessor/slot/detail/def.hpp
  /usr/include/boost/preprocessor/slot/detail/shared.hpp
  /usr/include/boost/preprocessor/slot/slot.hpp
  /usr/include/boost/preprocessor/stringize.hpp
+ /usr/include/boost/preprocessor/tuple.hpp
  /usr/include/boost/preprocessor/tuple/detail/is_single_return.hpp
  /usr/include/boost/preprocessor/tuple/eat.hpp
  /usr/include/boost/preprocessor/tuple/elem.hpp
+ /usr/include/boost/preprocessor/tuple/enum.hpp
+ /usr/include/boost/preprocessor/tuple/insert.hpp
+ /usr/include/boost/preprocessor/tuple/limits/reverse_64.hpp
+ /usr/include/boost/preprocessor/tuple/limits/to_list_64.hpp
+ /usr/include/boost/preprocessor/tuple/limits/to_seq_64.hpp
+ /usr/include/boost/preprocessor/tuple/pop_back.hpp
+ /usr/include/boost/preprocessor/tuple/pop_front.hpp
+ /usr/include/boost/preprocessor/tuple/push_back.hpp
+ /usr/include/boost/preprocessor/tuple/push_front.hpp
  /usr/include/boost/preprocessor/tuple/rem.hpp
+ /usr/include/boost/preprocessor/tuple/remove.hpp
+ /usr/include/boost/preprocessor/tuple/replace.hpp
+ /usr/include/boost/preprocessor/tuple/reverse.hpp
+ /usr/include/boost/preprocessor/tuple/size.hpp
+ /usr/include/boost/preprocessor/tuple/to_array.hpp
+ /usr/include/boost/preprocessor/tuple/to_list.hpp
+ /usr/include/boost/preprocessor/tuple/to_seq.hpp
+ /usr/include/boost/preprocessor/variadic.hpp
+ /usr/include/boost/preprocessor/variadic/detail/is_single_return.hpp
  /usr/include/boost/preprocessor/variadic/elem.hpp
  /usr/include/boost/preprocessor/variadic/has_opt.hpp
  /usr/include/boost/preprocessor/variadic/limits/elem_64.hpp
  /usr/include/boost/preprocessor/variadic/limits/size_64.hpp
  /usr/include/boost/preprocessor/variadic/size.hpp
+ /usr/include/boost/preprocessor/variadic/to_array.hpp
+ /usr/include/boost/preprocessor/variadic/to_list.hpp
+ /usr/include/boost/preprocessor/variadic/to_seq.hpp
+ /usr/include/boost/preprocessor/variadic/to_tuple.hpp
+ /usr/include/boost/preprocessor/wstringize.hpp
  /usr/include/boost/property_tree/detail/exception_implementation.hpp
  /usr/include/boost/property_tree/detail/file_parser_error.hpp
  /usr/include/boost/property_tree/detail/ptree_implementation.hpp
@@ -2064,18 +2069,12 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/ref.hpp
  /usr/include/boost/scoped_ptr.hpp
  /usr/include/boost/serialization/access.hpp
- /usr/include/boost/serialization/array.hpp
  /usr/include/boost/serialization/array_optimization.hpp
  /usr/include/boost/serialization/array_wrapper.hpp
  /usr/include/boost/serialization/assume_abstract.hpp
  /usr/include/boost/serialization/base_object.hpp
  /usr/include/boost/serialization/collection_size_type.hpp
- /usr/include/boost/serialization/collection_traits.hpp
- /usr/include/boost/serialization/collections_load_imp.hpp
- /usr/include/boost/serialization/collections_save_imp.hpp
  /usr/include/boost/serialization/config.hpp
- /usr/include/boost/serialization/detail/is_default_constructible.hpp
- /usr/include/boost/serialization/detail/stack_constructor.hpp
  /usr/include/boost/serialization/extended_type_info.hpp
  /usr/include/boost/serialization/extended_type_info_typeid.hpp
  /usr/include/boost/serialization/factory.hpp
@@ -2099,7 +2098,6 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/boost/serialization/tracking_enum.hpp
  /usr/include/boost/serialization/traits.hpp
  /usr/include/boost/serialization/type_info_implementation.hpp
- /usr/include/boost/serialization/vector.hpp
  /usr/include/boost/serialization/version.hpp
  /usr/include/boost/serialization/void_cast.hpp
  /usr/include/boost/serialization/void_cast_fwd.hpp
@@ -2580,7 +2578,6 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/eigen3/Eigen/SparseCore
  /usr/include/eigen3/Eigen/SparseLU
  /usr/include/eigen3/Eigen/SparseQR
- /usr/include/eigen3/Eigen/StdVector
  /usr/include/eigen3/Eigen/src/Cholesky/LDLT.h
  /usr/include/eigen3/Eigen/src/Cholesky/LLT.h
  /usr/include/eigen3/Eigen/src/Core/ArithmeticSequence.h
@@ -2804,8 +2801,6 @@ CMakeFiles/omy_movej_controller_node.dir/src/nodes/omy/omy_movej_controller_node
  /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_pruneL.h
  /usr/include/eigen3/Eigen/src/SparseLU/SparseLU_relax_snode.h
  /usr/include/eigen3/Eigen/src/SparseQR/SparseQR.h
- /usr/include/eigen3/Eigen/src/StlSupport/StdVector.h
- /usr/include/eigen3/Eigen/src/StlSupport/details.h
  /usr/include/eigen3/Eigen/src/misc/Image.h
  /usr/include/eigen3/Eigen/src/misc/Kernel.h
  /usr/include/eigen3/Eigen/src/misc/RealSvd2x2.h
@@ -2963,11 +2958,10 @@ omy_movej_controller_node
  /lib/aarch64-linux-gnu/libyaml-0.so.2
  /lib/aarch64-linux-gnu/libz.so.1
  /lib/ld-linux-aarch64.so.1
- /opt/ros/jazzy/lib/aarch64-linux-gnu/libhpp-fcl.so
- /opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_collision.so.3.8.0
- /opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_default.so.3.8.0
- /opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_parsers.so.3.8.0
- /opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_visualizers.so.3.8.0
+ /opt/ros/jazzy/lib/aarch64-linux-gnu/libcoal.so.3.0.3
+ /opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_collision.so.4.0.0
+ /opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_default.so.4.0.0
+ /opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_parsers.so.4.0.0
  /opt/ros/jazzy/lib/aarch64-linux-gnu/liburdfdom_model.so.4.0
  /opt/ros/jazzy/lib/aarch64-linux-gnu/liburdfdom_sensor.so.4.0
  /opt/ros/jazzy/lib/aarch64-linux-gnu/liburdfdom_world.so.4.0
@@ -2980,7 +2974,7 @@ omy_movej_controller_node
  /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_fastrtps_cpp.so
  /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_c.so
  /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_cpp.so
- /opt/ros/jazzy/lib/libfastcdr.so.2.2.5
+ /opt/ros/jazzy/lib/libfastcdr.so.2.2.7
  /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_generator_c.so
  /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_generator_py.so
  /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_c.so
@@ -3075,7 +3069,6 @@ omy_movej_controller_node
  /opt/ros/jazzy/lib/libtype_description_interfaces__rosidl_typesupport_introspection_cpp.so
  /root/ros2_ws/install/cyclo_motion_controller_core/lib/libcyclo_motion_controller_core.so
  /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib/libOsqpEigen.so.0.10.3
- /usr/lib/aarch64-linux-gnu/libboost_chrono.so
  /usr/lib/aarch64-linux-gnu/libboost_filesystem.so
  /usr/lib/aarch64-linux-gnu/libboost_serialization.so
  /usr/lib/aarch64-linux-gnu/libc_nonshared.a
@@ -3092,6 +3085,7 @@ omy_movej_controller_node
  /usr/lib/aarch64-linux-gnu/libm.so
  /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o
  /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o
+ /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so
  /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a
  /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so
  /usr/lib/gcc/aarch64-linux-gnu/13/libstdc++.so

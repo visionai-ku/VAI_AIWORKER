@@ -147,7 +147,7 @@ dual_laser_merger_node: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesup
 dual_laser_merger_node: /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so
 dual_laser_merger_node: /opt/ros/jazzy/lib/librmw.so
 dual_laser_merger_node: /opt/ros/jazzy/lib/librosidl_dynamic_typesupport.so
-dual_laser_merger_node: /opt/ros/jazzy/lib/libfastcdr.so.2.2.5
+dual_laser_merger_node: /opt/ros/jazzy/lib/libfastcdr.so.2.2.7
 dual_laser_merger_node: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_cpp.so
 dual_laser_merger_node: /opt/ros/jazzy/lib/librosidl_typesupport_introspection_cpp.so
 dual_laser_merger_node: /opt/ros/jazzy/lib/librosidl_typesupport_introspection_c.so

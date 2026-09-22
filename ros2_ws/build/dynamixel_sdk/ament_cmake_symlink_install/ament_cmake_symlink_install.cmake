@@ -55,6 +55,11 @@ function(ament_cmake_symlink_install_directory cmake_current_source_dir)
         # remove trailing slash
         string(SUBSTRING "${dir}" 0 ${offset} dir)
       endif()
+      
+      # Create destination directory.
+      # This does *not* solve the problem of empty directories WITHIN the install tree,
+      # but does make sure that the top-level directory specified by the caller gets created.
+      file(MAKE_DIRECTORY "${destination}")
 
       # glob recursive files
       set(relative_files "")
@@ -322,14 +327,14 @@ ament_cmake_symlink_install_files("/root/ros2_ws/src/DynamixelSDK/ros/dynamixel_
 # install(FILES "/root/ros2_ws/build/dynamixel_sdk/ament_cmake_environment_hooks/pythonpath.dsv" "DESTINATION" "share/dynamixel_sdk/environment")
 ament_cmake_symlink_install_files("/root/ros2_ws/src/DynamixelSDK/ros/dynamixel_sdk" FILES "/root/ros2_ws/build/dynamixel_sdk/ament_cmake_environment_hooks/pythonpath.dsv" "DESTINATION" "share/dynamixel_sdk/environment")
 
-# install(DIRECTORY "/root/ros2_ws/build/dynamixel_sdk/ament_cmake_python/dynamixel_sdk/dynamixel_sdk.egg-info/" "DESTINATION" "lib/python3.12/site-packages/dynamixel_sdk-4.0.4-py3.12.egg-info")
-ament_cmake_symlink_install_directory("/root/ros2_ws/src/DynamixelSDK/ros/dynamixel_sdk" DIRECTORY "/root/ros2_ws/build/dynamixel_sdk/ament_cmake_python/dynamixel_sdk/dynamixel_sdk.egg-info/" "DESTINATION" "lib/python3.12/site-packages/dynamixel_sdk-4.0.4-py3.12.egg-info")
+# install(DIRECTORY "/root/ros2_ws/build/dynamixel_sdk/ament_cmake_python/dynamixel_sdk/dynamixel_sdk.egg-info/" "DESTINATION" "lib/python3.12/site-packages/dynamixel_sdk-4.0.5-py3.12.egg-info")
+ament_cmake_symlink_install_directory("/root/ros2_ws/src/DynamixelSDK/ros/dynamixel_sdk" DIRECTORY "/root/ros2_ws/build/dynamixel_sdk/ament_cmake_python/dynamixel_sdk/dynamixel_sdk.egg-info/" "DESTINATION" "lib/python3.12/site-packages/dynamixel_sdk-4.0.5-py3.12.egg-info")
 
 # install(DIRECTORY "/root/ros2_ws/src/DynamixelSDK/ros/dynamixel_sdk/src/dynamixel_sdk/" "DESTINATION" "lib/python3.12/site-packages/dynamixel_sdk" "PATTERN_EXCLUDE" "*.pyc" "PATTERN_EXCLUDE" "__pycache__")
 ament_cmake_symlink_install_directory("/root/ros2_ws/src/DynamixelSDK/ros/dynamixel_sdk" DIRECTORY "/root/ros2_ws/src/DynamixelSDK/ros/dynamixel_sdk/src/dynamixel_sdk/" "DESTINATION" "lib/python3.12/site-packages/dynamixel_sdk" "PATTERN_EXCLUDE" "*.pyc" "PATTERN_EXCLUDE" "__pycache__")
 
-# install(DIRECTORY "/root/ros2_ws/build/dynamixel_sdk/ament_cmake_python/dynamixel_easy_sdk/dynamixel_easy_sdk.egg-info/" "DESTINATION" "lib/python3.12/site-packages/dynamixel_easy_sdk-4.0.4-py3.12.egg-info")
-ament_cmake_symlink_install_directory("/root/ros2_ws/src/DynamixelSDK/ros/dynamixel_sdk" DIRECTORY "/root/ros2_ws/build/dynamixel_sdk/ament_cmake_python/dynamixel_easy_sdk/dynamixel_easy_sdk.egg-info/" "DESTINATION" "lib/python3.12/site-packages/dynamixel_easy_sdk-4.0.4-py3.12.egg-info")
+# install(DIRECTORY "/root/ros2_ws/build/dynamixel_sdk/ament_cmake_python/dynamixel_easy_sdk/dynamixel_easy_sdk.egg-info/" "DESTINATION" "lib/python3.12/site-packages/dynamixel_easy_sdk-4.0.5-py3.12.egg-info")
+ament_cmake_symlink_install_directory("/root/ros2_ws/src/DynamixelSDK/ros/dynamixel_sdk" DIRECTORY "/root/ros2_ws/build/dynamixel_sdk/ament_cmake_python/dynamixel_easy_sdk/dynamixel_easy_sdk.egg-info/" "DESTINATION" "lib/python3.12/site-packages/dynamixel_easy_sdk-4.0.5-py3.12.egg-info")
 
 # install(DIRECTORY "/root/ros2_ws/src/DynamixelSDK/ros/dynamixel_sdk/src/dynamixel_easy_sdk/" "DESTINATION" "lib/python3.12/site-packages/dynamixel_easy_sdk" "PATTERN_EXCLUDE" "*.pyc" "PATTERN_EXCLUDE" "__pycache__")
 ament_cmake_symlink_install_directory("/root/ros2_ws/src/DynamixelSDK/ros/dynamixel_sdk" DIRECTORY "/root/ros2_ws/src/DynamixelSDK/ros/dynamixel_sdk/src/dynamixel_easy_sdk/" "DESTINATION" "lib/python3.12/site-packages/dynamixel_easy_sdk" "PATTERN_EXCLUDE" "*.pyc" "PATTERN_EXCLUDE" "__pycache__")

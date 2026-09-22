@@ -1,20 +1,44 @@
-[  1%] Built target realsense2_camera_msgs__rosidl_generator_type_description
+-- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+-- Override CMake install command with custom implementation using symlinks instead of copying resources
+-- Found rosidl_default_generators: 1.6.0 (/opt/ros/jazzy/share/rosidl_default_generators/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rosidl_adapter: 4.6.7 (/opt/ros/jazzy/share/rosidl_adapter/cmake)
+-- Found builtin_interfaces: 2.0.3 (/opt/ros/jazzy/share/builtin_interfaces/cmake)
+-- Found std_msgs: 5.3.7 (/opt/ros/jazzy/share/std_msgs/cmake)
+-- Found sensor_msgs: 5.3.7 (/opt/ros/jazzy/share/sensor_msgs/cmake)
+-- Found ament_cmake_cppcheck: 0.17.5 (/opt/ros/jazzy/share/ament_cmake_cppcheck/cmake)
+-- Found ament_cmake_cpplint: 0.17.5 (/opt/ros/jazzy/share/ament_cmake_cpplint/cmake)
+-- Found ament_cmake_uncrustify: 0.17.5 (/opt/ros/jazzy/share/ament_cmake_uncrustify/cmake)
+-- Found ament_cmake_ros: 0.12.0 (/opt/ros/jazzy/share/ament_cmake_ros/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found python_cmake_module: 0.11.1 (/opt/ros/jazzy/share/python_cmake_module/cmake)
+-- Found Python3: /opt/venv/bin/python3 (found version "3.12.3") found components: Interpreter Development NumPy Development.Module Development.Embed
+-- Found ament_cmake_flake8: 0.17.5 (/opt/ros/jazzy/share/ament_cmake_flake8/cmake)
+-- Found ament_cmake_pep257: 0.17.5 (/opt/ros/jazzy/share/ament_cmake_pep257/cmake)
+-- Found Python3: /opt/venv/bin/python3 (found version "3.12.3") found components: Interpreter
+-- Configuring done (12.4s)
+-- Generating done (0.3s)
+-- Build files have been written to: /root/ros2_ws/build/realsense2_camera_msgs
+[  1%] Built target realsense2_camera_msgs__rs
 [  1%] Built target ament_cmake_python_symlink_realsense2_camera_msgs
-[  1%] Built target realsense2_camera_msgs__cpp
-[ 26%] Built target realsense2_camera_msgs__rosidl_generator_c
-[ 35%] Built target realsense2_camera_msgs__rosidl_typesupport_introspection_c
-[ 45%] Built target realsense2_camera_msgs__rosidl_typesupport_fastrtps_c
-[ 55%] Built target realsense2_camera_msgs__rosidl_typesupport_c
-[ 65%] Built target realsense2_camera_msgs__rosidl_typesupport_fastrtps_cpp
-[ 75%] Built target realsense2_camera_msgs__rosidl_typesupport_introspection_cpp
+[  2%] Built target realsense2_camera_msgs__rosidl_generator_type_description
+[  2%] Built target realsense2_camera_msgs__cpp
+[ 27%] Built target realsense2_camera_msgs__rosidl_generator_c
+[ 36%] Built target realsense2_camera_msgs__rosidl_typesupport_introspection_c
+[ 45%] Built target realsense2_camera_msgs__rosidl_typesupport_c
+[ 54%] Built target realsense2_camera_msgs__rosidl_typesupport_fastrtps_c
+[ 64%] Built target realsense2_camera_msgs__rosidl_typesupport_fastrtps_cpp
+[ 74%] Built target realsense2_camera_msgs__rosidl_typesupport_introspection_cpp
 [ 84%] Built target realsense2_camera_msgs__rosidl_typesupport_cpp
 [ 84%] Built target realsense2_camera_msgs
 [ 85%] Built target realsense2_camera_msgs__py
 [ 94%] Built target realsense2_camera_msgs__rosidl_generator_py
-[ 96%] Built target realsense2_camera_msgs_s__rosidl_typesupport_c
+[ 96%] Built target realsense2_camera_msgs_s__rosidl_typesupport_introspection_c
 [ 98%] Built target realsense2_camera_msgs_s__rosidl_typesupport_fastrtps_c
-[100%] Built target realsense2_camera_msgs_s__rosidl_typesupport_introspection_c
 running egg_info
+[100%] Built target realsense2_camera_msgs_s__rosidl_typesupport_c
 writing realsense2_camera_msgs.egg-info/PKG-INFO
 writing dependency_links to realsense2_camera_msgs.egg-info/dependency_links.txt
 writing top-level names to realsense2_camera_msgs.egg-info/top_level.txt
@@ -178,6 +202,16 @@ writing manifest file 'realsense2_camera_msgs.egg-info/SOURCES.txt'
 -- Up-to-date symlink: /root/ros2_ws/install/realsense2_camera_msgs/lib/python3.12/site-packages/realsense2_camera_msgs/realsense2_camera_msgs_s__rosidl_typesupport_fastrtps_c.so
 -- Up-to-date symlink: /root/ros2_ws/install/realsense2_camera_msgs/lib/python3.12/site-packages/realsense2_camera_msgs/realsense2_camera_msgs_s__rosidl_typesupport_introspection_c.so
 -- Up-to-date symlink: /root/ros2_ws/install/realsense2_camera_msgs/lib/python3.12/site-packages/realsense2_camera_msgs/realsense2_camera_msgs_s__rosidl_typesupport_c.so
+-- Up-to-date symlink: /root/ros2_ws/install/realsense2_camera_msgs/share/ament_index/resource_index/rust_packages/realsense2_camera_msgs
+-- Up-to-date symlink: /root/ros2_ws/install/realsense2_camera_msgs/share/realsense2_camera_msgs/rust/Cargo.toml
+-- Up-to-date symlink: /root/ros2_ws/install/realsense2_camera_msgs/share/realsense2_camera_msgs/rust/build.rs
+-- Up-to-date symlink: /root/ros2_ws/install/realsense2_camera_msgs/share/realsense2_camera_msgs/rust/src/action.rs
+-- Up-to-date symlink: /root/ros2_ws/install/realsense2_camera_msgs/share/realsense2_camera_msgs/rust/src/action/rmw.rs
+-- Up-to-date symlink: /root/ros2_ws/install/realsense2_camera_msgs/share/realsense2_camera_msgs/rust/src/lib.rs
+-- Up-to-date symlink: /root/ros2_ws/install/realsense2_camera_msgs/share/realsense2_camera_msgs/rust/src/msg.rs
+-- Up-to-date symlink: /root/ros2_ws/install/realsense2_camera_msgs/share/realsense2_camera_msgs/rust/src/msg/rmw.rs
+-- Up-to-date symlink: /root/ros2_ws/install/realsense2_camera_msgs/share/realsense2_camera_msgs/rust/src/srv.rs
+-- Up-to-date symlink: /root/ros2_ws/install/realsense2_camera_msgs/share/realsense2_camera_msgs/rust/src/srv/rmw.rs
 -- Up-to-date symlink: /root/ros2_ws/install/realsense2_camera_msgs/share/realsense2_camera_msgs/msg/IMUInfo.idl
 -- Up-to-date symlink: /root/ros2_ws/install/realsense2_camera_msgs/share/realsense2_camera_msgs/msg/Extrinsics.idl
 -- Up-to-date symlink: /root/ros2_ws/install/realsense2_camera_msgs/share/realsense2_camera_msgs/msg/Metadata.idl
@@ -224,6 +258,7 @@ writing manifest file 'realsense2_camera_msgs.egg-info/SOURCES.txt'
 -- Up-to-date: /root/ros2_ws/install/realsense2_camera_msgs/lib/librealsense2_camera_msgs__rosidl_typesupport_introspection_cpp.so
 -- Up-to-date: /root/ros2_ws/install/realsense2_camera_msgs/lib/librealsense2_camera_msgs__rosidl_typesupport_cpp.so
 Listing '/root/ros2_ws/install/realsense2_camera_msgs/lib/python3.12/site-packages/realsense2_camera_msgs'...
+Compiling '/root/ros2_ws/install/realsense2_camera_msgs/lib/python3.12/site-packages/realsense2_camera_msgs/__init__.py'...
 Listing '/root/ros2_ws/install/realsense2_camera_msgs/lib/python3.12/site-packages/realsense2_camera_msgs/action'...
 Listing '/root/ros2_ws/install/realsense2_camera_msgs/lib/python3.12/site-packages/realsense2_camera_msgs/msg'...
 Listing '/root/ros2_ws/install/realsense2_camera_msgs/lib/python3.12/site-packages/realsense2_camera_msgs/srv'...

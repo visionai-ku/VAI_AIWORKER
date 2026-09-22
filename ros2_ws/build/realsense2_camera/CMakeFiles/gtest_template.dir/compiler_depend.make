@@ -378,7 +378,7 @@ gtest_template: /lib/aarch64-linux-gnu/libc.so.6 \
   /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_fastrtps_cpp.so \
   /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_c.so \
   /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_cpp.so \
-  /opt/ros/jazzy/lib/libfastcdr.so.2.2.5 \
+  /opt/ros/jazzy/lib/libfastcdr.so.2.2.7 \
   /opt/ros/jazzy/lib/librcutils.so \
   /opt/ros/jazzy/lib/librmw.so \
   /opt/ros/jazzy/lib/librosidl_dynamic_typesupport.so \
@@ -421,6 +421,7 @@ gtest_template: /lib/aarch64-linux-gnu/libc.so.6 \
   /usr/lib/aarch64-linux-gnu/libpthread.a \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o \
+  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libstdc++.so \
@@ -438,6 +439,8 @@ CMakeFiles/gtest_template.dir/test/gtest_template.cpp.o:
 /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o:
 
@@ -634,8 +637,6 @@ CMakeFiles/gtest_template.dir/test/gtest_template.cpp.o:
 /usr/include/c++/13/bits/stl_vector.h:
 
 /usr/include/c++/13/bits/stl_tempbuf.h:
-
-/opt/ros/jazzy/lib/libfastcdr.so.2.2.5:
 
 /lib/ld-linux-aarch64.so.1:
 
@@ -1192,6 +1193,8 @@ gtest/libgtest.a:
 /usr/include/c++/13/set:
 
 /usr/include/c++/13/bits/shared_ptr_atomic.h:
+
+/opt/ros/jazzy/lib/libfastcdr.so.2.2.7:
 
 /usr/include/c++/13/bits/exception_defines.h:
 

@@ -1,5 +1,5 @@
 set(_AMENT_PACKAGE_NAME "ffw_moveit_config")
-set(ffw_moveit_config_VERSION "1.2.1")
+set(ffw_moveit_config_VERSION "2.2.5")
 set(ffw_moveit_config_MAINTAINER "Pyo <pyo@robotis.com>")
 set(ffw_moveit_config_BUILD_DEPENDS )
 set(ffw_moveit_config_BUILDTOOL_DEPENDS "ament_cmake")

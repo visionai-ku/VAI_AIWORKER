@@ -88,6 +88,14 @@
 /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_fastrtps_c.so
 /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_introspection_c.so
 /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_c.so
+/root/ros2_ws/install/dynamixel_interfaces/share/ament_index/resource_index/rust_packages/dynamixel_interfaces
+/root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/rust/Cargo.toml
+/root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/rust/build.rs
+/root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/rust/src/lib.rs
+/root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/rust/src/msg.rs
+/root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/rust/src/msg/rmw.rs
+/root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/rust/src/srv.rs
+/root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/rust/src/srv/rmw.rs
 /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/msg/DynamixelState.idl
 /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/GetDataFromDxl.idl
 /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/SetDataToDxl.idl

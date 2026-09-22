@@ -31,7 +31,7 @@ extern "C"
  */
 typedef struct robotis_interfaces__msg__HandJoints
 {
-  /// Standard header for timestamps and frame_id
+  /// Standard header for timestamps and frame_id.
   std_msgs__msg__Header header;
   /// Fixed-size array of 21 Point32 structs.
   /// Point32 uses float32 for each coordinate, which is generally

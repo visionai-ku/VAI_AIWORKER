@@ -44,6 +44,10 @@ private:
   void initializeJointConfig();
   void extractJointStates(const sensor_msgs::msg::JointState::SharedPtr & msg);
   void publishTrajectory(const Eigen::VectorXd & q_command) const;
+  bool jointStateTimedOut() const;
+  void syncCommandStateToFeedback();
+  void syncRightArmToFeedback();
+  void syncLeftArmToFeedback();
 
   void jointStateCallback(const sensor_msgs::msg::JointState::SharedPtr msg);
   void rightTrajectoryCallback(const trajectory_msgs::msg::JointTrajectory::SharedPtr msg);
@@ -59,7 +63,7 @@ private:
     const Eigen::VectorXd & source,
     const std::vector<std::string> & arm_joint_names,
     Eigen::VectorXd & destination) const;
-  void updateGripperPositionFromTrajectory(
+  bool updateGripperPositionFromTrajectory(
     const trajectory_msgs::msg::JointTrajectory & msg,
     const std::string & gripper_joint_name,
     double & gripper_position) const;
@@ -81,6 +85,7 @@ private:
   double cbf_alpha_;
   double collision_buffer_;
   double collision_safe_distance_;
+  double joint_state_timeout_;
   std::string joint_states_topic_;
   std::string right_traj_topic_;
   std::string left_traj_topic_;
@@ -116,16 +121,19 @@ private:
   bool commanded_state_initialized_;
   bool right_movej_target_initialized_;
   bool left_movej_target_initialized_;
-  bool right_movej_trajectory_active_;
-  bool left_movej_trajectory_active_;
+  bool right_movej_trajectory_active_ = false;
+  bool left_movej_trajectory_active_ = false;
+  bool joint_state_timeout_active_ = false;
+  bool right_gripper_command_received_ = false;
+  bool left_gripper_command_received_ = false;
 
   double right_gripper_position_;
   double left_gripper_position_;
-
+  double right_active_motion_duration_ = 0.0;
+  double left_active_motion_duration_ = 0.0;
   rclcpp::Time right_motion_start_time_;
   rclcpp::Time left_motion_start_time_;
-  double right_active_motion_duration_;
-  double left_active_motion_duration_;
+  rclcpp::Time last_joint_state_time_;
 
   std::vector<std::string> left_arm_joints_;
   std::vector<std::string> right_arm_joints_;

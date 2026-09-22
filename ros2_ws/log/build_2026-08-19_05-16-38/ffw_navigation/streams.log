@@ -1,0 +1,81 @@
+[0.070s] Invoking command in '/root/ros2_ws/build/ffw_navigation': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/ai_worker/ffw_navigation -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/ffw_navigation
+[0.963s] CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+[0.963s]   Compatibility with CMake < 3.10 will be removed from a future version of
+[0.964s]   CMake.
+[0.964s] 
+[0.964s]   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+[0.964s]   to tell CMake that the project requires at least <min> but has been updated
+[0.964s]   to work with policies introduced by <max> or earlier.
+[0.964s] 
+[0.964s] 
+[1.225s] -- The C compiler identification is GNU 13.3.0
+[1.682s] -- The CXX compiler identification is GNU 13.3.0
+[1.713s] -- Detecting C compiler ABI info
+[2.131s] -- Detecting C compiler ABI info - done
+[2.198s] -- Check for working C compiler: /usr/bin/cc - skipped
+[2.199s] -- Detecting C compile features
+[2.199s] -- Detecting C compile features - done
+[2.303s] -- Detecting CXX compiler ABI info
+[2.752s] -- Detecting CXX compiler ABI info - done
+[2.812s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[2.813s] -- Detecting CXX compile features
+[2.814s] -- Detecting CXX compile features - done
+[2.920s] -- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[3.895s] -- Found Python3: /opt/venv/bin/python3 (found version "3.12.3") found components: Interpreter
+[4.059s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[4.523s] -- Found behaviortree_cpp: 4.9.0 (/opt/ros/jazzy/share/behaviortree_cpp/cmake)
+[4.590s] -- Found nav_msgs: 5.3.7 (/opt/ros/jazzy/share/nav_msgs/cmake)
+[4.913s] -- Found rosidl_generator_c: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+[5.217s] -- Found rosidl_generator_cpp: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+[5.637s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[5.929s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[6.609s] -- Found rclcpp: 28.1.18 (/opt/ros/jazzy/share/rclcpp/cmake)
+[7.354s] -- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+[7.458s] -- Found rmw_fastrtps_cpp: 8.4.3 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+[8.162s] -- Found OpenSSL: /usr/lib/aarch64-linux-gnu/libcrypto.so (found version "3.0.13")
+[8.222s] -- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13")
+[8.325s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[8.886s] -- Configuring done (7.9s)
+[8.945s] -- Generating done (0.1s)
+[8.950s] -- Build files have been written to: /root/ros2_ws/build/ffw_navigation
+[8.978s] Invoked command in '/root/ros2_ws/build/ffw_navigation' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/ai_worker/ffw_navigation -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/ffw_navigation
+[8.979s] Invoking command in '/root/ros2_ws/build/ffw_navigation': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/ffw_navigation -- -j12 -l12
+[9.342s] [ 50%] Building CXX object CMakeFiles/is_path_length_under_plugin.dir/src/is_path_length_under.cpp.o
+[20.479s] [100%] Linking CXX shared library libis_path_length_under_plugin.so
+[20.815s] [100%] Built target is_path_length_under_plugin
+[20.840s] Invoked command in '/root/ros2_ws/build/ffw_navigation' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/ffw_navigation -- -j12 -l12
+[20.841s] Invoking command in '/root/ros2_ws/build/ffw_navigation': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/ffw_navigation
+[21.145s] -- Install configuration: "Release"
+[21.146s] -- Execute custom install script
+[21.147s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/launch/navigation.launch.py
+[21.155s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/launch/online_sync_launch.py
+[21.188s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/rviz/mapping.rviz
+[21.204s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/rviz/navigation.rviz
+[21.236s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/config/bt/nav_modes.xml
+[21.257s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/config/mapper_params_online_sync.yaml
+[21.281s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/config/navigation.yaml
+[21.295s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/config/navigation_mppi.yaml
+[21.329s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/maps/map.pgm
+[21.342s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/maps/map.yaml
+[21.362s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/environment/library_path.sh
+[21.382s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/environment/library_path.dsv
+[21.407s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ament_index/resource_index/package_run_dependencies/ffw_navigation
+[21.433s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ament_index/resource_index/parent_prefix_path/ffw_navigation
+[21.465s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/environment/ament_prefix_path.sh
+[21.492s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/environment/ament_prefix_path.dsv
+[21.527s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/environment/path.sh
+[21.602s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/environment/path.dsv
+[21.603s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/local_setup.bash
+[21.603s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/local_setup.sh
+[21.614s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/local_setup.zsh
+[21.644s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/local_setup.dsv
+[21.661s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/package.dsv
+[21.696s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ament_index/resource_index/packages/ffw_navigation
+[21.720s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/cmake/ament_cmake_export_libraries-extras.cmake
+[21.757s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/cmake/ament_cmake_export_dependencies-extras.cmake
+[21.789s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/cmake/ffw_navigationConfig.cmake
+[21.814s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/cmake/ffw_navigationConfig-version.cmake
+[21.846s] -- Symlinking: /root/ros2_ws/install/ffw_navigation/share/ffw_navigation/package.xml
+[21.865s] -- Installing: /root/ros2_ws/install/ffw_navigation/lib/libis_path_length_under_plugin.so
+[21.866s] -- Set non-toolchain portion of runtime path of "/root/ros2_ws/install/ffw_navigation/lib/libis_path_length_under_plugin.so" to ""
+[21.867s] Invoked command in '/root/ros2_ws/build/ffw_navigation' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/ffw_navigation

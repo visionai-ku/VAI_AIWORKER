@@ -1,1 +1,1 @@
-ament_cmake_symlink_install_targets("TARGET_FILES" "/root/ros2_ws/build/cyclo_motion_controller_ros/omx_movel_controller_node" "TARGETS" "omx_movel_controller_node" "DESTINATION" "lib/cyclo_motion_controller_ros")
+ament_cmake_symlink_install_targets("TARGET_FILES" "/root/ros2_ws/build/cyclo_motion_controller_ros/leader_controller_node" "TARGETS" "leader_controller_node" "DESTINATION" "lib/cyclo_motion_controller_ros")

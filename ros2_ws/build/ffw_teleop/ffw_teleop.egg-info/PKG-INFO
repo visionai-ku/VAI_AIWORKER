@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: ffw_teleop
-Version: 1.2.0
+Version: 2.2.5
 Summary: FFW teleop ROS 2 package.
 Author: Sungho Woo, Woojin Wie, Wonho Yun
 Author-email: wsh@robotis.com, wwj@robotis.com, ywh@robotis.com

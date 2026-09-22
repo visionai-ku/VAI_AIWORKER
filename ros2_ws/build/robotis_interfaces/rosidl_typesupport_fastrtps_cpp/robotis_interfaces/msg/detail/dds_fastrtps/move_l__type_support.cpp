@@ -134,7 +134,7 @@ cdr_deserialize(
     cdr, ros_message.time_from_start);
 
   return true;
-}
+}  // NOLINT(readability/fn_size)
 
 
 size_t

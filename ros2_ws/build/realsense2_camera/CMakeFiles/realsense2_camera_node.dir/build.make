@@ -147,7 +147,7 @@ realsense2_camera_node: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesup
 realsense2_camera_node: /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so
 realsense2_camera_node: /opt/ros/jazzy/lib/librmw.so
 realsense2_camera_node: /opt/ros/jazzy/lib/librosidl_dynamic_typesupport.so
-realsense2_camera_node: /opt/ros/jazzy/lib/libfastcdr.so.2.2.5
+realsense2_camera_node: /opt/ros/jazzy/lib/libfastcdr.so.2.2.7
 realsense2_camera_node: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_cpp.so
 realsense2_camera_node: /opt/ros/jazzy/lib/librosidl_typesupport_introspection_cpp.so
 realsense2_camera_node: /opt/ros/jazzy/lib/librosidl_typesupport_introspection_c.so

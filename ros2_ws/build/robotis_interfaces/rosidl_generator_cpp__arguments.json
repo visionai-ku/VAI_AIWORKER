@@ -4,7 +4,9 @@
   "template_dir": "/opt/ros/jazzy/share/rosidl_generator_cpp/cmake/../resource",
   "idl_tuples": [
     "/root/ros2_ws/build/robotis_interfaces/rosidl_adapter/robotis_interfaces:msg/HandJoints.idl",
-    "/root/ros2_ws/build/robotis_interfaces/rosidl_adapter/robotis_interfaces:msg/MoveL.idl"
+    "/root/ros2_ws/build/robotis_interfaces/rosidl_adapter/robotis_interfaces:msg/HandPressures.idl",
+    "/root/ros2_ws/build/robotis_interfaces/rosidl_adapter/robotis_interfaces:msg/MoveL.idl",
+    "/root/ros2_ws/build/robotis_interfaces/rosidl_adapter/robotis_interfaces:msg/TactileSensor.idl"
   ],
   "ros_interface_dependencies": [
     "builtin_interfaces:/opt/ros/jazzy/share/builtin_interfaces/msg/Duration.idl",
@@ -93,7 +95,9 @@
     "/opt/ros/jazzy/share/rosidl_generator_cpp/cmake/../resource/srv__traits.hpp.em",
     "/opt/ros/jazzy/share/rosidl_generator_cpp/cmake/../resource/srv__type_support.hpp.em",
     "/root/ros2_ws/build/robotis_interfaces/rosidl_adapter/robotis_interfaces/msg/HandJoints.idl",
+    "/root/ros2_ws/build/robotis_interfaces/rosidl_adapter/robotis_interfaces/msg/HandPressures.idl",
     "/root/ros2_ws/build/robotis_interfaces/rosidl_adapter/robotis_interfaces/msg/MoveL.idl",
+    "/root/ros2_ws/build/robotis_interfaces/rosidl_adapter/robotis_interfaces/msg/TactileSensor.idl",
     "/opt/ros/jazzy/share/builtin_interfaces/msg/Duration.idl",
     "/opt/ros/jazzy/share/builtin_interfaces/msg/Time.idl",
     "/opt/ros/jazzy/share/geometry_msgs/msg/Accel.idl",
@@ -161,6 +165,8 @@
   ],
   "type_description_tuples": [
     "msg/HandJoints.idl:/root/ros2_ws/build/robotis_interfaces/rosidl_generator_type_description/robotis_interfaces/msg/HandJoints.json",
-    "msg/MoveL.idl:/root/ros2_ws/build/robotis_interfaces/rosidl_generator_type_description/robotis_interfaces/msg/MoveL.json"
+    "msg/HandPressures.idl:/root/ros2_ws/build/robotis_interfaces/rosidl_generator_type_description/robotis_interfaces/msg/HandPressures.json",
+    "msg/MoveL.idl:/root/ros2_ws/build/robotis_interfaces/rosidl_generator_type_description/robotis_interfaces/msg/MoveL.json",
+    "msg/TactileSensor.idl:/root/ros2_ws/build/robotis_interfaces/rosidl_generator_type_description/robotis_interfaces/msg/TactileSensor.json"
   ]
 }

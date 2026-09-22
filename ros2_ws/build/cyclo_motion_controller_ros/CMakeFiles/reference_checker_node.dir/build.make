@@ -1356,7 +1356,7 @@ reference_checker_node: /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_c.so
 reference_checker_node: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_c.so
 reference_checker_node: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_fastrtps_cpp.so
 reference_checker_node: /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so
-reference_checker_node: /opt/ros/jazzy/lib/libfastcdr.so.2.2.5
+reference_checker_node: /opt/ros/jazzy/lib/libfastcdr.so.2.2.7
 reference_checker_node: /opt/ros/jazzy/lib/librmw.so
 reference_checker_node: /opt/ros/jazzy/lib/librosidl_dynamic_typesupport.so
 reference_checker_node: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_cpp.so

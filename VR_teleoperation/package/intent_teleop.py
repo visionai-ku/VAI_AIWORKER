@@ -8,7 +8,6 @@ import sys
 import traceback
 import xml.etree.ElementTree as ET
 from datetime import datetime
-from collections import deque
 from pathlib import Path
 from numbers import Real
 
@@ -25,7 +24,7 @@ from package.controller_mapping import ControllerMapper
 from package.quest_controller_server import QuestControllerServer, create_self_signed_certificate
 from package.fixed_quest_scene import build_fixed_quest_scene, SG2CommandGuard
 from package.fixed_quest_sim import reset_sg2_sim, SG2FixedQuestSimulation, ControllerRecorder
-from package.fixed_quest_transport import SG2RobotStateReceiver, SG2RobotCommandPublisher
+from package.fixed_quest_transport import SG2RobotStateReceiver, SG2RobotCommandPublisher, sample_control_inputs
 from package.fixed_quest_real import (SG2FixedQuestReal, FIXED_QUEST_MIN_GRIPPER_SPEED,
                                       FIXED_QUEST_MAX_GRIPPER_SPEED, FIXED_QUEST_MAX_TRACKING_PAUSE_S)
 from package.worker.fixed_quest_protocol import (JOINT_NAMES, JOINT_LIMITS, FIXED_QUEST_DEFAULT_ARM_SPEED, FIXED_QUEST_MAX_ARM_SPEED,
@@ -35,6 +34,7 @@ from .intent_calibration import load_intent_profile
 from .intent_sim_bridge import IntentSimBridge
 from .home_path import HOME_PATH_STRATEGIES
 from .posture_ik import SG2PostureIK
+from .runtime_diagnostics import GCPauseMonitor
 
 @dataclass
 class IntentTeleopSettings:
@@ -415,7 +415,7 @@ def run_intent_teleop(cfg=None, on_tick=None):
     recent_ik_recovery = None
     last_ik_warning = None   # (time, state, reason, {hand: target xyz}) shown in the viewer for 3 s
     last_targets = {}
-    results = deque(maxlen=int(cfg.CONTROL_HZ * 60))
+    gc_monitor = GCPauseMonitor()
     mode_label = "SIM" if cfg.backend == "sim" else ("SHADOW" if cfg.DRY_RUN else "REAL")
     speed_label = "팔 최대 %.0f°/s · 복귀 %.0f°/s · 시작 ramp %g초" % (
         np.rad2deg(cfg.MAX_JOINT_SPEED), np.rad2deg(cfg.MAX_HOME_JOINT_SPEED), cfg.TELEOP_RAMP_S)
@@ -424,6 +424,7 @@ def run_intent_teleop(cfg=None, on_tick=None):
     if not isinstance(cfg.QUEST_HOST, str) or not cfg.QUEST_HOST:
         raise ValueError("QUEST_HOST를 Quest와 로봇이 접근할 수 있는 PC LAN IP로 지정하세요.")
     try:
+        gc_monitor.start()
         use_pyqt_platform_plugins()
         app = QApplication.instance() or QApplication([])
         if cfg.VIEWER_MODE == "process":
@@ -688,9 +689,9 @@ def run_intent_teleop(cfg=None, on_tick=None):
                 mode_label = "SHADOW" if real.dry_run else "REAL"
                 mode_widget.setText(("SIM · 이상적 관절 추종" if cfg.backend == "sim" else ("DRY RUN · 미리보기" if real.dry_run else "REAL RUN")) + " · " + speed_label)
                 controls.setWindowTitle("Fixed Quest coordinated " + mode_label)
-            # Mode changes can take time while closing a socket: sample after switching.
-            now = time.monotonic()
-            feedback, frame = receiver.latest(now), server.latest()
+            # Sample after mode switching and feedback polling; validate both
+            # inputs at the same observation time after copying Quest input.
+            feedback, frame, now = sample_control_inputs(server, receiver, simulated=cfg.backend == "sim")
             action = ui_actions[-1] if ui_actions else None
             ui_actions.clear()
             speed_change = None
@@ -719,6 +720,7 @@ def run_intent_teleop(cfg=None, on_tick=None):
                     gripper_speed_change = {"requested_text": requested_text, "accepted": False,
                                             "reason": gripper_speed_error}
             tick_started = time.perf_counter()
+            tick_cpu_started = time.thread_time()
             control_frame = None if getattr(on_tick, "lock_input", False) else frame
             result = real.tick_grip(control_frame, feedback, now=now, action=action)
             if action == "joint_adjust":
@@ -778,6 +780,8 @@ def run_intent_teleop(cfg=None, on_tick=None):
             result["tracking_mode_change"] = tracking_mode_change
             result["tracking_mode_pending"] = pending_tracking_mode
             result["control_compute_ms"] = (time.perf_counter() - tick_started) * 1000
+            result["control_thread_cpu_ms"] = (time.thread_time() - tick_cpu_started) * 1000
+            result["gc_events_since_previous_tick"] = gc_monitor.take_events()
             result["speed_change"] = speed_change
             result["gripper_speed_change"] = gripper_speed_change
             speed_label = "팔 상한 %g°/s · 그리퍼 %g°/s · 복귀 %g°/s · 시작 ramp %g초" % (
@@ -838,7 +842,6 @@ def run_intent_teleop(cfg=None, on_tick=None):
                                    {hand: last_targets[hand] for hand in ik_hands if hand in last_targets})
             result["backend"] = cfg.backend
             recorder.write(now, frame, result)
-            results.append(result)
             if on_tick is not None:
                 on_tick(now, frame, result, real, ui_actions)
             next_control = now + 1 / cfg.CONTROL_HZ
@@ -896,12 +899,21 @@ def run_intent_teleop(cfg=None, on_tick=None):
                         tracking_status[hand] = "Quest 입력 지연"
                     else:
                         hand_input = frame["hands"][hand]
-                        if hand_input["valid"] and not hand_input["emulated"]:
+                        diagnostics = frame.get("diagnostics", {})
+                        detail = diagnostics.get("hands", {}).get(hand, {})
+                        # Explain the actual gate, including packets from an older
+                        # Quest page whose hand reason says only "추정 위치 · 사용 중지".
+                        if frame.get("visibility") != "visible":
+                            tracking_status[hand] = "XR 화면 비활성 · 입력 차단"
+                        elif detail.get("blocked_by") == "viewer_pose":
+                            tracking_status[hand] = "헤드셋 위치 추적 손실 · 양손 입력 차단 · Quest XR 재시작/추적 확인"
+                        elif hand_input["valid"] and not hand_input["emulated"]:
                             tracking_status[hand] = "추적 유효 · grip %.2f" % hand_input["grip"]
                         elif hand_input["emulated"] and mapper.accept_emulated:
                             tracking_status[hand] = "추정 위치 사용 중 · grip %.2f" % hand_input["grip"]
+                        elif hand_input["emulated"]:
+                            tracking_status[hand] = "컨트롤러 추정 위치 · PC 설정에서 사용 중지"
                         else:
-                            detail = frame.get("diagnostics", {}).get("hands", {}).get(hand, {})
                             tracking_status[hand] = detail.get("reason", "컨트롤러 추적 없음")
                             if detail.get("blocked_by"):
                                 tracking_status[hand] += " · " + detail["blocked_by"]
@@ -978,7 +990,7 @@ def run_intent_teleop(cfg=None, on_tick=None):
         raise
     finally:
         # Release the robot lease before closing transports, even if another cleanup fails.
-        for obj in (real, publisher, receiver, server, rp, controls, recorder):
+        for obj in (real, publisher, receiver, server, rp, controls, recorder, gc_monitor):
             if obj is not None:
                 try:
                     obj.stop() if obj is real else obj.close()

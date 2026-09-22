@@ -249,6 +249,10 @@ CMakeFiles/robotis_interfaces_s__rosidl_typesupport_introspection_c.dir/rosidl_g
  /opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/time__struct.h \
  /opt/ros/jazzy/include/geometry_msgs/geometry_msgs/msg/detail/point32__struct.h \
  /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__functions.h \
+ /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.h \
+ /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__struct.h \
+ /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__struct.h \
+ /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.h \
  /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.h \
  /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__struct.h \
  /opt/ros/jazzy/include/geometry_msgs/geometry_msgs/msg/detail/pose_stamped__struct.h \
@@ -256,4 +260,6 @@ CMakeFiles/robotis_interfaces_s__rosidl_typesupport_introspection_c.dir/rosidl_g
  /opt/ros/jazzy/include/geometry_msgs/geometry_msgs/msg/detail/point__struct.h \
  /opt/ros/jazzy/include/geometry_msgs/geometry_msgs/msg/detail/quaternion__struct.h \
  /opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__struct.h \
- /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__functions.h
+ /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__functions.h \
+ /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.h \
+ /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.h

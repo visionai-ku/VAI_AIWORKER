@@ -192,6 +192,7 @@ CMakeFiles/dynamixel_sdk_custom_interfaces__rosidl_typesupport_cpp.dir/rosidl_ty
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
   /usr/include/c++/13/cstddef \
+  /usr/include/c++/13/cstdint \
   /usr/include/c++/13/cstdio \
   /usr/include/c++/13/cstdlib \
   /usr/include/c++/13/cwchar \
@@ -441,6 +442,7 @@ CMakeFiles/dynamixel_sdk_custom_interfaces__rosidl_typesupport_cpp.dir/rosidl_ty
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
   /usr/include/c++/13/cstddef \
+  /usr/include/c++/13/cstdint \
   /usr/include/c++/13/cstdio \
   /usr/include/c++/13/cstdlib \
   /usr/include/c++/13/cstring \
@@ -515,6 +517,7 @@ libdynamixel_sdk_custom_interfaces__rosidl_typesupport_cpp.so: /lib/aarch64-linu
   /usr/lib/aarch64-linux-gnu/libm.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o \
+  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libstdc++.so \
@@ -530,6 +533,8 @@ libdynamixel_sdk_custom_interfaces__rosidl_generator_c.so:
 /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o:
 
@@ -998,6 +1003,8 @@ rosidl_generator_c/dynamixel_sdk_custom_interfaces/srv/detail/get_position__stru
 /usr/include/c++/13/bits/uniform_int_dist.h:
 
 /usr/include/c++/13/ext/atomicity.h:
+
+/usr/include/c++/13/cstdint:
 
 /usr/include/c++/13/cstdlib:
 

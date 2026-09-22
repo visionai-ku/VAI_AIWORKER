@@ -69,7 +69,7 @@ add_library(ffw_swerve_drive_controller::swerve_drive_controller_parameter INTER
 
 set_target_properties(ffw_swerve_drive_controller::swerve_drive_controller_parameter PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include;${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "fmt::fmt;parameter_traits::parameter_traits;rclcpp::rclcpp;rclcpp_lifecycle::rclcpp_lifecycle;rsl::rsl;tcb_span::tcb_span;tl_expected::tl_expected"
+  INTERFACE_LINK_LIBRARIES "fmt::fmt;parameter_traits::parameter_traits;rclcpp::rclcpp;rclcpp_lifecycle::rclcpp_lifecycle;rsl::rsl;tcb_span::tcb_span;tl::expected;tl_expected::tl_expected"
 )
 
 # Load information for each installed configuration.

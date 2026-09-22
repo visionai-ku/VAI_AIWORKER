@@ -14,3 +14,5 @@ Installing joint_trajectory_executor script to /root/ros2_ws/install/ffw_bringup
 
 Installed /root/ros2_ws/build/ffw_bringup
 running symlink_data
+symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_sg2_rev1_follower/shutdown_position.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_sg2_rev1_follower
+symbolically linking /root/ros2_ws/build/ffw_bringup/config/ffw_sg2_rev1_follower/ffw_sg2_follower_initial_positions_backup.yaml -> /root/ros2_ws/install/ffw_bringup/share/ffw_bringup/config/ffw_sg2_rev1_follower

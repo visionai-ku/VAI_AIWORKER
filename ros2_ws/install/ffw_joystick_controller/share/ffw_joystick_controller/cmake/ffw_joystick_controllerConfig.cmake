@@ -16,7 +16,7 @@ set(_ffw_joystick_controller_CONFIG_INCLUDED TRUE)
 
 # output package information
 if(NOT ffw_joystick_controller_FIND_QUIETLY)
-  message(STATUS "Found ffw_joystick_controller: 1.2.1 (${ffw_joystick_controller_DIR})")
+  message(STATUS "Found ffw_joystick_controller: 2.2.5 (${ffw_joystick_controller_DIR})")
 endif()
 
 # warn when using a deprecated package

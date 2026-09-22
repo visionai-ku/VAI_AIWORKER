@@ -4,18 +4,28 @@
 CMakeFiles/ffw_robot_manager.dir/src/battery_model.cpp.o: /root/ros2_ws/src/ai_worker/ffw_robot_manager/src/battery_model.cpp \
   /root/ros2_ws/src/ai_worker/ffw_robot_manager/include/ffw_robot_manager/battery_model.hpp \
   /root/ros2_ws/src/ai_worker/ffw_robot_manager/include/ffw_robot_manager/ubetter_battery_model.hpp \
+  /usr/include/aarch64-linux-gnu/asm/bitsperlong.h \
   /usr/include/aarch64-linux-gnu/asm/errno.h \
+  /usr/include/aarch64-linux-gnu/asm/unistd.h \
   /usr/include/aarch64-linux-gnu/bits/atomic_wide_counter.h \
   /usr/include/aarch64-linux-gnu/bits/byteswap.h \
+  /usr/include/aarch64-linux-gnu/bits/confname.h \
   /usr/include/aarch64-linux-gnu/bits/cpu-set.h \
   /usr/include/aarch64-linux-gnu/bits/endian.h \
   /usr/include/aarch64-linux-gnu/bits/endianness.h \
+  /usr/include/aarch64-linux-gnu/bits/environments.h \
   /usr/include/aarch64-linux-gnu/bits/errno.h \
   /usr/include/aarch64-linux-gnu/bits/floatn-common.h \
   /usr/include/aarch64-linux-gnu/bits/floatn.h \
+  /usr/include/aarch64-linux-gnu/bits/getopt_core.h \
+  /usr/include/aarch64-linux-gnu/bits/getopt_posix.h \
   /usr/include/aarch64-linux-gnu/bits/libc-header-start.h \
+  /usr/include/aarch64-linux-gnu/bits/local_lim.h \
   /usr/include/aarch64-linux-gnu/bits/locale.h \
   /usr/include/aarch64-linux-gnu/bits/long-double.h \
+  /usr/include/aarch64-linux-gnu/bits/posix1_lim.h \
+  /usr/include/aarch64-linux-gnu/bits/posix2_lim.h \
+  /usr/include/aarch64-linux-gnu/bits/posix_opt.h \
   /usr/include/aarch64-linux-gnu/bits/pthread_stack_min-dynamic.h \
   /usr/include/aarch64-linux-gnu/bits/pthreadtypes-arch.h \
   /usr/include/aarch64-linux-gnu/bits/pthreadtypes.h \
@@ -36,6 +46,7 @@ CMakeFiles/ffw_robot_manager.dir/src/battery_model.cpp.o: /root/ros2_ws/src/ai_w
   /usr/include/aarch64-linux-gnu/bits/stdlib.h \
   /usr/include/aarch64-linux-gnu/bits/struct_mutex.h \
   /usr/include/aarch64-linux-gnu/bits/struct_rwlock.h \
+  /usr/include/aarch64-linux-gnu/bits/syscall.h \
   /usr/include/aarch64-linux-gnu/bits/thread-shared-types.h \
   /usr/include/aarch64-linux-gnu/bits/time.h \
   /usr/include/aarch64-linux-gnu/bits/time64.h \
@@ -68,17 +79,26 @@ CMakeFiles/ffw_robot_manager.dir/src/battery_model.cpp.o: /root/ros2_ws/src/ai_w
   /usr/include/aarch64-linux-gnu/bits/types/wint_t.h \
   /usr/include/aarch64-linux-gnu/bits/typesizes.h \
   /usr/include/aarch64-linux-gnu/bits/uintn-identity.h \
+  /usr/include/aarch64-linux-gnu/bits/uio_lim.h \
+  /usr/include/aarch64-linux-gnu/bits/unistd-decl.h \
+  /usr/include/aarch64-linux-gnu/bits/unistd.h \
+  /usr/include/aarch64-linux-gnu/bits/unistd_ext.h \
   /usr/include/aarch64-linux-gnu/bits/waitflags.h \
   /usr/include/aarch64-linux-gnu/bits/waitstatus.h \
   /usr/include/aarch64-linux-gnu/bits/wchar.h \
   /usr/include/aarch64-linux-gnu/bits/wchar2-decl.h \
   /usr/include/aarch64-linux-gnu/bits/wchar2.h \
+  /usr/include/aarch64-linux-gnu/bits/wctype-wchar.h \
   /usr/include/aarch64-linux-gnu/bits/wordsize.h \
+  /usr/include/aarch64-linux-gnu/bits/xopen_lim.h \
   /usr/include/aarch64-linux-gnu/c++/13/bits/atomic_word.h \
   /usr/include/aarch64-linux-gnu/c++/13/bits/c++allocator.h \
   /usr/include/aarch64-linux-gnu/c++/13/bits/c++config.h \
   /usr/include/aarch64-linux-gnu/c++/13/bits/c++locale.h \
   /usr/include/aarch64-linux-gnu/c++/13/bits/cpu_defines.h \
+  /usr/include/aarch64-linux-gnu/c++/13/bits/ctype_base.h \
+  /usr/include/aarch64-linux-gnu/c++/13/bits/ctype_inline.h \
+  /usr/include/aarch64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/aarch64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/aarch64-linux-gnu/c++/13/bits/gthr.h \
   /usr/include/aarch64-linux-gnu/c++/13/bits/os_defines.h \
@@ -87,10 +107,13 @@ CMakeFiles/ffw_robot_manager.dir/src/battery_model.cpp.o: /root/ros2_ws/src/ai_w
   /usr/include/aarch64-linux-gnu/sys/cdefs.h \
   /usr/include/aarch64-linux-gnu/sys/select.h \
   /usr/include/aarch64-linux-gnu/sys/single_threaded.h \
+  /usr/include/aarch64-linux-gnu/sys/syscall.h \
   /usr/include/aarch64-linux-gnu/sys/types.h \
   /usr/include/alloca.h \
+  /usr/include/asm-generic/bitsperlong.h \
   /usr/include/asm-generic/errno-base.h \
   /usr/include/asm-generic/errno.h \
+  /usr/include/asm-generic/unistd.h \
   /usr/include/c++/13/backward/auto_ptr.h \
   /usr/include/c++/13/backward/binders.h \
   /usr/include/c++/13/bit \
@@ -100,6 +123,9 @@ CMakeFiles/ffw_robot_manager.dir/src/battery_model.cpp.o: /root/ros2_ws/src/ai_w
   /usr/include/c++/13/bits/allocator.h \
   /usr/include/c++/13/bits/atomic_base.h \
   /usr/include/c++/13/bits/atomic_lockfree_defines.h \
+  /usr/include/c++/13/bits/atomic_wait.h \
+  /usr/include/c++/13/bits/basic_ios.h \
+  /usr/include/c++/13/bits/basic_ios.tcc \
   /usr/include/c++/13/bits/basic_string.h \
   /usr/include/c++/13/bits/basic_string.tcc \
   /usr/include/c++/13/bits/char_traits.h \
@@ -115,23 +141,37 @@ CMakeFiles/ffw_robot_manager.dir/src/battery_model.cpp.o: /root/ros2_ws/src/ai_w
   /usr/include/c++/13/bits/functional_hash.h \
   /usr/include/c++/13/bits/hash_bytes.h \
   /usr/include/c++/13/bits/invoke.h \
+  /usr/include/c++/13/bits/ios_base.h \
+  /usr/include/c++/13/bits/iterator_concepts.h \
+  /usr/include/c++/13/bits/locale_classes.h \
+  /usr/include/c++/13/bits/locale_classes.tcc \
+  /usr/include/c++/13/bits/locale_facets.h \
+  /usr/include/c++/13/bits/locale_facets.tcc \
   /usr/include/c++/13/bits/localefwd.h \
+  /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
   /usr/include/c++/13/bits/memoryfwd.h \
   /usr/include/c++/13/bits/move.h \
   /usr/include/c++/13/bits/nested_exception.h \
   /usr/include/c++/13/bits/new_allocator.h \
+  /usr/include/c++/13/bits/ostream.tcc \
   /usr/include/c++/13/bits/ostream_insert.h \
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
   /usr/include/c++/13/bits/range_access.h \
+  /usr/include/c++/13/bits/ranges_algobase.h \
+  /usr/include/c++/13/bits/ranges_base.h \
+  /usr/include/c++/13/bits/ranges_cmp.h \
+  /usr/include/c++/13/bits/ranges_uninitialized.h \
+  /usr/include/c++/13/bits/ranges_util.h \
   /usr/include/c++/13/bits/refwrap.h \
   /usr/include/c++/13/bits/requires_hosted.h \
   /usr/include/c++/13/bits/shared_ptr.h \
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
   /usr/include/c++/13/bits/std_abs.h \
+  /usr/include/c++/13/bits/std_mutex.h \
   /usr/include/c++/13/bits/stl_algobase.h \
   /usr/include/c++/13/bits/stl_construct.h \
   /usr/include/c++/13/bits/stl_function.h \
@@ -143,6 +183,8 @@ CMakeFiles/ffw_robot_manager.dir/src/battery_model.cpp.o: /root/ros2_ws/src/ai_w
   /usr/include/c++/13/bits/stl_relops.h \
   /usr/include/c++/13/bits/stl_tempbuf.h \
   /usr/include/c++/13/bits/stl_uninitialized.h \
+  /usr/include/c++/13/bits/streambuf.tcc \
+  /usr/include/c++/13/bits/streambuf_iterator.h \
   /usr/include/c++/13/bits/string_view.tcc \
   /usr/include/c++/13/bits/stringfwd.h \
   /usr/include/c++/13/bits/unique_ptr.h \
@@ -151,11 +193,16 @@ CMakeFiles/ffw_robot_manager.dir/src/battery_model.cpp.o: /root/ros2_ws/src/ai_w
   /usr/include/c++/13/bits/utility.h \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
+  /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
+  /usr/include/c++/13/compare \
+  /usr/include/c++/13/concepts \
   /usr/include/c++/13/cstddef \
+  /usr/include/c++/13/cstdint \
   /usr/include/c++/13/cstdio \
   /usr/include/c++/13/cstdlib \
   /usr/include/c++/13/cwchar \
+  /usr/include/c++/13/cwctype \
   /usr/include/c++/13/debug/assertions.h \
   /usr/include/c++/13/debug/debug.h \
   /usr/include/c++/13/exception \
@@ -167,14 +214,20 @@ CMakeFiles/ffw_robot_manager.dir/src/battery_model.cpp.o: /root/ros2_ws/src/ai_w
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
   /usr/include/c++/13/initializer_list \
+  /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/new \
+  /usr/include/c++/13/numbers \
+  /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_memory_defs.h \
   /usr/include/c++/13/pstl/pstl_config.h \
+  /usr/include/c++/13/stdexcept \
+  /usr/include/c++/13/streambuf \
   /usr/include/c++/13/string \
   /usr/include/c++/13/string_view \
+  /usr/include/c++/13/system_error \
   /usr/include/c++/13/tuple \
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
@@ -184,7 +237,10 @@ CMakeFiles/ffw_robot_manager.dir/src/battery_model.cpp.o: /root/ros2_ws/src/ai_w
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
+  /usr/include/limits.h \
+  /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
+  /usr/include/linux/limits.h \
   /usr/include/locale.h \
   /usr/include/pthread.h \
   /usr/include/sched.h \
@@ -192,11 +248,16 @@ CMakeFiles/ffw_robot_manager.dir/src/battery_model.cpp.o: /root/ros2_ws/src/ai_w
   /usr/include/stdint.h \
   /usr/include/stdio.h \
   /usr/include/stdlib.h \
+  /usr/include/syscall.h \
   /usr/include/time.h \
+  /usr/include/unistd.h \
   /usr/include/wchar.h \
+  /usr/include/wctype.h \
+  /usr/lib/gcc/aarch64-linux-gnu/13/include/limits.h \
   /usr/lib/gcc/aarch64-linux-gnu/13/include/stdarg.h \
   /usr/lib/gcc/aarch64-linux-gnu/13/include/stddef.h \
-  /usr/lib/gcc/aarch64-linux-gnu/13/include/stdint.h
+  /usr/lib/gcc/aarch64-linux-gnu/13/include/stdint.h \
+  /usr/lib/gcc/aarch64-linux-gnu/13/include/syslimits.h
 
 CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: /root/ros2_ws/src/ai_worker/ffw_robot_manager/src/ffw_robot_manager.cpp \
   /opt/ros/jazzy/include/ament_index_cpp/ament_index_cpp/get_package_share_directory.hpp \
@@ -759,6 +820,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: /root/ros2_ws/src/
   /usr/include/aarch64-linux-gnu/asm/sigcontext.h \
   /usr/include/aarch64-linux-gnu/asm/sve_context.h \
   /usr/include/aarch64-linux-gnu/asm/types.h \
+  /usr/include/aarch64-linux-gnu/asm/unistd.h \
   /usr/include/aarch64-linux-gnu/bits/atomic_wide_counter.h \
   /usr/include/aarch64-linux-gnu/bits/byteswap.h \
   /usr/include/aarch64-linux-gnu/bits/confname.h \
@@ -798,6 +860,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: /root/ros2_ws/src/
   /usr/include/aarch64-linux-gnu/bits/select-decl.h \
   /usr/include/aarch64-linux-gnu/bits/select.h \
   /usr/include/aarch64-linux-gnu/bits/select2.h \
+  /usr/include/aarch64-linux-gnu/bits/semaphore.h \
   /usr/include/aarch64-linux-gnu/bits/setjmp.h \
   /usr/include/aarch64-linux-gnu/bits/sigaction.h \
   /usr/include/aarch64-linux-gnu/bits/sigcontext.h \
@@ -826,6 +889,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: /root/ros2_ws/src/
   /usr/include/aarch64-linux-gnu/bits/strings_fortified.h \
   /usr/include/aarch64-linux-gnu/bits/struct_mutex.h \
   /usr/include/aarch64-linux-gnu/bits/struct_rwlock.h \
+  /usr/include/aarch64-linux-gnu/bits/syscall.h \
   /usr/include/aarch64-linux-gnu/bits/thread-shared-types.h \
   /usr/include/aarch64-linux-gnu/bits/time.h \
   /usr/include/aarch64-linux-gnu/bits/time64.h \
@@ -899,6 +963,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: /root/ros2_ws/src/
   /usr/include/aarch64-linux-gnu/sys/procfs.h \
   /usr/include/aarch64-linux-gnu/sys/select.h \
   /usr/include/aarch64-linux-gnu/sys/single_threaded.h \
+  /usr/include/aarch64-linux-gnu/sys/syscall.h \
   /usr/include/aarch64-linux-gnu/sys/time.h \
   /usr/include/aarch64-linux-gnu/sys/types.h \
   /usr/include/aarch64-linux-gnu/sys/ucontext.h \
@@ -910,6 +975,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: /root/ros2_ws/src/
   /usr/include/asm-generic/int-ll64.h \
   /usr/include/asm-generic/posix_types.h \
   /usr/include/asm-generic/types.h \
+  /usr/include/asm-generic/unistd.h \
   /usr/include/assert.h \
   /usr/include/boost/algorithm/string.hpp \
   /usr/include/boost/algorithm/string/case_conv.hpp \
@@ -1162,9 +1228,11 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: /root/ros2_ws/src/
   /usr/include/boost/preprocessor/enum.hpp \
   /usr/include/boost/preprocessor/enum_params.hpp \
   /usr/include/boost/preprocessor/facilities/check_empty.hpp \
+  /usr/include/boost/preprocessor/facilities/detail/is_empty.hpp \
   /usr/include/boost/preprocessor/facilities/empty.hpp \
   /usr/include/boost/preprocessor/facilities/expand.hpp \
   /usr/include/boost/preprocessor/facilities/identity.hpp \
+  /usr/include/boost/preprocessor/facilities/is_empty_variadic.hpp \
   /usr/include/boost/preprocessor/facilities/overload.hpp \
   /usr/include/boost/preprocessor/identity.hpp \
   /usr/include/boost/preprocessor/inc.hpp \
@@ -1192,6 +1260,8 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: /root/ros2_ws/src/
   /usr/include/boost/preprocessor/logical/not.hpp \
   /usr/include/boost/preprocessor/punctuation/comma.hpp \
   /usr/include/boost/preprocessor/punctuation/comma_if.hpp \
+  /usr/include/boost/preprocessor/punctuation/detail/is_begin_parens.hpp \
+  /usr/include/boost/preprocessor/punctuation/is_begin_parens.hpp \
   /usr/include/boost/preprocessor/repeat.hpp \
   /usr/include/boost/preprocessor/repetition/detail/for.hpp \
   /usr/include/boost/preprocessor/repetition/detail/limits/for_256.hpp \
@@ -1225,6 +1295,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: /root/ros2_ws/src/
   /usr/include/boost/preprocessor/tuple/eat.hpp \
   /usr/include/boost/preprocessor/tuple/elem.hpp \
   /usr/include/boost/preprocessor/tuple/rem.hpp \
+  /usr/include/boost/preprocessor/variadic/detail/has_opt.hpp \
   /usr/include/boost/preprocessor/variadic/elem.hpp \
   /usr/include/boost/preprocessor/variadic/has_opt.hpp \
   /usr/include/boost/preprocessor/variadic/limits/elem_64.hpp \
@@ -1352,6 +1423,8 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: /root/ros2_ws/src/
   /usr/include/c++/13/bits/atomic_base.h \
   /usr/include/c++/13/bits/atomic_futex.h \
   /usr/include/c++/13/bits/atomic_lockfree_defines.h \
+  /usr/include/c++/13/bits/atomic_timed_wait.h \
+  /usr/include/c++/13/bits/atomic_wait.h \
   /usr/include/c++/13/bits/basic_ios.h \
   /usr/include/c++/13/bits/basic_ios.tcc \
   /usr/include/c++/13/bits/basic_string.h \
@@ -1359,6 +1432,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: /root/ros2_ws/src/
   /usr/include/c++/13/bits/char_traits.h \
   /usr/include/c++/13/bits/charconv.h \
   /usr/include/c++/13/bits/chrono.h \
+  /usr/include/c++/13/bits/chrono_io.h \
   /usr/include/c++/13/bits/codecvt.h \
   /usr/include/c++/13/bits/concept_check.h \
   /usr/include/c++/13/bits/cpp_type_traits.h \
@@ -1379,6 +1453,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: /root/ros2_ws/src/
   /usr/include/c++/13/bits/invoke.h \
   /usr/include/c++/13/bits/ios_base.h \
   /usr/include/c++/13/bits/istream.tcc \
+  /usr/include/c++/13/bits/iterator_concepts.h \
   /usr/include/c++/13/bits/list.tcc \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
@@ -1388,6 +1463,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: /root/ros2_ws/src/
   /usr/include/c++/13/bits/locale_facets_nonio.h \
   /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
+  /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
   /usr/include/c++/13/bits/memoryfwd.h \
   /usr/include/c++/13/bits/move.h \
@@ -1402,6 +1478,12 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: /root/ros2_ws/src/
   /usr/include/c++/13/bits/ptr_traits.h \
   /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/range_access.h \
+  /usr/include/c++/13/bits/ranges_algo.h \
+  /usr/include/c++/13/bits/ranges_algobase.h \
+  /usr/include/c++/13/bits/ranges_base.h \
+  /usr/include/c++/13/bits/ranges_cmp.h \
+  /usr/include/c++/13/bits/ranges_uninitialized.h \
+  /usr/include/c++/13/bits/ranges_util.h \
   /usr/include/c++/13/bits/refwrap.h \
   /usr/include/c++/13/bits/regex.h \
   /usr/include/c++/13/bits/regex.tcc \
@@ -1416,6 +1498,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: /root/ros2_ws/src/
   /usr/include/c++/13/bits/regex_scanner.h \
   /usr/include/c++/13/bits/regex_scanner.tcc \
   /usr/include/c++/13/bits/requires_hosted.h \
+  /usr/include/c++/13/bits/semaphore_base.h \
   /usr/include/c++/13/bits/shared_ptr.h \
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
@@ -1469,12 +1552,14 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: /root/ros2_ws/src/
   /usr/include/c++/13/cassert \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
+  /usr/include/c++/13/charconv \
   /usr/include/c++/13/chrono \
   /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/cmath \
   /usr/include/c++/13/codecvt \
   /usr/include/c++/13/compare \
+  /usr/include/c++/13/concepts \
   /usr/include/c++/13/condition_variable \
   /usr/include/c++/13/csignal \
   /usr/include/c++/13/cstdarg \
@@ -1499,6 +1584,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: /root/ros2_ws/src/
   /usr/include/c++/13/ext/slist \
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
+  /usr/include/c++/13/format \
   /usr/include/c++/13/fstream \
   /usr/include/c++/13/functional \
   /usr/include/c++/13/future \
@@ -1516,6 +1602,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: /root/ros2_ws/src/
   /usr/include/c++/13/memory \
   /usr/include/c++/13/mutex \
   /usr/include/c++/13/new \
+  /usr/include/c++/13/numbers \
   /usr/include/c++/13/numeric \
   /usr/include/c++/13/optional \
   /usr/include/c++/13/ostream \
@@ -1527,12 +1614,16 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: /root/ros2_ws/src/
   /usr/include/c++/13/queue \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/regex \
+  /usr/include/c++/13/semaphore \
   /usr/include/c++/13/set \
   /usr/include/c++/13/shared_mutex \
+  /usr/include/c++/13/source_location \
+  /usr/include/c++/13/span \
   /usr/include/c++/13/sstream \
   /usr/include/c++/13/stack \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/stdlib.h \
+  /usr/include/c++/13/stop_token \
   /usr/include/c++/13/streambuf \
   /usr/include/c++/13/string \
   /usr/include/c++/13/string_view \
@@ -1583,6 +1674,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: /root/ros2_ws/src/
   /usr/include/math.h \
   /usr/include/pthread.h \
   /usr/include/sched.h \
+  /usr/include/semaphore.h \
   /usr/include/signal.h \
   /usr/include/stdc-predef.h \
   /usr/include/stdint.h \
@@ -1590,7 +1682,9 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: /root/ros2_ws/src/
   /usr/include/stdlib.h \
   /usr/include/string.h \
   /usr/include/strings.h \
+  /usr/include/syscall.h \
   /usr/include/time.h \
+  /usr/include/tl/expected.hpp \
   /usr/include/unistd.h \
   /usr/include/wchar.h \
   /usr/include/wctype.h \
@@ -1606,18 +1700,28 @@ CMakeFiles/ffw_robot_manager.dir/src/robot_type.cpp.o: /root/ros2_ws/src/ai_work
   /root/ros2_ws/src/ai_worker/ffw_robot_manager/include/ffw_robot_manager/battery_model.hpp \
   /root/ros2_ws/src/ai_worker/ffw_robot_manager/include/ffw_robot_manager/robot_type.hpp \
   /root/ros2_ws/src/ai_worker/ffw_robot_manager/include/ffw_robot_manager/ubetter_battery_model.hpp \
+  /usr/include/aarch64-linux-gnu/asm/bitsperlong.h \
   /usr/include/aarch64-linux-gnu/asm/errno.h \
+  /usr/include/aarch64-linux-gnu/asm/unistd.h \
   /usr/include/aarch64-linux-gnu/bits/atomic_wide_counter.h \
   /usr/include/aarch64-linux-gnu/bits/byteswap.h \
+  /usr/include/aarch64-linux-gnu/bits/confname.h \
   /usr/include/aarch64-linux-gnu/bits/cpu-set.h \
   /usr/include/aarch64-linux-gnu/bits/endian.h \
   /usr/include/aarch64-linux-gnu/bits/endianness.h \
+  /usr/include/aarch64-linux-gnu/bits/environments.h \
   /usr/include/aarch64-linux-gnu/bits/errno.h \
   /usr/include/aarch64-linux-gnu/bits/floatn-common.h \
   /usr/include/aarch64-linux-gnu/bits/floatn.h \
+  /usr/include/aarch64-linux-gnu/bits/getopt_core.h \
+  /usr/include/aarch64-linux-gnu/bits/getopt_posix.h \
   /usr/include/aarch64-linux-gnu/bits/libc-header-start.h \
+  /usr/include/aarch64-linux-gnu/bits/local_lim.h \
   /usr/include/aarch64-linux-gnu/bits/locale.h \
   /usr/include/aarch64-linux-gnu/bits/long-double.h \
+  /usr/include/aarch64-linux-gnu/bits/posix1_lim.h \
+  /usr/include/aarch64-linux-gnu/bits/posix2_lim.h \
+  /usr/include/aarch64-linux-gnu/bits/posix_opt.h \
   /usr/include/aarch64-linux-gnu/bits/pthread_stack_min-dynamic.h \
   /usr/include/aarch64-linux-gnu/bits/pthreadtypes-arch.h \
   /usr/include/aarch64-linux-gnu/bits/pthreadtypes.h \
@@ -1638,6 +1742,7 @@ CMakeFiles/ffw_robot_manager.dir/src/robot_type.cpp.o: /root/ros2_ws/src/ai_work
   /usr/include/aarch64-linux-gnu/bits/stdlib.h \
   /usr/include/aarch64-linux-gnu/bits/struct_mutex.h \
   /usr/include/aarch64-linux-gnu/bits/struct_rwlock.h \
+  /usr/include/aarch64-linux-gnu/bits/syscall.h \
   /usr/include/aarch64-linux-gnu/bits/thread-shared-types.h \
   /usr/include/aarch64-linux-gnu/bits/time.h \
   /usr/include/aarch64-linux-gnu/bits/time64.h \
@@ -1670,17 +1775,26 @@ CMakeFiles/ffw_robot_manager.dir/src/robot_type.cpp.o: /root/ros2_ws/src/ai_work
   /usr/include/aarch64-linux-gnu/bits/types/wint_t.h \
   /usr/include/aarch64-linux-gnu/bits/typesizes.h \
   /usr/include/aarch64-linux-gnu/bits/uintn-identity.h \
+  /usr/include/aarch64-linux-gnu/bits/uio_lim.h \
+  /usr/include/aarch64-linux-gnu/bits/unistd-decl.h \
+  /usr/include/aarch64-linux-gnu/bits/unistd.h \
+  /usr/include/aarch64-linux-gnu/bits/unistd_ext.h \
   /usr/include/aarch64-linux-gnu/bits/waitflags.h \
   /usr/include/aarch64-linux-gnu/bits/waitstatus.h \
   /usr/include/aarch64-linux-gnu/bits/wchar.h \
   /usr/include/aarch64-linux-gnu/bits/wchar2-decl.h \
   /usr/include/aarch64-linux-gnu/bits/wchar2.h \
+  /usr/include/aarch64-linux-gnu/bits/wctype-wchar.h \
   /usr/include/aarch64-linux-gnu/bits/wordsize.h \
+  /usr/include/aarch64-linux-gnu/bits/xopen_lim.h \
   /usr/include/aarch64-linux-gnu/c++/13/bits/atomic_word.h \
   /usr/include/aarch64-linux-gnu/c++/13/bits/c++allocator.h \
   /usr/include/aarch64-linux-gnu/c++/13/bits/c++config.h \
   /usr/include/aarch64-linux-gnu/c++/13/bits/c++locale.h \
   /usr/include/aarch64-linux-gnu/c++/13/bits/cpu_defines.h \
+  /usr/include/aarch64-linux-gnu/c++/13/bits/ctype_base.h \
+  /usr/include/aarch64-linux-gnu/c++/13/bits/ctype_inline.h \
+  /usr/include/aarch64-linux-gnu/c++/13/bits/error_constants.h \
   /usr/include/aarch64-linux-gnu/c++/13/bits/gthr-default.h \
   /usr/include/aarch64-linux-gnu/c++/13/bits/gthr.h \
   /usr/include/aarch64-linux-gnu/c++/13/bits/os_defines.h \
@@ -1689,10 +1803,13 @@ CMakeFiles/ffw_robot_manager.dir/src/robot_type.cpp.o: /root/ros2_ws/src/ai_work
   /usr/include/aarch64-linux-gnu/sys/cdefs.h \
   /usr/include/aarch64-linux-gnu/sys/select.h \
   /usr/include/aarch64-linux-gnu/sys/single_threaded.h \
+  /usr/include/aarch64-linux-gnu/sys/syscall.h \
   /usr/include/aarch64-linux-gnu/sys/types.h \
   /usr/include/alloca.h \
+  /usr/include/asm-generic/bitsperlong.h \
   /usr/include/asm-generic/errno-base.h \
   /usr/include/asm-generic/errno.h \
+  /usr/include/asm-generic/unistd.h \
   /usr/include/c++/13/backward/auto_ptr.h \
   /usr/include/c++/13/backward/binders.h \
   /usr/include/c++/13/bit \
@@ -1702,6 +1819,9 @@ CMakeFiles/ffw_robot_manager.dir/src/robot_type.cpp.o: /root/ros2_ws/src/ai_work
   /usr/include/c++/13/bits/allocator.h \
   /usr/include/c++/13/bits/atomic_base.h \
   /usr/include/c++/13/bits/atomic_lockfree_defines.h \
+  /usr/include/c++/13/bits/atomic_wait.h \
+  /usr/include/c++/13/bits/basic_ios.h \
+  /usr/include/c++/13/bits/basic_ios.tcc \
   /usr/include/c++/13/bits/basic_string.h \
   /usr/include/c++/13/bits/basic_string.tcc \
   /usr/include/c++/13/bits/char_traits.h \
@@ -1717,23 +1837,37 @@ CMakeFiles/ffw_robot_manager.dir/src/robot_type.cpp.o: /root/ros2_ws/src/ai_work
   /usr/include/c++/13/bits/functional_hash.h \
   /usr/include/c++/13/bits/hash_bytes.h \
   /usr/include/c++/13/bits/invoke.h \
+  /usr/include/c++/13/bits/ios_base.h \
+  /usr/include/c++/13/bits/iterator_concepts.h \
+  /usr/include/c++/13/bits/locale_classes.h \
+  /usr/include/c++/13/bits/locale_classes.tcc \
+  /usr/include/c++/13/bits/locale_facets.h \
+  /usr/include/c++/13/bits/locale_facets.tcc \
   /usr/include/c++/13/bits/localefwd.h \
+  /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
   /usr/include/c++/13/bits/memoryfwd.h \
   /usr/include/c++/13/bits/move.h \
   /usr/include/c++/13/bits/nested_exception.h \
   /usr/include/c++/13/bits/new_allocator.h \
+  /usr/include/c++/13/bits/ostream.tcc \
   /usr/include/c++/13/bits/ostream_insert.h \
   /usr/include/c++/13/bits/postypes.h \
   /usr/include/c++/13/bits/predefined_ops.h \
   /usr/include/c++/13/bits/ptr_traits.h \
   /usr/include/c++/13/bits/range_access.h \
+  /usr/include/c++/13/bits/ranges_algobase.h \
+  /usr/include/c++/13/bits/ranges_base.h \
+  /usr/include/c++/13/bits/ranges_cmp.h \
+  /usr/include/c++/13/bits/ranges_uninitialized.h \
+  /usr/include/c++/13/bits/ranges_util.h \
   /usr/include/c++/13/bits/refwrap.h \
   /usr/include/c++/13/bits/requires_hosted.h \
   /usr/include/c++/13/bits/shared_ptr.h \
   /usr/include/c++/13/bits/shared_ptr_atomic.h \
   /usr/include/c++/13/bits/shared_ptr_base.h \
   /usr/include/c++/13/bits/std_abs.h \
+  /usr/include/c++/13/bits/std_mutex.h \
   /usr/include/c++/13/bits/stl_algobase.h \
   /usr/include/c++/13/bits/stl_bvector.h \
   /usr/include/c++/13/bits/stl_construct.h \
@@ -1747,6 +1881,8 @@ CMakeFiles/ffw_robot_manager.dir/src/robot_type.cpp.o: /root/ros2_ws/src/ai_work
   /usr/include/c++/13/bits/stl_tempbuf.h \
   /usr/include/c++/13/bits/stl_uninitialized.h \
   /usr/include/c++/13/bits/stl_vector.h \
+  /usr/include/c++/13/bits/streambuf.tcc \
+  /usr/include/c++/13/bits/streambuf_iterator.h \
   /usr/include/c++/13/bits/string_view.tcc \
   /usr/include/c++/13/bits/stringfwd.h \
   /usr/include/c++/13/bits/unique_ptr.h \
@@ -1756,11 +1892,16 @@ CMakeFiles/ffw_robot_manager.dir/src/robot_type.cpp.o: /root/ros2_ws/src/ai_work
   /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
+  /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
+  /usr/include/c++/13/compare \
+  /usr/include/c++/13/concepts \
   /usr/include/c++/13/cstddef \
+  /usr/include/c++/13/cstdint \
   /usr/include/c++/13/cstdio \
   /usr/include/c++/13/cstdlib \
   /usr/include/c++/13/cwchar \
+  /usr/include/c++/13/cwctype \
   /usr/include/c++/13/debug/assertions.h \
   /usr/include/c++/13/debug/debug.h \
   /usr/include/c++/13/exception \
@@ -1772,15 +1913,21 @@ CMakeFiles/ffw_robot_manager.dir/src/robot_type.cpp.o: /root/ros2_ws/src/ai_work
   /usr/include/c++/13/ext/string_conversions.h \
   /usr/include/c++/13/ext/type_traits.h \
   /usr/include/c++/13/initializer_list \
+  /usr/include/c++/13/ios \
   /usr/include/c++/13/iosfwd \
   /usr/include/c++/13/limits \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/new \
+  /usr/include/c++/13/numbers \
+  /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_memory_defs.h \
   /usr/include/c++/13/pstl/pstl_config.h \
+  /usr/include/c++/13/stdexcept \
+  /usr/include/c++/13/streambuf \
   /usr/include/c++/13/string \
   /usr/include/c++/13/string_view \
+  /usr/include/c++/13/system_error \
   /usr/include/c++/13/tuple \
   /usr/include/c++/13/type_traits \
   /usr/include/c++/13/typeinfo \
@@ -1791,7 +1938,10 @@ CMakeFiles/ffw_robot_manager.dir/src/robot_type.cpp.o: /root/ros2_ws/src/ai_work
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
+  /usr/include/limits.h \
+  /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
+  /usr/include/linux/limits.h \
   /usr/include/locale.h \
   /usr/include/pthread.h \
   /usr/include/sched.h \
@@ -1799,11 +1949,16 @@ CMakeFiles/ffw_robot_manager.dir/src/robot_type.cpp.o: /root/ros2_ws/src/ai_work
   /usr/include/stdint.h \
   /usr/include/stdio.h \
   /usr/include/stdlib.h \
+  /usr/include/syscall.h \
   /usr/include/time.h \
+  /usr/include/unistd.h \
   /usr/include/wchar.h \
+  /usr/include/wctype.h \
+  /usr/lib/gcc/aarch64-linux-gnu/13/include/limits.h \
   /usr/lib/gcc/aarch64-linux-gnu/13/include/stdarg.h \
   /usr/lib/gcc/aarch64-linux-gnu/13/include/stddef.h \
-  /usr/lib/gcc/aarch64-linux-gnu/13/include/stdint.h
+  /usr/lib/gcc/aarch64-linux-gnu/13/include/stdint.h \
+  /usr/lib/gcc/aarch64-linux-gnu/13/include/syslimits.h
 
 CMakeFiles/ffw_robot_manager.dir/src/ubetter_battery_model.cpp.o: /root/ros2_ws/src/ai_worker/ffw_robot_manager/src/ubetter_battery_model.cpp \
   /opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/time__struct.hpp \
@@ -1840,18 +1995,28 @@ CMakeFiles/ffw_robot_manager.dir/src/ubetter_battery_model.cpp.o: /root/ros2_ws/
   /opt/ros/jazzy/include/std_msgs/std_msgs/msg/detail/header__traits.hpp \
   /root/ros2_ws/src/ai_worker/ffw_robot_manager/include/ffw_robot_manager/battery_model.hpp \
   /root/ros2_ws/src/ai_worker/ffw_robot_manager/include/ffw_robot_manager/ubetter_battery_model.hpp \
+  /usr/include/aarch64-linux-gnu/asm/bitsperlong.h \
   /usr/include/aarch64-linux-gnu/asm/errno.h \
+  /usr/include/aarch64-linux-gnu/asm/unistd.h \
   /usr/include/aarch64-linux-gnu/bits/atomic_wide_counter.h \
   /usr/include/aarch64-linux-gnu/bits/byteswap.h \
+  /usr/include/aarch64-linux-gnu/bits/confname.h \
   /usr/include/aarch64-linux-gnu/bits/cpu-set.h \
   /usr/include/aarch64-linux-gnu/bits/endian.h \
   /usr/include/aarch64-linux-gnu/bits/endianness.h \
+  /usr/include/aarch64-linux-gnu/bits/environments.h \
   /usr/include/aarch64-linux-gnu/bits/errno.h \
   /usr/include/aarch64-linux-gnu/bits/floatn-common.h \
   /usr/include/aarch64-linux-gnu/bits/floatn.h \
+  /usr/include/aarch64-linux-gnu/bits/getopt_core.h \
+  /usr/include/aarch64-linux-gnu/bits/getopt_posix.h \
   /usr/include/aarch64-linux-gnu/bits/libc-header-start.h \
+  /usr/include/aarch64-linux-gnu/bits/local_lim.h \
   /usr/include/aarch64-linux-gnu/bits/locale.h \
   /usr/include/aarch64-linux-gnu/bits/long-double.h \
+  /usr/include/aarch64-linux-gnu/bits/posix1_lim.h \
+  /usr/include/aarch64-linux-gnu/bits/posix2_lim.h \
+  /usr/include/aarch64-linux-gnu/bits/posix_opt.h \
   /usr/include/aarch64-linux-gnu/bits/pthread_stack_min-dynamic.h \
   /usr/include/aarch64-linux-gnu/bits/pthreadtypes-arch.h \
   /usr/include/aarch64-linux-gnu/bits/pthreadtypes.h \
@@ -1872,6 +2037,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ubetter_battery_model.cpp.o: /root/ros2_ws/
   /usr/include/aarch64-linux-gnu/bits/stdlib.h \
   /usr/include/aarch64-linux-gnu/bits/struct_mutex.h \
   /usr/include/aarch64-linux-gnu/bits/struct_rwlock.h \
+  /usr/include/aarch64-linux-gnu/bits/syscall.h \
   /usr/include/aarch64-linux-gnu/bits/thread-shared-types.h \
   /usr/include/aarch64-linux-gnu/bits/time.h \
   /usr/include/aarch64-linux-gnu/bits/time64.h \
@@ -1904,6 +2070,10 @@ CMakeFiles/ffw_robot_manager.dir/src/ubetter_battery_model.cpp.o: /root/ros2_ws/
   /usr/include/aarch64-linux-gnu/bits/types/wint_t.h \
   /usr/include/aarch64-linux-gnu/bits/typesizes.h \
   /usr/include/aarch64-linux-gnu/bits/uintn-identity.h \
+  /usr/include/aarch64-linux-gnu/bits/uio_lim.h \
+  /usr/include/aarch64-linux-gnu/bits/unistd-decl.h \
+  /usr/include/aarch64-linux-gnu/bits/unistd.h \
+  /usr/include/aarch64-linux-gnu/bits/unistd_ext.h \
   /usr/include/aarch64-linux-gnu/bits/waitflags.h \
   /usr/include/aarch64-linux-gnu/bits/waitstatus.h \
   /usr/include/aarch64-linux-gnu/bits/wchar.h \
@@ -1911,6 +2081,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ubetter_battery_model.cpp.o: /root/ros2_ws/
   /usr/include/aarch64-linux-gnu/bits/wchar2.h \
   /usr/include/aarch64-linux-gnu/bits/wctype-wchar.h \
   /usr/include/aarch64-linux-gnu/bits/wordsize.h \
+  /usr/include/aarch64-linux-gnu/bits/xopen_lim.h \
   /usr/include/aarch64-linux-gnu/c++/13/bits/atomic_word.h \
   /usr/include/aarch64-linux-gnu/c++/13/bits/c++allocator.h \
   /usr/include/aarch64-linux-gnu/c++/13/bits/c++config.h \
@@ -1929,10 +2100,13 @@ CMakeFiles/ffw_robot_manager.dir/src/ubetter_battery_model.cpp.o: /root/ros2_ws/
   /usr/include/aarch64-linux-gnu/sys/cdefs.h \
   /usr/include/aarch64-linux-gnu/sys/select.h \
   /usr/include/aarch64-linux-gnu/sys/single_threaded.h \
+  /usr/include/aarch64-linux-gnu/sys/syscall.h \
   /usr/include/aarch64-linux-gnu/sys/types.h \
   /usr/include/alloca.h \
+  /usr/include/asm-generic/bitsperlong.h \
   /usr/include/asm-generic/errno-base.h \
   /usr/include/asm-generic/errno.h \
+  /usr/include/asm-generic/unistd.h \
   /usr/include/c++/13/algorithm \
   /usr/include/c++/13/array \
   /usr/include/c++/13/backward/auto_ptr.h \
@@ -1945,6 +2119,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ubetter_battery_model.cpp.o: /root/ros2_ws/
   /usr/include/c++/13/bits/allocator.h \
   /usr/include/c++/13/bits/atomic_base.h \
   /usr/include/c++/13/bits/atomic_lockfree_defines.h \
+  /usr/include/c++/13/bits/atomic_wait.h \
   /usr/include/c++/13/bits/basic_ios.h \
   /usr/include/c++/13/bits/basic_ios.tcc \
   /usr/include/c++/13/bits/basic_string.h \
@@ -1965,6 +2140,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ubetter_battery_model.cpp.o: /root/ros2_ws/
   /usr/include/c++/13/bits/invoke.h \
   /usr/include/c++/13/bits/ios_base.h \
   /usr/include/c++/13/bits/istream.tcc \
+  /usr/include/c++/13/bits/iterator_concepts.h \
   /usr/include/c++/13/bits/locale_classes.h \
   /usr/include/c++/13/bits/locale_classes.tcc \
   /usr/include/c++/13/bits/locale_conv.h \
@@ -1973,6 +2149,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ubetter_battery_model.cpp.o: /root/ros2_ws/
   /usr/include/c++/13/bits/locale_facets_nonio.h \
   /usr/include/c++/13/bits/locale_facets_nonio.tcc \
   /usr/include/c++/13/bits/localefwd.h \
+  /usr/include/c++/13/bits/max_size_type.h \
   /usr/include/c++/13/bits/memory_resource.h \
   /usr/include/c++/13/bits/memoryfwd.h \
   /usr/include/c++/13/bits/move.h \
@@ -1985,6 +2162,12 @@ CMakeFiles/ffw_robot_manager.dir/src/ubetter_battery_model.cpp.o: /root/ros2_ws/
   /usr/include/c++/13/bits/ptr_traits.h \
   /usr/include/c++/13/bits/quoted_string.h \
   /usr/include/c++/13/bits/range_access.h \
+  /usr/include/c++/13/bits/ranges_algo.h \
+  /usr/include/c++/13/bits/ranges_algobase.h \
+  /usr/include/c++/13/bits/ranges_base.h \
+  /usr/include/c++/13/bits/ranges_cmp.h \
+  /usr/include/c++/13/bits/ranges_uninitialized.h \
+  /usr/include/c++/13/bits/ranges_util.h \
   /usr/include/c++/13/bits/refwrap.h \
   /usr/include/c++/13/bits/requires_hosted.h \
   /usr/include/c++/13/bits/shared_ptr.h \
@@ -1992,6 +2175,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ubetter_battery_model.cpp.o: /root/ros2_ws/
   /usr/include/c++/13/bits/shared_ptr_base.h \
   /usr/include/c++/13/bits/sstream.tcc \
   /usr/include/c++/13/bits/std_abs.h \
+  /usr/include/c++/13/bits/std_mutex.h \
   /usr/include/c++/13/bits/stl_algo.h \
   /usr/include/c++/13/bits/stl_algobase.h \
   /usr/include/c++/13/bits/stl_bvector.h \
@@ -2019,10 +2203,13 @@ CMakeFiles/ffw_robot_manager.dir/src/ubetter_battery_model.cpp.o: /root/ros2_ws/
   /usr/include/c++/13/bits/vector.tcc \
   /usr/include/c++/13/cctype \
   /usr/include/c++/13/cerrno \
+  /usr/include/c++/13/climits \
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/codecvt \
   /usr/include/c++/13/compare \
+  /usr/include/c++/13/concepts \
   /usr/include/c++/13/cstddef \
+  /usr/include/c++/13/cstdint \
   /usr/include/c++/13/cstdio \
   /usr/include/c++/13/cstdlib \
   /usr/include/c++/13/ctime \
@@ -2046,6 +2233,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ubetter_battery_model.cpp.o: /root/ros2_ws/
   /usr/include/c++/13/locale \
   /usr/include/c++/13/memory \
   /usr/include/c++/13/new \
+  /usr/include/c++/13/numbers \
   /usr/include/c++/13/ostream \
   /usr/include/c++/13/pstl/execution_defs.h \
   /usr/include/c++/13/pstl/glue_algorithm_defs.h \
@@ -2068,7 +2256,10 @@ CMakeFiles/ffw_robot_manager.dir/src/ubetter_battery_model.cpp.o: /root/ros2_ws/
   /usr/include/features-time64.h \
   /usr/include/features.h \
   /usr/include/libintl.h \
+  /usr/include/limits.h \
+  /usr/include/linux/close_range.h \
   /usr/include/linux/errno.h \
+  /usr/include/linux/limits.h \
   /usr/include/locale.h \
   /usr/include/pthread.h \
   /usr/include/sched.h \
@@ -2076,13 +2267,17 @@ CMakeFiles/ffw_robot_manager.dir/src/ubetter_battery_model.cpp.o: /root/ros2_ws/
   /usr/include/stdint.h \
   /usr/include/stdio.h \
   /usr/include/stdlib.h \
+  /usr/include/syscall.h \
   /usr/include/time.h \
+  /usr/include/unistd.h \
   /usr/include/wchar.h \
   /usr/include/wctype.h \
+  /usr/lib/gcc/aarch64-linux-gnu/13/include/limits.h \
   /usr/lib/gcc/aarch64-linux-gnu/13/include/stdarg.h \
   /usr/lib/gcc/aarch64-linux-gnu/13/include/stdbool.h \
   /usr/lib/gcc/aarch64-linux-gnu/13/include/stddef.h \
-  /usr/lib/gcc/aarch64-linux-gnu/13/include/stdint.h
+  /usr/lib/gcc/aarch64-linux-gnu/13/include/stdint.h \
+  /usr/lib/gcc/aarch64-linux-gnu/13/include/syslimits.h
 
 libffw_robot_manager.so: /lib/aarch64-linux-gnu/libc.so.6 \
   /lib/aarch64-linux-gnu/libm.so.6 \
@@ -2116,7 +2311,7 @@ libffw_robot_manager.so: /lib/aarch64-linux-gnu/libc.so.6 \
   /opt/ros/jazzy/lib/libcontrol_msgs__rosidl_typesupport_introspection_c.so \
   /opt/ros/jazzy/lib/libcontrol_msgs__rosidl_typesupport_introspection_cpp.so \
   /opt/ros/jazzy/lib/libcontroller_interface.so \
-  /opt/ros/jazzy/lib/libfastcdr.so.2.2.5 \
+  /opt/ros/jazzy/lib/libfastcdr.so.2.2.7 \
   /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_generator_c.so \
   /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_c.so \
   /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_cpp.so \
@@ -2483,7 +2678,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_generator_c.so:
 
-/opt/ros/jazzy/lib/libfastcdr.so.2.2.5:
+/opt/ros/jazzy/lib/libfastcdr.so.2.2.7:
 
 /opt/ros/jazzy/lib/libcontroller_interface.so:
 
@@ -2531,19 +2726,15 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/include/stdalign.h:
 
-/opt/ros/jazzy/lib/libcontrol_msgs__rosidl_generator_py.so:
-
-/usr/include/unistd.h:
-
 /usr/include/strings.h:
 
 /usr/include/signal.h:
 
+/usr/include/semaphore.h:
+
 /usr/include/math.h:
 
 /usr/include/linux/stddef.h:
-
-/usr/include/linux/limits.h:
 
 /usr/include/libintl.h:
 
@@ -2571,17 +2762,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /usr/include/c++/13/thread:
 
-/opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_fastrtps_c.so:
-
-/usr/include/c++/13/tr1/gamma.tcc:
-
-/usr/include/c++/13/streambuf:
-
 /usr/include/c++/13/stdlib.h:
-
-/opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_cpp.so:
-
-/usr/include/c++/13/stdexcept:
 
 /usr/include/c++/13/stack:
 
@@ -2595,8 +2776,6 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /usr/include/c++/13/pstl/glue_algorithm_defs.h:
 
-/usr/include/c++/13/ostream:
-
 /usr/include/c++/13/optional:
 
 /usr/lib/aarch64-linux-gnu/libc.so:
@@ -2607,29 +2786,23 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /usr/include/c++/13/iterator:
 
-/usr/include/c++/13/ios:
-
 /usr/include/c++/13/future:
 
 /usr/include/c++/13/functional:
+
+/usr/include/c++/13/format:
 
 /usr/include/c++/13/deque:
 
 /usr/include/c++/13/cxxabi.h:
 
-/usr/include/c++/13/cwctype:
-
 /usr/include/c++/13/cstring:
-
-/usr/include/c++/13/cstdint:
 
 /usr/include/c++/13/codecvt:
 
 /usr/include/c++/13/istream:
 
 /usr/include/c++/13/cmath:
-
-/usr/include/c++/13/climits:
 
 /usr/include/c++/13/chrono:
 
@@ -2640,10 +2813,6 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 /usr/include/c++/13/bits/unique_lock.h:
 
 /usr/include/c++/13/bits/this_thread_sleep.h:
-
-/usr/include/c++/13/bits/streambuf_iterator.h:
-
-/usr/include/c++/13/bits/streambuf.tcc:
 
 /usr/include/c++/13/bits/stream_iterator.h:
 
@@ -2687,11 +2856,9 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /usr/include/c++/13/bits/regex_automaton.tcc:
 
+/usr/include/c++/13/bits/ranges_algo.h:
+
 /usr/include/c++/13/bits/node_handle.h:
-
-/usr/include/c++/13/bits/locale_facets.tcc:
-
-/usr/include/c++/13/bits/locale_classes.tcc:
 
 /usr/include/c++/13/bits/istream.tcc:
 
@@ -2703,11 +2870,11 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /usr/include/c++/13/bits/codecvt.h:
 
+/usr/include/c++/13/bits/chrono_io.h:
+
 /usr/include/c++/13/limits:
 
 /usr/include/c++/13/bits/chrono.h:
-
-/usr/include/c++/13/bits/basic_ios.h:
 
 /usr/include/c++/13/array:
 
@@ -2720,8 +2887,6 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 /usr/include/boost/utility/detail/result_of_variadic.hpp:
 
 /usr/include/boost/utility/base_from_member.hpp:
-
-/usr/include/boost/type_traits/remove_reference.hpp:
 
 /usr/include/boost/type_traits/remove_pointer.hpp:
 
@@ -2771,10 +2936,6 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /usr/include/boost/type_traits/is_abstract.hpp:
 
-/usr/lib/gcc/aarch64-linux-gnu/13/include/syslimits.h:
-
-/usr/include/boost/type_traits/intrinsics.hpp:
-
 /usr/include/boost/type_traits/has_trivial_destructor.hpp:
 
 /opt/ros/jazzy/lib/libcontrol_msgs__rosidl_typesupport_c.so:
@@ -2823,11 +2984,15 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_cpp.so:
 
+/usr/include/c++/13/stop_token:
+
 /usr/include/boost/range/mutable_iterator.hpp:
 
 /usr/include/boost/range/iterator_range.hpp:
 
 /usr/include/boost/range/has_range_iterator.hpp:
+
+/usr/include/c++/13/span:
 
 /usr/include/boost/range/functions.hpp:
 
@@ -2911,105 +3076,75 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /usr/include/boost/preprocessor/repetition/for.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/wait_set_policies/detail/write_preferring_read_write_lock.hpp:
+/usr/include/c++/13/locale:
 
-/usr/include/aarch64-linux-gnu/bits/time.h:
+/usr/include/boost/preprocessor/repetition/enum_trailing_params.hpp:
 
-/opt/ros/jazzy/include/rclcpp_lifecycle/rclcpp_lifecycle/lifecycle_node_impl.hpp:
+/usr/include/boost/preprocessor/repetition/enum_params.hpp:
 
-/usr/include/boost/preprocessor/stringize.hpp:
+/usr/include/c++/13/bits/enable_special_members.h:
 
-/usr/include/boost/cstdint.hpp:
+/usr/include/boost/preprocessor/repetition/enum_binary_params.hpp:
 
-/usr/include/boost/range/detail/str_types.hpp:
+/usr/include/boost/preprocessor/repetition/detail/limits/for_256.hpp:
 
-/usr/include/boost/algorithm/string/yes_no_type.hpp:
+/usr/include/c++/13/fstream:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/wait_result_kind.hpp:
+/usr/include/boost/preprocessor/repetition/detail/for.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/version.h:
+/usr/include/boost/preprocessor/repeat.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/typesupport_helpers.hpp:
+/usr/include/boost/preprocessor/punctuation/detail/is_begin_parens.hpp:
 
-/opt/ros/jazzy/include/rcl_lifecycle/rcl_lifecycle/data_types.h:
+/usr/include/boost/preprocessor/punctuation/comma_if.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/type_support_decl.hpp:
+/usr/include/boost/preprocessor/logical/limits/bool_256.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/type_adapter.hpp:
+/usr/include/boost/preprocessor/logical/bool.hpp:
 
-/usr/include/boost/assert.hpp:
+/usr/include/boost/preprocessor/logical/bitor.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/topic_statistics_state.hpp:
+/usr/include/boost/preprocessor/logical/bitand.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/copy_all_parameter_values.hpp:
+/usr/include/boost/preprocessor/logical/and.hpp:
 
-/opt/ros/jazzy/include/std_msgs/std_msgs/msg/detail/header__traits.hpp:
+/usr/include/boost/preprocessor/list/reverse.hpp:
 
-/usr/include/boost/type_traits/remove_cv.hpp:
+/usr/include/boost/preprocessor/list/limits/fold_left_256.hpp:
 
-/usr/include/boost/mpl/aux_/config/has_apply.hpp:
+/usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/timer.hpp:
+/usr/include/boost/preprocessor/list/detail/limits/fold_left_256.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/time.hpp:
+/usr/include/boost/preprocessor/iteration/iterate.hpp:
 
-/opt/ros/jazzy/lib/librosidl_typesupport_c.so:
+/opt/ros/jazzy/lib/libunique_identifier_msgs__rosidl_typesupport_fastrtps_c.so:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/experimental/create_intra_process_buffer.hpp:
+/usr/include/boost/preprocessor/iteration/detail/iter/limits/forward1_256.hpp:
 
-/usr/include/boost/range/rend.hpp:
+/usr/include/boost/preprocessor/iteration/detail/iter/forward1.hpp:
 
-/usr/include/boost/mpl/arg.hpp:
+/usr/include/boost/preprocessor/iterate.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/subscription_wait_set_mask.hpp:
+/usr/include/boost/preprocessor/identity.hpp:
 
-/usr/include/endian.h:
+/usr/include/boost/preprocessor/facilities/identity.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/subscription_content_filter_options.hpp:
+/usr/include/boost/preprocessor/facilities/expand.hpp:
 
-/usr/include/boost/preprocessor/seq/limits/enum_256.hpp:
+/usr/include/boost/preprocessor/facilities/empty.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/subscription_base.hpp:
+/usr/include/boost/preprocessor/facilities/detail/is_empty.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/rclcpp.hpp:
+/usr/include/boost/preprocessor/enum_params.hpp:
 
-/opt/ros/jazzy/include/rcl/rcl/client.h:
+/usr/include/boost/preprocessor/enum.hpp:
 
-/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_c.so:
+/usr/include/boost/preprocessor/empty.hpp:
 
-/usr/include/c++/13/csignal:
+/usr/include/boost/preprocessor/detail/limits/auto_rec_256.hpp:
 
-/usr/include/c++/13/bits/quoted_string.h:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/qos_overriding_options.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/publisher_base.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/publisher.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/types/struct_itimerspec.h:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/parameter_value.hpp:
-
-/usr/include/c++/13/bits/stl_algo.h:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/parameter_map.hpp:
-
-/usr/include/c++/13/bits/allocator.h:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_type_descriptions_interface.hpp:
-
-/usr/include/boost/preprocessor/comparison/not_equal.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_graph_interface.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_clock_interface_traits.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/wait_set.hpp:
-
-/usr/include/boost/preprocessor/control/deduce_d.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_base_interface.hpp:
+/usr/include/boost/preprocessor/detail/is_binary.hpp:
 
 /opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/get_node_clock_interface.hpp:
 
@@ -3021,27 +3156,17 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /opt/ros/jazzy/include/rclcpp/rclcpp/macros.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/logging.hpp:
-
-/opt/ros/jazzy/lib/librcl_action.so:
-
-/opt/ros/jazzy/include/rcl/rcl/macros.h:
-
-/usr/include/aarch64-linux-gnu/bits/unistd.h:
-
 /opt/ros/jazzy/include/rclcpp/rclcpp/logger.hpp:
 
-/opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/time__type_support.hpp:
+/usr/include/boost/preprocessor/list/detail/limits/fold_right_256.hpp:
 
-/usr/include/boost/preprocessor/facilities/empty.hpp:
+/opt/ros/jazzy/include/rclcpp/rclcpp/is_ros_compatible_type.hpp:
+
+/opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/time__type_support.hpp:
 
 /opt/ros/jazzy/include/rclcpp/rclcpp/get_message_type_support_handle.hpp:
 
 /opt/ros/jazzy/include/rclcpp/rclcpp/generic_subscription.hpp:
-
-/usr/include/c++/13/bits/regex_error.h:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_timers_interface_traits.hpp:
 
 /usr/include/boost/algorithm/string/detail/find_iterator.hpp:
 
@@ -3051,29 +3176,23 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /usr/include/pthread.h:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/parameter.hpp:
-
-/usr/include/boost/algorithm/string/find_iterator.hpp:
-
 /opt/ros/jazzy/include/rclcpp/rclcpp/experimental/buffers/buffer_implementation_base.hpp:
 
 /opt/ros/jazzy/include/rclcpp/rclcpp/any_service_callback.hpp:
-
-/usr/include/aarch64-linux-gnu/gnu/stubs-lp64.h:
 
 /usr/include/c++/13/unordered_map:
 
 /usr/include/aarch64-linux-gnu/bits/wordsize.h:
 
+/usr/include/aarch64-linux-gnu/gnu/stubs-lp64.h:
+
 /opt/ros/jazzy/lib/libthread_priority.so:
 
 /opt/ros/jazzy/include/rclcpp/rclcpp/executors/static_single_threaded_executor.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/executors/single_threaded_executor.hpp:
-
-/usr/include/c++/13/bits/predefined_ops.h:
-
 /opt/ros/jazzy/include/rclcpp/rclcpp/executors/multi_threaded_executor.hpp:
+
+/usr/include/c++/13/ostream:
 
 /opt/ros/jazzy/include/rclcpp/rclcpp/executors/executor_entities_collector.hpp:
 
@@ -3085,10 +3204,6 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /opt/ros/jazzy/include/rclcpp/rclcpp/event.hpp:
 
-/usr/include/c++/13/atomic:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/detail/node_interfaces_helpers.hpp:
-
 /root/ros2_ws/build/dynamixel_interfaces/rosidl_generator_cpp/dynamixel_interfaces/srv/detail/reboot_dxl__type_support.hpp:
 
 /opt/ros/jazzy/lib/libsensor_msgs__rosidl_typesupport_c.so:
@@ -3097,33 +3212,9 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/set_parameters_atomically__struct.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/client.hpp:
-
-/usr/include/c++/13/bits/cxxabi_init_exception.h:
-
-/opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/detail/transition__traits.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_topics_interface_traits.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/detail/rmw_implementation_specific_subscription_payload.hpp:
-
 /opt/ros/jazzy/include/rclcpp/rclcpp/executors/executor_notify_waitable.hpp:
 
-/usr/include/boost/preprocessor/arithmetic/detail/is_minimum_number.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_services_interface.hpp:
-
-/usr/include/aarch64-linux-gnu/c++/13/bits/messages_members.h:
-
-/opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp:
-
 /opt/ros/jazzy/include/rclcpp/rclcpp/detail/rmw_implementation_specific_payload.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/detail/resolve_use_intra_process.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/strings_fortified.h:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/detail/qos_parameters.hpp:
 
 /opt/ros/jazzy/lib/librosidl_typesupport_introspection_cpp.so:
 
@@ -3131,23 +3222,13 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /usr/include/boost/iterator/interoperable.hpp:
 
-/usr/include/boost/preprocessor/repeat.hpp:
+/opt/ros/jazzy/include/rclcpp/rclcpp/detail/resolve_use_intra_process.hpp:
 
 /usr/include/aarch64-linux-gnu/bits/siginfo-arch.h:
 
 /usr/include/boost/core/checked_delete.hpp:
 
 /opt/ros/jazzy/include/rclcpp/rclcpp/allocator/allocator_deleter.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/memory_strategy.hpp:
-
-/opt/ros/jazzy/lib/libservice_msgs__rosidl_typesupport_introspection_c.so:
-
-/opt/ros/jazzy/include/realtime_tools/realtime_tools/realtime_buffer.hpp:
-
-/usr/include/boost/config/helper_macros.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/allocator/allocator_common.hpp:
 
 /usr/include/boost/range/range_fwd.hpp:
 
@@ -3163,11 +3244,11 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/get_parameter_types__struct.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/qos.hpp:
-
-/opt/ros/jazzy/include/rcl_lifecycle/rcl_lifecycle/visibility_control.h:
-
 /root/ros2_ws/build/dynamixel_interfaces/rosidl_generator_cpp/dynamixel_interfaces/srv/set_data_to_dxl.hpp:
+
+/opt/ros/jazzy/include/rcl_lifecycle/rcl_lifecycle/data_types.h:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/typesupport_helpers.hpp:
 
 /opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/set_parameters_atomically.hpp:
 
@@ -3207,15 +3288,11 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/get_parameter_types__traits.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/parameter_client.hpp:
-
 /usr/include/boost/range/size_type.hpp:
 
 /opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/describe_parameters__builder.hpp:
 
-/usr/include/c++/13/bits/enable_special_members.h:
-
-/usr/include/boost/preprocessor/repetition/enum_binary_params.hpp:
+/usr/include/c++/13/bits/streambuf_iterator.h:
 
 /opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/parameter_descriptor.hpp:
 
@@ -3224,12 +3301,6 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 /usr/include/boost/mpl/next_prior.hpp:
 
 /opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/set_parameters_result__type_support.hpp:
-
-/usr/include/boost/range/begin.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/subscription_traits.hpp:
-
-/opt/ros/jazzy/include/rmw/rmw/types.h:
 
 /opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/set_parameters_result__struct.hpp:
 
@@ -3242,8 +3313,6 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 /opt/ros/jazzy/include/hardware_interface/hardware_interface/types/hardware_interface_return_values.hpp:
 
 /opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_value__traits.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/types.h:
 
 /opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_type__struct.hpp:
 
@@ -3259,21 +3328,11 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter__type_support.hpp:
 
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/list_parameters_result__type_support.hpp:
-
 /opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/list_parameters_result__traits.hpp:
-
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/integer_range__struct.hpp:
 
 /usr/include/c++/13/bits/stl_heap.h:
 
 /opt/ros/jazzy/include/rcl/rcl/visibility_control.h:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/topic_statistics/subscription_topic_statistics.hpp:
-
-/opt/ros/jazzy/include/rosidl_dynamic_typesupport/rosidl_dynamic_typesupport/api/dynamic_type.h:
-
-/usr/include/boost/iterator/detail/config_undef.hpp:
 
 /opt/ros/jazzy/include/rmw/rmw/publisher_options.h:
 
@@ -3287,15 +3346,13 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /usr/include/aarch64-linux-gnu/bits/stdint-least.h:
 
-/usr/include/boost/type_traits/enable_if.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/parameter_event_handler.hpp:
-
-/opt/ros/jazzy/include/rcl/rcl/rcl.h:
-
 /opt/ros/jazzy/include/rcl/rcl/publisher.h:
 
 /opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/set_parameters__traits.hpp:
+
+/usr/include/boost/preprocessor/punctuation/comma.hpp:
+
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/get_parameters__traits.hpp:
 
 /usr/include/boost/mpl/aux_/na_spec.hpp:
 
@@ -3313,21 +3370,15 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /opt/ros/jazzy/include/rcl/rcl/network_flow_endpoints.h:
 
-/usr/include/c++/13/variant:
+/opt/ros/jazzy/lib/librcl_action.so:
 
-/usr/include/c++/13/system_error:
+/opt/ros/jazzy/include/rcl/rcl/macros.h:
 
-/opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__traits.hpp:
+/usr/include/aarch64-linux-gnu/bits/unistd.h:
 
-/usr/include/boost/preprocessor/iterate.hpp:
+/opt/ros/jazzy/include/rclcpp/rclcpp/logging.hpp:
 
-/usr/include/aarch64-linux-gnu/bits/pthread_stack_min-dynamic.h:
-
-/opt/ros/jazzy/lib/libcontrol_msgs__rosidl_typesupport_introspection_cpp.so:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/exceptions.hpp:
-
-/usr/include/boost/core/no_exceptions_support.hpp:
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/list_parameters_result__type_support.hpp:
 
 /opt/ros/jazzy/include/rcl/rcl/context.h:
 
@@ -3339,13 +3390,13 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /usr/include/aarch64-linux-gnu/asm/sve_context.h:
 
+/opt/ros/jazzy/include/rcl/rcl/client.h:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/rclcpp.hpp:
+
 /opt/ros/jazzy/include/rcl/rcl/allocator.h:
 
 /usr/include/boost/mpl/aux_/config/integral.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/detail/rmw_implementation_specific_publisher_payload.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/utilities.hpp:
 
 /opt/ros/jazzy/include/parameter_traits/parameter_traits/parameter_traits.hpp:
 
@@ -3357,10 +3408,6 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /opt/ros/jazzy/include/pal_statistics_msgs/pal_statistics_msgs/msg/rosidl_generator_cpp__visibility_control.hpp:
 
-/usr/include/boost/preprocessor/enum.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/visibility_control.hpp:
-
 /usr/include/c++/13/bits/stl_bvector.h:
 
 /usr/include/c++/13/bits/parse_numbers.h:
@@ -3371,9 +3418,9 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/get_parameter_types__builder.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/future_return_code.hpp:
-
 /opt/ros/jazzy/include/rclcpp/rclcpp/clock.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/future_return_code.hpp:
 
 /opt/ros/jazzy/include/pal_statistics_msgs/pal_statistics_msgs/msg/detail/statistics_values__builder.hpp:
 
@@ -3393,10 +3440,6 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /opt/ros/jazzy/include/pal_statistics/pal_statistics/static_circular_buffer.hpp:
 
-/usr/include/c++/13/compare:
-
-/opt/ros/jazzy/include/pal_statistics/pal_statistics/registration_utils.hpp:
-
 /opt/ros/jazzy/include/pal_statistics/pal_statistics/pal_statistics_utils.hpp:
 
 /usr/include/linux/types.h:
@@ -3406,10 +3449,6 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 /usr/include/boost/algorithm/string/constants.hpp:
 
 /opt/ros/jazzy/include/pal_statistics/pal_statistics/pal_statistics.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/is_ros_compatible_type.hpp:
-
-/usr/include/boost/preprocessor/list/detail/limits/fold_right_256.hpp:
 
 /opt/ros/jazzy/lib/libunique_identifier_msgs__rosidl_typesupport_fastrtps_cpp.so:
 
@@ -3435,97 +3474,35 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/detail/transition__type_support.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_clock_interface.hpp:
+/opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/detail/transition__builder.hpp:
 
-/usr/include/aarch64-linux-gnu/c++/13/bits/os_defines.h:
+/opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/detail/state__builder.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/endian.h:
+
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/floating_point_range__traits.hpp:
 
 /opt/ros/jazzy/include/pal_statistics_msgs/pal_statistics_msgs/msg/detail/statistics__struct.hpp:
 
-/usr/include/c++/13/bits/ptr_traits.h:
+/usr/include/aarch64-linux-gnu/c++/13/bits/os_defines.h:
 
-/usr/include/time.h:
+/opt/ros/jazzy/lib/liblibstatistics_collector.so:
 
-/usr/include/c++/13/bits/functional_hash.h:
+/opt/ros/jazzy/include/rcpputils/rcpputils/scope_exit.hpp:
 
-/usr/include/errno.h:
+/usr/include/c++/13/cctype:
 
-/usr/lib/gcc/aarch64-linux-gnu/13/include/stdarg.h:
+/usr/include/boost/preprocessor/arithmetic/detail/is_1_number.hpp:
 
-/usr/include/c++/13/bits/regex_executor.h:
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/set_parameters_result.hpp:
 
-/opt/ros/jazzy/include/class_loader/class_loader/class_loader.hpp:
+/opt/ros/jazzy/include/libstatistics_collector/libstatistics_collector/moving_average_statistics/types.hpp:
 
-/usr/include/c++/13/bits/exception.h:
+/opt/ros/jazzy/include/rclcpp/rclcpp/waitable.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/serialized_message.hpp:
+/opt/ros/jazzy/include/rclcpp/rclcpp/any_subscription_callback.hpp:
 
-/usr/include/aarch64-linux-gnu/bits/timex.h:
-
-/opt/ros/jazzy/include/realtime_tools/realtime_tools/mutex.hpp:
-
-/usr/lib/gcc/aarch64-linux-gnu/13/include/limits.h:
-
-/usr/include/boost/type_traits/add_lvalue_reference.hpp:
-
-/usr/include/boost/assert/source_location.hpp:
-
-/opt/ros/jazzy/lib/librcl_logging_interface.so:
-
-/opt/ros/jazzy/include/service_msgs/service_msgs/msg/detail/service_event_info__struct.h:
-
-/usr/include/boost/function/detail/maybe_include.hpp:
-
-/usr/include/c++/13/bits/basic_string.h:
-
-/opt/ros/jazzy/include/pal_statistics_msgs/pal_statistics_msgs/msg/detail/statistics_names__type_support.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/publisher_options.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/context.hpp:
-
-/usr/include/boost/mpl/aux_/config/ctps.hpp:
-
-/usr/include/c++/13/bits/concept_check.h:
-
-/root/ros2_ws/src/dynamixel_hardware_interface/include/dynamixel_hardware_interface/dynamixel/dynamixel.hpp:
-
-/usr/include/c++/13/bits/alloc_traits.h:
-
-/usr/include/boost/mpl/aux_/config/arrays.hpp:
-
-/opt/ros/jazzy/include/libstatistics_collector/libstatistics_collector/collector/collector.hpp:
-
-/usr/include/c++/13/clocale:
-
-/usr/include/boost/algorithm/string/detail/find_format_all.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_timers_interface.hpp:
-
-/usr/include/c++/13/bits/stl_pair.h:
-
-/usr/include/aarch64-linux-gnu/bits/fp-fast.h:
-
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_type__type_support.hpp:
-
-/usr/include/c++/13/sstream:
-
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/describe_parameters__type_support.hpp:
-
-/usr/include/boost/algorithm/string/detail/formatter.hpp:
-
-/usr/include/boost/mpl/quote.hpp:
-
-/usr/include/boost/preprocessor/identity.hpp:
-
-/usr/lib/aarch64-linux-gnu/libconsole_bridge.so.1.0:
-
-/usr/include/c++/13/cstdio:
-
-/opt/ros/jazzy/include/rmw/rmw/topic_endpoint_info_array.h:
-
-/opt/ros/jazzy/include/controller_interface/controller_interface/controller_interface_base.hpp:
-
-/usr/include/c++/13/bits/shared_ptr_base.h:
+/opt/ros/jazzy/include/rclcpp/rclcpp/dynamic_typesupport/dynamic_serialization_support.hpp:
 
 /opt/ros/jazzy/include/rclcpp/rclcpp/wait_set_policies/dynamic_storage.hpp:
 
@@ -3533,7 +3510,175 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /opt/ros/jazzy/include/rmw/rmw/rmw.h:
 
-/usr/include/c++/13/bits/allocated_ptr.h:
+/opt/ros/jazzy/include/libstatistics_collector/libstatistics_collector/collector/metric_details_interface.hpp:
+
+/usr/include/boost/algorithm/string/predicate.hpp:
+
+/opt/ros/jazzy/include/libstatistics_collector/libstatistics_collector/collector/generate_statistics_message.hpp:
+
+/opt/ros/jazzy/include/rosidl_runtime_c/rosidl_runtime_c/service_type_support_struct.h:
+
+/usr/include/c++/13/bits/locale_facets_nonio.h:
+
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/types/statistics_types.hpp:
+
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/types/lifecycle_state_names.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/detail/cpp_callback_trampoline.hpp:
+
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/describe_parameters.hpp:
+
+/opt/ros/jazzy/include/pal_statistics_msgs/pal_statistics_msgs/msg/statistics_values.hpp:
+
+/usr/include/c++/13/new:
+
+/opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_py.so:
+
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/types/hardware_component_interface_params.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/select2.h:
+
+/usr/include/boost/mpl/void.hpp:
+
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:
+
+/usr/include/boost/config/detail/select_stdlib_config.hpp:
+
+/usr/include/c++/13/ext/slist:
+
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/hardware_info.hpp:
+
+/usr/include/linux/limits.h:
+
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/hardware_component_interface.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/copy_all_parameter_values.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/topic_statistics_state.hpp:
+
+/opt/ros/jazzy/include/std_msgs/std_msgs/msg/detail/header__traits.hpp:
+
+/usr/include/boost/type_traits/remove_cv.hpp:
+
+/usr/include/boost/mpl/aux_/config/has_apply.hpp:
+
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/handle.hpp:
+
+/usr/include/boost/algorithm/string/detail/replace_storage.hpp:
+
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/types/trigger_type.hpp:
+
+/usr/include/boost/range/detail/extract_optional_type.hpp:
+
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/component_parser.hpp:
+
+/usr/include/boost/algorithm/string/sequence_traits.hpp:
+
+/opt/ros/jazzy/include/controller_interface/controller_interface/controller_interface_base.hpp:
+
+/usr/include/c++/13/bits/shared_ptr_base.h:
+
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/get_parameter_types__type_support.hpp:
+
+/usr/include/aarch64-linux-gnu/c++/13/bits/messages_members.h:
+
+/opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp:
+
+/usr/include/boost/preprocessor/arithmetic/detail/is_minimum_number.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_services_interface.hpp:
+
+/usr/include/boost/mpl/aux_/config/preprocessor.hpp:
+
+/opt/ros/jazzy/include/pal_statistics_msgs/pal_statistics_msgs/msg/detail/statistics_values__struct.hpp:
+
+/opt/ros/jazzy/include/class_loader/class_loader/meta_object.hpp:
+
+/opt/ros/jazzy/include/rcl/rcl/time.h:
+
+/usr/include/c++/13/bits/regex_executor.h:
+
+/opt/ros/jazzy/include/class_loader/class_loader/class_loader.hpp:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/include/stdarg.h:
+
+/usr/include/boost/preprocessor/list/adt.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/contexts/default_context.hpp:
+
+/usr/include/boost/preprocessor/tuple/rem.hpp:
+
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter__struct.hpp:
+
+/usr/include/boost/mpl/aux_/preprocessed/gcc/apply_fwd.hpp:
+
+/opt/ros/jazzy/include/class_loader/class_loader/exceptions.hpp:
+
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/set_parameters.hpp:
+
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/set_parameters__struct.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/sigaction.h:
+
+/opt/ros/jazzy/include/class_loader/class_loader/class_loader_core.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/sigevent-consts.h:
+
+/opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/time__struct.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/executor.hpp:
+
+/opt/ros/jazzy/include/rcl/rcl/types.h:
+
+/opt/ros/jazzy/lib/libsensor_msgs__rosidl_generator_py.so:
+
+/usr/include/c++/13/cstddef:
+
+/opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__type_support.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/signum-generic.h:
+
+/usr/include/boost/preprocessor/iteration/detail/bounds/upper1.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/any_executable.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/subscription.hpp:
+
+/usr/include/boost/type_traits/negation.hpp:
+
+/opt/ros/jazzy/include/ament_index_cpp/ament_index_cpp/get_package_share_directory.hpp:
+
+/usr/include/boost/function/detail/maybe_include.hpp:
+
+/usr/include/c++/13/bits/basic_string.h:
+
+/usr/include/c++/13/bits/basic_ios.h:
+
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/types/hardware_interface_type_values.hpp:
+
+/usr/include/c++/13/bits/exception_defines.h:
+
+/opt/ros/jazzy/include/joint_limits/joint_limits/joint_limits.hpp:
+
+/usr/include/c++/13/clocale:
+
+/opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_cpp.so:
+
+/usr/include/c++/13/stdexcept:
+
+/usr/include/boost/algorithm/string/detail/find_format_all.hpp:
+
+/usr/include/c++/13/backward/binders.h:
+
+/usr/include/asm-generic/errno.h:
+
+/usr/include/syscall.h:
+
+/usr/include/c++/13/cstdarg:
+
+/usr/include/c++/13/bits/atomic_lockfree_defines.h:
+
+/opt/ros/jazzy/include/rmw/rmw/time.h:
 
 /usr/include/boost/utility/binary.hpp:
 
@@ -3541,29 +3686,31 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /opt/ros/jazzy/include/rosidl_runtime_c/rosidl_runtime_c/string.h:
 
-/usr/include/c++/13/backward/binders.h:
+/usr/include/c++/13/bits/allocated_ptr.h:
 
-/usr/include/asm-generic/errno.h:
+/usr/include/c++/13/cstdlib:
+
+/usr/include/c++/13/ext/atomicity.h:
+
+/usr/include/c++/13/bit:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_graph_interface.hpp:
 
 /opt/ros/jazzy/lib/librosgraph_msgs__rosidl_typesupport_introspection_cpp.so:
 
 /usr/include/alloca.h:
 
+/opt/ros/jazzy/include/libstatistics_collector/libstatistics_collector/topic_statistics_collector/received_message_period.hpp:
+
+/opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/duration.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/time64.h:
+
 /usr/include/aarch64-linux-gnu/sys/types.h:
-
-/usr/include/c++/13/bits/locale_facets_nonio.h:
-
-/opt/ros/jazzy/include/hardware_interface/hardware_interface/types/statistics_types.hpp:
 
 /opt/ros/jazzy/include/rclcpp/rclcpp/experimental/intra_process_manager.hpp:
 
 /usr/include/aarch64-linux-gnu/bits/byteswap.h:
-
-/usr/include/c++/13/tr1/hypergeometric.tcc:
-
-/usr/include/c++/13/bits/locale_facets.h:
-
-/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:
 
 /root/ros2_ws/build/dynamixel_interfaces/rosidl_generator_cpp/dynamixel_interfaces/msg/dynamixel_state.hpp:
 
@@ -3571,27 +3718,33 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /usr/include/boost/preprocessor/array/data.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/wait_set_policies/detail/storage_policy_common.hpp:
+/opt/ros/jazzy/include/rclcpp/rclcpp/message_memory_strategy.hpp:
 
-/usr/include/aarch64-linux-gnu/bits/types/__fpos64_t.h:
+/usr/include/boost/algorithm/string/detail/predicate.hpp:
 
-/usr/lib/aarch64-linux-gnu/liblttng-ust-common.so:
+/opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/detail/transition__struct.hpp:
 
-/usr/include/c++/13/pstl/glue_memory_defs.h:
+/usr/include/boost/preprocessor/detail/check.hpp:
 
-/opt/ros/jazzy/include/rmw/rmw/events_statuses/matched.h:
+/opt/ros/jazzy/include/rclcpp/rclcpp/experimental/executors/events_executor/events_executor.hpp:
 
-/usr/include/c++/13/bits/invoke.h:
+/usr/include/aarch64-linux-gnu/c++/13/bits/gthr-default.h:
 
-/usr/include/aarch64-linux-gnu/bits/types/__locale_t.h:
+/opt/ros/jazzy/include/rclcpp/rclcpp/executors/single_threaded_executor.hpp:
 
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/parameter.hpp:
+/usr/include/c++/13/bits/predefined_ops.h:
 
-/usr/include/boost/mpl/aux_/config/preprocessor.hpp:
+/opt/ros/jazzy/include/rcl_lifecycle/rcl_lifecycle/visibility_control.h:
 
-/opt/ros/jazzy/include/pal_statistics_msgs/pal_statistics_msgs/msg/detail/statistics_values__struct.hpp:
+/opt/ros/jazzy/include/rclcpp/rclcpp/qos.hpp:
 
-/opt/ros/jazzy/include/class_loader/class_loader/meta_object.hpp:
+/opt/ros/jazzy/include/libstatistics_collector/libstatistics_collector/collector/collector.hpp:
+
+/usr/include/boost/mpl/aux_/config/arrays.hpp:
+
+/usr/include/boost/config/no_tr1/functional.hpp:
+
+/usr/include/aarch64-linux-gnu/c++/13/bits/ctype_base.h:
 
 /usr/include/aarch64-linux-gnu/c++/13/bits/c++config.h:
 
@@ -3603,29 +3756,47 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /opt/ros/jazzy/include/realtime_tools/realtime_tools/realtime_helpers.hpp:
 
+/usr/include/c++/13/bits/ranges_util.h:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/topic_statistics/subscription_topic_statistics.hpp:
+
+/opt/ros/jazzy/include/rosidl_dynamic_typesupport/rosidl_dynamic_typesupport/api/dynamic_type.h:
+
+/usr/include/asm-generic/unistd.h:
+
+/usr/include/boost/iterator/detail/config_undef.hpp:
+
+/opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/transition_event.h:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/dynamic_typesupport/dynamic_message.hpp:
+
+/usr/include/endian.h:
+
+/opt/ros/jazzy/include/type_description_interfaces/type_description_interfaces/msg/detail/type_description__struct.h:
+
+/opt/ros/jazzy/include/rmw/rmw/get_topic_names_and_types.h:
+
+/usr/include/aarch64-linux-gnu/bits/types/struct_FILE.h:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/subscription_options.hpp:
+
 /opt/ros/jazzy/include/std_msgs/std_msgs/msg/detail/header__struct.hpp:
 
 /root/ros2_ws/build/dynamixel_interfaces/rosidl_generator_cpp/dynamixel_interfaces/srv/detail/set_data_to_dxl__traits.hpp:
 
 /usr/include/aarch64-linux-gnu/bits/wchar2-decl.h:
 
-/root/ros2_ws/install/dynamixel_sdk/include/dynamixel_sdk/group_fast_sync_read.h:
-
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/set_parameters_atomically__type_support.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/confname.h:
-
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/integer_range__traits.hpp:
-
-/root/ros2_ws/src/ai_worker/ffw_robot_manager/include/ffw_robot_manager/battery_model.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/waitstatus.h:
-
-/usr/include/aarch64-linux-gnu/bits/types/FILE.h:
-
 /usr/include/aarch64-linux-gnu/bits/libc-header-start.h:
 
 /usr/include/c++/13/bits/shared_ptr.h:
+
+/opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/detail/state__traits.hpp:
+
+/usr/include/c++/13/bits/std_mutex.h:
+
+include/ffw_robot_manager/ffw_robot_manager_parameters.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/semaphore.h:
 
 /opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/list_parameters__type_support.hpp:
 
@@ -3635,39 +3806,39 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /usr/include/c++/13/bits/stl_construct.h:
 
-/root/ros2_ws/src/ai_worker/ffw_robot_manager/src/battery_model.cpp:
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/integer_range__struct.hpp:
 
-/opt/ros/jazzy/include/rmw/rmw/events_statuses/offered_deadline_missed.h:
+/usr/include/aarch64-linux-gnu/bits/unistd_ext.h:
 
 /usr/include/c++/13/bits/align.h:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/subscription.hpp:
+/usr/include/boost/preprocessor/list/fold_right.hpp:
 
-/usr/include/c++/13/bits/localefwd.h:
+/opt/ros/jazzy/include/pal_statistics_msgs/pal_statistics_msgs/msg/statistics.hpp:
 
-/usr/include/aarch64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
+/usr/include/aarch64-linux-gnu/bits/time.h:
+
+/usr/include/c++/13/bits/locale_classes.tcc:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/wait_set_policies/detail/write_preferring_read_write_lock.hpp:
+
+/opt/ros/jazzy/include/rclcpp_lifecycle/rclcpp_lifecycle/lifecycle_node_impl.hpp:
+
+/usr/include/boost/preprocessor/stringize.hpp:
+
+/usr/include/boost/cstdint.hpp:
+
+/opt/ros/jazzy/include/class_loader/class_loader/visibility_control.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/getopt_core.h:
+
+/root/ros2_ws/build/dynamixel_interfaces/rosidl_generator_cpp/dynamixel_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp:
+
+/usr/include/boost/preprocessor/config/config.hpp:
 
 /usr/include/aarch64-linux-gnu/bits/typesizes.h:
 
 /usr/include/boost/concept/detail/concept_undef.hpp:
-
-/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_generator_py.so:
-
-/usr/include/boost/type_traits/add_const.hpp:
-
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/set_parameters_atomically__builder.hpp:
-
-/usr/include/boost/algorithm/string.hpp:
-
-/opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_c.so:
-
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/get_parameters__builder.hpp:
-
-/opt/ros/jazzy/include/hardware_interface/hardware_interface/system_interface.hpp:
-
-/opt/ros/jazzy/include/pal_statistics_msgs/pal_statistics_msgs/msg/detail/statistics__type_support.hpp:
-
-/root/ros2_ws/install/dynamixel_sdk/include/dynamixel_sdk/packet_handler.h:
 
 /opt/ros/jazzy/include/pal_statistics_msgs/pal_statistics_msgs/msg/detail/statistic__struct.hpp:
 
@@ -3681,85 +3852,65 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /usr/include/aarch64-linux-gnu/bits/types/struct_timeval.h:
 
-/usr/include/c++/13/bits/refwrap.h:
+/opt/ros/jazzy/include/pal_statistics_msgs/pal_statistics_msgs/msg/detail/statistics__type_support.hpp:
 
-/usr/include/aarch64-linux-gnu/bits/stdio2.h:
+/root/ros2_ws/install/dynamixel_sdk/include/dynamixel_sdk/packet_handler.h:
 
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_event__type_support.hpp:
+/usr/include/boost/range/difference_type.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/subscription_factory.hpp:
+/usr/include/c++/13/bits/char_traits.h:
 
-/usr/include/boost/mpl/and.hpp:
+/usr/include/c++/13/bits/stl_iterator_base_funcs.h:
 
-/opt/ros/jazzy/include/pal_statistics_msgs/pal_statistics_msgs/msg/detail/statistics_names__struct.hpp:
+/opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/detail/state__struct.hpp:
 
-/usr/include/boost/mpl/aux_/config/overload_resolution.hpp:
+/usr/include/boost/config/user.hpp:
 
-/opt/ros/jazzy/include/rmw/rmw/impl/cpp/demangle.hpp:
+/usr/include/boost/iterator/detail/config_def.hpp:
 
-/usr/include/aarch64-linux-gnu/bits/errno.h:
+/usr/include/c++/13/bits/unordered_map.h:
 
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/describe_parameters__struct.hpp:
+/usr/include/aarch64-linux-gnu/bits/types/struct_sched_param.h:
 
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_value__struct.hpp:
+/opt/ros/jazzy/include/rclcpp/rclcpp/intra_process_setting.hpp:
 
-/usr/include/boost/preprocessor/repetition/limits/repeat_256.hpp:
+/usr/include/boost/core/enable_if.hpp:
 
-/opt/ros/jazzy/include/rmw/rmw/names_and_types.h:
+/usr/include/aarch64-linux-gnu/bits/types/struct_timespec.h:
 
-/usr/include/aarch64-linux-gnu/bits/atomic_wide_counter.h:
+/opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/detail/transition__struct.h:
 
-/opt/ros/jazzy/include/rclcpp_lifecycle/rclcpp_lifecycle/state.hpp:
+/opt/ros/jazzy/include/rosidl_runtime_c/rosidl_runtime_c/type_description/field__struct.h:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/experimental/executors/events_executor/events_queue.hpp:
+/usr/include/asm-generic/types.h:
 
-/usr/include/aarch64-linux-gnu/c++/13/bits/cpu_defines.h:
+/usr/include/aarch64-linux-gnu/bits/sigstack.h:
 
-/opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/duration.hpp:
+/usr/include/aarch64-linux-gnu/bits/floatn-common.h:
 
-/usr/include/aarch64-linux-gnu/bits/time64.h:
+/usr/include/aarch64-linux-gnu/bits/types/error_t.h:
 
-/opt/ros/jazzy/include/libstatistics_collector/libstatistics_collector/topic_statistics_collector/received_message_period.hpp:
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/types/hardware_component_params.hpp:
 
-/usr/include/c++/13/bits/atomic_base.h:
+/usr/include/boost/mpl/aux_/arity_spec.hpp:
 
-/usr/include/aarch64-linux-gnu/bits/stdlib.h:
+/opt/ros/jazzy/lib/librosidl_typesupport_c.so:
 
-/usr/include/aarch64-linux-gnu/sys/select.h:
+/opt/ros/jazzy/include/rclcpp/rclcpp/experimental/create_intra_process_buffer.hpp:
 
-/usr/include/c++/13/bits/std_mutex.h:
+/opt/ros/jazzy/include/rclcpp/rclcpp/time.hpp:
 
-/opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/detail/state__traits.hpp:
+/usr/include/boost/range/rend.hpp:
 
-/opt/ros/jazzy/include/class_loader/class_loader/register_macro.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/stdio.h:
-
-/usr/include/boost/preprocessor/comparison/limits/not_equal_256.hpp:
-
-/usr/include/wchar.h:
-
-/opt/ros/jazzy/lib/libtype_description_interfaces__rosidl_typesupport_fastrtps_cpp.so:
-
-/usr/include/aarch64-linux-gnu/bits/types/clockid_t.h:
-
-/opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/time__traits.hpp:
-
-/usr/include/stdio.h:
+/usr/include/boost/mpl/arg.hpp:
 
 /usr/include/c++/13/type_traits:
 
+/usr/include/aarch64-linux-gnu/c++/13/bits/error_constants.h:
+
+/usr/include/features-time64.h:
+
 /usr/include/aarch64-linux-gnu/bits/procfs-prregset.h:
-
-/usr/include/c++/13/iostream:
-
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/get_parameters__struct.hpp:
-
-/usr/include/c++/13/bits/hash_bytes.h:
-
-/usr/include/boost/mpl/bind.hpp:
-
-/opt/ros/jazzy/include/rcl/rcl/service.h:
 
 /opt/ros/jazzy/include/rosidl_runtime_c/rosidl_runtime_c/type_description/type_source__struct.h:
 
@@ -3767,19 +3918,263 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /usr/include/aarch64-linux-gnu/bits/timesize.h:
 
-/opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/transition.hpp:
+/usr/include/c++/13/bits/allocator.h:
 
-/usr/include/boost/iterator/detail/enable_if.hpp:
+/usr/include/c++/13/bits/stl_algo.h:
 
-/usr/include/c++/13/bits/requires_hosted.h:
+/opt/ros/jazzy/include/rclcpp/rclcpp/parameter_map.hpp:
 
-/usr/include/aarch64-linux-gnu/bits/select2.h:
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_type__traits.hpp:
 
-/opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_py.so:
+/usr/include/aarch64-linux-gnu/bits/getopt_posix.h:
 
-/opt/ros/jazzy/include/hardware_interface/hardware_interface/types/hardware_component_interface_params.hpp:
+/usr/include/c++/13/ios:
 
-/usr/include/boost/mpl/void.hpp:
+/usr/include/c++/13/tr1/hypergeometric.tcc:
+
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:
+
+/usr/include/c++/13/bits/locale_facets.h:
+
+/usr/include/boost/config/detail/suffix.hpp:
+
+/opt/ros/jazzy/lib/libstd_srvs__rosidl_generator_c.so:
+
+/usr/include/aarch64-linux-gnu/bits/posix_opt.h:
+
+/usr/include/linux/posix_types.h:
+
+/usr/include/c++/13/bits/regex_executor.tcc:
+
+/usr/include/aarch64-linux-gnu/bits/pthreadtypes-arch.h:
+
+/usr/include/aarch64-linux-gnu/bits/types/mbstate_t.h:
+
+/usr/include/aarch64-linux-gnu/bits/posix1_lim.h:
+
+/usr/include/c++/13/bits/vector.tcc:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/parameter_service.hpp:
+
+/usr/include/boost/mpl/next.hpp:
+
+/usr/include/boost/function/detail/epilogue.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/endianness.h:
+
+/usr/include/aarch64-linux-gnu/bits/thread-shared-types.h:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/function_traits.hpp:
+
+/opt/ros/jazzy/include/std_srvs/std_srvs/srv/set_bool.hpp:
+
+/usr/include/boost/mpl/aux_/value_wknd.hpp:
+
+/usr/include/ctype.h:
+
+/opt/ros/jazzy/lib/libaction_msgs__rosidl_typesupport_introspection_cpp.so:
+
+/usr/include/boost/preprocessor/logical/compl.hpp:
+
+/usr/include/c++/13/bits/ranges_algobase.h:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/type_support_decl.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/types/__mbstate_t.h:
+
+/opt/ros/jazzy/include/rmw/rmw/discovery_options.h:
+
+/usr/include/boost/concept/assert.hpp:
+
+/opt/ros/jazzy/lib/libcontrol_msgs__rosidl_typesupport_introspection_cpp.so:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/exceptions.hpp:
+
+/usr/include/boost/core/no_exceptions_support.hpp:
+
+/root/ros2_ws/src/ai_worker/ffw_robot_manager/src/ffw_robot_manager.cpp:
+
+/opt/ros/jazzy/include/realtime_tools/realtime_tools/mutex.hpp:
+
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/set_parameters_atomically__type_support.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/confname.h:
+
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/integer_range__traits.hpp:
+
+/root/ros2_ws/src/ai_worker/ffw_robot_manager/include/ffw_robot_manager/battery_model.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/client.hpp:
+
+/usr/include/c++/13/bits/cxxabi_init_exception.h:
+
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/parameter.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/types/__locale_t.h:
+
+/opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/detail/transition__traits.hpp:
+
+/usr/include/boost/preprocessor/logical/not.hpp:
+
+/opt/ros/jazzy/include/rosidl_dynamic_typesupport/rosidl_dynamic_typesupport/dynamic_message_type_support_struct.h:
+
+/opt/ros/jazzy/lib/librcl_logging_interface.so:
+
+/opt/ros/jazzy/include/service_msgs/service_msgs/msg/detail/service_event_info__struct.h:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/experimental/timers_manager.hpp:
+
+/root/ros2_ws/src/ai_worker/ffw_robot_manager/include/ffw_robot_manager/ubetter_battery_model.hpp:
+
+/usr/include/c++/13/bits/new_allocator.h:
+
+/usr/include/c++/13/atomic:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/detail/node_interfaces_helpers.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/syscall.h:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/create_client.hpp:
+
+/opt/ros/jazzy/include/rmw/rmw/events_statuses/requested_deadline_missed.h:
+
+/opt/ros/jazzy/lib/libaction_msgs__rosidl_typesupport_introspection_c.so:
+
+/opt/ros/jazzy/include/std_srvs/std_srvs/srv/detail/set_bool__builder.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/pthread_stack_min-dynamic.h:
+
+/usr/include/aarch64-linux-gnu/bits/struct_rwlock.h:
+
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/parameter_value.hpp:
+
+/usr/include/boost/iterator/detail/facade_iterator_category.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/types/clock_t.h:
+
+/usr/include/boost/algorithm/string/formatter.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/types/locale_t.h:
+
+/opt/ros/jazzy/include/rsl/rsl/algorithm.hpp:
+
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/describe_parameters__struct.hpp:
+
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_value__struct.hpp:
+
+/opt/ros/jazzy/include/type_description_interfaces/type_description_interfaces/srv/detail/get_type_description__type_support.h:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/detail/resolve_enable_topic_statistics.hpp:
+
+/usr/include/boost/preprocessor/repetition/limits/repeat_256.hpp:
+
+/opt/ros/jazzy/include/rmw/rmw/names_and_types.h:
+
+/usr/include/aarch64-linux-gnu/bits/atomic_wide_counter.h:
+
+/usr/include/c++/13/variant:
+
+/opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__traits.hpp:
+
+/usr/include/c++/13/system_error:
+
+/opt/ros/jazzy/include/rclcpp_lifecycle/rclcpp_lifecycle/state.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/stdio2.h:
+
+/opt/ros/jazzy/include/rmw/rmw/impl/cpp/demangle.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/errno.h:
+
+/opt/ros/jazzy/include/pal_statistics_msgs/pal_statistics_msgs/msg/detail/statistic__traits.hpp:
+
+/opt/ros/jazzy/include/rosidl_runtime_cpp/rosidl_typesupport_cpp/message_type_support.hpp:
+
+/usr/include/c++/13/bits/alloc_traits.h:
+
+/usr/include/boost/preprocessor/facilities/overload.hpp:
+
+/opt/ros/jazzy/include/rcpputils/rcpputils/join.hpp:
+
+/opt/ros/jazzy/include/pal_statistics_msgs/pal_statistics_msgs/msg/detail/statistics_names__type_support.hpp:
+
+/usr/include/c++/13/bits/concept_check.h:
+
+/root/ros2_ws/src/dynamixel_hardware_interface/include/dynamixel_hardware_interface/dynamixel/dynamixel.hpp:
+
+/opt/ros/jazzy/lib/libament_index_cpp.so:
+
+/opt/ros/jazzy/lib/libaction_msgs__rosidl_typesupport_cpp.so:
+
+/usr/include/c++/13/bits/stl_function.h:
+
+/usr/include/c++/13/bits/utility.h:
+
+/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_c.so:
+
+/usr/include/c++/13/csignal:
+
+/usr/include/c++/13/bits/quoted_string.h:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/qos_overriding_options.hpp:
+
+/usr/include/c++/13/bits/invoke.h:
+
+/usr/include/aarch64-linux-gnu/bits/cpu-set.h:
+
+/usr/include/boost/preprocessor/array/elem.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/floatn.h:
+
+/usr/include/aarch64-linux-gnu/bits/mathcalls.h:
+
+/usr/include/c++/13/bits/move.h:
+
+/usr/include/aarch64-linux-gnu/bits/sigcontext.h:
+
+/usr/include/aarch64-linux-gnu/sys/select.h:
+
+/usr/include/c++/13/source_location:
+
+/usr/include/c++/13/bits/atomic_base.h:
+
+/usr/include/aarch64-linux-gnu/bits/stdlib.h:
+
+/opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/detail/state__struct.h:
+
+/usr/include/boost/mpl/aux_/config/bind.hpp:
+
+/usr/include/boost/type_traits/remove_reference.hpp:
+
+/usr/include/aarch64-linux-gnu/sys/syscall.h:
+
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/system_interface.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/long-double.h:
+
+/usr/include/aarch64-linux-gnu/asm/errno.h:
+
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/get_parameters__type_support.hpp:
+
+/usr/include/boost/mpl/aux_/has_type.hpp:
+
+/opt/ros/jazzy/lib/libjoint_limiter_interface.so:
+
+/usr/include/boost/preprocessor/iteration/detail/bounds/lower1.hpp:
+
+/usr/include/aarch64-linux-gnu/c++/13/bits/atomic_word.h:
+
+/usr/include/boost/preprocessor/seq/enum.hpp:
+
+/usr/include/c++/13/cwchar:
+
+/usr/include/aarch64-linux-gnu/asm/unistd.h:
+
+/usr/include/boost/algorithm/string/detail/find_format_store.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/types/struct_itimerspec.h:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/publisher.hpp:
 
 /opt/ros/jazzy/include/rclcpp/rclcpp/init_options.hpp:
 
@@ -3793,8 +4188,6 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_event__struct.hpp:
 
-/usr/include/boost/preprocessor/list/limits/fold_left_256.hpp:
-
 /opt/ros/jazzy/include/rcl/rcl/arguments.h:
 
 /usr/include/boost/preprocessor/control/while.hpp:
@@ -3807,99 +4200,293 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /opt/ros/jazzy/include/rmw/rmw/event.h:
 
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/get_parameter_types__type_support.hpp:
+/usr/include/aarch64-linux-gnu/bits/pthreadtypes.h:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/experimental/timers_manager.hpp:
+/opt/ros/jazzy/include/rclcpp/rclcpp/experimental/executors/events_executor/events_queue.hpp:
 
-/root/ros2_ws/src/ai_worker/ffw_robot_manager/include/ffw_robot_manager/ubetter_battery_model.hpp:
+/usr/include/aarch64-linux-gnu/c++/13/bits/cpu_defines.h:
 
-/usr/include/c++/13/bits/new_allocator.h:
+/opt/ros/jazzy/include/libstatistics_collector/libstatistics_collector/topic_statistics_collector/topic_statistics_collector.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/create_client.hpp:
+/usr/include/boost/preprocessor/seq/limits/enum_256.hpp:
 
-/opt/ros/jazzy/include/rmw/rmw/events_statuses/requested_deadline_missed.h:
+/opt/ros/jazzy/include/rclcpp/rclcpp/subscription_base.hpp:
 
-/opt/ros/jazzy/lib/libaction_msgs__rosidl_typesupport_introspection_c.so:
+/opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/detail/transition_event__functions.h:
 
-/opt/ros/jazzy/include/std_srvs/std_srvs/srv/detail/set_bool__builder.hpp:
+/usr/include/c++/13/bits/ios_base.h:
 
-/usr/lib/aarch64-linux-gnu/libc_nonshared.a:
+/opt/ros/jazzy/include/rcl/rcl/service.h:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/publisher_factory.hpp:
+/opt/ros/jazzy/include/class_loader/class_loader/register_macro.hpp:
 
-/opt/ros/jazzy/include/rcutils/rcutils/error_handling.h:
+/usr/include/aarch64-linux-gnu/bits/stdio.h:
 
-/opt/ros/jazzy/include/type_description_interfaces/type_description_interfaces/msg/detail/type_source__struct.h:
+/usr/include/boost/preprocessor/comparison/limits/not_equal_256.hpp:
 
-/usr/include/aarch64-linux-gnu/bits/struct_rwlock.h:
+/opt/ros/jazzy/include/rcutils/rcutils/snprintf.h:
+
+/usr/include/aarch64-linux-gnu/c++/13/bits/c++locale.h:
+
+/opt/ros/jazzy/include/type_description_interfaces/type_description_interfaces/msg/rosidl_generator_c__visibility_control.h:
+
+/usr/include/aarch64-linux-gnu/c++/13/bits/c++allocator.h:
+
+/opt/ros/jazzy/include/pal_statistics/pal_statistics/pal_statistics_macros.hpp:
+
+/usr/include/c++/13/iomanip:
+
+/usr/include/c++/13/pstl/pstl_config.h:
+
+/usr/include/aarch64-linux-gnu/bits/types/struct_sigstack.h:
+
+/usr/include/c++/13/bits/atomic_wait.h:
+
+/usr/include/boost/preprocessor/arithmetic/dec.hpp:
+
+/usr/include/features.h:
+
+/opt/ros/jazzy/include/rcutils/rcutils/types.h:
+
+/usr/include/c++/13/string:
+
+/usr/include/aarch64-linux-gnu/bits/stdio_lim.h:
+
+/usr/include/boost/type_traits/intrinsics.hpp:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/include/syslimits.h:
+
+/usr/include/aarch64-linux-gnu/bits/xopen_lim.h:
+
+/usr/include/boost/mpl/bool.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/setjmp.h:
+
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_event__traits.hpp:
+
+/usr/include/c++/13/bits/stl_tempbuf.h:
+
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp:
+
+/usr/include/c++/13/bits/locale_conv.h:
+
+/usr/include/boost/mpl/apply_wrap.hpp:
+
+/opt/ros/jazzy/include/rosidl_runtime_cpp/rosidl_runtime_cpp/bounded_vector.hpp:
+
+/opt/ros/jazzy/include/rcpputils/rcpputils/thread_safety_annotations.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/stdint-intn.h:
+
+/usr/include/boost/mpl/aux_/config/eti.hpp:
+
+/usr/include/aarch64-linux-gnu/asm/bitsperlong.h:
+
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/macros.hpp:
+
+/opt/ros/jazzy/include/rcutils/rcutils/visibility_control_macros.h:
+
+/usr/include/aarch64-linux-gnu/gnu/stubs.h:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/create_subscription.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/types/FILE.h:
+
+/usr/include/aarch64-linux-gnu/bits/waitstatus.h:
+
+/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_generator_py.so:
+
+/usr/include/boost/type_traits/add_const.hpp:
+
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/set_parameters_atomically__builder.hpp:
+
+/usr/include/boost/algorithm/string.hpp:
+
+/opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_c.so:
+
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/get_parameters__builder.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/parameter_value.hpp:
+
+/opt/ros/jazzy/include/rmw/rmw/qos_string_conversions.h:
+
+/usr/include/c++/13/bits/range_access.h:
+
+/usr/include/linux/close_range.h:
+
+/usr/include/aarch64-linux-gnu/c++/13/bits/gthr.h:
+
+/usr/include/boost/type_traits/add_lvalue_reference.hpp:
+
+/usr/include/boost/assert/source_location.hpp:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/include/limits.h:
+
+/opt/ros/jazzy/include/realtime_tools/realtime_tools/realtime_publisher.hpp:
+
+/usr/include/aarch64-linux-gnu/c++/13/bits/cxxabi_tweaks.h:
+
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/introspection.hpp:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/include/stddef.h:
+
+/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_c.so:
+
+/usr/include/boost/algorithm/string/detail/finder.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/get_node_parameters_interface.hpp:
+
+/usr/include/c++/13/ext/alloc_traits.h:
+
+/usr/include/aarch64-linux-gnu/bits/types/__sigset_t.h:
+
+/usr/include/aarch64-linux-gnu/bits/fp-fast.h:
+
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_type__type_support.hpp:
+
+/usr/include/c++/13/sstream:
+
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/describe_parameters__type_support.hpp:
+
+/usr/include/boost/algorithm/string/detail/formatter.hpp:
+
+/usr/include/boost/mpl/quote.hpp:
+
+/usr/lib/aarch64-linux-gnu/libconsole_bridge.so.1.0:
+
+/usr/include/c++/13/cstdio:
+
+/opt/ros/jazzy/include/rmw/rmw/topic_endpoint_info_array.h:
+
+/usr/include/c++/13/bits/cpp_type_traits.h:
+
+/usr/include/aarch64-linux-gnu/bits/local_lim.h:
+
+/usr/include/c++/13/bits/cxxabi_forced.h:
 
 /usr/include/c++/13/bits/specfun.h:
 
 /usr/include/c++/13/bits/exception_ptr.h:
 
-/usr/include/aarch64-linux-gnu/bits/endian.h:
+/usr/include/c++/13/bits/functional_hash.h:
 
-/opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/detail/state__builder.hpp:
+/usr/include/aarch64-linux-gnu/bits/unistd-decl.h:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/message_memory_strategy.hpp:
+/usr/include/errno.h:
 
-/usr/include/boost/algorithm/string/detail/predicate.hpp:
+/usr/include/c++/13/bits/exception.h:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/experimental/executors/events_executor/events_executor.hpp:
+/usr/include/c++/13/iostream:
 
-/usr/include/aarch64-linux-gnu/c++/13/bits/gthr-default.h:
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/get_parameters__struct.hpp:
 
-/opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/detail/transition__struct.hpp:
+/usr/include/c++/13/bits/hash_bytes.h:
 
-/usr/include/boost/preprocessor/detail/check.hpp:
+/usr/include/boost/mpl/bind.hpp:
 
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/get_parameters__type_support.hpp:
+/root/ros2_ws/build/dynamixel_interfaces/rosidl_generator_cpp/dynamixel_interfaces/srv/detail/get_data_from_dxl__struct.hpp:
 
-/usr/include/boost/mpl/aux_/has_type.hpp:
+/usr/include/boost/mpl/aux_/preprocessed/gcc/apply_wrap.hpp:
 
-/opt/ros/jazzy/lib/libjoint_limiter_interface.so:
+/root/ros2_ws/src/ai_worker/ffw_robot_manager/src/battery_model.cpp:
 
-/usr/include/boost/preprocessor/iteration/detail/bounds/lower1.hpp:
+/usr/include/c++/13/semaphore:
 
-/usr/include/aarch64-linux-gnu/c++/13/bits/atomic_word.h:
+/opt/ros/jazzy/include/rmw/rmw/events_statuses/offered_deadline_missed.h:
 
-/usr/include/c++/13/initializer_list:
+/usr/include/c++/13/bits/locale_facets.tcc:
 
-/opt/ros/jazzy/include/rcutils/rcutils/testing/fault_injection.h:
+/opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/transition.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_parameters_interface_traits.hpp:
+/usr/include/boost/iterator/detail/enable_if.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/dynamic_typesupport/dynamic_serialization_support.hpp:
+/usr/include/c++/13/bits/requires_hosted.h:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/any_subscription_callback.hpp:
+/opt/ros/jazzy/include/rclcpp/rclcpp/message_info.hpp:
 
-/usr/include/boost/preprocessor/arithmetic/detail/is_1_number.hpp:
+/usr/include/aarch64-linux-gnu/bits/uio_lim.h:
 
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/set_parameters_result.hpp:
+/usr/include/aarch64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
 
-/opt/ros/jazzy/include/libstatistics_collector/libstatistics_collector/moving_average_statistics/types.hpp:
+/usr/include/c++/13/bits/localefwd.h:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/waitable.hpp:
+/usr/include/c++/13/bits/ranges_cmp.h:
 
-/usr/include/aarch64-linux-gnu/bits/pthreadtypes.h:
+/root/ros2_ws/install/dynamixel_sdk/include/dynamixel_sdk/group_fast_sync_read.h:
 
-/usr/include/boost/algorithm/string/detail/find_format_store.hpp:
+/usr/include/c++/13/bits/max_size_type.h:
 
-/usr/include/c++/13/bits/ios_base.h:
+/opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__builder.hpp:
 
-/opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/detail/transition_event__functions.h:
+/root/ros2_ws/install/dynamixel_sdk/include/dynamixel_sdk/group_fast_bulk_read.h:
 
-/usr/include/aarch64-linux-gnu/bits/endianness.h:
+/usr/include/c++/13/bits/streambuf.tcc:
 
-/usr/include/aarch64-linux-gnu/bits/thread-shared-types.h:
+/opt/ros/jazzy/include/rcl_yaml_param_parser/rcl_yaml_param_parser/parser.h:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/function_traits.hpp:
+/opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_fastrtps_c.so:
 
-/opt/ros/jazzy/include/std_srvs/std_srvs/srv/set_bool.hpp:
+/usr/include/c++/13/tr1/gamma.tcc:
 
-/usr/include/boost/mpl/aux_/value_wknd.hpp:
+/usr/include/c++/13/streambuf:
 
-/usr/include/ctype.h:
+/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_clock_interface.hpp:
+
+/usr/lib/aarch64-linux-gnu/liblttng-ust-common.so:
+
+/usr/include/c++/13/pstl/glue_memory_defs.h:
+
+/opt/ros/jazzy/include/rmw/rmw/events_statuses/matched.h:
+
+/usr/include/wchar.h:
+
+/usr/include/fmt/core.h:
+
+/opt/ros/jazzy/include/rclcpp_lifecycle/rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp:
+
+/usr/include/boost/preprocessor/facilities/check_empty.hpp:
+
+/usr/include/c++/13/bits/memoryfwd.h:
+
+/usr/include/aarch64-linux-gnu/bits/procfs-id.h:
+
+/usr/include/time.h:
+
+/usr/include/c++/13/queue:
+
+/usr/include/boost/type_traits/add_volatile.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/sched.h:
+
+/usr/include/boost/iterator/is_iterator.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/create_generic_publisher.hpp:
+
+/usr/include/c++/13/tuple:
+
+/opt/ros/jazzy/include/rmw/rmw/message_sequence.h:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/experimental/ros_message_intra_process_buffer.hpp:
+
+/usr/include/boost/mpl/apply.hpp:
+
+/usr/include/c++/13/bits/regex.h:
+
+/opt/ros/jazzy/include/ament_index_cpp/ament_index_cpp/visibility_control.h:
+
+/usr/include/aarch64-linux-gnu/sys/cdefs.h:
+
+/opt/ros/jazzy/include/rcutils/rcutils/types/hash_map.h:
+
+/usr/include/c++/13/shared_mutex:
+
+/root/ros2_ws/build/dynamixel_interfaces/rosidl_generator_cpp/dynamixel_interfaces/srv/detail/get_data_from_dxl__traits.hpp:
+
+/usr/include/c++/13/numbers:
+
+/usr/include/boost/mpl/aux_/template_arity.hpp:
+
+/usr/include/boost/mpl/identity.hpp:
 
 /usr/include/c++/13/vector:
 
@@ -3923,6 +4510,14 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /usr/include/boost/preprocessor/arithmetic/detail/maximum_number.hpp:
 
+/usr/include/c++/13/bits/stl_algobase.h:
+
+/usr/include/c++/13/pstl/execution_defs.h:
+
+/usr/include/aarch64-linux-gnu/bits/stdint-uintn.h:
+
+/usr/include/c++/13/bits/ranges_uninitialized.h:
+
 /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_introspection_c.so:
 
 /opt/ros/jazzy/include/rcl/rcl/init_options.h:
@@ -3935,229 +4530,21 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /usr/include/boost/mpl/aux_/preprocessed/gcc/quote.hpp:
 
-/usr/include/boost/preprocessor/logical/bitor.hpp:
+/usr/include/c++/13/bits/ptr_traits.h:
 
-/opt/ros/jazzy/include/libstatistics_collector/libstatistics_collector/collector/metric_details_interface.hpp:
+/opt/ros/jazzy/include/rclcpp/rclcpp/memory_strategy.hpp:
 
-/usr/include/boost/algorithm/string/predicate.hpp:
+/opt/ros/jazzy/lib/libservice_msgs__rosidl_typesupport_introspection_c.so:
 
-/usr/include/aarch64-linux-gnu/asm/errno.h:
+/opt/ros/jazzy/include/realtime_tools/realtime_tools/realtime_buffer.hpp:
 
-/usr/include/aarch64-linux-gnu/bits/long-double.h:
+/usr/include/boost/config/helper_macros.hpp:
 
-/opt/ros/jazzy/include/pal_statistics_msgs/pal_statistics_msgs/msg/detail/statistic__traits.hpp:
+/opt/ros/jazzy/include/rclcpp/rclcpp/allocator/allocator_common.hpp:
 
-/opt/ros/jazzy/include/rosidl_runtime_cpp/rosidl_typesupport_cpp/message_type_support.hpp:
+/usr/include/c++/13/bits/refwrap.h:
 
-/usr/include/boost/preprocessor/list/adt.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/contexts/default_context.hpp:
-
-/usr/include/boost/preprocessor/tuple/rem.hpp:
-
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter__struct.hpp:
-
-/usr/include/boost/mpl/aux_/preprocessed/gcc/apply_fwd.hpp:
-
-/opt/ros/jazzy/include/class_loader/class_loader/exceptions.hpp:
-
-/usr/include/c++/13/bits/vector.tcc:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/parameter_service.hpp:
-
-/usr/include/boost/preprocessor/seq/enum.hpp:
-
-/usr/include/c++/13/cwchar:
-
-/usr/include/boost/preprocessor/empty.hpp:
-
-/usr/include/c++/13/bits/move.h:
-
-/usr/include/aarch64-linux-gnu/bits/sigcontext.h:
-
-/usr/include/aarch64-linux-gnu/bits/floatn.h:
-
-/usr/include/aarch64-linux-gnu/bits/mathcalls.h:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/rate.hpp:
-
-/usr/include/boost/mpl/aux_/has_apply.hpp:
-
-/usr/include/wctype.h:
-
-/usr/include/c++/13/mutex:
-
-/usr/include/boost/preprocessor/arithmetic/detail/is_maximum_number.hpp:
-
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/floating_point_range__traits.hpp:
-
-/opt/ros/jazzy/lib/liblibstatistics_collector.so:
-
-/opt/ros/jazzy/include/rcpputils/rcpputils/scope_exit.hpp:
-
-/usr/include/c++/13/cctype:
-
-/usr/include/aarch64-linux-gnu/bits/types/__mbstate_t.h:
-
-/opt/ros/jazzy/include/rmw/rmw/discovery_options.h:
-
-/usr/include/boost/concept/assert.hpp:
-
-/opt/ros/jazzy/include/rcutils/rcutils/snprintf.h:
-
-/usr/include/aarch64-linux-gnu/c++/13/bits/c++locale.h:
-
-/opt/ros/jazzy/include/type_description_interfaces/type_description_interfaces/msg/rosidl_generator_c__visibility_control.h:
-
-/usr/include/boost/mpl/apply_fwd.hpp:
-
-/usr/include/aarch64-linux-gnu/c++/13/bits/c++allocator.h:
-
-/opt/ros/jazzy/include/pal_statistics/pal_statistics/pal_statistics_macros.hpp:
-
-/usr/include/c++/13/iomanip:
-
-/usr/include/c++/13/pstl/pstl_config.h:
-
-/usr/include/aarch64-linux-gnu/bits/types/struct_sigstack.h:
-
-/usr/include/features.h:
-
-/opt/ros/jazzy/include/rcutils/rcutils/types.h:
-
-/usr/include/c++/13/string:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/any_executable.hpp:
-
-/usr/include/boost/preprocessor/iteration/detail/bounds/upper1.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/stdio_lim.h:
-
-/usr/include/c++/13/queue:
-
-/usr/include/boost/type_traits/add_volatile.hpp:
-
-/usr/include/boost/iterator/is_iterator.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/sched.h:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/create_generic_publisher.hpp:
-
-/usr/include/c++/13/tuple:
-
-/opt/ros/jazzy/include/rmw/rmw/message_sequence.h:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/experimental/ros_message_intra_process_buffer.hpp:
-
-/usr/include/boost/mpl/apply.hpp:
-
-/usr/include/c++/13/cstdarg:
-
-/usr/include/c++/13/bits/atomic_lockfree_defines.h:
-
-/usr/include/aarch64-linux-gnu/bits/setjmp.h:
-
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_event__traits.hpp:
-
-/usr/include/c++/13/bits/stl_tempbuf.h:
-
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_base.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/types/__fpos_t.h:
-
-/usr/include/c++/13/bits/locale_conv.h:
-
-/usr/include/boost/mpl/apply_wrap.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/create_subscription.hpp:
-
-/opt/ros/jazzy/lib/libsensor_msgs__rosidl_generator_py.so:
-
-/usr/include/c++/13/cstddef:
-
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/set_parameters.hpp:
-
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/set_parameters__struct.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/sigaction.h:
-
-/usr/include/aarch64-linux-gnu/bits/types/clock_t.h:
-
-/usr/include/boost/algorithm/string/formatter.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/types/locale_t.h:
-
-/opt/ros/jazzy/include/rsl/rsl/algorithm.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/local_lim.h:
-
-/usr/include/c++/13/bits/cxxabi_forced.h:
-
-/opt/ros/jazzy/include/rcpputils/rcpputils/thread_safety_annotations.hpp:
-
-/opt/ros/jazzy/include/rosidl_runtime_cpp/rosidl_runtime_cpp/bounded_vector.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/stdint-intn.h:
-
-/usr/include/boost/mpl/aux_/config/eti.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/procfs-id.h:
-
-/usr/include/fmt/core.h:
-
-/opt/ros/jazzy/include/rclcpp_lifecycle/rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/cpu-set.h:
-
-/usr/include/boost/preprocessor/array/elem.hpp:
-
-/usr/include/linux/posix_types.h:
-
-/usr/include/c++/13/bits/regex_executor.tcc:
-
-/usr/include/aarch64-linux-gnu/bits/pthreadtypes-arch.h:
-
-/usr/include/aarch64-linux-gnu/bits/types/mbstate_t.h:
-
-/opt/ros/jazzy/lib/libstd_srvs__rosidl_generator_c.so:
-
-/usr/include/aarch64-linux-gnu/bits/posix_opt.h:
-
-/usr/include/linux/close_range.h:
-
-/usr/include/aarch64-linux-gnu/c++/13/bits/gthr.h:
-
-/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_c.so:
-
-/usr/include/boost/algorithm/string/detail/finder.hpp:
-
-/opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/transition_event.h:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/dynamic_typesupport/dynamic_message.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/sigevent-consts.h:
-
-/opt/ros/jazzy/include/class_loader/class_loader/class_loader_core.hpp:
-
-/usr/include/c++/13/ext/slist:
-
-/opt/ros/jazzy/include/hardware_interface/hardware_interface/hardware_info.hpp:
-
-/opt/ros/jazzy/include/realtime_tools/realtime_tools/async_function_handler.hpp:
-
-/usr/include/boost/mpl/always.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/get_node_parameters_interface.hpp:
-
-/usr/include/c++/13/ext/alloc_traits.h:
-
-/usr/include/c++/13/new:
-
-/opt/ros/jazzy/include/pal_statistics_msgs/pal_statistics_msgs/msg/statistics_values.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/types/__sigset_t.h:
+/usr/include/boost/preprocessor/facilities/is_empty_variadic.hpp:
 
 /opt/ros/jazzy/include/rcl/rcl/event.h:
 
@@ -4167,31 +4554,13 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /opt/ros/jazzy/include/rsl/rsl/parameter_validators.hpp:
 
-/opt/ros/jazzy/lib/libament_index_cpp.so:
+/usr/include/aarch64-linux-gnu/bits/posix2_lim.h:
 
-/opt/ros/jazzy/lib/libaction_msgs__rosidl_typesupport_cpp.so:
-
-/usr/include/c++/13/bits/stl_function.h:
-
-/usr/include/c++/13/bits/utility.h:
-
-/usr/include/c++/13/bits/unordered_map.h:
-
-/usr/include/aarch64-linux-gnu/bits/types/struct_sched_param.h:
-
-/usr/include/c++/13/bits/stl_iterator_base_funcs.h:
-
-/opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/detail/state__struct.hpp:
-
-/usr/include/boost/config/user.hpp:
-
-/usr/include/boost/iterator/detail/config_def.hpp:
+/opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/state.hpp:
 
 /opt/ros/jazzy/include/rclcpp/rclcpp/create_publisher.hpp:
 
 /usr/include/c++/13/bits/stl_raw_storage_iter.h:
-
-/opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/time__struct.hpp:
 
 /opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/parameter_event.hpp:
 
@@ -4199,39 +4568,67 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /usr/include/c++/13/bits/stl_relops.h:
 
+/opt/ros/jazzy/include/rclcpp/rclcpp/guard_condition.hpp:
+
+/opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/time__struct.h:
+
+/usr/include/aarch64-linux-gnu/bits/types.h:
+
 /opt/ros/jazzy/include/rcpputils/rcpputils/pointer_traits.hpp:
 
 /usr/include/boost/mpl/aux_/config/nttp.hpp:
 
+/usr/include/c++/13/bits/iterator_concepts.h:
+
 /usr/include/c++/13/bits/stringfwd.h:
-
-/usr/include/c++/13/fstream:
-
-/usr/include/boost/preprocessor/repetition/detail/for.hpp:
-
-/usr/include/c++/13/cstdlib:
-
-/usr/include/c++/13/bit:
-
-/usr/include/c++/13/ext/atomicity.h:
-
-/opt/ros/jazzy/include/rmw/rmw/time.h:
 
 /opt/ros/jazzy/include/pluginlib/pluginlib/class_list_macros.hpp:
 
 /usr/include/boost/algorithm/string/replace.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/node_options.hpp:
+/opt/ros/jazzy/lib/libtype_description_interfaces__rosidl_typesupport_fastrtps_cpp.so:
 
-/usr/include/boost/utility/identity_type.hpp:
+/usr/include/aarch64-linux-gnu/bits/types/clockid_t.h:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/executors.hpp:
+/opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/time__traits.hpp:
 
-/usr/include/boost/preprocessor/control/limits/while_256.hpp:
+/usr/include/stdio.h:
+
+/usr/include/c++/13/climits:
+
+/opt/ros/jazzy/include/pal_statistics/pal_statistics/registration_utils.hpp:
+
+/usr/include/c++/13/compare:
+
+/usr/include/boost/mpl/aux_/preprocessed/gcc/placeholders.hpp:
+
+/usr/include/boost/mpl/aux_/na_assert.hpp:
+
+/usr/include/c++/13/condition_variable:
+
+/opt/ros/jazzy/include/rcl/rcl/guard_condition.h:
+
+/usr/include/aarch64-linux-gnu/sys/time.h:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/executors/executor_entities_collection.hpp:
+
+/usr/include/boost/mpl/or.hpp:
+
+/usr/include/c++/13/memory:
+
+/usr/include/boost/algorithm/string/split.hpp:
+
+/usr/include/c++/13/cstdint:
 
 /opt/ros/jazzy/include/pal_statistics_msgs/pal_statistics_msgs/msg/detail/statistics__traits.hpp:
 
 /usr/include/boost/mpl/aux_/preprocessed/gcc/and.hpp:
+
+/usr/include/c++/13/cwctype:
+
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/set_parameters_result__builder.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/types/__sigval_t.h:
 
 /opt/ros/jazzy/include/rcl/rcl/wait.h:
 
@@ -4261,6 +4658,12 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /usr/include/aarch64-linux-gnu/bits/iscanonical.h:
 
+/usr/include/aarch64-linux-gnu/bits/types/cookie_io_functions_t.h:
+
+/usr/include/boost/mpl/aux_/config/static_constant.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/types/wint_t.h:
+
 /usr/include/boost/range/iterator_range_core.hpp:
 
 /usr/include/boost/mpl/aux_/preprocessor/default_params.hpp:
@@ -4289,35 +4692,21 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /opt/ros/jazzy/include/libstatistics_collector/libstatistics_collector/topic_statistics_collector/received_message_age.hpp:
 
-/opt/ros/jazzy/include/rcl/rcl/types.h:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/executor.hpp:
-
 /usr/include/c++/13/utility:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_parameters_interface.hpp:
+/usr/include/c++/13/initializer_list:
 
-/opt/ros/jazzy/include/rcl_yaml_param_parser/rcl_yaml_param_parser/parser.h:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/executors/executor_entities_collection.hpp:
-
-/usr/include/boost/mpl/or.hpp:
-
-/usr/include/c++/13/memory:
-
-/usr/include/boost/algorithm/string/split.hpp:
+/opt/ros/jazzy/include/rcutils/rcutils/testing/fault_injection.h:
 
 /usr/include/boost/type_traits/has_minus_assign.hpp:
 
 /opt/ros/jazzy/include/rclcpp/rclcpp/callback_group.hpp:
 
-/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_state_interface.hpp:
+/usr/include/boost/utility/result_of.hpp:
 
-/usr/include/aarch64-linux-gnu/bits/flt-eval-method.h:
+/usr/include/aarch64-linux-gnu/bits/struct_mutex.h:
 
-/usr/lib/gcc/aarch64-linux-gnu/13/include/stdint.h:
-
-/opt/ros/jazzy/include/std_srvs/std_srvs/msg/rosidl_generator_cpp__visibility_control.hpp:
+/usr/include/boost/bind/mem_fn_cc.hpp:
 
 /usr/include/boost/range/detail/misc_concept.hpp:
 
@@ -4325,169 +4714,181 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /usr/include/c++/13/bits/stl_iterator_base_types.h:
 
+/opt/ros/jazzy/lib/libaction_msgs__rosidl_generator_py.so:
+
+/usr/include/stdlib.h:
+
+/opt/ros/jazzy/lib/libcontrol_msgs__rosidl_generator_py.so:
+
+/usr/include/unistd.h:
+
+/usr/include/boost/exception/exception.hpp:
+
+/usr/include/c++/13/bits/uses_allocator_args.h:
+
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_type__builder.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/get_node_timers_interface.hpp:
+
+/usr/include/boost/mpl/always.hpp:
+
+/opt/ros/jazzy/include/realtime_tools/realtime_tools/async_function_handler.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/types/__fpos_t.h:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_base.hpp:
+
+/usr/include/boost/mpl/apply_fwd.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_base_interface.hpp:
+
+/usr/include/c++/13/bits/unique_ptr.h:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_base_interface_traits.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_clock_interface_traits.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_parameters_interface.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_parameters_interface_traits.hpp:
+
+/usr/include/c++/13/bits/stl_pair.h:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_timers_interface.hpp:
+
+/usr/include/boost/preprocessor/comparison/not_equal.hpp:
+
+/usr/include/c++/13/bits/regex_error.h:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_timers_interface_traits.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/detail/rmw_implementation_specific_subscription_payload.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_topics_interface_traits.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_type_descriptions_interface.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/node_options.hpp:
+
+/usr/include/boost/utility/identity_type.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/executors.hpp:
+
+/usr/include/boost/preprocessor/control/limits/while_256.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/parameter.hpp:
+
+/usr/include/boost/algorithm/string/find_iterator.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/parameter_client.hpp:
+
+/usr/include/boost/type_traits/enable_if.hpp:
+
+/opt/ros/jazzy/include/rcl/rcl/rcl.h:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/parameter_event_handler.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/publisher_base.hpp:
+
+/usr/lib/aarch64-linux-gnu/libc_nonshared.a:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/publisher_factory.hpp:
+
+/opt/ros/jazzy/include/rcutils/rcutils/error_handling.h:
+
+/opt/ros/jazzy/include/type_description_interfaces/type_description_interfaces/msg/detail/type_source__struct.h:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/context.hpp:
+
+/usr/include/boost/mpl/aux_/config/ctps.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/publisher_options.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/rate.hpp:
+
+/usr/include/boost/mpl/aux_/has_apply.hpp:
+
+/usr/include/c++/13/mutex:
+
+/usr/include/wctype.h:
+
+/usr/include/boost/preprocessor/arithmetic/detail/is_maximum_number.hpp:
+
 /opt/ros/jazzy/include/rclcpp/rclcpp/serialization.hpp:
 
 /usr/include/boost/preprocessor/arithmetic/detail/div_base.hpp:
 
 /usr/include/boost/mpl/aux_/config/adl.hpp:
 
-/opt/ros/jazzy/lib/libaction_msgs__rosidl_generator_py.so:
+/usr/include/aarch64-linux-gnu/bits/timex.h:
 
-/usr/include/stdlib.h:
+/opt/ros/jazzy/include/rclcpp/rclcpp/serialized_message.hpp:
 
-/usr/include/c++/13/bits/stl_algobase.h:
+/opt/ros/jazzy/include/rclcpp/rclcpp/subscription_content_filter_options.hpp:
 
-/usr/include/aarch64-linux-gnu/bits/stdint-uintn.h:
+/opt/ros/jazzy/include/rclcpp/rclcpp/detail/qos_parameters.hpp:
 
-/usr/include/c++/13/pstl/execution_defs.h:
+/usr/include/aarch64-linux-gnu/bits/strings_fortified.h:
 
-/opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__type_support.hpp:
+/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_event__type_support.hpp:
 
-/usr/include/aarch64-linux-gnu/bits/signum-generic.h:
+/opt/ros/jazzy/include/rclcpp/rclcpp/subscription_factory.hpp:
 
-/root/ros2_ws/src/ai_worker/ffw_robot_manager/src/ffw_robot_manager.cpp:
+/usr/include/boost/mpl/and.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/detail/cpp_callback_trampoline.hpp:
+/opt/ros/jazzy/include/pal_statistics_msgs/pal_statistics_msgs/msg/detail/statistics_names__struct.hpp:
 
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/describe_parameters.hpp:
+/usr/include/boost/mpl/aux_/config/overload_resolution.hpp:
 
-/opt/ros/jazzy/include/hardware_interface/hardware_interface/types/lifecycle_state_names.hpp:
+/usr/include/boost/range/begin.hpp:
 
-/usr/include/boost/type_traits/negation.hpp:
+/opt/ros/jazzy/include/rclcpp/rclcpp/subscription_traits.hpp:
 
-/opt/ros/jazzy/include/ament_index_cpp/ament_index_cpp/get_package_share_directory.hpp:
+/opt/ros/jazzy/include/rmw/rmw/types.h:
 
-/usr/include/c++/13/bits/regex.h:
+/opt/ros/jazzy/include/rclcpp/rclcpp/subscription_wait_set_mask.hpp:
 
-/opt/ros/jazzy/include/ament_index_cpp/ament_index_cpp/visibility_control.h:
+/opt/ros/jazzy/include/rclcpp/rclcpp/timer.hpp:
 
-/usr/include/aarch64-linux-gnu/sys/cdefs.h:
+/opt/ros/jazzy/include/rclcpp/rclcpp/type_adapter.hpp:
 
-/opt/ros/jazzy/include/rcutils/rcutils/types/hash_map.h:
+/opt/ros/jazzy/include/std_srvs/std_srvs/msg/rosidl_generator_cpp__visibility_control.hpp:
 
-/usr/include/boost/mpl/aux_/config/static_constant.hpp:
+/usr/lib/gcc/aarch64-linux-gnu/13/include/stdint.h:
 
-/usr/include/aarch64-linux-gnu/bits/types/wint_t.h:
+/usr/include/aarch64-linux-gnu/bits/flt-eval-method.h:
 
-/usr/include/aarch64-linux-gnu/bits/types/cookie_io_functions_t.h:
+/usr/include/boost/assert.hpp:
 
-/usr/include/boost/mpl/aux_/arity_spec.hpp:
+/opt/ros/jazzy/include/rclcpp/rclcpp/detail/rmw_implementation_specific_publisher_payload.hpp:
 
-/opt/ros/jazzy/include/hardware_interface/hardware_interface/types/hardware_component_params.hpp:
+/opt/ros/jazzy/include/rclcpp/rclcpp/utilities.hpp:
 
-/usr/include/aarch64-linux-gnu/bits/sigstack.h:
+/opt/ros/jazzy/include/rclcpp/rclcpp/version.h:
 
-/usr/include/aarch64-linux-gnu/bits/floatn-common.h:
+/opt/ros/jazzy/include/rclcpp/rclcpp/visibility_control.hpp:
 
-/usr/include/aarch64-linux-gnu/bits/types/error_t.h:
+/opt/ros/jazzy/include/rclcpp/rclcpp/wait_result_kind.hpp:
+
+/usr/include/boost/preprocessor/repetition/enum.hpp:
+
+/root/ros2_ws/src/dynamixel_hardware_interface/include/dynamixel_hardware_interface/visibility_control.h:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/wait_set.hpp:
+
+/usr/include/boost/preprocessor/control/deduce_d.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/types/__fpos64_t.h:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/wait_set_policies/detail/storage_policy_common.hpp:
+
+/usr/include/boost/range/detail/str_types.hpp:
+
+/usr/include/boost/algorithm/string/yes_no_type.hpp:
 
 /usr/include/fmt/compile.h:
 
 /opt/ros/jazzy/include/rclcpp/rclcpp/wait_set_policies/detail/synchronization_policy_common.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/guard_condition.hpp:
-
-/opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/time__struct.h:
-
-/opt/ros/jazzy/include/rcl/rcl/time.h:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_base_interface_traits.hpp:
-
-/usr/include/c++/13/bits/unique_ptr.h:
-
-/usr/include/boost/preprocessor/config/config.hpp:
-
-/opt/ros/jazzy/include/class_loader/class_loader/visibility_control.hpp:
-
-/root/ros2_ws/build/dynamixel_interfaces/rosidl_generator_cpp/dynamixel_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/getopt_core.h:
-
-/opt/ros/jazzy/include/hardware_interface/hardware_interface/types/trigger_type.hpp:
-
-/usr/include/boost/range/detail/extract_optional_type.hpp:
-
-/opt/ros/jazzy/include/hardware_interface/hardware_interface/component_parser.hpp:
-
-/usr/include/boost/algorithm/string/sequence_traits.hpp:
-
-/opt/ros/jazzy/include/hardware_interface/hardware_interface/handle.hpp:
-
-/usr/include/boost/algorithm/string/detail/replace_storage.hpp:
-
-/opt/ros/jazzy/include/hardware_interface/hardware_interface/hardware_component_interface.hpp:
-
-/usr/lib/gcc/aarch64-linux-gnu/13/include/stddef.h:
-
-/opt/ros/jazzy/include/hardware_interface/hardware_interface/introspection.hpp:
-
-/usr/include/boost/config/detail/select_stdlib_config.hpp:
-
-/usr/include/c++/13/bits/cpp_type_traits.h:
-
-/usr/include/boost/preprocessor/enum_params.hpp:
-
-/usr/include/boost/preprocessor/facilities/expand.hpp:
-
-/usr/include/boost/range/difference_type.hpp:
-
-/usr/include/c++/13/bits/char_traits.h:
-
-/usr/include/boost/preprocessor/detail/limits/auto_rec_256.hpp:
-
-/usr/include/c++/13/bits/exception_defines.h:
-
-/usr/include/boost/function/detail/epilogue.hpp:
-
-/usr/include/boost/mpl/next.hpp:
-
-/opt/ros/jazzy/include/hardware_interface/hardware_interface/types/hardware_interface_type_values.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/get_node_timers_interface.hpp:
-
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_type__builder.hpp:
-
-/usr/include/c++/13/bits/uses_allocator_args.h:
-
-/opt/ros/jazzy/include/joint_limits/joint_limits/joint_limits.hpp:
-
-/opt/ros/jazzy/include/libstatistics_collector/libstatistics_collector/collector/generate_statistics_message.hpp:
-
-/opt/ros/jazzy/include/rosidl_runtime_c/rosidl_runtime_c/service_type_support_struct.h:
-
-/opt/ros/jazzy/include/libstatistics_collector/libstatistics_collector/topic_statistics_collector/topic_statistics_collector.hpp:
-
-/usr/include/aarch64-linux-gnu/gnu/stubs.h:
-
-/usr/include/aarch64-linux-gnu/asm/bitsperlong.h:
-
-/opt/ros/jazzy/include/hardware_interface/hardware_interface/macros.hpp:
-
-/opt/ros/jazzy/include/rcutils/rcutils/visibility_control_macros.h:
-
-/opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/detail/state__struct.h:
-
-/opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/detail/transition__builder.hpp:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/subscription_options.hpp:
-
-/opt/ros/jazzy/include/type_description_interfaces/type_description_interfaces/msg/detail/type_description__struct.h:
-
-/usr/include/aarch64-linux-gnu/bits/types/struct_FILE.h:
-
-/opt/ros/jazzy/include/rmw/rmw/get_topic_names_and_types.h:
-
-/opt/ros/jazzy/include/rclcpp/rclcpp/intra_process_setting.hpp:
-
-/usr/include/boost/core/enable_if.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/types/struct_timespec.h:
-
-/opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/detail/transition__struct.h:
-
-/opt/ros/jazzy/include/rosidl_runtime_c/rosidl_runtime_c/type_description/field__struct.h:
-
-/usr/include/asm-generic/types.h:
 
 /usr/include/aarch64-linux-gnu/bits/uintn-identity.h:
 
@@ -4504,10 +4905,6 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 /opt/ros/jazzy/include/rclcpp_lifecycle/rclcpp_lifecycle/lifecycle_publisher.hpp:
 
 /opt/ros/jazzy/include/rclcpp_lifecycle/rclcpp_lifecycle/visibility_control.h:
-
-/usr/include/c++/13/bits/range_access.h:
-
-/opt/ros/jazzy/include/rmw/rmw/qos_string_conversions.h:
 
 /opt/ros/jazzy/include/rcpputils/rcpputils/shared_library.hpp:
 
@@ -4541,17 +4938,15 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /opt/ros/jazzy/include/rcutils/rcutils/qsort.h:
 
-/usr/include/boost/preprocessor/iteration/iterate.hpp:
-
 /opt/ros/jazzy/include/rcutils/rcutils/sha256.h:
 
 /usr/include/c++/13/bits/locale_classes.h:
 
 /opt/ros/jazzy/include/rcutils/rcutils/shared_library.h:
 
-/usr/include/aarch64-linux-gnu/bits/select.h:
-
 /opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/time__builder.hpp:
+
+/usr/include/aarch64-linux-gnu/bits/select.h:
 
 /opt/ros/jazzy/include/rcutils/rcutils/time.h:
 
@@ -4569,13 +4964,17 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /usr/include/boost/preprocessor/arithmetic/mod.hpp:
 
-/usr/include/c++/13/bits/basic_ios.tcc:
-
 /opt/ros/jazzy/include/rmw/rmw/features.h:
+
+/usr/include/c++/13/bits/basic_ios.tcc:
 
 /opt/ros/jazzy/include/rmw/rmw/dynamic_message_type_support.h:
 
 /usr/include/aarch64-linux-gnu/bits/libm-simd-decl-stubs.h:
+
+/usr/include/boost/preprocessor/list/fold_left.hpp:
+
+/opt/ros/jazzy/include/rmw/rmw/error_handling.h:
 
 /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_cpp.so:
 
@@ -4641,10 +5040,6 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /usr/include/boost/mpl/integral_c_tag.hpp:
 
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/get_parameters__traits.hpp:
-
-/usr/include/boost/preprocessor/punctuation/comma.hpp:
-
 /opt/ros/jazzy/include/rmw/rmw/topic_endpoint_info.h:
 
 /opt/ros/jazzy/include/rosidl_runtime_c/rosidl_runtime_c/message_initialization.h:
@@ -4685,11 +5080,17 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_fastrtps_c.so:
 
+/usr/include/c++/13/concepts:
+
 /opt/ros/jazzy/include/rosidl_runtime_c/rosidl_runtime_c/type_description/field_type__struct.h:
 
 /usr/include/boost/mpl/aux_/common_name_wknd.hpp:
 
 /opt/ros/jazzy/include/rosidl_runtime_c/rosidl_runtime_c/type_description/individual_type_description__struct.h:
+
+/usr/include/aarch64-linux-gnu/bits/wctype-wchar.h:
+
+/opt/ros/jazzy/include/rosidl_runtime_c/rosidl_runtime_c/type_hash.h:
 
 /opt/ros/jazzy/lib/libunique_identifier_msgs__rosidl_typesupport_introspection_c.so:
 
@@ -4699,13 +5100,15 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o:
 
 /usr/include/boost/mpl/bool_fwd.hpp:
 
+/usr/include/c++/13/bits/atomic_timed_wait.h:
+
 /opt/ros/jazzy/include/rosidl_runtime_cpp/rosidl_runtime_cpp/message_type_support_decl.hpp:
 
 CMakeFiles/ffw_robot_manager.dir/src/battery_model.cpp.o:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/node_impl.hpp:
-
 /opt/ros/jazzy/include/rmw/rmw/subscription_content_filter_options.h:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/node_impl.hpp:
 
 /opt/ros/jazzy/include/rosidl_runtime_cpp/rosidl_runtime_cpp/service_type_support_decl.hpp:
 
@@ -4745,6 +5148,8 @@ CMakeFiles/ffw_robot_manager.dir/src/battery_model.cpp.o:
 
 /opt/ros/jazzy/include/sensor_msgs/sensor_msgs/msg/detail/battery_state__struct.hpp:
 
+/usr/include/boost/preprocessor/punctuation/is_begin_parens.hpp:
+
 /opt/ros/jazzy/include/sensor_msgs/sensor_msgs/msg/detail/battery_state__traits.hpp:
 
 /usr/include/c++/13/tr1/legendre_function.tcc:
@@ -4781,8 +5186,6 @@ CMakeFiles/ffw_robot_manager.dir/src/battery_model.cpp.o:
 
 /opt/ros/jazzy/include/statistics_msgs/statistics_msgs/msg/detail/statistic_data_point__traits.hpp:
 
-/usr/include/boost/preprocessor/detail/is_binary.hpp:
-
 /opt/ros/jazzy/include/rclcpp/rclcpp/experimental/subscription_intra_process_buffer.hpp:
 
 /opt/ros/jazzy/include/statistics_msgs/statistics_msgs/msg/rosidl_generator_cpp__visibility_control.hpp:
@@ -4815,6 +5218,8 @@ CMakeFiles/ffw_robot_manager.dir/src/battery_model.cpp.o:
 
 /usr/include/boost/algorithm/string/erase.hpp:
 
+/usr/include/boost/preprocessor/variadic/detail/has_opt.hpp:
+
 /opt/ros/jazzy/include/tracetools/tracetools/config.h:
 
 /opt/ros/jazzy/include/tracetools/tracetools/tracetools.h:
@@ -4835,13 +5240,11 @@ CMakeFiles/ffw_robot_manager.dir/src/battery_model.cpp.o:
 
 /opt/ros/jazzy/include/type_description_interfaces/type_description_interfaces/srv/detail/get_type_description__functions.h:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/detail/resolve_enable_topic_statistics.hpp:
+/usr/include/boost/preprocessor/seq/detail/is_empty.hpp:
 
-/opt/ros/jazzy/include/type_description_interfaces/type_description_interfaces/srv/detail/get_type_description__type_support.h:
+/usr/include/boost/preprocessor/list/detail/fold_right.hpp:
 
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_type__traits.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/getopt_posix.h:
+/opt/ros/jazzy/include/type_description_interfaces/type_description_interfaces/srv/detail/get_type_description__struct.h:
 
 /usr/include/c++/13/bits/stl_uninitialized.h:
 
@@ -4859,8 +5262,6 @@ CMakeFiles/ffw_robot_manager.dir/src/battery_model.cpp.o:
 
 /root/ros2_ws/build/dynamixel_interfaces/rosidl_generator_cpp/dynamixel_interfaces/msg/detail/dynamixel_state__builder.hpp:
 
-/usr/include/boost/preprocessor/list/reverse.hpp:
-
 /root/ros2_ws/build/dynamixel_interfaces/rosidl_generator_cpp/dynamixel_interfaces/msg/detail/dynamixel_state__traits.hpp:
 
 /root/ros2_ws/build/dynamixel_interfaces/rosidl_generator_cpp/dynamixel_interfaces/srv/reboot_dxl.hpp:
@@ -4870,10 +5271,6 @@ CMakeFiles/ffw_robot_manager.dir/src/battery_model.cpp.o:
 /opt/ros/jazzy/lib/librosgraph_msgs__rosidl_typesupport_cpp.so:
 
 /root/ros2_ws/build/dynamixel_interfaces/rosidl_generator_cpp/dynamixel_interfaces/srv/detail/get_data_from_dxl__builder.hpp:
-
-/usr/include/c++/13/shared_mutex:
-
-/root/ros2_ws/build/dynamixel_interfaces/rosidl_generator_cpp/dynamixel_interfaces/srv/detail/get_data_from_dxl__traits.hpp:
 
 /root/ros2_ws/build/dynamixel_interfaces/rosidl_generator_cpp/dynamixel_interfaces/srv/detail/get_data_from_dxl__type_support.hpp:
 
@@ -4895,17 +5292,11 @@ CMakeFiles/ffw_robot_manager.dir/src/battery_model.cpp.o:
 
 /root/ros2_ws/build/dynamixel_interfaces/rosidl_generator_cpp/dynamixel_interfaces/srv/detail/set_data_to_dxl__type_support.hpp:
 
-include/ffw_robot_manager/ffw_robot_manager_parameters.hpp:
-
 /root/ros2_ws/install/dynamixel_sdk/include/dynamixel_sdk/group_bulk_read.h:
 
 /usr/include/c++/13/iosfwd:
 
 /root/ros2_ws/install/dynamixel_sdk/include/dynamixel_sdk/group_bulk_write.h:
-
-/opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__builder.hpp:
-
-/root/ros2_ws/install/dynamixel_sdk/include/dynamixel_sdk/group_fast_bulk_read.h:
 
 /root/ros2_ws/install/dynamixel_sdk/include/dynamixel_sdk/group_handler.h:
 
@@ -4913,13 +5304,9 @@ include/ffw_robot_manager/ffw_robot_manager_parameters.hpp:
 
 /root/ros2_ws/install/dynamixel_sdk/include/dynamixel_sdk/group_sync_read.h:
 
-/opt/ros/jazzy/include/rcpputils/rcpputils/join.hpp:
-
-/usr/include/boost/preprocessor/facilities/overload.hpp:
+/usr/include/aarch64-linux-gnu/bits/select-decl.h:
 
 /opt/ros/jazzy/include/rclcpp/rclcpp/wait_result.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/select-decl.h:
 
 /root/ros2_ws/install/dynamixel_sdk/include/dynamixel_sdk/port_handler.h:
 
@@ -4951,17 +5338,13 @@ include/ffw_robot_manager/ffw_robot_manager_parameters.hpp:
 
 /usr/include/boost/preprocessor/control/iif.hpp:
 
-/usr/include/aarch64-linux-gnu/bits/posix1_lim.h:
-
-/opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/state.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/posix2_lim.h:
-
 /usr/include/aarch64-linux-gnu/bits/procfs-extra.h:
 
 /usr/include/aarch64-linux-gnu/bits/environments.h:
 
 /usr/include/aarch64-linux-gnu/bits/siginfo-consts-arch.h:
+
+/usr/include/tl/expected.hpp:
 
 /usr/include/aarch64-linux-gnu/bits/wchar2.h:
 
@@ -4987,13 +5370,11 @@ include/ffw_robot_manager/ffw_robot_manager_parameters.hpp:
 
 /usr/include/boost/algorithm/string/detail/trim.hpp:
 
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/set_parameters_result__builder.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/types/__sigval_t.h:
-
 /usr/include/aarch64-linux-gnu/bits/types/sig_atomic_t.h:
 
 /usr/include/boost/range/iterator.hpp:
+
+/usr/include/c++/13/bits/ranges_base.h:
 
 /usr/include/aarch64-linux-gnu/bits/types/sigevent_t.h:
 
@@ -5007,49 +5388,13 @@ include/ffw_robot_manager/ffw_robot_manager_parameters.hpp:
 
 /usr/include/aarch64-linux-gnu/bits/types/stack_t.h:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/message_info.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/uio_lim.h:
-
-/usr/include/aarch64-linux-gnu/bits/unistd-decl.h:
-
-/usr/include/aarch64-linux-gnu/bits/unistd_ext.h:
-
-/opt/ros/jazzy/include/rosidl_runtime_c/rosidl_runtime_c/type_hash.h:
-
-/usr/include/aarch64-linux-gnu/bits/wctype-wchar.h:
-
-/usr/include/aarch64-linux-gnu/bits/xopen_lim.h:
-
-/usr/include/boost/mpl/bool.hpp:
-
 /usr/include/aarch64-linux-gnu/c++/13/bits/basic_file.h:
 
 /usr/include/aarch64-linux-gnu/c++/13/bits/c++io.h:
 
-/usr/include/boost/config/no_tr1/functional.hpp:
-
-/usr/include/aarch64-linux-gnu/c++/13/bits/ctype_base.h:
-
-/opt/ros/jazzy/include/realtime_tools/realtime_tools/realtime_publisher.hpp:
-
-/usr/include/aarch64-linux-gnu/c++/13/bits/cxxabi_tweaks.h:
-
-/usr/include/features-time64.h:
-
-/usr/include/aarch64-linux-gnu/c++/13/bits/error_constants.h:
-
 /usr/include/aarch64-linux-gnu/c++/13/bits/time_members.h:
 
 /usr/include/aarch64-linux-gnu/sys/procfs.h:
-
-/usr/include/c++/13/condition_variable:
-
-/opt/ros/jazzy/include/rcl/rcl/guard_condition.h:
-
-/usr/include/aarch64-linux-gnu/sys/time.h:
-
-/usr/include/boost/preprocessor/logical/limits/bool_256.hpp:
 
 /usr/include/aarch64-linux-gnu/sys/ucontext.h:
 
@@ -5101,6 +5446,8 @@ include/ffw_robot_manager/ffw_robot_manager_parameters.hpp:
 
 /usr/include/boost/algorithm/string/std_containers_traits.hpp:
 
+/usr/include/c++/13/bits/semaphore_base.h:
+
 /opt/ros/jazzy/include/rcutils/rcutils/visibility_control.h:
 
 /opt/ros/jazzy/include/controller_interface/controller_interface/controller_interface_params.hpp:
@@ -5108,12 +5455,6 @@ include/ffw_robot_manager/ffw_robot_manager_parameters.hpp:
 /usr/include/boost/bind/detail/requires_cxx11.hpp:
 
 /usr/include/boost/bind/mem_fn.hpp:
-
-/usr/include/boost/utility/result_of.hpp:
-
-/usr/include/aarch64-linux-gnu/bits/struct_mutex.h:
-
-/usr/include/boost/bind/mem_fn_cc.hpp:
 
 /usr/include/boost/bind/mem_fn_template.hpp:
 
@@ -5145,8 +5486,6 @@ include/ffw_robot_manager/ffw_robot_manager_parameters.hpp:
 
 /usr/include/boost/config/detail/cxx_composite.hpp:
 
-/usr/include/boost/config/detail/suffix.hpp:
-
 /usr/include/boost/config/no_tr1/memory.hpp:
 
 /usr/include/boost/config/platform/linux.hpp:
@@ -5154,10 +5493,6 @@ include/ffw_robot_manager/ffw_robot_manager_parameters.hpp:
 /usr/include/boost/config/pragma_message.hpp:
 
 /usr/include/boost/mpl/void_fwd.hpp:
-
-/opt/ros/jazzy/include/rmw/rmw/error_handling.h:
-
-/usr/include/boost/preprocessor/list/fold_left.hpp:
 
 /usr/include/boost/config/stdlib/libstdcpp3.hpp:
 
@@ -5177,8 +5512,6 @@ include/ffw_robot_manager/ffw_robot_manager_parameters.hpp:
 
 /usr/include/boost/mpl/aux_/lambda_support.hpp:
 
-/usr/include/boost/exception/exception.hpp:
-
 /opt/ros/jazzy/include/rclcpp_lifecycle/rclcpp_lifecycle/lifecycle_node.hpp:
 
 /usr/include/boost/function.hpp:
@@ -5188,6 +5521,8 @@ include/ffw_robot_manager/ffw_robot_manager_parameters.hpp:
 /usr/include/boost/function/detail/prologue.hpp:
 
 /usr/include/boost/function/detail/requires_cxx11.hpp:
+
+/usr/include/c++/13/charconv:
 
 /usr/include/boost/function/function_base.hpp:
 
@@ -5210,10 +5545,6 @@ include/ffw_robot_manager/ffw_robot_manager_parameters.hpp:
 /usr/include/boost/iterator/advance.hpp:
 
 /usr/include/boost/iterator/transform_iterator.hpp:
-
-/opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/parameter_value.hpp:
-
-/usr/include/boost/iterator/detail/facade_iterator_category.hpp:
 
 /usr/include/boost/iterator/iterator_adaptor.hpp:
 
@@ -5239,10 +5570,6 @@ include/ffw_robot_manager/ffw_robot_manager_parameters.hpp:
 
 /usr/include/boost/mpl/assert.hpp:
 
-/opt/ros/jazzy/include/pal_statistics_msgs/pal_statistics_msgs/msg/statistics.hpp:
-
-/usr/include/boost/preprocessor/list/fold_right.hpp:
-
 /opt/ros/jazzy/include/rclcpp/rclcpp/node_interfaces/node_topics_interface.hpp:
 
 /usr/include/boost/mpl/aux_/adl_barrier.hpp:
@@ -5256,8 +5583,6 @@ include/ffw_robot_manager/ffw_robot_manager_parameters.hpp:
 /opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/parameter_value__builder.hpp:
 
 /usr/include/boost/mpl/aux_/config/bcc.hpp:
-
-/usr/include/boost/mpl/aux_/config/bind.hpp:
 
 /usr/include/c++/13/string_view:
 
@@ -5317,10 +5642,6 @@ include/ffw_robot_manager/ffw_robot_manager_parameters.hpp:
 
 /usr/include/boost/mpl/aux_/na.hpp:
 
-/usr/include/boost/mpl/aux_/preprocessed/gcc/placeholders.hpp:
-
-/usr/include/boost/mpl/aux_/na_assert.hpp:
-
 /usr/include/boost/mpl/aux_/na_fwd.hpp:
 
 /usr/include/boost/mpl/aux_/nested_type_wknd.hpp:
@@ -5335,10 +5656,6 @@ include/ffw_robot_manager/ffw_robot_manager_parameters.hpp:
 
 /usr/include/boost/mpl/aux_/preprocessed/gcc/apply.hpp:
 
-/root/ros2_ws/build/dynamixel_interfaces/rosidl_generator_cpp/dynamixel_interfaces/srv/detail/get_data_from_dxl__struct.hpp:
-
-/usr/include/boost/mpl/aux_/preprocessed/gcc/apply_wrap.hpp:
-
 /root/ros2_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_generator_c.so:
 
 /opt/ros/jazzy/include/rcl/rcl/error_handling.h:
@@ -5346,6 +5663,12 @@ include/ffw_robot_manager/ffw_robot_manager_parameters.hpp:
 /opt/ros/jazzy/include/lifecycle_msgs/lifecycle_msgs/msg/detail/state__type_support.hpp:
 
 /usr/include/boost/mpl/aux_/preprocessed/gcc/bind.hpp:
+
+/usr/include/boost/preprocessor/inc.hpp:
+
+/usr/include/boost/preprocessor/array/size.hpp:
+
+/usr/include/boost/mpl/aux_/preprocessed/gcc/bind_fwd.hpp:
 
 /usr/include/boost/mpl/aux_/preprocessed/gcc/full_lambda.hpp:
 
@@ -5368,10 +5691,6 @@ include/ffw_robot_manager/ffw_robot_manager_parameters.hpp:
 /usr/include/boost/mpl/aux_/preprocessor/params.hpp:
 
 /usr/include/boost/mpl/aux_/static_cast.hpp:
-
-/usr/include/boost/mpl/aux_/template_arity.hpp:
-
-/usr/include/boost/mpl/identity.hpp:
 
 /usr/include/boost/algorithm/string/std/list_traits.hpp:
 
@@ -5397,17 +5716,15 @@ include/ffw_robot_manager/ffw_robot_manager_parameters.hpp:
 
 /usr/include/boost/next_prior.hpp:
 
-/usr/include/boost/preprocessor/arithmetic/dec.hpp:
-
 /opt/ros/jazzy/lib/libsensor_msgs__rosidl_typesupport_introspection_cpp.so:
 
 /usr/include/console_bridge_export.h:
 
 /usr/include/boost/preprocessor/arithmetic/inc.hpp:
 
-/opt/ros/jazzy/include/rclcpp/rclcpp/memory_strategies.hpp:
-
 /opt/ros/jazzy/include/statistics_msgs/statistics_msgs/msg/metrics_message.hpp:
+
+/opt/ros/jazzy/include/rclcpp/rclcpp/memory_strategies.hpp:
 
 /usr/include/boost/preprocessor/arithmetic/sub.hpp:
 
@@ -5440,59 +5757,3 @@ include/ffw_robot_manager/ffw_robot_manager_parameters.hpp:
 /opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/srv/detail/set_parameters__type_support.hpp:
 
 /usr/include/boost/preprocessor/debug/error.hpp:
-
-/usr/include/c++/13/bits/memoryfwd.h:
-
-/usr/include/boost/preprocessor/facilities/check_empty.hpp:
-
-/usr/include/boost/preprocessor/facilities/identity.hpp:
-
-/usr/include/boost/preprocessor/array/size.hpp:
-
-/usr/include/boost/mpl/aux_/preprocessed/gcc/bind_fwd.hpp:
-
-/usr/include/boost/preprocessor/inc.hpp:
-
-/usr/include/boost/preprocessor/iteration/detail/iter/forward1.hpp:
-
-/opt/ros/jazzy/lib/libunique_identifier_msgs__rosidl_typesupport_fastrtps_c.so:
-
-/usr/include/boost/preprocessor/iteration/detail/iter/limits/forward1_256.hpp:
-
-/usr/include/boost/preprocessor/seq/detail/is_empty.hpp:
-
-/opt/ros/jazzy/include/type_description_interfaces/type_description_interfaces/srv/detail/get_type_description__struct.h:
-
-/usr/include/boost/preprocessor/list/detail/fold_right.hpp:
-
-/usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o:
-
-/usr/include/boost/preprocessor/list/detail/limits/fold_left_256.hpp:
-
-/usr/include/boost/preprocessor/logical/and.hpp:
-
-/usr/include/boost/preprocessor/logical/bitand.hpp:
-
-/usr/include/boost/preprocessor/logical/bool.hpp:
-
-/opt/ros/jazzy/lib/libaction_msgs__rosidl_typesupport_introspection_cpp.so:
-
-/usr/include/boost/preprocessor/logical/compl.hpp:
-
-/opt/ros/jazzy/include/rosidl_dynamic_typesupport/rosidl_dynamic_typesupport/dynamic_message_type_support_struct.h:
-
-/usr/include/boost/preprocessor/logical/not.hpp:
-
-/usr/include/boost/preprocessor/punctuation/comma_if.hpp:
-
-/usr/include/boost/preprocessor/repetition/detail/limits/for_256.hpp:
-
-/root/ros2_ws/src/dynamixel_hardware_interface/include/dynamixel_hardware_interface/visibility_control.h:
-
-/usr/include/boost/preprocessor/repetition/enum.hpp:
-
-/usr/include/boost/preprocessor/repetition/enum_params.hpp:
-
-/usr/include/c++/13/locale:
-
-/usr/include/boost/preprocessor/repetition/enum_trailing_params.hpp:

@@ -1,0 +1,92 @@
+[0.063s] Invoking command in '/root/ros2_ws/build/robotis_hand_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/robotis_hand/robotis_hand_description -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/robotis_hand_description
+[0.443s] [0mCMake Deprecation Warning at CMakeLists.txt:4 (cmake_minimum_required):
+[0.444s]   Compatibility with CMake < 3.10 will be removed from a future version of
+[0.444s]   CMake.
+[0.444s] 
+[0.444s]   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+[0.444s]   to tell CMake that the project requires at least <min> but has been updated
+[0.444s]   to work with policies introduced by <max> or earlier.
+[0.444s] 
+[0.444s] [0m
+[0.459s] -- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[0.951s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[1.275s] -- Configuring done (0.8s)
+[1.289s] -- Generating done (0.0s)
+[1.292s] -- Build files have been written to: /root/ros2_ws/build/robotis_hand_description
+[1.303s] Invoked command in '/root/ros2_ws/build/robotis_hand_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/robotis_hand/robotis_hand_description -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/robotis_hand_description
+[1.304s] Invoking command in '/root/ros2_ws/build/robotis_hand_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/robotis_hand_description -- -j8 -l8
+[1.877s] Invoked command in '/root/ros2_ws/build/robotis_hand_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/robotis_hand_description -- -j8 -l8
+[1.879s] Invoking command in '/root/ros2_ws/build/robotis_hand_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/robotis_hand_description
+[2.137s] -- Install configuration: "Release"
+[2.138s] -- Execute custom install script
+[2.139s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/launch/hx5_d20_left.launch.py
+[2.139s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/launch/hx5_d20_right.launch.py
+[2.140s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_base_unit.stl
+[2.141s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_finger_dip.stl
+[2.142s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_finger_mcp.stl
+[2.142s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_finger_pip.stl
+[2.143s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_finger_tip.stl
+[2.143s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_thumb_ip.stl
+[2.144s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_thumb_mcp.stl
+[2.144s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_thumb_mcp2.stl
+[2.145s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_thumb_tip.stl
+[2.145s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_base_unit.stl
+[2.151s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_finger_dip.stl
+[2.151s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_finger_mcp.stl
+[2.152s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_finger_pip.stl
+[2.152s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_finger_tip.stl
+[2.153s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_thumb_ip.stl
+[2.154s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_thumb_mcp.stl
+[2.154s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_thumb_mcp2.stl
+[2.157s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_thumb_tip.stl
+[2.159s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_base_unit.stl
+[2.159s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_finger_dip.stl
+[2.160s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_finger_mcp.stl
+[2.160s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_finger_pip.stl
+[2.160s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_finger_tip.stl
+[2.160s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_thumb_ip.stl
+[2.161s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_thumb_mcp.stl
+[2.161s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_thumb_mcp2.stl
+[2.167s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_thumb_tip.stl
+[2.171s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_base_unit.stl
+[2.172s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_finger_dip.stl
+[2.174s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_finger_mcp.stl
+[2.174s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_finger_pip.stl
+[2.176s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_finger_tip.stl
+[2.176s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_thumb_ip.stl
+[2.176s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_thumb_mcp.stl
+[2.176s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_thumb_mcp2.stl
+[2.177s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_thumb_tip.stl
+[2.177s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/rviz/robotis_hand.rviz
+[2.177s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/urdf/hx5_d20_rev1/hx5_d20_left.urdf.xacro
+[2.178s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/urdf/hx5_d20_rev1/hx5_d20_left.xacro
+[2.179s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/urdf/hx5_d20_rev1/hx5_d20_right.urdf.xacro
+[2.179s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/urdf/hx5_d20_rev1/hx5_d20_right.xacro
+[2.179s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/urdf/hx5_d20_rev2/hx5_d20_left.urdf.xacro
+[2.180s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/urdf/hx5_d20_rev2/hx5_d20_left.xacro
+[2.180s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/urdf/hx5_d20_rev2/hx5_d20_right.urdf.xacro
+[2.180s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/urdf/hx5_d20_rev2/hx5_d20_right.xacro
+[2.181s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/gazebo/hx5_d20/hx5_d20_left.gazebo.xacro
+[2.183s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/gazebo/hx5_d20/hx5_d20_right.gazebo.xacro
+[2.184s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/ros2_control/hx5_d20_rev1/hx5_d20_left.ros2_control.xacro
+[2.189s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/ros2_control/hx5_d20_rev1/hx5_d20_right.ros2_control.xacro
+[2.196s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/ros2_control/hx5_d20_rev2/hx5_d20_left.joints.xacro
+[2.197s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/ros2_control/hx5_d20_rev2/hx5_d20_left.ros2_control.xacro
+[2.197s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/ros2_control/hx5_d20_rev2/hx5_d20_right.joints.xacro
+[2.198s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/ros2_control/hx5_d20_rev2/hx5_d20_right.ros2_control.xacro
+[2.199s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/ament_index/resource_index/package_run_dependencies/robotis_hand_description
+[2.199s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/ament_index/resource_index/parent_prefix_path/robotis_hand_description
+[2.200s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/environment/ament_prefix_path.sh
+[2.200s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/environment/ament_prefix_path.dsv
+[2.201s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/environment/path.sh
+[2.201s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/environment/path.dsv
+[2.201s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/local_setup.bash
+[2.201s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/local_setup.sh
+[2.201s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/local_setup.zsh
+[2.201s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/local_setup.dsv
+[2.202s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/package.dsv
+[2.209s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/ament_index/resource_index/packages/robotis_hand_description
+[2.211s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/cmake/robotis_hand_descriptionConfig.cmake
+[2.211s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/cmake/robotis_hand_descriptionConfig-version.cmake
+[2.211s] -- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/package.xml
+[2.258s] Invoked command in '/root/ros2_ws/build/robotis_hand_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/robotis_hand_description

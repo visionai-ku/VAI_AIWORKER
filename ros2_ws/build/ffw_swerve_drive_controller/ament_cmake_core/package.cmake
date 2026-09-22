@@ -1,5 +1,5 @@
 set(_AMENT_PACKAGE_NAME "ffw_swerve_drive_controller")
-set(ffw_swerve_drive_controller_VERSION "1.2.1")
+set(ffw_swerve_drive_controller_VERSION "2.2.5")
 set(ffw_swerve_drive_controller_MAINTAINER "Pyo <pyo@robotis.com>")
 set(ffw_swerve_drive_controller_BUILD_DEPENDS "generate_parameter_library" "rclcpp" "rclcpp_lifecycle" "controller_interface" "pluginlib" "hardware_interface" "geometry_msgs" "control_msgs" "nav_msgs" "realtime_tools" "rcpputils" "std_srvs" "tf2" "tf2_geometry_msgs" "tf2_msgs" "sensor_msgs" "visualization_msgs")
 set(ffw_swerve_drive_controller_BUILDTOOL_DEPENDS "ament_cmake_ros")

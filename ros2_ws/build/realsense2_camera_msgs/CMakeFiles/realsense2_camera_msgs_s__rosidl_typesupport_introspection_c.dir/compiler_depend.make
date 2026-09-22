@@ -350,6 +350,7 @@ rosidl_generator_py/realsense2_camera_msgs/realsense2_camera_msgs_s__rosidl_type
   /usr/lib/aarch64-linux-gnu/libgcc_s.so.1 \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o \
+  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so \
   CMakeFiles/realsense2_camera_msgs_s__rosidl_typesupport_introspection_c.dir/rosidl_generator_py/realsense2_camera_msgs/_realsense2_camera_msgs_s.ep.rosidl_typesupport_introspection_c.c.o \
@@ -364,6 +365,8 @@ librealsense2_camera_msgs__rosidl_generator_py.so:
 librealsense2_camera_msgs__rosidl_generator_c.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o:
 

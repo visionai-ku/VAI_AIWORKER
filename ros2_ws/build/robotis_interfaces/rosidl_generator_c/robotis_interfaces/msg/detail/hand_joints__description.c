@@ -124,7 +124,7 @@ robotis_interfaces__msg__HandJoints__get_type_description(
 static char toplevel_type_raw_source[] =
   "# HandJoints.msg\n"
   "\n"
-  "# Standard header for timestamps and frame_id\n"
+  "# Standard header for timestamps and frame_id.\n"
   "std_msgs/Header header\n"
   "\n"
   "# Fixed-size array of 21 Point32 structs.\n"
@@ -145,7 +145,7 @@ robotis_interfaces__msg__HandJoints__get_individual_type_description_source(
   static const rosidl_runtime_c__type_description__TypeSource source = {
     {robotis_interfaces__msg__HandJoints__TYPE_NAME, 33, 33},
     {msg_encoding, 3, 3},
-    {toplevel_type_raw_source, 324, 324},
+    {toplevel_type_raw_source, 325, 325},
   };
   return &source;
 }

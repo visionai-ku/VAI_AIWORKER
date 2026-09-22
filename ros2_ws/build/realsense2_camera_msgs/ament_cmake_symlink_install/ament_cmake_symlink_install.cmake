@@ -55,6 +55,11 @@ function(ament_cmake_symlink_install_directory cmake_current_source_dir)
         # remove trailing slash
         string(SUBSTRING "${dir}" 0 ${offset} dir)
       endif()
+      
+      # Create destination directory.
+      # This does *not* solve the problem of empty directories WITHIN the install tree,
+      # but does make sure that the top-level directory specified by the caller gets created.
+      file(MAKE_DIRECTORY "${destination}")
 
       # glob recursive files
       set(relative_files "")
@@ -381,6 +386,12 @@ include("/root/ros2_ws/build/realsense2_camera_msgs/ament_cmake_symlink_install_
 
 # install("TARGETS" "realsense2_camera_msgs_s__rosidl_typesupport_c" "DESTINATION" "lib/python3.12/site-packages/realsense2_camera_msgs")
 include("/root/ros2_ws/build/realsense2_camera_msgs/ament_cmake_symlink_install_targets_2_${CMAKE_INSTALL_CONFIG_NAME}.cmake")
+
+# install(FILES "/root/ros2_ws/build/realsense2_camera_msgs/ament_cmake_index/share/ament_index/resource_index/rust_packages/realsense2_camera_msgs" "DESTINATION" "share/ament_index/resource_index/rust_packages")
+ament_cmake_symlink_install_files("/root/ros2_ws/src/realsense-ros/realsense2_camera_msgs" FILES "/root/ros2_ws/build/realsense2_camera_msgs/ament_cmake_index/share/ament_index/resource_index/rust_packages/realsense2_camera_msgs" "DESTINATION" "share/ament_index/resource_index/rust_packages")
+
+# install(DIRECTORY "/root/ros2_ws/build/realsense2_camera_msgs/rosidl_generator_rs/realsense2_camera_msgs/rust" "DESTINATION" "share/realsense2_camera_msgs")
+ament_cmake_symlink_install_directory("/root/ros2_ws/src/realsense-ros/realsense2_camera_msgs" DIRECTORY "/root/ros2_ws/build/realsense2_camera_msgs/rosidl_generator_rs/realsense2_camera_msgs/rust" "DESTINATION" "share/realsense2_camera_msgs")
 
 # install(FILES "/root/ros2_ws/build/realsense2_camera_msgs/rosidl_adapter/realsense2_camera_msgs/msg/IMUInfo.idl" "DESTINATION" "share/realsense2_camera_msgs/msg")
 ament_cmake_symlink_install_files("/root/ros2_ws/src/realsense-ros/realsense2_camera_msgs" FILES "/root/ros2_ws/build/realsense2_camera_msgs/rosidl_adapter/realsense2_camera_msgs/msg/IMUInfo.idl" "DESTINATION" "share/realsense2_camera_msgs/msg")

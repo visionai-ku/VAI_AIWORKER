@@ -435,6 +435,7 @@ libdynamixel_interfaces__rosidl_typesupport_c.so: /lib/aarch64-linux-gnu/libc.so
   /usr/lib/aarch64-linux-gnu/libm.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o \
+  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libstdc++.so \
@@ -456,6 +457,8 @@ CMakeFiles/dynamixel_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/d
 CMakeFiles/dynamixel_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/dynamixel_interfaces/msg/dynamixel_state__type_support.cpp.o:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o:
 

@@ -16,7 +16,7 @@ set(_ffw_robot_manager_CONFIG_INCLUDED TRUE)
 
 # output package information
 if(NOT ffw_robot_manager_FIND_QUIETLY)
-  message(STATUS "Found ffw_robot_manager: 1.2.1 (${ffw_robot_manager_DIR})")
+  message(STATUS "Found ffw_robot_manager: 2.2.5 (${ffw_robot_manager_DIR})")
 endif()
 
 # warn when using a deprecated package

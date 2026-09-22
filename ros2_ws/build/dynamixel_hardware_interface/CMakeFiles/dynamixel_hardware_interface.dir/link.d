@@ -43,7 +43,6 @@ libdynamixel_hardware_interface.so: \
   /opt/ros/jazzy/lib/librmw.so \
   /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so \
   /opt/ros/jazzy/lib/librcutils.so \
-  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /opt/ros/jazzy/lib/librcpputils.so \
   /opt/ros/jazzy/lib/librosidl_typesupport_c.so \
   /opt/ros/jazzy/lib/librosidl_typesupport_cpp.so \
@@ -72,7 +71,6 @@ libdynamixel_hardware_interface.so: \
   /opt/ros/jazzy/lib/librmw.so \
   /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so \
   /opt/ros/jazzy/lib/librcutils.so \
-  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /opt/ros/jazzy/lib/librcpputils.so \
   /opt/ros/jazzy/lib/librosidl_typesupport_c.so \
   /opt/ros/jazzy/lib/librosidl_typesupport_cpp.so \
@@ -209,7 +207,7 @@ libdynamixel_hardware_interface.so: \
   /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_c.so \
   /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_fastrtps_cpp.so \
   /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so \
-  /opt/ros/jazzy/lib/libfastcdr.so.2.2.5 \
+  /opt/ros/jazzy/lib/libfastcdr.so.2.2.7 \
   /opt/ros/jazzy/lib/librmw.so \
   /opt/ros/jazzy/lib/librosidl_dynamic_typesupport.so \
   /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_cpp.so \
@@ -229,6 +227,7 @@ libdynamixel_hardware_interface.so: \
   /opt/ros/jazzy/lib/librosidl_runtime_c.so \
   /opt/ros/jazzy/lib/librcutils.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libdl.a \
+  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libcap.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libstdc++.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libm.so \
@@ -343,8 +342,6 @@ CMakeFiles/dynamixel_hardware_interface.dir/src/dynamixel/dynamixel.cpp.o:
 
 /opt/ros/jazzy/lib/librcutils.so:
 
-/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
-
 /opt/ros/jazzy/lib/librcpputils.so:
 
 /opt/ros/jazzy/lib/librosidl_typesupport_c.so:
@@ -400,8 +397,6 @@ CMakeFiles/dynamixel_hardware_interface.dir/src/dynamixel/dynamixel.cpp.o:
 /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so:
 
 /opt/ros/jazzy/lib/librcutils.so:
-
-/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
 
 /opt/ros/jazzy/lib/librcpputils.so:
 
@@ -675,7 +670,7 @@ CMakeFiles/dynamixel_hardware_interface.dir/src/dynamixel/dynamixel.cpp.o:
 
 /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so:
 
-/opt/ros/jazzy/lib/libfastcdr.so.2.2.5:
+/opt/ros/jazzy/lib/libfastcdr.so.2.2.7:
 
 /opt/ros/jazzy/lib/librmw.so:
 
@@ -714,6 +709,8 @@ CMakeFiles/dynamixel_hardware_interface.dir/src/dynamixel/dynamixel.cpp.o:
 /opt/ros/jazzy/lib/librcutils.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libdl.a:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libcap.so:
 

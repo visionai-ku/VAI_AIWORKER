@@ -1,0 +1,24 @@
+[3.206s] Invoking command in '/root/ros2_ws/build/robotis_hand_teleop': PYTHONPATH=/root/ros2_ws/build/robotis_hand_teleop/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/root/ros2_ws/install/robotis_hand_teleop/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /root/ros2_ws/build/robotis_hand_teleop/build --no-deps symlink_data
+[4.529s] running develop
+[5.397s] running egg_info
+[5.398s] creating robotis_hand_teleop.egg-info
+[5.465s] writing robotis_hand_teleop.egg-info/PKG-INFO
+[5.472s] writing dependency_links to robotis_hand_teleop.egg-info/dependency_links.txt
+[5.477s] writing entry points to robotis_hand_teleop.egg-info/entry_points.txt
+[5.483s] writing requirements to robotis_hand_teleop.egg-info/requires.txt
+[5.484s] writing top-level names to robotis_hand_teleop.egg-info/top_level.txt
+[5.485s] writing manifest file 'robotis_hand_teleop.egg-info/SOURCES.txt'
+[5.630s] reading manifest file 'robotis_hand_teleop.egg-info/SOURCES.txt'
+[5.645s] writing manifest file 'robotis_hand_teleop.egg-info/SOURCES.txt'
+[5.717s] running build_ext
+[5.718s] Creating /root/ros2_ws/install/robotis_hand_teleop/lib/python3.12/site-packages/robotis-hand-teleop.egg-link (link to .)
+[5.720s] Installing hx5_d20_teleop script to /root/ros2_ws/install/robotis_hand_teleop/lib/robotis_hand_teleop
+[5.721s] 
+[5.722s] Installed /root/ros2_ws/build/robotis_hand_teleop
+[5.722s] running symlink_data
+[5.723s] creating /root/ros2_ws/install/robotis_hand_teleop/share/ament_index
+[5.724s] creating /root/ros2_ws/install/robotis_hand_teleop/share/ament_index/resource_index
+[5.724s] creating /root/ros2_ws/install/robotis_hand_teleop/share/ament_index/resource_index/packages
+[5.725s] symbolically linking /root/ros2_ws/build/robotis_hand_teleop/resource/robotis_hand_teleop -> /root/ros2_ws/install/robotis_hand_teleop/share/ament_index/resource_index/packages
+[5.725s] symbolically linking /root/ros2_ws/build/robotis_hand_teleop/package.xml -> /root/ros2_ws/install/robotis_hand_teleop/share/robotis_hand_teleop
+[5.959s] Invoked command in '/root/ros2_ws/build/robotis_hand_teleop' returned '0': PYTHONPATH=/root/ros2_ws/build/robotis_hand_teleop/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/root/ros2_ws/install/robotis_hand_teleop/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /root/ros2_ws/build/robotis_hand_teleop/build --no-deps symlink_data

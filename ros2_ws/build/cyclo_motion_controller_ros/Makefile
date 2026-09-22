@@ -237,6 +237,32 @@ ai_worker_movel_controller_node/fast:
 .PHONY : ai_worker_movel_controller_node/fast
 
 #=============================================================================
+# Target rules for targets named ai_worker_bimanual_movel_controller_node
+
+# Build rule for target.
+ai_worker_bimanual_movel_controller_node: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ai_worker_bimanual_movel_controller_node
+.PHONY : ai_worker_bimanual_movel_controller_node
+
+# fast build rule for target.
+ai_worker_bimanual_movel_controller_node/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ai_worker_bimanual_movel_controller_node.dir/build.make CMakeFiles/ai_worker_bimanual_movel_controller_node.dir/build
+.PHONY : ai_worker_bimanual_movel_controller_node/fast
+
+#=============================================================================
+# Target rules for targets named ai_worker_bimanual_movej_controller_node
+
+# Build rule for target.
+ai_worker_bimanual_movej_controller_node: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ai_worker_bimanual_movej_controller_node
+.PHONY : ai_worker_bimanual_movej_controller_node
+
+# fast build rule for target.
+ai_worker_bimanual_movej_controller_node/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ai_worker_bimanual_movej_controller_node.dir/build.make CMakeFiles/ai_worker_bimanual_movej_controller_node.dir/build
+.PHONY : ai_worker_bimanual_movej_controller_node/fast
+
+#=============================================================================
 # Target rules for targets named leader_controller_node
 
 # Build rule for target.
@@ -326,6 +352,54 @@ reference_checker_node: cmake_check_build_system
 reference_checker_node/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/reference_checker_node.dir/build.make CMakeFiles/reference_checker_node.dir/build
 .PHONY : reference_checker_node/fast
+
+src/nodes/ai_worker/ai_worker_bimanual_movej_controller_node.o: src/nodes/ai_worker/ai_worker_bimanual_movej_controller_node.cpp.o
+.PHONY : src/nodes/ai_worker/ai_worker_bimanual_movej_controller_node.o
+
+# target to build an object file
+src/nodes/ai_worker/ai_worker_bimanual_movej_controller_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ai_worker_bimanual_movej_controller_node.dir/build.make CMakeFiles/ai_worker_bimanual_movej_controller_node.dir/src/nodes/ai_worker/ai_worker_bimanual_movej_controller_node.cpp.o
+.PHONY : src/nodes/ai_worker/ai_worker_bimanual_movej_controller_node.cpp.o
+
+src/nodes/ai_worker/ai_worker_bimanual_movej_controller_node.i: src/nodes/ai_worker/ai_worker_bimanual_movej_controller_node.cpp.i
+.PHONY : src/nodes/ai_worker/ai_worker_bimanual_movej_controller_node.i
+
+# target to preprocess a source file
+src/nodes/ai_worker/ai_worker_bimanual_movej_controller_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ai_worker_bimanual_movej_controller_node.dir/build.make CMakeFiles/ai_worker_bimanual_movej_controller_node.dir/src/nodes/ai_worker/ai_worker_bimanual_movej_controller_node.cpp.i
+.PHONY : src/nodes/ai_worker/ai_worker_bimanual_movej_controller_node.cpp.i
+
+src/nodes/ai_worker/ai_worker_bimanual_movej_controller_node.s: src/nodes/ai_worker/ai_worker_bimanual_movej_controller_node.cpp.s
+.PHONY : src/nodes/ai_worker/ai_worker_bimanual_movej_controller_node.s
+
+# target to generate assembly for a file
+src/nodes/ai_worker/ai_worker_bimanual_movej_controller_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ai_worker_bimanual_movej_controller_node.dir/build.make CMakeFiles/ai_worker_bimanual_movej_controller_node.dir/src/nodes/ai_worker/ai_worker_bimanual_movej_controller_node.cpp.s
+.PHONY : src/nodes/ai_worker/ai_worker_bimanual_movej_controller_node.cpp.s
+
+src/nodes/ai_worker/ai_worker_bimanual_movel_controller_node.o: src/nodes/ai_worker/ai_worker_bimanual_movel_controller_node.cpp.o
+.PHONY : src/nodes/ai_worker/ai_worker_bimanual_movel_controller_node.o
+
+# target to build an object file
+src/nodes/ai_worker/ai_worker_bimanual_movel_controller_node.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ai_worker_bimanual_movel_controller_node.dir/build.make CMakeFiles/ai_worker_bimanual_movel_controller_node.dir/src/nodes/ai_worker/ai_worker_bimanual_movel_controller_node.cpp.o
+.PHONY : src/nodes/ai_worker/ai_worker_bimanual_movel_controller_node.cpp.o
+
+src/nodes/ai_worker/ai_worker_bimanual_movel_controller_node.i: src/nodes/ai_worker/ai_worker_bimanual_movel_controller_node.cpp.i
+.PHONY : src/nodes/ai_worker/ai_worker_bimanual_movel_controller_node.i
+
+# target to preprocess a source file
+src/nodes/ai_worker/ai_worker_bimanual_movel_controller_node.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ai_worker_bimanual_movel_controller_node.dir/build.make CMakeFiles/ai_worker_bimanual_movel_controller_node.dir/src/nodes/ai_worker/ai_worker_bimanual_movel_controller_node.cpp.i
+.PHONY : src/nodes/ai_worker/ai_worker_bimanual_movel_controller_node.cpp.i
+
+src/nodes/ai_worker/ai_worker_bimanual_movel_controller_node.s: src/nodes/ai_worker/ai_worker_bimanual_movel_controller_node.cpp.s
+.PHONY : src/nodes/ai_worker/ai_worker_bimanual_movel_controller_node.s
+
+# target to generate assembly for a file
+src/nodes/ai_worker/ai_worker_bimanual_movel_controller_node.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ai_worker_bimanual_movel_controller_node.dir/build.make CMakeFiles/ai_worker_bimanual_movel_controller_node.dir/src/nodes/ai_worker/ai_worker_bimanual_movel_controller_node.cpp.s
+.PHONY : src/nodes/ai_worker/ai_worker_bimanual_movel_controller_node.cpp.s
 
 src/nodes/ai_worker/ai_worker_movej_controller_node.o: src/nodes/ai_worker/ai_worker_movej_controller_node.cpp.o
 .PHONY : src/nodes/ai_worker/ai_worker_movej_controller_node.o
@@ -582,6 +656,8 @@ help:
 	@echo "... test"
 	@echo "... cyclo_motion_controller_ros_uninstall"
 	@echo "... uninstall"
+	@echo "... ai_worker_bimanual_movej_controller_node"
+	@echo "... ai_worker_bimanual_movel_controller_node"
 	@echo "... ai_worker_movej_controller_node"
 	@echo "... ai_worker_movel_controller_node"
 	@echo "... interactive_marker_node"
@@ -592,6 +668,12 @@ help:
 	@echo "... omy_movel_controller_node"
 	@echo "... reference_checker_node"
 	@echo "... vr_controller_node"
+	@echo "... src/nodes/ai_worker/ai_worker_bimanual_movej_controller_node.o"
+	@echo "... src/nodes/ai_worker/ai_worker_bimanual_movej_controller_node.i"
+	@echo "... src/nodes/ai_worker/ai_worker_bimanual_movej_controller_node.s"
+	@echo "... src/nodes/ai_worker/ai_worker_bimanual_movel_controller_node.o"
+	@echo "... src/nodes/ai_worker/ai_worker_bimanual_movel_controller_node.i"
+	@echo "... src/nodes/ai_worker/ai_worker_bimanual_movel_controller_node.s"
 	@echo "... src/nodes/ai_worker/ai_worker_movej_controller_node.o"
 	@echo "... src/nodes/ai_worker/ai_worker_movej_controller_node.i"
 	@echo "... src/nodes/ai_worker/ai_worker_movej_controller_node.s"

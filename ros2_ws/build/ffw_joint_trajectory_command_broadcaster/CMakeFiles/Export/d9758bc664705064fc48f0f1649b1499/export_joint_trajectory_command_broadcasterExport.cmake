@@ -69,7 +69,7 @@ add_library(ffw_joint_trajectory_command_broadcaster::joint_trajectory_command_b
 
 set_target_properties(ffw_joint_trajectory_command_broadcaster::joint_trajectory_command_broadcaster_parameters PROPERTIES
   INTERFACE_INCLUDE_DIRECTORIES "${_IMPORT_PREFIX}/include"
-  INTERFACE_LINK_LIBRARIES "fmt::fmt;parameter_traits::parameter_traits;rclcpp::rclcpp;rclcpp_lifecycle::rclcpp_lifecycle;rsl::rsl;tcb_span::tcb_span;tl_expected::tl_expected"
+  INTERFACE_LINK_LIBRARIES "fmt::fmt;parameter_traits::parameter_traits;rclcpp::rclcpp;rclcpp_lifecycle::rclcpp_lifecycle;rsl::rsl;tcb_span::tcb_span;tl::expected;tl_expected::tl_expected"
 )
 
 # Load information for each installed configuration.

@@ -16,7 +16,7 @@ set(_robotis_interfaces_CONFIG_INCLUDED TRUE)
 
 # output package information
 if(NOT robotis_interfaces_FIND_QUIETLY)
-  message(STATUS "Found robotis_interfaces: 1.0.0 (${robotis_interfaces_DIR})")
+  message(STATUS "Found robotis_interfaces: 1.1.0 (${robotis_interfaces_DIR})")
 endif()
 
 # warn when using a deprecated package

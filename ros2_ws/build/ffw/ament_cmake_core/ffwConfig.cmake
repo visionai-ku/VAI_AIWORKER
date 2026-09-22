@@ -16,7 +16,7 @@ set(_ffw_CONFIG_INCLUDED TRUE)
 
 # output package information
 if(NOT ffw_FIND_QUIETLY)
-  message(STATUS "Found ffw: 1.2.1 (${ffw_DIR})")
+  message(STATUS "Found ffw: 2.2.5 (${ffw_DIR})")
 endif()
 
 # warn when using a deprecated package

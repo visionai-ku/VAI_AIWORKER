@@ -1,0 +1,25 @@
+[3.185s] Invoking command in '/root/ros2_ws/build/ffw_teleop': PYTHONPATH=/root/ros2_ws/build/ffw_teleop/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/root/ros2_ws/install/ffw_teleop/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /root/ros2_ws/build/ffw_teleop/build --no-deps symlink_data
+[4.188s] running develop
+[4.617s] running egg_info
+[4.618s] creating ffw_teleop.egg-info
+[4.651s] writing ffw_teleop.egg-info/PKG-INFO
+[4.651s] writing dependency_links to ffw_teleop.egg-info/dependency_links.txt
+[4.651s] writing entry points to ffw_teleop.egg-info/entry_points.txt
+[4.651s] writing requirements to ffw_teleop.egg-info/requires.txt
+[4.652s] writing top-level names to ffw_teleop.egg-info/top_level.txt
+[4.652s] writing manifest file 'ffw_teleop.egg-info/SOURCES.txt'
+[4.716s] reading manifest file 'ffw_teleop.egg-info/SOURCES.txt'
+[4.718s] writing manifest file 'ffw_teleop.egg-info/SOURCES.txt'
+[4.754s] running build_ext
+[4.755s] Creating /root/ros2_ws/install/ffw_teleop/lib/python3.12/site-packages/ffw-teleop.egg-link (link to .)
+[4.757s] Installing keyborad_control script to /root/ros2_ws/install/ffw_teleop/lib/ffw_teleop
+[4.758s] Installing mobile_teleop script to /root/ros2_ws/install/ffw_teleop/lib/ffw_teleop
+[4.759s] 
+[4.759s] Installed /root/ros2_ws/build/ffw_teleop
+[4.759s] running symlink_data
+[4.760s] creating /root/ros2_ws/install/ffw_teleop/share/ament_index
+[4.760s] creating /root/ros2_ws/install/ffw_teleop/share/ament_index/resource_index
+[4.761s] creating /root/ros2_ws/install/ffw_teleop/share/ament_index/resource_index/packages
+[4.761s] symbolically linking /root/ros2_ws/build/ffw_teleop/resource/ffw_teleop -> /root/ros2_ws/install/ffw_teleop/share/ament_index/resource_index/packages
+[4.762s] symbolically linking /root/ros2_ws/build/ffw_teleop/package.xml -> /root/ros2_ws/install/ffw_teleop/share/ffw_teleop
+[4.883s] Invoked command in '/root/ros2_ws/build/ffw_teleop' returned '0': PYTHONPATH=/root/ros2_ws/build/ffw_teleop/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/root/ros2_ws/install/ffw_teleop/lib/python3.12/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /root/ros2_ws/build/ffw_teleop/build --no-deps symlink_data

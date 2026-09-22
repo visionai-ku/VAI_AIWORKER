@@ -71,11 +71,21 @@ CMakeFiles/robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/
 CMakeFiles/robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_joints__struct.hpp
 CMakeFiles/robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_joints__traits.hpp
 CMakeFiles/robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_joints__type_support.hpp
+CMakeFiles/robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/hand_pressures.hpp
+CMakeFiles/robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_pressures__builder.hpp
+CMakeFiles/robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_pressures__struct.hpp
+CMakeFiles/robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_pressures__traits.hpp
+CMakeFiles/robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.hpp
 CMakeFiles/robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/move_l.hpp
 CMakeFiles/robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/move_l__builder.hpp
 CMakeFiles/robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/move_l__struct.hpp
 CMakeFiles/robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/move_l__traits.hpp
 CMakeFiles/robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/move_l__type_support.hpp
+CMakeFiles/robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/tactile_sensor.hpp
+CMakeFiles/robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/tactile_sensor__builder.hpp
+CMakeFiles/robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/tactile_sensor__struct.hpp
+CMakeFiles/robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/tactile_sensor__traits.hpp
+CMakeFiles/robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.hpp
 CMakeFiles/robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp
 
 rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp: /opt/ros/jazzy/lib/rosidl_generator_cpp/rosidl_generator_cpp
@@ -98,7 +108,9 @@ rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp: /opt/ros/jazzy/shar
 rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp: /opt/ros/jazzy/share/rosidl_generator_cpp/resource/srv__traits.hpp.em
 rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp: /opt/ros/jazzy/share/rosidl_generator_cpp/resource/srv__type_support.hpp.em
 rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp: rosidl_adapter/robotis_interfaces/msg/HandJoints.idl
+rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp: rosidl_adapter/robotis_interfaces/msg/HandPressures.idl
 rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp: rosidl_adapter/robotis_interfaces/msg/MoveL.idl
+rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp: rosidl_adapter/robotis_interfaces/msg/TactileSensor.idl
 rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp: /opt/ros/jazzy/share/builtin_interfaces/msg/Duration.idl
 rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp: /opt/ros/jazzy/share/builtin_interfaces/msg/Time.idl
 rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp: /opt/ros/jazzy/share/geometry_msgs/msg/Accel.idl
@@ -178,6 +190,21 @@ rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_joints__traits.hpp: rosi
 rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_joints__type_support.hpp: rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_joints__type_support.hpp
 
+rosidl_generator_cpp/robotis_interfaces/msg/hand_pressures.hpp: rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/robotis_interfaces/msg/hand_pressures.hpp
+
+rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_pressures__builder.hpp: rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_pressures__builder.hpp
+
+rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_pressures__struct.hpp: rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_pressures__struct.hpp
+
+rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_pressures__traits.hpp: rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_pressures__traits.hpp
+
+rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.hpp: rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.hpp
+
 rosidl_generator_cpp/robotis_interfaces/msg/move_l.hpp: rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/robotis_interfaces/msg/move_l.hpp
 
@@ -193,6 +220,21 @@ rosidl_generator_cpp/robotis_interfaces/msg/detail/move_l__traits.hpp: rosidl_ge
 rosidl_generator_cpp/robotis_interfaces/msg/detail/move_l__type_support.hpp: rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/robotis_interfaces/msg/detail/move_l__type_support.hpp
 
+rosidl_generator_cpp/robotis_interfaces/msg/tactile_sensor.hpp: rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/robotis_interfaces/msg/tactile_sensor.hpp
+
+rosidl_generator_cpp/robotis_interfaces/msg/detail/tactile_sensor__builder.hpp: rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/robotis_interfaces/msg/detail/tactile_sensor__builder.hpp
+
+rosidl_generator_cpp/robotis_interfaces/msg/detail/tactile_sensor__struct.hpp: rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/robotis_interfaces/msg/detail/tactile_sensor__struct.hpp
+
+rosidl_generator_cpp/robotis_interfaces/msg/detail/tactile_sensor__traits.hpp: rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/robotis_interfaces/msg/detail/tactile_sensor__traits.hpp
+
+rosidl_generator_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.hpp: rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.hpp
+
 rosidl_generator_cpp/robotis_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp: rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/robotis_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp
 
@@ -204,13 +246,23 @@ robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/hand
 robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_joints__struct.hpp
 robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_joints__traits.hpp
 robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_joints__type_support.hpp
+robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_pressures__builder.hpp
+robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_pressures__struct.hpp
+robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_pressures__traits.hpp
+robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.hpp
 robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/move_l__builder.hpp
 robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/move_l__struct.hpp
 robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/move_l__traits.hpp
 robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/move_l__type_support.hpp
+robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/tactile_sensor__builder.hpp
+robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/tactile_sensor__struct.hpp
+robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/tactile_sensor__traits.hpp
+robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.hpp
 robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp
+robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/hand_pressures.hpp
 robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/move_l.hpp
 robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp
+robotis_interfaces__cpp: rosidl_generator_cpp/robotis_interfaces/msg/tactile_sensor.hpp
 robotis_interfaces__cpp: CMakeFiles/robotis_interfaces__cpp.dir/build.make
 .PHONY : robotis_interfaces__cpp
 

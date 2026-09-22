@@ -1,0 +1,292 @@
+-- The C compiler identification is GNU 13.3.0
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+-- Found Python3: /opt/venv/bin/python3 (found version "3.12.3") found components: Interpreter
+-- Override CMake install command with custom implementation using symlinks instead of copying resources
+-- Found builtin_interfaces: 2.0.3 (/opt/ros/jazzy/share/builtin_interfaces/cmake)
+-- Found rosidl_generator_c: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+-- Found rosidl_generator_cpp: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found geometry_msgs: 5.3.7 (/opt/ros/jazzy/share/geometry_msgs/cmake)
+-- Found rosidl_default_generators: 1.6.0 (/opt/ros/jazzy/share/rosidl_default_generators/cmake)
+-- Found rosidl_adapter: 4.6.7 (/opt/ros/jazzy/share/rosidl_adapter/cmake)
+-- Found ament_cmake_ros: 0.12.0 (/opt/ros/jazzy/share/ament_cmake_ros/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found python_cmake_module: 0.11.1 (/opt/ros/jazzy/share/python_cmake_module/cmake)
+-- Found PythonExtra: /opt/venv/bin/python3
+-- Found Python3: /opt/venv/bin/python3 (found version "3.12.3") found components: Interpreter Development NumPy Development.Module Development.Embed
+-- Found Python3: /opt/venv/bin/python3 (found version "3.12.3") found components: Interpreter
+-- Configuring done (17.1s)
+-- Generating done (0.3s)
+-- Build files have been written to: /root/ros2_ws/build/robotis_interfaces
+[  1%] Generating Rust code for ROS interfaces
+[  1%] Built target ament_cmake_python_symlink_robotis_interfaces
+[  3%] Generating type hashes for ROS interfaces
+[  3%] Built target robotis_interfaces__rosidl_generator_type_description
+[  4%] Generating C code for ROS interfaces
+[  6%] Generating C++ code for ROS interfaces
+[  6%] Built target robotis_interfaces__rs
+running egg_info
+creating robotis_interfaces.egg-info
+writing robotis_interfaces.egg-info/PKG-INFO
+writing dependency_links to robotis_interfaces.egg-info/dependency_links.txt
+writing top-level names to robotis_interfaces.egg-info/top_level.txt
+writing manifest file 'robotis_interfaces.egg-info/SOURCES.txt'
+reading manifest file 'robotis_interfaces.egg-info/SOURCES.txt'
+writing manifest file 'robotis_interfaces.egg-info/SOURCES.txt'
+[  6%] Built target ament_cmake_python_build_robotis_interfaces_egg
+[  6%] Built target robotis_interfaces__cpp
+[  7%] Building C object CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__functions.c.o
+[  9%] Building C object CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__description.c.o
+[ 10%] Building C object CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.o
+[ 13%] Building C object CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.o
+[ 13%] Building C object CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.c.o
+[ 15%] Building C object CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o
+[ 16%] Building C object CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o
+[ 18%] Building C object CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.o
+[ 20%] Building C object CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.o
+[ 21%] Building C object CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c.o
+[ 23%] Building C object CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__functions.c.o
+[ 24%] Building C object CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.c.o
+[ 26%] Linking C shared library librobotis_interfaces__rosidl_generator_c.so
+[ 26%] Built target robotis_interfaces__rosidl_generator_c
+[ 27%] Generating C introspection for ROS interfaces
+[ 29%] Generating C type support for eProsima Fast-RTPS
+[ 30%] Generating C++ type support dispatch for ROS interfaces
+[ 32%] Generating C type support dispatch for ROS interfaces
+[ 33%] Generating C++ type support for eProsima Fast-RTPS
+[ 35%] Generating C++ introspection for ROS interfaces
+[ 36%] Building CXX object CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_joints__type_support.cpp.o
+[ 38%] Building C object CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__type_support.c.o
+[ 40%] Building CXX object CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/robotis_interfaces/msg/hand_joints__type_support.cpp.o
+[ 41%] Building CXX object CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_joints__type_support_c.cpp.o
+[ 43%] Building CXX object CMakeFiles/robotis_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/robotis_interfaces/msg/hand_joints__type_support.cpp.o
+[ 44%] Building CXX object CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_joints__type_support.cpp.o
+[ 46%] Building C object CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o
+[ 47%] Building CXX object CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/robotis_interfaces/msg/hand_pressures__type_support.cpp.o
+[ 49%] Building CXX object CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/robotis_interfaces/msg/move_l__type_support.cpp.o
+[ 50%] Building C object CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c.o
+[ 52%] Building CXX object CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/robotis_interfaces/msg/tactile_sensor__type_support.cpp.o
+[ 53%] Building C object CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o
+[ 55%] Linking CXX shared library librobotis_interfaces__rosidl_typesupport_c.so
+[ 56%] Linking C shared library librobotis_interfaces__rosidl_typesupport_introspection_c.so
+[ 56%] Built target robotis_interfaces__rosidl_typesupport_c
+[ 56%] Built target robotis_interfaces__rosidl_typesupport_introspection_c
+[ 58%] Building CXX object CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.cpp.o
+[ 60%] Building CXX object CMakeFiles/robotis_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/robotis_interfaces/msg/tactile_sensor__type_support.cpp.o
+[ 61%] Building CXX object CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/tactile_sensor__type_support.cpp.o
+[ 63%] Building CXX object CMakeFiles/robotis_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/robotis_interfaces/msg/move_l__type_support.cpp.o
+[ 64%] Building CXX object CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/tactile_sensor__type_support_c.cpp.o
+[ 66%] Building CXX object CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/move_l__type_support.cpp.o
+[ 67%] Building CXX object CMakeFiles/robotis_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/robotis_interfaces/msg/hand_pressures__type_support.cpp.o
+[ 69%] Linking CXX shared library librobotis_interfaces__rosidl_typesupport_cpp.so
+[ 69%] Built target robotis_interfaces__rosidl_typesupport_cpp
+[ 70%] Building CXX object CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/move_l__type_support.cpp.o
+[ 72%] Building CXX object CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.cpp.o
+[ 73%] Building CXX object CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/move_l__type_support_c.cpp.o
+[ 75%] Building CXX object CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_pressures__type_support.cpp.o
+[ 76%] Linking CXX shared library librobotis_interfaces__rosidl_typesupport_introspection_cpp.so
+[ 78%] Building CXX object CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_pressures__type_support_c.cpp.o
+[ 78%] Built target robotis_interfaces__rosidl_typesupport_introspection_cpp
+[ 80%] Linking CXX shared library librobotis_interfaces__rosidl_typesupport_fastrtps_c.so
+[ 81%] Linking CXX shared library librobotis_interfaces__rosidl_typesupport_fastrtps_cpp.so
+[ 81%] Built target robotis_interfaces__rosidl_typesupport_fastrtps_c
+[ 81%] Built target robotis_interfaces__rosidl_typesupport_fastrtps_cpp
+[ 81%] Built target robotis_interfaces
+[ 83%] Generating Python code for ROS interfaces
+[ 83%] Built target robotis_interfaces__py
+[ 84%] Building C object CMakeFiles/robotis_interfaces__rosidl_generator_py.dir/rosidl_generator_py/robotis_interfaces/msg/_hand_joints_s.c.o
+[ 86%] Building C object CMakeFiles/robotis_interfaces__rosidl_generator_py.dir/rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.c.o
+[ 87%] Building C object CMakeFiles/robotis_interfaces__rosidl_generator_py.dir/rosidl_generator_py/robotis_interfaces/msg/_move_l_s.c.o
+[ 89%] Building C object CMakeFiles/robotis_interfaces__rosidl_generator_py.dir/rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.c.o
+[ 90%] Linking C shared library librobotis_interfaces__rosidl_generator_py.so
+[ 90%] Built target robotis_interfaces__rosidl_generator_py
+[ 92%] Building C object CMakeFiles/robotis_interfaces_s__rosidl_typesupport_fastrtps_c.dir/rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c.o
+[ 93%] Linking C shared module rosidl_generator_py/robotis_interfaces/robotis_interfaces_s__rosidl_typesupport_fastrtps_c.so
+[ 93%] Built target robotis_interfaces_s__rosidl_typesupport_fastrtps_c
+[ 95%] Building C object CMakeFiles/robotis_interfaces_s__rosidl_typesupport_c.dir/rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_c.c.o
+[ 96%] Linking C shared module rosidl_generator_py/robotis_interfaces/robotis_interfaces_s__rosidl_typesupport_c.so
+[ 96%] Built target robotis_interfaces_s__rosidl_typesupport_c
+[ 98%] Building C object CMakeFiles/robotis_interfaces_s__rosidl_typesupport_introspection_c.dir/rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_introspection_c.c.o
+[100%] Linking C shared module rosidl_generator_py/robotis_interfaces/robotis_interfaces_s__rosidl_typesupport_introspection_c.so
+[100%] Built target robotis_interfaces_s__rosidl_typesupport_introspection_c
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/ament_index/resource_index/rosidl_interfaces/robotis_interfaces
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/msg/HandJoints.json
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/msg/HandPressures.json
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/msg/MoveL.json
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/msg/TactileSensor.json
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/hand_joints__functions.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/hand_joints__struct.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/hand_joints__type_support.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/hand_pressures__functions.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/hand_pressures__struct.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/hand_pressures__type_support.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/move_l__functions.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/move_l__struct.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/move_l__type_support.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/tactile_sensor__functions.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/tactile_sensor__struct.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/tactile_sensor__type_support.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/hand_joints.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/hand_pressures.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/move_l.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/rosidl_generator_c__visibility_control.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/tactile_sensor.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/environment/library_path.sh
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/environment/library_path.dsv
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/hand_joints__rosidl_typesupport_fastrtps_c.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/hand_pressures__rosidl_typesupport_fastrtps_c.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/move_l__rosidl_typesupport_fastrtps_c.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/tactile_sensor__rosidl_typesupport_fastrtps_c.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/hand_joints__builder.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/hand_joints__struct.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/hand_joints__traits.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/hand_joints__type_support.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/hand_pressures__builder.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/hand_pressures__struct.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/hand_pressures__traits.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/hand_pressures__type_support.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/move_l__builder.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/move_l__struct.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/move_l__traits.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/move_l__type_support.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/tactile_sensor__builder.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/tactile_sensor__struct.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/tactile_sensor__traits.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/tactile_sensor__type_support.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/hand_joints.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/hand_pressures.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/move_l.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/tactile_sensor.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/hand_joints__rosidl_typesupport_fastrtps_cpp.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/hand_pressures__rosidl_typesupport_fastrtps_cpp.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/move_l__rosidl_typesupport_fastrtps_cpp.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/tactile_sensor__rosidl_typesupport_fastrtps_cpp.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/hand_joints__rosidl_typesupport_introspection_c.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/hand_pressures__rosidl_typesupport_introspection_c.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/move_l__rosidl_typesupport_introspection_c.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/tactile_sensor__rosidl_typesupport_introspection_c.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/rosidl_typesupport_introspection_c__visibility_control.h
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/hand_joints__rosidl_typesupport_introspection_cpp.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/hand_pressures__rosidl_typesupport_introspection_cpp.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/move_l__rosidl_typesupport_introspection_cpp.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/include/robotis_interfaces/robotis_interfaces/msg/detail/tactile_sensor__rosidl_typesupport_introspection_cpp.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/environment/pythonpath.sh
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/environment/pythonpath.dsv
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces-1.1.0-py3.12.egg-info/PKG-INFO
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces-1.1.0-py3.12.egg-info/SOURCES.txt
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces-1.1.0-py3.12.egg-info/dependency_links.txt
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces-1.1.0-py3.12.egg-info/top_level.txt
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/__init__.py
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_c.c
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_introspection_c.c
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/msg/__init__.py
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/msg/_hand_joints.py
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/msg/_hand_joints_s.c
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/msg/_hand_pressures.py
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/msg/_hand_pressures_s.c
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/msg/_move_l.py
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/msg/_move_l_s.c
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/msg/_tactile_sensor.py
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/msg/_tactile_sensor_s.c
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/robotis_interfaces_s__rosidl_typesupport_c.so
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/robotis_interfaces_s__rosidl_typesupport_fastrtps_c.so
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/robotis_interfaces_s__rosidl_typesupport_introspection_c.so
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/robotis_interfaces_s__rosidl_typesupport_fastrtps_c.so
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/robotis_interfaces_s__rosidl_typesupport_introspection_c.so
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/robotis_interfaces_s__rosidl_typesupport_c.so
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/ament_index/resource_index/rust_packages/robotis_interfaces
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/rust/Cargo.toml
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/rust/build.rs
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/rust/src/lib.rs
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/rust/src/msg.rs
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/rust/src/msg/rmw.rs
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/msg/HandJoints.idl
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/msg/HandPressures.idl
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/msg/MoveL.idl
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/msg/TactileSensor.idl
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/msg/HandJoints.msg
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/msg/HandPressures.msg
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/msg/MoveL.msg
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/msg/TactileSensor.msg
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/ament_index/resource_index/package_run_dependencies/robotis_interfaces
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/ament_index/resource_index/parent_prefix_path/robotis_interfaces
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/environment/ament_prefix_path.sh
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/environment/ament_prefix_path.dsv
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/environment/path.sh
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/environment/path.dsv
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/local_setup.bash
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/local_setup.sh
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/local_setup.zsh
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/local_setup.dsv
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/package.dsv
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/ament_index/resource_index/packages/robotis_interfaces
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/rosidl_cmake-extras.cmake
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/ament_cmake_export_dependencies-extras.cmake
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/ament_cmake_export_include_directories-extras.cmake
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/ament_cmake_export_libraries-extras.cmake
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/ament_cmake_export_targets-extras.cmake
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/robotis_interfacesConfig.cmake
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/robotis_interfacesConfig-version.cmake
+-- Symlinking: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/package.xml
+-- Installing: /root/ros2_ws/install/robotis_interfaces/lib/librobotis_interfaces__rosidl_generator_c.so
+-- Set non-toolchain portion of runtime path of "/root/ros2_ws/install/robotis_interfaces/lib/librobotis_interfaces__rosidl_generator_c.so" to ""
+-- Installing: /root/ros2_ws/install/robotis_interfaces/lib/librobotis_interfaces__rosidl_typesupport_fastrtps_c.so
+-- Set non-toolchain portion of runtime path of "/root/ros2_ws/install/robotis_interfaces/lib/librobotis_interfaces__rosidl_typesupport_fastrtps_c.so" to ""
+-- Installing: /root/ros2_ws/install/robotis_interfaces/lib/librobotis_interfaces__rosidl_typesupport_fastrtps_cpp.so
+-- Set non-toolchain portion of runtime path of "/root/ros2_ws/install/robotis_interfaces/lib/librobotis_interfaces__rosidl_typesupport_fastrtps_cpp.so" to ""
+-- Installing: /root/ros2_ws/install/robotis_interfaces/lib/librobotis_interfaces__rosidl_typesupport_introspection_c.so
+-- Set non-toolchain portion of runtime path of "/root/ros2_ws/install/robotis_interfaces/lib/librobotis_interfaces__rosidl_typesupport_introspection_c.so" to ""
+-- Installing: /root/ros2_ws/install/robotis_interfaces/lib/librobotis_interfaces__rosidl_typesupport_c.so
+-- Set non-toolchain portion of runtime path of "/root/ros2_ws/install/robotis_interfaces/lib/librobotis_interfaces__rosidl_typesupport_c.so" to ""
+-- Installing: /root/ros2_ws/install/robotis_interfaces/lib/librobotis_interfaces__rosidl_typesupport_introspection_cpp.so
+-- Set non-toolchain portion of runtime path of "/root/ros2_ws/install/robotis_interfaces/lib/librobotis_interfaces__rosidl_typesupport_introspection_cpp.so" to ""
+-- Installing: /root/ros2_ws/install/robotis_interfaces/lib/librobotis_interfaces__rosidl_typesupport_cpp.so
+-- Set non-toolchain portion of runtime path of "/root/ros2_ws/install/robotis_interfaces/lib/librobotis_interfaces__rosidl_typesupport_cpp.so" to ""
+Listing '/root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces'...
+Compiling '/root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/__init__.py'...
+Listing '/root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/msg'...
+Compiling '/root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/msg/__init__.py'...
+Compiling '/root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/msg/_hand_joints.py'...
+Compiling '/root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/msg/_hand_pressures.py'...
+Compiling '/root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/msg/_move_l.py'...
+Compiling '/root/ros2_ws/install/robotis_interfaces/lib/python3.12/site-packages/robotis_interfaces/msg/_tactile_sensor.py'...
+-- Installing: /root/ros2_ws/install/robotis_interfaces/lib/librobotis_interfaces__rosidl_generator_py.so
+-- Set non-toolchain portion of runtime path of "/root/ros2_ws/install/robotis_interfaces/lib/librobotis_interfaces__rosidl_generator_py.so" to ""
+-- Installing: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/export_robotis_interfaces__rosidl_generator_cExport.cmake
+-- Installing: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/export_robotis_interfaces__rosidl_generator_cExport-release.cmake
+-- Installing: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/export_robotis_interfaces__rosidl_typesupport_fastrtps_cExport.cmake
+-- Installing: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/export_robotis_interfaces__rosidl_typesupport_fastrtps_cExport-release.cmake
+-- Installing: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/export_robotis_interfaces__rosidl_generator_cppExport.cmake
+-- Installing: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/export_robotis_interfaces__rosidl_typesupport_fastrtps_cppExport.cmake
+-- Installing: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/export_robotis_interfaces__rosidl_typesupport_fastrtps_cppExport-release.cmake
+-- Installing: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/robotis_interfaces__rosidl_typesupport_introspection_cExport.cmake
+-- Installing: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/robotis_interfaces__rosidl_typesupport_introspection_cExport-release.cmake
+-- Installing: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/robotis_interfaces__rosidl_typesupport_cExport.cmake
+-- Installing: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/robotis_interfaces__rosidl_typesupport_cExport-release.cmake
+-- Installing: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/robotis_interfaces__rosidl_typesupport_introspection_cppExport.cmake
+-- Installing: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/robotis_interfaces__rosidl_typesupport_introspection_cppExport-release.cmake
+-- Installing: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/robotis_interfaces__rosidl_typesupport_cppExport.cmake
+-- Installing: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/robotis_interfaces__rosidl_typesupport_cppExport-release.cmake
+-- Installing: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/export_robotis_interfaces__rosidl_generator_pyExport.cmake
+-- Installing: /root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake/export_robotis_interfaces__rosidl_generator_pyExport-release.cmake

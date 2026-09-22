@@ -31,6 +31,7 @@ CMakeFiles/is_path_length_under_plugin.dir/src/is_path_length_under.cpp.o: /root
   /opt/ros/jazzy/include/behaviortree_cpp/controls/sequence_node.h \
   /opt/ros/jazzy/include/behaviortree_cpp/controls/sequence_with_memory_node.h \
   /opt/ros/jazzy/include/behaviortree_cpp/controls/switch_node.h \
+  /opt/ros/jazzy/include/behaviortree_cpp/controls/try_catch_node.h \
   /opt/ros/jazzy/include/behaviortree_cpp/controls/while_do_else_node.h \
   /opt/ros/jazzy/include/behaviortree_cpp/decorator_node.h \
   /opt/ros/jazzy/include/behaviortree_cpp/decorators/delay_node.h \
@@ -53,6 +54,7 @@ CMakeFiles/is_path_length_under_plugin.dir/src/is_path_length_under.cpp.o: /root
   /opt/ros/jazzy/include/behaviortree_cpp/utils/convert_impl.hpp \
   /opt/ros/jazzy/include/behaviortree_cpp/utils/demangle_util.h \
   /opt/ros/jazzy/include/behaviortree_cpp/utils/locked_reference.hpp \
+  /opt/ros/jazzy/include/behaviortree_cpp/utils/polymorphic_cast_registry.hpp \
   /opt/ros/jazzy/include/behaviortree_cpp/utils/safe_any.hpp \
   /opt/ros/jazzy/include/behaviortree_cpp/utils/signal.h \
   /opt/ros/jazzy/include/behaviortree_cpp/utils/simple_string.hpp \
@@ -390,6 +392,7 @@ CMakeFiles/is_path_length_under_plugin.dir/src/is_path_length_under.cpp.o: /root
   /usr/include/c++/13/queue \
   /usr/include/c++/13/ratio \
   /usr/include/c++/13/set \
+  /usr/include/c++/13/shared_mutex \
   /usr/include/c++/13/sstream \
   /usr/include/c++/13/stdexcept \
   /usr/include/c++/13/streambuf \
@@ -457,7 +460,7 @@ libis_path_length_under_plugin.so: /lib/aarch64-linux-gnu/libc.so.6 \
   /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_fastrtps_cpp.so \
   /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_c.so \
   /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_cpp.so \
-  /opt/ros/jazzy/lib/libfastcdr.so.2.2.5 \
+  /opt/ros/jazzy/lib/libfastcdr.so.2.2.7 \
   /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_generator_c.so \
   /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_generator_py.so \
   /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_c.so \
@@ -549,6 +552,7 @@ libis_path_length_under_plugin.so: /lib/aarch64-linux-gnu/libc.so.6 \
   /usr/lib/aarch64-linux-gnu/libm.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o \
+  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libstdc++.so \
@@ -563,7 +567,7 @@ libis_path_length_under_plugin.so: /lib/aarch64-linux-gnu/libc.so.6 \
 
 /usr/lib/aarch64-linux-gnu/libgcc_s.so.1:
 
-/opt/ros/jazzy/include/rosidl_runtime_cpp/rosidl_typesupport_cpp/message_type_support.hpp:
+/usr/lib/aarch64-linux-gnu/libdl.a:
 
 /usr/include/c++/13/bits/hashtable.h:
 
@@ -630,10 +634,6 @@ libis_path_length_under_plugin.so: /lib/aarch64-linux-gnu/libc.so.6 \
 /usr/include/aarch64-linux-gnu/sys/single_threaded.h:
 
 /usr/include/c++/13/bits/basic_string.h:
-
-/usr/include/c++/13/bits/uniform_int_dist.h:
-
-/opt/ros/jazzy/include/nav_msgs/nav_msgs/msg/detail/path__builder.hpp:
 
 /usr/include/aarch64-linux-gnu/sys/select.h:
 
@@ -741,9 +741,25 @@ libis_path_length_under_plugin.so: /lib/aarch64-linux-gnu/libc.so.6 \
 
 /usr/include/aarch64-linux-gnu/bits/setjmp.h:
 
-/opt/ros/jazzy/include/behaviortree_cpp/utils/locked_reference.hpp:
+/usr/include/c++/13/map:
 
-/opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/time__struct.hpp:
+/usr/include/c++/13/string_view:
+
+/opt/ros/jazzy/lib/librosidl_typesupport_c.so:
+
+/usr/include/aarch64-linux-gnu/bits/select2.h:
+
+/usr/include/c++/13/bits/requires_hosted.h:
+
+/usr/include/aarch64-linux-gnu/bits/timesize.h:
+
+/usr/include/c++/13/bits/allocator.h:
+
+/usr/include/c++/13/unordered_map:
+
+/usr/include/aarch64-linux-gnu/bits/select.h:
+
+/opt/ros/jazzy/include/behaviortree_cpp/utils/locked_reference.hpp:
 
 /usr/include/c++/13/condition_variable:
 
@@ -793,12 +809,6 @@ libis_path_length_under_plugin.so: /lib/aarch64-linux-gnu/libc.so.6 \
 
 /usr/include/c++/13/iomanip:
 
-/usr/include/c++/13/bits/allocator.h:
-
-/usr/include/aarch64-linux-gnu/bits/timesize.h:
-
-/usr/include/c++/13/unordered_map:
-
 /opt/ros/jazzy/include/nav_msgs/nav_msgs/msg/detail/path__struct.hpp:
 
 /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_cpp.so:
@@ -813,6 +823,12 @@ libis_path_length_under_plugin.so: /lib/aarch64-linux-gnu/libc.so.6 \
 
 /opt/ros/jazzy/include/behaviortree_cpp/decorators/delay_node.h:
 
+/opt/ros/jazzy/include/behaviortree_cpp/controls/try_catch_node.h:
+
+/opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/time__traits.hpp:
+
+/opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/time__struct.hpp:
+
 /usr/include/c++/13/bits/codecvt.h:
 
 /usr/include/c++/13/bits/stl_tree.h:
@@ -823,7 +839,13 @@ libis_path_length_under_plugin.so: /lib/aarch64-linux-gnu/libc.so.6 \
 
 /opt/ros/jazzy/include/geometry_msgs/geometry_msgs/msg/detail/point__struct.hpp:
 
+/usr/lib/aarch64-linux-gnu/libc.so:
+
+/usr/include/c++/13/bits/exception_defines.h:
+
 /opt/ros/jazzy/include/behaviortree_cpp/scripting/script_parser.hpp:
+
+/opt/ros/jazzy/lib/libfastcdr.so.2.2.7:
 
 /opt/ros/jazzy/include/behaviortree_cpp/actions/unset_blackboard_node.h:
 
@@ -837,9 +859,19 @@ libis_path_length_under_plugin.so: /lib/aarch64-linux-gnu/libc.so.6 \
 
 /usr/include/aarch64-linux-gnu/c++/13/bits/gthr.h:
 
-/usr/include/aarch64-linux-gnu/bits/types/struct_timeval.h:
+/opt/ros/jazzy/include/rosidl_runtime_cpp/rosidl_typesupport_cpp/message_type_support.hpp:
 
-/opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/time__traits.hpp:
+/usr/include/aarch64-linux-gnu/bits/uintn-identity.h:
+
+/usr/include/aarch64-linux-gnu/bits/time.h:
+
+/usr/include/c++/13/bits/locale_classes.tcc:
+
+/opt/ros/jazzy/include/nav_msgs/nav_msgs/msg/detail/path__builder.hpp:
+
+/usr/include/c++/13/bits/uniform_int_dist.h:
+
+/usr/include/aarch64-linux-gnu/bits/types/struct_timeval.h:
 
 /opt/ros/jazzy/include/behaviortree_cpp/controls/switch_node.h:
 
@@ -856,6 +888,14 @@ libis_path_length_under_plugin.so: /lib/aarch64-linux-gnu/libc.so.6 \
 /usr/include/locale.h:
 
 /lib/ld-linux-aarch64.so.1:
+
+/opt/ros/jazzy/include/behaviortree_cpp/utils/polymorphic_cast_registry.hpp:
+
+/opt/ros/jazzy/include/rcutils/rcutils/visibility_control_macros.h:
+
+/opt/ros/jazzy/include/behaviortree_cpp/actions/set_blackboard_node.h:
+
+/opt/ros/jazzy/lib/librosgraph_msgs__rosidl_typesupport_cpp.so:
 
 /usr/include/aarch64-linux-gnu/bits/stdlib-float.h:
 
@@ -919,6 +959,10 @@ libis_path_length_under_plugin.so: /lib/aarch64-linux-gnu/libc.so.6 \
 
 /opt/ros/jazzy/include/behaviortree_cpp/utils/safe_any.hpp:
 
+/usr/lib/aarch64-linux-gnu/crtn.o:
+
+/opt/ros/jazzy/include/rcutils/rcutils/allocator.h:
+
 /usr/include/c++/13/bits/stl_deque.h:
 
 /opt/ros/jazzy/lib/librcpputils.so:
@@ -936,8 +980,6 @@ libis_path_length_under_plugin.so: /lib/aarch64-linux-gnu/libc.so.6 \
 /opt/ros/jazzy/include/rosidl_runtime_c/rosidl_runtime_c/type_hash.h:
 
 /opt/ros/jazzy/lib/librosgraph_msgs__rosidl_typesupport_fastrtps_c.so:
-
-/usr/include/aarch64-linux-gnu/bits/select.h:
 
 /usr/include/c++/13/bits/enable_special_members.h:
 
@@ -962,22 +1004,6 @@ libis_path_length_under_plugin.so: /lib/aarch64-linux-gnu/libc.so.6 \
 /opt/ros/jazzy/include/behaviortree_cpp/control_node.h:
 
 /opt/ros/jazzy/include/rosidl_runtime_c/rosidl_runtime_c/visibility_control.h:
-
-/usr/include/c++/13/bits/locale_classes.tcc:
-
-/usr/include/aarch64-linux-gnu/bits/uintn-identity.h:
-
-/usr/include/aarch64-linux-gnu/bits/time.h:
-
-/usr/include/c++/13/map:
-
-/usr/include/c++/13/string_view:
-
-/opt/ros/jazzy/lib/librosidl_typesupport_c.so:
-
-/usr/include/aarch64-linux-gnu/bits/select2.h:
-
-/usr/include/c++/13/bits/requires_hosted.h:
 
 /usr/include/c++/13/bits/forward_list.tcc:
 
@@ -1040,12 +1066,6 @@ libis_path_length_under_plugin.so: /lib/aarch64-linux-gnu/libc.so.6 \
 /opt/ros/jazzy/include/rcutils/rcutils/sha256.h:
 
 /usr/include/c++/13/ext/aligned_buffer.h:
-
-/opt/ros/jazzy/include/rcutils/rcutils/visibility_control_macros.h:
-
-/opt/ros/jazzy/include/behaviortree_cpp/actions/set_blackboard_node.h:
-
-/opt/ros/jazzy/lib/librosgraph_msgs__rosidl_typesupport_cpp.so:
 
 /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_generator_py.so:
 
@@ -1136,10 +1156,6 @@ libis_path_length_under_plugin.so: /lib/aarch64-linux-gnu/libc.so.6 \
 /usr/lib/gcc/aarch64-linux-gnu/13/include/stdarg.h:
 
 /usr/include/aarch64-linux-gnu/bits/string_fortified.h:
-
-/usr/include/c++/13/bits/exception_defines.h:
-
-/usr/lib/aarch64-linux-gnu/libc.so:
 
 /usr/include/aarch64-linux-gnu/bits/locale.h:
 
@@ -1260,6 +1276,8 @@ libis_path_length_under_plugin.so: /lib/aarch64-linux-gnu/libc.so.6 \
 /usr/include/c++/13/bits/ptr_traits.h:
 
 /usr/include/c++/13/bits/quoted_string.h:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
 
 /usr/include/c++/13/bits/shared_ptr.h:
 
@@ -1447,6 +1465,8 @@ CMakeFiles/is_path_length_under_plugin.dir/src/is_path_length_under.cpp.o:
 
 /usr/include/c++/13/ratio:
 
+/usr/include/c++/13/shared_mutex:
+
 /usr/include/c++/13/sstream:
 
 /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_c.so:
@@ -1571,8 +1591,6 @@ CMakeFiles/is_path_length_under_plugin.dir/src/is_path_length_under.cpp.o:
 
 /opt/ros/jazzy/lib/librcl_interfaces__rosidl_typesupport_cpp.so:
 
-/opt/ros/jazzy/lib/libfastcdr.so.2.2.5:
-
 /usr/include/c++/13/bits/stl_multimap.h:
 
 /opt/ros/jazzy/lib/librcl_interfaces__rosidl_typesupport_introspection_cpp.so:
@@ -1650,9 +1668,3 @@ CMakeFiles/is_path_length_under_plugin.dir/src/is_path_length_under.cpp.o:
 /opt/ros/jazzy/lib/libtype_description_interfaces__rosidl_typesupport_cpp.so:
 
 /opt/ros/jazzy/lib/libtype_description_interfaces__rosidl_typesupport_fastrtps_c.so:
-
-/opt/ros/jazzy/include/rcutils/rcutils/allocator.h:
-
-/usr/lib/aarch64-linux-gnu/crtn.o:
-
-/usr/lib/aarch64-linux-gnu/libdl.a:

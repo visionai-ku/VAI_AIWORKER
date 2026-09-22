@@ -1,5 +1,5 @@
 set(_AMENT_PACKAGE_NAME "cyclo_motion_controller_models")
-set(cyclo_motion_controller_models_VERSION "0.1.3")
+set(cyclo_motion_controller_models_VERSION "0.3.2")
 set(cyclo_motion_controller_models_MAINTAINER "Pyo <pyo@robotis.com>")
 set(cyclo_motion_controller_models_BUILD_DEPENDS )
 set(cyclo_motion_controller_models_BUILDTOOL_DEPENDS "ament_cmake")

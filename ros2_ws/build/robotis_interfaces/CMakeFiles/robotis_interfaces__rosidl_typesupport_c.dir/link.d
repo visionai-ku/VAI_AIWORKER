@@ -2,7 +2,9 @@ librobotis_interfaces__rosidl_typesupport_c.so: \
   /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o \
   CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/robotis_interfaces/msg/hand_joints__type_support.cpp.o \
+  CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/robotis_interfaces/msg/hand_pressures__type_support.cpp.o \
   CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/robotis_interfaces/msg/move_l__type_support.cpp.o \
+  CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/robotis_interfaces/msg/tactile_sensor__type_support.cpp.o \
   librobotis_interfaces__rosidl_generator_c.so \
   /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_c.so \
   /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_c.so \
@@ -14,6 +16,7 @@ librobotis_interfaces__rosidl_typesupport_c.so: \
   /opt/ros/jazzy/lib/librosidl_runtime_c.so \
   /opt/ros/jazzy/lib/librcutils.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libdl.a \
+  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libstdc++.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libm.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libm.so \
@@ -45,7 +48,11 @@ librobotis_interfaces__rosidl_typesupport_c.so: \
 
 CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/robotis_interfaces/msg/hand_joints__type_support.cpp.o:
 
+CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/robotis_interfaces/msg/hand_pressures__type_support.cpp.o:
+
 CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/robotis_interfaces/msg/move_l__type_support.cpp.o:
+
+CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/robotis_interfaces/msg/tactile_sensor__type_support.cpp.o:
 
 librobotis_interfaces__rosidl_generator_c.so:
 
@@ -68,6 +75,8 @@ librobotis_interfaces__rosidl_generator_c.so:
 /opt/ros/jazzy/lib/librcutils.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libdl.a:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/libstdc++.so:
 

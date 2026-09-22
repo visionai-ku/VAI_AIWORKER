@@ -5,9 +5,9 @@
 #include <string.h>
 
 #include "robotis_interfaces/msg/detail/hand_joints__struct.h"
-#include "rosidl_typesupport_interface/macros.h"
 #include "robotis_interfaces/msg/detail/hand_joints__functions.h"
 #include "robotis_interfaces/msg/detail/hand_joints__type_support.h"
+#include "rosidl_typesupport_interface/macros.h"
 
 #ifdef __cplusplus
 extern "C"

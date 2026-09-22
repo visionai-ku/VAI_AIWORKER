@@ -328,7 +328,7 @@ libdynamixel_hardware_interface.so: /opt/ros/jazzy/lib/librosidl_typesupport_fas
 libdynamixel_hardware_interface.so: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_c.so
 libdynamixel_hardware_interface.so: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_fastrtps_cpp.so
 libdynamixel_hardware_interface.so: /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so
-libdynamixel_hardware_interface.so: /opt/ros/jazzy/lib/libfastcdr.so.2.2.5
+libdynamixel_hardware_interface.so: /opt/ros/jazzy/lib/libfastcdr.so.2.2.7
 libdynamixel_hardware_interface.so: /opt/ros/jazzy/lib/librmw.so
 libdynamixel_hardware_interface.so: /opt/ros/jazzy/lib/librosidl_dynamic_typesupport.so
 libdynamixel_hardware_interface.so: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_cpp.so

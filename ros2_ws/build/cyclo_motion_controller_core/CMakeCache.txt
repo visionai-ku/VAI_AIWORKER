@@ -37,12 +37,6 @@ AMENT_TEST_RESULTS_DIR:PATH=/root/ros2_ws/build/cyclo_motion_controller_core/tes
 //Build the testing tree.
 BUILD_TESTING:BOOL=ON
 
-//Boost chrono library (debug)
-Boost_CHRONO_LIBRARY_DEBUG:FILEPATH=/usr/lib/aarch64-linux-gnu/libboost_chrono.so
-
-//Boost chrono library (release)
-Boost_CHRONO_LIBRARY_RELEASE:FILEPATH=/usr/lib/aarch64-linux-gnu/libboost_chrono.so
-
 //Boost filesystem library (debug)
 Boost_FILESYSTEM_LIBRARY_DEBUG:FILEPATH=/usr/lib/aarch64-linux-gnu/libboost_filesystem.so
 
@@ -69,12 +63,6 @@ Boost_SERIALIZATION_LIBRARY_DEBUG:FILEPATH=/usr/lib/aarch64-linux-gnu/libboost_s
 
 //Boost serialization library (release)
 Boost_SERIALIZATION_LIBRARY_RELEASE:FILEPATH=/usr/lib/aarch64-linux-gnu/libboost_serialization.so
-
-//Boost system library (debug)
-Boost_SYSTEM_LIBRARY_DEBUG:FILEPATH=/usr/lib/aarch64-linux-gnu/libboost_system.so
-
-//Boost system library (release)
-Boost_SYSTEM_LIBRARY_RELEASE:FILEPATH=/usr/lib/aarch64-linux-gnu/libboost_system.so
 
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=/usr/bin/addr2line
@@ -349,6 +337,9 @@ ament_cmake_test_DIR:PATH=/opt/ros/jazzy/share/ament_cmake_test/cmake
 //The directory containing a CMake configuration file for ament_cmake_version.
 ament_cmake_version_DIR:PATH=/opt/ros/jazzy/share/ament_cmake_version/cmake
 
+//The directory containing a CMake configuration file for coal.
+coal_DIR:PATH=/opt/ros/jazzy/lib/aarch64-linux-gnu/cmake/coal
+
 //The directory containing a CMake configuration file for console_bridge.
 console_bridge_DIR:PATH=/usr/lib/aarch64-linux-gnu/console_bridge/cmake
 
@@ -363,9 +354,6 @@ cyclo_motion_controller_core_SOURCE_DIR:STATIC=/root/ros2_ws/src/cyclo_control/c
 
 //The directory containing a CMake configuration file for eigenpy.
 eigenpy_DIR:PATH=/opt/ros/jazzy/lib/aarch64-linux-gnu/cmake/eigenpy
-
-//The directory containing a CMake configuration file for hpp-fcl.
-hpp-fcl_DIR:PATH=/opt/ros/jazzy/lib/aarch64-linux-gnu/cmake/hpp-fcl
 
 //The directory containing a CMake configuration file for octomap.
 octomap_DIR:PATH=/usr/share/octomap
@@ -402,10 +390,6 @@ urdfdom_headers_DIR:PATH=/opt/ros/jazzy/lib/aarch64-linux-gnu/urdfdom_headers/cm
 # INTERNAL cache entries
 ########################
 
-//ADVANCED property for variable: Boost_CHRONO_LIBRARY_DEBUG
-Boost_CHRONO_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_CHRONO_LIBRARY_RELEASE
-Boost_CHRONO_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: Boost_FILESYSTEM_LIBRARY_DEBUG
 Boost_FILESYSTEM_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: Boost_FILESYSTEM_LIBRARY_RELEASE
@@ -424,10 +408,6 @@ Boost_PYTHON312_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 Boost_SERIALIZATION_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: Boost_SERIALIZATION_LIBRARY_RELEASE
 Boost_SERIALIZATION_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_SYSTEM_LIBRARY_DEBUG
-Boost_SYSTEM_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_SYSTEM_LIBRARY_RELEASE
-Boost_SYSTEM_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_ADDR2LINE
 CMAKE_ADDR2LINE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_AR
@@ -576,14 +556,14 @@ CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Details about finding Boost
-FIND_PACKAGE_MESSAGE_DETAILS_Boost:INTERNAL=[/usr/include][found components: chrono serialization filesystem ][v1.83.0()]
+FIND_PACKAGE_MESSAGE_DETAILS_Boost:INTERNAL=[/usr/include][found components: serialization filesystem ][v1.83.0()]
 //Details about finding Python3
-FIND_PACKAGE_MESSAGE_DETAILS_Python3:INTERNAL=[/opt/venv/bin/python][/usr/include/python3.12][/opt/venv/lib/python3.12/site-packages/numpy/_core/include][found components: Interpreter Development.Module NumPy ][v3.12.3()]
+FIND_PACKAGE_MESSAGE_DETAILS_Python3:INTERNAL=[/opt/venv/bin/python][/usr/include/python3.12][/opt/venv/lib/python3.12/site-packages/numpy/core/include][found components: Interpreter Development.Module NumPy ][v3.12.3()]
 //The directory for Python library installation. This needs to
 // be in PYTHONPATH when 'setup.py install' is called.
 PYTHON_INSTALL_DIR:INTERNAL=lib/python3.12/site-packages
 //Components requested for this build tree.
-_Boost_COMPONENTS_SEARCHED:INTERNAL=chrono;filesystem;python312;serialization;system
+_Boost_COMPONENTS_SEARCHED:INTERNAL=filesystem;python312;serialization
 //Last used Boost_INCLUDE_DIR value.
 _Boost_INCLUDE_DIR_LAST:INTERNAL=/usr/include
 //Last used Boost_LIBRARY_DIR_DEBUG value.
@@ -596,7 +576,7 @@ _Boost_NAMESPACE_LAST:INTERNAL=boost
 _Boost_USE_MULTITHREADED_LAST:INTERNAL=ON
 //Last used Boost_USE_STATIC_LIBS value.
 _Boost_USE_STATIC_LIBS_LAST:INTERNAL=OFF
-_MINIMAL_CXX_STANDARD:INTERNAL=14
+_MINIMAL_CXX_STANDARD:INTERNAL=17
 //Compiler reason failure
 _Python3_Compiler_REASON_FAILURE:INTERNAL=
 _Python3_DEVELOPMENT_MODULE_SIGNATURE:INTERNAL=e176b05b75342c1dd2b5202bb344a689
@@ -607,9 +587,11 @@ _Python3_INCLUDE_DIR:INTERNAL=/usr/include/python3.12
 //Python3 Properties
 _Python3_INTERPRETER_PROPERTIES:INTERNAL=Python;3;12;3;64;<none>;cpython-312-aarch64-linux-gnu;abi3;/usr/lib/python3.12;/opt/venv/lib/python3.12;/opt/venv/lib/python3.12/site-packages;/opt/venv/lib/python3.12/site-packages
 _Python3_INTERPRETER_SIGNATURE:INTERNAL=d3cbf18ae74ab190a6e46f7c43aede32
+//Interpreter reason failure
+_Python3_Interpreter_REASON_FAILURE:INTERNAL=
 _Python3_NUMPY_SIGNATURE:INTERNAL=8072849212fc228bcf9ec4f28248ee09
 //Path to a file.
-_Python3_NumPy_INCLUDE_DIR:INTERNAL=/opt/venv/lib/python3.12/site-packages/numpy/_core/include
+_Python3_NumPy_INCLUDE_DIR:INTERNAL=/opt/venv/lib/python3.12/site-packages/numpy/core/include
 //Index for unique symlink install targets
 __AMENT_CMAKE_SYMLINK_INSTALL_TARGETS_INDEX:INTERNAL=0
 //Result of TRY_COMPILE

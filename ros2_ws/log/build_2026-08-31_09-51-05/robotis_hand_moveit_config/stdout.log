@@ -1,0 +1,37 @@
+-- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+-- Override CMake install command with custom implementation using symlinks instead of copying resources
+-- Configuring done (1.1s)
+-- Generating done (0.0s)
+-- Build files have been written to: /root/ros2_ws/build/robotis_hand_moveit_config
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/launch/hx5_d20_left_moveit.launch.py
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/launch/hx5_d20_right_moveit.launch.py
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/config/chomp_planning.yaml
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/config/hx5_d20_left/hx5_d20_left.srdf
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/config/hx5_d20_left/joint_limits.yaml
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/config/hx5_d20_left/kinematics.yaml
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/config/hx5_d20_left/moveit_controllers.yaml
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/config/hx5_d20_right/hx5_d20_right.srdf
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/config/hx5_d20_right/joint_limits.yaml
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/config/hx5_d20_right/kinematics.yaml
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/config/hx5_d20_right/moveit_controllers.yaml
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/config/moveit.rviz
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/config/ompl_planning.yaml
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/config/pilz_cartesian_limits.yaml
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/config/pilz_industrial_motion_planner_planning.yaml
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/ament_index/resource_index/package_run_dependencies/robotis_hand_moveit_config
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/ament_index/resource_index/parent_prefix_path/robotis_hand_moveit_config
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/environment/ament_prefix_path.sh
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/environment/ament_prefix_path.dsv
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/environment/path.sh
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/environment/path.dsv
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/local_setup.bash
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/local_setup.sh
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/local_setup.zsh
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/local_setup.dsv
+-- Symlinking: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/package.dsv
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/ament_index/resource_index/packages/robotis_hand_moveit_config
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/cmake/robotis_hand_moveit_configConfig.cmake
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/cmake/robotis_hand_moveit_configConfig-version.cmake
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_moveit_config/share/robotis_hand_moveit_config/package.xml

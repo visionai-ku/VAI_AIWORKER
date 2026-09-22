@@ -418,6 +418,19 @@ robotis_interfaces__py/fast:
 	$(MAKE) $(MAKESILENT) -f /root/ros2_ws/build/robotis_interfaces/robotis_interfaces__py/CMakeFiles/robotis_interfaces__py.dir/build.make /root/ros2_ws/build/robotis_interfaces/robotis_interfaces__py/CMakeFiles/robotis_interfaces__py.dir/build
 .PHONY : robotis_interfaces__py/fast
 
+#=============================================================================
+# Target rules for targets named robotis_interfaces__rs
+
+# Build rule for target.
+robotis_interfaces__rs: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 robotis_interfaces__rs
+.PHONY : robotis_interfaces__rs
+
+# fast build rule for target.
+robotis_interfaces__rs/fast:
+	$(MAKE) $(MAKESILENT) -f /root/ros2_ws/build/robotis_interfaces/robotis_interfaces__rs/CMakeFiles/robotis_interfaces__rs.dir/build.make /root/ros2_ws/build/robotis_interfaces/robotis_interfaces__rs/CMakeFiles/robotis_interfaces__rs.dir/build
+.PHONY : robotis_interfaces__rs/fast
+
 rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__description.o: rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__description.c.o
 .PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__description.o
 
@@ -490,6 +503,78 @@ rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.c.s
 .PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.c.s
 
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.o: rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.o
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.o
+
+# target to build an object file
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.o
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.o
+
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.i: rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.i
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.i
+
+# target to preprocess a source file
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.i
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.i
+
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.s: rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.s
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.s
+
+# target to generate assembly for a file
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.s
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.s
+
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.o: rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.o
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.o
+
+# target to build an object file
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.o
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.o
+
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.i: rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.i
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.i
+
+# target to preprocess a source file
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.i
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.i
+
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.s: rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.s
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.s
+
+# target to generate assembly for a file
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.s
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.s
+
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.o: rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.o
+
+# target to build an object file
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o
+
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.i: rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.i
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.i
+
+# target to preprocess a source file
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.i
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.i
+
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.s: rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.s
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.s
+
+# target to generate assembly for a file
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.s
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.s
+
 rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.o: rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.c.o
 .PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.o
 
@@ -561,6 +646,78 @@ rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.s: rosidl_
 rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c.s
 .PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c.s
+
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.o: rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.o
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.o
+
+# target to build an object file
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.o
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.o
+
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.i: rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.i
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.i
+
+# target to preprocess a source file
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.i
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.i
+
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.s: rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.s
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.s
+
+# target to generate assembly for a file
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.s
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.s
+
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.o: rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.o
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.o
+
+# target to build an object file
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.o
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.o
+
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.i: rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.i
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.i
+
+# target to preprocess a source file
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.i
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.i
+
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.s: rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.s
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.s
+
+# target to generate assembly for a file
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.s
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.s
+
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.o: rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.o
+
+# target to build an object file
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o
+
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.i: rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.i
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.i
+
+# target to preprocess a source file
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.i
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.i
+
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.s: rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.s
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.s
+
+# target to generate assembly for a file
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.s
+.PHONY : rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.s
 
 rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_c.o: rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_c.c.o
 .PHONY : rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_c.o
@@ -658,6 +815,30 @@ rosidl_generator_py/robotis_interfaces/msg/_hand_joints_s.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_py.dir/rosidl_generator_py/robotis_interfaces/msg/_hand_joints_s.c.s
 .PHONY : rosidl_generator_py/robotis_interfaces/msg/_hand_joints_s.c.s
 
+rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.o: rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.c.o
+.PHONY : rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.o
+
+# target to build an object file
+rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_py.dir/rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.c.o
+.PHONY : rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.c.o
+
+rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.i: rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.c.i
+.PHONY : rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.i
+
+# target to preprocess a source file
+rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_py.dir/rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.c.i
+.PHONY : rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.c.i
+
+rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.s: rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.c.s
+.PHONY : rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.s
+
+# target to generate assembly for a file
+rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_py.dir/rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.c.s
+.PHONY : rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.c.s
+
 rosidl_generator_py/robotis_interfaces/msg/_move_l_s.o: rosidl_generator_py/robotis_interfaces/msg/_move_l_s.c.o
 .PHONY : rosidl_generator_py/robotis_interfaces/msg/_move_l_s.o
 
@@ -681,6 +862,30 @@ rosidl_generator_py/robotis_interfaces/msg/_move_l_s.s: rosidl_generator_py/robo
 rosidl_generator_py/robotis_interfaces/msg/_move_l_s.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_py.dir/rosidl_generator_py/robotis_interfaces/msg/_move_l_s.c.s
 .PHONY : rosidl_generator_py/robotis_interfaces/msg/_move_l_s.c.s
+
+rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.o: rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.c.o
+.PHONY : rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.o
+
+# target to build an object file
+rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_py.dir/rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.c.o
+.PHONY : rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.c.o
+
+rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.i: rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.c.i
+.PHONY : rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.i
+
+# target to preprocess a source file
+rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_py.dir/rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.c.i
+.PHONY : rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.c.i
+
+rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.s: rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.c.s
+.PHONY : rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.s
+
+# target to generate assembly for a file
+rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_generator_py.dir/build.make CMakeFiles/robotis_interfaces__rosidl_generator_py.dir/rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.c.s
+.PHONY : rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.c.s
 
 rosidl_typesupport_c/robotis_interfaces/msg/hand_joints__type_support.o: rosidl_typesupport_c/robotis_interfaces/msg/hand_joints__type_support.cpp.o
 .PHONY : rosidl_typesupport_c/robotis_interfaces/msg/hand_joints__type_support.o
@@ -706,6 +911,30 @@ rosidl_typesupport_c/robotis_interfaces/msg/hand_joints__type_support.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/robotis_interfaces/msg/hand_joints__type_support.cpp.s
 .PHONY : rosidl_typesupport_c/robotis_interfaces/msg/hand_joints__type_support.cpp.s
 
+rosidl_typesupport_c/robotis_interfaces/msg/hand_pressures__type_support.o: rosidl_typesupport_c/robotis_interfaces/msg/hand_pressures__type_support.cpp.o
+.PHONY : rosidl_typesupport_c/robotis_interfaces/msg/hand_pressures__type_support.o
+
+# target to build an object file
+rosidl_typesupport_c/robotis_interfaces/msg/hand_pressures__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/robotis_interfaces/msg/hand_pressures__type_support.cpp.o
+.PHONY : rosidl_typesupport_c/robotis_interfaces/msg/hand_pressures__type_support.cpp.o
+
+rosidl_typesupport_c/robotis_interfaces/msg/hand_pressures__type_support.i: rosidl_typesupport_c/robotis_interfaces/msg/hand_pressures__type_support.cpp.i
+.PHONY : rosidl_typesupport_c/robotis_interfaces/msg/hand_pressures__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_c/robotis_interfaces/msg/hand_pressures__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/robotis_interfaces/msg/hand_pressures__type_support.cpp.i
+.PHONY : rosidl_typesupport_c/robotis_interfaces/msg/hand_pressures__type_support.cpp.i
+
+rosidl_typesupport_c/robotis_interfaces/msg/hand_pressures__type_support.s: rosidl_typesupport_c/robotis_interfaces/msg/hand_pressures__type_support.cpp.s
+.PHONY : rosidl_typesupport_c/robotis_interfaces/msg/hand_pressures__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_c/robotis_interfaces/msg/hand_pressures__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/robotis_interfaces/msg/hand_pressures__type_support.cpp.s
+.PHONY : rosidl_typesupport_c/robotis_interfaces/msg/hand_pressures__type_support.cpp.s
+
 rosidl_typesupport_c/robotis_interfaces/msg/move_l__type_support.o: rosidl_typesupport_c/robotis_interfaces/msg/move_l__type_support.cpp.o
 .PHONY : rosidl_typesupport_c/robotis_interfaces/msg/move_l__type_support.o
 
@@ -729,6 +958,30 @@ rosidl_typesupport_c/robotis_interfaces/msg/move_l__type_support.s: rosidl_types
 rosidl_typesupport_c/robotis_interfaces/msg/move_l__type_support.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/robotis_interfaces/msg/move_l__type_support.cpp.s
 .PHONY : rosidl_typesupport_c/robotis_interfaces/msg/move_l__type_support.cpp.s
+
+rosidl_typesupport_c/robotis_interfaces/msg/tactile_sensor__type_support.o: rosidl_typesupport_c/robotis_interfaces/msg/tactile_sensor__type_support.cpp.o
+.PHONY : rosidl_typesupport_c/robotis_interfaces/msg/tactile_sensor__type_support.o
+
+# target to build an object file
+rosidl_typesupport_c/robotis_interfaces/msg/tactile_sensor__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/robotis_interfaces/msg/tactile_sensor__type_support.cpp.o
+.PHONY : rosidl_typesupport_c/robotis_interfaces/msg/tactile_sensor__type_support.cpp.o
+
+rosidl_typesupport_c/robotis_interfaces/msg/tactile_sensor__type_support.i: rosidl_typesupport_c/robotis_interfaces/msg/tactile_sensor__type_support.cpp.i
+.PHONY : rosidl_typesupport_c/robotis_interfaces/msg/tactile_sensor__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_c/robotis_interfaces/msg/tactile_sensor__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/robotis_interfaces/msg/tactile_sensor__type_support.cpp.i
+.PHONY : rosidl_typesupport_c/robotis_interfaces/msg/tactile_sensor__type_support.cpp.i
+
+rosidl_typesupport_c/robotis_interfaces/msg/tactile_sensor__type_support.s: rosidl_typesupport_c/robotis_interfaces/msg/tactile_sensor__type_support.cpp.s
+.PHONY : rosidl_typesupport_c/robotis_interfaces/msg/tactile_sensor__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_c/robotis_interfaces/msg/tactile_sensor__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/robotis_interfaces/msg/tactile_sensor__type_support.cpp.s
+.PHONY : rosidl_typesupport_c/robotis_interfaces/msg/tactile_sensor__type_support.cpp.s
 
 rosidl_typesupport_cpp/robotis_interfaces/msg/hand_joints__type_support.o: rosidl_typesupport_cpp/robotis_interfaces/msg/hand_joints__type_support.cpp.o
 .PHONY : rosidl_typesupport_cpp/robotis_interfaces/msg/hand_joints__type_support.o
@@ -754,6 +1007,30 @@ rosidl_typesupport_cpp/robotis_interfaces/msg/hand_joints__type_support.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/robotis_interfaces/msg/hand_joints__type_support.cpp.s
 .PHONY : rosidl_typesupport_cpp/robotis_interfaces/msg/hand_joints__type_support.cpp.s
 
+rosidl_typesupport_cpp/robotis_interfaces/msg/hand_pressures__type_support.o: rosidl_typesupport_cpp/robotis_interfaces/msg/hand_pressures__type_support.cpp.o
+.PHONY : rosidl_typesupport_cpp/robotis_interfaces/msg/hand_pressures__type_support.o
+
+# target to build an object file
+rosidl_typesupport_cpp/robotis_interfaces/msg/hand_pressures__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/robotis_interfaces/msg/hand_pressures__type_support.cpp.o
+.PHONY : rosidl_typesupport_cpp/robotis_interfaces/msg/hand_pressures__type_support.cpp.o
+
+rosidl_typesupport_cpp/robotis_interfaces/msg/hand_pressures__type_support.i: rosidl_typesupport_cpp/robotis_interfaces/msg/hand_pressures__type_support.cpp.i
+.PHONY : rosidl_typesupport_cpp/robotis_interfaces/msg/hand_pressures__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_cpp/robotis_interfaces/msg/hand_pressures__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/robotis_interfaces/msg/hand_pressures__type_support.cpp.i
+.PHONY : rosidl_typesupport_cpp/robotis_interfaces/msg/hand_pressures__type_support.cpp.i
+
+rosidl_typesupport_cpp/robotis_interfaces/msg/hand_pressures__type_support.s: rosidl_typesupport_cpp/robotis_interfaces/msg/hand_pressures__type_support.cpp.s
+.PHONY : rosidl_typesupport_cpp/robotis_interfaces/msg/hand_pressures__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_cpp/robotis_interfaces/msg/hand_pressures__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/robotis_interfaces/msg/hand_pressures__type_support.cpp.s
+.PHONY : rosidl_typesupport_cpp/robotis_interfaces/msg/hand_pressures__type_support.cpp.s
+
 rosidl_typesupport_cpp/robotis_interfaces/msg/move_l__type_support.o: rosidl_typesupport_cpp/robotis_interfaces/msg/move_l__type_support.cpp.o
 .PHONY : rosidl_typesupport_cpp/robotis_interfaces/msg/move_l__type_support.o
 
@@ -777,6 +1054,30 @@ rosidl_typesupport_cpp/robotis_interfaces/msg/move_l__type_support.s: rosidl_typ
 rosidl_typesupport_cpp/robotis_interfaces/msg/move_l__type_support.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/robotis_interfaces/msg/move_l__type_support.cpp.s
 .PHONY : rosidl_typesupport_cpp/robotis_interfaces/msg/move_l__type_support.cpp.s
+
+rosidl_typesupport_cpp/robotis_interfaces/msg/tactile_sensor__type_support.o: rosidl_typesupport_cpp/robotis_interfaces/msg/tactile_sensor__type_support.cpp.o
+.PHONY : rosidl_typesupport_cpp/robotis_interfaces/msg/tactile_sensor__type_support.o
+
+# target to build an object file
+rosidl_typesupport_cpp/robotis_interfaces/msg/tactile_sensor__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/robotis_interfaces/msg/tactile_sensor__type_support.cpp.o
+.PHONY : rosidl_typesupport_cpp/robotis_interfaces/msg/tactile_sensor__type_support.cpp.o
+
+rosidl_typesupport_cpp/robotis_interfaces/msg/tactile_sensor__type_support.i: rosidl_typesupport_cpp/robotis_interfaces/msg/tactile_sensor__type_support.cpp.i
+.PHONY : rosidl_typesupport_cpp/robotis_interfaces/msg/tactile_sensor__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_cpp/robotis_interfaces/msg/tactile_sensor__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/robotis_interfaces/msg/tactile_sensor__type_support.cpp.i
+.PHONY : rosidl_typesupport_cpp/robotis_interfaces/msg/tactile_sensor__type_support.cpp.i
+
+rosidl_typesupport_cpp/robotis_interfaces/msg/tactile_sensor__type_support.s: rosidl_typesupport_cpp/robotis_interfaces/msg/tactile_sensor__type_support.cpp.s
+.PHONY : rosidl_typesupport_cpp/robotis_interfaces/msg/tactile_sensor__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_cpp/robotis_interfaces/msg/tactile_sensor__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_cpp.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/robotis_interfaces/msg/tactile_sensor__type_support.cpp.s
+.PHONY : rosidl_typesupport_cpp/robotis_interfaces/msg/tactile_sensor__type_support.cpp.s
 
 rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_joints__type_support_c.o: rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_joints__type_support_c.cpp.o
 .PHONY : rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_joints__type_support_c.o
@@ -802,6 +1103,30 @@ rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_joints__type_su
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_joints__type_support_c.cpp.s
 .PHONY : rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_joints__type_support_c.cpp.s
 
+rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_pressures__type_support_c.o: rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_pressures__type_support_c.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_pressures__type_support_c.o
+
+# target to build an object file
+rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_pressures__type_support_c.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_pressures__type_support_c.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_pressures__type_support_c.cpp.o
+
+rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_pressures__type_support_c.i: rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_pressures__type_support_c.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_pressures__type_support_c.i
+
+# target to preprocess a source file
+rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_pressures__type_support_c.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_pressures__type_support_c.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_pressures__type_support_c.cpp.i
+
+rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_pressures__type_support_c.s: rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_pressures__type_support_c.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_pressures__type_support_c.s
+
+# target to generate assembly for a file
+rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_pressures__type_support_c.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_pressures__type_support_c.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_pressures__type_support_c.cpp.s
+
 rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/move_l__type_support_c.o: rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/move_l__type_support_c.cpp.o
 .PHONY : rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/move_l__type_support_c.o
 
@@ -825,6 +1150,30 @@ rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/move_l__type_support
 rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/move_l__type_support_c.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/move_l__type_support_c.cpp.s
 .PHONY : rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/move_l__type_support_c.cpp.s
+
+rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/tactile_sensor__type_support_c.o: rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/tactile_sensor__type_support_c.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/tactile_sensor__type_support_c.o
+
+# target to build an object file
+rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/tactile_sensor__type_support_c.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/tactile_sensor__type_support_c.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/tactile_sensor__type_support_c.cpp.o
+
+rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/tactile_sensor__type_support_c.i: rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/tactile_sensor__type_support_c.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/tactile_sensor__type_support_c.i
+
+# target to preprocess a source file
+rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/tactile_sensor__type_support_c.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/tactile_sensor__type_support_c.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/tactile_sensor__type_support_c.cpp.i
+
+rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/tactile_sensor__type_support_c.s: rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/tactile_sensor__type_support_c.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/tactile_sensor__type_support_c.s
+
+# target to generate assembly for a file
+rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/tactile_sensor__type_support_c.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/tactile_sensor__type_support_c.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/tactile_sensor__type_support_c.cpp.s
 
 rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_joints__type_support.o: rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_joints__type_support.cpp.o
 .PHONY : rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_joints__type_support.o
@@ -850,6 +1199,30 @@ rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_joints__type_support.cpp.s
 .PHONY : rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_joints__type_support.cpp.s
 
+rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_pressures__type_support.o: rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_pressures__type_support.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_pressures__type_support.o
+
+# target to build an object file
+rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_pressures__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_pressures__type_support.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_pressures__type_support.cpp.o
+
+rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_pressures__type_support.i: rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_pressures__type_support.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_pressures__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_pressures__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_pressures__type_support.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_pressures__type_support.cpp.i
+
+rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_pressures__type_support.s: rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_pressures__type_support.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_pressures__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_pressures__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_pressures__type_support.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_pressures__type_support.cpp.s
+
 rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/move_l__type_support.o: rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/move_l__type_support.cpp.o
 .PHONY : rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/move_l__type_support.o
 
@@ -873,6 +1246,30 @@ rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/move_
 rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/move_l__type_support.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/move_l__type_support.cpp.s
 .PHONY : rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/move_l__type_support.cpp.s
+
+rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/tactile_sensor__type_support.o: rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/tactile_sensor__type_support.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/tactile_sensor__type_support.o
+
+# target to build an object file
+rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/tactile_sensor__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/tactile_sensor__type_support.cpp.o
+.PHONY : rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/tactile_sensor__type_support.cpp.o
+
+rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/tactile_sensor__type_support.i: rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/tactile_sensor__type_support.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/tactile_sensor__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/tactile_sensor__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/tactile_sensor__type_support.cpp.i
+.PHONY : rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/tactile_sensor__type_support.cpp.i
+
+rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/tactile_sensor__type_support.s: rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/tactile_sensor__type_support.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/tactile_sensor__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/tactile_sensor__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_cpp.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/tactile_sensor__type_support.cpp.s
+.PHONY : rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/tactile_sensor__type_support.cpp.s
 
 rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__type_support.o: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__type_support.c.o
 .PHONY : rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__type_support.o
@@ -898,6 +1295,30 @@ rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__ty
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__type_support.c.s
 .PHONY : rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__type_support.c.s
 
+rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.o: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o
+.PHONY : rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.o
+
+# target to build an object file
+rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o
+.PHONY : rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o
+
+rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.i: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.i
+.PHONY : rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.i
+.PHONY : rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.i
+
+rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.s: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.s
+.PHONY : rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.s
+.PHONY : rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.s
+
 rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.o: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c.o
 .PHONY : rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.o
 
@@ -921,6 +1342,30 @@ rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_su
 rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c.s
 .PHONY : rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c.s
+
+rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.o: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o
+.PHONY : rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.o
+
+# target to build an object file
+rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o
+.PHONY : rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o
+
+rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.i: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.i
+.PHONY : rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.i
+.PHONY : rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.i
+
+rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.s: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.s
+.PHONY : rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.s
+.PHONY : rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.s
 
 rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_joints__type_support.o: rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_joints__type_support.cpp.o
 .PHONY : rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_joints__type_support.o
@@ -946,6 +1391,30 @@ rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_joints__
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_joints__type_support.cpp.s
 .PHONY : rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_joints__type_support.cpp.s
 
+rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.o: rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.cpp.o
+.PHONY : rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.o
+
+# target to build an object file
+rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.cpp.o
+.PHONY : rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.cpp.o
+
+rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.i: rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.cpp.i
+.PHONY : rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.cpp.i
+.PHONY : rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.cpp.i
+
+rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.s: rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.cpp.s
+.PHONY : rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.cpp.s
+.PHONY : rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.cpp.s
+
 rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/move_l__type_support.o: rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/move_l__type_support.cpp.o
 .PHONY : rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/move_l__type_support.o
 
@@ -970,6 +1439,30 @@ rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/move_l__type_
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/move_l__type_support.cpp.s
 .PHONY : rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/move_l__type_support.cpp.s
 
+rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.o: rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.cpp.o
+.PHONY : rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.o
+
+# target to build an object file
+rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.cpp.o
+.PHONY : rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.cpp.o
+
+rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.i: rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.cpp.i
+.PHONY : rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.i
+
+# target to preprocess a source file
+rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.cpp.i
+.PHONY : rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.cpp.i
+
+rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.s: rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.cpp.s
+.PHONY : rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.s
+
+# target to generate assembly for a file
+rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_cpp.dir/build.make CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.cpp.s
+.PHONY : rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -989,6 +1482,7 @@ help:
 	@echo "... robotis_interfaces__cpp"
 	@echo "... robotis_interfaces__py"
 	@echo "... robotis_interfaces__rosidl_generator_type_description"
+	@echo "... robotis_interfaces__rs"
 	@echo "... robotis_interfaces_uninstall"
 	@echo "... uninstall"
 	@echo "... robotis_interfaces__rosidl_generator_c"
@@ -1011,6 +1505,15 @@ help:
 	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.o"
 	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.i"
 	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.s"
+	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.o"
+	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.i"
+	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.s"
+	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.o"
+	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.i"
+	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.s"
+	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.o"
+	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.i"
+	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.s"
 	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.o"
 	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.i"
 	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.s"
@@ -1020,6 +1523,15 @@ help:
 	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.o"
 	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.i"
 	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.s"
+	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.o"
+	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.i"
+	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.s"
+	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.o"
+	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.i"
+	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.s"
+	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.o"
+	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.i"
+	@echo "... rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.s"
 	@echo "... rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_c.o"
 	@echo "... rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_c.i"
 	@echo "... rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_c.s"
@@ -1032,45 +1544,87 @@ help:
 	@echo "... rosidl_generator_py/robotis_interfaces/msg/_hand_joints_s.o"
 	@echo "... rosidl_generator_py/robotis_interfaces/msg/_hand_joints_s.i"
 	@echo "... rosidl_generator_py/robotis_interfaces/msg/_hand_joints_s.s"
+	@echo "... rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.o"
+	@echo "... rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.i"
+	@echo "... rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.s"
 	@echo "... rosidl_generator_py/robotis_interfaces/msg/_move_l_s.o"
 	@echo "... rosidl_generator_py/robotis_interfaces/msg/_move_l_s.i"
 	@echo "... rosidl_generator_py/robotis_interfaces/msg/_move_l_s.s"
+	@echo "... rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.o"
+	@echo "... rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.i"
+	@echo "... rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.s"
 	@echo "... rosidl_typesupport_c/robotis_interfaces/msg/hand_joints__type_support.o"
 	@echo "... rosidl_typesupport_c/robotis_interfaces/msg/hand_joints__type_support.i"
 	@echo "... rosidl_typesupport_c/robotis_interfaces/msg/hand_joints__type_support.s"
+	@echo "... rosidl_typesupport_c/robotis_interfaces/msg/hand_pressures__type_support.o"
+	@echo "... rosidl_typesupport_c/robotis_interfaces/msg/hand_pressures__type_support.i"
+	@echo "... rosidl_typesupport_c/robotis_interfaces/msg/hand_pressures__type_support.s"
 	@echo "... rosidl_typesupport_c/robotis_interfaces/msg/move_l__type_support.o"
 	@echo "... rosidl_typesupport_c/robotis_interfaces/msg/move_l__type_support.i"
 	@echo "... rosidl_typesupport_c/robotis_interfaces/msg/move_l__type_support.s"
+	@echo "... rosidl_typesupport_c/robotis_interfaces/msg/tactile_sensor__type_support.o"
+	@echo "... rosidl_typesupport_c/robotis_interfaces/msg/tactile_sensor__type_support.i"
+	@echo "... rosidl_typesupport_c/robotis_interfaces/msg/tactile_sensor__type_support.s"
 	@echo "... rosidl_typesupport_cpp/robotis_interfaces/msg/hand_joints__type_support.o"
 	@echo "... rosidl_typesupport_cpp/robotis_interfaces/msg/hand_joints__type_support.i"
 	@echo "... rosidl_typesupport_cpp/robotis_interfaces/msg/hand_joints__type_support.s"
+	@echo "... rosidl_typesupport_cpp/robotis_interfaces/msg/hand_pressures__type_support.o"
+	@echo "... rosidl_typesupport_cpp/robotis_interfaces/msg/hand_pressures__type_support.i"
+	@echo "... rosidl_typesupport_cpp/robotis_interfaces/msg/hand_pressures__type_support.s"
 	@echo "... rosidl_typesupport_cpp/robotis_interfaces/msg/move_l__type_support.o"
 	@echo "... rosidl_typesupport_cpp/robotis_interfaces/msg/move_l__type_support.i"
 	@echo "... rosidl_typesupport_cpp/robotis_interfaces/msg/move_l__type_support.s"
+	@echo "... rosidl_typesupport_cpp/robotis_interfaces/msg/tactile_sensor__type_support.o"
+	@echo "... rosidl_typesupport_cpp/robotis_interfaces/msg/tactile_sensor__type_support.i"
+	@echo "... rosidl_typesupport_cpp/robotis_interfaces/msg/tactile_sensor__type_support.s"
 	@echo "... rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_joints__type_support_c.o"
 	@echo "... rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_joints__type_support_c.i"
 	@echo "... rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_joints__type_support_c.s"
+	@echo "... rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_pressures__type_support_c.o"
+	@echo "... rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_pressures__type_support_c.i"
+	@echo "... rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/hand_pressures__type_support_c.s"
 	@echo "... rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/move_l__type_support_c.o"
 	@echo "... rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/move_l__type_support_c.i"
 	@echo "... rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/move_l__type_support_c.s"
+	@echo "... rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/tactile_sensor__type_support_c.o"
+	@echo "... rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/tactile_sensor__type_support_c.i"
+	@echo "... rosidl_typesupport_fastrtps_c/robotis_interfaces/msg/detail/tactile_sensor__type_support_c.s"
 	@echo "... rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_joints__type_support.o"
 	@echo "... rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_joints__type_support.i"
 	@echo "... rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_joints__type_support.s"
+	@echo "... rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_pressures__type_support.o"
+	@echo "... rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_pressures__type_support.i"
+	@echo "... rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/hand_pressures__type_support.s"
 	@echo "... rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/move_l__type_support.o"
 	@echo "... rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/move_l__type_support.i"
 	@echo "... rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/move_l__type_support.s"
+	@echo "... rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/tactile_sensor__type_support.o"
+	@echo "... rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/tactile_sensor__type_support.i"
+	@echo "... rosidl_typesupport_fastrtps_cpp/robotis_interfaces/msg/detail/dds_fastrtps/tactile_sensor__type_support.s"
 	@echo "... rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__type_support.o"
 	@echo "... rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__type_support.i"
 	@echo "... rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__type_support.s"
+	@echo "... rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.o"
+	@echo "... rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.i"
+	@echo "... rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.s"
 	@echo "... rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.o"
 	@echo "... rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.i"
 	@echo "... rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.s"
+	@echo "... rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.o"
+	@echo "... rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.i"
+	@echo "... rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.s"
 	@echo "... rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_joints__type_support.o"
 	@echo "... rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_joints__type_support.i"
 	@echo "... rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_joints__type_support.s"
+	@echo "... rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.o"
+	@echo "... rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.i"
+	@echo "... rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.s"
 	@echo "... rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/move_l__type_support.o"
 	@echo "... rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/move_l__type_support.i"
 	@echo "... rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/move_l__type_support.s"
+	@echo "... rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.o"
+	@echo "... rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.i"
+	@echo "... rosidl_typesupport_introspection_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.s"
 .PHONY : help
 
 

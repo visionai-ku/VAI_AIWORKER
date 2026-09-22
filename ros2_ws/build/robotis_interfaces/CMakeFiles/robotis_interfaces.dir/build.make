@@ -67,7 +67,9 @@ include CMakeFiles/robotis_interfaces.dir/compiler_depend.make
 include CMakeFiles/robotis_interfaces.dir/progress.make
 
 CMakeFiles/robotis_interfaces: /root/ros2_ws/src/robotis_interfaces/msg/HandJoints.msg
+CMakeFiles/robotis_interfaces: /root/ros2_ws/src/robotis_interfaces/msg/HandPressures.msg
 CMakeFiles/robotis_interfaces: /root/ros2_ws/src/robotis_interfaces/msg/MoveL.msg
+CMakeFiles/robotis_interfaces: /root/ros2_ws/src/robotis_interfaces/msg/TactileSensor.msg
 CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/builtin_interfaces/msg/Duration.idl
 CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/builtin_interfaces/msg/Time.idl
 CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/geometry_msgs/msg/Accel.idl
@@ -102,6 +104,36 @@ CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/geometry_msgs/msg/Vector3Sta
 CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/geometry_msgs/msg/VelocityStamped.idl
 CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/geometry_msgs/msg/Wrench.idl
 CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/geometry_msgs/msg/WrenchStamped.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/Bool.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/Byte.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/ByteMultiArray.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/Char.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/ColorRGBA.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/Empty.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/Float32.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/Float32MultiArray.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/Float64.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/Float64MultiArray.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/Header.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/Int16.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/Int16MultiArray.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/Int32.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/Int32MultiArray.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/Int64.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/Int64MultiArray.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/Int8.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/Int8MultiArray.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/MultiArrayDimension.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/MultiArrayLayout.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/String.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/UInt16.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/UInt16MultiArray.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/UInt32.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/UInt32MultiArray.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/UInt64.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/UInt64MultiArray.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/UInt8.idl
+CMakeFiles/robotis_interfaces: /opt/ros/jazzy/share/std_msgs/msg/UInt8MultiArray.idl
 
 CMakeFiles/robotis_interfaces.dir/codegen:
 .PHONY : CMakeFiles/robotis_interfaces.dir/codegen

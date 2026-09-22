@@ -1,0 +1,137 @@
+CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- The C compiler identification is GNU 13.3.0
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+-- Found Python3: /opt/venv/bin/python3 (found version "3.12.3") found components: Interpreter
+-- Override CMake install command with custom implementation using symlinks instead of copying resources
+-- Found rclcpp: 28.1.18 (/opt/ros/jazzy/share/rclcpp/cmake)
+-- Found rosidl_generator_c: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+-- Found rosidl_generator_cpp: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 8.4.3 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+-- Found OpenSSL: /usr/lib/aarch64-linux-gnu/libcrypto.so (found version "3.0.13")
+-- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13")
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Found rclpy: 7.1.11 (/opt/ros/jazzy/share/rclpy/cmake)
+-- Found sensor_msgs: 5.3.7 (/opt/ros/jazzy/share/sensor_msgs/cmake)
+-- Found CURL: /usr/lib/aarch64-linux-gnu/libcurl.so (found version "8.5.0")
+-- Found ament_lint_auto: 0.17.5 (/opt/ros/jazzy/share/ament_lint_auto/cmake)
+-- Added test 'cppcheck' to perform static code analysis on C / C++ code
+-- Configured cppcheck include dirs: 
+-- Configured cppcheck exclude dirs and/or files: 
+-- Added test 'flake8' to check Python code syntax and style conventions
+-- Configured 'flake8' exclude dirs and/or files: 
+-- Added test 'lint_cmake' to check CMake code style
+-- Added test 'pep257' to check Python code against some of the docstring style conventions in PEP 257
+-- Added test 'uncrustify' to check C / C++ code style
+-- Configured uncrustify additional arguments: 
+-- Added test 'xmllint' to check XML markup files
+-- Configuring done (6.7s)
+-- Generating done (0.0s)
+-- Build files have been written to: /root/ros2_ws/build/lakibeam1
+[ 33%] Building CXX object CMakeFiles/lakibeam1_scan_node.dir/src/lakibeam1_scan.cpp.o
+[ 66%] Building CXX object CMakeFiles/lakibeam1_scan_node.dir/src/remote.cpp.o
+In file included from /root/ros2_ws/src/Lakibeam_ROS2_Driver/src/remote.cpp:4:
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/../thirdparty/rapidjson/document.h:102:19: warning: ‘template<class _Category, class _Tp, class _Distance, class _Pointer, class _Reference> struct std::iterator’ is deprecated [-Wdeprecated-declarations]
+  102 |     : public std::iterator<std::random_access_iterator_tag
+      |                   ^~~~~~~~
+In file included from /usr/include/c++/13/bits/stl_construct.h:61,
+                 from /usr/include/c++/13/bits/stl_tempbuf.h:61,
+                 from /usr/include/c++/13/memory:66,
+                 from /opt/ros/jazzy/include/rclcpp/rclcpp/rclcpp.hpp:169,
+                 from /root/ros2_ws/src/Lakibeam_ROS2_Driver/src/remote.cpp:2:
+/usr/include/c++/13/bits/stl_iterator_base_types.h:127:34: note: declared here
+  127 |     struct _GLIBCXX17_DEPRECATED iterator
+      |                                  ^~~~~~~~
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/../thirdparty/rapidjson/document.h:110:18: warning: ‘template<class _Category, class _Tp, class _Distance, class _Pointer, class _Reference> struct std::iterator’ is deprecated [-Wdeprecated-declarations]
+  110 |     typedef std::iterator<std::random_access_iterator_tag,ValueType> BaseType;
+      |                  ^~~~~~~~
+/usr/include/c++/13/bits/stl_iterator_base_types.h:127:34: note: declared here
+  127 |     struct _GLIBCXX17_DEPRECATED iterator
+      |                                  ^~~~~~~~
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/remote.cpp: In function ‘size_t dummy_callback(void*, size_t, size_t, void*)’:
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/remote.cpp:16:36: warning: unused parameter ‘buffer’ [-Wunused-parameter]
+   16 | static size_t dummy_callback(void *buffer, size_t size, size_t nmemb, void *userp)
+      |                              ~~~~~~^~~~~~
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/remote.cpp:16:77: warning: unused parameter ‘userp’ [-Wunused-parameter]
+   16 | static size_t dummy_callback(void *buffer, size_t size, size_t nmemb, void *userp)
+      |                                                                       ~~~~~~^~~~~
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/../thirdparty/rapidjson/document.h: In instantiation of ‘void rapidjson::GenericValue<Encoding, Allocator>::SetObjectRaw(Member*, rapidjson::SizeType, Allocator&) [with Encoding = rapidjson::UTF8<>; Allocator = rapidjson::MemoryPoolAllocator<>; Member = rapidjson::GenericMember<rapidjson::UTF8<>, rapidjson::MemoryPoolAllocator<> >; rapidjson::SizeType = unsigned int]’:
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/../thirdparty/rapidjson/document.h:2363:55:   required from ‘bool rapidjson::GenericDocument<Encoding, Allocator, StackAllocator>::EndObject(rapidjson::SizeType) [with Encoding = rapidjson::UTF8<>; Allocator = rapidjson::MemoryPoolAllocator<>; StackAllocator = rapidjson::CrtAllocator; rapidjson::SizeType = unsigned int]’
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/../thirdparty/rapidjson/reader.h:1736:40:   required from ‘rapidjson::GenericReader<SourceEncoding, TargetEncoding, StackAllocator>::IterativeParsingState rapidjson::GenericReader<SourceEncoding, TargetEncoding, StackAllocator>::Transit(IterativeParsingState, Token, IterativeParsingState, InputStream&, Handler&) [with unsigned int parseFlags = 0; InputStream = rapidjson::GenericStringStream<rapidjson::UTF8<> >; Handler = rapidjson::GenericDocument<rapidjson::UTF8<> >; SourceEncoding = rapidjson::UTF8<>; TargetEncoding = rapidjson::UTF8<>; StackAllocator = rapidjson::CrtAllocator]’
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/../thirdparty/rapidjson/reader.h:1832:58:   required from ‘rapidjson::ParseResult rapidjson::GenericReader<SourceEncoding, TargetEncoding, StackAllocator>::IterativeParse(InputStream&, Handler&) [with unsigned int parseFlags = 0; InputStream = rapidjson::GenericStringStream<rapidjson::UTF8<> >; Handler = rapidjson::GenericDocument<rapidjson::UTF8<> >; SourceEncoding = rapidjson::UTF8<>; TargetEncoding = rapidjson::UTF8<>; StackAllocator = rapidjson::CrtAllocator]’
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/../thirdparty/rapidjson/reader.h:487:46:   required from ‘rapidjson::ParseResult rapidjson::GenericReader<SourceEncoding, TargetEncoding, StackAllocator>::Parse(InputStream&, Handler&) [with unsigned int parseFlags = 0; InputStream = rapidjson::GenericStringStream<rapidjson::UTF8<> >; Handler = rapidjson::GenericDocument<rapidjson::UTF8<> >; SourceEncoding = rapidjson::UTF8<>; TargetEncoding = rapidjson::UTF8<>; StackAllocator = rapidjson::CrtAllocator]’
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/../thirdparty/rapidjson/document.h:2159:57:   required from ‘rapidjson::GenericDocument<Encoding, Allocator, StackAllocator>& rapidjson::GenericDocument<Encoding, Allocator, StackAllocator>::ParseStream(InputStream&) [with unsigned int parseFlags = 0; SourceEncoding = rapidjson::UTF8<>; InputStream = rapidjson::GenericStringStream<rapidjson::UTF8<> >; Encoding = rapidjson::UTF8<>; Allocator = rapidjson::MemoryPoolAllocator<>; StackAllocator = rapidjson::CrtAllocator]’
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/../thirdparty/rapidjson/document.h:2224:55:   required from ‘rapidjson::GenericDocument<Encoding, Allocator, StackAllocator>& rapidjson::GenericDocument<Encoding, Allocator, StackAllocator>::Parse(const typename SourceEncoding::Ch*) [with unsigned int parseFlags = 0; SourceEncoding = rapidjson::UTF8<>; Encoding = rapidjson::UTF8<>; Allocator = rapidjson::MemoryPoolAllocator<>; StackAllocator = rapidjson::CrtAllocator; typename SourceEncoding::Ch = char]’
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/../thirdparty/rapidjson/document.h:2233:43:   required from ‘rapidjson::GenericDocument<Encoding, Allocator, StackAllocator>& rapidjson::GenericDocument<Encoding, Allocator, StackAllocator>::Parse(const Ch*) [with unsigned int parseFlags = 0; Encoding = rapidjson::UTF8<>; Allocator = rapidjson::MemoryPoolAllocator<>; StackAllocator = rapidjson::CrtAllocator; Ch = char]’
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/../thirdparty/rapidjson/document.h:2240:41:   required from ‘rapidjson::GenericDocument<Encoding, Allocator, StackAllocator>& rapidjson::GenericDocument<Encoding, Allocator, StackAllocator>::Parse(const Ch*) [with Encoding = rapidjson::UTF8<>; Allocator = rapidjson::MemoryPoolAllocator<>; StackAllocator = rapidjson::CrtAllocator; Ch = char]’
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/remote.cpp:76:16:   required from here
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/../thirdparty/rapidjson/document.h:1952:24: warning: ‘void* memcpy(void*, const void*, size_t)’ writing to an object of type ‘rapidjson::GenericValue<rapidjson::UTF8<> >::Member’ {aka ‘struct rapidjson::GenericMember<rapidjson::UTF8<>, rapidjson::MemoryPoolAllocator<> >’} with no trivial copy-assignment; use copy-assignment instead [-Wclass-memaccess]
+ 1952 |             std::memcpy(m, members, count * sizeof(Member));
+      |             ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/../thirdparty/rapidjson/document.h:71:8: note: ‘rapidjson::GenericValue<rapidjson::UTF8<> >::Member’ {aka ‘struct rapidjson::GenericMember<rapidjson::UTF8<>, rapidjson::MemoryPoolAllocator<> >’} declared here
+   71 | struct GenericMember {
+      |        ^~~~~~~~~~~~~
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/../thirdparty/rapidjson/document.h: In instantiation of ‘void rapidjson::GenericValue<Encoding, Allocator>::SetArrayRaw(rapidjson::GenericValue<Encoding, Allocator>*, rapidjson::SizeType, Allocator&) [with Encoding = rapidjson::UTF8<>; Allocator = rapidjson::MemoryPoolAllocator<>; rapidjson::SizeType = unsigned int]’:
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/../thirdparty/rapidjson/document.h:2371:54:   required from ‘bool rapidjson::GenericDocument<Encoding, Allocator, StackAllocator>::EndArray(rapidjson::SizeType) [with Encoding = rapidjson::UTF8<>; Allocator = rapidjson::MemoryPoolAllocator<>; StackAllocator = rapidjson::CrtAllocator; rapidjson::SizeType = unsigned int]’
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/../thirdparty/rapidjson/reader.h:1766:39:   required from ‘rapidjson::GenericReader<SourceEncoding, TargetEncoding, StackAllocator>::IterativeParsingState rapidjson::GenericReader<SourceEncoding, TargetEncoding, StackAllocator>::Transit(IterativeParsingState, Token, IterativeParsingState, InputStream&, Handler&) [with unsigned int parseFlags = 0; InputStream = rapidjson::GenericStringStream<rapidjson::UTF8<> >; Handler = rapidjson::GenericDocument<rapidjson::UTF8<> >; SourceEncoding = rapidjson::UTF8<>; TargetEncoding = rapidjson::UTF8<>; StackAllocator = rapidjson::CrtAllocator]’
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/../thirdparty/rapidjson/reader.h:1832:58:   required from ‘rapidjson::ParseResult rapidjson::GenericReader<SourceEncoding, TargetEncoding, StackAllocator>::IterativeParse(InputStream&, Handler&) [with unsigned int parseFlags = 0; InputStream = rapidjson::GenericStringStream<rapidjson::UTF8<> >; Handler = rapidjson::GenericDocument<rapidjson::UTF8<> >; SourceEncoding = rapidjson::UTF8<>; TargetEncoding = rapidjson::UTF8<>; StackAllocator = rapidjson::CrtAllocator]’
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/../thirdparty/rapidjson/reader.h:487:46:   required from ‘rapidjson::ParseResult rapidjson::GenericReader<SourceEncoding, TargetEncoding, StackAllocator>::Parse(InputStream&, Handler&) [with unsigned int parseFlags = 0; InputStream = rapidjson::GenericStringStream<rapidjson::UTF8<> >; Handler = rapidjson::GenericDocument<rapidjson::UTF8<> >; SourceEncoding = rapidjson::UTF8<>; TargetEncoding = rapidjson::UTF8<>; StackAllocator = rapidjson::CrtAllocator]’
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/../thirdparty/rapidjson/document.h:2159:57:   required from ‘rapidjson::GenericDocument<Encoding, Allocator, StackAllocator>& rapidjson::GenericDocument<Encoding, Allocator, StackAllocator>::ParseStream(InputStream&) [with unsigned int parseFlags = 0; SourceEncoding = rapidjson::UTF8<>; InputStream = rapidjson::GenericStringStream<rapidjson::UTF8<> >; Encoding = rapidjson::UTF8<>; Allocator = rapidjson::MemoryPoolAllocator<>; StackAllocator = rapidjson::CrtAllocator]’
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/../thirdparty/rapidjson/document.h:2224:55:   required from ‘rapidjson::GenericDocument<Encoding, Allocator, StackAllocator>& rapidjson::GenericDocument<Encoding, Allocator, StackAllocator>::Parse(const typename SourceEncoding::Ch*) [with unsigned int parseFlags = 0; SourceEncoding = rapidjson::UTF8<>; Encoding = rapidjson::UTF8<>; Allocator = rapidjson::MemoryPoolAllocator<>; StackAllocator = rapidjson::CrtAllocator; typename SourceEncoding::Ch = char]’
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/../thirdparty/rapidjson/document.h:2233:43:   required from ‘rapidjson::GenericDocument<Encoding, Allocator, StackAllocator>& rapidjson::GenericDocument<Encoding, Allocator, StackAllocator>::Parse(const Ch*) [with unsigned int parseFlags = 0; Encoding = rapidjson::UTF8<>; Allocator = rapidjson::MemoryPoolAllocator<>; StackAllocator = rapidjson::CrtAllocator; Ch = char]’
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/../thirdparty/rapidjson/document.h:2240:41:   required from ‘rapidjson::GenericDocument<Encoding, Allocator, StackAllocator>& rapidjson::GenericDocument<Encoding, Allocator, StackAllocator>::Parse(const Ch*) [with Encoding = rapidjson::UTF8<>; Allocator = rapidjson::MemoryPoolAllocator<>; StackAllocator = rapidjson::CrtAllocator; Ch = char]’
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/remote.cpp:76:16:   required from here
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/../thirdparty/rapidjson/document.h:1939:24: warning: ‘void* memcpy(void*, const void*, size_t)’ writing to an object of type ‘class rapidjson::GenericValue<rapidjson::UTF8<> >’ with no trivial copy-assignment; use copy-assignment or copy-initialization instead [-Wclass-memaccess]
+ 1939 |             std::memcpy(e, values, count * sizeof(GenericValue));
+      |             ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/root/ros2_ws/src/Lakibeam_ROS2_Driver/src/../thirdparty/rapidjson/document.h:540:7: note: ‘class rapidjson::GenericValue<rapidjson::UTF8<> >’ declared here
+  540 | class GenericValue {
+      |       ^~~~~~~~~~~~
+[100%] Linking CXX executable lakibeam1_scan_node
+[100%] Built target lakibeam1_scan_node
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Symlinking: /root/ros2_ws/install/lakibeam1/share/ament_index/resource_index/package_run_dependencies/lakibeam1
+-- Symlinking: /root/ros2_ws/install/lakibeam1/share/ament_index/resource_index/parent_prefix_path/lakibeam1
+-- Symlinking: /root/ros2_ws/install/lakibeam1/share/lakibeam1/environment/ament_prefix_path.sh
+-- Symlinking: /root/ros2_ws/install/lakibeam1/share/lakibeam1/environment/ament_prefix_path.dsv
+-- Symlinking: /root/ros2_ws/install/lakibeam1/share/lakibeam1/environment/path.sh
+-- Symlinking: /root/ros2_ws/install/lakibeam1/share/lakibeam1/environment/path.dsv
+-- Symlinking: /root/ros2_ws/install/lakibeam1/share/lakibeam1/local_setup.bash
+-- Symlinking: /root/ros2_ws/install/lakibeam1/share/lakibeam1/local_setup.sh
+-- Symlinking: /root/ros2_ws/install/lakibeam1/share/lakibeam1/local_setup.zsh
+-- Symlinking: /root/ros2_ws/install/lakibeam1/share/lakibeam1/local_setup.dsv
+-- Symlinking: /root/ros2_ws/install/lakibeam1/share/lakibeam1/package.dsv
+-- Symlinking: /root/ros2_ws/install/lakibeam1/share/ament_index/resource_index/packages/lakibeam1
+-- Symlinking: /root/ros2_ws/install/lakibeam1/share/lakibeam1/cmake/lakibeam1Config.cmake
+-- Symlinking: /root/ros2_ws/install/lakibeam1/share/lakibeam1/cmake/lakibeam1Config-version.cmake
+-- Symlinking: /root/ros2_ws/install/lakibeam1/share/lakibeam1/package.xml
+-- Symlinking: /root/ros2_ws/install/lakibeam1/lib/lakibeam1/lakibeam1_scan_node
+-- Symlinking: /root/ros2_ws/install/lakibeam1/share/lakibeam1/launch/lakibeam1_scan.launch.py
+-- Symlinking: /root/ros2_ws/install/lakibeam1/share/lakibeam1/launch/lakibeam1_scan_dual_lidar.launch.py
+-- Symlinking: /root/ros2_ws/install/lakibeam1/share/lakibeam1/launch/lakibeam1_scan_dual_lidar_view.launch.py
+-- Symlinking: /root/ros2_ws/install/lakibeam1/share/lakibeam1/launch/lakibeam1_scan_view.launch.py
+-- Symlinking: /root/ros2_ws/install/lakibeam1/share/lakibeam1/rviz/lakibeam1_scan.rviz
+-- Symlinking: /root/ros2_ws/install/lakibeam1/share/lakibeam1/rviz/lakibeam1_scan_dual.rviz
+-- Symlinking: /root/ros2_ws/install/lakibeam1/share/lakibeam1/rviz/rviz_scan.rviz

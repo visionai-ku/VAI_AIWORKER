@@ -1,0 +1,15 @@
+/root/ros2_ws/install/robotis_hand/share/ament_index/resource_index/package_run_dependencies/robotis_hand
+/root/ros2_ws/install/robotis_hand/share/ament_index/resource_index/parent_prefix_path/robotis_hand
+/root/ros2_ws/install/robotis_hand/share/robotis_hand/environment/ament_prefix_path.sh
+/root/ros2_ws/install/robotis_hand/share/robotis_hand/environment/ament_prefix_path.dsv
+/root/ros2_ws/install/robotis_hand/share/robotis_hand/environment/path.sh
+/root/ros2_ws/install/robotis_hand/share/robotis_hand/environment/path.dsv
+/root/ros2_ws/install/robotis_hand/share/robotis_hand/local_setup.bash
+/root/ros2_ws/install/robotis_hand/share/robotis_hand/local_setup.sh
+/root/ros2_ws/install/robotis_hand/share/robotis_hand/local_setup.zsh
+/root/ros2_ws/install/robotis_hand/share/robotis_hand/local_setup.dsv
+/root/ros2_ws/install/robotis_hand/share/robotis_hand/package.dsv
+/root/ros2_ws/install/robotis_hand/share/ament_index/resource_index/packages/robotis_hand
+/root/ros2_ws/install/robotis_hand/share/robotis_hand/cmake/robotis_handConfig.cmake
+/root/ros2_ws/install/robotis_hand/share/robotis_hand/cmake/robotis_handConfig-version.cmake
+/root/ros2_ws/install/robotis_hand/share/robotis_hand/package.xml

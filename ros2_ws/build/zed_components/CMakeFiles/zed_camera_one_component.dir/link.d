@@ -209,7 +209,7 @@ libzed_camera_one_component.so: \
   /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so \
   /opt/ros/jazzy/lib/librmw.so \
   /opt/ros/jazzy/lib/librosidl_dynamic_typesupport.so \
-  /opt/ros/jazzy/lib/libfastcdr.so.2.2.5 \
+  /opt/ros/jazzy/lib/libfastcdr.so.2.2.7 \
   /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_cpp.so \
   /opt/ros/jazzy/lib/librosidl_typesupport_introspection_cpp.so \
   /opt/ros/jazzy/lib/librosidl_typesupport_introspection_c.so \
@@ -226,6 +226,7 @@ libzed_camera_one_component.so: \
   /opt/ros/jazzy/lib/librcpputils.so \
   /opt/ros/jazzy/lib/librcutils.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libdl.a \
+  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /usr/lib/aarch64-linux-gnu/libconsole_bridge.so.1.0 \
   /opt/ros/jazzy/lib/libament_index_cpp.so \
   /usr/lib/aarch64-linux-gnu/libtinyxml2.so.10.0.0 \
@@ -674,7 +675,7 @@ CMakeFiles/zed_camera_one_component.dir/src/zed_camera/src/zed_camera_one_compon
 
 /opt/ros/jazzy/lib/librosidl_dynamic_typesupport.so:
 
-/opt/ros/jazzy/lib/libfastcdr.so.2.2.5:
+/opt/ros/jazzy/lib/libfastcdr.so.2.2.7:
 
 /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_cpp.so:
 
@@ -707,6 +708,8 @@ CMakeFiles/zed_camera_one_component.dir/src/zed_camera/src/zed_camera_one_compon
 /opt/ros/jazzy/lib/librcutils.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libdl.a:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
 
 /usr/lib/aarch64-linux-gnu/libconsole_bridge.so.1.0:
 

@@ -1,8 +1,68 @@
-[  8%] Built target realsense2_camera_node
+[0mCMake Deprecation Warning at CMakeLists.txt:15 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+[0m
+-- Create Release Build.
+-- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+-- Override CMake install command with custom implementation using symlinks instead of copying resources
+-- Found builtin_interfaces: 2.0.3 (/opt/ros/jazzy/share/builtin_interfaces/cmake)
+-- Found rosidl_generator_c: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+-- Found rosidl_generator_cpp: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found cv_bridge: 4.1.0 (/opt/ros/jazzy/share/cv_bridge/cmake)
+-- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+-- Found rmw_zenoh_cpp: 0.2.9 (/opt/ros/jazzy/share/rmw_zenoh_cpp/cmake)
+-- Using RMW implementation 'rmw_zenoh_cpp' as default
+-- Found image_transport: 5.1.8 (/opt/ros/jazzy/share/image_transport/cmake)
+-- Found TinyXML2 via Config file: /usr/lib/aarch64-linux-gnu/cmake/tinyxml2
+-- Found rclcpp_action: 28.1.18 (/opt/ros/jazzy/share/rclcpp_action/cmake)
+-- Found rclcpp_components: 28.1.18 (/opt/ros/jazzy/share/rclcpp_components/cmake)
+-- Found realsense2_camera_msgs: 4.55.1 (/root/ros2_ws/install/realsense2_camera_msgs/share/realsense2_camera_msgs/cmake)
+-- Found std_srvs: 5.3.7 (/opt/ros/jazzy/share/std_srvs/cmake)
+-- Found nav_msgs: 5.3.7 (/opt/ros/jazzy/share/nav_msgs/cmake)
+-- Found tf2_ros: 0.36.20 (/opt/ros/jazzy/share/tf2_ros/cmake)
+-- Found diagnostic_updater: 4.2.7 (/opt/ros/jazzy/share/diagnostic_updater/cmake)
+-- Build for ROS2 Jazzy
+-- Found ament_cmake_gtest: 2.5.6 (/opt/ros/jazzy/share/ament_cmake_gtest/cmake)
+-- Found gtest sources under '/opt/ros/jazzy/src/gtest_vendor': C++ tests using 'Google Test' will be built
+[0mCMake Deprecation Warning at /opt/ros/jazzy/src/gtest_vendor/CMakeLists.txt:2 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+[0m
+-- Found ament_cmake_pytest: 2.5.6 (/opt/ros/jazzy/share/ament_cmake_pytest/cmake)
+-- rs_device_info:
+--  17/09 13:18:52,001 ERROR [281472831928512] (context.cpp:40) No valid configuration file found at : /root/.realsense-config.json loading defaults
+ 17/09 13:18:52,108 ERROR [281472768997568] (handle-libusb.h:125) failed to claim usb interface: 0, error: RS2_USB_STATUS_BUSY
+ 17/09 13:18:52,109 ERROR [281472831928512] (uvc-sensor.cpp:428) acquire_power failed: failed to set power state
+ 17/09 13:18:52,111 ERROR [281472831928512] (rs.cpp:256) [rs2_create_device( info_list:0xaaaadd2105d0, index:0 ) UNKNOWN] failed to set power state
+ 17/09 13:18:52,111 ERROR [281472831928512] (rs.cpp:256) [rs2_delete_device( device:nullptr ) UNKNOWN] null pointer passed for argument "device"
+Could not create device - failed to set power state . Check SDK logs for details
+ 17/09 13:18:52,155 ERROR [281472777451712] (handle-libusb.h:125) failed to claim usb interface: 0, error: RS2_USB_STATUS_BUSY
+ 17/09 13:18:52,155 ERROR [281472831928512] (uvc-sensor.cpp:428) acquire_power failed: failed to set power state
+ 17/09 13:18:52,156 ERROR [281472831928512] (rs.cpp:256) [rs2_create_device( info_list:0xaaaadd2105d0, index:1 ) UNKNOWN] failed to set power state
+ 17/09 13:18:52,156 ERROR [281472831928512] (rs.cpp:256) [rs2_delete_device( device:nullptr ) UNKNOWN] null pointer passed for argument "device"
+Could not create device - failed to set power state . Check SDK logs for details
+No device detected. Is it plugged in?
+
+-- Configuring done (13.6s)
+-- Generating done (0.1s)
+-- Build files have been written to: /root/ros2_ws/build/realsense2_camera
+[  8%] Built target gtest
 [ 16%] Built target gtest_main
-[ 24%] Built target gtest
-[ 92%] Built target realsense2_camera
-[100%] Built target gtest_template
+[ 24%] Built target realsense2_camera_node
+[ 32%] Built target gtest_template
+[100%] Built target realsense2_camera
 -- Install configuration: "Release"
 -- Execute custom install script
 -- Up-to-date symlink: /root/ros2_ws/install/realsense2_camera/share/realsense2_camera/config/global_settings.yaml

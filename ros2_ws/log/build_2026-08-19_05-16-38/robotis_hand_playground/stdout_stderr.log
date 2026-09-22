@@ -1,0 +1,75 @@
+CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+-- The C compiler identification is GNU 13.3.0
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+-- Found Python3: /opt/venv/bin/python3 (found version "3.12.3") found components: Interpreter
+-- Override CMake install command with custom implementation using symlinks instead of copying resources
+-- Found rclcpp: 28.1.18 (/opt/ros/jazzy/share/rclcpp/cmake)
+-- Found rosidl_generator_c: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+-- Found rosidl_generator_cpp: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+-- Found rmw_fastrtps_cpp: 8.4.3 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+-- Found OpenSSL: /usr/lib/aarch64-linux-gnu/libcrypto.so (found version "3.0.13")
+-- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13")
+-- Using RMW implementation 'rmw_fastrtps_cpp' as default
+-- Found control_msgs: 5.9.0 (/opt/ros/jazzy/share/control_msgs/cmake)
+-- Found visualization_msgs: 5.3.7 (/opt/ros/jazzy/share/visualization_msgs/cmake)
+-- Found robotis_interfaces: 1.1.0 (/root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake)
+-- Configuring done (7.0s)
+-- Generating done (0.1s)
+-- Build files have been written to: /root/ros2_ws/build/robotis_hand_playground
+[ 20%] Building CXX object CMakeFiles/tactile_rviz.dir/src/tactile_rviz.cpp.o
+[ 40%] Linking CXX executable tactile_rviz
+[ 40%] Built target tactile_rviz
+[ 60%] Building CXX object CMakeFiles/tactile_force_controller.dir/src/tactile_force_controller.cpp.o
+[ 80%] Building CXX object CMakeFiles/tactile_force_controller.dir/src/tactile_sensor.cpp.o
+[100%] Linking CXX executable tactile_force_controller
+[100%] Built target tactile_force_controller
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/lib/robotis_hand_playground/tactile_rviz
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/lib/robotis_hand_playground/tactile_force_controller
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/lib/robotis_hand_playground/grasp_start_publisher.py
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/lib/robotis_hand_playground/matplot_visualize_tactile.py
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/lib/robotis_hand_playground/hx5_d20_example_motion.py
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/share/robotis_hand_playground/launch/tactile_force_controller_launch.py
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/share/robotis_hand_playground/config/param.yaml
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/include/robotis_hand_playground/hx5d20_struct.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/include/robotis_hand_playground/tactile_force_controller.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/include/robotis_hand_playground/tactile_rviz.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/include/robotis_hand_playground/tactile_sensor.hpp
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/share/ament_index/resource_index/package_run_dependencies/robotis_hand_playground
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/share/ament_index/resource_index/parent_prefix_path/robotis_hand_playground
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/share/robotis_hand_playground/environment/ament_prefix_path.sh
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/share/robotis_hand_playground/environment/ament_prefix_path.dsv
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/share/robotis_hand_playground/environment/path.sh
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/share/robotis_hand_playground/environment/path.dsv
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/share/robotis_hand_playground/local_setup.bash
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/share/robotis_hand_playground/local_setup.sh
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/share/robotis_hand_playground/local_setup.zsh
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/share/robotis_hand_playground/local_setup.dsv
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/share/robotis_hand_playground/package.dsv
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/share/ament_index/resource_index/packages/robotis_hand_playground
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/share/robotis_hand_playground/cmake/robotis_hand_playgroundConfig.cmake
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/share/robotis_hand_playground/cmake/robotis_hand_playgroundConfig-version.cmake
+-- Symlinking: /root/ros2_ws/install/robotis_hand_playground/share/robotis_hand_playground/package.xml

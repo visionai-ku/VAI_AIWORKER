@@ -52,7 +52,7 @@ cdr_deserialize(
   cdr >> ros_message.id;
 
   return true;
-}
+}  // NOLINT(readability/fn_size)
 
 
 size_t
@@ -352,7 +352,7 @@ cdr_deserialize(
   cdr >> ros_message.position;
 
   return true;
-}
+}  // NOLINT(readability/fn_size)
 
 
 size_t
@@ -728,6 +728,16 @@ cdr_deserialize(
     uint32_t cdrSize;
     cdr >> cdrSize;
     size_t size = static_cast<size_t>(cdrSize);
+
+    // Check there are at least 'size' remaining bytes in the CDR stream before resizing
+    auto old_state = cdr.get_state();
+    bool correct_size = cdr.jump(size);
+    cdr.set_state(old_state);
+    if (!correct_size) {
+      fprintf(stderr, "sequence size exceeds remaining buffer\n");
+      return false;
+    }
+
     ros_message.request.resize(size);
     for (size_t i = 0; i < size; i++) {
       dynamixel_sdk_custom_interfaces::srv::typesupport_fastrtps_cpp::cdr_deserialize(
@@ -740,6 +750,16 @@ cdr_deserialize(
     uint32_t cdrSize;
     cdr >> cdrSize;
     size_t size = static_cast<size_t>(cdrSize);
+
+    // Check there are at least 'size' remaining bytes in the CDR stream before resizing
+    auto old_state = cdr.get_state();
+    bool correct_size = cdr.jump(size);
+    cdr.set_state(old_state);
+    if (!correct_size) {
+      fprintf(stderr, "sequence size exceeds remaining buffer\n");
+      return false;
+    }
+
     ros_message.response.resize(size);
     for (size_t i = 0; i < size; i++) {
       dynamixel_sdk_custom_interfaces::srv::typesupport_fastrtps_cpp::cdr_deserialize(
@@ -748,7 +768,7 @@ cdr_deserialize(
   }
 
   return true;
-}
+}  // NOLINT(readability/fn_size)
 
 
 size_t

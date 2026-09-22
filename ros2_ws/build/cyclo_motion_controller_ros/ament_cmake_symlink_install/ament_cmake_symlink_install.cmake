@@ -55,6 +55,11 @@ function(ament_cmake_symlink_install_directory cmake_current_source_dir)
         # remove trailing slash
         string(SUBSTRING "${dir}" 0 ${offset} dir)
       endif()
+      
+      # Create destination directory.
+      # This does *not* solve the problem of empty directories WITHIN the install tree,
+      # but does make sure that the top-level directory specified by the caller gets created.
+      file(MAKE_DIRECTORY "${destination}")
 
       # glob recursive files
       set(relative_files "")
@@ -319,26 +324,32 @@ include("/root/ros2_ws/build/cyclo_motion_controller_ros/ament_cmake_symlink_ins
 # install("TARGETS" "ai_worker_movel_controller_node" "DESTINATION" "lib/cyclo_motion_controller_ros")
 include("/root/ros2_ws/build/cyclo_motion_controller_ros/ament_cmake_symlink_install_targets_2_${CMAKE_INSTALL_CONFIG_NAME}.cmake")
 
-# install("TARGETS" "leader_controller_node" "DESTINATION" "lib/cyclo_motion_controller_ros")
+# install("TARGETS" "ai_worker_bimanual_movel_controller_node" "DESTINATION" "lib/cyclo_motion_controller_ros")
 include("/root/ros2_ws/build/cyclo_motion_controller_ros/ament_cmake_symlink_install_targets_3_${CMAKE_INSTALL_CONFIG_NAME}.cmake")
 
-# install("TARGETS" "omx_movej_controller_node" "DESTINATION" "lib/cyclo_motion_controller_ros")
+# install("TARGETS" "ai_worker_bimanual_movej_controller_node" "DESTINATION" "lib/cyclo_motion_controller_ros")
 include("/root/ros2_ws/build/cyclo_motion_controller_ros/ament_cmake_symlink_install_targets_4_${CMAKE_INSTALL_CONFIG_NAME}.cmake")
 
-# install("TARGETS" "omx_movel_controller_node" "DESTINATION" "lib/cyclo_motion_controller_ros")
+# install("TARGETS" "leader_controller_node" "DESTINATION" "lib/cyclo_motion_controller_ros")
 include("/root/ros2_ws/build/cyclo_motion_controller_ros/ament_cmake_symlink_install_targets_5_${CMAKE_INSTALL_CONFIG_NAME}.cmake")
 
-# install("TARGETS" "omy_movej_controller_node" "DESTINATION" "lib/cyclo_motion_controller_ros")
+# install("TARGETS" "omx_movej_controller_node" "DESTINATION" "lib/cyclo_motion_controller_ros")
 include("/root/ros2_ws/build/cyclo_motion_controller_ros/ament_cmake_symlink_install_targets_6_${CMAKE_INSTALL_CONFIG_NAME}.cmake")
 
-# install("TARGETS" "omy_movel_controller_node" "DESTINATION" "lib/cyclo_motion_controller_ros")
+# install("TARGETS" "omx_movel_controller_node" "DESTINATION" "lib/cyclo_motion_controller_ros")
 include("/root/ros2_ws/build/cyclo_motion_controller_ros/ament_cmake_symlink_install_targets_7_${CMAKE_INSTALL_CONFIG_NAME}.cmake")
 
-# install("TARGETS" "interactive_marker_node" "DESTINATION" "lib/cyclo_motion_controller_ros")
+# install("TARGETS" "omy_movej_controller_node" "DESTINATION" "lib/cyclo_motion_controller_ros")
 include("/root/ros2_ws/build/cyclo_motion_controller_ros/ament_cmake_symlink_install_targets_8_${CMAKE_INSTALL_CONFIG_NAME}.cmake")
 
-# install("TARGETS" "reference_checker_node" "DESTINATION" "lib/cyclo_motion_controller_ros")
+# install("TARGETS" "omy_movel_controller_node" "DESTINATION" "lib/cyclo_motion_controller_ros")
 include("/root/ros2_ws/build/cyclo_motion_controller_ros/ament_cmake_symlink_install_targets_9_${CMAKE_INSTALL_CONFIG_NAME}.cmake")
+
+# install("TARGETS" "interactive_marker_node" "DESTINATION" "lib/cyclo_motion_controller_ros")
+include("/root/ros2_ws/build/cyclo_motion_controller_ros/ament_cmake_symlink_install_targets_10_${CMAKE_INSTALL_CONFIG_NAME}.cmake")
+
+# install("TARGETS" "reference_checker_node" "DESTINATION" "lib/cyclo_motion_controller_ros")
+include("/root/ros2_ws/build/cyclo_motion_controller_ros/ament_cmake_symlink_install_targets_11_${CMAKE_INSTALL_CONFIG_NAME}.cmake")
 
 # install(DIRECTORY "include/cyclo_motion_controller_ros/" "DESTINATION" "include/cyclo_motion_controller_ros")
 ament_cmake_symlink_install_directory("/root/ros2_ws/src/cyclo_control/cyclo_motion_controller_ros" DIRECTORY "include/cyclo_motion_controller_ros/" "DESTINATION" "include/cyclo_motion_controller_ros")

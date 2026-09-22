@@ -4,10 +4,10 @@
 
 #include <string.h>
 
-#include "robotis_interfaces/msg/detail/move_l__type_support.h"
-#include "rosidl_typesupport_interface/macros.h"
 #include "robotis_interfaces/msg/detail/move_l__functions.h"
+#include "robotis_interfaces/msg/detail/move_l__type_support.h"
 #include "robotis_interfaces/msg/detail/move_l__struct.h"
+#include "rosidl_typesupport_interface/macros.h"
 
 #ifdef __cplusplus
 extern "C"

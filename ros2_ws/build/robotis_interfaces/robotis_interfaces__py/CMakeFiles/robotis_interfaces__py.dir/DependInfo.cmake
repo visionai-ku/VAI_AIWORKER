@@ -17,8 +17,12 @@ set(CMAKE_MULTIPLE_OUTPUT_PAIRS
   "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_py/robotis_interfaces/msg/__init__.py" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c"
   "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_py/robotis_interfaces/msg/_hand_joints.py" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c"
   "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_py/robotis_interfaces/msg/_hand_joints_s.c" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c"
+  "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_py/robotis_interfaces/msg/_hand_pressures.py" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c"
+  "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.c" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c"
   "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_py/robotis_interfaces/msg/_move_l.py" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c"
   "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_py/robotis_interfaces/msg/_move_l_s.c" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c"
+  "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor.py" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c"
+  "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.c" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c"
   )
 
 

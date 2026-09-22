@@ -1030,7 +1030,7 @@ reference_checker_node: /lib/aarch64-linux-gnu/libc.so.6 \
   /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_fastrtps_cpp.so \
   /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_c.so \
   /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_cpp.so \
-  /opt/ros/jazzy/lib/libfastcdr.so.2.2.5 \
+  /opt/ros/jazzy/lib/libfastcdr.so.2.2.7 \
   /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_generator_c.so \
   /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_generator_py.so \
   /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_c.so \
@@ -1117,6 +1117,7 @@ reference_checker_node: /lib/aarch64-linux-gnu/libc.so.6 \
   /usr/lib/aarch64-linux-gnu/libm.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o \
+  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libstdc++.so \
@@ -2685,8 +2686,6 @@ CMakeFiles/reference_checker_node.dir/src/utils/reference_checker_node.cpp.o:
 
 /usr/include/c++/13/bits/stl_multimap.h:
 
-/opt/ros/jazzy/lib/libfastcdr.so.2.2.5:
-
 /opt/ros/jazzy/lib/librcl_interfaces__rosidl_typesupport_introspection_cpp.so:
 
 /usr/include/c++/13/bits/stl_queue.h:
@@ -3073,6 +3072,8 @@ CMakeFiles/reference_checker_node.dir/src/utils/reference_checker_node.cpp.o:
 
 /usr/include/eigen3/Eigen/src/Core/functors/UnaryFunctors.h:
 
+/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
+
 /opt/ros/jazzy/lib/libtype_description_interfaces__rosidl_typesupport_introspection_cpp.so:
 
 /usr/include/eigen3/Eigen/src/Core/functors/StlFunctors.h:
@@ -3256,6 +3257,8 @@ CMakeFiles/reference_checker_node.dir/src/utils/reference_checker_node.cpp.o:
 /lib/ld-linux-aarch64.so.1:
 
 /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_c.so:
+
+/opt/ros/jazzy/lib/libfastcdr.so.2.2.7:
 
 /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_fastrtps_cpp.so:
 

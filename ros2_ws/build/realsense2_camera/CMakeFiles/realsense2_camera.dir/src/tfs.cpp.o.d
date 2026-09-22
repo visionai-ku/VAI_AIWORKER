@@ -988,7 +988,8 @@ CMakeFiles/realsense2_camera.dir/src/tfs.cpp.o: \
  /opt/ros/jazzy/include/tf2/tf2/visibility_control.h \
  /opt/ros/jazzy/include/tf2/tf2/LinearMath/QuadWord.hpp \
  /opt/ros/jazzy/include/tf2_ros/tf2_ros/transform_broadcaster.h \
- /opt/ros/jazzy/include/tf2_ros/tf2_ros/visibility_control.h \
+ /opt/ros/jazzy/include/tf2_ros/tf2_ros/transform_broadcaster.hpp \
+ /opt/ros/jazzy/include/tf2_ros/tf2_ros/visibility_control.hpp \
  /opt/ros/jazzy/include/geometry_msgs/geometry_msgs/msg/transform_stamped.hpp \
  /opt/ros/jazzy/include/geometry_msgs/geometry_msgs/msg/detail/transform_stamped__struct.hpp \
  /opt/ros/jazzy/include/geometry_msgs/geometry_msgs/msg/detail/transform__struct.hpp \
@@ -1005,6 +1006,7 @@ CMakeFiles/realsense2_camera.dir/src/tfs.cpp.o: \
  /opt/ros/jazzy/include/tf2_msgs/tf2_msgs/msg/rosidl_generator_cpp__visibility_control.hpp \
  /opt/ros/jazzy/include/tf2_ros/tf2_ros/qos.hpp \
  /opt/ros/jazzy/include/tf2_ros/tf2_ros/static_transform_broadcaster.h \
+ /opt/ros/jazzy/include/tf2_ros/tf2_ros/static_transform_broadcaster.hpp \
  /usr/include/eigen3/Eigen/Geometry /usr/include/eigen3/Eigen/Core \
  /usr/include/eigen3/Eigen/src/Core/util/DisableStupidWarnings.h \
  /usr/include/eigen3/Eigen/src/Core/util/Macros.h \

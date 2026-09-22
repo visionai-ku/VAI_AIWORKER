@@ -32,11 +32,12 @@ rosidl_generator_py/realsense2_camera_msgs/realsense2_camera_msgs_s__rosidl_type
   /opt/ros/jazzy/lib/librmw.so \
   /opt/ros/jazzy/lib/librosidl_dynamic_typesupport.so \
   /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_c.so \
-  /opt/ros/jazzy/lib/libfastcdr.so.2.2.5 \
+  /opt/ros/jazzy/lib/libfastcdr.so.2.2.7 \
   /opt/ros/jazzy/lib/libunique_identifier_msgs__rosidl_generator_c.so \
   /opt/ros/jazzy/lib/librosidl_runtime_c.so \
   /opt/ros/jazzy/lib/librcutils.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libdl.a \
+  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so \
@@ -124,7 +125,7 @@ librealsense2_camera_msgs__rosidl_generator_c.so:
 
 /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_c.so:
 
-/opt/ros/jazzy/lib/libfastcdr.so.2.2.5:
+/opt/ros/jazzy/lib/libfastcdr.so.2.2.7:
 
 /opt/ros/jazzy/lib/libunique_identifier_msgs__rosidl_generator_c.so:
 
@@ -133,6 +134,8 @@ librealsense2_camera_msgs__rosidl_generator_c.so:
 /opt/ros/jazzy/lib/librcutils.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libdl.a:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a:
 

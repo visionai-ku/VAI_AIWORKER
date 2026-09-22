@@ -96,7 +96,7 @@ cdr_deserialize(
   cdr >> ros_message.json_data;
 
   return true;
-}
+}  // NOLINT(readability/fn_size)
 
 
 size_t

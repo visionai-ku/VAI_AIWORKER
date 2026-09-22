@@ -418,6 +418,19 @@ dynamixel_interfaces__py/fast:
 	$(MAKE) $(MAKESILENT) -f /root/ros2_ws/build/dynamixel_interfaces/dynamixel_interfaces__py/CMakeFiles/dynamixel_interfaces__py.dir/build.make /root/ros2_ws/build/dynamixel_interfaces/dynamixel_interfaces__py/CMakeFiles/dynamixel_interfaces__py.dir/build
 .PHONY : dynamixel_interfaces__py/fast
 
+#=============================================================================
+# Target rules for targets named dynamixel_interfaces__rs
+
+# Build rule for target.
+dynamixel_interfaces__rs: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 dynamixel_interfaces__rs
+.PHONY : dynamixel_interfaces__rs
+
+# fast build rule for target.
+dynamixel_interfaces__rs/fast:
+	$(MAKE) $(MAKESILENT) -f /root/ros2_ws/build/dynamixel_interfaces/dynamixel_interfaces__rs/CMakeFiles/dynamixel_interfaces__rs.dir/build.make /root/ros2_ws/build/dynamixel_interfaces/dynamixel_interfaces__rs/CMakeFiles/dynamixel_interfaces__rs.dir/build
+.PHONY : dynamixel_interfaces__rs/fast
+
 rosidl_generator_c/dynamixel_interfaces/msg/detail/dynamixel_state__description.o: rosidl_generator_c/dynamixel_interfaces/msg/detail/dynamixel_state__description.c.o
 .PHONY : rosidl_generator_c/dynamixel_interfaces/msg/detail/dynamixel_state__description.o
 
@@ -1469,6 +1482,7 @@ help:
 	@echo "... dynamixel_interfaces__cpp"
 	@echo "... dynamixel_interfaces__py"
 	@echo "... dynamixel_interfaces__rosidl_generator_type_description"
+	@echo "... dynamixel_interfaces__rs"
 	@echo "... dynamixel_interfaces_uninstall"
 	@echo "... uninstall"
 	@echo "... dynamixel_interfaces__rosidl_generator_c"

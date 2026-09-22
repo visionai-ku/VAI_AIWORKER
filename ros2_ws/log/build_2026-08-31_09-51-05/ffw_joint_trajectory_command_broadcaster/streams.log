@@ -1,0 +1,82 @@
+[0.064s] Invoking command in '/root/ros2_ws/build/ffw_joint_trajectory_command_broadcaster': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/ai_worker/ffw_joint_trajectory_command_broadcaster -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster
+[0.876s] -- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[0.998s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[1.026s] -- Found builtin_interfaces: 2.0.3 (/opt/ros/jazzy/share/builtin_interfaces/cmake)
+[1.082s] -- Found rosidl_generator_c: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+[1.100s] -- Found rosidl_generator_cpp: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+[1.128s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.156s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.183s] -- Found controller_interface: 4.45.2 (/opt/ros/jazzy/share/controller_interface/cmake)
+[1.570s] -- Found TinyXML2 via Config file: /usr/lib/aarch64-linux-gnu/cmake/tinyxml2
+[1.645s] -- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+[1.713s] -- Found rmw_zenoh_cpp: 0.2.9 (/opt/ros/jazzy/share/rmw_zenoh_cpp/cmake)
+[1.717s] -- Using RMW implementation 'rmw_zenoh_cpp' as default
+[1.907s] [33mCMake Warning (dev) at /opt/ros/jazzy/share/realtime_tools/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package):
+[1.907s]   Policy CMP0167 is not set: The FindBoost module is removed.  Run "cmake
+[1.908s]   --help-policy CMP0167" for policy details.  Use the cmake_policy command to
+[1.908s]   set the policy and suppress this warning.
+[1.908s] 
+[1.908s] Call Stack (most recent call first):
+[1.908s]   /opt/ros/jazzy/share/realtime_tools/cmake/realtime_toolsConfig.cmake:41 (include)
+[1.908s]   /opt/ros/jazzy/share/hardware_interface/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+[1.908s]   /opt/ros/jazzy/share/hardware_interface/cmake/hardware_interfaceConfig.cmake:41 (include)
+[1.908s]   /opt/ros/jazzy/share/controller_interface/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+[1.908s]   /opt/ros/jazzy/share/controller_interface/cmake/controller_interfaceConfig.cmake:41 (include)
+[1.909s]   CMakeLists.txt:31 (find_package)
+[1.909s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[1.909s] [0m
+[1.990s] -- Found generate_parameter_library: 0.7.3 (/opt/ros/jazzy/share/generate_parameter_library/cmake)
+[1.992s] -- Found parameter_traits: 0.7.3 (/opt/ros/jazzy/share/parameter_traits/cmake)
+[2.006s] [0mCMake Deprecation Warning at /opt/ros/jazzy/share/tl_expected/cmake/tl_expectedConfig.cmake:37 (message):
+[2.006s]   Package 'tl_expected' is deprecated (This package will be removed in ROS 2
+[2.006s]   Lyrical Luth.
+[2.006s] 
+[2.006s]         Use tl/expected.hpp from libexpected-dev,
+[2.007s]         or rcpputils/tl_expected/expected.hpp if the system header is not available)
+[2.007s] Call Stack (most recent call first):
+[2.007s]   /opt/ros/jazzy/share/parameter_traits/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+[2.007s]   /opt/ros/jazzy/share/parameter_traits/cmake/parameter_traitsConfig.cmake:41 (include)
+[2.007s]   /opt/ros/jazzy/share/generate_parameter_library/cmake/generate_parameter_library-extras.cmake:30 (find_package)
+[2.007s]   /opt/ros/jazzy/share/generate_parameter_library/cmake/generate_parameter_libraryConfig.cmake:41 (include)
+[2.007s]   CMakeLists.txt:31 (find_package)
+[2.007s] 
+[2.007s] [0m
+[2.334s] -- Configuring done (2.0s)
+[2.430s] -- Generating done (0.1s)
+[2.437s] -- Build files have been written to: /root/ros2_ws/build/ffw_joint_trajectory_command_broadcaster
+[2.464s] Invoked command in '/root/ros2_ws/build/ffw_joint_trajectory_command_broadcaster' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/ai_worker/ffw_joint_trajectory_command_broadcaster -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster
+[2.464s] Invoking command in '/root/ros2_ws/build/ffw_joint_trajectory_command_broadcaster': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/ffw_joint_trajectory_command_broadcaster -- -j8 -l8
+[3.383s] [ 50%] Built target joint_trajectory_command_broadcaster_parameters
+[3.384s] [100%] Built target joint_trajectory_command_broadcaster
+[3.405s] Invoked command in '/root/ros2_ws/build/ffw_joint_trajectory_command_broadcaster' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/ffw_joint_trajectory_command_broadcaster -- -j8 -l8
+[3.407s] Invoking command in '/root/ros2_ws/build/ffw_joint_trajectory_command_broadcaster': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/ffw_joint_trajectory_command_broadcaster
+[3.668s] -- Install configuration: "Release"
+[3.669s] -- Execute custom install script
+[3.670s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/include/ffw_joint_trajectory_command_broadcaster/joint_trajectory_command_broadcaster_parameters.hpp
+[3.670s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/share/ffw_joint_trajectory_command_broadcaster//joint_trajectory_command_plugin.xml
+[3.670s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/include/joint_trajectory_command_broadcaster/joint_trajectory_command_broadcaster/joint_trajectory_command_broadcaster.hpp
+[3.671s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/include/joint_trajectory_command_broadcaster/joint_trajectory_command_broadcaster/visibility_control.h
+[3.671s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/share/ffw_joint_trajectory_command_broadcaster/environment/library_path.sh
+[3.671s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/share/ffw_joint_trajectory_command_broadcaster/environment/library_path.dsv
+[3.672s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/share/ament_index/resource_index/package_run_dependencies/ffw_joint_trajectory_command_broadcaster
+[3.672s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/share/ament_index/resource_index/parent_prefix_path/ffw_joint_trajectory_command_broadcaster
+[3.673s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/share/ffw_joint_trajectory_command_broadcaster/environment/ament_prefix_path.sh
+[3.673s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/share/ffw_joint_trajectory_command_broadcaster/environment/ament_prefix_path.dsv
+[3.673s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/share/ffw_joint_trajectory_command_broadcaster/environment/path.sh
+[3.673s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/share/ffw_joint_trajectory_command_broadcaster/environment/path.dsv
+[3.674s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/share/ffw_joint_trajectory_command_broadcaster/local_setup.bash
+[3.674s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/share/ffw_joint_trajectory_command_broadcaster/local_setup.sh
+[3.674s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/share/ffw_joint_trajectory_command_broadcaster/local_setup.zsh
+[3.675s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/share/ffw_joint_trajectory_command_broadcaster/local_setup.dsv
+[3.675s] -- Symlinking: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/share/ffw_joint_trajectory_command_broadcaster/package.dsv
+[3.683s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/share/ament_index/resource_index/packages/ffw_joint_trajectory_command_broadcaster
+[3.683s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/share/ament_index/resource_index/controller_interface__pluginlib__plugin/ffw_joint_trajectory_command_broadcaster
+[3.684s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/share/ffw_joint_trajectory_command_broadcaster/cmake/ament_cmake_export_dependencies-extras.cmake
+[3.684s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/share/ffw_joint_trajectory_command_broadcaster/cmake/ament_cmake_export_targets-extras.cmake
+[3.684s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/share/ffw_joint_trajectory_command_broadcaster/cmake/ffw_joint_trajectory_command_broadcasterConfig.cmake
+[3.684s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/share/ffw_joint_trajectory_command_broadcaster/cmake/ffw_joint_trajectory_command_broadcasterConfig-version.cmake
+[3.685s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/share/ffw_joint_trajectory_command_broadcaster/package.xml
+[3.686s] -- Up-to-date: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/lib/libjoint_trajectory_command_broadcaster.so
+[3.696s] -- Up-to-date: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/share/ffw_joint_trajectory_command_broadcaster/cmake/export_joint_trajectory_command_broadcasterExport.cmake
+[3.702s] -- Up-to-date: /root/ros2_ws/install/ffw_joint_trajectory_command_broadcaster/share/ffw_joint_trajectory_command_broadcaster/cmake/export_joint_trajectory_command_broadcasterExport-release.cmake
+[3.716s] Invoked command in '/root/ros2_ws/build/ffw_joint_trajectory_command_broadcaster' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/ffw_joint_trajectory_command_broadcaster

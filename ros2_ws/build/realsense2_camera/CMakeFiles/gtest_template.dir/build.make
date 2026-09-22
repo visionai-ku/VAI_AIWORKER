@@ -126,7 +126,7 @@ gtest_template: /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_c.so
 gtest_template: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_c.so
 gtest_template: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_fastrtps_cpp.so
 gtest_template: /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so
-gtest_template: /opt/ros/jazzy/lib/libfastcdr.so.2.2.5
+gtest_template: /opt/ros/jazzy/lib/libfastcdr.so.2.2.7
 gtest_template: /opt/ros/jazzy/lib/librmw.so
 gtest_template: /opt/ros/jazzy/lib/librosidl_dynamic_typesupport.so
 gtest_template: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_cpp.so

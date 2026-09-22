@@ -10,4 +10,5 @@ cyclo_motion_controller_ros_py.egg-info/top_level.txt
 cyclo_motion_controller_ros_py.egg-info/zip-safe
 resource/cyclo_motion_controller_ros_py
 scripts/__init__.py
+scripts/arm_retargeting.py
 scripts/teleop_retargeting.py

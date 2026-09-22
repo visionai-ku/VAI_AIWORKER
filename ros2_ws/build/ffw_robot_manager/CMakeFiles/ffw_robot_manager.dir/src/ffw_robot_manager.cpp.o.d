@@ -21,20 +21,24 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: \
  /usr/include/c++/13/ext/numeric_traits.h \
  /usr/include/c++/13/bits/stl_pair.h /usr/include/c++/13/type_traits \
  /usr/include/c++/13/bits/move.h /usr/include/c++/13/bits/utility.h \
+ /usr/include/c++/13/compare /usr/include/c++/13/concepts \
  /usr/include/c++/13/bits/stl_iterator_base_types.h \
+ /usr/include/c++/13/bits/iterator_concepts.h \
+ /usr/include/c++/13/bits/ptr_traits.h \
+ /usr/include/c++/13/bits/ranges_cmp.h \
  /usr/include/c++/13/bits/stl_iterator_base_funcs.h \
  /usr/include/c++/13/bits/concept_check.h \
  /usr/include/c++/13/debug/assertions.h \
- /usr/include/c++/13/bits/stl_iterator.h \
- /usr/include/c++/13/bits/ptr_traits.h /usr/include/c++/13/debug/debug.h \
+ /usr/include/c++/13/bits/stl_iterator.h /usr/include/c++/13/new \
+ /usr/include/c++/13/bits/exception.h \
+ /usr/include/c++/13/bits/stl_construct.h \
+ /usr/include/c++/13/debug/debug.h \
  /usr/include/c++/13/bits/predefined_ops.h /usr/include/c++/13/bit \
  /usr/include/c++/13/bits/stl_algo.h \
  /usr/include/c++/13/bits/algorithmfwd.h \
  /usr/include/c++/13/initializer_list /usr/include/c++/13/bits/stl_heap.h \
  /usr/include/c++/13/bits/uniform_int_dist.h \
- /usr/include/c++/13/bits/stl_tempbuf.h /usr/include/c++/13/new \
- /usr/include/c++/13/bits/exception.h \
- /usr/include/c++/13/bits/stl_construct.h /usr/include/c++/13/cstdlib \
+ /usr/include/c++/13/bits/stl_tempbuf.h /usr/include/c++/13/cstdlib \
  /usr/include/stdlib.h \
  /usr/include/aarch64-linux-gnu/bits/libc-header-start.h \
  /usr/lib/gcc/aarch64-linux-gnu/13/include/stddef.h \
@@ -76,6 +80,11 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: \
  /usr/include/aarch64-linux-gnu/bits/stdlib-float.h \
  /usr/include/aarch64-linux-gnu/bits/stdlib.h \
  /usr/include/c++/13/bits/std_abs.h \
+ /usr/include/c++/13/bits/ranges_algo.h \
+ /usr/include/c++/13/bits/ranges_algobase.h \
+ /usr/include/c++/13/bits/ranges_base.h \
+ /usr/include/c++/13/bits/max_size_type.h /usr/include/c++/13/numbers \
+ /usr/include/c++/13/bits/invoke.h /usr/include/c++/13/bits/ranges_util.h \
  /usr/include/c++/13/pstl/glue_algorithm_defs.h \
  /usr/include/c++/13/pstl/execution_defs.h /usr/include/c++/13/string \
  /usr/include/c++/13/bits/requires_hosted.h \
@@ -104,7 +113,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: \
  /usr/include/c++/13/bits/cxxabi_forced.h \
  /usr/include/c++/13/bits/stl_function.h \
  /usr/include/c++/13/backward/binders.h \
- /usr/include/c++/13/bits/refwrap.h /usr/include/c++/13/bits/invoke.h \
+ /usr/include/c++/13/bits/refwrap.h \
  /usr/include/c++/13/bits/range_access.h \
  /usr/include/c++/13/bits/basic_string.h \
  /usr/include/c++/13/ext/alloc_traits.h \
@@ -148,11 +157,12 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: \
  /usr/lib/gcc/aarch64-linux-gnu/13/include/stdint.h /usr/include/stdint.h \
  /usr/include/aarch64-linux-gnu/bits/stdint-uintn.h \
  /usr/include/aarch64-linux-gnu/bits/stdint-least.h \
- /usr/include/c++/13/bits/unique_ptr.h \
- /usr/include/c++/13/bits/shared_ptr.h \
- /usr/include/c++/13/bits/shared_ptr_base.h /usr/include/c++/13/typeinfo \
- /usr/include/c++/13/bits/allocated_ptr.h \
- /usr/include/c++/13/ext/atomicity.h \
+ /usr/include/c++/13/bits/unique_ptr.h /usr/include/c++/13/ostream \
+ /usr/include/c++/13/ios /usr/include/c++/13/exception \
+ /usr/include/c++/13/bits/exception_ptr.h \
+ /usr/include/c++/13/bits/cxxabi_init_exception.h \
+ /usr/include/c++/13/typeinfo /usr/include/c++/13/bits/nested_exception.h \
+ /usr/include/c++/13/bits/ios_base.h /usr/include/c++/13/ext/atomicity.h \
  /usr/include/aarch64-linux-gnu/c++/13/bits/gthr.h \
  /usr/include/aarch64-linux-gnu/c++/13/bits/gthr-default.h \
  /usr/include/pthread.h /usr/include/sched.h \
@@ -168,14 +178,56 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: \
  /usr/include/aarch64-linux-gnu/bits/pthread_stack_min-dynamic.h \
  /usr/include/aarch64-linux-gnu/c++/13/bits/atomic_word.h \
  /usr/include/aarch64-linux-gnu/sys/single_threaded.h \
- /usr/include/c++/13/ext/concurrence.h /usr/include/c++/13/exception \
- /usr/include/c++/13/bits/exception_ptr.h \
- /usr/include/c++/13/bits/cxxabi_init_exception.h \
- /usr/include/c++/13/bits/nested_exception.h \
+ /usr/include/c++/13/bits/locale_classes.h \
+ /usr/include/c++/13/bits/locale_classes.tcc \
+ /usr/include/c++/13/system_error \
+ /usr/include/aarch64-linux-gnu/c++/13/bits/error_constants.h \
+ /usr/include/c++/13/stdexcept /usr/include/c++/13/streambuf \
+ /usr/include/c++/13/bits/streambuf.tcc \
+ /usr/include/c++/13/bits/basic_ios.h \
+ /usr/include/c++/13/bits/locale_facets.h /usr/include/c++/13/cwctype \
+ /usr/include/wctype.h /usr/include/aarch64-linux-gnu/bits/wctype-wchar.h \
+ /usr/include/aarch64-linux-gnu/c++/13/bits/ctype_base.h \
+ /usr/include/c++/13/bits/streambuf_iterator.h \
+ /usr/include/aarch64-linux-gnu/c++/13/bits/ctype_inline.h \
+ /usr/include/c++/13/bits/locale_facets.tcc \
+ /usr/include/c++/13/bits/basic_ios.tcc \
+ /usr/include/c++/13/bits/ostream.tcc \
+ /usr/include/c++/13/bits/shared_ptr.h \
+ /usr/include/c++/13/bits/shared_ptr_base.h \
+ /usr/include/c++/13/bits/allocated_ptr.h \
+ /usr/include/c++/13/ext/concurrence.h \
  /usr/include/c++/13/bits/shared_ptr_atomic.h \
  /usr/include/c++/13/bits/atomic_base.h \
  /usr/include/c++/13/bits/atomic_lockfree_defines.h \
+ /usr/include/c++/13/bits/atomic_wait.h /usr/include/c++/13/cstdint \
+ /usr/include/c++/13/climits \
+ /usr/lib/gcc/aarch64-linux-gnu/13/include/limits.h \
+ /usr/lib/gcc/aarch64-linux-gnu/13/include/syslimits.h \
+ /usr/include/limits.h /usr/include/aarch64-linux-gnu/bits/posix1_lim.h \
+ /usr/include/aarch64-linux-gnu/bits/local_lim.h \
+ /usr/include/linux/limits.h \
+ /usr/include/aarch64-linux-gnu/bits/posix2_lim.h \
+ /usr/include/aarch64-linux-gnu/bits/xopen_lim.h \
+ /usr/include/aarch64-linux-gnu/bits/uio_lim.h /usr/include/unistd.h \
+ /usr/include/aarch64-linux-gnu/bits/posix_opt.h \
+ /usr/include/aarch64-linux-gnu/bits/environments.h \
+ /usr/include/aarch64-linux-gnu/bits/confname.h \
+ /usr/include/aarch64-linux-gnu/bits/getopt_posix.h \
+ /usr/include/aarch64-linux-gnu/bits/getopt_core.h \
+ /usr/include/aarch64-linux-gnu/bits/unistd.h \
+ /usr/include/aarch64-linux-gnu/bits/unistd-decl.h \
+ /usr/include/aarch64-linux-gnu/bits/unistd_ext.h \
+ /usr/include/linux/close_range.h /usr/include/syscall.h \
+ /usr/include/aarch64-linux-gnu/sys/syscall.h \
+ /usr/include/aarch64-linux-gnu/asm/unistd.h \
+ /usr/include/asm-generic/unistd.h \
+ /usr/include/aarch64-linux-gnu/asm/bitsperlong.h \
+ /usr/include/asm-generic/bitsperlong.h \
+ /usr/include/aarch64-linux-gnu/bits/syscall.h \
+ /usr/include/c++/13/bits/std_mutex.h \
  /usr/include/c++/13/backward/auto_ptr.h \
+ /usr/include/c++/13/bits/ranges_uninitialized.h \
  /usr/include/c++/13/pstl/glue_memory_defs.h \
  /opt/ros/jazzy/include/controller_interface/controller_interface/controller_interface.hpp \
  /opt/ros/jazzy/include/controller_interface/controller_interface/controller_interface_base.hpp \
@@ -205,16 +257,18 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: \
  /usr/include/c++/13/tr1/poly_laguerre.tcc \
  /usr/include/c++/13/tr1/riemann_zeta.tcc \
  /usr/include/c++/13/condition_variable /usr/include/c++/13/bits/chrono.h \
- /usr/include/c++/13/ratio /usr/include/c++/13/cstdint \
- /usr/include/c++/13/ctime /usr/include/c++/13/bits/parse_numbers.h \
- /usr/include/aarch64-linux-gnu/c++/13/bits/error_constants.h \
- /usr/include/c++/13/bits/std_mutex.h \
- /usr/include/c++/13/bits/unique_lock.h /usr/include/c++/13/functional \
- /usr/include/c++/13/bits/std_function.h /usr/include/c++/13/array \
- /usr/include/c++/13/compare /usr/include/c++/13/mutex \
- /usr/include/c++/13/stdexcept /usr/include/c++/13/thread \
- /usr/include/c++/13/bits/std_thread.h \
+ /usr/include/c++/13/ratio /usr/include/c++/13/ctime \
+ /usr/include/c++/13/bits/parse_numbers.h \
+ /usr/include/c++/13/bits/unique_lock.h /usr/include/c++/13/stop_token \
+ /usr/include/c++/13/bits/std_thread.h /usr/include/c++/13/semaphore \
+ /usr/include/c++/13/bits/semaphore_base.h \
+ /usr/include/c++/13/bits/atomic_timed_wait.h \
  /usr/include/c++/13/bits/this_thread_sleep.h \
+ /usr/include/aarch64-linux-gnu/sys/time.h /usr/include/semaphore.h \
+ /usr/include/aarch64-linux-gnu/bits/semaphore.h \
+ /usr/include/c++/13/functional /usr/include/c++/13/bits/std_function.h \
+ /usr/include/c++/13/array /usr/include/c++/13/mutex \
+ /usr/include/c++/13/thread \
  /opt/ros/jazzy/include/rclcpp/rclcpp/clock.hpp \
  /opt/ros/jazzy/include/rclcpp/rclcpp/contexts/default_context.hpp \
  /opt/ros/jazzy/include/rclcpp/rclcpp/context.hpp \
@@ -347,20 +401,6 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: \
  /opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/time__builder.hpp \
  /opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/time__traits.hpp \
  /usr/include/c++/13/sstream /usr/include/c++/13/istream \
- /usr/include/c++/13/ios /usr/include/c++/13/bits/ios_base.h \
- /usr/include/c++/13/bits/locale_classes.h \
- /usr/include/c++/13/bits/locale_classes.tcc \
- /usr/include/c++/13/system_error /usr/include/c++/13/streambuf \
- /usr/include/c++/13/bits/streambuf.tcc \
- /usr/include/c++/13/bits/basic_ios.h \
- /usr/include/c++/13/bits/locale_facets.h /usr/include/c++/13/cwctype \
- /usr/include/wctype.h /usr/include/aarch64-linux-gnu/bits/wctype-wchar.h \
- /usr/include/aarch64-linux-gnu/c++/13/bits/ctype_base.h \
- /usr/include/c++/13/bits/streambuf_iterator.h \
- /usr/include/aarch64-linux-gnu/c++/13/bits/ctype_inline.h \
- /usr/include/c++/13/bits/locale_facets.tcc \
- /usr/include/c++/13/bits/basic_ios.tcc /usr/include/c++/13/ostream \
- /usr/include/c++/13/bits/ostream.tcc \
  /usr/include/c++/13/bits/istream.tcc \
  /usr/include/c++/13/bits/sstream.tcc \
  /opt/ros/jazzy/include/rosidl_runtime_cpp/rosidl_runtime_cpp/traits.hpp \
@@ -376,7 +416,10 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: \
  /opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp \
  /opt/ros/jazzy/include/rosidl_runtime_cpp/rosidl_typesupport_cpp/message_type_support.hpp \
  /opt/ros/jazzy/include/rclcpp/rclcpp/duration.hpp \
- /usr/include/c++/13/chrono \
+ /usr/include/c++/13/chrono /usr/include/c++/13/bits/chrono_io.h \
+ /usr/include/c++/13/format /usr/include/c++/13/charconv \
+ /usr/include/c++/13/optional /usr/include/c++/13/span \
+ /usr/include/c++/13/variant \
  /opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/duration.hpp \
  /opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__struct.hpp \
  /opt/ros/jazzy/include/builtin_interfaces/builtin_interfaces/msg/detail/duration__builder.hpp \
@@ -442,10 +485,8 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: \
  /opt/ros/jazzy/include/rcl_interfaces/rcl_interfaces/msg/detail/set_parameters_result__type_support.hpp \
  /opt/ros/jazzy/include/hardware_interface/hardware_interface/handle.hpp \
  /usr/include/fmt/compile.h /usr/include/fmt/format.h \
- /usr/include/fmt/core.h /usr/include/c++/13/optional \
- /usr/include/c++/13/shared_mutex \
+ /usr/include/fmt/core.h /usr/include/c++/13/shared_mutex \
  /opt/ros/jazzy/include/hardware_interface/hardware_interface/hardware_info.hpp \
- /usr/include/c++/13/variant \
  /opt/ros/jazzy/include/hardware_interface/hardware_interface/introspection.hpp \
  /opt/ros/jazzy/include/hardware_interface/hardware_interface/types/statistics_types.hpp \
  /opt/ros/jazzy/include/libstatistics_collector/libstatistics_collector/moving_average_statistics/moving_average.hpp \
@@ -501,32 +542,20 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: \
  /usr/include/aarch64-linux-gnu/asm/sigcontext.h \
  /usr/include/linux/types.h /usr/include/aarch64-linux-gnu/asm/types.h \
  /usr/include/asm-generic/types.h /usr/include/asm-generic/int-ll64.h \
- /usr/include/aarch64-linux-gnu/asm/bitsperlong.h \
- /usr/include/asm-generic/bitsperlong.h /usr/include/linux/posix_types.h \
- /usr/include/linux/stddef.h \
+ /usr/include/linux/posix_types.h /usr/include/linux/stddef.h \
  /usr/include/aarch64-linux-gnu/asm/posix_types.h \
  /usr/include/asm-generic/posix_types.h \
  /usr/include/aarch64-linux-gnu/asm/sve_context.h \
  /usr/include/aarch64-linux-gnu/bits/types/stack_t.h \
  /usr/include/aarch64-linux-gnu/sys/ucontext.h \
  /usr/include/aarch64-linux-gnu/sys/procfs.h \
- /usr/include/aarch64-linux-gnu/sys/time.h \
  /usr/include/aarch64-linux-gnu/sys/user.h \
  /usr/include/aarch64-linux-gnu/bits/procfs.h \
  /usr/include/aarch64-linux-gnu/bits/procfs-id.h \
  /usr/include/aarch64-linux-gnu/bits/procfs-prregset.h \
  /usr/include/aarch64-linux-gnu/bits/procfs-extra.h \
  /usr/include/aarch64-linux-gnu/bits/sigstack.h \
- /usr/include/aarch64-linux-gnu/bits/sigstksz.h /usr/include/unistd.h \
- /usr/include/aarch64-linux-gnu/bits/posix_opt.h \
- /usr/include/aarch64-linux-gnu/bits/environments.h \
- /usr/include/aarch64-linux-gnu/bits/confname.h \
- /usr/include/aarch64-linux-gnu/bits/getopt_posix.h \
- /usr/include/aarch64-linux-gnu/bits/getopt_core.h \
- /usr/include/aarch64-linux-gnu/bits/unistd.h \
- /usr/include/aarch64-linux-gnu/bits/unistd-decl.h \
- /usr/include/aarch64-linux-gnu/bits/unistd_ext.h \
- /usr/include/linux/close_range.h \
+ /usr/include/aarch64-linux-gnu/bits/sigstksz.h \
  /usr/include/aarch64-linux-gnu/bits/ss_flags.h \
  /usr/include/aarch64-linux-gnu/bits/types/struct_sigstack.h \
  /usr/include/aarch64-linux-gnu/bits/sigthread.h \
@@ -940,6 +969,11 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: \
  /usr/include/boost/preprocessor/variadic/size.hpp \
  /usr/include/boost/preprocessor/facilities/check_empty.hpp \
  /usr/include/boost/preprocessor/variadic/has_opt.hpp \
+ /usr/include/boost/preprocessor/variadic/detail/has_opt.hpp \
+ /usr/include/boost/preprocessor/facilities/is_empty_variadic.hpp \
+ /usr/include/boost/preprocessor/punctuation/is_begin_parens.hpp \
+ /usr/include/boost/preprocessor/punctuation/detail/is_begin_parens.hpp \
+ /usr/include/boost/preprocessor/facilities/detail/is_empty.hpp \
  /usr/include/boost/preprocessor/variadic/limits/size_64.hpp \
  /usr/include/boost/preprocessor/tuple/rem.hpp \
  /usr/include/boost/preprocessor/tuple/detail/is_single_return.hpp \
@@ -1111,15 +1145,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: \
  /usr/include/boost/limits.hpp /usr/include/boost/range/value_type.hpp \
  /usr/include/boost/range/detail/misc_concept.hpp \
  /usr/include/boost/type_traits/make_unsigned.hpp \
- /usr/include/boost/type_traits/is_signed.hpp /usr/include/c++/13/climits \
- /usr/lib/gcc/aarch64-linux-gnu/13/include/limits.h \
- /usr/lib/gcc/aarch64-linux-gnu/13/include/syslimits.h \
- /usr/include/limits.h /usr/include/aarch64-linux-gnu/bits/posix1_lim.h \
- /usr/include/aarch64-linux-gnu/bits/local_lim.h \
- /usr/include/linux/limits.h \
- /usr/include/aarch64-linux-gnu/bits/posix2_lim.h \
- /usr/include/aarch64-linux-gnu/bits/xopen_lim.h \
- /usr/include/aarch64-linux-gnu/bits/uio_lim.h \
+ /usr/include/boost/type_traits/is_signed.hpp \
  /usr/include/boost/type_traits/is_unsigned.hpp \
  /usr/include/boost/type_traits/add_volatile.hpp \
  /usr/include/boost/range/detail/has_member_size.hpp \
@@ -1198,6 +1224,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: \
  /usr/include/boost/exception/exception.hpp \
  /usr/include/boost/assert/source_location.hpp \
  /usr/include/boost/current_function.hpp \
+ /usr/include/c++/13/source_location \
  /usr/include/boost/function/function_base.hpp \
  /usr/include/boost/function/function_fwd.hpp \
  /usr/include/boost/function_equal.hpp \
@@ -1295,7 +1322,7 @@ CMakeFiles/ffw_robot_manager.dir/src/ffw_robot_manager.cpp.o: \
  /opt/ros/jazzy/include/rsl/rsl/static_vector.hpp \
  /opt/ros/jazzy/include/tcb_span/span.hpp \
  /opt/ros/jazzy/include/rsl/rsl/parameter_validators.hpp \
- /opt/ros/jazzy/include/rsl/rsl/export.hpp \
+ /opt/ros/jazzy/include/rsl/rsl/export.hpp /usr/include/tl/expected.hpp \
  /root/ros2_ws/src/ai_worker/ffw_robot_manager/include/ffw_robot_manager/topic_watchdog.hpp \
  /root/ros2_ws/src/ai_worker/ffw_robot_manager/include/ffw_robot_manager/robot_type.hpp \
  /root/ros2_ws/src/ai_worker/ffw_robot_manager/include/ffw_robot_manager/battery_model.hpp \

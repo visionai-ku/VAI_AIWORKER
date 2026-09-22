@@ -16,7 +16,7 @@ set(_ffw_spring_actuator_controller_CONFIG_INCLUDED TRUE)
 
 # output package information
 if(NOT ffw_spring_actuator_controller_FIND_QUIETLY)
-  message(STATUS "Found ffw_spring_actuator_controller: 1.2.1 (${ffw_spring_actuator_controller_DIR})")
+  message(STATUS "Found ffw_spring_actuator_controller: 2.2.5 (${ffw_spring_actuator_controller_DIR})")
 endif()
 
 # warn when using a deprecated package

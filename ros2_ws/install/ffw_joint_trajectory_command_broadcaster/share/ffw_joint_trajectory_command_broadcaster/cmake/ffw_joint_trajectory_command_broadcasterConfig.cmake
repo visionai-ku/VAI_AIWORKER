@@ -16,7 +16,7 @@ set(_ffw_joint_trajectory_command_broadcaster_CONFIG_INCLUDED TRUE)
 
 # output package information
 if(NOT ffw_joint_trajectory_command_broadcaster_FIND_QUIETLY)
-  message(STATUS "Found ffw_joint_trajectory_command_broadcaster: 1.2.1 (${ffw_joint_trajectory_command_broadcaster_DIR})")
+  message(STATUS "Found ffw_joint_trajectory_command_broadcaster: 2.2.5 (${ffw_joint_trajectory_command_broadcaster_DIR})")
 endif()
 
 # warn when using a deprecated package

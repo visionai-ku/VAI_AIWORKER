@@ -1,0 +1,105 @@
+[0.053s] Invoking command in '/root/ros2_ws/build/robotis_hand_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/robotis_hand/robotis_hand_description -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/robotis_hand_description
+[0.369s] CMake Deprecation Warning at CMakeLists.txt:4 (cmake_minimum_required):
+[0.369s]   Compatibility with CMake < 3.10 will be removed from a future version of
+[0.369s]   CMake.
+[0.369s] 
+[0.369s]   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+[0.369s]   to tell CMake that the project requires at least <min> but has been updated
+[0.369s]   to work with policies introduced by <max> or earlier.
+[0.369s] 
+[0.369s] 
+[0.487s] -- The C compiler identification is GNU 13.3.0
+[0.693s] -- The CXX compiler identification is GNU 13.3.0
+[0.705s] -- Detecting C compiler ABI info
+[0.857s] -- Detecting C compiler ABI info - done
+[0.886s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.886s] -- Detecting C compile features
+[0.887s] -- Detecting C compile features - done
+[0.943s] -- Detecting CXX compiler ABI info
+[1.146s] -- Detecting CXX compiler ABI info - done
+[1.174s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[1.174s] -- Detecting CXX compile features
+[1.175s] -- Detecting CXX compile features - done
+[1.356s] -- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[3.023s] -- Found Python3: /opt/venv/bin/python3 (found version "3.12.3") found components: Interpreter
+[3.193s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[5.094s] -- Configuring done (4.7s)
+[5.115s] -- Generating done (0.0s)
+[5.117s] -- Build files have been written to: /root/ros2_ws/build/robotis_hand_description
+[5.128s] Invoked command in '/root/ros2_ws/build/robotis_hand_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/robotis_hand/robotis_hand_description -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/robotis_hand_description
+[5.130s] Invoking command in '/root/ros2_ws/build/robotis_hand_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/robotis_hand_description -- -j12 -l12
+[5.776s] Invoked command in '/root/ros2_ws/build/robotis_hand_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/robotis_hand_description -- -j12 -l12
+[5.776s] Invoking command in '/root/ros2_ws/build/robotis_hand_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/robotis_hand_description
+[6.759s] -- Install configuration: "Release"
+[6.759s] -- Execute custom install script
+[6.759s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/launch/hx5_d20_left.launch.py
+[6.779s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/launch/hx5_d20_right.launch.py
+[6.802s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_base_unit.stl
+[6.835s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_finger_dip.stl
+[6.870s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_finger_mcp.stl
+[6.885s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_finger_pip.stl
+[6.902s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_finger_tip.stl
+[6.928s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_thumb_ip.stl
+[6.962s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_thumb_mcp.stl
+[6.988s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_thumb_mcp2.stl
+[6.998s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_thumb_tip.stl
+[7.018s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_base_unit.stl
+[7.045s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_finger_dip.stl
+[7.051s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_finger_mcp.stl
+[7.072s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_finger_pip.stl
+[7.091s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_finger_tip.stl
+[7.151s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_thumb_ip.stl
+[7.157s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_thumb_mcp.stl
+[7.180s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_thumb_mcp2.stl
+[7.214s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_thumb_tip.stl
+[7.236s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_base_unit.stl
+[7.267s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_finger_dip.stl
+[7.298s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_finger_mcp.stl
+[7.321s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_finger_pip.stl
+[7.336s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_finger_tip.stl
+[7.356s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_thumb_ip.stl
+[7.467s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_thumb_mcp.stl
+[7.467s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_thumb_mcp2.stl
+[7.467s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_thumb_tip.stl
+[7.467s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_base_unit.stl
+[7.468s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_finger_dip.stl
+[7.468s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_finger_mcp.stl
+[7.503s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_finger_pip.stl
+[7.522s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_finger_tip.stl
+[7.528s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_thumb_ip.stl
+[7.534s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_thumb_mcp.stl
+[7.545s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_thumb_mcp2.stl
+[7.564s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_thumb_tip.stl
+[7.586s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/rviz/robotis_hand.rviz
+[7.611s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/urdf/hx5_d20_rev1/hx5_d20_left.urdf.xacro
+[7.632s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/urdf/hx5_d20_rev1/hx5_d20_left.xacro
+[7.648s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/urdf/hx5_d20_rev1/hx5_d20_right.urdf.xacro
+[7.662s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/urdf/hx5_d20_rev1/hx5_d20_right.xacro
+[7.675s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/urdf/hx5_d20_rev2/hx5_d20_left.urdf.xacro
+[7.683s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/urdf/hx5_d20_rev2/hx5_d20_left.xacro
+[7.726s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/urdf/hx5_d20_rev2/hx5_d20_right.urdf.xacro
+[7.734s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/urdf/hx5_d20_rev2/hx5_d20_right.xacro
+[7.749s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/gazebo/hx5_d20/hx5_d20_left.gazebo.xacro
+[7.763s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/gazebo/hx5_d20/hx5_d20_right.gazebo.xacro
+[7.789s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/ros2_control/hx5_d20_rev1/hx5_d20_left.ros2_control.xacro
+[7.830s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/ros2_control/hx5_d20_rev1/hx5_d20_right.ros2_control.xacro
+[7.852s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/ros2_control/hx5_d20_rev2/hx5_d20_left.joints.xacro
+[7.878s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/ros2_control/hx5_d20_rev2/hx5_d20_left.ros2_control.xacro
+[7.916s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/ros2_control/hx5_d20_rev2/hx5_d20_right.joints.xacro
+[7.941s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/ros2_control/hx5_d20_rev2/hx5_d20_right.ros2_control.xacro
+[7.952s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/ament_index/resource_index/package_run_dependencies/robotis_hand_description
+[7.962s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/ament_index/resource_index/parent_prefix_path/robotis_hand_description
+[7.995s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/environment/ament_prefix_path.sh
+[8.036s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/environment/ament_prefix_path.dsv
+[8.059s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/environment/path.sh
+[8.079s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/environment/path.dsv
+[8.101s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/local_setup.bash
+[8.116s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/local_setup.sh
+[8.140s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/local_setup.zsh
+[8.180s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/local_setup.dsv
+[8.204s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/package.dsv
+[8.231s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/ament_index/resource_index/packages/robotis_hand_description
+[8.247s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/cmake/robotis_hand_descriptionConfig.cmake
+[8.267s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/cmake/robotis_hand_descriptionConfig-version.cmake
+[8.292s] -- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/package.xml
+[8.327s] Invoked command in '/root/ros2_ws/build/robotis_hand_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/robotis_hand_description

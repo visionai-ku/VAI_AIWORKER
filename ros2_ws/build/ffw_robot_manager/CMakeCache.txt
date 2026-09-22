@@ -277,6 +277,9 @@ PKG_CONFIG_ARGN:STRING=
 //pkg-config executable
 PKG_CONFIG_EXECUTABLE:FILEPATH=/usr/bin/pkg-config
 
+//Select ROS middleware implementation to link against
+RMW_IMPLEMENTATION:STRING=rmw_zenoh_cpp
+
 //Name of the computer/site where compile is being run
 SITE:STRING=buildkitsandbox
 
@@ -493,6 +496,9 @@ rmw_implementation_DIR:PATH=/opt/ros/jazzy/share/rmw_implementation/cmake
 //The directory containing a CMake configuration file for rmw_implementation_cmake.
 rmw_implementation_cmake_DIR:PATH=/opt/ros/jazzy/share/rmw_implementation_cmake/cmake
 
+//The directory containing a CMake configuration file for rmw_zenoh_cpp.
+rmw_zenoh_cpp_DIR:PATH=/opt/ros/jazzy/share/rmw_zenoh_cpp/cmake
+
 //The directory containing a CMake configuration file for ros2_control_cmake.
 ros2_control_cmake_DIR:PATH=/opt/ros/jazzy/share/ros2_control_cmake/cmake
 
@@ -567,6 +573,9 @@ tcb_span_DIR:PATH=/opt/ros/jazzy/share/tcb_span/cmake
 
 //The directory containing a CMake configuration file for tinyxml2_vendor.
 tinyxml2_vendor_DIR:PATH=/opt/ros/jazzy/share/tinyxml2_vendor/cmake
+
+//The directory containing a CMake configuration file for tl-expected.
+tl-expected_DIR:PATH=/usr/share/cmake/tl-expected
 
 //The directory containing a CMake configuration file for tl_expected.
 tl_expected_DIR:PATH=/opt/ros/jazzy/share/tl_expected/cmake
@@ -751,6 +760,10 @@ CMAKE_TAPI-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//Test COMPILER_SUPPORTS_CXX17
+COMPILER_SUPPORTS_CXX17:INTERNAL=1
+//Test COMPILER_SUPPORTS_CXX20
+COMPILER_SUPPORTS_CXX20:INTERNAL=1
 //Details about finding FastRTPS
 FIND_PACKAGE_MESSAGE_DETAILS_FastRTPS:INTERNAL=[/opt/ros/jazzy/include][/opt/ros/jazzy/lib/libfastrtps.so;/opt/ros/jazzy/lib/libfastcdr.so][v(2.13)]
 //Details about finding OpenSSL

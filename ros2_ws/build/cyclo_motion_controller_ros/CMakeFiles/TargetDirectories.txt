@@ -3,6 +3,8 @@
 /root/ros2_ws/build/cyclo_motion_controller_ros/CMakeFiles/vr_controller_node.dir
 /root/ros2_ws/build/cyclo_motion_controller_ros/CMakeFiles/ai_worker_movej_controller_node.dir
 /root/ros2_ws/build/cyclo_motion_controller_ros/CMakeFiles/ai_worker_movel_controller_node.dir
+/root/ros2_ws/build/cyclo_motion_controller_ros/CMakeFiles/ai_worker_bimanual_movel_controller_node.dir
+/root/ros2_ws/build/cyclo_motion_controller_ros/CMakeFiles/ai_worker_bimanual_movej_controller_node.dir
 /root/ros2_ws/build/cyclo_motion_controller_ros/CMakeFiles/leader_controller_node.dir
 /root/ros2_ws/build/cyclo_motion_controller_ros/CMakeFiles/omx_movej_controller_node.dir
 /root/ros2_ws/build/cyclo_motion_controller_ros/CMakeFiles/omx_movel_controller_node.dir

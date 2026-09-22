@@ -16,7 +16,7 @@ set(_ffw_moveit_config_CONFIG_INCLUDED TRUE)
 
 # output package information
 if(NOT ffw_moveit_config_FIND_QUIETLY)
-  message(STATUS "Found ffw_moveit_config: 1.2.1 (${ffw_moveit_config_DIR})")
+  message(STATUS "Found ffw_moveit_config: 2.2.5 (${ffw_moveit_config_DIR})")
 endif()
 
 # warn when using a deprecated package

@@ -12,6 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+// This file is derived from `dyros_robot_controller` project:
+// https://github.com/JunHeonYoon/dyros_robot_controller
+//
+// Original work Copyright (c) 2025 JunHeonYoon, licensed under the
+// Apache License 2.0. Modifications in this file are Copyright 2026
+// ROBOTIS CO., LTD.
+//
 // Author: Yeonguk Kim
 
 #pragma once
@@ -37,7 +44,7 @@
 #include <pinocchio/algorithm/jacobian.hpp>
 #include <pinocchio/algorithm/rnea-derivatives.hpp>
 #include <pinocchio/collision/distance.hpp>
-#include <pinocchio/spatial/fcl-pinocchio-conversions.hpp>
+#include <pinocchio/collision/fcl-pinocchio-conversions.hpp>
 #include <pinocchio/parsers/urdf.hpp>
 #include <pinocchio/parsers/srdf.hpp>
 

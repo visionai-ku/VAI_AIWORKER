@@ -1,0 +1,101 @@
+CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+
+CMake Warning (dev) at /opt/ros/jazzy/share/realtime_tools/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package):
+  Policy CMP0167 is not set: The FindBoost module is removed.  Run "cmake
+  --help-policy CMP0167" for policy details.  Use the cmake_policy command to
+  set the policy and suppress this warning.
+
+Call Stack (most recent call first):
+  /opt/ros/jazzy/share/realtime_tools/cmake/realtime_toolsConfig.cmake:41 (include)
+  /opt/ros/jazzy/share/hardware_interface/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+  /opt/ros/jazzy/share/hardware_interface/cmake/hardware_interfaceConfig.cmake:41 (include)
+  /opt/ros/jazzy/share/controller_interface/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+  /opt/ros/jazzy/share/controller_interface/cmake/controller_interfaceConfig.cmake:41 (include)
+  CMakeLists.txt:31 (find_package)
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Deprecation Warning at /opt/ros/jazzy/share/tl_expected/cmake/tl_expectedConfig.cmake:37 (message):
+  Package 'tl_expected' is deprecated (This package will be removed in ROS 2
+  Lyrical Luth.
+
+        Use tl/expected.hpp from libexpected-dev,
+        or rcpputils/tl_expected/expected.hpp if the system header is not available)
+Call Stack (most recent call first):
+  /opt/ros/jazzy/share/parameter_traits/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+  /opt/ros/jazzy/share/parameter_traits/cmake/parameter_traitsConfig.cmake:41 (include)
+  /opt/ros/jazzy/share/generate_parameter_library/cmake/generate_parameter_library-extras.cmake:30 (find_package)
+  /opt/ros/jazzy/share/generate_parameter_library/cmake/generate_parameter_libraryConfig.cmake:41 (include)
+  CMakeLists.txt:31 (find_package)
+
+
+In file included from /opt/ros/jazzy/include/parameter_traits/parameter_traits/parameter_traits.hpp:37,
+                 from /root/ros2_ws/build/ffw_swerve_drive_controller/include/ffw_swerve_drive_controller/swerve_drive_controller_parameter.hpp:26,
+                 from /root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/include/ffw_swerve_drive_controller/swerve_drive_controller.hpp:54,
+                 from /root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp:19:
+/opt/ros/jazzy/include/tl_expected/expected.hpp:18:167: note: ‘#pragma message: tl_expected/expected.hpp is deprecated. Use <tl/expected.hpp> from libexpected-dev, or <rcpputils/tl_expected/expected.hpp> if the system header is not available.’
+   18 |   "tl_expected/expected.hpp is deprecated. Use <tl/expected.hpp> from libexpected-dev, or <rcpputils/tl_expected/expected.hpp> if the system header is not available.") // NOLINT
+      |                                                                                                                                                                       ^
+/root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp: In member function ‘virtual ffw_swerve_drive_controller::CallbackReturn ffw_swerve_drive_controller::SwerveDriveController::on_activate(const rclcpp_lifecycle::State&)’:
+/root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp:511:18: warning: unused variable ‘wheel_joint’ [-Wunused-variable]
+  511 |     const auto & wheel_joint = wheel_joint_names_[i];
+      |                  ^~~~~~~~~~~
+/root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp: In member function ‘virtual ffw_swerve_drive_controller::CallbackReturn ffw_swerve_drive_controller::SwerveDriveController::on_deactivate(const rclcpp_lifecycle::State&)’:
+/root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp:592:60: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+  592 |         module_handles_[i].steering_cmd_pos.get().set_value(steering_val.value());
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+In file included from /opt/ros/jazzy/include/controller_interface/controller_interface/controller_interface_base.hpp:29,
+                 from /opt/ros/jazzy/include/controller_interface/controller_interface/controller_interface.hpp:21,
+                 from /root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/include/ffw_swerve_drive_controller/swerve_drive_controller.hpp:31:
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp:593:57: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+  593 |         module_handles_[i].wheel_cmd_vel.get().set_value(0.0);
+      |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp: In member function ‘virtual controller_interface::return_type ffw_swerve_drive_controller::SwerveDriveController::update(const rclcpp::Time&, const rclcpp::Duration&)’:
+/root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp:1024:58: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+ 1024 |       module_handles_[i].steering_cmd_pos.get().set_value(current_steering_angle);
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp:1025:55: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+ 1025 |       module_handles_[i].wheel_cmd_vel.get().set_value(0.0);
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp:1039:46: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+ 1039 |       handle.steering_cmd_pos.get().set_value(hold_angle);
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp:1040:43: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+ 1040 |       handle.wheel_cmd_vel.get().set_value(0.0);
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp:1050:46: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+ 1050 |       handle.steering_cmd_pos.get().set_value(final_steering_commands_[i]);
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~
+/root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp:1055:43: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+ 1055 |       handle.wheel_cmd_vel.get().set_value(wheel_vel);
+      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+/opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+  117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+      |                      ^~~~~~~~~

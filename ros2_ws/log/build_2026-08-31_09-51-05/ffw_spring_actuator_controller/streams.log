@@ -1,0 +1,81 @@
+[0.026s] Invoking command in '/root/ros2_ws/build/ffw_spring_actuator_controller': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/ai_worker/ffw_spring_actuator_controller -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/ffw_spring_actuator_controller
+[1.358s] -- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[1.358s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[1.358s] -- Found controller_interface: 4.45.2 (/opt/ros/jazzy/share/controller_interface/cmake)
+[1.359s] -- Found rosidl_generator_c: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+[1.359s] -- Found rosidl_generator_cpp: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+[1.359s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.359s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.359s] -- Found TinyXML2 via Config file: /usr/lib/aarch64-linux-gnu/cmake/tinyxml2
+[1.406s] -- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+[1.450s] -- Found rmw_zenoh_cpp: 0.2.9 (/opt/ros/jazzy/share/rmw_zenoh_cpp/cmake)
+[1.454s] -- Using RMW implementation 'rmw_zenoh_cpp' as default
+[1.633s] [33mCMake Warning (dev) at /opt/ros/jazzy/share/realtime_tools/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package):
+[1.633s]   Policy CMP0167 is not set: The FindBoost module is removed.  Run "cmake
+[1.633s]   --help-policy CMP0167" for policy details.  Use the cmake_policy command to
+[1.633s]   set the policy and suppress this warning.
+[1.633s] 
+[1.633s] Call Stack (most recent call first):
+[1.633s]   /opt/ros/jazzy/share/realtime_tools/cmake/realtime_toolsConfig.cmake:41 (include)
+[1.633s]   /opt/ros/jazzy/share/hardware_interface/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+[1.634s]   /opt/ros/jazzy/share/hardware_interface/cmake/hardware_interfaceConfig.cmake:41 (include)
+[1.634s]   /opt/ros/jazzy/share/controller_interface/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+[1.634s]   /opt/ros/jazzy/share/controller_interface/cmake/controller_interfaceConfig.cmake:41 (include)
+[1.634s]   CMakeLists.txt:28 (find_package)
+[1.634s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[1.634s] [0m
+[1.717s] -- Found generate_parameter_library: 0.7.3 (/opt/ros/jazzy/share/generate_parameter_library/cmake)
+[1.718s] -- Found parameter_traits: 0.7.3 (/opt/ros/jazzy/share/parameter_traits/cmake)
+[1.728s] [0mCMake Deprecation Warning at /opt/ros/jazzy/share/tl_expected/cmake/tl_expectedConfig.cmake:37 (message):
+[1.728s]   Package 'tl_expected' is deprecated (This package will be removed in ROS 2
+[1.728s]   Lyrical Luth.
+[1.728s] 
+[1.728s]         Use tl/expected.hpp from libexpected-dev,
+[1.728s]         or rcpputils/tl_expected/expected.hpp if the system header is not available)
+[1.728s] Call Stack (most recent call first):
+[1.728s]   /opt/ros/jazzy/share/parameter_traits/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+[1.728s]   /opt/ros/jazzy/share/parameter_traits/cmake/parameter_traitsConfig.cmake:41 (include)
+[1.729s]   /opt/ros/jazzy/share/generate_parameter_library/cmake/generate_parameter_library-extras.cmake:30 (find_package)
+[1.729s]   /opt/ros/jazzy/share/generate_parameter_library/cmake/generate_parameter_libraryConfig.cmake:41 (include)
+[1.729s]   CMakeLists.txt:28 (find_package)
+[1.729s] 
+[1.729s] [0m
+[2.062s] -- Configuring done (1.8s)
+[2.118s] -- Generating done (0.1s)
+[2.124s] -- Build files have been written to: /root/ros2_ws/build/ffw_spring_actuator_controller
+[2.568s] Invoked command in '/root/ros2_ws/build/ffw_spring_actuator_controller' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/ai_worker/ffw_spring_actuator_controller -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/ffw_spring_actuator_controller
+[2.569s] Invoking command in '/root/ros2_ws/build/ffw_spring_actuator_controller': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/ffw_spring_actuator_controller -- -j8 -l8
+[2.869s] [ 50%] Built target spring_actuator_controller_parameters
+[2.928s] [100%] Built target spring_actuator_controller
+[3.332s] Invoked command in '/root/ros2_ws/build/ffw_spring_actuator_controller' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/ffw_spring_actuator_controller -- -j8 -l8
+[3.333s] Invoking command in '/root/ros2_ws/build/ffw_spring_actuator_controller': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/ffw_spring_actuator_controller
+[3.639s] -- Install configuration: "Release"
+[3.640s] -- Execute custom install script
+[3.640s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_spring_actuator_controller/include/ffw_spring_actuator_controller/spring_actuator_controller_parameters.hpp
+[3.641s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_spring_actuator_controller/share/ffw_spring_actuator_controller//spring_actuator_plugin.xml
+[3.641s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_spring_actuator_controller/include/spring_actuator_controller/spring_actuator_controller/spring_actuator_controller.hpp
+[3.641s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_spring_actuator_controller/include/spring_actuator_controller/spring_actuator_controller/visibility_control.h
+[3.642s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_spring_actuator_controller/share/ffw_spring_actuator_controller/environment/library_path.sh
+[3.642s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_spring_actuator_controller/share/ffw_spring_actuator_controller/environment/library_path.dsv
+[3.642s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_spring_actuator_controller/share/ament_index/resource_index/package_run_dependencies/ffw_spring_actuator_controller
+[3.643s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_spring_actuator_controller/share/ament_index/resource_index/parent_prefix_path/ffw_spring_actuator_controller
+[3.643s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_spring_actuator_controller/share/ffw_spring_actuator_controller/environment/ament_prefix_path.sh
+[3.643s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_spring_actuator_controller/share/ffw_spring_actuator_controller/environment/ament_prefix_path.dsv
+[3.644s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_spring_actuator_controller/share/ffw_spring_actuator_controller/environment/path.sh
+[3.644s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_spring_actuator_controller/share/ffw_spring_actuator_controller/environment/path.dsv
+[3.644s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_spring_actuator_controller/share/ffw_spring_actuator_controller/local_setup.bash
+[3.645s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_spring_actuator_controller/share/ffw_spring_actuator_controller/local_setup.sh
+[3.645s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_spring_actuator_controller/share/ffw_spring_actuator_controller/local_setup.zsh
+[3.645s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_spring_actuator_controller/share/ffw_spring_actuator_controller/local_setup.dsv
+[3.645s] -- Symlinking: /root/ros2_ws/install/ffw_spring_actuator_controller/share/ffw_spring_actuator_controller/package.dsv
+[3.653s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_spring_actuator_controller/share/ament_index/resource_index/packages/ffw_spring_actuator_controller
+[3.654s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_spring_actuator_controller/share/ament_index/resource_index/controller_interface__pluginlib__plugin/ffw_spring_actuator_controller
+[3.654s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_spring_actuator_controller/share/ffw_spring_actuator_controller/cmake/ament_cmake_export_dependencies-extras.cmake
+[3.655s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_spring_actuator_controller/share/ffw_spring_actuator_controller/cmake/ament_cmake_export_targets-extras.cmake
+[3.655s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_spring_actuator_controller/share/ffw_spring_actuator_controller/cmake/ffw_spring_actuator_controllerConfig.cmake
+[3.655s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_spring_actuator_controller/share/ffw_spring_actuator_controller/cmake/ffw_spring_actuator_controllerConfig-version.cmake
+[3.655s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_spring_actuator_controller/share/ffw_spring_actuator_controller/package.xml
+[3.656s] -- Up-to-date: /root/ros2_ws/install/ffw_spring_actuator_controller/lib/libspring_actuator_controller.so
+[3.665s] -- Up-to-date: /root/ros2_ws/install/ffw_spring_actuator_controller/share/ffw_spring_actuator_controller/cmake/export_spring_actuator_controllerExport.cmake
+[3.672s] -- Up-to-date: /root/ros2_ws/install/ffw_spring_actuator_controller/share/ffw_spring_actuator_controller/cmake/export_spring_actuator_controllerExport-release.cmake
+[3.684s] Invoked command in '/root/ros2_ws/build/ffw_spring_actuator_controller' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/ffw_spring_actuator_controller
