@@ -32,23 +32,35 @@ recording" or "return to initial pose" event and this one needs both:
     q / Esc   stop the whole session
 
 A small floating Qt window shows live status (episode in progress / saved
-count / policy state) -- the same idea as episode_recorder.RecordControl's
-window (whose title bar shows recorder.status()) for teleop recording, just
-read-only here since keyboard already drives start/stop/discard/home. Falls
-back to printing the status line in the cell output if a window cannot be
-opened (e.g. no display).
+count / policy state) plus the same three camera feeds the policy itself
+sees (head, wrist_left, wrist_right -- episode_recorder.DEFAULT_CAMERAS) --
+the same idea as lerobot's own record_loop(display_data=True), which streams
+observation images (and action) to a live viewer every tick (see
+lerobot.utils.visualization_utils.log_rerun_data, installed with this
+project's pinned lerobot==0.4.4) so you can see what the policy is reacting
+to, not just whether it's running. Embedded as plain image labels in this
+window instead of a separate rerun viewer, since a floating Qt window
+already exists here for status (episode_recorder.RecordControl's window,
+whose title bar shows recorder.status(), is the same pattern for teleop
+recording) and rerun would just be a second, unrelated window for the same
+purpose. Falls back to printing the status line in the cell output if a
+window cannot be opened (e.g. no display).
 """
 from __future__ import annotations
 
 import time
 
+CAMERA_ORDER = ("head", "wrist_left", "wrist_right")
+_THUMB_W, _THUMB_H = 220, 165
+
 
 class _StatusWindow:
     """Read-only floating window mirroring episode_recorder.RecordControl's
-    window, without its REC/STOP/DEL buttons (keyboard already covers those)."""
+    window, without its REC/STOP/DEL buttons (keyboard already covers those),
+    plus a live thumbnail per camera."""
 
-    def __init__(self, x_offset=0.0, y_offset=0.72, width=0.28, height=0.12):
-        from PyQt5.QtWidgets import QApplication, QLabel, QVBoxLayout, QWidget
+    def __init__(self, x_offset=0.0, y_offset=0.60, width=0.40, height=0.34):
+        from PyQt5.QtWidgets import QApplication, QHBoxLayout, QLabel, QVBoxLayout, QWidget
         from ri_motion_v5_package.utility import get_monitor_size
 
         self.app = QApplication.instance() or QApplication([])
@@ -62,10 +74,41 @@ class _StatusWindow:
         self.label.setStyleSheet("font-family: monospace; font-size: 13px;")
         self.label.setWordWrap(True)
         layout.addWidget(self.label)
+
+        cam_row = QHBoxLayout()
+        self.cam_labels = {}
+        for cam in CAMERA_ORDER:
+            column = QVBoxLayout()
+            title = QLabel(cam)
+            title.setStyleSheet("font-family: monospace; font-size: 11px;")
+            image = QLabel()
+            image.setFixedSize(_THUMB_W, _THUMB_H)
+            image.setStyleSheet("background-color: #222;")
+            column.addWidget(title)
+            column.addWidget(image)
+            cam_row.addLayout(column)
+            self.cam_labels[cam] = image
+        layout.addLayout(cam_row)
         self.widget.show()
 
     def set_text(self, text):
         self.label.setText(text)
+        self.app.processEvents()
+
+    def set_frames(self, frames):
+        """frames: {camera_name: HWC BGR uint8}, as PolicyDeployment._poll_cameras()
+        returns. Missing/unknown cameras just keep their last (or blank) thumbnail."""
+        from PyQt5.QtGui import QImage, QPixmap
+
+        for cam, label in self.cam_labels.items():
+            bgr = frames.get(cam)
+            if bgr is None:
+                continue
+            rgb = bgr[:, :, ::-1]
+            image = QImage(rgb.tobytes(), rgb.shape[1], rgb.shape[0], rgb.shape[1] * 3,
+                           QImage.Format_RGB888)
+            pixmap = QPixmap.fromImage(image).scaled(_THUMB_W, _THUMB_H)
+            label.setPixmap(pixmap)
         self.app.processEvents()
 
     def close(self):
@@ -173,7 +216,10 @@ def run_policy_with_keyboard_recording(deploy, recorder, duration_s=None, status
                 last_status_at = now
                 text = _status_line(recorder, result)
                 if status_window is not None:
+                    # step() only polls cameras while enabled+ready; poll here too so
+                    # the preview keeps showing what the robot sees even while idle.
                     status_window.set_text(text)
+                    status_window.set_frames(deploy._poll_cameras())
                 else:
                     print("\r" + text + " " * 10, end="", flush=True)
 
