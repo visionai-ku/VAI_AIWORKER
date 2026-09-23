@@ -47,7 +47,8 @@ class PolicyDeployment:
     """One checkpoint, one robot session. Build once; start()/stop() may repeat."""
 
     def __init__(self, checkpoint_path, robot_ip="192.168.6.2", cameras=None, hz=30,
-                 task=None, device=None, dry_run=True, collision_margin_m=0.0005):
+                 task=None, device=None, dry_run=True, collision_margin_m=0.0005,
+                 state_joint_names=None):
         if not 0 < hz <= 200:
             raise ValueError("hz must be in (0, 200]")
         # Policy actions are always collision-checked (see fixed_quest_sim.py's
@@ -73,7 +74,8 @@ class PolicyDeployment:
             tracking_pause_s=self.cfg.TRACKING_PAUSE_S)
         self.receiver = SG2RobotStateReceiver(robot_ip, self.cfg.ROBOT_STATE_PORT, self.cfg.FEEDBACK_TIMEOUT_S).start()
         self.robot_ip, self.cameras = robot_ip, dict(DEFAULT_CAMERAS if cameras is None else cameras)
-        self.policy = PolicyRuntime(checkpoint_path, device=device, task=task or DEFAULT_TASK)
+        self.policy = PolicyRuntime(checkpoint_path, device=device, task=task or DEFAULT_TASK,
+                                    joint_names=state_joint_names)
         self.hz, self.dt = float(hz), 1. / float(hz)
         self.dry_run = dry_run
         self.running = False
@@ -114,6 +116,10 @@ class PolicyDeployment:
         if self.running:
             return
         self._open_cameras()
+        # Before the robot can be engaged: the first predict() of a process is
+        # ~200x slower than the rest, which on its own trips the control-loop
+        # delay guard and faults the session the instant the policy is enabled.
+        self.policy.warmup()
         self.policy.reset()
         self.last_result, self.last_clipped, self.last_safety_box_violations = None, {}, {}
         self.running = True
@@ -161,7 +167,12 @@ class PolicyDeployment:
             result = self.real.tick(None, feedback, enabled=True, now=now, action="home")
             self.last_result = result
             return result
-        if self.real.planner.homing:
+        if self.real.planner.homing or self.real.home_pending:
+            # home_pending matters as much as planner.homing: an Initial-pose request
+            # first spends several ticks arming the bridge, and only then does the
+            # planner start homing. Ticking enabled=False in that window calls
+            # SG2FixedQuestReal.stop(), which disarms and silently drops the request --
+            # so 'a' looked like it did nothing at all.
             result = self.real.tick(None, feedback, enabled=True, now=now)
             self.last_result = result
             return result

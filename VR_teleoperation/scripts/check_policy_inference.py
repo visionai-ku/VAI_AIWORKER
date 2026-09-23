@@ -34,9 +34,10 @@ def synthetic_observation(cameras, height=480, width=640):
     return mid_q, frames
 
 
-def check_policy_inference(checkpoint_path, device=None, cameras=None, height=480, width=640):
+def check_policy_inference(checkpoint_path, device=None, cameras=None, height=480, width=640,
+                           joint_names=None):
     cameras = list(DEFAULT_CAMERAS) if cameras is None else list(cameras)
-    runtime = PolicyRuntime(checkpoint_path, device=device)
+    runtime = PolicyRuntime(checkpoint_path, device=device, joint_names=joint_names)
     runtime.reset()
     q, frames = synthetic_observation(cameras, height, width)
     raw = runtime.predict(q, frames)
@@ -64,5 +65,12 @@ if __name__ == "__main__":
                         help="camera names; defaults to episode_recorder.DEFAULT_CAMERAS")
     parser.add_argument("--height", type=int, default=480)
     parser.add_argument("--width", type=int, default=640)
+    parser.add_argument("--exclude-joints", nargs="*", default=None,
+                        help="JOINT_NAMES this checkpoint was NOT trained on (e.g. lift_joint "
+                             "head_joint1 head_joint2 for an arm-only checkpoint); they are held at "
+                             "the synthetic mid-range value instead of predicted")
     args = parser.parse_args()
-    check_policy_inference(args.checkpoint_path, args.device, args.cameras, args.height, args.width)
+    joint_names = ([n for n in JOINT_NAMES if n not in args.exclude_joints]
+                   if args.exclude_joints else None)
+    check_policy_inference(args.checkpoint_path, args.device, args.cameras, args.height, args.width,
+                           joint_names)

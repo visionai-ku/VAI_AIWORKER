@@ -80,5 +80,42 @@ class ClipToJointLimitsTest(unittest.TestCase):
             clip_to_joint_limits(q)
 
 
+import os
+
+CHECKPOINT_PATH = os.environ.get("SG2_TEST_CHECKPOINT")
+
+
+@unittest.skipUnless(CHECKPOINT_PATH, "set SG2_TEST_CHECKPOINT to a pretrained_model dir to run")
+class PolicyRuntimeJointSubsetTest(unittest.TestCase):
+    """Against a real checkpoint trained on fewer than 19 joints (arm+gripper only,
+    lift/head excluded -- see review_dataset.ipynb's arm-only rebuild): joints
+    outside that subset must be held at their measured value, not predicted."""
+
+    def setUp(self):
+        from package.policy_inference import PolicyRuntime
+        self.excluded = ["lift_joint", "head_joint1", "head_joint2"]
+        self.included = [n for n in JOINT_NAMES if n not in self.excluded]
+        self.runtime = PolicyRuntime(CHECKPOINT_PATH, joint_names=self.included)
+
+    def test_rejects_a_joint_names_length_mismatch(self):
+        from package.policy_inference import PolicyRuntime
+        with self.assertRaises(ValueError):
+            PolicyRuntime(CHECKPOINT_PATH, joint_names=JOINT_NAMES)  # full 19, checkpoint wants 16
+
+    def test_excluded_joints_are_held_at_their_measured_value_not_predicted(self):
+        rng = np.random.default_rng(0)
+        q = mid_q().astype(np.float64)
+        for name in self.excluded:
+            q[JOINT_NAMES.index(name)] = rng.uniform(-0.2, 0.2)
+        frames = {"wrist_left": np.zeros((240, 424, 3), dtype=np.uint8),
+                  "wrist_right": np.zeros((240, 424, 3), dtype=np.uint8)}
+        self.runtime.reset()
+        full = self.runtime.predict(q, frames)
+        self.assertEqual(full.shape, (len(JOINT_NAMES),))
+        for name in self.excluded:
+            self.assertAlmostEqual(full[JOINT_NAMES.index(name)], q[JOINT_NAMES.index(name)], places=6)
+        self.assertTrue(np.all(np.isfinite(full)))
+
+
 if __name__ == "__main__":
     unittest.main()

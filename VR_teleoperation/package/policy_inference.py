@@ -57,9 +57,20 @@ def clip_to_joint_limits(q):
 
 
 class PolicyRuntime:
-    """Loads one LeRobot policy checkpoint and predicts joint targets from it."""
+    """Loads one LeRobot policy checkpoint and predicts joint targets from it.
 
-    def __init__(self, checkpoint_path, device=None, task=DEFAULT_TASK, robot_type=DEFAULT_ROBOT_TYPE):
+    joint_names: the JOINT_NAMES subset this checkpoint's observation.state/action
+    actually cover, in the order its dataset was built with (e.g. a checkpoint
+    trained with lift/head excluded, see review_dataset.ipynb's arm-only rebuild).
+    A trained checkpoint's config.json only stores feature shapes, not names, so
+    this cannot be recovered from the checkpoint itself -- the caller must know
+    which dataset it was trained on. Defaults to the full JOINT_NAMES (every
+    joint), matching a checkpoint trained on episode_recorder.py's default
+    19-joint schema with no caller-side change needed.
+    """
+
+    def __init__(self, checkpoint_path, device=None, task=DEFAULT_TASK, robot_type=DEFAULT_ROBOT_TYPE,
+                 joint_names=None):
         from lerobot.configs.policies import PreTrainedConfig
         from lerobot.policies.factory import get_policy_class, make_pre_post_processors
         from lerobot.utils.utils import get_safe_torch_device
@@ -78,6 +89,18 @@ class PolicyRuntime:
         self.device = get_safe_torch_device(cfg.device)
         self.task, self.robot_type = str(task), str(robot_type)
         self.checkpoint_path, self.policy_type = checkpoint_path, cfg.type
+        self.joint_names = list(JOINT_NAMES) if joint_names is None else list(joint_names)
+        if set(self.joint_names) - set(JOINT_NAMES):
+            raise ValueError("joint_names has names outside JOINT_NAMES: %s"
+                             % sorted(set(self.joint_names) - set(JOINT_NAMES)))
+        self._joint_idx = [JOINT_NAMES.index(name) for name in self.joint_names]
+        state_dim = self.policy.config.input_features["observation.state"].shape[0]
+        action_dim = self.policy.config.output_features["action"].shape[0]
+        if state_dim != len(self.joint_names) or action_dim != len(self.joint_names):
+            raise ValueError(
+                "joint_names has %d entries but the checkpoint's observation.state/action are "
+                "%d/%d-dimensional -- pass the exact JOINT_NAMES subset (and order) the training "
+                "dataset used." % (len(self.joint_names), state_dim, action_dim))
 
     def reset(self):
         """Call once before each new episode/session: clears ACT's action queue /
@@ -86,6 +109,25 @@ class PolicyRuntime:
         self.preprocessor.reset()
         self.postprocessor.reset()
 
+    def warmup(self):
+        """Run one throwaway prediction on a synthetic observation.
+
+        The very first predict() of a process pays a one-off cost (CUDA kernel
+        load / lazy init) that measured ~200ms here against ~1ms steady state.
+        Inside the control loop that single spike trips the "control loop delay"
+        guard (SG2FixedQuestReal faults when a tick exceeds MAX_LOOP_DT_S=0.10s),
+        so the session dies the moment the policy is first engaged. Paying it up
+        front, while the robot is still disabled, keeps every in-loop tick fast.
+        Cheap to call again; later predicts are already warm.
+        """
+        shapes = {key: feature.shape
+                  for key, feature in self.policy.config.input_features.items()
+                  if key.startswith("observation.images.")}
+        frames = {key.rsplit(".", 1)[-1]: np.zeros((shape[1], shape[2], 3), dtype=np.uint8)
+                  for key, shape in shapes.items()}
+        self.predict(np.zeros(len(JOINT_NAMES), dtype=np.float32), frames)
+        self.reset()
+
     def predict(self, q, frames, task=None):
         """q: (len(JOINT_NAMES),) measured state, JOINT_NAMES order.
         frames: {camera_name: HWC BGR uint8}, one entry per camera this checkpoint
@@ -93,6 +135,10 @@ class PolicyRuntime:
 
         -> raw predicted joint target, JOINT_NAMES order, float32, NOT yet safety
         clipped -- pass it through clip_to_joint_limits() before sending it on.
+        Joints outside self.joint_names (e.g. lift/head excluded from a reduced
+        checkpoint) are held at their current measured value from `q`, not
+        predicted -- the caller's guard/collision pipeline still sees a full
+        19-joint target either way.
         """
         import cv2
         from lerobot.utils.control_utils import predict_action
@@ -100,7 +146,7 @@ class PolicyRuntime:
         q = np.asarray(q, dtype=np.float32)
         if q.shape != (len(JOINT_NAMES),) or not np.all(np.isfinite(q)):
             raise ValueError("q must be a finite (%d,) vector in JOINT_NAMES order" % len(JOINT_NAMES))
-        observation = {"observation.state": q}
+        observation = {"observation.state": q[self._joint_idx]}
         for cam, bgr in frames.items():
             observation["observation.images.%s" % cam] = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
 
@@ -109,4 +155,7 @@ class PolicyRuntime:
             preprocessor=self.preprocessor, postprocessor=self.postprocessor,
             use_amp=bool(self.policy.config.use_amp),
             task=self.task if task is None else str(task), robot_type=self.robot_type)
-        return action.squeeze(0).to("cpu").numpy().astype(np.float32)
+        action = action.squeeze(0).to("cpu").numpy().astype(np.float32)
+        full = q.copy()
+        full[self._joint_idx] = action
+        return full
