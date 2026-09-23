@@ -1,0 +1,9 @@
+source;share/robotis_hand_teleop/hook/pythonpath.ps1
+source;share/robotis_hand_teleop/hook/pythonpath.dsv
+source;share/robotis_hand_teleop/hook/pythonpath.sh
+source;share/robotis_hand_teleop/hook/ament_prefix_path.ps1
+source;share/robotis_hand_teleop/hook/ament_prefix_path.dsv
+source;share/robotis_hand_teleop/hook/ament_prefix_path.sh
+source;../../build/robotis_hand_teleop/share/robotis_hand_teleop/hook/pythonpath_develop.ps1
+source;../../build/robotis_hand_teleop/share/robotis_hand_teleop/hook/pythonpath_develop.dsv
+source;../../build/robotis_hand_teleop/share/robotis_hand_teleop/hook/pythonpath_develop.sh

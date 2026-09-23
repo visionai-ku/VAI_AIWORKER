@@ -385,7 +385,7 @@ librealsense2_camera_msgs__rosidl_typesupport_fastrtps_c.so: /opt/ros/jazzy/lib/
 librealsense2_camera_msgs__rosidl_typesupport_fastrtps_c.so: /opt/ros/jazzy/lib/librmw.so
 librealsense2_camera_msgs__rosidl_typesupport_fastrtps_c.so: /opt/ros/jazzy/lib/librosidl_dynamic_typesupport.so
 librealsense2_camera_msgs__rosidl_typesupport_fastrtps_c.so: /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_c.so
-librealsense2_camera_msgs__rosidl_typesupport_fastrtps_c.so: /opt/ros/jazzy/lib/libfastcdr.so.2.2.5
+librealsense2_camera_msgs__rosidl_typesupport_fastrtps_c.so: /opt/ros/jazzy/lib/libfastcdr.so.2.2.7
 librealsense2_camera_msgs__rosidl_typesupport_fastrtps_c.so: /opt/ros/jazzy/lib/libaction_msgs__rosidl_generator_c.so
 librealsense2_camera_msgs__rosidl_typesupport_fastrtps_c.so: /opt/ros/jazzy/lib/libservice_msgs__rosidl_generator_c.so
 librealsense2_camera_msgs__rosidl_typesupport_fastrtps_c.so: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_generator_c.so

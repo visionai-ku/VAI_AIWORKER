@@ -345,7 +345,7 @@ libzed_camera_component.so: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typ
 libzed_camera_component.so: /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so
 libzed_camera_component.so: /opt/ros/jazzy/lib/librmw.so
 libzed_camera_component.so: /opt/ros/jazzy/lib/librosidl_dynamic_typesupport.so
-libzed_camera_component.so: /opt/ros/jazzy/lib/libfastcdr.so.2.2.5
+libzed_camera_component.so: /opt/ros/jazzy/lib/libfastcdr.so.2.2.7
 libzed_camera_component.so: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_cpp.so
 libzed_camera_component.so: /opt/ros/jazzy/lib/librosidl_typesupport_introspection_cpp.so
 libzed_camera_component.so: /opt/ros/jazzy/lib/librosidl_typesupport_introspection_c.so

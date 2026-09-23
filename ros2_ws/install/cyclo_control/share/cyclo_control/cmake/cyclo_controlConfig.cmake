@@ -16,7 +16,7 @@ set(_cyclo_control_CONFIG_INCLUDED TRUE)
 
 # output package information
 if(NOT cyclo_control_FIND_QUIETLY)
-  message(STATUS "Found cyclo_control: 0.1.3 (${cyclo_control_DIR})")
+  message(STATUS "Found cyclo_control: 0.3.2 (${cyclo_control_DIR})")
 endif()
 
 # warn when using a deprecated package

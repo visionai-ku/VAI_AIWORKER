@@ -12,6 +12,17 @@ let originId = 0;
 let sequence = 0;
 let lastSentTime = -Infinity;
 let lastUIUpdate = -Infinity;
+let lastCallbackTime = null;
+let lastXRTime = null;
+let transportLastSentAt = null;
+let transportBlockedAt = null;
+let busySocketSkips = 0;
+let disconnectedSkips = 0;
+let maxBufferedBytes = 0;
+let xrCallbackGapMs = null;
+let xrTimestampGapMs = null;
+let maxXRCallbackGapMs = 0;
+let xrFramesSinceSend = 0;
 let gl = null;
 let supportsImmersiveXR = false;
 let reconnectTimer = null;
@@ -79,10 +90,32 @@ function poseData(pose) {
 
 function sendFrame(timestamp, hands, visibility = session?.visibilityState ?? "hidden") {
   // A queued packet will already be stale by the time another pose is ready.
-  if (!socket || socket.readyState !== WebSocket.OPEN || socket.bufferedAmount !== 0) return;
+  const sendTime = performance.now();
+  if (!socket || socket.readyState !== WebSocket.OPEN) {
+    disconnectedSkips += 1;
+    return false;
+  }
+  if (socket.bufferedAmount !== 0) {
+    busySocketSkips += 1;
+    maxBufferedBytes = Math.max(maxBufferedBytes, socket.bufferedAmount);
+    if (transportBlockedAt === null) transportBlockedAt = sendTime;
+    return false;
+  }
+  const transport = {send_time_ms: sendTime,
+    send_gap_ms: transportLastSentAt === null ? null : sendTime - transportLastSentAt,
+    xr_callback_gap_ms: xrCallbackGapMs, xr_timestamp_gap_ms: xrTimestampGapMs,
+    max_xr_callback_gap_ms: maxXRCallbackGapMs, xr_frames_since_send: xrFramesSinceSend,
+    busy_socket_skips: busySocketSkips, disconnected_skips: disconnectedSkips,
+    max_buffered_bytes: maxBufferedBytes,
+    busy_wait_ms: transportBlockedAt === null ? 0 : sendTime - transportBlockedAt};
   socket.send(JSON.stringify({version: 1, session_id: sessionId, origin_id: originId,
-    seq: sequence++, sample_time_ms: timestamp, visibility, head, hands, buttons,
-    diagnostics: {...trackingDiagnostics, visibility, sent_frames: sequence}}));
+    seq: sequence, sample_time_ms: timestamp, visibility, head, hands, buttons,
+    diagnostics: {...trackingDiagnostics, visibility, sent_frames: sequence + 1, transport}}));
+  sequence += 1;
+  transportLastSentAt = sendTime;
+  transportBlockedAt = null;
+  maxXRCallbackGapMs = xrFramesSinceSend = 0;
+  return true;
 }
 
 function invalidate(visibility = "hidden") {
@@ -199,6 +232,10 @@ async function start() {
     sequence = 0;
     lastSentTime = -Infinity;
     lastUIUpdate = -Infinity;
+    lastCallbackTime = lastXRTime = transportLastSentAt = transportBlockedAt = null;
+    busySocketSkips = disconnectedSkips = maxBufferedBytes = 0;
+    xrCallbackGapMs = xrTimestampGapMs = null;
+    maxXRCallbackGapMs = xrFramesSinceSend = 0;
     trackingDiagnostics = {};
     diagnosticText.session = "실행 중";
     diagnosticText.visibility = session.visibilityState;
@@ -290,6 +327,13 @@ function sourceSummary(source) {
 }
 
 function updateFrame(timestamp, frame, activeSession) {
+  const callbackTime = performance.now();
+  xrCallbackGapMs = lastCallbackTime === null ? null : callbackTime - lastCallbackTime;
+  xrTimestampGapMs = lastXRTime === null ? null : timestamp - lastXRTime;
+  maxXRCallbackGapMs = Math.max(maxXRCallbackGapMs, xrCallbackGapMs ?? 0);
+  xrFramesSinceSend += 1;
+  lastCallbackTime = callbackTime;
+  lastXRTime = timestamp;
   const hands = {left: emptyHand(), right: emptyHand()};
   const nextButtons = emptyButtons();
   const viewerPose = frame.getViewerPose(referenceSpace);
@@ -330,7 +374,7 @@ function updateFrame(timestamp, frame, activeSession) {
       else if (!pose) reason = "컨트롤러 위치 없음";
       else if (![trigger, grip].every((value) => Number.isFinite(value) && value >= 0 && value <= 1)) reason = "버튼 값 없음/범위 오류";
       else {
-        reason = pose.emulatedPosition ? "추정 위치 · 사용 중지" : "추적 유효";
+        reason = pose.emulatedPosition ? "컨트롤러 추정 위치 · 사용 여부는 PC 설정에 따름" : "추적 유효";
         // Diagnostics observe every source, but the original tracking gates stay.
         if (activeSession.visibilityState === "visible" && viewerPose && !viewerPose.emulatedPosition) {
           hands[handedness] = {...poseData(pose), valid: !pose.emulatedPosition,
@@ -338,18 +382,22 @@ function updateFrame(timestamp, frame, activeSession) {
         }
       }
     }
-    detail.reason = reason;
     if (activeSession.visibilityState !== "visible") detail.blocked_by = "session_visibility";
     else if (!viewerPose || viewerPose.emulatedPosition) detail.blocked_by = "viewer_pose";
     else detail.blocked_by = null;
+    if (detail.blocked_by === "session_visibility") reason = "XR 화면 비활성 · 입력 차단";
+    else if (detail.blocked_by === "viewer_pose") reason = viewerPose
+      ? "헤드셋 위치 추적 손실 · 양손 입력 차단" : "헤드셋 위치 없음 · 양손 입력 차단";
+    detail.reason = reason;
     trackingDiagnostics.hands[handedness] = detail;
     diagnosticText[handedness] = `${reason} · 장치 ${detail.controller_source_count}개 · 매핑 ${detail.gamepad_mapping ?? "없음"}${detail.blocked_by ? ` · 입력 차단: ${detail.blocked_by}` : ""}`;
   }
   buttons = activeSession.visibilityState === "visible" ? nextButtons : emptyButtons();
   // A 60 Hz cap limits Wi-Fi load; latest-only transport skips busy sockets.
   if (timestamp - lastSentTime >= 1000 / 60) {
-    sendFrame(timestamp, hands);
-    lastSentTime = timestamp;
+    // A busy socket did not send a sample. Retry on the next XR frame with
+    // its current pose, rather than waiting another full send period.
+    if (sendFrame(timestamp, hands)) lastSentTime = timestamp;
   }
   if (timestamp - lastUIUpdate > 200) {
     for (const hand of ["left", "right"]) {

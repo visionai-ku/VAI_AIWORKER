@@ -1,5 +1,5 @@
 set(_AMENT_PACKAGE_NAME "ffw_joystick_controller")
-set(ffw_joystick_controller_VERSION "1.2.1")
+set(ffw_joystick_controller_VERSION "2.2.5")
 set(ffw_joystick_controller_MAINTAINER "Pyo <pyo@robotis.com>")
 set(ffw_joystick_controller_BUILD_DEPENDS "controller_interface" "generate_parameter_library" "hardware_interface" "pluginlib" "rclcpp" "rclcpp_lifecycle" "std_msgs")
 set(ffw_joystick_controller_BUILDTOOL_DEPENDS "ament_cmake")

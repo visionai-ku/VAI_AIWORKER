@@ -1,5 +1,9 @@
 file(REMOVE_RECURSE
   "CMakeFiles/cyclo_motion_controller_core.dir/link.d"
+  "CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.o"
+  "CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.o.d"
+  "CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.o"
+  "CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.o.d"
   "CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_movej_controller.cpp.o"
   "CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_movej_controller.cpp.o.d"
   "CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_movel_controller.cpp.o"

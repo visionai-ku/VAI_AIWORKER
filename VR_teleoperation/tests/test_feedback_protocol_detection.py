@@ -5,6 +5,7 @@ from pathlib import Path
 import pickle
 import sys
 import unittest
+from types import SimpleNamespace
 from unittest.mock import patch
 
 import zmq
@@ -12,7 +13,7 @@ import zmq
 PROJECT_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(PROJECT_DIR))
 
-from package.fixed_quest_transport import SG2RobotStateReceiver
+from package.fixed_quest_transport import SG2RobotStateReceiver, sample_control_inputs
 from package.worker.fixed_quest_protocol import JOINT_NAMES, JointStateTracker, StrictCommandGate
 
 
@@ -91,6 +92,32 @@ class FeedbackProtocolDetectionTest(unittest.TestCase):
         recovered = self.receiver.latest(now=101.04)
         self.assertTrue(recovered["ready"], recovered["reason"])
         self.assertEqual(recovered["reason"], "ready")
+
+    def test_input_snapshot_ages_feedback_across_a_slow_quest_copy(self):
+        self.socket.packets.append(self.strict_packet())
+        clock = [101.]
+
+        def quest_latest():
+            clock[0] += .3  # e.g. GC or scheduler pause during input sampling
+            return {"received_at": clock[0]}
+
+        with patch("package.fixed_quest_transport.time", SimpleNamespace(monotonic=lambda: clock[0])):
+            feedback, frame, now = sample_control_inputs(SimpleNamespace(latest=quest_latest), self.receiver)
+        self.assertEqual(frame["received_at"], now)
+        self.assertFalse(feedback["ready"])
+        self.assertEqual(feedback["reason"], "stale_joint_state")
+        self.assertAlmostEqual(feedback["age_s"], .3)
+        self.assertEqual(len(self.socket.packets), 0)
+
+    def test_sim_snapshot_uses_post_copy_time_without_real_polling(self):
+        observed = []
+        simulated = SimpleNamespace(latest=lambda now: observed.append(now) or {"ready": True})
+        with patch("package.fixed_quest_transport.time", SimpleNamespace(monotonic=lambda: 42.)):
+            feedback, frame, now = sample_control_inputs(
+                SimpleNamespace(latest=lambda: {"received_at": 41.999}), simulated, simulated=True)
+        self.assertTrue(feedback["ready"])
+        self.assertEqual(observed, [42.])
+        self.assertLessEqual(frame["received_at"], now)
 
 
 if __name__ == "__main__":

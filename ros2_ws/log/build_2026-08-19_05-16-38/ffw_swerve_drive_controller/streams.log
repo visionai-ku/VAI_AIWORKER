@@ -1,0 +1,202 @@
+[0.047s] Invoking command in '/root/ros2_ws/build/ffw_swerve_drive_controller': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/ffw_swerve_drive_controller
+[0.401s] CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+[0.402s]   Compatibility with CMake < 3.10 will be removed from a future version of
+[0.402s]   CMake.
+[0.402s] 
+[0.402s]   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+[0.403s]   to tell CMake that the project requires at least <min> but has been updated
+[0.403s]   to work with policies introduced by <max> or earlier.
+[0.403s] 
+[0.403s] 
+[0.642s] -- The C compiler identification is GNU 13.3.0
+[0.959s] -- The CXX compiler identification is GNU 13.3.0
+[0.993s] -- Detecting C compiler ABI info
+[1.368s] -- Detecting C compiler ABI info - done
+[1.435s] -- Check for working C compiler: /usr/bin/cc - skipped
+[1.436s] -- Detecting C compile features
+[1.436s] -- Detecting C compile features - done
+[1.487s] -- Detecting CXX compiler ABI info
+[1.777s] -- Detecting CXX compiler ABI info - done
+[1.823s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[1.824s] -- Detecting CXX compile features
+[1.825s] -- Detecting CXX compile features - done
+[1.939s] -- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[2.842s] -- Found Python3: /opt/venv/bin/python3 (found version "3.12.3") found components: Interpreter
+[3.497s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[3.621s] -- Found controller_interface: 4.45.2 (/opt/ros/jazzy/share/controller_interface/cmake)
+[4.482s] -- Found rosidl_generator_c: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+[4.665s] -- Found rosidl_generator_cpp: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+[4.850s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[5.075s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[7.139s] -- Found TinyXML2 via Config file: /usr/lib/aarch64-linux-gnu/cmake/tinyxml2
+[7.139s] -- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+[7.139s] -- Found rmw_fastrtps_cpp: 8.4.3 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+[7.413s] -- Found TinyXML2 via Config file: /usr/lib/aarch64-linux-gnu/cmake/tinyxml2
+[7.822s] -- Found OpenSSL: /usr/lib/aarch64-linux-gnu/libcrypto.so (found version "3.0.13")
+[7.851s] -- Found TinyXML2 via Config file: /usr/lib/aarch64-linux-gnu/cmake/tinyxml2
+[7.898s] -- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13")
+[7.906s] -- Found TinyXML2 via Config file: /usr/lib/aarch64-linux-gnu/cmake/tinyxml2
+[7.962s] -- Found TinyXML2 via Config file: /usr/lib/aarch64-linux-gnu/cmake/tinyxml2
+[8.011s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[9.582s] CMake Warning (dev) at /opt/ros/jazzy/share/realtime_tools/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package):
+[9.583s]   Policy CMP0167 is not set: The FindBoost module is removed.  Run "cmake
+[9.583s]   --help-policy CMP0167" for policy details.  Use the cmake_policy command to
+[9.583s]   set the policy and suppress this warning.
+[9.583s] 
+[9.583s] Call Stack (most recent call first):
+[9.583s]   /opt/ros/jazzy/share/realtime_tools/cmake/realtime_toolsConfig.cmake:41 (include)
+[9.583s]   /opt/ros/jazzy/share/hardware_interface/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+[9.583s]   /opt/ros/jazzy/share/hardware_interface/cmake/hardware_interfaceConfig.cmake:41 (include)
+[9.583s]   /opt/ros/jazzy/share/controller_interface/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+[9.584s]   /opt/ros/jazzy/share/controller_interface/cmake/controller_interfaceConfig.cmake:41 (include)
+[9.584s]   CMakeLists.txt:31 (find_package)
+[9.584s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[9.584s] 
+[10.646s] -- Found generate_parameter_library: 0.7.3 (/opt/ros/jazzy/share/generate_parameter_library/cmake)
+[10.705s] -- Found parameter_traits: 0.7.3 (/opt/ros/jazzy/share/parameter_traits/cmake)
+[11.304s] CMake Deprecation Warning at /opt/ros/jazzy/share/tl_expected/cmake/tl_expectedConfig.cmake:37 (message):
+[11.304s]   Package 'tl_expected' is deprecated (This package will be removed in ROS 2
+[11.304s]   Lyrical Luth.
+[11.304s] 
+[11.304s]         Use tl/expected.hpp from libexpected-dev,
+[11.304s]         or rcpputils/tl_expected/expected.hpp if the system header is not available)
+[11.304s] Call Stack (most recent call first):
+[11.305s]   /opt/ros/jazzy/share/parameter_traits/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)
+[11.305s]   /opt/ros/jazzy/share/parameter_traits/cmake/parameter_traitsConfig.cmake:41 (include)
+[11.305s]   /opt/ros/jazzy/share/generate_parameter_library/cmake/generate_parameter_library-extras.cmake:30 (find_package)
+[11.305s]   /opt/ros/jazzy/share/generate_parameter_library/cmake/generate_parameter_libraryConfig.cmake:41 (include)
+[11.305s]   CMakeLists.txt:31 (find_package)
+[11.305s] 
+[11.305s] 
+[11.347s] -- Found nav_msgs: 5.3.7 (/opt/ros/jazzy/share/nav_msgs/cmake)
+[11.469s] -- Found std_srvs: 5.3.7 (/opt/ros/jazzy/share/std_srvs/cmake)
+[11.609s] -- Found tf2: 0.36.20 (/opt/ros/jazzy/share/tf2/cmake)
+[11.716s] -- Found tf2_geometry_msgs: 0.36.20 (/opt/ros/jazzy/share/tf2_geometry_msgs/cmake)
+[11.952s] -- Found eigen3_cmake_module: 0.3.0 (/opt/ros/jazzy/share/eigen3_cmake_module/cmake)
+[11.955s] -- Found Eigen3: TRUE (found version "3.4.0")
+[11.956s] -- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+[12.635s] -- Found visualization_msgs: 5.3.7 (/opt/ros/jazzy/share/visualization_msgs/cmake)
+[12.779s] -- Found ament_lint_auto: 0.17.5 (/opt/ros/jazzy/share/ament_lint_auto/cmake)
+[14.826s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[14.835s] -- Configured cppcheck include dirs: $<BUILD_INTERFACE:/root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/include>
+[14.835s] -- Configured cppcheck exclude dirs and/or files: 
+[14.840s] -- Added test 'lint_cmake' to check CMake code style
+[14.844s] -- Added test 'uncrustify' to check C / C++ code style
+[14.845s] -- Configured uncrustify additional arguments: 
+[14.848s] -- Added test 'xmllint' to check XML markup files
+[14.859s] -- Configuring done (14.5s)
+[14.983s] -- Generating done (0.1s)
+[14.992s] -- Build files have been written to: /root/ros2_ws/build/ffw_swerve_drive_controller
+[15.050s] Invoked command in '/root/ros2_ws/build/ffw_swerve_drive_controller' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/ffw_swerve_drive_controller
+[15.051s] Invoking command in '/root/ros2_ws/build/ffw_swerve_drive_controller': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/ffw_swerve_drive_controller -- -j12 -l12
+[16.109s] [ 14%] Running `/opt/ros/jazzy/bin/generate_parameter_library_cpp /root/ros2_ws/build/ffw_swerve_drive_controller/include/ffw_swerve_drive_controller/swerve_drive_controller_parameter.hpp /root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/config/swerve_drive_controller_parameter.yaml `
+[23.640s] [ 28%] Creating deprecated header file /root/ros2_ws/build/ffw_swerve_drive_controller/include/swerve_drive_controller_parameter.hpp
+[23.679s] [ 28%] Built target swerve_drive_controller_parameter
+[23.760s] [ 42%] Building CXX object CMakeFiles/ffw_swerve_drive_controller.dir/src/swerve_drive_controller.cpp.o
+[34.064s] In file included from /opt/ros/jazzy/include/parameter_traits/parameter_traits/parameter_traits.hpp:37,
+[34.064s]                  from /root/ros2_ws/build/ffw_swerve_drive_controller/include/ffw_swerve_drive_controller/swerve_drive_controller_parameter.hpp:26,
+[34.065s]                  from /root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/include/ffw_swerve_drive_controller/swerve_drive_controller.hpp:54,
+[34.065s]                  from /root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp:19:
+[34.065s] /opt/ros/jazzy/include/tl_expected/expected.hpp:18:167: note: ‘#pragma message: tl_expected/expected.hpp is deprecated. Use <tl/expected.hpp> from libexpected-dev, or <rcpputils/tl_expected/expected.hpp> if the system header is not available.’
+[34.065s]    18 |   "tl_expected/expected.hpp is deprecated. Use <tl/expected.hpp> from libexpected-dev, or <rcpputils/tl_expected/expected.hpp> if the system header is not available.") // NOLINT
+[34.065s]       |                                                                                                                                                                       ^
+[34.908s] /root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp: In member function ‘virtual ffw_swerve_drive_controller::CallbackReturn ffw_swerve_drive_controller::SwerveDriveController::on_activate(const rclcpp_lifecycle::State&)’:
+[34.908s] /root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp:511:18: warning: unused variable ‘wheel_joint’ [-Wunused-variable]
+[34.908s]   511 |     const auto & wheel_joint = wheel_joint_names_[i];
+[34.909s]       |                  ^~~~~~~~~~~
+[34.911s] /root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp: In member function ‘virtual ffw_swerve_drive_controller::CallbackReturn ffw_swerve_drive_controller::SwerveDriveController::on_deactivate(const rclcpp_lifecycle::State&)’:
+[34.911s] /root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp:592:60: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+[34.911s]   592 |         module_handles_[i].steering_cmd_pos.get().set_value(steering_val.value());
+[34.911s]       |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+[34.912s] In file included from /opt/ros/jazzy/include/controller_interface/controller_interface/controller_interface_base.hpp:29,
+[34.912s]                  from /opt/ros/jazzy/include/controller_interface/controller_interface/controller_interface.hpp:21,
+[34.912s]                  from /root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/include/ffw_swerve_drive_controller/swerve_drive_controller.hpp:31:
+[34.912s] /opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+[34.912s]   117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+[34.912s]       |                      ^~~~~~~~~
+[34.912s] /root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp:593:57: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+[34.912s]   593 |         module_handles_[i].wheel_cmd_vel.get().set_value(0.0);
+[34.913s]       |         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+[34.913s] /opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+[34.913s]   117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+[34.913s]       |                      ^~~~~~~~~
+[34.931s] /root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp: In member function ‘virtual controller_interface::return_type ffw_swerve_drive_controller::SwerveDriveController::update(const rclcpp::Time&, const rclcpp::Duration&)’:
+[34.931s] /root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp:1024:58: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+[34.931s]  1024 |       module_handles_[i].steering_cmd_pos.get().set_value(current_steering_angle);
+[34.932s]       |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+[34.932s] /opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+[34.932s]   117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+[34.932s]       |                      ^~~~~~~~~
+[34.932s] /root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp:1025:55: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+[34.932s]  1025 |       module_handles_[i].wheel_cmd_vel.get().set_value(0.0);
+[34.933s]       |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+[34.933s] /opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+[34.933s]   117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+[34.933s]       |                      ^~~~~~~~~
+[34.934s] /root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp:1039:46: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+[34.934s]  1039 |       handle.steering_cmd_pos.get().set_value(hold_angle);
+[34.934s]       |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+[34.934s] /opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+[34.934s]   117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+[34.934s]       |                      ^~~~~~~~~
+[34.935s] /root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp:1040:43: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+[34.935s]  1040 |       handle.wheel_cmd_vel.get().set_value(0.0);
+[34.935s]       |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~
+[34.935s] /opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+[34.936s]   117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+[34.936s]       |                      ^~~~~~~~~
+[34.936s] /root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp:1050:46: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+[34.936s]  1050 |       handle.steering_cmd_pos.get().set_value(final_steering_commands_[i]);
+[34.936s]       |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[34.936s] /opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+[34.936s]   117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+[34.936s]       |                      ^~~~~~~~~
+[34.936s] /root/ros2_ws/src/ai_worker/ffw_swerve_drive_controller/src/swerve_drive_controller.cpp:1055:43: warning: ignoring return value of ‘bool hardware_interface::LoanedCommandInterface::set_value(const T&, unsigned int) [with T = double]’, declared with attribute ‘nodiscard’ [-Wunused-result]
+[34.937s]  1055 |       handle.wheel_cmd_vel.get().set_value(wheel_vel);
+[34.937s]       |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+[34.937s] /opt/ros/jazzy/include/hardware_interface/hardware_interface/loaned_command_interface.hpp:117:22: note: declared here
+[34.937s]   117 |   [[nodiscard]] bool set_value(const T & value, unsigned int max_tries = 10)
+[34.937s]       |                      ^~~~~~~~~
+[88.774s] [ 57%] Building CXX object CMakeFiles/ffw_swerve_drive_controller.dir/src/speed_limiter.cpp.o
+[89.557s] [ 71%] Building CXX object CMakeFiles/ffw_swerve_drive_controller.dir/src/marker_visualize.cpp.o
+[102.740s] [ 85%] Building CXX object CMakeFiles/ffw_swerve_drive_controller.dir/src/odometry.cpp.o
+[161.268s] [100%] Linking CXX shared library libffw_swerve_drive_controller.so
+[161.813s] [100%] Built target ffw_swerve_drive_controller
+[161.824s] Invoked command in '/root/ros2_ws/build/ffw_swerve_drive_controller' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/ffw_swerve_drive_controller -- -j12 -l12
+[161.826s] Invoking command in '/root/ros2_ws/build/ffw_swerve_drive_controller': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/ffw_swerve_drive_controller
+[162.093s] -- Install configuration: "Release"
+[162.093s] -- Execute custom install script
+[162.095s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/include/ffw_swerve_drive_controller/swerve_drive_controller_parameter.hpp
+[162.103s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ffw_swerve_drive_controller//ffw_swerve_drive_controller.xml
+[162.114s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/include/ffw_swerve_drive_controller/marker_visualize.hpp
+[162.125s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/include/ffw_swerve_drive_controller/odometry.hpp
+[162.137s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/include/ffw_swerve_drive_controller/speed_limiter.hpp
+[162.149s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/include/ffw_swerve_drive_controller/swerve_drive_controller.hpp
+[162.163s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ffw_swerve_drive_controller/ffw_swerve_drive_controller.xml
+[162.163s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ffw_swerve_drive_controller/environment/library_path.sh
+[162.174s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ffw_swerve_drive_controller/environment/library_path.dsv
+[162.186s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ament_index/resource_index/package_run_dependencies/ffw_swerve_drive_controller
+[162.198s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ament_index/resource_index/parent_prefix_path/ffw_swerve_drive_controller
+[162.206s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ffw_swerve_drive_controller/environment/ament_prefix_path.sh
+[162.214s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ffw_swerve_drive_controller/environment/ament_prefix_path.dsv
+[162.222s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ffw_swerve_drive_controller/environment/path.sh
+[162.230s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ffw_swerve_drive_controller/environment/path.dsv
+[162.238s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ffw_swerve_drive_controller/local_setup.bash
+[162.246s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ffw_swerve_drive_controller/local_setup.sh
+[162.254s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ffw_swerve_drive_controller/local_setup.zsh
+[162.262s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ffw_swerve_drive_controller/local_setup.dsv
+[162.270s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ffw_swerve_drive_controller/package.dsv
+[162.279s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ament_index/resource_index/packages/ffw_swerve_drive_controller
+[162.287s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ament_index/resource_index/controller_interface__pluginlib__plugin/ffw_swerve_drive_controller
+[162.296s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ffw_swerve_drive_controller/cmake/ament_cmake_export_dependencies-extras.cmake
+[162.304s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ffw_swerve_drive_controller/cmake/ament_cmake_export_include_directories-extras.cmake
+[162.312s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ffw_swerve_drive_controller/cmake/ament_cmake_export_libraries-extras.cmake
+[162.320s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ffw_swerve_drive_controller/cmake/ament_cmake_export_targets-extras.cmake
+[162.328s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ffw_swerve_drive_controller/cmake/ffw_swerve_drive_controllerConfig.cmake
+[162.336s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ffw_swerve_drive_controller/cmake/ffw_swerve_drive_controllerConfig-version.cmake
+[162.345s] -- Symlinking: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ffw_swerve_drive_controller/package.xml
+[162.362s] -- Installing: /root/ros2_ws/install/ffw_swerve_drive_controller/lib/libffw_swerve_drive_controller.so
+[162.362s] -- Set non-toolchain portion of runtime path of "/root/ros2_ws/install/ffw_swerve_drive_controller/lib/libffw_swerve_drive_controller.so" to ""
+[162.363s] -- Installing: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ffw_swerve_drive_controller/cmake/export_ffw_swerve_drive_controllerExport.cmake
+[162.363s] -- Installing: /root/ros2_ws/install/ffw_swerve_drive_controller/share/ffw_swerve_drive_controller/cmake/export_ffw_swerve_drive_controllerExport-release.cmake
+[162.363s] Invoked command in '/root/ros2_ws/build/ffw_swerve_drive_controller' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/ffw_swerve_drive_controller

@@ -10,12 +10,13 @@ libdynamixel_sdk_custom_interfaces__rosidl_typesupport_fastrtps_c.so: \
   /opt/ros/jazzy/lib/librmw.so \
   /opt/ros/jazzy/lib/librosidl_dynamic_typesupport.so \
   /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_c.so \
-  /opt/ros/jazzy/lib/libfastcdr.so.2.2.5 \
+  /opt/ros/jazzy/lib/libfastcdr.so.2.2.7 \
   /opt/ros/jazzy/lib/libservice_msgs__rosidl_generator_c.so \
   /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_generator_c.so \
   /opt/ros/jazzy/lib/librosidl_runtime_c.so \
   /opt/ros/jazzy/lib/librcutils.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libdl.a \
+  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libstdc++.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libm.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libm.so \
@@ -63,7 +64,7 @@ libdynamixel_sdk_custom_interfaces__rosidl_generator_c.so:
 
 /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_c.so:
 
-/opt/ros/jazzy/lib/libfastcdr.so.2.2.5:
+/opt/ros/jazzy/lib/libfastcdr.so.2.2.7:
 
 /opt/ros/jazzy/lib/libservice_msgs__rosidl_generator_c.so:
 
@@ -74,6 +75,8 @@ libdynamixel_sdk_custom_interfaces__rosidl_generator_c.so:
 /opt/ros/jazzy/lib/librcutils.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libdl.a:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/libstdc++.so:
 

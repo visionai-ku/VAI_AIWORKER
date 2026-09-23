@@ -228,5 +228,73 @@ class DatasetRootTest(unittest.TestCase):
         self.assertEqual(len(reloaded), 4)
 
 
+class EEFRecordingTest(unittest.TestCase):
+    def setUp(self):
+        self.tmp = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, self.tmp, ignore_errors=True)
+        self.root = self.tmp / "pick_and_place_eef"
+
+    def recorder(self, record_eef=True):
+        return VREpisodeRecorder(robot_ip="127.0.0.1", repo_id="local/test", root=self.root, hz=10,
+                                 cameras={"head": 5570}, record_eef=record_eef)
+
+    def test_eef_pose_is_recorded_from_state_and_command(self):
+        from lerobot.datasets.lerobot_dataset import LeRobotDataset
+        from package.eef_pose import SG2EEFPose, EEF_POSE_NAMES
+        recorder = self.recorder()
+        recorder._open_dataset(CAMERA_SHAPES)
+        self.assertEqual(recorder.dataset.meta.features["observation.eef_pose"]["names"], EEF_POSE_NAMES)
+
+        rng = np.random.default_rng(0)
+        states = [rng.uniform(-.3, .3, len(JOINT_NAMES)) for _ in range(4)]
+        commands = [q + .05 for q in states[:3]] + [np.full(len(JOINT_NAMES), np.nan)]
+        recorder.start()
+        for q, cmd in zip(states, commands):
+            recorder.dataset.add_frame(recorder._build_frame(
+                q, cmd, {"head": np.zeros(CAMERA_SHAPES["head"], dtype=np.uint8)}))
+            recorder.ep_frames += 1
+        recorder.stop()
+
+        ds = LeRobotDataset("local/test", root=self.root, video_backend="pyav").hf_dataset.with_format(None)
+        obs, act = np.stack(ds["observation.eef_pose"]), np.stack(ds["action.eef_pose"])
+        fk = SG2EEFPose()
+        for t in range(3):
+            np.testing.assert_allclose(obs[t], fk(states[t]), atol=1e-6)
+        self.assertTrue(np.all(np.isnan(act[3])), "명령이 없으면 action EEF 도 NaN")
+        self.assertTrue(np.all(np.isfinite(act[:3])))
+        for hand_offset in (3, 10):                      # 단위 쿼터니언
+            np.testing.assert_allclose(np.linalg.norm(obs[:, hand_offset:hand_offset + 4], axis=1), 1, atol=1e-5)
+
+    def test_quaternion_sign_stays_continuous(self):
+        from package.eef_pose import SG2EEFPose
+        fk = SG2EEFPose()
+        q = np.zeros(len(JOINT_NAMES))
+        wrist = list(JOINT_NAMES).index("arm_l_joint7")
+        prev = None
+        for angle in np.linspace(0, 2 * np.pi, 60):
+            q[wrist] = angle
+            quat = fk(q)[3:7]
+            if prev is not None:
+                self.assertGreater(np.dot(prev, quat), 0)
+            prev = quat
+
+    def test_eef_setting_must_match_an_existing_dataset(self):
+        for existing, requested in ((False, True), (True, False)):
+            with self.subTest(existing=existing, requested=requested):
+                shutil.rmtree(self.root, ignore_errors=True)
+                first = self.recorder(record_eef=existing)
+                first._open_dataset(CAMERA_SHAPES)
+                first.start()
+                for _ in range(3):
+                    first.dataset.add_frame(first._build_frame(
+                        np.zeros(len(JOINT_NAMES)), np.zeros(len(JOINT_NAMES)),
+                        {"head": np.zeros(CAMERA_SHAPES["head"], dtype=np.uint8)}))
+                    first.ep_frames += 1
+                first.stop()
+                with self.assertRaises(ValueError) as caught:
+                    self.recorder(record_eef=requested)._open_dataset(CAMERA_SHAPES)
+                self.assertIn("record_eef", str(caught.exception))
+
+
 if __name__ == "__main__":
     unittest.main()

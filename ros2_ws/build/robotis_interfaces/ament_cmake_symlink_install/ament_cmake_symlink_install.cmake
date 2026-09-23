@@ -55,6 +55,11 @@ function(ament_cmake_symlink_install_directory cmake_current_source_dir)
         # remove trailing slash
         string(SUBSTRING "${dir}" 0 ${offset} dir)
       endif()
+      
+      # Create destination directory.
+      # This does *not* solve the problem of empty directories WITHIN the install tree,
+      # but does make sure that the top-level directory specified by the caller gets created.
+      file(MAKE_DIRECTORY "${destination}")
 
       # glob recursive files
       set(relative_files "")
@@ -316,8 +321,14 @@ ament_cmake_symlink_install_files("/root/ros2_ws/src/robotis_interfaces" FILES "
 # install(FILES "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_type_description/robotis_interfaces/msg/HandJoints.json" "DESTINATION" "share/robotis_interfaces/msg")
 ament_cmake_symlink_install_files("/root/ros2_ws/src/robotis_interfaces" FILES "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_type_description/robotis_interfaces/msg/HandJoints.json" "DESTINATION" "share/robotis_interfaces/msg")
 
+# install(FILES "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_type_description/robotis_interfaces/msg/HandPressures.json" "DESTINATION" "share/robotis_interfaces/msg")
+ament_cmake_symlink_install_files("/root/ros2_ws/src/robotis_interfaces" FILES "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_type_description/robotis_interfaces/msg/HandPressures.json" "DESTINATION" "share/robotis_interfaces/msg")
+
 # install(FILES "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_type_description/robotis_interfaces/msg/MoveL.json" "DESTINATION" "share/robotis_interfaces/msg")
 ament_cmake_symlink_install_files("/root/ros2_ws/src/robotis_interfaces" FILES "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_type_description/robotis_interfaces/msg/MoveL.json" "DESTINATION" "share/robotis_interfaces/msg")
+
+# install(FILES "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_type_description/robotis_interfaces/msg/TactileSensor.json" "DESTINATION" "share/robotis_interfaces/msg")
+ament_cmake_symlink_install_files("/root/ros2_ws/src/robotis_interfaces" FILES "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_type_description/robotis_interfaces/msg/TactileSensor.json" "DESTINATION" "share/robotis_interfaces/msg")
 
 # install(DIRECTORY "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/" "DESTINATION" "include/robotis_interfaces/robotis_interfaces" "PATTERN" "*.h")
 ament_cmake_symlink_install_directory("/root/ros2_ws/src/robotis_interfaces" DIRECTORY "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/" "DESTINATION" "include/robotis_interfaces/robotis_interfaces" "PATTERN" "*.h")
@@ -349,8 +360,8 @@ ament_cmake_symlink_install_files("/root/ros2_ws/src/robotis_interfaces" FILES "
 # install(FILES "/root/ros2_ws/build/robotis_interfaces/ament_cmake_environment_hooks/pythonpath.dsv" "DESTINATION" "share/robotis_interfaces/environment")
 ament_cmake_symlink_install_files("/root/ros2_ws/src/robotis_interfaces" FILES "/root/ros2_ws/build/robotis_interfaces/ament_cmake_environment_hooks/pythonpath.dsv" "DESTINATION" "share/robotis_interfaces/environment")
 
-# install(DIRECTORY "/root/ros2_ws/build/robotis_interfaces/ament_cmake_python/robotis_interfaces/robotis_interfaces.egg-info/" "DESTINATION" "lib/python3.12/site-packages/robotis_interfaces-1.0.0-py3.12.egg-info")
-ament_cmake_symlink_install_directory("/root/ros2_ws/src/robotis_interfaces" DIRECTORY "/root/ros2_ws/build/robotis_interfaces/ament_cmake_python/robotis_interfaces/robotis_interfaces.egg-info/" "DESTINATION" "lib/python3.12/site-packages/robotis_interfaces-1.0.0-py3.12.egg-info")
+# install(DIRECTORY "/root/ros2_ws/build/robotis_interfaces/ament_cmake_python/robotis_interfaces/robotis_interfaces.egg-info/" "DESTINATION" "lib/python3.12/site-packages/robotis_interfaces-1.1.0-py3.12.egg-info")
+ament_cmake_symlink_install_directory("/root/ros2_ws/src/robotis_interfaces" DIRECTORY "/root/ros2_ws/build/robotis_interfaces/ament_cmake_python/robotis_interfaces/robotis_interfaces.egg-info/" "DESTINATION" "lib/python3.12/site-packages/robotis_interfaces-1.1.0-py3.12.egg-info")
 
 # install(DIRECTORY "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_py/robotis_interfaces/" "DESTINATION" "lib/python3.12/site-packages/robotis_interfaces" "PATTERN_EXCLUDE" "*.pyc" "PATTERN_EXCLUDE" "__pycache__")
 ament_cmake_symlink_install_directory("/root/ros2_ws/src/robotis_interfaces" DIRECTORY "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_py/robotis_interfaces/" "DESTINATION" "lib/python3.12/site-packages/robotis_interfaces" "PATTERN_EXCLUDE" "*.pyc" "PATTERN_EXCLUDE" "__pycache__")
@@ -364,17 +375,35 @@ include("/root/ros2_ws/build/robotis_interfaces/ament_cmake_symlink_install_targ
 # install("TARGETS" "robotis_interfaces_s__rosidl_typesupport_c" "DESTINATION" "lib/python3.12/site-packages/robotis_interfaces")
 include("/root/ros2_ws/build/robotis_interfaces/ament_cmake_symlink_install_targets_2_${CMAKE_INSTALL_CONFIG_NAME}.cmake")
 
+# install(FILES "/root/ros2_ws/build/robotis_interfaces/ament_cmake_index/share/ament_index/resource_index/rust_packages/robotis_interfaces" "DESTINATION" "share/ament_index/resource_index/rust_packages")
+ament_cmake_symlink_install_files("/root/ros2_ws/src/robotis_interfaces" FILES "/root/ros2_ws/build/robotis_interfaces/ament_cmake_index/share/ament_index/resource_index/rust_packages/robotis_interfaces" "DESTINATION" "share/ament_index/resource_index/rust_packages")
+
+# install(DIRECTORY "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_rs/robotis_interfaces/rust" "DESTINATION" "share/robotis_interfaces")
+ament_cmake_symlink_install_directory("/root/ros2_ws/src/robotis_interfaces" DIRECTORY "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_rs/robotis_interfaces/rust" "DESTINATION" "share/robotis_interfaces")
+
 # install(FILES "/root/ros2_ws/build/robotis_interfaces/rosidl_adapter/robotis_interfaces/msg/HandJoints.idl" "DESTINATION" "share/robotis_interfaces/msg")
 ament_cmake_symlink_install_files("/root/ros2_ws/src/robotis_interfaces" FILES "/root/ros2_ws/build/robotis_interfaces/rosidl_adapter/robotis_interfaces/msg/HandJoints.idl" "DESTINATION" "share/robotis_interfaces/msg")
+
+# install(FILES "/root/ros2_ws/build/robotis_interfaces/rosidl_adapter/robotis_interfaces/msg/HandPressures.idl" "DESTINATION" "share/robotis_interfaces/msg")
+ament_cmake_symlink_install_files("/root/ros2_ws/src/robotis_interfaces" FILES "/root/ros2_ws/build/robotis_interfaces/rosidl_adapter/robotis_interfaces/msg/HandPressures.idl" "DESTINATION" "share/robotis_interfaces/msg")
 
 # install(FILES "/root/ros2_ws/build/robotis_interfaces/rosidl_adapter/robotis_interfaces/msg/MoveL.idl" "DESTINATION" "share/robotis_interfaces/msg")
 ament_cmake_symlink_install_files("/root/ros2_ws/src/robotis_interfaces" FILES "/root/ros2_ws/build/robotis_interfaces/rosidl_adapter/robotis_interfaces/msg/MoveL.idl" "DESTINATION" "share/robotis_interfaces/msg")
 
+# install(FILES "/root/ros2_ws/build/robotis_interfaces/rosidl_adapter/robotis_interfaces/msg/TactileSensor.idl" "DESTINATION" "share/robotis_interfaces/msg")
+ament_cmake_symlink_install_files("/root/ros2_ws/src/robotis_interfaces" FILES "/root/ros2_ws/build/robotis_interfaces/rosidl_adapter/robotis_interfaces/msg/TactileSensor.idl" "DESTINATION" "share/robotis_interfaces/msg")
+
 # install(FILES "/root/ros2_ws/src/robotis_interfaces/msg/HandJoints.msg" "DESTINATION" "share/robotis_interfaces/msg")
 ament_cmake_symlink_install_files("/root/ros2_ws/src/robotis_interfaces" FILES "/root/ros2_ws/src/robotis_interfaces/msg/HandJoints.msg" "DESTINATION" "share/robotis_interfaces/msg")
 
+# install(FILES "/root/ros2_ws/src/robotis_interfaces/msg/HandPressures.msg" "DESTINATION" "share/robotis_interfaces/msg")
+ament_cmake_symlink_install_files("/root/ros2_ws/src/robotis_interfaces" FILES "/root/ros2_ws/src/robotis_interfaces/msg/HandPressures.msg" "DESTINATION" "share/robotis_interfaces/msg")
+
 # install(FILES "/root/ros2_ws/src/robotis_interfaces/msg/MoveL.msg" "DESTINATION" "share/robotis_interfaces/msg")
 ament_cmake_symlink_install_files("/root/ros2_ws/src/robotis_interfaces" FILES "/root/ros2_ws/src/robotis_interfaces/msg/MoveL.msg" "DESTINATION" "share/robotis_interfaces/msg")
+
+# install(FILES "/root/ros2_ws/src/robotis_interfaces/msg/TactileSensor.msg" "DESTINATION" "share/robotis_interfaces/msg")
+ament_cmake_symlink_install_files("/root/ros2_ws/src/robotis_interfaces" FILES "/root/ros2_ws/src/robotis_interfaces/msg/TactileSensor.msg" "DESTINATION" "share/robotis_interfaces/msg")
 
 # install(FILES "/root/ros2_ws/build/robotis_interfaces/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/robotis_interfaces" "DESTINATION" "share/ament_index/resource_index/package_run_dependencies")
 ament_cmake_symlink_install_files("/root/ros2_ws/src/robotis_interfaces" FILES "/root/ros2_ws/build/robotis_interfaces/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/robotis_interfaces" "DESTINATION" "share/ament_index/resource_index/package_run_dependencies")

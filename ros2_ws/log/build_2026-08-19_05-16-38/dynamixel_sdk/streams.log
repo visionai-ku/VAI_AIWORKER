@@ -1,0 +1,254 @@
+[0.072s] Invoking command in '/root/ros2_ws/build/dynamixel_sdk': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/DynamixelSDK/ros/dynamixel_sdk -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/dynamixel_sdk
+[0.431s] CMake Deprecation Warning at CMakeLists.txt:4 (cmake_minimum_required):
+[0.431s]   Compatibility with CMake < 3.10 will be removed from a future version of
+[0.431s]   CMake.
+[0.431s] 
+[0.431s]   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+[0.432s]   to tell CMake that the project requires at least <min> but has been updated
+[0.432s]   to work with policies introduced by <max> or earlier.
+[0.432s] 
+[0.432s] 
+[0.572s] -- The C compiler identification is GNU 13.3.0
+[0.728s] -- The CXX compiler identification is GNU 13.3.0
+[0.742s] -- Detecting C compiler ABI info
+[0.865s] -- Detecting C compiler ABI info - done
+[0.889s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.890s] -- Detecting C compile features
+[0.891s] -- Detecting C compile features - done
+[0.919s] -- Detecting CXX compiler ABI info
+[1.098s] -- Detecting CXX compiler ABI info - done
+[1.136s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[1.136s] -- Detecting CXX compile features
+[1.137s] -- Detecting CXX compile features - done
+[1.225s] -- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[3.171s] -- Found Python3: /opt/venv/bin/python3 (found version "3.12.3") found components: Interpreter
+[3.369s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[5.231s] -- Configuring done (4.8s)
+[5.278s] -- Generating done (0.0s)
+[5.282s] -- Build files have been written to: /root/ros2_ws/build/dynamixel_sdk
+[5.295s] Invoked command in '/root/ros2_ws/build/dynamixel_sdk' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/DynamixelSDK/ros/dynamixel_sdk -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/dynamixel_sdk
+[5.296s] Invoking command in '/root/ros2_ws/build/dynamixel_sdk': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/dynamixel_sdk -- -j12 -l12
+[5.792s] [  5%] Building CXX object CMakeFiles/dynamixel_sdk.dir/src/dynamixel_sdk/packet_handler.cpp.o
+[5.792s] [ 11%] Building CXX object CMakeFiles/dynamixel_sdk.dir/src/dynamixel_sdk/protocol1_packet_handler.cpp.o
+[5.792s] [ 11%] Built target ament_cmake_python_symlink_dynamixel_easy_sdk
+[5.792s] [ 11%] Built target ament_cmake_python_symlink_dynamixel_sdk
+[5.793s] [ 16%] Building CXX object CMakeFiles/dynamixel_sdk.dir/src/dynamixel_sdk/protocol2_packet_handler.cpp.o
+[5.793s] [ 22%] Building CXX object CMakeFiles/dynamixel_sdk.dir/src/dynamixel_sdk/group_sync_read.cpp.o
+[5.834s] [ 27%] Building CXX object CMakeFiles/dynamixel_sdk.dir/src/dynamixel_sdk/group_sync_write.cpp.o
+[5.854s] [ 33%] Building CXX object CMakeFiles/dynamixel_sdk.dir/src/dynamixel_sdk/group_bulk_read.cpp.o
+[5.866s] [ 38%] Building CXX object CMakeFiles/dynamixel_sdk.dir/src/dynamixel_sdk/group_bulk_write.cpp.o
+[5.880s] [ 44%] Building CXX object CMakeFiles/dynamixel_sdk.dir/src/dynamixel_sdk/group_fast_bulk_read.cpp.o
+[5.963s] [ 50%] Building CXX object CMakeFiles/dynamixel_sdk.dir/src/dynamixel_sdk/group_fast_sync_read.cpp.o
+[5.965s] [ 55%] Building CXX object CMakeFiles/dynamixel_sdk.dir/src/dynamixel_sdk/group_handler.cpp.o
+[6.154s] [ 61%] Building CXX object CMakeFiles/dynamixel_sdk.dir/src/dynamixel_sdk/port_handler.cpp.o
+[6.414s] [ 66%] Building CXX object CMakeFiles/dynamixel_sdk.dir/src/dynamixel_easy_sdk/connector.cpp.o
+[6.906s] running egg_info
+[6.977s] creating dynamixel_easy_sdk.egg-info
+[6.982s] writing dynamixel_easy_sdk.egg-info/PKG-INFO
+[6.983s] writing dependency_links to dynamixel_easy_sdk.egg-info/dependency_links.txt
+[6.987s] writing top-level names to dynamixel_easy_sdk.egg-info/top_level.txt
+[6.989s] writing manifest file 'dynamixel_easy_sdk.egg-info/SOURCES.txt'
+[7.122s] [ 72%] Building CXX object CMakeFiles/dynamixel_sdk.dir/src/dynamixel_easy_sdk/control_table.cpp.o
+[7.221s] reading manifest file 'dynamixel_easy_sdk.egg-info/SOURCES.txt'
+[7.223s] writing manifest file 'dynamixel_easy_sdk.egg-info/SOURCES.txt'
+[7.373s] [ 72%] Built target ament_cmake_python_build_dynamixel_easy_sdk_egg
+[7.498s] [ 77%] Building CXX object CMakeFiles/dynamixel_sdk.dir/src/dynamixel_easy_sdk/dynamixel_error.cpp.o
+[7.498s] [ 83%] Building CXX object CMakeFiles/dynamixel_sdk.dir/src/dynamixel_easy_sdk/group_executor.cpp.o
+[7.802s] [ 88%] Building CXX object CMakeFiles/dynamixel_sdk.dir/src/dynamixel_easy_sdk/motor.cpp.o
+[7.881s] [ 94%] Building CXX object CMakeFiles/dynamixel_sdk.dir/src/dynamixel_sdk/port_handler_linux.cpp.o
+[7.986s] running egg_info
+[8.177s] creating dynamixel_sdk.egg-info
+[8.177s] writing dynamixel_sdk.egg-info/PKG-INFO
+[8.177s] writing dependency_links to dynamixel_sdk.egg-info/dependency_links.txt
+[8.178s] writing top-level names to dynamixel_sdk.egg-info/top_level.txt
+[8.179s] writing manifest file 'dynamixel_sdk.egg-info/SOURCES.txt'
+[8.451s] reading manifest file 'dynamixel_sdk.egg-info/SOURCES.txt'
+[8.453s] writing manifest file 'dynamixel_sdk.egg-info/SOURCES.txt'
+[8.672s] [ 94%] Built target ament_cmake_python_build_dynamixel_sdk_egg
+[11.615s] [100%] Linking CXX shared library libdynamixel_sdk.so
+[11.860s] [100%] Built target dynamixel_sdk
+[11.871s] Invoked command in '/root/ros2_ws/build/dynamixel_sdk' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/dynamixel_sdk -- -j12 -l12
+[11.871s] Invoking command in '/root/ros2_ws/build/dynamixel_sdk': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/dynamixel_sdk
+[12.310s] -- Install configuration: "Release"
+[12.311s] -- Execute custom install script
+[12.312s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/include//dynamixel_easy_sdk/connector.hpp
+[12.319s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/include//dynamixel_easy_sdk/control_table.hpp
+[12.326s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/include//dynamixel_easy_sdk/data_types.hpp
+[12.351s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/include//dynamixel_easy_sdk/dynamixel_easy_sdk.hpp
+[12.380s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/include//dynamixel_easy_sdk/dynamixel_error.hpp
+[12.404s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/include//dynamixel_easy_sdk/group_executor.hpp
+[12.436s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/include//dynamixel_easy_sdk/motor.hpp
+[12.470s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/include//dynamixel_sdk/dynamixel_sdk.h
+[12.502s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/include//dynamixel_sdk/group_bulk_read.h
+[12.520s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/include//dynamixel_sdk/group_bulk_write.h
+[12.532s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/include//dynamixel_sdk/group_fast_bulk_read.h
+[12.566s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/include//dynamixel_sdk/group_fast_sync_read.h
+[12.596s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/include//dynamixel_sdk/group_handler.h
+[12.628s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/include//dynamixel_sdk/group_sync_read.h
+[12.650s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/include//dynamixel_sdk/group_sync_write.h
+[12.682s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/include//dynamixel_sdk/packet_handler.h
+[12.705s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/include//dynamixel_sdk/port_handler.h
+[12.731s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/include//dynamixel_sdk/port_handler_arduino.h
+[12.750s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/include//dynamixel_sdk/port_handler_linux.h
+[12.777s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/include//dynamixel_sdk/port_handler_mac.h
+[12.794s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/include//dynamixel_sdk/port_handler_windows.h
+[12.800s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/include//dynamixel_sdk/protocol1_packet_handler.h
+[12.826s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/include//dynamixel_sdk/protocol2_packet_handler.h
+[12.843s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/2xc430_w250.model
+[12.866s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/2xl430_w250.model
+[12.889s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/dynamixel.model
+[12.899s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/h42_20_s300_ra.model
+[12.915s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/h54_100_s500_ra.model
+[12.946s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/h54_200_s500_ra.model
+[12.978s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/m42_10_s260_ra.model
+[13.007s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/m54_40_s250_ra.model
+[13.026s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/m54_60_s250_ra.model
+[13.045s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/mx_106.model
+[13.083s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/mx_28.model
+[13.105s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/mx_64.model
+[13.115s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/ph42_020_s300.model
+[13.127s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/ph54_100_s500.model
+[13.144s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/ph54_200_s500.model
+[13.156s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/pm42_010_s260.model
+[13.168s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/pm54_040_s250.model
+[13.193s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/pm54_060_s250.model
+[13.229s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/rh_p12_rn.model
+[13.230s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xc330_m181.model
+[13.230s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xc330_m181_fw52.model
+[13.241s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xc330_m288.model
+[13.753s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xc330_m288_fw52.model
+[13.753s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xc330_t181.model
+[13.753s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xc330_t181_fw52.model
+[13.753s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xc330_t288.model
+[13.753s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xc330_t288_fw52.model
+[13.753s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xc430_w150.model
+[13.753s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xc430_w240.model
+[13.753s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xd430_t210.model
+[13.754s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xd430_t350.model
+[13.754s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xd540_t150.model
+[13.754s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xd540_t270.model
+[13.754s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xh430_v210.model
+[13.754s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xh430_v350.model
+[13.754s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xh430_w210.model
+[13.754s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xh430_w350.model
+[13.754s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xh540_v150.model
+[13.754s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xh540_v270.model
+[13.755s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xh540_w150.model
+[13.755s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xh540_w270.model
+[13.755s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xl320.model
+[13.755s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xl330_m077.model
+[13.755s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xl330_m077_fw52.model
+[13.755s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xl330_m288.model
+[13.755s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xl330_m288_fw52.model
+[13.755s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xl430_w250.model
+[13.755s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xm430_w210.model
+[13.756s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xm430_w350.model
+[13.777s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xm540_w150.model
+[13.793s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xm540_w270.model
+[13.800s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xw430_t200.model
+[13.817s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xw430_t333.model
+[13.846s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xw540_h260.model
+[13.867s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xw540_t140.model
+[13.890s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/xw540_t260.model
+[13.902s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/ym070_210_a051.model
+[13.916s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/ym070_210_a099.model
+[13.934s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/ym070_210_b001.model
+[13.957s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/ym070_210_m001.model
+[13.976s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/ym070_210_r051.model
+[13.983s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/ym070_210_r099.model
+[13.989s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/ym080_230_a051.model
+[13.996s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/ym080_230_a099.model
+[14.003s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/ym080_230_b001.model
+[14.011s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/ym080_230_m001.model
+[14.018s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/ym080_230_r051.model
+[14.025s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/control_table/ym080_230_r099.model
+[14.079s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/environment/pythonpath.sh
+[14.099s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/environment/pythonpath.dsv
+[14.126s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk-4.0.5-py3.12.egg-info/PKG-INFO
+[14.136s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk-4.0.5-py3.12.egg-info/SOURCES.txt
+[14.151s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk-4.0.5-py3.12.egg-info/dependency_links.txt
+[14.158s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk-4.0.5-py3.12.egg-info/top_level.txt
+[14.173s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/__init__.py
+[14.198s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/group_bulk_read.cpp
+[14.210s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/group_bulk_read.py
+[14.239s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/group_bulk_write.cpp
+[14.276s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/group_bulk_write.py
+[14.313s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/group_fast_bulk_read.cpp
+[14.331s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/group_fast_sync_read.cpp
+[14.345s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/group_handler.cpp
+[14.359s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/group_sync_read.cpp
+[14.383s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/group_sync_read.py
+[14.426s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/group_sync_write.cpp
+[14.448s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/group_sync_write.py
+[14.486s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/packet_handler.cpp
+[14.500s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/packet_handler.py
+[14.521s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/port_handler.cpp
+[14.544s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/port_handler.py
+[14.568s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/port_handler_arduino.cpp
+[14.594s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/port_handler_linux.cpp
+[14.616s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/port_handler_mac.cpp
+[14.702s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/port_handler_windows.cpp
+[14.727s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/protocol1_packet_handler.cpp
+[14.764s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/protocol1_packet_handler.py
+[14.792s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/protocol2_packet_handler.cpp
+[14.825s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/protocol2_packet_handler.py
+[14.851s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/robotis_def.py
+[14.877s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_easy_sdk-4.0.5-py3.12.egg-info/PKG-INFO
+[14.897s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_easy_sdk-4.0.5-py3.12.egg-info/SOURCES.txt
+[14.920s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_easy_sdk-4.0.5-py3.12.egg-info/dependency_links.txt
+[14.946s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_easy_sdk-4.0.5-py3.12.egg-info/top_level.txt
+[14.975s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_easy_sdk/__init__.py
+[14.995s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_easy_sdk/connector.cpp
+[15.014s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_easy_sdk/connector.py
+[15.047s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_easy_sdk/control_table.cpp
+[15.093s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_easy_sdk/control_table.py
+[15.141s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_easy_sdk/data_types.py
+[15.141s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_easy_sdk/dynamixel_error.cpp
+[15.165s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_easy_sdk/dynamixel_error.py
+[15.195s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_easy_sdk/group_executor.cpp
+[15.208s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_easy_sdk/group_executor.py
+[15.230s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_easy_sdk/motor.cpp
+[15.262s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_easy_sdk/motor.py
+[15.274s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/environment/library_path.sh
+[15.294s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/environment/library_path.dsv
+[15.330s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/ament_index/resource_index/package_run_dependencies/dynamixel_sdk
+[15.380s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/ament_index/resource_index/parent_prefix_path/dynamixel_sdk
+[15.399s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/environment/ament_prefix_path.sh
+[15.435s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/environment/ament_prefix_path.dsv
+[15.473s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/environment/path.sh
+[15.496s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/environment/path.dsv
+[15.509s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/local_setup.bash
+[15.517s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/local_setup.sh
+[15.530s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/local_setup.zsh
+[15.541s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/local_setup.dsv
+[15.557s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/package.dsv
+[15.584s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/ament_index/resource_index/packages/dynamixel_sdk
+[15.615s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/cmake/ament_cmake_export_targets-extras.cmake
+[15.652s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/cmake/ament_cmake_export_include_directories-extras.cmake
+[15.676s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/cmake/ament_cmake_export_libraries-extras.cmake
+[15.707s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/cmake/dynamixel_sdkConfig.cmake
+[15.736s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/cmake/dynamixel_sdkConfig-version.cmake
+[15.768s] -- Symlinking: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/package.xml
+[15.790s] -- Installing: /root/ros2_ws/install/dynamixel_sdk/lib/libdynamixel_sdk.so
+[15.933s] Listing '/root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk'...
+[15.934s] Compiling '/root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/__init__.py'...
+[15.945s] Compiling '/root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/group_bulk_read.py'...
+[15.949s] Compiling '/root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/group_bulk_write.py'...
+[15.952s] Compiling '/root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/group_sync_read.py'...
+[15.964s] Compiling '/root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/group_sync_write.py'...
+[15.966s] Compiling '/root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/packet_handler.py'...
+[15.967s] Compiling '/root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/port_handler.py'...
+[15.970s] Compiling '/root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/protocol1_packet_handler.py'...
+[15.993s] Compiling '/root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/protocol2_packet_handler.py'...
+[16.010s] Compiling '/root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_sdk/robotis_def.py'...
+[16.207s] Listing '/root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_easy_sdk'...
+[16.208s] Compiling '/root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_easy_sdk/__init__.py'...
+[16.214s] Compiling '/root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_easy_sdk/connector.py'...
+[16.217s] Compiling '/root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_easy_sdk/control_table.py'...
+[16.227s] Compiling '/root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_easy_sdk/data_types.py'...
+[16.228s] Compiling '/root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_easy_sdk/dynamixel_error.py'...
+[16.230s] Compiling '/root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_easy_sdk/group_executor.py'...
+[16.233s] Compiling '/root/ros2_ws/install/dynamixel_sdk/lib/python3.12/site-packages/dynamixel_easy_sdk/motor.py'...
+[16.303s] -- Installing: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/cmake/dynamixel_sdkExport.cmake
+[16.304s] -- Installing: /root/ros2_ws/install/dynamixel_sdk/share/dynamixel_sdk/cmake/dynamixel_sdkExport-release.cmake
+[16.304s] Invoked command in '/root/ros2_ws/build/dynamixel_sdk' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/dynamixel_sdk

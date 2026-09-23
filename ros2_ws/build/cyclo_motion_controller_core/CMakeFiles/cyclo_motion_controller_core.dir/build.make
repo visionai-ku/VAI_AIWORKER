@@ -128,10 +128,38 @@ CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_movel_controller.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_core/src/controllers/ai_worker/ai_worker_movel_controller.cpp -o CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_movel_controller.cpp.s
 
+CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.o: CMakeFiles/cyclo_motion_controller_core.dir/flags.make
+CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.o: /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_core/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp
+CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.o: CMakeFiles/cyclo_motion_controller_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/root/ros2_ws/build/cyclo_motion_controller_core/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.o -MF CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.o.d -o CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.o -c /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_core/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp
+
+CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_core/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp > CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.i
+
+CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_core/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp -o CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.s
+
+CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.o: CMakeFiles/cyclo_motion_controller_core.dir/flags.make
+CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.o: /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_core/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp
+CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.o: CMakeFiles/cyclo_motion_controller_core.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/root/ros2_ws/build/cyclo_motion_controller_core/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.o -MF CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.o.d -o CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.o -c /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_core/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp
+
+CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_core/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp > CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.i
+
+CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_core/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp -o CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.s
+
 CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movej_controller.cpp.o: CMakeFiles/cyclo_motion_controller_core.dir/flags.make
 CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movej_controller.cpp.o: /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_core/src/controllers/open_manipulator/open_manipulator_movej_controller.cpp
 CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movej_controller.cpp.o: CMakeFiles/cyclo_motion_controller_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/root/ros2_ws/build/cyclo_motion_controller_core/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movej_controller.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/root/ros2_ws/build/cyclo_motion_controller_core/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movej_controller.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movej_controller.cpp.o -MF CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movej_controller.cpp.o.d -o CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movej_controller.cpp.o -c /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_core/src/controllers/open_manipulator/open_manipulator_movej_controller.cpp
 
 CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movej_controller.cpp.i: cmake_force
@@ -145,7 +173,7 @@ CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/ope
 CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movel_controller.cpp.o: CMakeFiles/cyclo_motion_controller_core.dir/flags.make
 CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movel_controller.cpp.o: /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_core/src/controllers/open_manipulator/open_manipulator_movel_controller.cpp
 CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movel_controller.cpp.o: CMakeFiles/cyclo_motion_controller_core.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/root/ros2_ws/build/cyclo_motion_controller_core/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movel_controller.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/root/ros2_ws/build/cyclo_motion_controller_core/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movel_controller.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movel_controller.cpp.o -MF CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movel_controller.cpp.o.d -o CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movel_controller.cpp.o -c /root/ros2_ws/src/cyclo_control/cyclo_motion_controller_core/src/controllers/open_manipulator/open_manipulator_movel_controller.cpp
 
 CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movel_controller.cpp.i: cmake_force
@@ -162,6 +190,8 @@ cyclo_motion_controller_core_OBJECTS = \
 "CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/vr_controller.cpp.o" \
 "CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_movej_controller.cpp.o" \
 "CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_movel_controller.cpp.o" \
+"CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.o" \
+"CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.o" \
 "CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movej_controller.cpp.o" \
 "CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movel_controller.cpp.o"
 
@@ -172,27 +202,27 @@ libcyclo_motion_controller_core.so: CMakeFiles/cyclo_motion_controller_core.dir/
 libcyclo_motion_controller_core.so: CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/vr_controller.cpp.o
 libcyclo_motion_controller_core.so: CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_movej_controller.cpp.o
 libcyclo_motion_controller_core.so: CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_movel_controller.cpp.o
+libcyclo_motion_controller_core.so: CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.o
+libcyclo_motion_controller_core.so: CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.o
 libcyclo_motion_controller_core.so: CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movej_controller.cpp.o
 libcyclo_motion_controller_core.so: CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movel_controller.cpp.o
 libcyclo_motion_controller_core.so: CMakeFiles/cyclo_motion_controller_core.dir/build.make
 libcyclo_motion_controller_core.so: CMakeFiles/cyclo_motion_controller_core.dir/compiler_depend.ts
 libcyclo_motion_controller_core.so: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib/libOsqpEigen.so.0.10.3
-libcyclo_motion_controller_core.so: /opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_parsers.so.3.8.0
+libcyclo_motion_controller_core.so: /opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_parsers.so.4.0.0
 libcyclo_motion_controller_core.so: /opt/ros/jazzy/lib/aarch64-linux-gnu/liburdfdom_sensor.so.4.0
 libcyclo_motion_controller_core.so: /opt/ros/jazzy/lib/aarch64-linux-gnu/liburdfdom_model.so.4.0
 libcyclo_motion_controller_core.so: /opt/ros/jazzy/lib/aarch64-linux-gnu/liburdfdom_world.so.4.0
-libcyclo_motion_controller_core.so: /opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_collision.so.3.8.0
-libcyclo_motion_controller_core.so: /opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_visualizers.so.3.8.0
-libcyclo_motion_controller_core.so: /opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_default.so.3.8.0
-libcyclo_motion_controller_core.so: /opt/ros/jazzy/lib/aarch64-linux-gnu/libhpp-fcl.so
+libcyclo_motion_controller_core.so: /opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_collision.so.4.0.0
+libcyclo_motion_controller_core.so: /opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_default.so.4.0.0
+libcyclo_motion_controller_core.so: /opt/ros/jazzy/lib/aarch64-linux-gnu/libcoal.so.3.0.3
 libcyclo_motion_controller_core.so: /usr/lib/aarch64-linux-gnu/libboost_filesystem.so
 libcyclo_motion_controller_core.so: /usr/lib/aarch64-linux-gnu/libboost_serialization.so
-libcyclo_motion_controller_core.so: /usr/lib/aarch64-linux-gnu/libboost_chrono.so
 libcyclo_motion_controller_core.so: /usr/lib/aarch64-linux-gnu/liboctomap.so.1.9.7
 libcyclo_motion_controller_core.so: /usr/lib/aarch64-linux-gnu/liboctomath.so.1.9.7
 libcyclo_motion_controller_core.so: /opt/ros/jazzy/lib/libosqp.so
 libcyclo_motion_controller_core.so: CMakeFiles/cyclo_motion_controller_core.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/root/ros2_ws/build/cyclo_motion_controller_core/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX shared library libcyclo_motion_controller_core.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/root/ros2_ws/build/cyclo_motion_controller_core/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX shared library libcyclo_motion_controller_core.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/cyclo_motion_controller_core.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

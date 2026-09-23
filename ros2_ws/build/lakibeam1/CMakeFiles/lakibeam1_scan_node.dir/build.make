@@ -180,7 +180,7 @@ lakibeam1_scan_node: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesuppor
 lakibeam1_scan_node: /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so
 lakibeam1_scan_node: /opt/ros/jazzy/lib/librmw.so
 lakibeam1_scan_node: /opt/ros/jazzy/lib/librosidl_dynamic_typesupport.so
-lakibeam1_scan_node: /opt/ros/jazzy/lib/libfastcdr.so.2.2.5
+lakibeam1_scan_node: /opt/ros/jazzy/lib/libfastcdr.so.2.2.7
 lakibeam1_scan_node: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_cpp.so
 lakibeam1_scan_node: /opt/ros/jazzy/lib/librosidl_typesupport_introspection_cpp.so
 lakibeam1_scan_node: /opt/ros/jazzy/lib/librosidl_typesupport_introspection_c.so

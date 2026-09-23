@@ -26,75 +26,68 @@ libffw_robot_manager.so: \
   /root/ros2_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_generator_c.so \
   /opt/ros/jazzy/lib/libmock_components.so \
   /opt/ros/jazzy/lib/libhardware_interface.so \
+  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_generator_c.so \
+  /opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_c.so \
+  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_c.so \
+  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_cpp.so \
+  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_introspection_c.so \
+  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_c.so \
+  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_introspection_cpp.so \
+  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_cpp.so \
+  /opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_py.so \
+  /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_c.so \
+  /opt/ros/jazzy/lib/librmw.so \
+  /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so \
+  /opt/ros/jazzy/lib/librcutils.so \
+  /opt/ros/jazzy/lib/librcpputils.so \
+  /opt/ros/jazzy/lib/librosidl_typesupport_c.so \
+  /opt/ros/jazzy/lib/librosidl_typesupport_cpp.so \
+  /opt/ros/jazzy/lib/librosidl_runtime_c.so \
+  /opt/ros/jazzy/lib/librosidl_typesupport_introspection_c.so \
+  /opt/ros/jazzy/lib/librosidl_typesupport_introspection_cpp.so \
+  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_generator_c.so \
+  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_fastrtps_c.so \
+  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_introspection_c.so \
+  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_c.so \
+  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_fastrtps_cpp.so \
+  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_introspection_cpp.so \
+  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_cpp.so \
+  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_generator_py.so \
+  /opt/ros/jazzy/lib/librclcpp.so \
+  /opt/ros/jazzy/lib/librclcpp_lifecycle.so \
+  /opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_c.so \
+  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_c.so \
+  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_cpp.so \
+  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_introspection_c.so \
+  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_c.so \
+  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_introspection_cpp.so \
+  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_cpp.so \
+  /opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_py.so \
+  /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_c.so \
+  /opt/ros/jazzy/lib/librmw.so \
+  /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so \
+  /opt/ros/jazzy/lib/librcutils.so \
+  /opt/ros/jazzy/lib/librcpputils.so \
+  /opt/ros/jazzy/lib/librosidl_typesupport_c.so \
+  /opt/ros/jazzy/lib/librosidl_typesupport_cpp.so \
+  /opt/ros/jazzy/lib/librosidl_runtime_c.so \
+  /opt/ros/jazzy/lib/librosidl_typesupport_introspection_c.so \
+  /opt/ros/jazzy/lib/librosidl_typesupport_introspection_cpp.so \
+  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_generator_c.so \
+  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_fastrtps_c.so \
+  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_introspection_c.so \
+  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_c.so \
+  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_fastrtps_cpp.so \
+  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_introspection_cpp.so \
+  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_cpp.so \
+  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_generator_py.so \
+  /opt/ros/jazzy/lib/librclcpp.so \
+  /opt/ros/jazzy/lib/librclcpp_lifecycle.so \
+  /opt/ros/jazzy/lib/libpal_statistics.so \
   /opt/ros/jazzy/lib/libjoint_saturation_limiter.so \
   /opt/ros/jazzy/lib/libjoint_limiter_interface.so \
   /opt/ros/jazzy/lib/libclass_loader.so \
   /opt/ros/jazzy/lib/libjoint_limits_helpers.so \
-  /opt/ros/jazzy/lib/librclcpp_lifecycle.so \
-  /opt/ros/jazzy/lib/librealtime_tools.so \
-  /usr/lib/aarch64-linux-gnu/libfmt.so.9.1.0 \
-  /opt/ros/jazzy/lib/liburdf.so \
-  /opt/ros/jazzy/lib/aarch64-linux-gnu/liburdfdom_model.so.4.0 \
-  /usr/lib/aarch64-linux-gnu/libtinyxml2.so.10.0.0 \
-  /usr/lib/aarch64-linux-gnu/libconsole_bridge.so.1.0 \
-  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_generator_c.so \
-  /opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_c.so \
-  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_c.so \
-  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_cpp.so \
-  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_introspection_c.so \
-  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_c.so \
-  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_introspection_cpp.so \
-  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_cpp.so \
-  /opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_py.so \
-  /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_c.so \
-  /opt/ros/jazzy/lib/librmw.so \
-  /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so \
-  /opt/ros/jazzy/lib/librcutils.so \
-  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
-  /opt/ros/jazzy/lib/librcpputils.so \
-  /opt/ros/jazzy/lib/librosidl_typesupport_c.so \
-  /opt/ros/jazzy/lib/librosidl_typesupport_cpp.so \
-  /opt/ros/jazzy/lib/librosidl_runtime_c.so \
-  /opt/ros/jazzy/lib/librosidl_typesupport_introspection_c.so \
-  /opt/ros/jazzy/lib/librosidl_typesupport_introspection_cpp.so \
-  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_generator_c.so \
-  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_fastrtps_c.so \
-  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_introspection_c.so \
-  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_c.so \
-  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_fastrtps_cpp.so \
-  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_introspection_cpp.so \
-  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_cpp.so \
-  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_generator_py.so \
-  /opt/ros/jazzy/lib/librclcpp.so \
-  /opt/ros/jazzy/lib/librclcpp_lifecycle.so \
-  /opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_c.so \
-  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_c.so \
-  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_cpp.so \
-  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_introspection_c.so \
-  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_c.so \
-  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_introspection_cpp.so \
-  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_cpp.so \
-  /opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_py.so \
-  /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_c.so \
-  /opt/ros/jazzy/lib/librmw.so \
-  /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so \
-  /opt/ros/jazzy/lib/librcutils.so \
-  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
-  /opt/ros/jazzy/lib/librcpputils.so \
-  /opt/ros/jazzy/lib/librosidl_typesupport_c.so \
-  /opt/ros/jazzy/lib/librosidl_typesupport_cpp.so \
-  /opt/ros/jazzy/lib/librosidl_runtime_c.so \
-  /opt/ros/jazzy/lib/librosidl_typesupport_introspection_c.so \
-  /opt/ros/jazzy/lib/librosidl_typesupport_introspection_cpp.so \
-  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_generator_c.so \
-  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_fastrtps_c.so \
-  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_introspection_c.so \
-  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_c.so \
-  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_fastrtps_cpp.so \
-  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_introspection_cpp.so \
-  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_cpp.so \
-  /opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_generator_py.so \
-  /opt/ros/jazzy/lib/librclcpp.so \
   /opt/ros/jazzy/lib/librclcpp_lifecycle.so \
   /opt/ros/jazzy/lib/librcl_lifecycle.so \
   /opt/ros/jazzy/lib/liblifecycle_msgs__rosidl_typesupport_fastrtps_c.so \
@@ -105,7 +98,12 @@ libffw_robot_manager.so: \
   /opt/ros/jazzy/lib/liblifecycle_msgs__rosidl_generator_py.so \
   /opt/ros/jazzy/lib/liblifecycle_msgs__rosidl_typesupport_c.so \
   /opt/ros/jazzy/lib/liblifecycle_msgs__rosidl_generator_c.so \
-  /opt/ros/jazzy/lib/libpal_statistics.so \
+  /opt/ros/jazzy/lib/librealtime_tools.so \
+  /usr/lib/aarch64-linux-gnu/libfmt.so.9.1.0 \
+  /opt/ros/jazzy/lib/liburdf.so \
+  /opt/ros/jazzy/lib/aarch64-linux-gnu/liburdfdom_model.so.4.0 \
+  /usr/lib/aarch64-linux-gnu/libtinyxml2.so.10.0.0 \
+  /usr/lib/aarch64-linux-gnu/libconsole_bridge.so.1.0 \
   /opt/ros/jazzy/lib/libcontrol_msgs__rosidl_typesupport_fastrtps_c.so \
   /opt/ros/jazzy/lib/libcontrol_msgs__rosidl_typesupport_fastrtps_cpp.so \
   /opt/ros/jazzy/lib/libcontrol_msgs__rosidl_typesupport_introspection_c.so \
@@ -133,10 +131,10 @@ libffw_robot_manager.so: \
   /opt/ros/jazzy/lib/libtrajectory_msgs__rosidl_typesupport_c.so \
   /opt/ros/jazzy/lib/libtrajectory_msgs__rosidl_generator_c.so \
   /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_c.so \
-  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_cpp.so \
   /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_introspection_c.so \
-  /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_c.so \
+  /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_cpp.so \
   /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_introspection_cpp.so \
+  /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_c.so \
   /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_c.so \
   /root/ros2_ws/install/dynamixel_sdk/lib/libdynamixel_sdk.so \
   /opt/ros/jazzy/lib/libthread_priority.so \
@@ -207,9 +205,9 @@ libffw_robot_manager.so: \
   /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_c.so \
   /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_fastrtps_cpp.so \
   /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so \
+  /opt/ros/jazzy/lib/libfastcdr.so.2.2.7 \
   /opt/ros/jazzy/lib/librmw.so \
   /opt/ros/jazzy/lib/librosidl_dynamic_typesupport.so \
-  /opt/ros/jazzy/lib/libfastcdr.so.2.2.5 \
   /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_cpp.so \
   /opt/ros/jazzy/lib/librosidl_typesupport_introspection_cpp.so \
   /opt/ros/jazzy/lib/librosidl_typesupport_introspection_c.so \
@@ -224,17 +222,18 @@ libffw_robot_manager.so: \
   /opt/ros/jazzy/lib/libservice_msgs__rosidl_typesupport_cpp.so \
   /opt/ros/jazzy/lib/libservice_msgs__rosidl_generator_c.so \
   /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_cpp.so \
-  /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_generator_c.so \
   /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_cpp.so \
   /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_cpp.so \
   /opt/ros/jazzy/lib/librosidl_typesupport_cpp.so \
-  /opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_c.so \
-  /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_generator_c.so \
   /opt/ros/jazzy/lib/librosidl_typesupport_c.so \
   /opt/ros/jazzy/lib/librcpputils.so \
+  /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_generator_c.so \
+  /opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_c.so \
+  /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_generator_c.so \
   /opt/ros/jazzy/lib/librosidl_runtime_c.so \
   /opt/ros/jazzy/lib/librcutils.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libdl.a \
+  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libstdc++.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libm.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libm.so \
@@ -314,6 +313,122 @@ CMakeFiles/ffw_robot_manager.dir/src/robot_type.cpp.o:
 
 /opt/ros/jazzy/lib/libhardware_interface.so:
 
+/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_generator_c.so:
+
+/opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_c.so:
+
+/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_c.so:
+
+/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_cpp.so:
+
+/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_introspection_c.so:
+
+/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_c.so:
+
+/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_introspection_cpp.so:
+
+/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_cpp.so:
+
+/opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_py.so:
+
+/opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_c.so:
+
+/opt/ros/jazzy/lib/librmw.so:
+
+/opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so:
+
+/opt/ros/jazzy/lib/librcutils.so:
+
+/opt/ros/jazzy/lib/librcpputils.so:
+
+/opt/ros/jazzy/lib/librosidl_typesupport_c.so:
+
+/opt/ros/jazzy/lib/librosidl_typesupport_cpp.so:
+
+/opt/ros/jazzy/lib/librosidl_runtime_c.so:
+
+/opt/ros/jazzy/lib/librosidl_typesupport_introspection_c.so:
+
+/opt/ros/jazzy/lib/librosidl_typesupport_introspection_cpp.so:
+
+/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_generator_c.so:
+
+/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_fastrtps_c.so:
+
+/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_introspection_c.so:
+
+/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_c.so:
+
+/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_fastrtps_cpp.so:
+
+/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_introspection_cpp.so:
+
+/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_cpp.so:
+
+/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_generator_py.so:
+
+/opt/ros/jazzy/lib/librclcpp.so:
+
+/opt/ros/jazzy/lib/librclcpp_lifecycle.so:
+
+/opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_c.so:
+
+/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_c.so:
+
+/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_cpp.so:
+
+/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_introspection_c.so:
+
+/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_c.so:
+
+/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_introspection_cpp.so:
+
+/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_cpp.so:
+
+/opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_py.so:
+
+/opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_c.so:
+
+/opt/ros/jazzy/lib/librmw.so:
+
+/opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so:
+
+/opt/ros/jazzy/lib/librcutils.so:
+
+/opt/ros/jazzy/lib/librcpputils.so:
+
+/opt/ros/jazzy/lib/librosidl_typesupport_c.so:
+
+/opt/ros/jazzy/lib/librosidl_typesupport_cpp.so:
+
+/opt/ros/jazzy/lib/librosidl_runtime_c.so:
+
+/opt/ros/jazzy/lib/librosidl_typesupport_introspection_c.so:
+
+/opt/ros/jazzy/lib/librosidl_typesupport_introspection_cpp.so:
+
+/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_generator_c.so:
+
+/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_fastrtps_c.so:
+
+/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_introspection_c.so:
+
+/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_c.so:
+
+/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_fastrtps_cpp.so:
+
+/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_introspection_cpp.so:
+
+/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_cpp.so:
+
+/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_generator_py.so:
+
+/opt/ros/jazzy/lib/librclcpp.so:
+
+/opt/ros/jazzy/lib/librclcpp_lifecycle.so:
+
+/opt/ros/jazzy/lib/libpal_statistics.so:
+
 /opt/ros/jazzy/lib/libjoint_saturation_limiter.so:
 
 /opt/ros/jazzy/lib/libjoint_limiter_interface.so:
@@ -321,136 +436,6 @@ CMakeFiles/ffw_robot_manager.dir/src/robot_type.cpp.o:
 /opt/ros/jazzy/lib/libclass_loader.so:
 
 /opt/ros/jazzy/lib/libjoint_limits_helpers.so:
-
-/opt/ros/jazzy/lib/librclcpp_lifecycle.so:
-
-/opt/ros/jazzy/lib/librealtime_tools.so:
-
-/usr/lib/aarch64-linux-gnu/libfmt.so.9.1.0:
-
-/opt/ros/jazzy/lib/liburdf.so:
-
-/opt/ros/jazzy/lib/aarch64-linux-gnu/liburdfdom_model.so.4.0:
-
-/usr/lib/aarch64-linux-gnu/libtinyxml2.so.10.0.0:
-
-/usr/lib/aarch64-linux-gnu/libconsole_bridge.so.1.0:
-
-/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_generator_c.so:
-
-/opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_c.so:
-
-/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_c.so:
-
-/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_cpp.so:
-
-/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_introspection_c.so:
-
-/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_c.so:
-
-/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_introspection_cpp.so:
-
-/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_cpp.so:
-
-/opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_py.so:
-
-/opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_c.so:
-
-/opt/ros/jazzy/lib/librmw.so:
-
-/opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so:
-
-/opt/ros/jazzy/lib/librcutils.so:
-
-/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
-
-/opt/ros/jazzy/lib/librcpputils.so:
-
-/opt/ros/jazzy/lib/librosidl_typesupport_c.so:
-
-/opt/ros/jazzy/lib/librosidl_typesupport_cpp.so:
-
-/opt/ros/jazzy/lib/librosidl_runtime_c.so:
-
-/opt/ros/jazzy/lib/librosidl_typesupport_introspection_c.so:
-
-/opt/ros/jazzy/lib/librosidl_typesupport_introspection_cpp.so:
-
-/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_generator_c.so:
-
-/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_fastrtps_c.so:
-
-/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_introspection_c.so:
-
-/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_c.so:
-
-/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_fastrtps_cpp.so:
-
-/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_introspection_cpp.so:
-
-/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_cpp.so:
-
-/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_generator_py.so:
-
-/opt/ros/jazzy/lib/librclcpp.so:
-
-/opt/ros/jazzy/lib/librclcpp_lifecycle.so:
-
-/opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_c.so:
-
-/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_c.so:
-
-/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_cpp.so:
-
-/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_introspection_c.so:
-
-/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_c.so:
-
-/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_introspection_cpp.so:
-
-/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_cpp.so:
-
-/opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_py.so:
-
-/opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_c.so:
-
-/opt/ros/jazzy/lib/librmw.so:
-
-/opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so:
-
-/opt/ros/jazzy/lib/librcutils.so:
-
-/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
-
-/opt/ros/jazzy/lib/librcpputils.so:
-
-/opt/ros/jazzy/lib/librosidl_typesupport_c.so:
-
-/opt/ros/jazzy/lib/librosidl_typesupport_cpp.so:
-
-/opt/ros/jazzy/lib/librosidl_runtime_c.so:
-
-/opt/ros/jazzy/lib/librosidl_typesupport_introspection_c.so:
-
-/opt/ros/jazzy/lib/librosidl_typesupport_introspection_cpp.so:
-
-/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_generator_c.so:
-
-/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_fastrtps_c.so:
-
-/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_introspection_c.so:
-
-/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_c.so:
-
-/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_fastrtps_cpp.so:
-
-/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_introspection_cpp.so:
-
-/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_typesupport_cpp.so:
-
-/opt/ros/jazzy/lib/libpal_statistics_msgs__rosidl_generator_py.so:
-
-/opt/ros/jazzy/lib/librclcpp.so:
 
 /opt/ros/jazzy/lib/librclcpp_lifecycle.so:
 
@@ -472,7 +457,17 @@ CMakeFiles/ffw_robot_manager.dir/src/robot_type.cpp.o:
 
 /opt/ros/jazzy/lib/liblifecycle_msgs__rosidl_generator_c.so:
 
-/opt/ros/jazzy/lib/libpal_statistics.so:
+/opt/ros/jazzy/lib/librealtime_tools.so:
+
+/usr/lib/aarch64-linux-gnu/libfmt.so.9.1.0:
+
+/opt/ros/jazzy/lib/liburdf.so:
+
+/opt/ros/jazzy/lib/aarch64-linux-gnu/liburdfdom_model.so.4.0:
+
+/usr/lib/aarch64-linux-gnu/libtinyxml2.so.10.0.0:
+
+/usr/lib/aarch64-linux-gnu/libconsole_bridge.so.1.0:
 
 /opt/ros/jazzy/lib/libcontrol_msgs__rosidl_typesupport_fastrtps_c.so:
 
@@ -528,13 +523,13 @@ CMakeFiles/ffw_robot_manager.dir/src/robot_type.cpp.o:
 
 /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_c.so:
 
-/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_cpp.so:
-
 /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_introspection_c.so:
 
-/opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_c.so:
+/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_fastrtps_cpp.so:
 
 /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_introspection_cpp.so:
+
+/opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_c.so:
 
 /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_c.so:
 
@@ -676,11 +671,11 @@ CMakeFiles/ffw_robot_manager.dir/src/robot_type.cpp.o:
 
 /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so:
 
+/opt/ros/jazzy/lib/libfastcdr.so.2.2.7:
+
 /opt/ros/jazzy/lib/librmw.so:
 
 /opt/ros/jazzy/lib/librosidl_dynamic_typesupport.so:
-
-/opt/ros/jazzy/lib/libfastcdr.so.2.2.5:
 
 /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_cpp.so:
 
@@ -710,27 +705,29 @@ CMakeFiles/ffw_robot_manager.dir/src/robot_type.cpp.o:
 
 /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_cpp.so:
 
-/opt/ros/jazzy/lib/libgeometry_msgs__rosidl_generator_c.so:
-
 /opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_cpp.so:
 
 /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_cpp.so:
 
 /opt/ros/jazzy/lib/librosidl_typesupport_cpp.so:
 
-/opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_c.so:
-
-/opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_generator_c.so:
-
 /opt/ros/jazzy/lib/librosidl_typesupport_c.so:
 
 /opt/ros/jazzy/lib/librcpputils.so:
+
+/opt/ros/jazzy/lib/libgeometry_msgs__rosidl_generator_c.so:
+
+/opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_c.so:
+
+/opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_generator_c.so:
 
 /opt/ros/jazzy/lib/librosidl_runtime_c.so:
 
 /opt/ros/jazzy/lib/librcutils.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libdl.a:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/libstdc++.so:
 

@@ -1,0 +1,86 @@
+[0mCMake Deprecation Warning at CMakeLists.txt:4 (cmake_minimum_required):
+  Compatibility with CMake < 3.10 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+  to tell CMake that the project requires at least <min> but has been updated
+  to work with policies introduced by <max> or earlier.
+
+[0m
+-- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+-- Override CMake install command with custom implementation using symlinks instead of copying resources
+-- Configuring done (0.8s)
+-- Generating done (0.0s)
+-- Build files have been written to: /root/ros2_ws/build/robotis_hand_description
+-- Install configuration: "Release"
+-- Execute custom install script
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/launch/hx5_d20_left.launch.py
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/launch/hx5_d20_right.launch.py
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_base_unit.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_finger_dip.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_finger_mcp.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_finger_pip.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_finger_tip.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_thumb_ip.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_thumb_mcp.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_thumb_mcp2.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_left/hx5_d20_thumb_tip.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_base_unit.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_finger_dip.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_finger_mcp.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_finger_pip.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_finger_tip.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_thumb_ip.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_thumb_mcp.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_thumb_mcp2.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev1/hx5_d20_right/hx5_d20_thumb_tip.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_base_unit.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_finger_dip.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_finger_mcp.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_finger_pip.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_finger_tip.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_thumb_ip.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_thumb_mcp.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_thumb_mcp2.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_left/hx5_d20_thumb_tip.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_base_unit.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_finger_dip.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_finger_mcp.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_finger_pip.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_finger_tip.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_thumb_ip.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_thumb_mcp.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_thumb_mcp2.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/meshes/hx5_d20_rev2/hx5_d20_right/hx5_d20_thumb_tip.stl
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/rviz/robotis_hand.rviz
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/urdf/hx5_d20_rev1/hx5_d20_left.urdf.xacro
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/urdf/hx5_d20_rev1/hx5_d20_left.xacro
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/urdf/hx5_d20_rev1/hx5_d20_right.urdf.xacro
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/urdf/hx5_d20_rev1/hx5_d20_right.xacro
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/urdf/hx5_d20_rev2/hx5_d20_left.urdf.xacro
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/urdf/hx5_d20_rev2/hx5_d20_left.xacro
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/urdf/hx5_d20_rev2/hx5_d20_right.urdf.xacro
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/urdf/hx5_d20_rev2/hx5_d20_right.xacro
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/gazebo/hx5_d20/hx5_d20_left.gazebo.xacro
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/gazebo/hx5_d20/hx5_d20_right.gazebo.xacro
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/ros2_control/hx5_d20_rev1/hx5_d20_left.ros2_control.xacro
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/ros2_control/hx5_d20_rev1/hx5_d20_right.ros2_control.xacro
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/ros2_control/hx5_d20_rev2/hx5_d20_left.joints.xacro
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/ros2_control/hx5_d20_rev2/hx5_d20_left.ros2_control.xacro
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/ros2_control/hx5_d20_rev2/hx5_d20_right.joints.xacro
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/ros2_control/hx5_d20_rev2/hx5_d20_right.ros2_control.xacro
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/ament_index/resource_index/package_run_dependencies/robotis_hand_description
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/ament_index/resource_index/parent_prefix_path/robotis_hand_description
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/environment/ament_prefix_path.sh
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/environment/ament_prefix_path.dsv
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/environment/path.sh
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/environment/path.dsv
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/local_setup.bash
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/local_setup.sh
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/local_setup.zsh
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/local_setup.dsv
+-- Symlinking: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/package.dsv
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/ament_index/resource_index/packages/robotis_hand_description
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/cmake/robotis_hand_descriptionConfig.cmake
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/cmake/robotis_hand_descriptionConfig-version.cmake
+-- Up-to-date symlink: /root/ros2_ws/install/robotis_hand_description/share/robotis_hand_description/package.xml

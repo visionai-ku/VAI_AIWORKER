@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: ffw_bringup
-Version: 1.2.0
+Version: 2.2.5
 Summary: ROS 2 launch scripts for starting the FFW
 Author: Sungho Woo, Woojin Wie, Wonho Yun
 Author-email: wsh@robotis.com, wwj@robotis.com, ywh@robotis.com

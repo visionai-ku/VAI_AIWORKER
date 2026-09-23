@@ -2453,7 +2453,7 @@ librealsense2_camera_msgs__rosidl_typesupport_fastrtps_c.so: /lib/aarch64-linux-
   /opt/ros/jazzy/lib/libaction_msgs__rosidl_typesupport_fastrtps_c.so \
   /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_generator_c.so \
   /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_fastrtps_c.so \
-  /opt/ros/jazzy/lib/libfastcdr.so.2.2.5 \
+  /opt/ros/jazzy/lib/libfastcdr.so.2.2.7 \
   /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_generator_c.so \
   /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_fastrtps_c.so \
   /opt/ros/jazzy/lib/librcutils.so \
@@ -2479,6 +2479,7 @@ librealsense2_camera_msgs__rosidl_typesupport_fastrtps_c.so: /lib/aarch64-linux-
   /usr/lib/aarch64-linux-gnu/libm.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o \
+  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libstdc++.so \
@@ -2506,6 +2507,8 @@ CMakeFiles/realsense2_camera_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_type
 /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o:
 
@@ -2989,8 +2992,6 @@ rosidl_generator_c/realsense2_camera_msgs/action/detail/triggered_calibration__f
 
 /opt/ros/jazzy/include/rmw/rmw/events_statuses/offered_deadline_missed.h:
 
-/opt/ros/jazzy/lib/libfastcdr.so.2.2.5:
-
 /lib/ld-linux-aarch64.so.1:
 
 /usr/include/locale.h:
@@ -3238,6 +3239,8 @@ rosidl_typesupport_fastrtps_c/realsense2_camera_msgs/msg/detail/imu_info__rosidl
 /usr/include/c++/13/bits/atomic_lockfree_defines.h:
 
 /usr/include/c++/13/bits/cxxabi_forced.h:
+
+/opt/ros/jazzy/lib/libfastcdr.so.2.2.7:
 
 /opt/ros/jazzy/include/rmw/rmw/domain_id.h:
 

@@ -61,11 +61,14 @@ private:
   double cbf_alpha_;
   double collision_buffer_;
   double collision_safe_distance_;
+  double joint_state_timeout_;
   std::string joint_states_topic_;
   std::string right_movel_topic_;
   std::string left_movel_topic_;
   std::string right_traj_topic_;
   std::string left_traj_topic_;
+  std::string right_raw_traj_topic_;
+  std::string left_raw_traj_topic_;
   std::string lift_topic_;
   double lift_vel_bound_;
   std::string r_gripper_pose_topic_;
@@ -81,6 +84,8 @@ private:
   rclcpp::Subscription<robotis_interfaces::msg::MoveL>::SharedPtr right_movel_sub_;
   rclcpp::Subscription<robotis_interfaces::msg::MoveL>::SharedPtr left_movel_sub_;
   rclcpp::Subscription<sensor_msgs::msg::JointState>::SharedPtr joint_state_sub_;
+  rclcpp::Subscription<trajectory_msgs::msg::JointTrajectory>::SharedPtr right_raw_traj_sub_;
+  rclcpp::Subscription<trajectory_msgs::msg::JointTrajectory>::SharedPtr left_raw_traj_sub_;
 
   rclcpp::Publisher<trajectory_msgs::msg::JointTrajectory>::SharedPtr arm_r_pub_;
   rclcpp::Publisher<trajectory_msgs::msg::JointTrajectory>::SharedPtr arm_l_pub_;
@@ -111,9 +116,13 @@ private:
   bool left_movel_target_initialized_;
   bool right_movel_trajectory_active_;
   bool left_movel_trajectory_active_;
+  bool joint_state_timeout_active_ = false;
+  bool right_gripper_command_received_ = false;
+  bool left_gripper_command_received_ = false;
 
   rclcpp::Time right_motion_start_time_;
   rclcpp::Time left_motion_start_time_;
+  rclcpp::Time last_joint_state_time_;
   double right_active_motion_duration_;
   double left_active_motion_duration_;
 
@@ -131,6 +140,10 @@ private:
   void rightMoveLCallback(const robotis_interfaces::msg::MoveL::SharedPtr msg);
   void leftMoveLCallback(const robotis_interfaces::msg::MoveL::SharedPtr msg);
   void jointStateCallback(const sensor_msgs::msg::JointState::SharedPtr msg);
+  void rightRawTrajectoryCallback(
+    const trajectory_msgs::msg::JointTrajectory::SharedPtr msg);
+  void leftRawTrajectoryCallback(
+    const trajectory_msgs::msg::JointTrajectory::SharedPtr msg);
   void controlLoopCallback();
 
   void initializeJointConfig();
@@ -146,6 +159,11 @@ private:
     const Eigen::Affine3d & r_gripper_pose,
     const Eigen::Affine3d & l_gripper_pose);
   void extractJointStates(const sensor_msgs::msg::JointState::SharedPtr & msg);
+  bool jointStateTimedOut() const;
+  void syncCommandStateToFeedback();
+  void syncArmStateToFeedback(
+    const std::vector<std::string> & arm_joint_names,
+    Eigen::VectorXd & destination) const;
 
   Eigen::Affine3d poseMsgToEigen(const geometry_msgs::msg::PoseStamped & pose_msg) const;
   cyclo_motion_controller::common::Vector6d computeDesiredVelocity(

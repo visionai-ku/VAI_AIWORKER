@@ -4,15 +4,22 @@ librobotis_interfaces__rosidl_generator_c.so: \
   CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__description.c.o \
   CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__functions.c.o \
   CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.c.o \
+  CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.o \
+  CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.o \
+  CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o \
   CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.c.o \
   CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__functions.c.o \
   CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c.o \
+  CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.o \
+  CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.o \
+  CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o \
   /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_generator_c.so \
   /opt/ros/jazzy/lib/libstd_msgs__rosidl_generator_c.so \
   /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_generator_c.so \
   /opt/ros/jazzy/lib/librosidl_runtime_c.so \
   /opt/ros/jazzy/lib/librcutils.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libdl.a \
+  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so \
@@ -44,11 +51,23 @@ CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis
 
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.c.o:
 
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.o:
+
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.o:
+
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o:
+
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.c.o:
 
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__functions.c.o:
 
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c.o:
+
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.o:
+
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.o:
+
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o:
 
 /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_generator_c.so:
 
@@ -61,6 +80,8 @@ CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis
 /opt/ros/jazzy/lib/librcutils.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libdl.a:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a:
 

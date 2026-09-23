@@ -16,12 +16,22 @@ set(CMAKE_MULTIPLE_OUTPUT_PAIRS
   "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_joints__struct.hpp" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp"
   "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_joints__traits.hpp" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp"
   "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_joints__type_support.hpp" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp"
+  "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_pressures__builder.hpp" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp"
+  "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_pressures__struct.hpp" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp"
+  "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_pressures__traits.hpp" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp"
+  "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/detail/hand_pressures__type_support.hpp" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp"
   "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/detail/move_l__builder.hpp" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp"
   "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/detail/move_l__struct.hpp" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp"
   "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/detail/move_l__traits.hpp" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp"
   "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/detail/move_l__type_support.hpp" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp"
+  "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/detail/tactile_sensor__builder.hpp" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp"
+  "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/detail/tactile_sensor__struct.hpp" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp"
+  "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/detail/tactile_sensor__traits.hpp" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp"
+  "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/detail/tactile_sensor__type_support.hpp" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp"
+  "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/hand_pressures.hpp" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp"
   "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/move_l.hpp" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp"
   "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp"
+  "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/tactile_sensor.hpp" "/root/ros2_ws/build/robotis_interfaces/rosidl_generator_cpp/robotis_interfaces/msg/hand_joints.hpp"
   )
 
 

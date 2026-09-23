@@ -5,20 +5,20 @@ libcyclo_motion_controller_core.so: \
   CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/vr_controller.cpp.o \
   CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_movej_controller.cpp.o \
   CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_movel_controller.cpp.o \
+  CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.o \
+  CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.o \
   CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movej_controller.cpp.o \
   CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movel_controller.cpp.o \
   /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib/libOsqpEigen.so.0.10.3 \
-  /opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_parsers.so.3.8.0 \
+  /opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_parsers.so.4.0.0 \
   /opt/ros/jazzy/lib/aarch64-linux-gnu/liburdfdom_sensor.so.4.0 \
   /opt/ros/jazzy/lib/aarch64-linux-gnu/liburdfdom_model.so.4.0 \
   /opt/ros/jazzy/lib/aarch64-linux-gnu/liburdfdom_world.so.4.0 \
-  /opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_collision.so.3.8.0 \
-  /opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_visualizers.so.3.8.0 \
-  /opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_default.so.3.8.0 \
-  /opt/ros/jazzy/lib/aarch64-linux-gnu/libhpp-fcl.so \
+  /opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_collision.so.4.0.0 \
+  /opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_default.so.4.0.0 \
+  /opt/ros/jazzy/lib/aarch64-linux-gnu/libcoal.so.3.0.3 \
   /usr/lib/aarch64-linux-gnu/libboost_filesystem.so \
   /usr/lib/aarch64-linux-gnu/libboost_serialization.so \
-  /usr/lib/aarch64-linux-gnu/libboost_chrono.so \
   /usr/lib/aarch64-linux-gnu/liboctomap.so.1.9.7 \
   /usr/lib/aarch64-linux-gnu/liboctomath.so.1.9.7 \
   /opt/ros/jazzy/lib/libosqp.so \
@@ -59,13 +59,17 @@ CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_
 
 CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_movel_controller.cpp.o:
 
+CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.o:
+
+CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.o:
+
 CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movej_controller.cpp.o:
 
 CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/open_manipulator_movel_controller.cpp.o:
 
 /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib/libOsqpEigen.so.0.10.3:
 
-/opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_parsers.so.3.8.0:
+/opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_parsers.so.4.0.0:
 
 /opt/ros/jazzy/lib/aarch64-linux-gnu/liburdfdom_sensor.so.4.0:
 
@@ -73,19 +77,15 @@ CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/open_manipulator/ope
 
 /opt/ros/jazzy/lib/aarch64-linux-gnu/liburdfdom_world.so.4.0:
 
-/opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_collision.so.3.8.0:
+/opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_collision.so.4.0.0:
 
-/opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_visualizers.so.3.8.0:
+/opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_default.so.4.0.0:
 
-/opt/ros/jazzy/lib/aarch64-linux-gnu/libpinocchio_default.so.3.8.0:
-
-/opt/ros/jazzy/lib/aarch64-linux-gnu/libhpp-fcl.so:
+/opt/ros/jazzy/lib/aarch64-linux-gnu/libcoal.so.3.0.3:
 
 /usr/lib/aarch64-linux-gnu/libboost_filesystem.so:
 
 /usr/lib/aarch64-linux-gnu/libboost_serialization.so:
-
-/usr/lib/aarch64-linux-gnu/libboost_chrono.so:
 
 /usr/lib/aarch64-linux-gnu/liboctomap.so.1.9.7:
 

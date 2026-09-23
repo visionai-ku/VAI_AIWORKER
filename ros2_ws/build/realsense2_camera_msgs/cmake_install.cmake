@@ -445,6 +445,7 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/root/ros2_ws/build/realsense2_camera_msgs/realsense2_camera_msgs__py/cmake_install.cmake")
+  include("/root/ros2_ws/build/realsense2_camera_msgs/realsense2_camera_msgs__rs/cmake_install.cmake")
 
 endif()
 

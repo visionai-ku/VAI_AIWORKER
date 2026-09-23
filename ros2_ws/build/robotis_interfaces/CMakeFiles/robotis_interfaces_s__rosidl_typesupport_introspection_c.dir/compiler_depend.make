@@ -32,9 +32,15 @@ CMakeFiles/robotis_interfaces_s__rosidl_typesupport_introspection_c.dir/rosidl_g
   rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__functions.h \
   rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__struct.h \
   rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.h \
+  rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.h \
+  rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__struct.h \
+  rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.h \
   rosidl_generator_c/robotis_interfaces/msg/detail/move_l__functions.h \
   rosidl_generator_c/robotis_interfaces/msg/detail/move_l__struct.h \
   rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.h \
+  rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.h \
+  rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__struct.h \
+  rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.h \
   rosidl_generator_c/robotis_interfaces/msg/rosidl_generator_c__visibility_control.h \
   /usr/include/aarch64-linux-gnu/asm/bitsperlong.h \
   /usr/include/aarch64-linux-gnu/asm/errno.h \
@@ -321,6 +327,7 @@ rosidl_generator_py/robotis_interfaces/robotis_interfaces_s__rosidl_typesupport_
   /usr/lib/aarch64-linux-gnu/libgcc_s.so.1 \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o \
+  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so \
   CMakeFiles/robotis_interfaces_s__rosidl_typesupport_introspection_c.dir/rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_introspection_c.c.o \
@@ -339,6 +346,8 @@ librobotis_interfaces__rosidl_typesupport_c.so:
 librobotis_interfaces__rosidl_generator_py.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o:
 
@@ -398,8 +407,6 @@ librobotis_interfaces__rosidl_generator_py.so:
 
 /usr/include/python3.12/setobject.h:
 
-/usr/include/python3.12/pytypedefs.h:
-
 /usr/include/python3.12/pythread.h:
 
 /usr/include/python3.12/pythonrun.h:
@@ -416,21 +423,9 @@ librobotis_interfaces__rosidl_generator_py.so:
 
 /usr/include/python3.12/pyport.h:
 
-/usr/include/aarch64-linux-gnu/bits/uio_lim.h:
+/usr/include/python3.12/pymath.h:
 
-/usr/include/aarch64-linux-gnu/bits/uintn-identity.h:
-
-/usr/include/aarch64-linux-gnu/bits/typesizes.h:
-
-/usr/include/aarch64-linux-gnu/bits/types/time_t.h:
-
-/opt/ros/jazzy/lib/librosidl_typesupport_introspection_c.so:
-
-/usr/include/python3.12/cpython/compile.h:
-
-/opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_introspection_c.so:
-
-/usr/include/python3.12/cpython/sysmodule.h:
+/usr/include/python3.12/pylifecycle.h:
 
 /usr/include/aarch64-linux-gnu/bits/types/struct_tm.h:
 
@@ -443,6 +438,8 @@ librobotis_interfaces__rosidl_generator_py.so:
 /usr/include/python3.12/pymem.h:
 
 /usr/include/aarch64-linux-gnu/bits/types/struct_statx.h:
+
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.h:
 
 /usr/include/aarch64-linux-gnu/bits/types/struct_FILE.h:
 
@@ -480,8 +477,6 @@ rosidl_generator_c/robotis_interfaces/msg/rosidl_generator_c__visibility_control
 
 /usr/include/aarch64-linux-gnu/bits/stdio_lim.h:
 
-/usr/include/aarch64-linux-gnu/bits/stdio.h:
-
 /usr/include/aarch64-linux-gnu/bits/stdint-least.h:
 
 /opt/ros/jazzy/include/rcutils/rcutils/macros.h:
@@ -492,11 +487,13 @@ rosidl_generator_c/robotis_interfaces/msg/rosidl_generator_c__visibility_control
 
 /usr/include/python3.12/cpython/initconfig.h:
 
+/usr/include/python3.12/pymacro.h:
+
+/usr/include/aarch64-linux-gnu/bits/statx-generic.h:
+
 /usr/include/aarch64-linux-gnu/bits/types/cookie_io_functions_t.h:
 
 /usr/include/linux/limits.h:
-
-/usr/include/aarch64-linux-gnu/bits/stat.h:
 
 /usr/include/aarch64-linux-gnu/bits/struct_rwlock.h:
 
@@ -544,15 +541,25 @@ rosidl_generator_c/robotis_interfaces/msg/rosidl_generator_c__visibility_control
 
 /usr/include/aarch64-linux-gnu/bits/math-vector.h:
 
-/opt/ros/jazzy/include/rcutils/rcutils/types/rcutils_ret.h:
-
 /opt/ros/jazzy/lib/librcutils.so:
 
 /usr/include/aarch64-linux-gnu/bits/libm-simd-decl-stubs.h:
 
+/opt/ros/jazzy/include/rcutils/rcutils/types/rcutils_ret.h:
+
 /opt/ros/jazzy/include/rosidl_runtime_c/rosidl_runtime_c/string.h:
 
 /opt/ros/jazzy/include/rosidl_runtime_c/rosidl_runtime_c/type_description/field_type__struct.h:
+
+/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_c.so:
+
+/usr/include/aarch64-linux-gnu/bits/types/struct_itimerspec.h:
+
+/usr/include/aarch64-linux-gnu/bits/getopt_posix.h:
+
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__struct.h:
+
+/usr/include/aarch64-linux-gnu/bits/confname.h:
 
 /opt/ros/jazzy/include/rosidl_runtime_c/rosidl_runtime_c/type_description/type_description__struct.h:
 
@@ -562,11 +569,11 @@ rosidl_generator_c/robotis_interfaces/msg/rosidl_generator_c__visibility_control
 
 /opt/ros/jazzy/include/rcutils/rcutils/sha256.h:
 
+/usr/include/aarch64-linux-gnu/bits/stat.h:
+
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.h:
+
 /opt/ros/jazzy/include/geometry_msgs/geometry_msgs/msg/detail/point__struct.h:
-
-rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__struct.h:
-
-/usr/include/aarch64-linux-gnu/bits/getopt_posix.h:
 
 /opt/ros/jazzy/include/rosidl_runtime_c/rosidl_runtime_c/type_description/individual_type_description__struct.h:
 
@@ -580,17 +587,7 @@ rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__struct.h:
 
 /usr/include/aarch64-linux-gnu/bits/environments.h:
 
-/lib/ld-linux-aarch64.so.1:
-
-/usr/include/aarch64-linux-gnu/bits/types/wint_t.h:
-
-/usr/include/aarch64-linux-gnu/bits/flt-eval-method.h:
-
 /usr/include/aarch64-linux-gnu/bits/types/struct_statx_timestamp.h:
-
-/usr/include/aarch64-linux-gnu/bits/types/timer_t.h:
-
-/usr/include/asm-generic/int-ll64.h:
 
 /usr/include/python3.12/cpython/complexobject.h:
 
@@ -652,6 +649,10 @@ rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__struct.h:
 
 /opt/ros/jazzy/include/rcutils/rcutils/visibility_control_macros.h:
 
+/usr/include/aarch64-linux-gnu/bits/stdio.h:
+
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.h:
+
 /usr/include/python3.12/fileobject.h:
 
 /usr/include/aarch64-linux-gnu/bits/types/struct_sched_param.h:
@@ -696,6 +697,14 @@ librobotis_interfaces__rosidl_generator_c.so:
 
 rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.h:
 
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__struct.h:
+
+/usr/include/aarch64-linux-gnu/bits/floatn-common.h:
+
+/usr/include/python3.12/weakrefobject.h:
+
+/usr/include/aarch64-linux-gnu/bits/wchar2.h:
+
 /usr/include/aarch64-linux-gnu/bits/types/__mbstate_t.h:
 
 /usr/include/aarch64-linux-gnu/bits/local_lim.h:
@@ -703,6 +712,14 @@ rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.h:
 /usr/include/aarch64-linux-gnu/bits/endianness.h:
 
 /usr/include/ctype.h:
+
+/usr/include/python3.12/pymacconfig.h:
+
+/opt/ros/jazzy/include/geometry_msgs/geometry_msgs/msg/detail/point32__struct.h:
+
+/usr/include/python3.12/pytypedefs.h:
+
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__struct.h:
 
 /usr/include/inttypes.h:
 
@@ -730,12 +747,6 @@ rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.h:
 
 /usr/include/python3.12/cpython/weakrefobject.h:
 
-/usr/include/aarch64-linux-gnu/bits/floatn-common.h:
-
-/usr/include/python3.12/weakrefobject.h:
-
-/usr/include/aarch64-linux-gnu/bits/wchar2.h:
-
 /usr/include/aarch64-linux-gnu/bits/posix1_lim.h:
 
 rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.h:
@@ -750,11 +761,31 @@ rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.h:
 
 /usr/include/aarch64-linux-gnu/bits/getopt_core.h:
 
-/opt/ros/jazzy/lib/libstd_msgs__rosidl_typesupport_c.so:
+/usr/include/aarch64-linux-gnu/bits/types/time_t.h:
 
-/usr/include/aarch64-linux-gnu/bits/types/struct_itimerspec.h:
+/opt/ros/jazzy/lib/librosidl_typesupport_introspection_c.so:
 
-/usr/include/aarch64-linux-gnu/bits/confname.h:
+/usr/include/python3.12/cpython/compile.h:
+
+/opt/ros/jazzy/lib/libgeometry_msgs__rosidl_typesupport_introspection_c.so:
+
+/usr/include/python3.12/cpython/sysmodule.h:
+
+/usr/include/aarch64-linux-gnu/bits/types/timer_t.h:
+
+/usr/include/asm-generic/int-ll64.h:
+
+/lib/ld-linux-aarch64.so.1:
+
+/usr/include/aarch64-linux-gnu/bits/flt-eval-method.h:
+
+/usr/include/aarch64-linux-gnu/bits/types/wint_t.h:
+
+/usr/include/aarch64-linux-gnu/bits/typesizes.h:
+
+/usr/include/aarch64-linux-gnu/bits/uintn-identity.h:
+
+/usr/include/aarch64-linux-gnu/bits/uio_lim.h:
 
 /usr/include/aarch64-linux-gnu/bits/unistd.h:
 
@@ -814,13 +845,13 @@ rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.h:
 
 /usr/include/linux/posix_types.h:
 
-/usr/include/linux/stddef.h:
-
-/usr/include/linux/types.h:
+/usr/include/python3.12/pyframe.h:
 
 /usr/include/linux/stat.h:
 
-/usr/include/python3.12/pyframe.h:
+/usr/include/linux/stddef.h:
+
+/usr/include/linux/types.h:
 
 /usr/lib/aarch64-linux-gnu/libc_nonshared.a:
 
@@ -896,9 +927,9 @@ CMakeFiles/robotis_interfaces_s__rosidl_typesupport_introspection_c.dir/rosidl_g
 
 /usr/include/python3.12/cpython/pyerrors.h:
 
-/opt/ros/jazzy/include/rcutils/rcutils/allocator.h:
-
 /usr/include/python3.12/pyhash.h:
+
+/opt/ros/jazzy/include/rcutils/rcutils/allocator.h:
 
 /usr/include/aarch64-linux-gnu/bits/types/struct___jmp_buf_tag.h:
 
@@ -927,8 +958,6 @@ CMakeFiles/robotis_interfaces_s__rosidl_typesupport_introspection_c.dir/rosidl_g
 /usr/include/aarch64-linux-gnu/bits/select2.h:
 
 /usr/include/python3.12/cpython/pythonrun.h:
-
-/usr/include/python3.12/pymath.h:
 
 /usr/include/python3.12/cpython/pythread.h:
 
@@ -964,6 +993,8 @@ rosidl_generator_c/robotis_interfaces/msg/detail/move_l__struct.h:
 
 /usr/include/python3.12/patchlevel.h:
 
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.h:
+
 /usr/include/python3.12/moduleobject.h:
 
 /usr/include/python3.12/object.h:
@@ -971,13 +1002,3 @@ rosidl_generator_c/robotis_interfaces/msg/detail/move_l__struct.h:
 /usr/include/python3.12/pycapsule.h:
 
 /usr/include/python3.12/osmodule.h:
-
-/usr/include/python3.12/pylifecycle.h:
-
-/opt/ros/jazzy/include/geometry_msgs/geometry_msgs/msg/detail/point32__struct.h:
-
-/usr/include/python3.12/pymacconfig.h:
-
-/usr/include/aarch64-linux-gnu/bits/statx-generic.h:
-
-/usr/include/python3.12/pymacro.h:

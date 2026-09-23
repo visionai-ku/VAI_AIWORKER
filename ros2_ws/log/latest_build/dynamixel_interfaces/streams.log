@@ -1,177 +1,221 @@
-[0.085s] Invoking command in '/root/ros2_ws/build/dynamixel_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /opt/venv/bin/cmake --build /root/ros2_ws/build/dynamixel_interfaces -- -j8 -l8
-[0.538s] [  1%] Built target dynamixel_interfaces__rosidl_generator_type_description
-[0.562s] [  1%] Built target ament_cmake_python_symlink_dynamixel_interfaces
-[0.586s] [  3%] Built target dynamixel_interfaces__cpp
-[0.590s] [ 25%] Built target dynamixel_interfaces__rosidl_generator_c
-[0.703s] [ 34%] Built target dynamixel_interfaces__rosidl_typesupport_fastrtps_c
-[0.712s] [ 43%] Built target dynamixel_interfaces__rosidl_typesupport_fastrtps_cpp
-[0.727s] [ 53%] Built target dynamixel_interfaces__rosidl_typesupport_cpp
-[0.736s] [ 62%] Built target dynamixel_interfaces__rosidl_typesupport_introspection_c
-[0.744s] [ 81%] Built target dynamixel_interfaces__rosidl_typesupport_introspection_cpp
-[0.746s] [ 81%] Built target dynamixel_interfaces__rosidl_typesupport_c
-[0.795s] [ 81%] Built target dynamixel_interfaces
-[0.822s] [ 82%] Built target dynamixel_interfaces__py
-[0.940s] [ 90%] Built target dynamixel_interfaces__rosidl_generator_py
-[1.073s] [ 93%] Built target dynamixel_interfaces_s__rosidl_typesupport_introspection_c
-[1.085s] [ 96%] Built target dynamixel_interfaces_s__rosidl_typesupport_fastrtps_c
-[1.121s] [100%] Built target dynamixel_interfaces_s__rosidl_typesupport_c
-[1.323s] running egg_info
-[1.366s] writing dynamixel_interfaces.egg-info/PKG-INFO
-[1.366s] writing dependency_links to dynamixel_interfaces.egg-info/dependency_links.txt
-[1.366s] writing top-level names to dynamixel_interfaces.egg-info/top_level.txt
-[1.500s] reading manifest file 'dynamixel_interfaces.egg-info/SOURCES.txt'
-[1.502s] writing manifest file 'dynamixel_interfaces.egg-info/SOURCES.txt'
-[1.616s] [100%] Built target ament_cmake_python_build_dynamixel_interfaces_egg
-[1.628s] Invoked command in '/root/ros2_ws/build/dynamixel_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /opt/venv/bin/cmake --build /root/ros2_ws/build/dynamixel_interfaces -- -j8 -l8
-[1.631s] Invoking command in '/root/ros2_ws/build/dynamixel_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /opt/venv/bin/cmake --install /root/ros2_ws/build/dynamixel_interfaces
-[1.900s] -- Install configuration: "Release"
-[1.901s] -- Execute custom install script
-[1.902s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/ament_index/resource_index/rosidl_interfaces/dynamixel_interfaces
-[1.903s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/msg/DynamixelState.json
-[1.903s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/GetDataFromDxl.json
-[1.903s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/SetDataToDxl.json
-[1.903s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/RebootDxl.json
-[1.904s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__functions.h
-[1.905s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__struct.h
-[1.906s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__type_support.h
-[1.906s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/dynamixel_state.h
-[1.907s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/rosidl_generator_c__visibility_control.h
-[1.907s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__functions.h
-[1.908s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__struct.h
-[1.908s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__type_support.h
-[1.908s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__functions.h
-[1.908s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__struct.h
-[1.908s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__type_support.h
-[1.908s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__functions.h
-[1.908s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__struct.h
-[1.910s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__type_support.h
-[1.910s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/get_data_from_dxl.h
-[1.911s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/reboot_dxl.h
-[1.911s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/set_data_to_dxl.h
-[1.912s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/environment/library_path.sh
-[1.912s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/environment/library_path.dsv
-[1.913s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__rosidl_typesupport_fastrtps_c.h
-[1.913s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
-[1.913s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__rosidl_typesupport_fastrtps_c.h
-[1.914s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__rosidl_typesupport_fastrtps_c.h
-[1.914s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__rosidl_typesupport_fastrtps_c.h
-[1.916s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__builder.hpp
-[1.916s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__struct.hpp
-[1.916s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__traits.hpp
-[1.916s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__type_support.hpp
-[1.917s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/dynamixel_state.hpp
-[1.917s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp
-[1.917s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__builder.hpp
-[1.917s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__struct.hpp
-[1.917s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__traits.hpp
-[1.917s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__type_support.hpp
-[1.918s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__builder.hpp
-[1.918s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__struct.hpp
-[1.918s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__traits.hpp
-[1.918s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__type_support.hpp
-[1.918s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__builder.hpp
-[1.918s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__struct.hpp
-[1.919s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__traits.hpp
-[1.919s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__type_support.hpp
-[1.919s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/get_data_from_dxl.hpp
-[1.919s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/reboot_dxl.hpp
-[1.919s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/set_data_to_dxl.hpp
-[1.919s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__rosidl_typesupport_fastrtps_cpp.hpp
-[1.920s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
-[1.920s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__rosidl_typesupport_fastrtps_cpp.hpp
-[1.920s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__rosidl_typesupport_fastrtps_cpp.hpp
-[1.920s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__rosidl_typesupport_fastrtps_cpp.hpp
-[1.920s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__rosidl_typesupport_introspection_c.h
-[1.920s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/rosidl_typesupport_introspection_c__visibility_control.h
-[1.920s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__rosidl_typesupport_introspection_c.h
-[1.920s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__rosidl_typesupport_introspection_c.h
-[1.921s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__rosidl_typesupport_introspection_c.h
-[1.921s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__rosidl_typesupport_introspection_cpp.hpp
-[1.921s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__rosidl_typesupport_introspection_cpp.hpp
-[1.921s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__rosidl_typesupport_introspection_cpp.hpp
-[1.922s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__rosidl_typesupport_introspection_cpp.hpp
-[1.923s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/environment/pythonpath.sh
-[1.924s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/environment/pythonpath.dsv
-[1.925s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces-1.0.1-py3.12.egg-info/PKG-INFO
-[1.925s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces-1.0.1-py3.12.egg-info/SOURCES.txt
-[1.925s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces-1.0.1-py3.12.egg-info/dependency_links.txt
-[1.925s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces-1.0.1-py3.12.egg-info/top_level.txt
-[1.925s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/__init__.py
-[1.926s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/_dynamixel_interfaces_s.ep.rosidl_typesupport_c.c
-[1.926s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/_dynamixel_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
-[1.926s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/_dynamixel_interfaces_s.ep.rosidl_typesupport_introspection_c.c
-[1.926s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_c.so
-[1.926s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_fastrtps_c.so
-[1.926s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_introspection_c.so
-[1.926s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/msg/__init__.py
-[1.926s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/msg/_dynamixel_state.py
-[1.926s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/msg/_dynamixel_state_s.c
-[1.927s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/srv/__init__.py
-[1.927s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/srv/_get_data_from_dxl.py
-[1.927s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/srv/_get_data_from_dxl_s.c
-[1.927s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/srv/_reboot_dxl.py
-[1.927s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/srv/_reboot_dxl_s.c
-[1.927s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/srv/_set_data_to_dxl.py
-[1.927s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/srv/_set_data_to_dxl_s.c
-[1.927s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_fastrtps_c.so
-[1.934s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_introspection_c.so
-[1.934s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_c.so
-[1.934s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/msg/DynamixelState.idl
-[1.934s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/GetDataFromDxl.idl
-[1.934s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/SetDataToDxl.idl
-[1.935s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/RebootDxl.idl
-[1.935s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/msg/DynamixelState.msg
-[1.935s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/GetDataFromDxl.srv
-[1.935s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/SetDataToDxl.srv
-[1.935s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/RebootDxl.srv
-[1.935s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/ament_index/resource_index/package_run_dependencies/dynamixel_interfaces
-[1.935s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/ament_index/resource_index/parent_prefix_path/dynamixel_interfaces
-[1.935s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/environment/ament_prefix_path.sh
-[1.936s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/environment/ament_prefix_path.dsv
-[1.936s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/environment/path.sh
-[1.936s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/environment/path.dsv
-[1.936s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/local_setup.bash
-[1.936s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/local_setup.sh
-[1.936s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/local_setup.zsh
-[1.943s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/local_setup.dsv
-[1.943s] -- Symlinking: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/package.dsv
-[1.956s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/ament_index/resource_index/packages/dynamixel_interfaces
-[1.956s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/rosidl_cmake-extras.cmake
-[1.956s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/ament_cmake_export_dependencies-extras.cmake
-[1.956s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/ament_cmake_export_include_directories-extras.cmake
-[1.956s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/ament_cmake_export_libraries-extras.cmake
-[1.957s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/ament_cmake_export_targets-extras.cmake
-[1.957s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
-[1.957s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
-[1.957s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfacesConfig.cmake
-[1.958s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfacesConfig-version.cmake
-[1.963s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/package.xml
-[1.963s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_generator_c.so
-[1.964s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_typesupport_fastrtps_c.so
-[1.964s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_typesupport_fastrtps_cpp.so
-[1.965s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_typesupport_introspection_c.so
-[1.966s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_typesupport_c.so
-[1.968s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_typesupport_introspection_cpp.so
-[1.969s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_typesupport_cpp.so
-[2.086s] Listing '/root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces'...
-[2.087s] Listing '/root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/msg'...
-[2.088s] Listing '/root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/srv'...
-[2.127s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_generator_py.so
-[2.128s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_generator_cExport.cmake
-[2.128s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_generator_cExport-release.cmake
-[2.128s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_typesupport_fastrtps_cExport.cmake
-[2.128s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_typesupport_fastrtps_cExport-release.cmake
-[2.128s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_generator_cppExport.cmake
-[2.128s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_typesupport_fastrtps_cppExport.cmake
-[2.129s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_typesupport_fastrtps_cppExport-release.cmake
-[2.129s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfaces__rosidl_typesupport_introspection_cExport.cmake
-[2.129s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfaces__rosidl_typesupport_introspection_cExport-release.cmake
-[2.129s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfaces__rosidl_typesupport_cExport.cmake
-[2.129s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfaces__rosidl_typesupport_cExport-release.cmake
-[2.129s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfaces__rosidl_typesupport_introspection_cppExport.cmake
-[2.129s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfaces__rosidl_typesupport_introspection_cppExport-release.cmake
-[2.129s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfaces__rosidl_typesupport_cppExport.cmake
-[2.130s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfaces__rosidl_typesupport_cppExport-release.cmake
-[2.130s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_generator_pyExport.cmake
-[2.130s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_generator_pyExport-release.cmake
-[2.187s] Invoked command in '/root/ros2_ws/build/dynamixel_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy DEBUGINFOD_URLS=https://debuginfod.ubuntu.com /opt/venv/bin/cmake --install /root/ros2_ws/build/dynamixel_interfaces
+[0.103s] Invoking command in '/root/ros2_ws/build/dynamixel_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/dynamixel_interfaces -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/dynamixel_interfaces
+[0.554s] [0mCMake Deprecation Warning at CMakeLists.txt:4 (cmake_minimum_required):
+[0.554s]   Compatibility with CMake < 3.10 will be removed from a future version of
+[0.554s]   CMake.
+[0.554s] 
+[0.554s]   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+[0.555s]   to tell CMake that the project requires at least <min> but has been updated
+[0.555s]   to work with policies introduced by <max> or earlier.
+[0.555s] 
+[0.555s] [0m
+[0.574s] -- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[2.414s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[2.441s] -- Found std_msgs: 5.3.7 (/opt/ros/jazzy/share/std_msgs/cmake)
+[2.538s] -- Found rosidl_generator_c: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+[2.575s] -- Found rosidl_generator_cpp: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+[2.631s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[2.711s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[2.821s] -- Found geometry_msgs: 5.3.7 (/opt/ros/jazzy/share/geometry_msgs/cmake)
+[2.863s] -- Found rosidl_default_generators: 1.6.0 (/opt/ros/jazzy/share/rosidl_default_generators/cmake)
+[2.916s] -- Found rosidl_adapter: 4.6.7 (/opt/ros/jazzy/share/rosidl_adapter/cmake)
+[5.527s] -- Found ament_cmake_ros: 0.12.0 (/opt/ros/jazzy/share/ament_cmake_ros/cmake)
+[8.420s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[9.623s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[9.626s] -- Found python_cmake_module: 0.11.1 (/opt/ros/jazzy/share/python_cmake_module/cmake)
+[11.520s] -- Found Python3: /opt/venv/bin/python3 (found version "3.12.3") found components: Interpreter Development NumPy Development.Module Development.Embed
+[11.772s] -- Found Python3: /opt/venv/bin/python3 (found version "3.12.3") found components: Interpreter
+[11.783s] -- Found ament_lint_auto: 0.17.5 (/opt/ros/jazzy/share/ament_lint_auto/cmake)
+[11.815s] -- Added test 'copyright' to check source files copyright and LICENSE
+[11.841s] -- Added test 'lint_cmake' to check CMake code style
+[11.851s] -- Added test 'xmllint' to check XML markup files
+[11.861s] -- Configuring done (11.3s)
+[12.169s] -- Generating done (0.3s)
+[12.194s] -- Build files have been written to: /root/ros2_ws/build/dynamixel_interfaces
+[12.507s] Invoked command in '/root/ros2_ws/build/dynamixel_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/dynamixel_interfaces -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/dynamixel_interfaces
+[12.510s] Invoking command in '/root/ros2_ws/build/dynamixel_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/dynamixel_interfaces -- -j8 -l8
+[13.274s] [  0%] Built target ament_cmake_python_symlink_dynamixel_interfaces
+[13.274s] [  1%] Built target dynamixel_interfaces__rs
+[13.274s] [  3%] Built target dynamixel_interfaces__rosidl_generator_type_description
+[13.274s] [ 24%] Built target dynamixel_interfaces__rosidl_generator_c
+[13.275s] [ 26%] Built target dynamixel_interfaces__cpp
+[13.413s] [ 35%] Built target dynamixel_interfaces__rosidl_typesupport_c
+[13.415s] [ 44%] Built target dynamixel_interfaces__rosidl_typesupport_introspection_c
+[13.425s] [ 53%] Built target dynamixel_interfaces__rosidl_typesupport_fastrtps_c
+[13.500s] [ 63%] Built target dynamixel_interfaces__rosidl_typesupport_introspection_cpp
+[13.557s] [ 72%] Built target dynamixel_interfaces__rosidl_typesupport_cpp
+[13.577s] [ 81%] Built target dynamixel_interfaces__rosidl_typesupport_fastrtps_cpp
+[13.704s] [ 81%] Built target dynamixel_interfaces
+[13.813s] [ 83%] Built target dynamixel_interfaces__py
+[13.901s] [ 90%] Built target dynamixel_interfaces__rosidl_generator_py
+[13.972s] running egg_info
+[14.020s] [ 93%] Built target dynamixel_interfaces_s__rosidl_typesupport_introspection_c
+[14.032s] writing dynamixel_interfaces.egg-info/PKG-INFO
+[14.033s] writing dependency_links to dynamixel_interfaces.egg-info/dependency_links.txt
+[14.034s] writing top-level names to dynamixel_interfaces.egg-info/top_level.txt
+[14.079s] [ 96%] Built target dynamixel_interfaces_s__rosidl_typesupport_fastrtps_c
+[14.089s] [100%] Built target dynamixel_interfaces_s__rosidl_typesupport_c
+[14.189s] reading manifest file 'dynamixel_interfaces.egg-info/SOURCES.txt'
+[14.192s] writing manifest file 'dynamixel_interfaces.egg-info/SOURCES.txt'
+[14.342s] [100%] Built target ament_cmake_python_build_dynamixel_interfaces_egg
+[14.386s] Invoked command in '/root/ros2_ws/build/dynamixel_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/dynamixel_interfaces -- -j8 -l8
+[14.388s] Invoking command in '/root/ros2_ws/build/dynamixel_interfaces': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/dynamixel_interfaces
+[14.689s] -- Install configuration: "Release"
+[14.695s] -- Execute custom install script
+[14.695s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/ament_index/resource_index/rosidl_interfaces/dynamixel_interfaces
+[14.696s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/msg/DynamixelState.json
+[14.696s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/GetDataFromDxl.json
+[14.696s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/SetDataToDxl.json
+[14.696s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/RebootDxl.json
+[14.696s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__functions.h
+[14.697s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__struct.h
+[14.697s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__type_support.h
+[14.699s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/dynamixel_state.h
+[14.699s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/rosidl_generator_c__visibility_control.h
+[14.699s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__functions.h
+[14.699s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__struct.h
+[14.700s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__type_support.h
+[14.700s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__functions.h
+[14.700s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__struct.h
+[14.700s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__type_support.h
+[14.700s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__functions.h
+[14.700s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__struct.h
+[14.701s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__type_support.h
+[14.701s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/get_data_from_dxl.h
+[14.701s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/reboot_dxl.h
+[14.702s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/set_data_to_dxl.h
+[14.702s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/environment/library_path.sh
+[14.702s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/environment/library_path.dsv
+[14.704s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__rosidl_typesupport_fastrtps_c.h
+[14.704s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[14.704s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__rosidl_typesupport_fastrtps_c.h
+[14.711s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__rosidl_typesupport_fastrtps_c.h
+[14.712s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__rosidl_typesupport_fastrtps_c.h
+[14.712s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__builder.hpp
+[14.713s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__struct.hpp
+[14.714s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__traits.hpp
+[14.714s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__type_support.hpp
+[14.714s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/dynamixel_state.hpp
+[14.714s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/rosidl_generator_cpp__visibility_control.hpp
+[14.714s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__builder.hpp
+[14.714s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__struct.hpp
+[14.714s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__traits.hpp
+[14.714s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__type_support.hpp
+[14.715s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__builder.hpp
+[14.715s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__struct.hpp
+[14.715s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__traits.hpp
+[14.715s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__type_support.hpp
+[14.715s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__builder.hpp
+[14.715s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__struct.hpp
+[14.717s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__traits.hpp
+[14.717s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__type_support.hpp
+[14.717s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/get_data_from_dxl.hpp
+[14.717s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/reboot_dxl.hpp
+[14.717s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/set_data_to_dxl.hpp
+[14.717s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__rosidl_typesupport_fastrtps_cpp.hpp
+[14.718s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[14.718s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__rosidl_typesupport_fastrtps_cpp.hpp
+[14.718s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__rosidl_typesupport_fastrtps_cpp.hpp
+[14.718s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__rosidl_typesupport_fastrtps_cpp.hpp
+[14.718s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__rosidl_typesupport_introspection_c.h
+[14.718s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[14.719s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__rosidl_typesupport_introspection_c.h
+[14.719s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__rosidl_typesupport_introspection_c.h
+[14.720s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__rosidl_typesupport_introspection_c.h
+[14.721s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/msg/detail/dynamixel_state__rosidl_typesupport_introspection_cpp.hpp
+[14.721s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/get_data_from_dxl__rosidl_typesupport_introspection_cpp.hpp
+[14.722s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/reboot_dxl__rosidl_typesupport_introspection_cpp.hpp
+[14.734s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/include/dynamixel_interfaces/dynamixel_interfaces/srv/detail/set_data_to_dxl__rosidl_typesupport_introspection_cpp.hpp
+[14.734s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/environment/pythonpath.sh
+[14.734s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/environment/pythonpath.dsv
+[14.735s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces-1.0.1-py3.12.egg-info/PKG-INFO
+[14.737s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces-1.0.1-py3.12.egg-info/SOURCES.txt
+[14.737s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces-1.0.1-py3.12.egg-info/dependency_links.txt
+[14.740s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces-1.0.1-py3.12.egg-info/top_level.txt
+[14.743s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/__init__.py
+[14.743s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/_dynamixel_interfaces_s.ep.rosidl_typesupport_c.c
+[14.744s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/_dynamixel_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
+[14.744s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/_dynamixel_interfaces_s.ep.rosidl_typesupport_introspection_c.c
+[14.745s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_c.so
+[14.746s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_fastrtps_c.so
+[14.746s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_introspection_c.so
+[14.747s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/msg/__init__.py
+[14.748s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/msg/_dynamixel_state.py
+[14.748s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/msg/_dynamixel_state_s.c
+[14.749s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/srv/__init__.py
+[14.750s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/srv/_get_data_from_dxl.py
+[14.750s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/srv/_get_data_from_dxl_s.c
+[14.751s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/srv/_reboot_dxl.py
+[14.751s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/srv/_reboot_dxl_s.c
+[14.753s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/srv/_set_data_to_dxl.py
+[14.753s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/srv/_set_data_to_dxl_s.c
+[14.753s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_fastrtps_c.so
+[14.754s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_introspection_c.so
+[14.754s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupport_c.so
+[14.755s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/ament_index/resource_index/rust_packages/dynamixel_interfaces
+[14.772s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/rust/Cargo.toml
+[14.774s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/rust/build.rs
+[14.775s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/rust/src/lib.rs
+[14.776s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/rust/src/msg.rs
+[14.776s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/rust/src/msg/rmw.rs
+[14.776s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/rust/src/srv.rs
+[14.777s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/rust/src/srv/rmw.rs
+[14.777s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/msg/DynamixelState.idl
+[14.778s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/GetDataFromDxl.idl
+[14.779s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/SetDataToDxl.idl
+[14.779s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/RebootDxl.idl
+[14.780s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/msg/DynamixelState.msg
+[14.780s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/GetDataFromDxl.srv
+[14.780s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/SetDataToDxl.srv
+[14.781s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/srv/RebootDxl.srv
+[14.781s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/ament_index/resource_index/package_run_dependencies/dynamixel_interfaces
+[14.782s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/ament_index/resource_index/parent_prefix_path/dynamixel_interfaces
+[14.783s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/environment/ament_prefix_path.sh
+[14.783s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/environment/ament_prefix_path.dsv
+[14.783s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/environment/path.sh
+[14.784s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/environment/path.dsv
+[14.784s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/local_setup.bash
+[14.784s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/local_setup.sh
+[14.785s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/local_setup.zsh
+[14.786s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/local_setup.dsv
+[14.786s] -- Symlinking: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/package.dsv
+[14.813s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/ament_index/resource_index/packages/dynamixel_interfaces
+[14.814s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/rosidl_cmake-extras.cmake
+[14.814s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/ament_cmake_export_dependencies-extras.cmake
+[14.815s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/ament_cmake_export_include_directories-extras.cmake
+[14.815s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/ament_cmake_export_libraries-extras.cmake
+[14.816s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/ament_cmake_export_targets-extras.cmake
+[14.816s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[14.817s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[14.817s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfacesConfig.cmake
+[14.818s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfacesConfig-version.cmake
+[14.818s] -- Up-to-date symlink: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/package.xml
+[14.818s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_generator_c.so
+[14.820s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_typesupport_fastrtps_c.so
+[14.820s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_typesupport_fastrtps_cpp.so
+[14.821s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_typesupport_introspection_c.so
+[14.832s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_typesupport_c.so
+[14.834s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_typesupport_introspection_cpp.so
+[14.835s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_typesupport_cpp.so
+[15.066s] Listing '/root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces'...
+[15.072s] Compiling '/root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/__init__.py'...
+[15.081s] Listing '/root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/msg'...
+[15.083s] Listing '/root/ros2_ws/install/dynamixel_interfaces/lib/python3.12/site-packages/dynamixel_interfaces/srv'...
+[15.133s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/lib/libdynamixel_interfaces__rosidl_generator_py.so
+[15.133s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_generator_cExport.cmake
+[15.133s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_generator_cExport-release.cmake
+[15.134s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_typesupport_fastrtps_cExport.cmake
+[15.134s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_typesupport_fastrtps_cExport-release.cmake
+[15.134s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_generator_cppExport.cmake
+[15.135s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_typesupport_fastrtps_cppExport.cmake
+[15.135s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_typesupport_fastrtps_cppExport-release.cmake
+[15.135s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfaces__rosidl_typesupport_introspection_cExport.cmake
+[15.137s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfaces__rosidl_typesupport_introspection_cExport-release.cmake
+[15.140s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfaces__rosidl_typesupport_cExport.cmake
+[15.141s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfaces__rosidl_typesupport_cExport-release.cmake
+[15.142s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfaces__rosidl_typesupport_introspection_cppExport.cmake
+[15.142s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfaces__rosidl_typesupport_introspection_cppExport-release.cmake
+[15.143s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfaces__rosidl_typesupport_cppExport.cmake
+[15.143s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/dynamixel_interfaces__rosidl_typesupport_cppExport-release.cmake
+[15.143s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_generator_pyExport.cmake
+[15.143s] -- Up-to-date: /root/ros2_ws/install/dynamixel_interfaces/share/dynamixel_interfaces/cmake/export_dynamixel_interfaces__rosidl_generator_pyExport-release.cmake
+[15.154s] Invoked command in '/root/ros2_ws/build/dynamixel_interfaces' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/dynamixel_interfaces

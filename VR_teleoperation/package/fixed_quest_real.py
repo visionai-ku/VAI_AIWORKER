@@ -127,6 +127,7 @@ class SG2FixedQuestReal:
         self.latched_reason = None
         self.last_feedback = None
         self.last_sent_q = None
+        self.last_command_dispatch = None
         self.home_wait_started = None
         self.home_pending = False
         self._home_arm_deferred = False
@@ -462,7 +463,13 @@ class SG2FixedQuestReal:
         if mode == "command" and motion == "teleop" and limits.get("command_gripper_speed_limit") is True:
             packet["gripper_speed_rad_s"] = float(np.max(self.planner.speed_limits[self.gripper_mask]))
         self.sequence += 1
+        dispatch_started = time.monotonic()
         sent = self.publisher.send(packet)
+        self.last_command_dispatch = {
+            "session_id": self.session_id, "seq": packet["seq"], "mode": mode,
+            "started_at": dispatch_started, "finished_at": time.monotonic(),
+            "enqueued": bool(sent),
+        }
         if sent:
             self.last_sent_q = np.asarray(q).copy()
             if mode == "command":
@@ -579,6 +586,8 @@ class SG2FixedQuestReal:
                     home_error=result["home_error"] if self.dry_run or q is None else q - self.planner.q_home,
                     bridge_id=self.bridge_id, session_id=self.session_id, armed=self.armed,
                     transmitted=bool(transmitted), needs_disable=self.latched_reason is not None,
+                    last_command_dispatch=(None if self.last_command_dispatch is None
+                                           else dict(self.last_command_dispatch)),
                     control_has_started=self.control_has_started, home_pending=self.home_pending,
                     teleop_ramp_scale=self.teleop_ramp_scale,
                     teleop_speed_deg_s=self.teleop_speed_deg_s,

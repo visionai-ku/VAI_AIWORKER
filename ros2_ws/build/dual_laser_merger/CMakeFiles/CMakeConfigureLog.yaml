@@ -61,8 +61,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-kAC6BH"
-      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-kAC6BH"
+      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-aE67Wc"
+      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-aE67Wc"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_EXE_LINKER_FLAGS: ""
@@ -70,13 +70,13 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-kAC6BH'
+        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-aE67Wc'
         
-        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_4fa79/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_4fa79.dir/build.make CMakeFiles/cmTC_4fa79.dir/build
-        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-kAC6BH'
-        Building C object CMakeFiles/cmTC_4fa79.dir/CMakeCCompilerABI.c.o
-        /usr/bin/cc   -v -o CMakeFiles/cmTC_4fa79.dir/CMakeCCompilerABI.c.o -c /opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeCCompilerABI.c
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_b8493/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_b8493.dir/build.make CMakeFiles/cmTC_b8493.dir/build
+        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-aE67Wc'
+        Building C object CMakeFiles/cmTC_b8493.dir/CMakeCCompilerABI.c.o
+        /usr/bin/cc   -v -o CMakeFiles/cmTC_b8493.dir/CMakeCCompilerABI.c.o -c /opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeCCompilerABI.c
         Using built-in specs.
         COLLECT_GCC=/usr/bin/cc
         OFFLOAD_TARGET_NAMES=nvptx-none
@@ -86,8 +86,8 @@ events:
         Thread model: posix
         Supported LTO compression algorithms: zlib zstd
         gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04.1) 
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_4fa79.dir/CMakeCCompilerABI.c.o' '-c' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_4fa79.dir/'
-         /usr/libexec/gcc/aarch64-linux-gnu/13/cc1 -quiet -v -imultiarch aarch64-linux-gnu /opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_4fa79.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mlittle-endian -mabi=lp64 -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -o /tmp/cc6smDPh.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_b8493.dir/CMakeCCompilerABI.c.o' '-c' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_b8493.dir/'
+         /usr/libexec/gcc/aarch64-linux-gnu/13/cc1 -quiet -v -imultiarch aarch64-linux-gnu /opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_b8493.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mlittle-endian -mabi=lp64 -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -o /tmp/cc6LriPA.s
         GNU C17 (Ubuntu 13.3.0-6ubuntu2~24.04.1) version 13.3.0 (aarch64-linux-gnu)
         	compiled by GNU C version 13.3.0, GMP version 6.3.0, MPFR version 4.2.1, MPC version 1.3.1, isl version isl-0.26-GMP
         
@@ -104,14 +104,14 @@ events:
          /usr/include
         End of search list.
         Compiler executable checksum: af3ce90fa71916e7a8489f94b60f417c
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_4fa79.dir/CMakeCCompilerABI.c.o' '-c' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_4fa79.dir/'
-         as -v -EL -mabi=lp64 -o CMakeFiles/cmTC_4fa79.dir/CMakeCCompilerABI.c.o /tmp/cc6smDPh.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_b8493.dir/CMakeCCompilerABI.c.o' '-c' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_b8493.dir/'
+         as -v -EL -mabi=lp64 -o CMakeFiles/cmTC_b8493.dir/CMakeCCompilerABI.c.o /tmp/cc6LriPA.s
         GNU assembler version 2.42 (aarch64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.42
         COMPILER_PATH=/usr/libexec/gcc/aarch64-linux-gnu/13/:/usr/libexec/gcc/aarch64-linux-gnu/13/:/usr/libexec/gcc/aarch64-linux-gnu/:/usr/lib/gcc/aarch64-linux-gnu/13/:/usr/lib/gcc/aarch64-linux-gnu/
         LIBRARY_PATH=/usr/lib/gcc/aarch64-linux-gnu/13/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib/:/lib/aarch64-linux-gnu/:/lib/../lib/:/usr/lib/aarch64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_4fa79.dir/CMakeCCompilerABI.c.o' '-c' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_4fa79.dir/CMakeCCompilerABI.c.'
-        Linking C executable cmTC_4fa79
-        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4fa79.dir/link.txt --verbose=1
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_b8493.dir/CMakeCCompilerABI.c.o' '-c' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_b8493.dir/CMakeCCompilerABI.c.'
+        Linking C executable cmTC_b8493
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b8493.dir/link.txt --verbose=1
         Using built-in specs.
         COLLECT_GCC=/usr/bin/cc
         COLLECT_LTO_WRAPPER=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper
@@ -124,14 +124,14 @@ events:
         gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04.1) 
         COMPILER_PATH=/usr/libexec/gcc/aarch64-linux-gnu/13/:/usr/libexec/gcc/aarch64-linux-gnu/13/:/usr/libexec/gcc/aarch64-linux-gnu/:/usr/lib/gcc/aarch64-linux-gnu/13/:/usr/lib/gcc/aarch64-linux-gnu/
         LIBRARY_PATH=/usr/lib/gcc/aarch64-linux-gnu/13/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib/:/lib/aarch64-linux-gnu/:/lib/../lib/:/usr/lib/aarch64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_4fa79' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'cmTC_4fa79.'
-         /usr/libexec/gcc/aarch64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/aarch64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccvY4OMX.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr --hash-style=gnu --as-needed -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-843419 -pie -z now -z relro -o cmTC_4fa79 /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/aarch64-linux-gnu/13 -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib -L/lib/aarch64-linux-gnu -L/lib/../lib -L/usr/lib/aarch64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-linux-gnu/13/../../.. -v CMakeFiles/cmTC_4fa79.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crtn.o
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_b8493' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'cmTC_b8493.'
+         /usr/libexec/gcc/aarch64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/aarch64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccxQAOYb.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr --hash-style=gnu --as-needed -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-843419 -pie -z now -z relro -o cmTC_b8493 /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/aarch64-linux-gnu/13 -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib -L/lib/aarch64-linux-gnu -L/lib/../lib -L/usr/lib/aarch64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-linux-gnu/13/../../.. -v CMakeFiles/cmTC_b8493.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crtn.o
         collect2 version 13.3.0
-        /usr/bin/ld -plugin /usr/libexec/gcc/aarch64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccvY4OMX.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr --hash-style=gnu --as-needed -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-843419 -pie -z now -z relro -o cmTC_4fa79 /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/aarch64-linux-gnu/13 -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib -L/lib/aarch64-linux-gnu -L/lib/../lib -L/usr/lib/aarch64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-linux-gnu/13/../../.. -v CMakeFiles/cmTC_4fa79.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crtn.o
+        /usr/bin/ld -plugin /usr/libexec/gcc/aarch64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccxQAOYb.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr --hash-style=gnu --as-needed -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-843419 -pie -z now -z relro -o cmTC_b8493 /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/aarch64-linux-gnu/13 -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib -L/lib/aarch64-linux-gnu -L/lib/../lib -L/usr/lib/aarch64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-linux-gnu/13/../../.. -v CMakeFiles/cmTC_b8493.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crtn.o
         GNU ld (GNU Binutils for Ubuntu) 2.42
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_4fa79' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'cmTC_4fa79.'
-        /usr/bin/cc  -v -Wl,-v CMakeFiles/cmTC_4fa79.dir/CMakeCCompilerABI.c.o -o cmTC_4fa79
-        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-kAC6BH'
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_b8493' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'cmTC_b8493.'
+        /usr/bin/cc  -v -Wl,-v CMakeFiles/cmTC_b8493.dir/CMakeCCompilerABI.c.o -o cmTC_b8493
+        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-aE67Wc'
         
       exitCode: 0
   -
@@ -166,13 +166,13 @@ events:
       Parsed C implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-kAC6BH']
+        ignore line: [Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-aE67Wc']
         ignore line: []
-        ignore line: [Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_4fa79/fast]
-        ignore line: [/usr/bin/gmake  -f CMakeFiles/cmTC_4fa79.dir/build.make CMakeFiles/cmTC_4fa79.dir/build]
-        ignore line: [gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-kAC6BH']
-        ignore line: [Building C object CMakeFiles/cmTC_4fa79.dir/CMakeCCompilerABI.c.o]
-        ignore line: [/usr/bin/cc   -v -o CMakeFiles/cmTC_4fa79.dir/CMakeCCompilerABI.c.o -c /opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeCCompilerABI.c]
+        ignore line: [Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_b8493/fast]
+        ignore line: [/usr/bin/gmake  -f CMakeFiles/cmTC_b8493.dir/build.make CMakeFiles/cmTC_b8493.dir/build]
+        ignore line: [gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-aE67Wc']
+        ignore line: [Building C object CMakeFiles/cmTC_b8493.dir/CMakeCCompilerABI.c.o]
+        ignore line: [/usr/bin/cc   -v -o CMakeFiles/cmTC_b8493.dir/CMakeCCompilerABI.c.o -c /opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeCCompilerABI.c]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/usr/bin/cc]
         ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none]
@@ -182,8 +182,8 @@ events:
         ignore line: [Thread model: posix]
         ignore line: [Supported LTO compression algorithms: zlib zstd]
         ignore line: [gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04.1) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_4fa79.dir/CMakeCCompilerABI.c.o' '-c' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_4fa79.dir/']
-        ignore line: [ /usr/libexec/gcc/aarch64-linux-gnu/13/cc1 -quiet -v -imultiarch aarch64-linux-gnu /opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_4fa79.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mlittle-endian -mabi=lp64 -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -o /tmp/cc6smDPh.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_b8493.dir/CMakeCCompilerABI.c.o' '-c' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_b8493.dir/']
+        ignore line: [ /usr/libexec/gcc/aarch64-linux-gnu/13/cc1 -quiet -v -imultiarch aarch64-linux-gnu /opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeCCompilerABI.c -quiet -dumpdir CMakeFiles/cmTC_b8493.dir/ -dumpbase CMakeCCompilerABI.c.c -dumpbase-ext .c -mlittle-endian -mabi=lp64 -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -o /tmp/cc6LriPA.s]
         ignore line: [GNU C17 (Ubuntu 13.3.0-6ubuntu2~24.04.1) version 13.3.0 (aarch64-linux-gnu)]
         ignore line: [	compiled by GNU C version 13.3.0  GMP version 6.3.0  MPFR version 4.2.1  MPC version 1.3.1  isl version isl-0.26-GMP]
         ignore line: []
@@ -200,14 +200,14 @@ events:
         ignore line: [ /usr/include]
         ignore line: [End of search list.]
         ignore line: [Compiler executable checksum: af3ce90fa71916e7a8489f94b60f417c]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_4fa79.dir/CMakeCCompilerABI.c.o' '-c' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_4fa79.dir/']
-        ignore line: [ as -v -EL -mabi=lp64 -o CMakeFiles/cmTC_4fa79.dir/CMakeCCompilerABI.c.o /tmp/cc6smDPh.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_b8493.dir/CMakeCCompilerABI.c.o' '-c' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_b8493.dir/']
+        ignore line: [ as -v -EL -mabi=lp64 -o CMakeFiles/cmTC_b8493.dir/CMakeCCompilerABI.c.o /tmp/cc6LriPA.s]
         ignore line: [GNU assembler version 2.42 (aarch64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.42]
         ignore line: [COMPILER_PATH=/usr/libexec/gcc/aarch64-linux-gnu/13/:/usr/libexec/gcc/aarch64-linux-gnu/13/:/usr/libexec/gcc/aarch64-linux-gnu/:/usr/lib/gcc/aarch64-linux-gnu/13/:/usr/lib/gcc/aarch64-linux-gnu/]
         ignore line: [LIBRARY_PATH=/usr/lib/gcc/aarch64-linux-gnu/13/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib/:/lib/aarch64-linux-gnu/:/lib/../lib/:/usr/lib/aarch64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_4fa79.dir/CMakeCCompilerABI.c.o' '-c' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_4fa79.dir/CMakeCCompilerABI.c.']
-        ignore line: [Linking C executable cmTC_4fa79]
-        ignore line: [/opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4fa79.dir/link.txt --verbose=1]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_b8493.dir/CMakeCCompilerABI.c.o' '-c' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_b8493.dir/CMakeCCompilerABI.c.']
+        ignore line: [Linking C executable cmTC_b8493]
+        ignore line: [/opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b8493.dir/link.txt --verbose=1]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/usr/bin/cc]
         ignore line: [COLLECT_LTO_WRAPPER=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper]
@@ -220,13 +220,13 @@ events:
         ignore line: [gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04.1) ]
         ignore line: [COMPILER_PATH=/usr/libexec/gcc/aarch64-linux-gnu/13/:/usr/libexec/gcc/aarch64-linux-gnu/13/:/usr/libexec/gcc/aarch64-linux-gnu/:/usr/lib/gcc/aarch64-linux-gnu/13/:/usr/lib/gcc/aarch64-linux-gnu/]
         ignore line: [LIBRARY_PATH=/usr/lib/gcc/aarch64-linux-gnu/13/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib/:/lib/aarch64-linux-gnu/:/lib/../lib/:/usr/lib/aarch64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_4fa79' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'cmTC_4fa79.']
-        link line: [ /usr/libexec/gcc/aarch64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/aarch64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccvY4OMX.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr --hash-style=gnu --as-needed -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-843419 -pie -z now -z relro -o cmTC_4fa79 /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/aarch64-linux-gnu/13 -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib -L/lib/aarch64-linux-gnu -L/lib/../lib -L/usr/lib/aarch64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-linux-gnu/13/../../.. -v CMakeFiles/cmTC_4fa79.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crtn.o]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_b8493' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'cmTC_b8493.']
+        link line: [ /usr/libexec/gcc/aarch64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/aarch64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccxQAOYb.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr --hash-style=gnu --as-needed -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-843419 -pie -z now -z relro -o cmTC_b8493 /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/aarch64-linux-gnu/13 -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib -L/lib/aarch64-linux-gnu -L/lib/../lib -L/usr/lib/aarch64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-linux-gnu/13/../../.. -v CMakeFiles/cmTC_b8493.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crtn.o]
           arg [/usr/libexec/gcc/aarch64-linux-gnu/13/collect2] ==> ignore
           arg [-plugin] ==> ignore
           arg [/usr/libexec/gcc/aarch64-linux-gnu/13/liblto_plugin.so] ==> ignore
           arg [-plugin-opt=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper] ==> ignore
-          arg [-plugin-opt=-fresolution=/tmp/ccvY4OMX.res] ==> ignore
+          arg [-plugin-opt=-fresolution=/tmp/ccxQAOYb.res] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
           arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -246,7 +246,7 @@ events:
           arg [-znow] ==> ignore
           arg [-zrelro] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_4fa79] ==> ignore
+          arg [cmTC_b8493] ==> ignore
           arg [/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o] ==> obj [/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o]
           arg [/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o] ==> obj [/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o]
           arg [/usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o] ==> obj [/usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o]
@@ -259,7 +259,7 @@ events:
           arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
           arg [-L/usr/lib/gcc/aarch64-linux-gnu/13/../../..] ==> dir [/usr/lib/gcc/aarch64-linux-gnu/13/../../..]
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_4fa79.dir/CMakeCCompilerABI.c.o] ==> ignore
+          arg [CMakeFiles/cmTC_b8493.dir/CMakeCCompilerABI.c.o] ==> ignore
           arg [-lgcc] ==> lib [gcc]
           arg [--push-state] ==> ignore
           arg [--as-needed] ==> ignore
@@ -274,7 +274,7 @@ events:
           arg [/usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o] ==> obj [/usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o]
           arg [/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crtn.o] ==> obj [/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crtn.o]
         ignore line: [collect2 version 13.3.0]
-        ignore line: [/usr/bin/ld -plugin /usr/libexec/gcc/aarch64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccvY4OMX.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr --hash-style=gnu --as-needed -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-843419 -pie -z now -z relro -o cmTC_4fa79 /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/aarch64-linux-gnu/13 -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib -L/lib/aarch64-linux-gnu -L/lib/../lib -L/usr/lib/aarch64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-linux-gnu/13/../../.. -v CMakeFiles/cmTC_4fa79.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crtn.o]
+        ignore line: [/usr/bin/ld -plugin /usr/libexec/gcc/aarch64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccxQAOYb.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr --hash-style=gnu --as-needed -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-843419 -pie -z now -z relro -o cmTC_b8493 /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/aarch64-linux-gnu/13 -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib -L/lib/aarch64-linux-gnu -L/lib/../lib -L/usr/lib/aarch64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-linux-gnu/13/../../.. -v CMakeFiles/cmTC_b8493.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crtn.o]
         linker tool for 'C': /usr/bin/ld
         collapse obj [/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o] ==> [/usr/lib/aarch64-linux-gnu/Scrt1.o]
         collapse obj [/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o] ==> [/usr/lib/aarch64-linux-gnu/crti.o]
@@ -312,8 +312,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-kj4GU9"
-      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-kj4GU9"
+      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Cc6Uzu"
+      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Cc6Uzu"
     cmakeVariables:
       CMAKE_CXX_FLAGS: ""
       CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
@@ -322,13 +322,13 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-kj4GU9'
+        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Cc6Uzu'
         
-        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_d10fd/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_d10fd.dir/build.make CMakeFiles/cmTC_d10fd.dir/build
-        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-kj4GU9'
-        Building CXX object CMakeFiles/cmTC_d10fd.dir/CMakeCXXCompilerABI.cpp.o
-        /usr/bin/c++   -v -o CMakeFiles/cmTC_d10fd.dir/CMakeCXXCompilerABI.cpp.o -c /opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeCXXCompilerABI.cpp
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_2165b/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_2165b.dir/build.make CMakeFiles/cmTC_2165b.dir/build
+        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Cc6Uzu'
+        Building CXX object CMakeFiles/cmTC_2165b.dir/CMakeCXXCompilerABI.cpp.o
+        /usr/bin/c++   -v -o CMakeFiles/cmTC_2165b.dir/CMakeCXXCompilerABI.cpp.o -c /opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeCXXCompilerABI.cpp
         Using built-in specs.
         COLLECT_GCC=/usr/bin/c++
         OFFLOAD_TARGET_NAMES=nvptx-none
@@ -338,8 +338,8 @@ events:
         Thread model: posix
         Supported LTO compression algorithms: zlib zstd
         gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04.1) 
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_d10fd.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_d10fd.dir/'
-         /usr/libexec/gcc/aarch64-linux-gnu/13/cc1plus -quiet -v -imultiarch aarch64-linux-gnu -D_GNU_SOURCE /opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_d10fd.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mlittle-endian -mabi=lp64 -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -o /tmp/ccVv9AJq.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_2165b.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_2165b.dir/'
+         /usr/libexec/gcc/aarch64-linux-gnu/13/cc1plus -quiet -v -imultiarch aarch64-linux-gnu -D_GNU_SOURCE /opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_2165b.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mlittle-endian -mabi=lp64 -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -o /tmp/ccMYPZM8.s
         GNU C++17 (Ubuntu 13.3.0-6ubuntu2~24.04.1) version 13.3.0 (aarch64-linux-gnu)
         	compiled by GNU C version 13.3.0, GMP version 6.3.0, MPFR version 4.2.1, MPC version 1.3.1, isl version isl-0.26-GMP
         
@@ -360,14 +360,14 @@ events:
          /usr/include
         End of search list.
         Compiler executable checksum: 3007a9bdd78900ddf3753164e1e631d0
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_d10fd.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_d10fd.dir/'
-         as -v -EL -mabi=lp64 -o CMakeFiles/cmTC_d10fd.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccVv9AJq.s
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_2165b.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_2165b.dir/'
+         as -v -EL -mabi=lp64 -o CMakeFiles/cmTC_2165b.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccMYPZM8.s
         GNU assembler version 2.42 (aarch64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.42
         COMPILER_PATH=/usr/libexec/gcc/aarch64-linux-gnu/13/:/usr/libexec/gcc/aarch64-linux-gnu/13/:/usr/libexec/gcc/aarch64-linux-gnu/:/usr/lib/gcc/aarch64-linux-gnu/13/:/usr/lib/gcc/aarch64-linux-gnu/
         LIBRARY_PATH=/usr/lib/gcc/aarch64-linux-gnu/13/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib/:/lib/aarch64-linux-gnu/:/lib/../lib/:/usr/lib/aarch64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_d10fd.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_d10fd.dir/CMakeCXXCompilerABI.cpp.'
-        Linking CXX executable cmTC_d10fd
-        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d10fd.dir/link.txt --verbose=1
+        COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_2165b.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_2165b.dir/CMakeCXXCompilerABI.cpp.'
+        Linking CXX executable cmTC_2165b
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2165b.dir/link.txt --verbose=1
         Using built-in specs.
         COLLECT_GCC=/usr/bin/c++
         COLLECT_LTO_WRAPPER=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper
@@ -380,14 +380,14 @@ events:
         gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04.1) 
         COMPILER_PATH=/usr/libexec/gcc/aarch64-linux-gnu/13/:/usr/libexec/gcc/aarch64-linux-gnu/13/:/usr/libexec/gcc/aarch64-linux-gnu/:/usr/lib/gcc/aarch64-linux-gnu/13/:/usr/lib/gcc/aarch64-linux-gnu/
         LIBRARY_PATH=/usr/lib/gcc/aarch64-linux-gnu/13/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib/:/lib/aarch64-linux-gnu/:/lib/../lib/:/usr/lib/aarch64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_d10fd' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'cmTC_d10fd.'
-         /usr/libexec/gcc/aarch64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/aarch64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccajj5FH.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu --as-needed -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-843419 -pie -z now -z relro -o cmTC_d10fd /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/aarch64-linux-gnu/13 -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib -L/lib/aarch64-linux-gnu -L/lib/../lib -L/usr/lib/aarch64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-linux-gnu/13/../../.. -v CMakeFiles/cmTC_d10fd.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crtn.o
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_2165b' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'cmTC_2165b.'
+         /usr/libexec/gcc/aarch64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/aarch64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccLHtpwZ.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu --as-needed -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-843419 -pie -z now -z relro -o cmTC_2165b /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/aarch64-linux-gnu/13 -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib -L/lib/aarch64-linux-gnu -L/lib/../lib -L/usr/lib/aarch64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-linux-gnu/13/../../.. -v CMakeFiles/cmTC_2165b.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crtn.o
         collect2 version 13.3.0
-        /usr/bin/ld -plugin /usr/libexec/gcc/aarch64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccajj5FH.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu --as-needed -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-843419 -pie -z now -z relro -o cmTC_d10fd /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/aarch64-linux-gnu/13 -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib -L/lib/aarch64-linux-gnu -L/lib/../lib -L/usr/lib/aarch64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-linux-gnu/13/../../.. -v CMakeFiles/cmTC_d10fd.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crtn.o
+        /usr/bin/ld -plugin /usr/libexec/gcc/aarch64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccLHtpwZ.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu --as-needed -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-843419 -pie -z now -z relro -o cmTC_2165b /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/aarch64-linux-gnu/13 -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib -L/lib/aarch64-linux-gnu -L/lib/../lib -L/usr/lib/aarch64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-linux-gnu/13/../../.. -v CMakeFiles/cmTC_2165b.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crtn.o
         GNU ld (GNU Binutils for Ubuntu) 2.42
-        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_d10fd' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'cmTC_d10fd.'
-        /usr/bin/c++  -v -Wl,-v CMakeFiles/cmTC_d10fd.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_d10fd
-        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-kj4GU9'
+        COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_2165b' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'cmTC_2165b.'
+        /usr/bin/c++  -v -Wl,-v CMakeFiles/cmTC_2165b.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_2165b
+        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Cc6Uzu'
         
       exitCode: 0
   -
@@ -428,13 +428,13 @@ events:
       Parsed CXX implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-kj4GU9']
+        ignore line: [Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Cc6Uzu']
         ignore line: []
-        ignore line: [Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_d10fd/fast]
-        ignore line: [/usr/bin/gmake  -f CMakeFiles/cmTC_d10fd.dir/build.make CMakeFiles/cmTC_d10fd.dir/build]
-        ignore line: [gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-kj4GU9']
-        ignore line: [Building CXX object CMakeFiles/cmTC_d10fd.dir/CMakeCXXCompilerABI.cpp.o]
-        ignore line: [/usr/bin/c++   -v -o CMakeFiles/cmTC_d10fd.dir/CMakeCXXCompilerABI.cpp.o -c /opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_2165b/fast]
+        ignore line: [/usr/bin/gmake  -f CMakeFiles/cmTC_2165b.dir/build.make CMakeFiles/cmTC_2165b.dir/build]
+        ignore line: [gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Cc6Uzu']
+        ignore line: [Building CXX object CMakeFiles/cmTC_2165b.dir/CMakeCXXCompilerABI.cpp.o]
+        ignore line: [/usr/bin/c++   -v -o CMakeFiles/cmTC_2165b.dir/CMakeCXXCompilerABI.cpp.o -c /opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/usr/bin/c++]
         ignore line: [OFFLOAD_TARGET_NAMES=nvptx-none]
@@ -444,8 +444,8 @@ events:
         ignore line: [Thread model: posix]
         ignore line: [Supported LTO compression algorithms: zlib zstd]
         ignore line: [gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04.1) ]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_d10fd.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_d10fd.dir/']
-        ignore line: [ /usr/libexec/gcc/aarch64-linux-gnu/13/cc1plus -quiet -v -imultiarch aarch64-linux-gnu -D_GNU_SOURCE /opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_d10fd.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mlittle-endian -mabi=lp64 -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -o /tmp/ccVv9AJq.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_2165b.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_2165b.dir/']
+        ignore line: [ /usr/libexec/gcc/aarch64-linux-gnu/13/cc1plus -quiet -v -imultiarch aarch64-linux-gnu -D_GNU_SOURCE /opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpdir CMakeFiles/cmTC_2165b.dir/ -dumpbase CMakeCXXCompilerABI.cpp.cpp -dumpbase-ext .cpp -mlittle-endian -mabi=lp64 -version -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -o /tmp/ccMYPZM8.s]
         ignore line: [GNU C++17 (Ubuntu 13.3.0-6ubuntu2~24.04.1) version 13.3.0 (aarch64-linux-gnu)]
         ignore line: [	compiled by GNU C version 13.3.0  GMP version 6.3.0  MPFR version 4.2.1  MPC version 1.3.1  isl version isl-0.26-GMP]
         ignore line: []
@@ -466,14 +466,14 @@ events:
         ignore line: [ /usr/include]
         ignore line: [End of search list.]
         ignore line: [Compiler executable checksum: 3007a9bdd78900ddf3753164e1e631d0]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_d10fd.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_d10fd.dir/']
-        ignore line: [ as -v -EL -mabi=lp64 -o CMakeFiles/cmTC_d10fd.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccVv9AJq.s]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_2165b.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_2165b.dir/']
+        ignore line: [ as -v -EL -mabi=lp64 -o CMakeFiles/cmTC_2165b.dir/CMakeCXXCompilerABI.cpp.o /tmp/ccMYPZM8.s]
         ignore line: [GNU assembler version 2.42 (aarch64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.42]
         ignore line: [COMPILER_PATH=/usr/libexec/gcc/aarch64-linux-gnu/13/:/usr/libexec/gcc/aarch64-linux-gnu/13/:/usr/libexec/gcc/aarch64-linux-gnu/:/usr/lib/gcc/aarch64-linux-gnu/13/:/usr/lib/gcc/aarch64-linux-gnu/]
         ignore line: [LIBRARY_PATH=/usr/lib/gcc/aarch64-linux-gnu/13/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib/:/lib/aarch64-linux-gnu/:/lib/../lib/:/usr/lib/aarch64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_d10fd.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_d10fd.dir/CMakeCXXCompilerABI.cpp.']
-        ignore line: [Linking CXX executable cmTC_d10fd]
-        ignore line: [/opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d10fd.dir/link.txt --verbose=1]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_2165b.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'CMakeFiles/cmTC_2165b.dir/CMakeCXXCompilerABI.cpp.']
+        ignore line: [Linking CXX executable cmTC_2165b]
+        ignore line: [/opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2165b.dir/link.txt --verbose=1]
         ignore line: [Using built-in specs.]
         ignore line: [COLLECT_GCC=/usr/bin/c++]
         ignore line: [COLLECT_LTO_WRAPPER=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper]
@@ -486,13 +486,13 @@ events:
         ignore line: [gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04.1) ]
         ignore line: [COMPILER_PATH=/usr/libexec/gcc/aarch64-linux-gnu/13/:/usr/libexec/gcc/aarch64-linux-gnu/13/:/usr/libexec/gcc/aarch64-linux-gnu/:/usr/lib/gcc/aarch64-linux-gnu/13/:/usr/lib/gcc/aarch64-linux-gnu/]
         ignore line: [LIBRARY_PATH=/usr/lib/gcc/aarch64-linux-gnu/13/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib/:/lib/aarch64-linux-gnu/:/lib/../lib/:/usr/lib/aarch64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../:/lib/:/usr/lib/]
-        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_d10fd' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'cmTC_d10fd.']
-        link line: [ /usr/libexec/gcc/aarch64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/aarch64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccajj5FH.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu --as-needed -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-843419 -pie -z now -z relro -o cmTC_d10fd /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/aarch64-linux-gnu/13 -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib -L/lib/aarch64-linux-gnu -L/lib/../lib -L/usr/lib/aarch64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-linux-gnu/13/../../.. -v CMakeFiles/cmTC_d10fd.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crtn.o]
+        ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_2165b' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-dumpdir' 'cmTC_2165b.']
+        link line: [ /usr/libexec/gcc/aarch64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/aarch64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccLHtpwZ.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu --as-needed -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-843419 -pie -z now -z relro -o cmTC_2165b /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/aarch64-linux-gnu/13 -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib -L/lib/aarch64-linux-gnu -L/lib/../lib -L/usr/lib/aarch64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-linux-gnu/13/../../.. -v CMakeFiles/cmTC_2165b.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crtn.o]
           arg [/usr/libexec/gcc/aarch64-linux-gnu/13/collect2] ==> ignore
           arg [-plugin] ==> ignore
           arg [/usr/libexec/gcc/aarch64-linux-gnu/13/liblto_plugin.so] ==> ignore
           arg [-plugin-opt=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper] ==> ignore
-          arg [-plugin-opt=-fresolution=/tmp/ccajj5FH.res] ==> ignore
+          arg [-plugin-opt=-fresolution=/tmp/ccLHtpwZ.res] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
           arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
           arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -512,7 +512,7 @@ events:
           arg [-znow] ==> ignore
           arg [-zrelro] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_d10fd] ==> ignore
+          arg [cmTC_2165b] ==> ignore
           arg [/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o] ==> obj [/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o]
           arg [/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o] ==> obj [/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o]
           arg [/usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o] ==> obj [/usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o]
@@ -525,7 +525,7 @@ events:
           arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
           arg [-L/usr/lib/gcc/aarch64-linux-gnu/13/../../..] ==> dir [/usr/lib/gcc/aarch64-linux-gnu/13/../../..]
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_d10fd.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [CMakeFiles/cmTC_2165b.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
           arg [-lstdc++] ==> lib [stdc++]
           arg [-lm] ==> lib [m]
           arg [-lgcc_s] ==> lib [gcc_s]
@@ -536,7 +536,7 @@ events:
           arg [/usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o] ==> obj [/usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o]
           arg [/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crtn.o] ==> obj [/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crtn.o]
         ignore line: [collect2 version 13.3.0]
-        ignore line: [/usr/bin/ld -plugin /usr/libexec/gcc/aarch64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccajj5FH.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu --as-needed -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-843419 -pie -z now -z relro -o cmTC_d10fd /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/aarch64-linux-gnu/13 -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib -L/lib/aarch64-linux-gnu -L/lib/../lib -L/usr/lib/aarch64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-linux-gnu/13/../../.. -v CMakeFiles/cmTC_d10fd.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crtn.o]
+        ignore line: [/usr/bin/ld -plugin /usr/libexec/gcc/aarch64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccLHtpwZ.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu --as-needed -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-843419 -pie -z now -z relro -o cmTC_2165b /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o -L/usr/lib/gcc/aarch64-linux-gnu/13 -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib -L/lib/aarch64-linux-gnu -L/lib/../lib -L/usr/lib/aarch64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-linux-gnu/13/../../.. -v CMakeFiles/cmTC_2165b.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crtn.o]
         linker tool for 'CXX': /usr/bin/ld
         collapse obj [/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o] ==> [/usr/lib/aarch64-linux-gnu/Scrt1.o]
         collapse obj [/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o] ==> [/usr/lib/aarch64-linux-gnu/crti.o]
@@ -592,11 +592,11 @@ events:
       stdout: |
         Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeTmp'
         
-        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_477b3/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_477b3.dir/build.make CMakeFiles/cmTC_477b3.dir/build
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_656f1/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_656f1.dir/build.make CMakeFiles/cmTC_656f1.dir/build
         gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeTmp'
-        Building C object CMakeFiles/cmTC_477b3.dir/OpenMPTryFlag.c.o
-        /usr/bin/cc   -fopenmp -v -o CMakeFiles/cmTC_477b3.dir/OpenMPTryFlag.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/FindOpenMP/OpenMPTryFlag.c
+        Building C object CMakeFiles/cmTC_656f1.dir/OpenMPTryFlag.c.o
+        /usr/bin/cc   -fopenmp -v -o CMakeFiles/cmTC_656f1.dir/OpenMPTryFlag.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/FindOpenMP/OpenMPTryFlag.c
         Using built-in specs.
         COLLECT_GCC=/usr/bin/cc
         OFFLOAD_TARGET_NAMES=nvptx-none
@@ -606,8 +606,8 @@ events:
         Thread model: posix
         Supported LTO compression algorithms: zlib zstd
         gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04.1) 
-        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'CMakeFiles/cmTC_477b3.dir/OpenMPTryFlag.c.o' '-c' '-mlittle-endian' '-mabi=lp64' '-pthread' '-dumpdir' 'CMakeFiles/cmTC_477b3.dir/'
-         /usr/libexec/gcc/aarch64-linux-gnu/13/cc1 -quiet -v -imultiarch aarch64-linux-gnu -D_REENTRANT /root/ros2_ws/build/dual_laser_merger/CMakeFiles/FindOpenMP/OpenMPTryFlag.c -quiet -dumpdir CMakeFiles/cmTC_477b3.dir/ -dumpbase OpenMPTryFlag.c.c -dumpbase-ext .c -mlittle-endian -mabi=lp64 -version -fopenmp -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -o /tmp/cc4oAWUh.s
+        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'CMakeFiles/cmTC_656f1.dir/OpenMPTryFlag.c.o' '-c' '-mlittle-endian' '-mabi=lp64' '-pthread' '-dumpdir' 'CMakeFiles/cmTC_656f1.dir/'
+         /usr/libexec/gcc/aarch64-linux-gnu/13/cc1 -quiet -v -imultiarch aarch64-linux-gnu -D_REENTRANT /root/ros2_ws/build/dual_laser_merger/CMakeFiles/FindOpenMP/OpenMPTryFlag.c -quiet -dumpdir CMakeFiles/cmTC_656f1.dir/ -dumpbase OpenMPTryFlag.c.c -dumpbase-ext .c -mlittle-endian -mabi=lp64 -version -fopenmp -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -o /tmp/ccYEgZIZ.s
         GNU C17 (Ubuntu 13.3.0-6ubuntu2~24.04.1) version 13.3.0 (aarch64-linux-gnu)
         	compiled by GNU C version 13.3.0, GMP version 6.3.0, MPFR version 4.2.1, MPC version 1.3.1, isl version isl-0.26-GMP
         
@@ -624,14 +624,14 @@ events:
          /usr/include
         End of search list.
         Compiler executable checksum: af3ce90fa71916e7a8489f94b60f417c
-        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'CMakeFiles/cmTC_477b3.dir/OpenMPTryFlag.c.o' '-c' '-mlittle-endian' '-mabi=lp64' '-pthread' '-dumpdir' 'CMakeFiles/cmTC_477b3.dir/'
-         as -v -EL -mabi=lp64 -o CMakeFiles/cmTC_477b3.dir/OpenMPTryFlag.c.o /tmp/cc4oAWUh.s
+        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'CMakeFiles/cmTC_656f1.dir/OpenMPTryFlag.c.o' '-c' '-mlittle-endian' '-mabi=lp64' '-pthread' '-dumpdir' 'CMakeFiles/cmTC_656f1.dir/'
+         as -v -EL -mabi=lp64 -o CMakeFiles/cmTC_656f1.dir/OpenMPTryFlag.c.o /tmp/ccYEgZIZ.s
         GNU assembler version 2.42 (aarch64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.42
         COMPILER_PATH=/usr/libexec/gcc/aarch64-linux-gnu/13/:/usr/libexec/gcc/aarch64-linux-gnu/13/:/usr/libexec/gcc/aarch64-linux-gnu/:/usr/lib/gcc/aarch64-linux-gnu/13/:/usr/lib/gcc/aarch64-linux-gnu/
         LIBRARY_PATH=/usr/lib/gcc/aarch64-linux-gnu/13/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib/:/lib/aarch64-linux-gnu/:/lib/../lib/:/usr/lib/aarch64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'CMakeFiles/cmTC_477b3.dir/OpenMPTryFlag.c.o' '-c' '-mlittle-endian' '-mabi=lp64' '-pthread' '-dumpdir' 'CMakeFiles/cmTC_477b3.dir/OpenMPTryFlag.c.'
-        Linking C executable cmTC_477b3
-        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_477b3.dir/link.txt --verbose=1
+        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'CMakeFiles/cmTC_656f1.dir/OpenMPTryFlag.c.o' '-c' '-mlittle-endian' '-mabi=lp64' '-pthread' '-dumpdir' 'CMakeFiles/cmTC_656f1.dir/OpenMPTryFlag.c.'
+        Linking C executable cmTC_656f1
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_656f1.dir/link.txt --verbose=1
         Using built-in specs.
         COLLECT_GCC=/usr/bin/cc
         COLLECT_LTO_WRAPPER=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper
@@ -645,10 +645,10 @@ events:
         COMPILER_PATH=/usr/libexec/gcc/aarch64-linux-gnu/13/:/usr/libexec/gcc/aarch64-linux-gnu/13/:/usr/libexec/gcc/aarch64-linux-gnu/:/usr/lib/gcc/aarch64-linux-gnu/13/:/usr/lib/gcc/aarch64-linux-gnu/
         LIBRARY_PATH=/usr/lib/gcc/aarch64-linux-gnu/13/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib/:/lib/aarch64-linux-gnu/:/lib/../lib/:/usr/lib/aarch64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../:/lib/:/usr/lib/
         Reading specs from /usr/lib/gcc/aarch64-linux-gnu/13/libgomp.spec
-        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'cmTC_477b3' '-v' '-mlittle-endian' '-mabi=lp64' '-pthread' '-dumpdir' 'cmTC_477b3.'
-         /usr/libexec/gcc/aarch64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/aarch64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccBFzqZC.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr --hash-style=gnu --as-needed -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-843419 -pie -z now -z relro -o cmTC_477b3 /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o /usr/lib/gcc/aarch64-linux-gnu/13/crtoffloadbegin.o -L/usr/lib/gcc/aarch64-linux-gnu/13 -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib -L/lib/aarch64-linux-gnu -L/lib/../lib -L/usr/lib/aarch64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-linux-gnu/13/../../.. CMakeFiles/cmTC_477b3.dir/OpenMPTryFlag.c.o -lgomp -lgcc --push-state --as-needed -lgcc_s --pop-state -lpthread -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crtn.o /usr/lib/gcc/aarch64-linux-gnu/13/crtoffloadend.o
-        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'cmTC_477b3' '-v' '-mlittle-endian' '-mabi=lp64' '-pthread' '-dumpdir' 'cmTC_477b3.'
-        /usr/bin/cc  -fopenmp -v CMakeFiles/cmTC_477b3.dir/OpenMPTryFlag.c.o -o cmTC_477b3  -v
+        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'cmTC_656f1' '-v' '-mlittle-endian' '-mabi=lp64' '-pthread' '-dumpdir' 'cmTC_656f1.'
+         /usr/libexec/gcc/aarch64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/aarch64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccomeXaK.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr --hash-style=gnu --as-needed -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-843419 -pie -z now -z relro -o cmTC_656f1 /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o /usr/lib/gcc/aarch64-linux-gnu/13/crtoffloadbegin.o -L/usr/lib/gcc/aarch64-linux-gnu/13 -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib -L/lib/aarch64-linux-gnu -L/lib/../lib -L/usr/lib/aarch64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-linux-gnu/13/../../.. CMakeFiles/cmTC_656f1.dir/OpenMPTryFlag.c.o -lgomp -lgcc --push-state --as-needed -lgcc_s --pop-state -lpthread -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crtn.o /usr/lib/gcc/aarch64-linux-gnu/13/crtoffloadend.o
+        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'cmTC_656f1' '-v' '-mlittle-endian' '-mabi=lp64' '-pthread' '-dumpdir' 'cmTC_656f1.'
+        /usr/bin/cc  -fopenmp -v CMakeFiles/cmTC_656f1.dir/OpenMPTryFlag.c.o -o cmTC_656f1  -v
         gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeTmp'
         
       exitCode: 0
@@ -679,11 +679,11 @@ events:
       stdout: |
         Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeTmp'
         
-        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_bab81/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_bab81.dir/build.make CMakeFiles/cmTC_bab81.dir/build
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_f12f3/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_f12f3.dir/build.make CMakeFiles/cmTC_f12f3.dir/build
         gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeTmp'
-        Building CXX object CMakeFiles/cmTC_bab81.dir/OpenMPTryFlag.cpp.o
-        /usr/bin/c++   -fopenmp -v -o CMakeFiles/cmTC_bab81.dir/OpenMPTryFlag.cpp.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/FindOpenMP/OpenMPTryFlag.cpp
+        Building CXX object CMakeFiles/cmTC_f12f3.dir/OpenMPTryFlag.cpp.o
+        /usr/bin/c++   -fopenmp -v -o CMakeFiles/cmTC_f12f3.dir/OpenMPTryFlag.cpp.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/FindOpenMP/OpenMPTryFlag.cpp
         Using built-in specs.
         COLLECT_GCC=/usr/bin/c++
         OFFLOAD_TARGET_NAMES=nvptx-none
@@ -693,8 +693,8 @@ events:
         Thread model: posix
         Supported LTO compression algorithms: zlib zstd
         gcc version 13.3.0 (Ubuntu 13.3.0-6ubuntu2~24.04.1) 
-        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'CMakeFiles/cmTC_bab81.dir/OpenMPTryFlag.cpp.o' '-c' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-pthread' '-dumpdir' 'CMakeFiles/cmTC_bab81.dir/'
-         /usr/libexec/gcc/aarch64-linux-gnu/13/cc1plus -quiet -v -imultiarch aarch64-linux-gnu -D_GNU_SOURCE -D_REENTRANT /root/ros2_ws/build/dual_laser_merger/CMakeFiles/FindOpenMP/OpenMPTryFlag.cpp -quiet -dumpdir CMakeFiles/cmTC_bab81.dir/ -dumpbase OpenMPTryFlag.cpp.cpp -dumpbase-ext .cpp -mlittle-endian -mabi=lp64 -version -fopenmp -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -o /tmp/ccluE7Qm.s
+        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'CMakeFiles/cmTC_f12f3.dir/OpenMPTryFlag.cpp.o' '-c' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-pthread' '-dumpdir' 'CMakeFiles/cmTC_f12f3.dir/'
+         /usr/libexec/gcc/aarch64-linux-gnu/13/cc1plus -quiet -v -imultiarch aarch64-linux-gnu -D_GNU_SOURCE -D_REENTRANT /root/ros2_ws/build/dual_laser_merger/CMakeFiles/FindOpenMP/OpenMPTryFlag.cpp -quiet -dumpdir CMakeFiles/cmTC_f12f3.dir/ -dumpbase OpenMPTryFlag.cpp.cpp -dumpbase-ext .cpp -mlittle-endian -mabi=lp64 -version -fopenmp -fasynchronous-unwind-tables -fstack-protector-strong -Wformat -Wformat-security -fstack-clash-protection -o /tmp/ccAy5wDt.s
         GNU C++17 (Ubuntu 13.3.0-6ubuntu2~24.04.1) version 13.3.0 (aarch64-linux-gnu)
         	compiled by GNU C version 13.3.0, GMP version 6.3.0, MPFR version 4.2.1, MPC version 1.3.1, isl version isl-0.26-GMP
         
@@ -715,14 +715,14 @@ events:
          /usr/include
         End of search list.
         Compiler executable checksum: 3007a9bdd78900ddf3753164e1e631d0
-        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'CMakeFiles/cmTC_bab81.dir/OpenMPTryFlag.cpp.o' '-c' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-pthread' '-dumpdir' 'CMakeFiles/cmTC_bab81.dir/'
-         as -v -EL -mabi=lp64 -o CMakeFiles/cmTC_bab81.dir/OpenMPTryFlag.cpp.o /tmp/ccluE7Qm.s
+        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'CMakeFiles/cmTC_f12f3.dir/OpenMPTryFlag.cpp.o' '-c' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-pthread' '-dumpdir' 'CMakeFiles/cmTC_f12f3.dir/'
+         as -v -EL -mabi=lp64 -o CMakeFiles/cmTC_f12f3.dir/OpenMPTryFlag.cpp.o /tmp/ccAy5wDt.s
         GNU assembler version 2.42 (aarch64-linux-gnu) using BFD version (GNU Binutils for Ubuntu) 2.42
         COMPILER_PATH=/usr/libexec/gcc/aarch64-linux-gnu/13/:/usr/libexec/gcc/aarch64-linux-gnu/13/:/usr/libexec/gcc/aarch64-linux-gnu/:/usr/lib/gcc/aarch64-linux-gnu/13/:/usr/lib/gcc/aarch64-linux-gnu/
         LIBRARY_PATH=/usr/lib/gcc/aarch64-linux-gnu/13/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib/:/lib/aarch64-linux-gnu/:/lib/../lib/:/usr/lib/aarch64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../:/lib/:/usr/lib/
-        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'CMakeFiles/cmTC_bab81.dir/OpenMPTryFlag.cpp.o' '-c' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-pthread' '-dumpdir' 'CMakeFiles/cmTC_bab81.dir/OpenMPTryFlag.cpp.'
-        Linking CXX executable cmTC_bab81
-        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_bab81.dir/link.txt --verbose=1
+        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'CMakeFiles/cmTC_f12f3.dir/OpenMPTryFlag.cpp.o' '-c' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-pthread' '-dumpdir' 'CMakeFiles/cmTC_f12f3.dir/OpenMPTryFlag.cpp.'
+        Linking CXX executable cmTC_f12f3
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f12f3.dir/link.txt --verbose=1
         Using built-in specs.
         COLLECT_GCC=/usr/bin/c++
         COLLECT_LTO_WRAPPER=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper
@@ -736,10 +736,10 @@ events:
         COMPILER_PATH=/usr/libexec/gcc/aarch64-linux-gnu/13/:/usr/libexec/gcc/aarch64-linux-gnu/13/:/usr/libexec/gcc/aarch64-linux-gnu/:/usr/lib/gcc/aarch64-linux-gnu/13/:/usr/lib/gcc/aarch64-linux-gnu/
         LIBRARY_PATH=/usr/lib/gcc/aarch64-linux-gnu/13/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib/:/lib/aarch64-linux-gnu/:/lib/../lib/:/usr/lib/aarch64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/aarch64-linux-gnu/13/../../../:/lib/:/usr/lib/
         Reading specs from /usr/lib/gcc/aarch64-linux-gnu/13/libgomp.spec
-        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'cmTC_bab81' '-v' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-pthread' '-dumpdir' 'cmTC_bab81.'
-         /usr/libexec/gcc/aarch64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/aarch64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccSBY5kz.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu --as-needed -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-843419 -pie -z now -z relro -o cmTC_bab81 /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o /usr/lib/gcc/aarch64-linux-gnu/13/crtoffloadbegin.o -L/usr/lib/gcc/aarch64-linux-gnu/13 -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib -L/lib/aarch64-linux-gnu -L/lib/../lib -L/usr/lib/aarch64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-linux-gnu/13/../../.. CMakeFiles/cmTC_bab81.dir/OpenMPTryFlag.cpp.o -lstdc++ -lm -lgomp -lgcc_s -lgcc -lpthread -lc -lgcc_s -lgcc /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crtn.o /usr/lib/gcc/aarch64-linux-gnu/13/crtoffloadend.o
-        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'cmTC_bab81' '-v' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-pthread' '-dumpdir' 'cmTC_bab81.'
-        /usr/bin/c++  -fopenmp -v CMakeFiles/cmTC_bab81.dir/OpenMPTryFlag.cpp.o -o cmTC_bab81  -v
+        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'cmTC_f12f3' '-v' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-pthread' '-dumpdir' 'cmTC_f12f3.'
+         /usr/libexec/gcc/aarch64-linux-gnu/13/collect2 -plugin /usr/libexec/gcc/aarch64-linux-gnu/13/liblto_plugin.so -plugin-opt=/usr/libexec/gcc/aarch64-linux-gnu/13/lto-wrapper -plugin-opt=-fresolution=/tmp/ccBjNEUj.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lpthread -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --build-id --eh-frame-hdr --hash-style=gnu --as-needed -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-843419 -pie -z now -z relro -o cmTC_f12f3 /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/Scrt1.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crti.o /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o /usr/lib/gcc/aarch64-linux-gnu/13/crtoffloadbegin.o -L/usr/lib/gcc/aarch64-linux-gnu/13 -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu -L/usr/lib/gcc/aarch64-linux-gnu/13/../../../../lib -L/lib/aarch64-linux-gnu -L/lib/../lib -L/usr/lib/aarch64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/aarch64-linux-gnu/13/../../.. CMakeFiles/cmTC_f12f3.dir/OpenMPTryFlag.cpp.o -lstdc++ -lm -lgomp -lgcc_s -lgcc -lpthread -lc -lgcc_s -lgcc /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crtn.o /usr/lib/gcc/aarch64-linux-gnu/13/crtoffloadend.o
+        COLLECT_GCC_OPTIONS='-fopenmp' '-v' '-o' 'cmTC_f12f3' '-v' '-shared-libgcc' '-mlittle-endian' '-mabi=lp64' '-pthread' '-dumpdir' 'cmTC_f12f3.'
+        /usr/bin/c++  -fopenmp -v CMakeFiles/cmTC_f12f3.dir/OpenMPTryFlag.cpp.o -o cmTC_f12f3  -v
         gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeTmp'
         
       exitCode: 0
@@ -770,14 +770,14 @@ events:
       stdout: |
         Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeTmp'
         
-        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_13e72/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_13e72.dir/build.make CMakeFiles/cmTC_13e72.dir/build
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_dfcfc/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_dfcfc.dir/build.make CMakeFiles/cmTC_dfcfc.dir/build
         gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeTmp'
-        Building CXX object CMakeFiles/cmTC_13e72.dir/OpenMPCheckVersion.cpp.o
-        /usr/bin/c++   -fopenmp -o CMakeFiles/cmTC_13e72.dir/OpenMPCheckVersion.cpp.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/FindOpenMP/OpenMPCheckVersion.cpp
-        Linking CXX executable cmTC_13e72
-        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_13e72.dir/link.txt --verbose=1
-        /usr/bin/c++  -fopenmp CMakeFiles/cmTC_13e72.dir/OpenMPCheckVersion.cpp.o -o cmTC_13e72
+        Building CXX object CMakeFiles/cmTC_dfcfc.dir/OpenMPCheckVersion.cpp.o
+        /usr/bin/c++   -fopenmp -o CMakeFiles/cmTC_dfcfc.dir/OpenMPCheckVersion.cpp.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/FindOpenMP/OpenMPCheckVersion.cpp
+        Linking CXX executable cmTC_dfcfc
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_dfcfc.dir/link.txt --verbose=1
+        /usr/bin/c++  -fopenmp CMakeFiles/cmTC_dfcfc.dir/OpenMPCheckVersion.cpp.o -o cmTC_dfcfc
         gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeTmp'
         
       exitCode: 0
@@ -800,8 +800,8 @@ events:
       - "/opt/ros/jazzy/share/ament_cmake_auto/cmake/ament_auto_find_build_dependencies.cmake:67 (find_package)"
       - "CMakeLists.txt:9 (ament_auto_find_build_dependencies)"
     directories:
-      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-2pWizS"
-      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-2pWizS"
+      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-b7UEu0"
+      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-b7UEu0"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
@@ -811,17 +811,17 @@ events:
       variable: "CMAKE_HAVE_LIBC_PTHREAD"
       cached: true
       stdout: |
-        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-2pWizS'
+        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-b7UEu0'
         
-        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_7b3b2/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_7b3b2.dir/build.make CMakeFiles/cmTC_7b3b2.dir/build
-        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-2pWizS'
-        Building C object CMakeFiles/cmTC_7b3b2.dir/src.c.o
-        /usr/bin/cc -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_7b3b2.dir/src.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-2pWizS/src.c
-        Linking C executable cmTC_7b3b2
-        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7b3b2.dir/link.txt --verbose=1
-        /usr/bin/cc CMakeFiles/cmTC_7b3b2.dir/src.c.o -o cmTC_7b3b2
-        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-2pWizS'
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_518b3/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_518b3.dir/build.make CMakeFiles/cmTC_518b3.dir/build
+        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-b7UEu0'
+        Building C object CMakeFiles/cmTC_518b3.dir/src.c.o
+        /usr/bin/cc -DCMAKE_HAVE_LIBC_PTHREAD   -o CMakeFiles/cmTC_518b3.dir/src.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-b7UEu0/src.c
+        Linking C executable cmTC_518b3
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_518b3.dir/link.txt --verbose=1
+        /usr/bin/cc CMakeFiles/cmTC_518b3.dir/src.c.o -o cmTC_518b3
+        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-b7UEu0'
         
       exitCode: 0
   -
@@ -843,8 +843,8 @@ events:
       - "CMakeLists.txt:9 (ament_auto_find_build_dependencies)"
     description: "The MPI test test_mpi for C in mode normal"
     directories:
-      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Zyz7uj"
-      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Zyz7uj"
+      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-GLO8Rq"
+      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-GLO8Rq"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
@@ -854,17 +854,17 @@ events:
       variable: "MPI_RESULT_C_test_mpi_normal"
       cached: true
       stdout: |
-        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Zyz7uj'
+        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-GLO8Rq'
         
-        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_8a37c/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_8a37c.dir/build.make CMakeFiles/cmTC_8a37c.dir/build
-        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Zyz7uj'
-        Building C object CMakeFiles/cmTC_8a37c.dir/test_mpi.c.o
-        /usr/bin/cc  -isystem /usr/lib/aarch64-linux-gnu/openmpi/include -isystem /usr/lib/aarch64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_8a37c.dir/test_mpi.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Zyz7uj/test_mpi.c
-        Linking C executable cmTC_8a37c
-        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8a37c.dir/link.txt --verbose=1
-        /usr/bin/cc -L/usr/lib/aarch64-linux-gnu/openmpi/lib CMakeFiles/cmTC_8a37c.dir/test_mpi.c.o -o cmTC_8a37c  /usr/lib/aarch64-linux-gnu/libmpi.so
-        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Zyz7uj'
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_daad7/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_daad7.dir/build.make CMakeFiles/cmTC_daad7.dir/build
+        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-GLO8Rq'
+        Building C object CMakeFiles/cmTC_daad7.dir/test_mpi.c.o
+        /usr/bin/cc  -isystem /usr/lib/aarch64-linux-gnu/openmpi/include -isystem /usr/lib/aarch64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_daad7.dir/test_mpi.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-GLO8Rq/test_mpi.c
+        Linking C executable cmTC_daad7
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_daad7.dir/link.txt --verbose=1
+        /usr/bin/cc -L/usr/lib/aarch64-linux-gnu/openmpi/lib CMakeFiles/cmTC_daad7.dir/test_mpi.c.o -o cmTC_daad7  /usr/lib/aarch64-linux-gnu/libmpi.so
+        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-GLO8Rq'
         
       exitCode: 0
   -
@@ -884,8 +884,8 @@ events:
       - "/opt/ros/jazzy/share/ament_cmake_auto/cmake/ament_auto_find_build_dependencies.cmake:67 (find_package)"
       - "CMakeLists.txt:9 (ament_auto_find_build_dependencies)"
     directories:
-      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-f70tpE"
-      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-f70tpE"
+      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-s7N2J5"
+      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-s7N2J5"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
@@ -895,17 +895,17 @@ events:
       variable: "X11_LIB_X11_SOLO"
       cached: true
       stdout: |
-        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-f70tpE'
+        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-s7N2J5'
         
-        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_479bf/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_479bf.dir/build.make CMakeFiles/cmTC_479bf.dir/build
-        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-f70tpE'
-        Building C object CMakeFiles/cmTC_479bf.dir/CheckFunctionExists.c.o
-        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=XOpenDisplay -o CMakeFiles/cmTC_479bf.dir/CheckFunctionExists.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-f70tpE/CheckFunctionExists.c
-        Linking C executable cmTC_479bf
-        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_479bf.dir/link.txt --verbose=1
-        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=XOpenDisplay CMakeFiles/cmTC_479bf.dir/CheckFunctionExists.c.o -o cmTC_479bf  /usr/lib/aarch64-linux-gnu/libX11.so /usr/lib/aarch64-linux-gnu/libXext.so
-        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-f70tpE'
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_fa316/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_fa316.dir/build.make CMakeFiles/cmTC_fa316.dir/build
+        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-s7N2J5'
+        Building C object CMakeFiles/cmTC_fa316.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=XOpenDisplay -o CMakeFiles/cmTC_fa316.dir/CheckFunctionExists.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-s7N2J5/CheckFunctionExists.c
+        Linking C executable cmTC_fa316
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fa316.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=XOpenDisplay CMakeFiles/cmTC_fa316.dir/CheckFunctionExists.c.o -o cmTC_fa316  /usr/lib/aarch64-linux-gnu/libX11.so /usr/lib/aarch64-linux-gnu/libXext.so
+        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-s7N2J5'
         
       exitCode: 0
   -
@@ -925,8 +925,8 @@ events:
       - "/opt/ros/jazzy/share/ament_cmake_auto/cmake/ament_auto_find_build_dependencies.cmake:67 (find_package)"
       - "CMakeLists.txt:9 (ament_auto_find_build_dependencies)"
     directories:
-      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-FylusZ"
-      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-FylusZ"
+      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-TvEN79"
+      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-TvEN79"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
@@ -936,17 +936,17 @@ events:
       variable: "CMAKE_HAVE_GETHOSTBYNAME"
       cached: true
       stdout: |
-        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-FylusZ'
+        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-TvEN79'
         
-        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_83057/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_83057.dir/build.make CMakeFiles/cmTC_83057.dir/build
-        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-FylusZ'
-        Building C object CMakeFiles/cmTC_83057.dir/CheckFunctionExists.c.o
-        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=gethostbyname -o CMakeFiles/cmTC_83057.dir/CheckFunctionExists.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-FylusZ/CheckFunctionExists.c
-        Linking C executable cmTC_83057
-        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_83057.dir/link.txt --verbose=1
-        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=gethostbyname CMakeFiles/cmTC_83057.dir/CheckFunctionExists.c.o -o cmTC_83057
-        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-FylusZ'
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_705f6/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_705f6.dir/build.make CMakeFiles/cmTC_705f6.dir/build
+        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-TvEN79'
+        Building C object CMakeFiles/cmTC_705f6.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=gethostbyname -o CMakeFiles/cmTC_705f6.dir/CheckFunctionExists.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-TvEN79/CheckFunctionExists.c
+        Linking C executable cmTC_705f6
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_705f6.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=gethostbyname CMakeFiles/cmTC_705f6.dir/CheckFunctionExists.c.o -o cmTC_705f6
+        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-TvEN79'
         
       exitCode: 0
   -
@@ -966,8 +966,8 @@ events:
       - "/opt/ros/jazzy/share/ament_cmake_auto/cmake/ament_auto_find_build_dependencies.cmake:67 (find_package)"
       - "CMakeLists.txt:9 (ament_auto_find_build_dependencies)"
     directories:
-      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-yXKWny"
-      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-yXKWny"
+      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-rPprRm"
+      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-rPprRm"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
@@ -977,17 +977,17 @@ events:
       variable: "CMAKE_HAVE_CONNECT"
       cached: true
       stdout: |
-        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-yXKWny'
+        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-rPprRm'
         
-        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_11aff/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_11aff.dir/build.make CMakeFiles/cmTC_11aff.dir/build
-        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-yXKWny'
-        Building C object CMakeFiles/cmTC_11aff.dir/CheckFunctionExists.c.o
-        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=connect -o CMakeFiles/cmTC_11aff.dir/CheckFunctionExists.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-yXKWny/CheckFunctionExists.c
-        Linking C executable cmTC_11aff
-        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_11aff.dir/link.txt --verbose=1
-        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=connect CMakeFiles/cmTC_11aff.dir/CheckFunctionExists.c.o -o cmTC_11aff
-        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-yXKWny'
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_d8d74/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_d8d74.dir/build.make CMakeFiles/cmTC_d8d74.dir/build
+        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-rPprRm'
+        Building C object CMakeFiles/cmTC_d8d74.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=connect -o CMakeFiles/cmTC_d8d74.dir/CheckFunctionExists.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-rPprRm/CheckFunctionExists.c
+        Linking C executable cmTC_d8d74
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d8d74.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=connect CMakeFiles/cmTC_d8d74.dir/CheckFunctionExists.c.o -o cmTC_d8d74
+        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-rPprRm'
         
       exitCode: 0
   -
@@ -1007,8 +1007,8 @@ events:
       - "/opt/ros/jazzy/share/ament_cmake_auto/cmake/ament_auto_find_build_dependencies.cmake:67 (find_package)"
       - "CMakeLists.txt:9 (ament_auto_find_build_dependencies)"
     directories:
-      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-yRozLi"
-      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-yRozLi"
+      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-u1aUAs"
+      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-u1aUAs"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
@@ -1018,17 +1018,17 @@ events:
       variable: "CMAKE_HAVE_REMOVE"
       cached: true
       stdout: |
-        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-yRozLi'
+        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-u1aUAs'
         
-        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_2e5cd/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_2e5cd.dir/build.make CMakeFiles/cmTC_2e5cd.dir/build
-        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-yRozLi'
-        Building C object CMakeFiles/cmTC_2e5cd.dir/CheckFunctionExists.c.o
-        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=remove -o CMakeFiles/cmTC_2e5cd.dir/CheckFunctionExists.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-yRozLi/CheckFunctionExists.c
-        Linking C executable cmTC_2e5cd
-        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2e5cd.dir/link.txt --verbose=1
-        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=remove CMakeFiles/cmTC_2e5cd.dir/CheckFunctionExists.c.o -o cmTC_2e5cd
-        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-yRozLi'
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_1371c/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_1371c.dir/build.make CMakeFiles/cmTC_1371c.dir/build
+        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-u1aUAs'
+        Building C object CMakeFiles/cmTC_1371c.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=remove -o CMakeFiles/cmTC_1371c.dir/CheckFunctionExists.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-u1aUAs/CheckFunctionExists.c
+        Linking C executable cmTC_1371c
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1371c.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=remove CMakeFiles/cmTC_1371c.dir/CheckFunctionExists.c.o -o cmTC_1371c
+        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-u1aUAs'
         
       exitCode: 0
   -
@@ -1048,8 +1048,8 @@ events:
       - "/opt/ros/jazzy/share/ament_cmake_auto/cmake/ament_auto_find_build_dependencies.cmake:67 (find_package)"
       - "CMakeLists.txt:9 (ament_auto_find_build_dependencies)"
     directories:
-      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Xst3AC"
-      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Xst3AC"
+      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-mB5WJH"
+      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-mB5WJH"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
@@ -1059,17 +1059,17 @@ events:
       variable: "CMAKE_HAVE_SHMAT"
       cached: true
       stdout: |
-        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Xst3AC'
+        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-mB5WJH'
         
-        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_f49fa/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_f49fa.dir/build.make CMakeFiles/cmTC_f49fa.dir/build
-        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Xst3AC'
-        Building C object CMakeFiles/cmTC_f49fa.dir/CheckFunctionExists.c.o
-        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=shmat -o CMakeFiles/cmTC_f49fa.dir/CheckFunctionExists.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Xst3AC/CheckFunctionExists.c
-        Linking C executable cmTC_f49fa
-        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f49fa.dir/link.txt --verbose=1
-        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=shmat CMakeFiles/cmTC_f49fa.dir/CheckFunctionExists.c.o -o cmTC_f49fa
-        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Xst3AC'
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_0e8ca/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_0e8ca.dir/build.make CMakeFiles/cmTC_0e8ca.dir/build
+        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-mB5WJH'
+        Building C object CMakeFiles/cmTC_0e8ca.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=shmat -o CMakeFiles/cmTC_0e8ca.dir/CheckFunctionExists.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-mB5WJH/CheckFunctionExists.c
+        Linking C executable cmTC_0e8ca
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0e8ca.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=shmat CMakeFiles/cmTC_0e8ca.dir/CheckFunctionExists.c.o -o cmTC_0e8ca
+        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-mB5WJH'
         
       exitCode: 0
   -
@@ -1089,8 +1089,8 @@ events:
       - "/opt/ros/jazzy/share/ament_cmake_auto/cmake/ament_auto_find_build_dependencies.cmake:67 (find_package)"
       - "CMakeLists.txt:9 (ament_auto_find_build_dependencies)"
     directories:
-      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-I3Kzls"
-      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-I3Kzls"
+      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-45NxMs"
+      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-45NxMs"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
@@ -1100,17 +1100,17 @@ events:
       variable: "CMAKE_LIB_ICE_HAS_ICECONNECTIONNUMBER"
       cached: true
       stdout: |
-        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-I3Kzls'
+        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-45NxMs'
         
-        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_ed563/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_ed563.dir/build.make CMakeFiles/cmTC_ed563.dir/build
-        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-I3Kzls'
-        Building C object CMakeFiles/cmTC_ed563.dir/CheckFunctionExists.c.o
-        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=IceConnectionNumber -o CMakeFiles/cmTC_ed563.dir/CheckFunctionExists.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-I3Kzls/CheckFunctionExists.c
-        Linking C executable cmTC_ed563
-        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ed563.dir/link.txt --verbose=1
-        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=IceConnectionNumber CMakeFiles/cmTC_ed563.dir/CheckFunctionExists.c.o -o cmTC_ed563  -lICE
-        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-I3Kzls'
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_08d32/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_08d32.dir/build.make CMakeFiles/cmTC_08d32.dir/build
+        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-45NxMs'
+        Building C object CMakeFiles/cmTC_08d32.dir/CheckFunctionExists.c.o
+        /usr/bin/cc   -DCHECK_FUNCTION_EXISTS=IceConnectionNumber -o CMakeFiles/cmTC_08d32.dir/CheckFunctionExists.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-45NxMs/CheckFunctionExists.c
+        Linking C executable cmTC_08d32
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_08d32.dir/link.txt --verbose=1
+        /usr/bin/cc  -DCHECK_FUNCTION_EXISTS=IceConnectionNumber CMakeFiles/cmTC_08d32.dir/CheckFunctionExists.c.o -o cmTC_08d32  -lICE
+        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-45NxMs'
         
       exitCode: 0
   -
@@ -1132,8 +1132,8 @@ events:
       - "CMakeLists.txt:9 (ament_auto_find_build_dependencies)"
     description: "The MPI test test_mpi for C in mode normal"
     directories:
-      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-e2oyIw"
-      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-e2oyIw"
+      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Rlasbn"
+      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Rlasbn"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
@@ -1143,17 +1143,17 @@ events:
       variable: "MPI_RESULT_C_test_mpi_normal"
       cached: true
       stdout: |
-        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-e2oyIw'
+        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Rlasbn'
         
-        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_cf903/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_cf903.dir/build.make CMakeFiles/cmTC_cf903.dir/build
-        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-e2oyIw'
-        Building C object CMakeFiles/cmTC_cf903.dir/test_mpi.c.o
-        /usr/bin/cc  -isystem /usr/lib/aarch64-linux-gnu/openmpi/include -isystem /usr/lib/aarch64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_cf903.dir/test_mpi.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-e2oyIw/test_mpi.c
-        Linking C executable cmTC_cf903
-        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cf903.dir/link.txt --verbose=1
-        /usr/bin/cc -L/usr/lib/aarch64-linux-gnu/openmpi/lib CMakeFiles/cmTC_cf903.dir/test_mpi.c.o -o cmTC_cf903  /usr/lib/aarch64-linux-gnu/libmpi.so
-        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-e2oyIw'
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_474b1/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_474b1.dir/build.make CMakeFiles/cmTC_474b1.dir/build
+        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Rlasbn'
+        Building C object CMakeFiles/cmTC_474b1.dir/test_mpi.c.o
+        /usr/bin/cc  -isystem /usr/lib/aarch64-linux-gnu/openmpi/include -isystem /usr/lib/aarch64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_474b1.dir/test_mpi.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Rlasbn/test_mpi.c
+        Linking C executable cmTC_474b1
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_474b1.dir/link.txt --verbose=1
+        /usr/bin/cc -L/usr/lib/aarch64-linux-gnu/openmpi/lib CMakeFiles/cmTC_474b1.dir/test_mpi.c.o -o cmTC_474b1  /usr/lib/aarch64-linux-gnu/libmpi.so
+        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Rlasbn'
         
       exitCode: 0
   -
@@ -1175,8 +1175,8 @@ events:
       - "CMakeLists.txt:9 (ament_auto_find_build_dependencies)"
     description: "The MPI test test_mpi for C in mode normal"
     directories:
-      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-iVBzHT"
-      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-iVBzHT"
+      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-MOCAf6"
+      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-MOCAf6"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
@@ -1186,17 +1186,17 @@ events:
       variable: "MPI_RESULT_C_test_mpi_normal"
       cached: true
       stdout: |
-        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-iVBzHT'
+        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-MOCAf6'
         
-        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_87e2d/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_87e2d.dir/build.make CMakeFiles/cmTC_87e2d.dir/build
-        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-iVBzHT'
-        Building C object CMakeFiles/cmTC_87e2d.dir/test_mpi.c.o
-        /usr/bin/cc  -isystem /usr/lib/aarch64-linux-gnu/openmpi/include -isystem /usr/lib/aarch64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_87e2d.dir/test_mpi.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-iVBzHT/test_mpi.c
-        Linking C executable cmTC_87e2d
-        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_87e2d.dir/link.txt --verbose=1
-        /usr/bin/cc -L/usr/lib/aarch64-linux-gnu/openmpi/lib CMakeFiles/cmTC_87e2d.dir/test_mpi.c.o -o cmTC_87e2d  /usr/lib/aarch64-linux-gnu/libmpi.so
-        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-iVBzHT'
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_aaeb4/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_aaeb4.dir/build.make CMakeFiles/cmTC_aaeb4.dir/build
+        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-MOCAf6'
+        Building C object CMakeFiles/cmTC_aaeb4.dir/test_mpi.c.o
+        /usr/bin/cc  -isystem /usr/lib/aarch64-linux-gnu/openmpi/include -isystem /usr/lib/aarch64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_aaeb4.dir/test_mpi.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-MOCAf6/test_mpi.c
+        Linking C executable cmTC_aaeb4
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_aaeb4.dir/link.txt --verbose=1
+        /usr/bin/cc -L/usr/lib/aarch64-linux-gnu/openmpi/lib CMakeFiles/cmTC_aaeb4.dir/test_mpi.c.o -o cmTC_aaeb4  /usr/lib/aarch64-linux-gnu/libmpi.so
+        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-MOCAf6'
         
       exitCode: 0
   -
@@ -1218,8 +1218,8 @@ events:
       - "CMakeLists.txt:9 (ament_auto_find_build_dependencies)"
     description: "The MPI test test_mpi for C in mode normal"
     directories:
-      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-peIN6j"
-      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-peIN6j"
+      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-DFt2n9"
+      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-DFt2n9"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
@@ -1229,17 +1229,17 @@ events:
       variable: "MPI_RESULT_C_test_mpi_normal"
       cached: true
       stdout: |
-        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-peIN6j'
+        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-DFt2n9'
         
-        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_47fdc/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_47fdc.dir/build.make CMakeFiles/cmTC_47fdc.dir/build
-        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-peIN6j'
-        Building C object CMakeFiles/cmTC_47fdc.dir/test_mpi.c.o
-        /usr/bin/cc  -isystem /usr/lib/aarch64-linux-gnu/openmpi/include -isystem /usr/lib/aarch64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_47fdc.dir/test_mpi.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-peIN6j/test_mpi.c
-        Linking C executable cmTC_47fdc
-        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_47fdc.dir/link.txt --verbose=1
-        /usr/bin/cc -L/usr/lib/aarch64-linux-gnu/openmpi/lib CMakeFiles/cmTC_47fdc.dir/test_mpi.c.o -o cmTC_47fdc  /usr/lib/aarch64-linux-gnu/libmpi.so
-        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-peIN6j'
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_346ad/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_346ad.dir/build.make CMakeFiles/cmTC_346ad.dir/build
+        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-DFt2n9'
+        Building C object CMakeFiles/cmTC_346ad.dir/test_mpi.c.o
+        /usr/bin/cc  -isystem /usr/lib/aarch64-linux-gnu/openmpi/include -isystem /usr/lib/aarch64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_346ad.dir/test_mpi.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-DFt2n9/test_mpi.c
+        Linking C executable cmTC_346ad
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_346ad.dir/link.txt --verbose=1
+        /usr/bin/cc -L/usr/lib/aarch64-linux-gnu/openmpi/lib CMakeFiles/cmTC_346ad.dir/test_mpi.c.o -o cmTC_346ad  /usr/lib/aarch64-linux-gnu/libmpi.so
+        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-DFt2n9'
         
       exitCode: 0
   -
@@ -1261,8 +1261,8 @@ events:
       - "CMakeLists.txt:9 (ament_auto_find_build_dependencies)"
     description: "The MPI test test_mpi for C in mode normal"
     directories:
-      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-MnCgjp"
-      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-MnCgjp"
+      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Gb296P"
+      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Gb296P"
     cmakeVariables:
       CMAKE_C_FLAGS: ""
       CMAKE_C_FLAGS_DEBUG: "-g"
@@ -1272,17 +1272,455 @@ events:
       variable: "MPI_RESULT_C_test_mpi_normal"
       cached: true
       stdout: |
-        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-MnCgjp'
+        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Gb296P'
         
-        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_39b49/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_39b49.dir/build.make CMakeFiles/cmTC_39b49.dir/build
-        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-MnCgjp'
-        Building C object CMakeFiles/cmTC_39b49.dir/test_mpi.c.o
-        /usr/bin/cc  -isystem /usr/lib/aarch64-linux-gnu/openmpi/include -isystem /usr/lib/aarch64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_39b49.dir/test_mpi.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-MnCgjp/test_mpi.c
-        Linking C executable cmTC_39b49
-        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_39b49.dir/link.txt --verbose=1
-        /usr/bin/cc -L/usr/lib/aarch64-linux-gnu/openmpi/lib CMakeFiles/cmTC_39b49.dir/test_mpi.c.o -o cmTC_39b49  /usr/lib/aarch64-linux-gnu/libmpi.so
-        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-MnCgjp'
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_c6414/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_c6414.dir/build.make CMakeFiles/cmTC_c6414.dir/build
+        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Gb296P'
+        Building C object CMakeFiles/cmTC_c6414.dir/test_mpi.c.o
+        /usr/bin/cc  -isystem /usr/lib/aarch64-linux-gnu/openmpi/include -isystem /usr/lib/aarch64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_c6414.dir/test_mpi.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Gb296P/test_mpi.c
+        Linking C executable cmTC_c6414
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c6414.dir/link.txt --verbose=1
+        /usr/bin/cc -L/usr/lib/aarch64-linux-gnu/openmpi/lib CMakeFiles/cmTC_c6414.dir/test_mpi.c.o -o cmTC_c6414  /usr/lib/aarch64-linux-gnu/libmpi.so
+        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-Gb296P'
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1286 (try_compile)"
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1330 (_MPI_try_staged_settings)"
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1653 (_MPI_check_lang_works)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/VTK-vtk-module-find-packages.cmake:397 (find_package)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/vtk-config.cmake:150 (include)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:275 (find_package)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:324 (find_VTK)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:567 (find_external_library)"
+      - "/opt/ros/jazzy/share/pcl_conversions/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/pcl_conversions/cmake/pcl_conversionsConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/pcl_ros/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/pcl_ros/cmake/pcl_rosConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/ament_cmake_auto/cmake/ament_auto_find_build_dependencies.cmake:67 (find_package)"
+      - "CMakeLists.txt:9 (ament_auto_find_build_dependencies)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-1Vei8g"
+      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-1Vei8g"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/patches/99;/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1;/opt/ros/jazzy/share/fastrtps_cmake_module/cmake/Modules;/usr/lib/aarch64-linux-gnu/cmake/pcl/Modules"
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-1Vei8g'
+        
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_dc69f/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_dc69f.dir/build.make CMakeFiles/cmTC_dc69f.dir/build
+        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-1Vei8g'
+        Building C object CMakeFiles/cmTC_dc69f.dir/test_mpi.c.o
+        /usr/bin/cc  -isystem /usr/lib/aarch64-linux-gnu/openmpi/include -isystem /usr/lib/aarch64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_dc69f.dir/test_mpi.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-1Vei8g/test_mpi.c
+        Linking C executable cmTC_dc69f
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_dc69f.dir/link.txt --verbose=1
+        /usr/bin/cc -L/usr/lib/aarch64-linux-gnu/openmpi/lib CMakeFiles/cmTC_dc69f.dir/test_mpi.c.o -o cmTC_dc69f  /usr/lib/aarch64-linux-gnu/libmpi.so
+        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-1Vei8g'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1286 (try_compile)"
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1330 (_MPI_try_staged_settings)"
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1653 (_MPI_check_lang_works)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/VTK-vtk-module-find-packages.cmake:397 (find_package)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/vtk-config.cmake:150 (include)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:275 (find_package)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:324 (find_VTK)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:567 (find_external_library)"
+      - "/opt/ros/jazzy/share/pcl_conversions/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/pcl_conversions/cmake/pcl_conversionsConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/pcl_ros/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/pcl_ros/cmake/pcl_rosConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/ament_cmake_auto/cmake/ament_auto_find_build_dependencies.cmake:67 (find_package)"
+      - "CMakeLists.txt:9 (ament_auto_find_build_dependencies)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-6pBQR0"
+      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-6pBQR0"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/patches/99;/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1;/opt/ros/jazzy/share/fastrtps_cmake_module/cmake/Modules;/usr/lib/aarch64-linux-gnu/cmake/pcl/Modules"
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-6pBQR0'
+        
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_43622/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_43622.dir/build.make CMakeFiles/cmTC_43622.dir/build
+        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-6pBQR0'
+        Building C object CMakeFiles/cmTC_43622.dir/test_mpi.c.o
+        /usr/bin/cc  -isystem /usr/lib/aarch64-linux-gnu/openmpi/include -isystem /usr/lib/aarch64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_43622.dir/test_mpi.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-6pBQR0/test_mpi.c
+        Linking C executable cmTC_43622
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_43622.dir/link.txt --verbose=1
+        /usr/bin/cc -L/usr/lib/aarch64-linux-gnu/openmpi/lib CMakeFiles/cmTC_43622.dir/test_mpi.c.o -o cmTC_43622  /usr/lib/aarch64-linux-gnu/libmpi.so
+        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-6pBQR0'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1286 (try_compile)"
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1330 (_MPI_try_staged_settings)"
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1653 (_MPI_check_lang_works)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/VTK-vtk-module-find-packages.cmake:397 (find_package)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/vtk-config.cmake:150 (include)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:275 (find_package)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:324 (find_VTK)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:570 (find_external_library)"
+      - "/opt/ros/jazzy/share/pcl_conversions/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/pcl_conversions/cmake/pcl_conversionsConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/pcl_ros/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/pcl_ros/cmake/pcl_rosConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/ament_cmake_auto/cmake/ament_auto_find_build_dependencies.cmake:67 (find_package)"
+      - "CMakeLists.txt:9 (ament_auto_find_build_dependencies)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-VMtSes"
+      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-VMtSes"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/patches/99;/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1;/opt/ros/jazzy/share/fastrtps_cmake_module/cmake/Modules;/usr/lib/aarch64-linux-gnu/cmake/pcl/Modules"
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-VMtSes'
+        
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_6bf36/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_6bf36.dir/build.make CMakeFiles/cmTC_6bf36.dir/build
+        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-VMtSes'
+        Building C object CMakeFiles/cmTC_6bf36.dir/test_mpi.c.o
+        /usr/bin/cc  -isystem /usr/lib/aarch64-linux-gnu/openmpi/include -isystem /usr/lib/aarch64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_6bf36.dir/test_mpi.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-VMtSes/test_mpi.c
+        Linking C executable cmTC_6bf36
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6bf36.dir/link.txt --verbose=1
+        /usr/bin/cc -L/usr/lib/aarch64-linux-gnu/openmpi/lib CMakeFiles/cmTC_6bf36.dir/test_mpi.c.o -o cmTC_6bf36  /usr/lib/aarch64-linux-gnu/libmpi.so
+        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-VMtSes'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1286 (try_compile)"
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1330 (_MPI_try_staged_settings)"
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1653 (_MPI_check_lang_works)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/VTK-vtk-module-find-packages.cmake:397 (find_package)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/vtk-config.cmake:150 (include)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:275 (find_package)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:324 (find_VTK)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:567 (find_external_library)"
+      - "/opt/ros/jazzy/share/pcl_conversions/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/pcl_conversions/cmake/pcl_conversionsConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/pcl_ros/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/pcl_ros/cmake/pcl_rosConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/ament_cmake_auto/cmake/ament_auto_find_build_dependencies.cmake:67 (find_package)"
+      - "CMakeLists.txt:9 (ament_auto_find_build_dependencies)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-kIuhCp"
+      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-kIuhCp"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/patches/99;/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1;/opt/ros/jazzy/share/fastrtps_cmake_module/cmake/Modules;/usr/lib/aarch64-linux-gnu/cmake/pcl/Modules"
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-kIuhCp'
+        
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_f3172/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_f3172.dir/build.make CMakeFiles/cmTC_f3172.dir/build
+        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-kIuhCp'
+        Building C object CMakeFiles/cmTC_f3172.dir/test_mpi.c.o
+        /usr/bin/cc  -isystem /usr/lib/aarch64-linux-gnu/openmpi/include -isystem /usr/lib/aarch64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_f3172.dir/test_mpi.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-kIuhCp/test_mpi.c
+        Linking C executable cmTC_f3172
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f3172.dir/link.txt --verbose=1
+        /usr/bin/cc -L/usr/lib/aarch64-linux-gnu/openmpi/lib CMakeFiles/cmTC_f3172.dir/test_mpi.c.o -o cmTC_f3172  /usr/lib/aarch64-linux-gnu/libmpi.so
+        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-kIuhCp'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1286 (try_compile)"
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1330 (_MPI_try_staged_settings)"
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1653 (_MPI_check_lang_works)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/VTK-vtk-module-find-packages.cmake:397 (find_package)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/vtk-config.cmake:150 (include)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:275 (find_package)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:324 (find_VTK)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:567 (find_external_library)"
+      - "/opt/ros/jazzy/share/pcl_conversions/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/pcl_conversions/cmake/pcl_conversionsConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/pcl_ros/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/pcl_ros/cmake/pcl_rosConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/ament_cmake_auto/cmake/ament_auto_find_build_dependencies.cmake:67 (find_package)"
+      - "CMakeLists.txt:9 (ament_auto_find_build_dependencies)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-FkvrFm"
+      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-FkvrFm"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/patches/99;/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1;/opt/ros/jazzy/share/fastrtps_cmake_module/cmake/Modules;/usr/lib/aarch64-linux-gnu/cmake/pcl/Modules"
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-FkvrFm'
+        
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_ece44/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_ece44.dir/build.make CMakeFiles/cmTC_ece44.dir/build
+        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-FkvrFm'
+        Building C object CMakeFiles/cmTC_ece44.dir/test_mpi.c.o
+        /usr/bin/cc  -isystem /usr/lib/aarch64-linux-gnu/openmpi/include -isystem /usr/lib/aarch64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_ece44.dir/test_mpi.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-FkvrFm/test_mpi.c
+        Linking C executable cmTC_ece44
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ece44.dir/link.txt --verbose=1
+        /usr/bin/cc -L/usr/lib/aarch64-linux-gnu/openmpi/lib CMakeFiles/cmTC_ece44.dir/test_mpi.c.o -o cmTC_ece44  /usr/lib/aarch64-linux-gnu/libmpi.so
+        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-FkvrFm'
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1286 (try_compile)"
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1330 (_MPI_try_staged_settings)"
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1653 (_MPI_check_lang_works)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/VTK-vtk-module-find-packages.cmake:397 (find_package)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/vtk-config.cmake:150 (include)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:275 (find_package)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:324 (find_VTK)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:567 (find_external_library)"
+      - "/opt/ros/jazzy/share/pcl_conversions/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/pcl_conversions/cmake/pcl_conversionsConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/pcl_ros/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/pcl_ros/cmake/pcl_rosConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/ament_cmake_auto/cmake/ament_auto_find_build_dependencies.cmake:67 (find_package)"
+      - "CMakeLists.txt:9 (ament_auto_find_build_dependencies)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-E5CvlZ"
+      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-E5CvlZ"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/patches/99;/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1;/opt/ros/jazzy/share/fastrtps_cmake_module/cmake/Modules;/usr/lib/aarch64-linux-gnu/cmake/pcl/Modules"
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-E5CvlZ'
+        
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_ad7a5/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_ad7a5.dir/build.make CMakeFiles/cmTC_ad7a5.dir/build
+        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-E5CvlZ'
+        Building C object CMakeFiles/cmTC_ad7a5.dir/test_mpi.c.o
+        /usr/bin/cc  -isystem /usr/lib/aarch64-linux-gnu/openmpi/include -isystem /usr/lib/aarch64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_ad7a5.dir/test_mpi.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-E5CvlZ/test_mpi.c
+        Linking C executable cmTC_ad7a5
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ad7a5.dir/link.txt --verbose=1
+        /usr/bin/cc -L/usr/lib/aarch64-linux-gnu/openmpi/lib CMakeFiles/cmTC_ad7a5.dir/test_mpi.c.o -o cmTC_ad7a5  /usr/lib/aarch64-linux-gnu/libmpi.so
+        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-E5CvlZ'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1286 (try_compile)"
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1330 (_MPI_try_staged_settings)"
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1653 (_MPI_check_lang_works)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/VTK-vtk-module-find-packages.cmake:397 (find_package)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/vtk-config.cmake:150 (include)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:275 (find_package)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:324 (find_VTK)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:567 (find_external_library)"
+      - "/opt/ros/jazzy/share/pcl_conversions/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/pcl_conversions/cmake/pcl_conversionsConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/pcl_ros/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/pcl_ros/cmake/pcl_rosConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/ament_cmake_auto/cmake/ament_auto_find_build_dependencies.cmake:67 (find_package)"
+      - "CMakeLists.txt:9 (ament_auto_find_build_dependencies)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-eVyjO6"
+      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-eVyjO6"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/patches/99;/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1;/opt/ros/jazzy/share/fastrtps_cmake_module/cmake/Modules;/usr/lib/aarch64-linux-gnu/cmake/pcl/Modules"
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-eVyjO6'
+        
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_6dd88/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_6dd88.dir/build.make CMakeFiles/cmTC_6dd88.dir/build
+        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-eVyjO6'
+        Building C object CMakeFiles/cmTC_6dd88.dir/test_mpi.c.o
+        /usr/bin/cc  -isystem /usr/lib/aarch64-linux-gnu/openmpi/include -isystem /usr/lib/aarch64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_6dd88.dir/test_mpi.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-eVyjO6/test_mpi.c
+        Linking C executable cmTC_6dd88
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6dd88.dir/link.txt --verbose=1
+        /usr/bin/cc -L/usr/lib/aarch64-linux-gnu/openmpi/lib CMakeFiles/cmTC_6dd88.dir/test_mpi.c.o -o cmTC_6dd88  /usr/lib/aarch64-linux-gnu/libmpi.so
+        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-eVyjO6'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1286 (try_compile)"
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1330 (_MPI_try_staged_settings)"
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1653 (_MPI_check_lang_works)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/VTK-vtk-module-find-packages.cmake:397 (find_package)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/vtk-config.cmake:150 (include)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:275 (find_package)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:324 (find_VTK)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:570 (find_external_library)"
+      - "/opt/ros/jazzy/share/pcl_conversions/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/pcl_conversions/cmake/pcl_conversionsConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/pcl_ros/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/pcl_ros/cmake/pcl_rosConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/ament_cmake_auto/cmake/ament_auto_find_build_dependencies.cmake:67 (find_package)"
+      - "CMakeLists.txt:9 (ament_auto_find_build_dependencies)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-wN73ji"
+      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-wN73ji"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/patches/99;/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1;/opt/ros/jazzy/share/fastrtps_cmake_module/cmake/Modules;/usr/lib/aarch64-linux-gnu/cmake/pcl/Modules"
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-wN73ji'
+        
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_72827/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_72827.dir/build.make CMakeFiles/cmTC_72827.dir/build
+        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-wN73ji'
+        Building C object CMakeFiles/cmTC_72827.dir/test_mpi.c.o
+        /usr/bin/cc  -isystem /usr/lib/aarch64-linux-gnu/openmpi/include -isystem /usr/lib/aarch64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_72827.dir/test_mpi.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-wN73ji/test_mpi.c
+        Linking C executable cmTC_72827
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_72827.dir/link.txt --verbose=1
+        /usr/bin/cc -L/usr/lib/aarch64-linux-gnu/openmpi/lib CMakeFiles/cmTC_72827.dir/test_mpi.c.o -o cmTC_72827  /usr/lib/aarch64-linux-gnu/libmpi.so
+        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-wN73ji'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1286 (try_compile)"
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1330 (_MPI_try_staged_settings)"
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1653 (_MPI_check_lang_works)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/VTK-vtk-module-find-packages.cmake:397 (find_package)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/vtk-config.cmake:150 (include)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:275 (find_package)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:324 (find_VTK)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:567 (find_external_library)"
+      - "/opt/ros/jazzy/share/pcl_conversions/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/pcl_conversions/cmake/pcl_conversionsConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/pcl_ros/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/pcl_ros/cmake/pcl_rosConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/ament_cmake_auto/cmake/ament_auto_find_build_dependencies.cmake:67 (find_package)"
+      - "CMakeLists.txt:9 (ament_auto_find_build_dependencies)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-ilFc3U"
+      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-ilFc3U"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/patches/99;/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1;/opt/ros/jazzy/share/fastrtps_cmake_module/cmake/Modules;/usr/lib/aarch64-linux-gnu/cmake/pcl/Modules"
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-ilFc3U'
+        
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_72a76/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_72a76.dir/build.make CMakeFiles/cmTC_72a76.dir/build
+        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-ilFc3U'
+        Building C object CMakeFiles/cmTC_72a76.dir/test_mpi.c.o
+        /usr/bin/cc  -isystem /usr/lib/aarch64-linux-gnu/openmpi/include -isystem /usr/lib/aarch64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_72a76.dir/test_mpi.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-ilFc3U/test_mpi.c
+        Linking C executable cmTC_72a76
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_72a76.dir/link.txt --verbose=1
+        /usr/bin/cc -L/usr/lib/aarch64-linux-gnu/openmpi/lib CMakeFiles/cmTC_72a76.dir/test_mpi.c.o -o cmTC_72a76  /usr/lib/aarch64-linux-gnu/libmpi.so
+        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-ilFc3U'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1286 (try_compile)"
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1330 (_MPI_try_staged_settings)"
+      - "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindMPI.cmake:1653 (_MPI_check_lang_works)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/VTK-vtk-module-find-packages.cmake:397 (find_package)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/vtk-config.cmake:150 (include)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:275 (find_package)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:324 (find_VTK)"
+      - "/usr/lib/aarch64-linux-gnu/cmake/pcl/PCLConfig.cmake:567 (find_external_library)"
+      - "/opt/ros/jazzy/share/pcl_conversions/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/pcl_conversions/cmake/pcl_conversionsConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/pcl_ros/cmake/ament_cmake_export_dependencies-extras.cmake:21 (find_package)"
+      - "/opt/ros/jazzy/share/pcl_ros/cmake/pcl_rosConfig.cmake:41 (include)"
+      - "/opt/ros/jazzy/share/ament_cmake_auto/cmake/ament_auto_find_build_dependencies.cmake:67 (find_package)"
+      - "CMakeLists.txt:9 (ament_auto_find_build_dependencies)"
+    description: "The MPI test test_mpi for C in mode normal"
+    directories:
+      source: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-2aggre"
+      binary: "/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-2aggre"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+      CMAKE_MODULE_PATH: "/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1/patches/99;/usr/lib/aarch64-linux-gnu/cmake/vtk-9.1;/opt/ros/jazzy/share/fastrtps_cmake_module/cmake/Modules;/usr/lib/aarch64-linux-gnu/cmake/pcl/Modules"
+    buildResult:
+      variable: "MPI_RESULT_C_test_mpi_normal"
+      cached: true
+      stdout: |
+        Change Dir: '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-2aggre'
+        
+        Run Build Command(s): /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_d6eac/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_d6eac.dir/build.make CMakeFiles/cmTC_d6eac.dir/build
+        gmake[1]: Entering directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-2aggre'
+        Building C object CMakeFiles/cmTC_d6eac.dir/test_mpi.c.o
+        /usr/bin/cc  -isystem /usr/lib/aarch64-linux-gnu/openmpi/include -isystem /usr/lib/aarch64-linux-gnu/openmpi/include/openmpi  -o CMakeFiles/cmTC_d6eac.dir/test_mpi.c.o -c /root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-2aggre/test_mpi.c
+        Linking C executable cmTC_d6eac
+        /opt/venv/lib/python3.12/site-packages/cmake/data/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d6eac.dir/link.txt --verbose=1
+        /usr/bin/cc -L/usr/lib/aarch64-linux-gnu/openmpi/lib CMakeFiles/cmTC_d6eac.dir/test_mpi.c.o -o cmTC_d6eac  /usr/lib/aarch64-linux-gnu/libmpi.so
+        gmake[1]: Leaving directory '/root/ros2_ws/build/dual_laser_merger/CMakeFiles/CMakeScratch/TryCompile-2aggre'
         
       exitCode: 0
 ...

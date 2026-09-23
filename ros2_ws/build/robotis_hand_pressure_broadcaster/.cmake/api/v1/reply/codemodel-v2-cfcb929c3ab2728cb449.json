@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Release-ac3f592ac1264ea8206a.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.15"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Release",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "robotis_hand_pressure_broadcaster",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "robotis_hand_pressure_broadcaster::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-robotis_hand_pressure_broadcaster-Release-d1572b0a43b9c203a5e7.json",
+					"name" : "robotis_hand_pressure_broadcaster",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "robotis_hand_pressure_broadcaster_uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-robotis_hand_pressure_broadcaster_uninstall-Release-f6a5d6d22d8d56640f35.json",
+					"name" : "robotis_hand_pressure_broadcaster_uninstall",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uninstall::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uninstall-Release-b54bfc65bbf2819272e6.json",
+					"name" : "uninstall",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/root/ros2_ws/build/robotis_hand_pressure_broadcaster",
+		"source" : "/root/ros2_ws/src/robotis_hand/robotis_hand_pressure_broadcaster"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 8
+	}
+}

@@ -16,7 +16,7 @@ set(_cyclo_motion_controller_core_CONFIG_INCLUDED TRUE)
 
 # output package information
 if(NOT cyclo_motion_controller_core_FIND_QUIETLY)
-  message(STATUS "Found cyclo_motion_controller_core: 0.1.3 (${cyclo_motion_controller_core_DIR})")
+  message(STATUS "Found cyclo_motion_controller_core: 0.3.2 (${cyclo_motion_controller_core_DIR})")
 endif()
 
 # warn when using a deprecated package

@@ -70,10 +70,14 @@ include /root/ros2_ws/build/robotis_interfaces/robotis_interfaces__py/CMakeFiles
 /root/ros2_ws/build/robotis_interfaces/robotis_interfaces__py/CMakeFiles/robotis_interfaces__py: rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_introspection_c.c
 /root/ros2_ws/build/robotis_interfaces/robotis_interfaces__py/CMakeFiles/robotis_interfaces__py: rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_c.c
 /root/ros2_ws/build/robotis_interfaces/robotis_interfaces__py/CMakeFiles/robotis_interfaces__py: rosidl_generator_py/robotis_interfaces/msg/_hand_joints.py
+/root/ros2_ws/build/robotis_interfaces/robotis_interfaces__py/CMakeFiles/robotis_interfaces__py: rosidl_generator_py/robotis_interfaces/msg/_hand_pressures.py
 /root/ros2_ws/build/robotis_interfaces/robotis_interfaces__py/CMakeFiles/robotis_interfaces__py: rosidl_generator_py/robotis_interfaces/msg/_move_l.py
+/root/ros2_ws/build/robotis_interfaces/robotis_interfaces__py/CMakeFiles/robotis_interfaces__py: rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor.py
 /root/ros2_ws/build/robotis_interfaces/robotis_interfaces__py/CMakeFiles/robotis_interfaces__py: rosidl_generator_py/robotis_interfaces/msg/__init__.py
 /root/ros2_ws/build/robotis_interfaces/robotis_interfaces__py/CMakeFiles/robotis_interfaces__py: rosidl_generator_py/robotis_interfaces/msg/_hand_joints_s.c
+/root/ros2_ws/build/robotis_interfaces/robotis_interfaces__py/CMakeFiles/robotis_interfaces__py: rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.c
 /root/ros2_ws/build/robotis_interfaces/robotis_interfaces__py/CMakeFiles/robotis_interfaces__py: rosidl_generator_py/robotis_interfaces/msg/_move_l_s.c
+/root/ros2_ws/build/robotis_interfaces/robotis_interfaces__py/CMakeFiles/robotis_interfaces__py: rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.c
 
 rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/jazzy/lib/rosidl_generator_py/rosidl_generator_py
 rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/jazzy/lib/python3.12/site-packages/rosidl_generator_py/__init__.py
@@ -89,7 +93,9 @@ rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesuppo
 rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/jazzy/share/rosidl_generator_py/resource/_srv_pkg_typesupport_entry_point.c.em
 rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/jazzy/share/rosidl_generator_py/resource/_srv.py.em
 rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: rosidl_adapter/robotis_interfaces/msg/HandJoints.idl
+rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: rosidl_adapter/robotis_interfaces/msg/HandPressures.idl
 rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: rosidl_adapter/robotis_interfaces/msg/MoveL.idl
+rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: rosidl_adapter/robotis_interfaces/msg/TactileSensor.idl
 rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/jazzy/share/builtin_interfaces/msg/Duration.idl
 rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/jazzy/share/builtin_interfaces/msg/Time.idl
 rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/jazzy/share/geometry_msgs/msg/Accel.idl
@@ -166,8 +172,14 @@ rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesuppo
 rosidl_generator_py/robotis_interfaces/msg/_hand_joints.py: rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/robotis_interfaces/msg/_hand_joints.py
 
+rosidl_generator_py/robotis_interfaces/msg/_hand_pressures.py: rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/robotis_interfaces/msg/_hand_pressures.py
+
 rosidl_generator_py/robotis_interfaces/msg/_move_l.py: rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/robotis_interfaces/msg/_move_l.py
+
+rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor.py: rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor.py
 
 rosidl_generator_py/robotis_interfaces/msg/__init__.py: rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/robotis_interfaces/msg/__init__.py
@@ -175,8 +187,14 @@ rosidl_generator_py/robotis_interfaces/msg/__init__.py: rosidl_generator_py/robo
 rosidl_generator_py/robotis_interfaces/msg/_hand_joints_s.c: rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/robotis_interfaces/msg/_hand_joints_s.c
 
+rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.c: rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.c
+
 rosidl_generator_py/robotis_interfaces/msg/_move_l_s.c: rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/robotis_interfaces/msg/_move_l_s.c
+
+rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.c: rosidl_generator_py/robotis_interfaces/_robotis_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.c
 
 /root/ros2_ws/build/robotis_interfaces/robotis_interfaces__py/CMakeFiles/robotis_interfaces__py.dir/codegen:
 .PHONY : /root/ros2_ws/build/robotis_interfaces/robotis_interfaces__py/CMakeFiles/robotis_interfaces__py.dir/codegen
@@ -188,8 +206,12 @@ robotis_interfaces__py: rosidl_generator_py/robotis_interfaces/_robotis_interfac
 robotis_interfaces__py: rosidl_generator_py/robotis_interfaces/msg/__init__.py
 robotis_interfaces__py: rosidl_generator_py/robotis_interfaces/msg/_hand_joints.py
 robotis_interfaces__py: rosidl_generator_py/robotis_interfaces/msg/_hand_joints_s.c
+robotis_interfaces__py: rosidl_generator_py/robotis_interfaces/msg/_hand_pressures.py
+robotis_interfaces__py: rosidl_generator_py/robotis_interfaces/msg/_hand_pressures_s.c
 robotis_interfaces__py: rosidl_generator_py/robotis_interfaces/msg/_move_l.py
 robotis_interfaces__py: rosidl_generator_py/robotis_interfaces/msg/_move_l_s.c
+robotis_interfaces__py: rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor.py
+robotis_interfaces__py: rosidl_generator_py/robotis_interfaces/msg/_tactile_sensor_s.c
 robotis_interfaces__py: /root/ros2_ws/build/robotis_interfaces/robotis_interfaces__py/CMakeFiles/robotis_interfaces__py.dir/build.make
 .PHONY : robotis_interfaces__py
 

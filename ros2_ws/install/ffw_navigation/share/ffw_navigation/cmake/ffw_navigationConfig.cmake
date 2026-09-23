@@ -16,7 +16,7 @@ set(_ffw_navigation_CONFIG_INCLUDED TRUE)
 
 # output package information
 if(NOT ffw_navigation_FIND_QUIETLY)
-  message(STATUS "Found ffw_navigation: 1.2.1 (${ffw_navigation_DIR})")
+  message(STATUS "Found ffw_navigation: 2.2.5 (${ffw_navigation_DIR})")
 endif()
 
 # warn when using a deprecated package

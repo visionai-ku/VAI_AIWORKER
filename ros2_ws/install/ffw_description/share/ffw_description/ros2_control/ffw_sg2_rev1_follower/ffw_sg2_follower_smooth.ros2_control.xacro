@@ -183,7 +183,9 @@
         <param name="Profile Time">1500</param>
         <param name="Max Position Limit">262144</param>
         <param name="Min Position Limit">-262144</param>
-        <param name="Position P Gain">1583185</param>
+        <param name="Position P Gain">474956</param>
+        <param name="Position D Gain">12000</param>
+        <param name="Position I Gain">0</param>
         <param name="Velocity P Gain">41387</param>
         <param name="Velocity I Gain">1565630</param>
         <param name="Position FF Gain">100</param>
@@ -207,7 +209,9 @@
         <param name="Profile Time">1500</param>
         <param name="Max Position Limit">0</param>
         <param name="Min Position Limit">-262144</param>
-        <param name="Position P Gain">1583185</param>
+        <param name="Position P Gain">474956</param>
+        <param name="Position D Gain">12000</param>
+        <param name="Position I Gain">0</param>
         <param name="Velocity P Gain">41387</param>
         <param name="Velocity I Gain">1565630</param>
         <param name="Position FF Gain">100</param>
@@ -231,7 +235,9 @@
         <param name="Profile Time">1500</param>
         <param name="Max Position Limit">262144</param>
         <param name="Min Position Limit">-262144</param>
-        <param name="Position P Gain">1583185</param>
+        <param name="Position P Gain">474956</param>
+        <param name="Position D Gain">12000</param>
+        <param name="Position I Gain">0</param>
         <param name="Velocity P Gain">41387</param>
         <param name="Velocity I Gain">1565630</param>
         <param name="Position FF Gain">100</param>
@@ -255,7 +261,9 @@
         <param name="Profile Time">1500</param>
         <param name="Max Position Limit">90000</param>
         <param name="Min Position Limit">-245000</param>
-        <param name="Position P Gain">1583185</param>
+        <param name="Position P Gain">474956</param>
+        <param name="Position D Gain">13635</param>
+        <param name="Position I Gain">0</param>
         <param name="Velocity P Gain">18184</param>
         <param name="Velocity I Gain">1585331</param>
         <param name="Position FF Gain">100</param>
@@ -279,7 +287,9 @@
         <param name="Profile Time">1500</param>
         <param name="Max Position Limit">262144</param>
         <param name="Min Position Limit">-262144</param>
-        <param name="Position P Gain">1583185</param>
+        <param name="Position P Gain">474956</param>
+        <param name="Position D Gain">13635</param>
+        <param name="Position I Gain">0</param>
         <param name="Velocity P Gain">18184</param>
         <param name="Velocity I Gain">1585331</param>
         <param name="Position FF Gain">100</param>
@@ -303,7 +313,9 @@
         <param name="Profile Time">1500</param>
         <param name="Max Position Limit">131072</param>
         <param name="Min Position Limit">-131072</param>
-        <param name="Position P Gain">1583185</param>
+        <param name="Position P Gain">474956</param>
+        <param name="Position D Gain">13635</param>
+        <param name="Position I Gain">0</param>
         <param name="Velocity P Gain">18184</param>
         <param name="Velocity I Gain">1585331</param>
         <param name="Position FF Gain">100</param>
@@ -324,8 +336,13 @@
         <param name="Current Limit">1500</param>
         <param name="Profile Velocity">300</param>
         <param name="Profile Acceleration">150</param>
-        <param name="Max Position Limit">131875</param>
-        <param name="Min Position Limit">-151875</param>
+        <param name="Max Position Limit">152804</param>
+        <param name="Min Position Limit">-175979</param>
+        <param name="Position P Gain">44</param>
+        <param name="Position D Gain">5</param>
+        <param name="Position I Gain">0</param>
+        <param name="Velocity P Gain">1332</param>
+        <param name="Velocity I Gain">502</param>
       </gpio>
       <gpio name="dxl8">
         <param name="type">dxl</param>
@@ -360,7 +377,9 @@
         <param name="Profile Time">1500</param>
         <param name="Max Position Limit">262144</param>
         <param name="Min Position Limit">-262144</param>
-        <param name="Position P Gain">1583185</param>
+        <param name="Position P Gain">474956</param>
+        <param name="Position D Gain">12000</param>
+        <param name="Position I Gain">0</param>
         <param name="Velocity P Gain">41387</param>
         <param name="Velocity I Gain">1565630</param>
         <param name="Position FF Gain">100</param>
@@ -384,7 +403,9 @@
         <param name="Profile Time">1500</param>
         <param name="Max Position Limit">262144</param>
         <param name="Min Position Limit">0</param>
-        <param name="Position P Gain">1583185</param>
+        <param name="Position P Gain">474956</param>
+        <param name="Position D Gain">12000</param>
+        <param name="Position I Gain">0</param>
         <param name="Velocity P Gain">41387</param>
         <param name="Velocity I Gain">1565630</param>
         <param name="Position FF Gain">100</param>
@@ -408,7 +429,9 @@
         <param name="Profile Time">1500</param>
         <param name="Max Position Limit">262144</param>
         <param name="Min Position Limit">-262144</param>
-        <param name="Position P Gain">1583185</param>
+        <param name="Position P Gain">474956</param>
+        <param name="Position D Gain">12000</param>
+        <param name="Position I Gain">0</param>
         <param name="Velocity P Gain">41387</param>
         <param name="Velocity I Gain">1565630</param>
         <param name="Position FF Gain">100</param>
@@ -432,7 +455,9 @@
         <param name="Profile Time">1500</param>
         <param name="Max Position Limit">90000</param>
         <param name="Min Position Limit">-245000</param>
-        <param name="Position P Gain">1583185</param>
+        <param name="Position P Gain">474956</param>
+        <param name="Position D Gain">13635</param>
+        <param name="Position I Gain">0</param>
         <param name="Velocity P Gain">18184</param>
         <param name="Velocity I Gain">1585331</param>
         <param name="Position FF Gain">100</param>
@@ -456,7 +481,9 @@
         <param name="Profile Time">1500</param>
         <param name="Max Position Limit">262144</param>
         <param name="Min Position Limit">-262144</param>
-        <param name="Position P Gain">1583185</param>
+        <param name="Position P Gain">474956</param>
+        <param name="Position D Gain">13635</param>
+        <param name="Position I Gain">0</param>
         <param name="Velocity P Gain">18184</param>
         <param name="Velocity I Gain">1585331</param>
         <param name="Position FF Gain">100</param>
@@ -480,7 +507,9 @@
         <param name="Profile Time">1500</param>
         <param name="Max Position Limit">131072</param>
         <param name="Min Position Limit">-131072</param>
-        <param name="Position P Gain">1583185</param>
+        <param name="Position P Gain">474956</param>
+        <param name="Position D Gain">13635</param>
+        <param name="Position I Gain">0</param>
         <param name="Velocity P Gain">18184</param>
         <param name="Velocity I Gain">1585331</param>
         <param name="Position FF Gain">100</param>
@@ -501,8 +530,13 @@
         <param name="Current Limit">1500</param>
         <param name="Profile Velocity">300</param>
         <param name="Profile Acceleration">150</param>
-        <param name="Max Position Limit">131875</param>
-        <param name="Min Position Limit">-151875</param>
+        <param name="Max Position Limit">175979</param>
+        <param name="Min Position Limit">-152804</param>
+        <param name="Position P Gain">44</param>
+        <param name="Position D Gain">5</param>
+        <param name="Position I Gain">0</param>
+        <param name="Velocity P Gain">1332</param>
+        <param name="Velocity I Gain">502</param>
       </gpio>
       <gpio name="dxl38">
         <param name="type">dxl</param>
@@ -562,7 +596,7 @@
         <param name="Return Delay Time">0</param>
         <param name="Profile Velocity">300</param>
         <param name="Profile Acceleration">150</param>
-        <param name="Max Position Limit">2500</param>
+        <param name="Max Position Limit">2560</param>
         <param name="Min Position Limit">1896</param>
         <param name="Position P Gain">1600</param>
         <param name="Position I Gain">400</param>

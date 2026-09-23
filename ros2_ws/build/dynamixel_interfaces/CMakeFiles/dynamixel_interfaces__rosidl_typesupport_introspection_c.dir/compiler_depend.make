@@ -427,6 +427,7 @@ libdynamixel_interfaces__rosidl_typesupport_introspection_c.so: /lib/aarch64-lin
   /usr/lib/aarch64-linux-gnu/libgcc_s.so.1 \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o \
+  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so \
   CMakeFiles/dynamixel_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/dynamixel_interfaces/msg/detail/dynamixel_state__type_support.c.o \
@@ -591,6 +592,8 @@ rosidl_generator_c/dynamixel_interfaces/msg/detail/dynamixel_state__functions.h:
 /opt/ros/jazzy/include/service_msgs/service_msgs/msg/service_event_info.h:
 
 /opt/ros/jazzy/include/rosidl_runtime_c/rosidl_runtime_c/type_description/type_description__struct.h:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o:
 

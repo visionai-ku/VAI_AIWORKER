@@ -440,6 +440,9 @@ PKG_CONFIG_ARGN:STRING=
 //pkg-config executable
 PKG_CONFIG_EXECUTABLE:FILEPATH=/usr/bin/pkg-config
 
+//Select ROS middleware implementation to link against
+RMW_IMPLEMENTATION:STRING=rmw_zenoh_cpp
+
 //Name of the computer/site where compile is being run
 SITE:STRING=buildkitsandbox
 
@@ -672,6 +675,9 @@ rmw_implementation_DIR:PATH=/opt/ros/jazzy/share/rmw_implementation/cmake
 
 //The directory containing a CMake configuration file for rmw_implementation_cmake.
 rmw_implementation_cmake_DIR:PATH=/opt/ros/jazzy/share/rmw_implementation_cmake/cmake
+
+//The directory containing a CMake configuration file for rmw_zenoh_cpp.
+rmw_zenoh_cpp_DIR:PATH=/opt/ros/jazzy/share/rmw_zenoh_cpp/cmake
 
 //The directory containing a CMake configuration file for robot_localization.
 robot_localization_DIR:PATH=/opt/ros/jazzy/share/robot_localization/cmake

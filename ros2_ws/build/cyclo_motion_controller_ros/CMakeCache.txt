@@ -37,12 +37,6 @@ AMENT_TEST_RESULTS_DIR:PATH=/root/ros2_ws/build/cyclo_motion_controller_ros/test
 //Build the testing tree.
 BUILD_TESTING:BOOL=ON
 
-//Boost chrono library (debug)
-Boost_CHRONO_LIBRARY_DEBUG:FILEPATH=/usr/lib/aarch64-linux-gnu/libboost_chrono.so
-
-//Boost chrono library (release)
-Boost_CHRONO_LIBRARY_RELEASE:FILEPATH=/usr/lib/aarch64-linux-gnu/libboost_chrono.so
-
 //Boost filesystem library (debug)
 Boost_FILESYSTEM_LIBRARY_DEBUG:FILEPATH=/usr/lib/aarch64-linux-gnu/libboost_filesystem.so
 
@@ -69,12 +63,6 @@ Boost_SERIALIZATION_LIBRARY_DEBUG:FILEPATH=/usr/lib/aarch64-linux-gnu/libboost_s
 
 //Boost serialization library (release)
 Boost_SERIALIZATION_LIBRARY_RELEASE:FILEPATH=/usr/lib/aarch64-linux-gnu/libboost_serialization.so
-
-//Boost system library (debug)
-Boost_SYSTEM_LIBRARY_DEBUG:FILEPATH=/usr/lib/aarch64-linux-gnu/libboost_system.so
-
-//Boost system library (release)
-Boost_SYSTEM_LIBRARY_RELEASE:FILEPATH=/usr/lib/aarch64-linux-gnu/libboost_system.so
 
 //Path to a program.
 CMAKE_ADDR2LINE:FILEPATH=/usr/bin/addr2line
@@ -322,6 +310,9 @@ PYTHON_DEB_LAYOUT:BOOL=OFF
 //Enable standard Python package layout
 PYTHON_STANDARD_LAYOUT:BOOL=ON
 
+//Select ROS middleware implementation to link against
+RMW_IMPLEMENTATION:STRING=rmw_zenoh_cpp
+
 //Name of the computer/site where compile is being run
 SITE:STRING=buildkitsandbox
 
@@ -433,6 +424,9 @@ builtin_interfaces_DIR:PATH=/opt/ros/jazzy/share/builtin_interfaces/cmake
 //The directory containing a CMake configuration file for class_loader.
 class_loader_DIR:PATH=/opt/ros/jazzy/share/class_loader/cmake
 
+//The directory containing a CMake configuration file for coal.
+coal_DIR:PATH=/opt/ros/jazzy/lib/aarch64-linux-gnu/cmake/coal
+
 //The directory containing a CMake configuration file for composition_interfaces.
 composition_interfaces_DIR:PATH=/opt/ros/jazzy/share/composition_interfaces/cmake
 
@@ -468,9 +462,6 @@ foonathan_memory_DIR:PATH=/opt/ros/jazzy/lib/foonathan_memory/cmake
 
 //The directory containing a CMake configuration file for geometry_msgs.
 geometry_msgs_DIR:PATH=/opt/ros/jazzy/share/geometry_msgs/cmake
-
-//The directory containing a CMake configuration file for hpp-fcl.
-hpp-fcl_DIR:PATH=/opt/ros/jazzy/lib/aarch64-linux-gnu/cmake/hpp-fcl
 
 //The directory containing a CMake configuration file for interactive_markers.
 interactive_markers_DIR:PATH=/opt/ros/jazzy/share/interactive_markers/cmake
@@ -555,6 +546,9 @@ rmw_implementation_DIR:PATH=/opt/ros/jazzy/share/rmw_implementation/cmake
 
 //The directory containing a CMake configuration file for rmw_implementation_cmake.
 rmw_implementation_cmake_DIR:PATH=/opt/ros/jazzy/share/rmw_implementation_cmake/cmake
+
+//The directory containing a CMake configuration file for rmw_zenoh_cpp.
+rmw_zenoh_cpp_DIR:PATH=/opt/ros/jazzy/share/rmw_zenoh_cpp/cmake
 
 //The directory containing a CMake configuration file for robotis_interfaces.
 robotis_interfaces_DIR:PATH=/root/ros2_ws/install/robotis_interfaces/share/robotis_interfaces/cmake
@@ -663,10 +657,6 @@ xmllint_BIN:FILEPATH=/usr/bin/xmllint
 # INTERNAL cache entries
 ########################
 
-//ADVANCED property for variable: Boost_CHRONO_LIBRARY_DEBUG
-Boost_CHRONO_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_CHRONO_LIBRARY_RELEASE
-Boost_CHRONO_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: Boost_FILESYSTEM_LIBRARY_DEBUG
 Boost_FILESYSTEM_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: Boost_FILESYSTEM_LIBRARY_RELEASE
@@ -685,10 +675,6 @@ Boost_PYTHON312_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 Boost_SERIALIZATION_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: Boost_SERIALIZATION_LIBRARY_RELEASE
 Boost_SERIALIZATION_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_SYSTEM_LIBRARY_DEBUG
-Boost_SYSTEM_LIBRARY_DEBUG-ADVANCED:INTERNAL=1
-//ADVANCED property for variable: Boost_SYSTEM_LIBRARY_RELEASE
-Boost_SYSTEM_LIBRARY_RELEASE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_ADDR2LINE
 CMAKE_ADDR2LINE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_AR
@@ -837,13 +823,13 @@ CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Details about finding Boost
-FIND_PACKAGE_MESSAGE_DETAILS_Boost:INTERNAL=[/usr/include][found components: chrono serialization filesystem ][v1.83.0()]
+FIND_PACKAGE_MESSAGE_DETAILS_Boost:INTERNAL=[/usr/include][found components: serialization filesystem ][v1.83.0()]
 //Details about finding FastRTPS
 FIND_PACKAGE_MESSAGE_DETAILS_FastRTPS:INTERNAL=[/opt/ros/jazzy/include][/opt/ros/jazzy/lib/libfastrtps.so;/opt/ros/jazzy/lib/libfastcdr.so][v(2.13)]
 //Details about finding OpenSSL
 FIND_PACKAGE_MESSAGE_DETAILS_OpenSSL:INTERNAL=[/usr/lib/aarch64-linux-gnu/libcrypto.so][/usr/include][ ][v3.0.13()]
 //Details about finding Python3
-FIND_PACKAGE_MESSAGE_DETAILS_Python3:INTERNAL=[/opt/venv/bin/python3][/usr/include/python3.12][/opt/venv/lib/python3.12/site-packages/numpy/_core/include][found components: Interpreter Development.Module NumPy ][v3.12.3()]
+FIND_PACKAGE_MESSAGE_DETAILS_Python3:INTERNAL=[/opt/venv/bin/python3][/usr/include/python3.12][/opt/venv/lib/python3.12/site-packages/numpy/core/include][found components: Interpreter Development.Module NumPy ][v3.12.3()]
 //ADVANCED property for variable: OPENSSL_CRYPTO_LIBRARY
 OPENSSL_CRYPTO_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: OPENSSL_INCLUDE_DIR
@@ -855,7 +841,7 @@ PKG_CONFIG_ARGN-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
 PKG_CONFIG_EXECUTABLE-ADVANCED:INTERNAL=1
 //Components requested for this build tree.
-_Boost_COMPONENTS_SEARCHED:INTERNAL=chrono;filesystem;python312;serialization;system
+_Boost_COMPONENTS_SEARCHED:INTERNAL=filesystem;python312;serialization
 //Last used Boost_INCLUDE_DIR value.
 _Boost_INCLUDE_DIR_LAST:INTERNAL=/usr/include
 //Last used Boost_LIBRARY_DIR_DEBUG value.
@@ -868,7 +854,7 @@ _Boost_NAMESPACE_LAST:INTERNAL=boost
 _Boost_USE_MULTITHREADED_LAST:INTERNAL=ON
 //Last used Boost_USE_STATIC_LIBS value.
 _Boost_USE_STATIC_LIBS_LAST:INTERNAL=OFF
-_MINIMAL_CXX_STANDARD:INTERNAL=14
+_MINIMAL_CXX_STANDARD:INTERNAL=17
 _OPENSSL_CFLAGS:INTERNAL=-I/usr/include
 _OPENSSL_CFLAGS_I:INTERNAL=
 _OPENSSL_CFLAGS_OTHER:INTERNAL=
@@ -916,9 +902,9 @@ _Python3_INTERPRETER_PROPERTIES:INTERNAL=Python;3;12;3;64;<none>;cpython-312-aar
 _Python3_INTERPRETER_SIGNATURE:INTERNAL=c7cf1a6f3aa0441858c9d1e762ede7d8
 _Python3_NUMPY_SIGNATURE:INTERNAL=b26512b73d954f6b915635fe2982f86f
 //Path to a file.
-_Python3_NumPy_INCLUDE_DIR:INTERNAL=/opt/venv/lib/python3.12/site-packages/numpy/_core/include
+_Python3_NumPy_INCLUDE_DIR:INTERNAL=/opt/venv/lib/python3.12/site-packages/numpy/core/include
 //Index for unique symlink install targets
-__AMENT_CMAKE_SYMLINK_INSTALL_TARGETS_INDEX:INTERNAL=10
+__AMENT_CMAKE_SYMLINK_INSTALL_TARGETS_INDEX:INTERNAL=12
 __pkg_config_arguments__OPENSSL:INTERNAL=QUIET;openssl
 __pkg_config_checked__OPENSSL:INTERNAL=1
 //Result of TRY_COMPILE

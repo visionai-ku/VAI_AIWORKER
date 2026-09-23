@@ -1,5 +1,5 @@
 set(_AMENT_PACKAGE_NAME "ffw_robot_manager")
-set(ffw_robot_manager_VERSION "1.2.1")
+set(ffw_robot_manager_VERSION "2.2.5")
 set(ffw_robot_manager_MAINTAINER "Pyo <pyo@robotis.com>")
 set(ffw_robot_manager_BUILD_DEPENDS "ros2_control_cmake" "rclcpp" "controller_interface" "hardware_interface" "pluginlib" "std_srvs" "dynamixel_hardware_interface" "generate_parameter_library" "dynamixel_interfaces" "sensor_msgs")
 set(ffw_robot_manager_BUILDTOOL_DEPENDS "ament_cmake")

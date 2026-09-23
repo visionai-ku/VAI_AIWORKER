@@ -1,0 +1,175 @@
+[0.116s] Invoking command in '/root/ros2_ws/build/zed_components': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/zed-ros2-wrapper/zed_components -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/zed_components
+[0.383s] CMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+[0.383s]   Compatibility with CMake < 3.10 will be removed from a future version of
+[0.383s]   CMake.
+[0.384s] 
+[0.384s]   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+[0.384s]   to tell CMake that the project requires at least <min> but has been updated
+[0.384s]   to work with policies introduced by <max> or earlier.
+[0.384s] 
+[0.386s] 
+[0.510s] -- The C compiler identification is GNU 13.3.0
+[0.681s] -- The CXX compiler identification is GNU 13.3.0
+[0.695s] -- Detecting C compiler ABI info
+[0.861s] -- Detecting C compiler ABI info - done
+[0.894s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.895s] -- Detecting C compile features
+[0.895s] -- Detecting C compile features - done
+[0.922s] -- Detecting CXX compiler ABI info
+[1.227s] -- Detecting CXX compiler ABI info - done
+[1.280s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[1.281s] -- Detecting CXX compile features
+[1.286s] -- Detecting CXX compile features - done
+[1.443s] -- Looking for sgemm_
+[1.623s] -- Looking for sgemm_ - not found
+[1.626s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[2.072s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[2.075s] -- Found Threads: TRUE
+[2.515s] -- Looking for sgemm_
+[2.834s] -- Looking for sgemm_ - found
+[2.834s] -- Found BLAS: /usr/lib/aarch64-linux-gnu/libopenblas.so
+[2.834s] CMake Warning (dev) at /usr/local/zed/zed-config.cmake:73 (find_package):
+[2.834s]   Policy CMP0146 is not set: The FindCUDA module is removed.  Run "cmake
+[2.835s]   --help-policy CMP0146" for policy details.  Use the cmake_policy command to
+[2.835s]   set the policy and suppress this warning.
+[2.835s] 
+[2.835s] Call Stack (most recent call first):
+[2.835s]   CMakeLists.txt:84 (find_package)
+[2.835s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[2.835s] 
+[2.981s] -- Found CUDA: /usr/local/cuda (found suitable version "12.8", minimum required is "12.6")
+[2.992s] CMake Warning (dev) at /usr/local/zed/zed-config.cmake:78 (exec_program):
+[2.992s]   Policy CMP0153 is not set: The exec_program command should not be called.
+[2.992s]   Run "cmake --help-policy CMP0153" for policy details.  Use the cmake_policy
+[2.992s]   command to set the policy and suppress this warning.
+[2.992s] 
+[2.992s]   Use execute_process() instead.
+[2.992s] Call Stack (most recent call first):
+[2.993s]   CMakeLists.txt:84 (find_package)
+[2.993s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[2.993s] 
+[3.028s] CMake Warning (dev) at /usr/local/zed/zed-config.cmake:79 (exec_program):
+[3.028s]   Policy CMP0153 is not set: The exec_program command should not be called.
+[3.028s]   Run "cmake --help-policy CMP0153" for policy details.  Use the cmake_policy
+[3.028s]   command to set the policy and suppress this warning.
+[3.028s] 
+[3.029s]   Use execute_process() instead.
+[3.029s] Call Stack (most recent call first):
+[3.029s]   CMakeLists.txt:84 (find_package)
+[3.029s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[3.029s] 
+[3.048s] CMake Warning (dev) at /usr/local/zed/zed-config.cmake:95 (exec_program):
+[3.048s]   Policy CMP0153 is not set: The exec_program command should not be called.
+[3.048s]   Run "cmake --help-policy CMP0153" for policy details.  Use the cmake_policy
+[3.048s]   command to set the policy and suppress this warning.
+[3.048s] 
+[3.049s]   Use execute_process() instead.
+[3.049s] Call Stack (most recent call first):
+[3.049s]   CMakeLists.txt:84 (find_package)
+[3.049s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[3.049s] 
+[3.053s] CMake Warning (dev) at /usr/local/zed/zed-config.cmake:123 (exec_program):
+[3.053s]   Policy CMP0153 is not set: The exec_program command should not be called.
+[3.053s]   Run "cmake --help-policy CMP0153" for policy details.  Use the cmake_policy
+[3.053s]   command to set the policy and suppress this warning.
+[3.053s] 
+[3.053s]   Use execute_process() instead.
+[3.053s] Call Stack (most recent call first):
+[3.053s]   CMakeLists.txt:84 (find_package)
+[3.054s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[3.054s] 
+[3.059s] CMake Warning (dev) at CMakeLists.txt:86 (exec_program):
+[3.059s]   Policy CMP0153 is not set: The exec_program command should not be called.
+[3.059s]   Run "cmake --help-policy CMP0153" for policy details.  Use the cmake_policy
+[3.060s]   command to set the policy and suppress this warning.
+[3.060s] 
+[3.060s]   Use execute_process() instead.
+[3.060s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[3.060s] 
+[3.094s] CMake Warning (dev) at CMakeLists.txt:91 (find_package):
+[3.094s]   Policy CMP0146 is not set: The FindCUDA module is removed.  Run "cmake
+[3.095s]   --help-policy CMP0146" for policy details.  Use the cmake_policy command to
+[3.095s]   set the policy and suppress this warning.
+[3.095s] 
+[3.095s] This warning is for project developers.  Use -Wno-dev to suppress it.
+[3.095s] 
+[3.100s] -- Found CUDA: /usr/local/cuda (found version "12.8")
+[3.195s] -- Found ament_cmake_auto: 2.5.6 (/opt/ros/jazzy/share/ament_cmake_auto/cmake)
+[5.279s] -- Found Python3: /opt/venv/bin/python3 (found version "3.12.3") found components: Interpreter
+[5.745s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[7.178s] -- Found rosidl_generator_c: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_c/cmake)
+[7.329s] -- Found rosidl_generator_cpp: 4.6.7 (/opt/ros/jazzy/share/rosidl_generator_cpp/cmake)
+[7.487s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[7.672s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[8.994s] -- Found rmw_implementation_cmake: 7.3.3 (/opt/ros/jazzy/share/rmw_implementation_cmake/cmake)
+[9.078s] -- Found rmw_fastrtps_cpp: 8.4.3 (/opt/ros/jazzy/share/rmw_fastrtps_cpp/cmake)
+[9.670s] -- Found OpenSSL: /usr/lib/aarch64-linux-gnu/libcrypto.so (found version "3.0.13")
+[9.758s] -- Found FastRTPS: /opt/ros/jazzy/include (Required is at least version "2.13")
+[9.890s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[12.032s] -- Found eigen3_cmake_module: 0.3.0 (/opt/ros/jazzy/share/eigen3_cmake_module/cmake)
+[12.036s] -- Found Eigen3: TRUE (found version "3.4.0")
+[12.036s] -- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+[12.697s] -- Found ament_lint_auto: 0.17.5 (/opt/ros/jazzy/share/ament_lint_auto/cmake)
+[12.986s] -- Added test 'copyright' to check source files copyright and LICENSE
+[12.991s] -- Added test 'cppcheck' to perform static code analysis on C / C++ code
+[12.992s] -- Configured cppcheck include dirs: /root/ros2_ws/src/zed-ros2-wrapper/zed_components/src/include;/root/ros2_ws/src/zed-ros2-wrapper/zed_components/src/zed_camera/include;/root/ros2_ws/src/zed-ros2-wrapper/zed_components/src/tools/include
+[13.006s] -- Configured cppcheck exclude dirs and/or files: 
+[13.009s] -- Added test 'lint_cmake' to check CMake code style
+[13.014s] -- Added test 'uncrustify' to check C / C++ code style
+[13.014s] -- Configured uncrustify additional arguments: 
+[13.016s] -- Added test 'xmllint' to check XML markup files
+[13.025s] -- Configuring done (12.6s)
+[13.182s] -- Generating done (0.1s)
+[13.184s] -- Build files have been written to: /root/ros2_ws/build/zed_components
+[13.710s] Invoked command in '/root/ros2_ws/build/zed_components' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/zed-ros2-wrapper/zed_components -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/zed_components
+[13.712s] Invoking command in '/root/ros2_ws/build/zed_components': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/zed_components -- -j12 -l12
+[14.126s] [ 10%] Building CXX object CMakeFiles/zed_camera_one_component.dir/src/tools/src/sl_tools.cpp.o
+[14.131s] [ 20%] Building CXX object CMakeFiles/zed_camera_component.dir/src/tools/src/sl_tools.cpp.o
+[14.136s] [ 30%] Building CXX object CMakeFiles/zed_camera_one_component.dir/src/tools/src/sl_win_avg.cpp.o
+[14.141s] [ 40%] Building CXX object CMakeFiles/zed_camera_component.dir/src/tools/src/sl_win_avg.cpp.o
+[14.155s] [ 50%] Building CXX object CMakeFiles/zed_camera_component.dir/src/zed_camera/src/zed_camera_component.cpp.o
+[14.158s] [ 60%] Building CXX object CMakeFiles/zed_camera_component.dir/src/tools/src/gnss_replay.cpp.o
+[14.207s] [ 70%] Building CXX object CMakeFiles/zed_camera_one_component.dir/src/tools/src/gnss_replay.cpp.o
+[14.213s] [ 80%] Building CXX object CMakeFiles/zed_camera_one_component.dir/src/zed_camera/src/zed_camera_one_component.cpp.o
+[80.206s] [ 90%] Linking CXX shared library libzed_camera_one_component.so
+[81.170s] [ 90%] Built target zed_camera_one_component
+[227.385s] [100%] Linking CXX shared library libzed_camera_component.so
+[230.280s] [100%] Built target zed_camera_component
+[230.305s] Invoked command in '/root/ros2_ws/build/zed_components' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/zed_components -- -j12 -l12
+[230.305s] Invoking command in '/root/ros2_ws/build/zed_components': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/zed_components
+[230.600s] -- Install configuration: "Release"
+[230.602s] -- Execute custom install script
+[230.604s] -- Symlinking: /root/ros2_ws/install/zed_components/lib/libzed_camera_component.so
+[230.622s] -- Symlinking: /root/ros2_ws/install/zed_components/lib/libzed_camera_one_component.so
+[230.643s] -- Symlinking: /root/ros2_ws/install/zed_components/include/zed_components//cost_traversability.hpp
+[230.658s] -- Symlinking: /root/ros2_ws/install/zed_components/include/zed_components//sl_types.hpp
+[230.674s] -- Symlinking: /root/ros2_ws/install/zed_components/include/zed_components//zed_camera_component.hpp
+[230.713s] -- Symlinking: /root/ros2_ws/install/zed_components/include/zed_components//zed_camera_one_component.hpp
+[230.731s] -- Symlinking: /root/ros2_ws/install/zed_components/include/zed_components//gnss_replay.hpp
+[230.745s] -- Symlinking: /root/ros2_ws/install/zed_components/include/zed_components//json.hpp
+[230.761s] -- Symlinking: /root/ros2_ws/install/zed_components/include/zed_components//sl_logging.hpp
+[230.785s] -- Symlinking: /root/ros2_ws/install/zed_components/include/zed_components//sl_tools.hpp
+[230.802s] -- Symlinking: /root/ros2_ws/install/zed_components/include/zed_components//sl_win_avg.hpp
+[230.818s] -- Symlinking: /root/ros2_ws/install/zed_components/include/zed_components//visibility_control.hpp
+[230.834s] -- Symlinking: /root/ros2_ws/install/zed_components/share/zed_components/environment/library_path.sh
+[230.857s] -- Symlinking: /root/ros2_ws/install/zed_components/share/zed_components/environment/library_path.dsv
+[230.874s] -- Symlinking: /root/ros2_ws/install/zed_components/share/ament_index/resource_index/package_run_dependencies/zed_components
+[230.903s] -- Symlinking: /root/ros2_ws/install/zed_components/share/ament_index/resource_index/parent_prefix_path/zed_components
+[230.918s] -- Symlinking: /root/ros2_ws/install/zed_components/share/zed_components/environment/ament_prefix_path.sh
+[230.934s] -- Symlinking: /root/ros2_ws/install/zed_components/share/zed_components/environment/ament_prefix_path.dsv
+[230.950s] -- Symlinking: /root/ros2_ws/install/zed_components/share/zed_components/environment/path.sh
+[230.970s] -- Symlinking: /root/ros2_ws/install/zed_components/share/zed_components/environment/path.dsv
+[230.987s] -- Symlinking: /root/ros2_ws/install/zed_components/share/zed_components/local_setup.bash
+[231.007s] -- Symlinking: /root/ros2_ws/install/zed_components/share/zed_components/local_setup.sh
+[231.022s] -- Symlinking: /root/ros2_ws/install/zed_components/share/zed_components/local_setup.zsh
+[231.050s] -- Symlinking: /root/ros2_ws/install/zed_components/share/zed_components/local_setup.dsv
+[231.078s] -- Symlinking: /root/ros2_ws/install/zed_components/share/zed_components/package.dsv
+[231.102s] -- Symlinking: /root/ros2_ws/install/zed_components/share/ament_index/resource_index/packages/zed_components
+[231.120s] -- Symlinking: /root/ros2_ws/install/zed_components/share/ament_index/resource_index/rclcpp_components/zed_components
+[231.139s] -- Symlinking: /root/ros2_ws/install/zed_components/share/zed_components/cmake/ament_cmake_export_include_directories-extras.cmake
+[231.162s] -- Symlinking: /root/ros2_ws/install/zed_components/share/zed_components/cmake/ament_cmake_export_libraries-extras.cmake
+[231.190s] -- Symlinking: /root/ros2_ws/install/zed_components/share/zed_components/cmake/ament_cmake_export_dependencies-extras.cmake
+[231.227s] -- Symlinking: /root/ros2_ws/install/zed_components/share/zed_components/cmake/zed_componentsConfig.cmake
+[231.245s] -- Symlinking: /root/ros2_ws/install/zed_components/share/zed_components/cmake/zed_componentsConfig-version.cmake
+[231.266s] -- Symlinking: /root/ros2_ws/install/zed_components/share/zed_components/package.xml
+[231.298s] Invoked command in '/root/ros2_ws/build/zed_components' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/zed_components

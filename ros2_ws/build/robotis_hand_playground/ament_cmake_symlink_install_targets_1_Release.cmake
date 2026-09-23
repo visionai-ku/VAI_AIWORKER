@@ -1,0 +1,1 @@
+ament_cmake_symlink_install_targets("TARGET_FILES" "/root/ros2_ws/build/robotis_hand_playground/tactile_force_controller" "TARGETS" "tactile_force_controller" "DESTINATION" "lib/robotis_hand_playground")

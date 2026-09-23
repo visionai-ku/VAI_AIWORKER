@@ -89,7 +89,9 @@ rosidl_generator_c/robotis_interfaces/msg/hand_joints.h: /opt/ros/jazzy/share/ro
 rosidl_generator_c/robotis_interfaces/msg/hand_joints.h: /opt/ros/jazzy/share/rosidl_generator_c/resource/srv__type_support.c.em
 rosidl_generator_c/robotis_interfaces/msg/hand_joints.h: /opt/ros/jazzy/share/rosidl_generator_c/resource/srv__type_support.h.em
 rosidl_generator_c/robotis_interfaces/msg/hand_joints.h: rosidl_adapter/robotis_interfaces/msg/HandJoints.idl
+rosidl_generator_c/robotis_interfaces/msg/hand_joints.h: rosidl_adapter/robotis_interfaces/msg/HandPressures.idl
 rosidl_generator_c/robotis_interfaces/msg/hand_joints.h: rosidl_adapter/robotis_interfaces/msg/MoveL.idl
+rosidl_generator_c/robotis_interfaces/msg/hand_joints.h: rosidl_adapter/robotis_interfaces/msg/TactileSensor.idl
 rosidl_generator_c/robotis_interfaces/msg/hand_joints.h: /opt/ros/jazzy/share/builtin_interfaces/msg/Duration.idl
 rosidl_generator_c/robotis_interfaces/msg/hand_joints.h: /opt/ros/jazzy/share/builtin_interfaces/msg/Time.idl
 rosidl_generator_c/robotis_interfaces/msg/hand_joints.h: /opt/ros/jazzy/share/geometry_msgs/msg/Accel.idl
@@ -166,6 +168,18 @@ rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__struct.h: rosidl_g
 rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.h: rosidl_generator_c/robotis_interfaces/msg/hand_joints.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.h
 
+rosidl_generator_c/robotis_interfaces/msg/hand_pressures.h: rosidl_generator_c/robotis_interfaces/msg/hand_joints.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/robotis_interfaces/msg/hand_pressures.h
+
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.h: rosidl_generator_c/robotis_interfaces/msg/hand_joints.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.h
+
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__struct.h: rosidl_generator_c/robotis_interfaces/msg/hand_joints.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__struct.h
+
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.h: rosidl_generator_c/robotis_interfaces/msg/hand_joints.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.h
+
 rosidl_generator_c/robotis_interfaces/msg/move_l.h: rosidl_generator_c/robotis_interfaces/msg/hand_joints.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/robotis_interfaces/msg/move_l.h
 
@@ -178,6 +192,18 @@ rosidl_generator_c/robotis_interfaces/msg/detail/move_l__struct.h: rosidl_genera
 rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.h: rosidl_generator_c/robotis_interfaces/msg/hand_joints.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.h
 
+rosidl_generator_c/robotis_interfaces/msg/tactile_sensor.h: rosidl_generator_c/robotis_interfaces/msg/hand_joints.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/robotis_interfaces/msg/tactile_sensor.h
+
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.h: rosidl_generator_c/robotis_interfaces/msg/hand_joints.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.h
+
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__struct.h: rosidl_generator_c/robotis_interfaces/msg/hand_joints.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__struct.h
+
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.h: rosidl_generator_c/robotis_interfaces/msg/hand_joints.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.h
+
 rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__description.c: rosidl_generator_c/robotis_interfaces/msg/hand_joints.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__description.c
 
@@ -187,6 +213,15 @@ rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__functions.c: rosid
 rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.c: rosidl_generator_c/robotis_interfaces/msg/hand_joints.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.c
 
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c: rosidl_generator_c/robotis_interfaces/msg/hand_joints.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c
+
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c: rosidl_generator_c/robotis_interfaces/msg/hand_joints.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c
+
+rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c: rosidl_generator_c/robotis_interfaces/msg/hand_joints.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c
+
 rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.c: rosidl_generator_c/robotis_interfaces/msg/hand_joints.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.c
 
@@ -195,6 +230,15 @@ rosidl_generator_c/robotis_interfaces/msg/detail/move_l__functions.c: rosidl_gen
 
 rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c: rosidl_generator_c/robotis_interfaces/msg/hand_joints.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c
+
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c: rosidl_generator_c/robotis_interfaces/msg/hand_joints.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c
+
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c: rosidl_generator_c/robotis_interfaces/msg/hand_joints.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c
+
+rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c: rosidl_generator_c/robotis_interfaces/msg/hand_joints.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c
 
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/codegen:
 .PHONY : CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/codegen
@@ -241,10 +285,52 @@ CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.c -o CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.c.s
 
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.o: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/flags.make
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.o: rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.o: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/root/ros2_ws/build/robotis_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.o -MF CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.o.d -o CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.o -c /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c
+
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c > CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.i
+
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c -o CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.s
+
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.o: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/flags.make
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.o: rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.o: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/root/ros2_ws/build/robotis_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.o -MF CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.o.d -o CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.o -c /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c
+
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c > CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.i
+
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c -o CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.s
+
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/flags.make
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o: rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/root/ros2_ws/build/robotis_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o -MF CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o.d -o CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o -c /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c
+
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c > CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.i
+
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c -o CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.s
+
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.c.o: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/flags.make
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.c.o: rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.c
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.c.o: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/root/ros2_ws/build/robotis_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/root/ros2_ws/build/robotis_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.c.o -MF CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.c.o.d -o CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.c.o -c /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.c
 
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.c.i: cmake_force
@@ -258,7 +344,7 @@ CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__functions.c.o: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/flags.make
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__functions.c.o: rosidl_generator_c/robotis_interfaces/msg/detail/move_l__functions.c
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__functions.c.o: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/root/ros2_ws/build/robotis_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__functions.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/root/ros2_ws/build/robotis_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__functions.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__functions.c.o -MF CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__functions.c.o.d -o CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__functions.c.o -c /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__functions.c
 
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__functions.c.i: cmake_force
@@ -272,7 +358,7 @@ CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c.o: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/flags.make
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c.o: rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c.o: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/root/ros2_ws/build/robotis_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/root/ros2_ws/build/robotis_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c.o -MF CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c.o.d -o CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c.o -c /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c
 
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c.i: cmake_force
@@ -283,14 +369,62 @@ CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c -o CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c.s
 
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.o: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/flags.make
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.o: rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.o: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/root/ros2_ws/build/robotis_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building C object CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.o -MF CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.o.d -o CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.o -c /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c
+
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c > CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.i
+
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c -o CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.s
+
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.o: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/flags.make
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.o: rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.o: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/root/ros2_ws/build/robotis_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building C object CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.o -MF CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.o.d -o CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.o -c /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c
+
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c > CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.i
+
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c -o CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.s
+
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/flags.make
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o: rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/root/ros2_ws/build/robotis_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building C object CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o -MF CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o.d -o CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o -c /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c
+
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c > CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.i
+
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c -o CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.s
+
 # Object files for target robotis_interfaces__rosidl_generator_c
 robotis_interfaces__rosidl_generator_c_OBJECTS = \
 "CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__description.c.o" \
 "CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__functions.c.o" \
 "CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.c.o" \
+"CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.o" \
+"CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.o" \
+"CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o" \
 "CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.c.o" \
 "CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__functions.c.o" \
-"CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c.o"
+"CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c.o" \
+"CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.o" \
+"CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.o" \
+"CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o"
 
 # External object files for target robotis_interfaces__rosidl_generator_c
 robotis_interfaces__rosidl_generator_c_EXTERNAL_OBJECTS =
@@ -298,9 +432,15 @@ robotis_interfaces__rosidl_generator_c_EXTERNAL_OBJECTS =
 librobotis_interfaces__rosidl_generator_c.so: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__description.c.o
 librobotis_interfaces__rosidl_generator_c.so: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__functions.c.o
 librobotis_interfaces__rosidl_generator_c.so: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.c.o
+librobotis_interfaces__rosidl_generator_c.so: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c.o
+librobotis_interfaces__rosidl_generator_c.so: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c.o
+librobotis_interfaces__rosidl_generator_c.so: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o
 librobotis_interfaces__rosidl_generator_c.so: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.c.o
 librobotis_interfaces__rosidl_generator_c.so: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__functions.c.o
 librobotis_interfaces__rosidl_generator_c.so: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c.o
+librobotis_interfaces__rosidl_generator_c.so: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c.o
+librobotis_interfaces__rosidl_generator_c.so: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c.o
+librobotis_interfaces__rosidl_generator_c.so: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o
 librobotis_interfaces__rosidl_generator_c.so: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/build.make
 librobotis_interfaces__rosidl_generator_c.so: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/compiler_depend.ts
 librobotis_interfaces__rosidl_generator_c.so: /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_generator_c.so
@@ -309,7 +449,7 @@ librobotis_interfaces__rosidl_generator_c.so: /opt/ros/jazzy/lib/libbuiltin_inte
 librobotis_interfaces__rosidl_generator_c.so: /opt/ros/jazzy/lib/librosidl_runtime_c.so
 librobotis_interfaces__rosidl_generator_c.so: /opt/ros/jazzy/lib/librcutils.so
 librobotis_interfaces__rosidl_generator_c.so: CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/root/ros2_ws/build/robotis_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking C shared library librobotis_interfaces__rosidl_generator_c.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/root/ros2_ws/build/robotis_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Linking C shared library librobotis_interfaces__rosidl_generator_c.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -326,14 +466,28 @@ CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__struct.h
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.c
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.h
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__description.c
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.c
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__functions.h
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__struct.h
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/detail/hand_pressures__type_support.h
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/detail/move_l__description.c
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/detail/move_l__functions.c
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/detail/move_l__functions.h
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/detail/move_l__struct.h
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.c
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/detail/move_l__type_support.h
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__description.c
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.c
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__functions.h
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__struct.h
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.h
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/hand_joints.h
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/hand_pressures.h
 CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/move_l.h
+CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend: rosidl_generator_c/robotis_interfaces/msg/tactile_sensor.h
 	cd /root/ros2_ws/build/robotis_interfaces && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /root/ros2_ws/src/robotis_interfaces /root/ros2_ws/src/robotis_interfaces /root/ros2_ws/build/robotis_interfaces /root/ros2_ws/build/robotis_interfaces /root/ros2_ws/build/robotis_interfaces/CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/depend
 

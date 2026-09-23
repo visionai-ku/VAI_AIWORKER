@@ -78,7 +78,9 @@ rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__ro
 rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__rosidl_typesupport_introspection_c.h: /opt/ros/jazzy/share/rosidl_typesupport_introspection_c/resource/srv__rosidl_typesupport_introspection_c.h.em
 rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__rosidl_typesupport_introspection_c.h: /opt/ros/jazzy/share/rosidl_typesupport_introspection_c/resource/srv__type_support.c.em
 rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__rosidl_typesupport_introspection_c.h: rosidl_adapter/robotis_interfaces/msg/HandJoints.idl
+rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__rosidl_typesupport_introspection_c.h: rosidl_adapter/robotis_interfaces/msg/HandPressures.idl
 rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__rosidl_typesupport_introspection_c.h: rosidl_adapter/robotis_interfaces/msg/MoveL.idl
+rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__rosidl_typesupport_introspection_c.h: rosidl_adapter/robotis_interfaces/msg/TactileSensor.idl
 rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__rosidl_typesupport_introspection_c.h: /opt/ros/jazzy/share/builtin_interfaces/msg/Duration.idl
 rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__rosidl_typesupport_introspection_c.h: /opt/ros/jazzy/share/builtin_interfaces/msg/Time.idl
 rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__rosidl_typesupport_introspection_c.h: /opt/ros/jazzy/share/geometry_msgs/msg/Accel.idl
@@ -146,14 +148,26 @@ rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__ro
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --blue --bold --progress-dir=/root/ros2_ws/build/robotis_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating C introspection for ROS interfaces"
 	/opt/venv/bin/python3 /opt/ros/jazzy/lib/rosidl_typesupport_introspection_c/rosidl_typesupport_introspection_c --generator-arguments-file /root/ros2_ws/build/robotis_interfaces/rosidl_typesupport_introspection_c__arguments.json
 
+rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__rosidl_typesupport_introspection_c.h: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__rosidl_typesupport_introspection_c.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__rosidl_typesupport_introspection_c.h
+
 rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__rosidl_typesupport_introspection_c.h: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__rosidl_typesupport_introspection_c.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__rosidl_typesupport_introspection_c.h
+
+rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__rosidl_typesupport_introspection_c.h: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__rosidl_typesupport_introspection_c.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__rosidl_typesupport_introspection_c.h
 
 rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__type_support.c: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__rosidl_typesupport_introspection_c.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__type_support.c
 
+rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__rosidl_typesupport_introspection_c.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c
+
 rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__rosidl_typesupport_introspection_c.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c
+
+rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__rosidl_typesupport_introspection_c.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c
 
 CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/codegen:
 .PHONY : CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/codegen
@@ -172,10 +186,24 @@ CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typ
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__type_support.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/ros2_ws/build/robotis_interfaces/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__type_support.c -o CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__type_support.c.s
 
+CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o: CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/flags.make
+CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c
+CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o: CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/root/ros2_ws/build/robotis_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o -MF CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o.d -o CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o -c /root/ros2_ws/build/robotis_interfaces/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c
+
+CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/ros2_ws/build/robotis_interfaces/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c > CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.i
+
+CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/ros2_ws/build/robotis_interfaces/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c -o CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.s
+
 CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c.o: CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/flags.make
 CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c.o: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c
 CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c.o: CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/root/ros2_ws/build/robotis_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/root/ros2_ws/build/robotis_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c.o"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c.o -MF CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c.o.d -o CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c.o -c /root/ros2_ws/build/robotis_interfaces/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c
 
 CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c.i: cmake_force
@@ -186,16 +214,34 @@ CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typ
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/ros2_ws/build/robotis_interfaces/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c -o CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c.s
 
+CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o: CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/flags.make
+CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c
+CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o: CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/root/ros2_ws/build/robotis_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o -MF CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o.d -o CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o -c /root/ros2_ws/build/robotis_interfaces/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c
+
+CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /root/ros2_ws/build/robotis_interfaces/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c > CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.i
+
+CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /root/ros2_ws/build/robotis_interfaces/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c -o CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.s
+
 # Object files for target robotis_interfaces__rosidl_typesupport_introspection_c
 robotis_interfaces__rosidl_typesupport_introspection_c_OBJECTS = \
 "CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__type_support.c.o" \
-"CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c.o"
+"CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o" \
+"CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c.o" \
+"CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o"
 
 # External object files for target robotis_interfaces__rosidl_typesupport_introspection_c
 robotis_interfaces__rosidl_typesupport_introspection_c_EXTERNAL_OBJECTS =
 
 librobotis_interfaces__rosidl_typesupport_introspection_c.so: CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__type_support.c.o
+librobotis_interfaces__rosidl_typesupport_introspection_c.so: CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c.o
 librobotis_interfaces__rosidl_typesupport_introspection_c.so: CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c.o
+librobotis_interfaces__rosidl_typesupport_introspection_c.so: CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c.o
 librobotis_interfaces__rosidl_typesupport_introspection_c.so: CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/build.make
 librobotis_interfaces__rosidl_typesupport_introspection_c.so: CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/compiler_depend.ts
 librobotis_interfaces__rosidl_typesupport_introspection_c.so: librobotis_interfaces__rosidl_generator_c.so
@@ -209,7 +255,7 @@ librobotis_interfaces__rosidl_typesupport_introspection_c.so: /opt/ros/jazzy/lib
 librobotis_interfaces__rosidl_typesupport_introspection_c.so: /opt/ros/jazzy/lib/librosidl_runtime_c.so
 librobotis_interfaces__rosidl_typesupport_introspection_c.so: /opt/ros/jazzy/lib/librcutils.so
 librobotis_interfaces__rosidl_typesupport_introspection_c.so: CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/root/ros2_ws/build/robotis_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking C shared library librobotis_interfaces__rosidl_typesupport_introspection_c.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/root/ros2_ws/build/robotis_interfaces/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking C shared library librobotis_interfaces__rosidl_typesupport_introspection_c.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -222,8 +268,12 @@ CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/clean:
 
 CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/depend: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__rosidl_typesupport_introspection_c.h
 CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/depend: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_joints__type_support.c
+CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/depend: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__rosidl_typesupport_introspection_c.h
+CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/depend: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/hand_pressures__type_support.c
 CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/depend: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__rosidl_typesupport_introspection_c.h
 CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/depend: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/move_l__type_support.c
+CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/depend: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__rosidl_typesupport_introspection_c.h
+CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/depend: rosidl_typesupport_introspection_c/robotis_interfaces/msg/detail/tactile_sensor__type_support.c
 	cd /root/ros2_ws/build/robotis_interfaces && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /root/ros2_ws/src/robotis_interfaces /root/ros2_ws/src/robotis_interfaces /root/ros2_ws/build/robotis_interfaces /root/ros2_ws/build/robotis_interfaces /root/ros2_ws/build/robotis_interfaces/CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/DependInfo.cmake "--color=$(COLOR)"
 .PHONY : CMakeFiles/robotis_interfaces__rosidl_typesupport_introspection_c.dir/depend
 

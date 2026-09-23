@@ -1,5 +1,5 @@
 set(_AMENT_PACKAGE_NAME "ffw_navigation")
-set(ffw_navigation_VERSION "1.2.1")
+set(ffw_navigation_VERSION "2.2.5")
 set(ffw_navigation_MAINTAINER "Pyo <pyo@robotis.com>")
 set(ffw_navigation_BUILD_DEPENDS "rclcpp" "nav_msgs" "geometry_msgs" "behaviortree_cpp")
 set(ffw_navigation_BUILDTOOL_DEPENDS "ament_cmake")

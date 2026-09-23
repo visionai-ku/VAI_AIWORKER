@@ -625,14 +625,14 @@ CMakeFiles/ffw_swerve_drive_controller.dir/src/odometry.cpp.o: \
  /opt/ros/jazzy/include/tf2/tf2/LinearMath/Matrix3x3.hpp \
  /opt/ros/jazzy/include/tf2/tf2/LinearMath/Quaternion.hpp \
  /opt/ros/jazzy/include/tf2/tf2/LinearMath/Vector3.hpp \
- /opt/ros/jazzy/include/tf2_ros/tf2_ros/buffer_interface.h \
+ /opt/ros/jazzy/include/tf2_ros/tf2_ros/buffer_interface.hpp \
  /usr/include/c++/13/future /usr/include/c++/13/mutex \
  /usr/include/c++/13/bits/std_mutex.h \
  /usr/include/c++/13/bits/unique_lock.h \
  /usr/include/c++/13/condition_variable \
  /usr/include/c++/13/bits/atomic_futex.h \
  /usr/include/c++/13/bits/std_thread.h \
- /opt/ros/jazzy/include/tf2_ros/tf2_ros/visibility_control.h \
+ /opt/ros/jazzy/include/tf2_ros/tf2_ros/visibility_control.hpp \
  /opt/ros/jazzy/include/rclcpp/rclcpp/rclcpp.hpp \
  /usr/include/c++/13/csignal /usr/include/signal.h \
  /usr/include/aarch64-linux-gnu/bits/signum-generic.h \

@@ -232,8 +232,12 @@ class QuestControllerServer:
     async def _receive(self, websocket):
         from websockets.exceptions import ConnectionClosed
 
+        previous = None
+        receive_stall_count = 0
+        last_receive_stall = None
         try:
             async for message in websocket:
+                received_at = time.monotonic()
                 try:
                     frame = json.loads(message) if isinstance(message, str) else None
                 except (ValueError, TypeError):
@@ -264,9 +268,33 @@ class QuestControllerServer:
                 # No await between choosing the owner and publishing the frame.
                 # Idle browser tabs cannot reserve input or clear another pose.
                 self._sender = websocket
+                same_origin = (previous is not None
+                               and (frame["session_id"], frame["origin_id"])
+                               == (previous["session_id"], previous["origin_id"]))
+                # These timings are receiver-owned. Never trust a client field
+                # as the PC receive time or refresh duplicate input freshness.
+                frame["received_at"] = received_at
+                frame["transport"] = {
+                    "receive_gap_ms": (received_at - previous["received_at"]) * 1000 if same_origin else None,
+                    "sample_gap_ms": frame["sample_time_ms"] - previous["sample_time_ms"] if same_origin else None,
+                    "sequence_gap": frame["seq"] - previous["seq"] if same_origin else None,
+                    "decode_ms": (time.monotonic() - received_at) * 1000,
+                }
+                if same_origin and frame["transport"]["receive_gap_ms"] >= 100.:
+                    receive_stall_count += 1
+                    last_receive_stall = {
+                        "received_at": received_at, "seq": frame["seq"],
+                        "receive_gap_ms": frame["transport"]["receive_gap_ms"],
+                        "sample_gap_ms": frame["transport"]["sample_gap_ms"],
+                        "sequence_gap": frame["transport"]["sequence_gap"],
+                    }
+                # A burst can replace the first delayed frame before latest()
+                # observes it. Retain one event and a counter, not a pose queue.
+                frame["transport"].update(receive_stall_count=receive_stall_count,
+                                          last_receive_stall=last_receive_stall)
                 with self._lock:
-                    frame["received_at"] = time.monotonic()
                     self._latest = frame
+                previous = frame
                 if previous_sender is not None:
                     await previous_sender.close(code=1008, reason="Quest connection resumed in another socket")
         except ConnectionClosed:

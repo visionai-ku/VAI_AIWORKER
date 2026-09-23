@@ -807,6 +807,7 @@ librealsense2_camera_msgs__rosidl_typesupport_introspection_c.so: /lib/aarch64-l
   /usr/lib/aarch64-linux-gnu/libgcc_s.so.1 \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o \
+  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so \
   CMakeFiles/realsense2_camera_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/realsense2_camera_msgs/action/detail/triggered_calibration__type_support.c.o \
@@ -957,6 +958,8 @@ rosidl_generator_c/realsense2_camera_msgs/srv/detail/device_info__struct.h:
 /opt/ros/jazzy/include/sensor_msgs/sensor_msgs/msg/camera_info.h:
 
 /opt/ros/jazzy/include/rosidl_typesupport_introspection_c/rosidl_typesupport_introspection_c/message_introspection.h:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o:
 

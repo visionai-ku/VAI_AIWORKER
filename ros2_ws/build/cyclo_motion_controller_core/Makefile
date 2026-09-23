@@ -236,6 +236,54 @@ ament_cmake_python_build_retargeting_egg/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ament_cmake_python_build_retargeting_egg.dir/build.make CMakeFiles/ament_cmake_python_build_retargeting_egg.dir/build
 .PHONY : ament_cmake_python_build_retargeting_egg/fast
 
+src/controllers/ai_worker/ai_worker_bimanual_movej_controller.o: src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.o
+.PHONY : src/controllers/ai_worker/ai_worker_bimanual_movej_controller.o
+
+# target to build an object file
+src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cyclo_motion_controller_core.dir/build.make CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.o
+.PHONY : src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.o
+
+src/controllers/ai_worker/ai_worker_bimanual_movej_controller.i: src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.i
+.PHONY : src/controllers/ai_worker/ai_worker_bimanual_movej_controller.i
+
+# target to preprocess a source file
+src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cyclo_motion_controller_core.dir/build.make CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.i
+.PHONY : src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.i
+
+src/controllers/ai_worker/ai_worker_bimanual_movej_controller.s: src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.s
+.PHONY : src/controllers/ai_worker/ai_worker_bimanual_movej_controller.s
+
+# target to generate assembly for a file
+src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cyclo_motion_controller_core.dir/build.make CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.s
+.PHONY : src/controllers/ai_worker/ai_worker_bimanual_movej_controller.cpp.s
+
+src/controllers/ai_worker/ai_worker_bimanual_movel_controller.o: src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.o
+.PHONY : src/controllers/ai_worker/ai_worker_bimanual_movel_controller.o
+
+# target to build an object file
+src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cyclo_motion_controller_core.dir/build.make CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.o
+.PHONY : src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.o
+
+src/controllers/ai_worker/ai_worker_bimanual_movel_controller.i: src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.i
+.PHONY : src/controllers/ai_worker/ai_worker_bimanual_movel_controller.i
+
+# target to preprocess a source file
+src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cyclo_motion_controller_core.dir/build.make CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.i
+.PHONY : src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.i
+
+src/controllers/ai_worker/ai_worker_bimanual_movel_controller.s: src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.s
+.PHONY : src/controllers/ai_worker/ai_worker_bimanual_movel_controller.s
+
+# target to generate assembly for a file
+src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/cyclo_motion_controller_core.dir/build.make CMakeFiles/cyclo_motion_controller_core.dir/src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.s
+.PHONY : src/controllers/ai_worker/ai_worker_bimanual_movel_controller.cpp.s
+
 src/controllers/ai_worker/ai_worker_movej_controller.o: src/controllers/ai_worker/ai_worker_movej_controller.cpp.o
 .PHONY : src/controllers/ai_worker/ai_worker_movej_controller.o
 
@@ -398,6 +446,12 @@ help:
 	@echo "... cyclo_motion_controller_core_uninstall"
 	@echo "... uninstall"
 	@echo "... cyclo_motion_controller_core"
+	@echo "... src/controllers/ai_worker/ai_worker_bimanual_movej_controller.o"
+	@echo "... src/controllers/ai_worker/ai_worker_bimanual_movej_controller.i"
+	@echo "... src/controllers/ai_worker/ai_worker_bimanual_movej_controller.s"
+	@echo "... src/controllers/ai_worker/ai_worker_bimanual_movel_controller.o"
+	@echo "... src/controllers/ai_worker/ai_worker_bimanual_movel_controller.i"
+	@echo "... src/controllers/ai_worker/ai_worker_bimanual_movel_controller.s"
 	@echo "... src/controllers/ai_worker/ai_worker_movej_controller.o"
 	@echo "... src/controllers/ai_worker/ai_worker_movej_controller.i"
 	@echo "... src/controllers/ai_worker/ai_worker_movej_controller.s"

@@ -96,10 +96,10 @@ dual_laser_merger_EXTERNAL_OBJECTS =
 libdual_laser_merger.so: CMakeFiles/dual_laser_merger.dir/src/dual_laser_merger.cpp.o
 libdual_laser_merger.so: CMakeFiles/dual_laser_merger.dir/build.make
 libdual_laser_merger.so: CMakeFiles/dual_laser_merger.dir/compiler_depend.ts
-libdual_laser_merger.so: /opt/ros/jazzy/lib/libpcl_ros_tf.a
 libdual_laser_merger.so: /opt/ros/jazzy/lib/libpcd_to_pointcloud_lib.so
 libdual_laser_merger.so: /opt/ros/jazzy/lib/libpcl_ros_filters.so
 libdual_laser_merger.so: /opt/ros/jazzy/lib/libpointcloud_to_pcd_lib.so
+libdual_laser_merger.so: /opt/ros/jazzy/lib/libcombined_pointcloud_to_pcd_lib.so
 libdual_laser_merger.so: /opt/ros/jazzy/lib/liblaser_geometry.so
 libdual_laser_merger.so: /opt/ros/jazzy/lib/libmessage_filters.so
 libdual_laser_merger.so: /opt/ros/jazzy/lib/libgeometry_msgs__rosidl_generator_c.so
@@ -159,7 +159,8 @@ libdual_laser_merger.so: /usr/lib/aarch64-linux-gnu/libpcl_people.so
 libdual_laser_merger.so: /usr/lib/libOpenNI.so
 libdual_laser_merger.so: /usr/lib/aarch64-linux-gnu/libOpenNI2.so
 libdual_laser_merger.so: /usr/lib/aarch64-linux-gnu/libusb-1.0.so
-libdual_laser_merger.so: /opt/ros/jazzy/lib/libpcl_ros_tf.a
+libdual_laser_merger.so: /opt/ros/jazzy/lib/libpcl_ros_filter.so
+libdual_laser_merger.so: /opt/ros/jazzy/lib/libpcl_ros_tf.so
 libdual_laser_merger.so: /usr/lib/aarch64-linux-gnu/liborocos-kdl.so
 libdual_laser_merger.so: /usr/lib/aarch64-linux-gnu/libpcl_common.so
 libdual_laser_merger.so: /usr/lib/aarch64-linux-gnu/libpcl_kdtree.so
@@ -344,7 +345,7 @@ libdual_laser_merger.so: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesu
 libdual_laser_merger.so: /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_c.so
 libdual_laser_merger.so: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_fastrtps_cpp.so
 libdual_laser_merger.so: /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so
-libdual_laser_merger.so: /opt/ros/jazzy/lib/libfastcdr.so.2.2.5
+libdual_laser_merger.so: /opt/ros/jazzy/lib/libfastcdr.so.2.2.7
 libdual_laser_merger.so: /opt/ros/jazzy/lib/librmw.so
 libdual_laser_merger.so: /opt/ros/jazzy/lib/librosidl_dynamic_typesupport.so
 libdual_laser_merger.so: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_c.so

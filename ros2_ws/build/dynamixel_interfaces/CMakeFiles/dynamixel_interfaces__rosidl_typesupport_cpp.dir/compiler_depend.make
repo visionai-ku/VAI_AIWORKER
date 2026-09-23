@@ -196,6 +196,7 @@ CMakeFiles/dynamixel_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_c
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
   /usr/include/c++/13/cstddef \
+  /usr/include/c++/13/cstdint \
   /usr/include/c++/13/cstdio \
   /usr/include/c++/13/cstdlib \
   /usr/include/c++/13/cwchar \
@@ -447,6 +448,7 @@ CMakeFiles/dynamixel_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_c
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
   /usr/include/c++/13/cstddef \
+  /usr/include/c++/13/cstdint \
   /usr/include/c++/13/cstdio \
   /usr/include/c++/13/cstdlib \
   /usr/include/c++/13/cstring \
@@ -701,6 +703,7 @@ CMakeFiles/dynamixel_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_c
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
   /usr/include/c++/13/cstddef \
+  /usr/include/c++/13/cstdint \
   /usr/include/c++/13/cstdio \
   /usr/include/c++/13/cstdlib \
   /usr/include/c++/13/cstring \
@@ -955,6 +958,7 @@ CMakeFiles/dynamixel_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_c
   /usr/include/c++/13/clocale \
   /usr/include/c++/13/compare \
   /usr/include/c++/13/cstddef \
+  /usr/include/c++/13/cstdint \
   /usr/include/c++/13/cstdio \
   /usr/include/c++/13/cstdlib \
   /usr/include/c++/13/cstring \
@@ -1033,6 +1037,7 @@ libdynamixel_interfaces__rosidl_typesupport_cpp.so: /lib/aarch64-linux-gnu/libc.
   /usr/lib/aarch64-linux-gnu/libm.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o \
+  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libstdc++.so \
@@ -1058,6 +1063,8 @@ CMakeFiles/dynamixel_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_c
 /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o:
 
@@ -1100,6 +1107,8 @@ rosidl_generator_cpp/dynamixel_interfaces/srv/detail/reboot_dxl__struct.hpp:
 rosidl_generator_c/dynamixel_interfaces/srv/detail/reboot_dxl__struct.h:
 
 rosidl_generator_c/dynamixel_interfaces/srv/detail/reboot_dxl__functions.h:
+
+/usr/include/strings.h:
 
 /usr/include/c++/13/backward/binders.h:
 
@@ -1553,6 +1562,8 @@ rosidl_generator_cpp/dynamixel_interfaces/srv/detail/set_data_to_dxl__struct.hpp
 
 /usr/include/c++/13/compare:
 
+/usr/include/c++/13/cstdint:
+
 /usr/include/c++/13/cstdlib:
 
 /usr/include/linux/errno.h:
@@ -1588,8 +1599,6 @@ rosidl_generator_cpp/dynamixel_interfaces/srv/detail/set_data_to_dxl__struct.hpp
 /usr/include/c++/13/exception:
 
 /usr/include/c++/13/pstl/glue_memory_defs.h:
-
-/usr/include/strings.h:
 
 /usr/include/c++/13/pstl/pstl_config.h:
 

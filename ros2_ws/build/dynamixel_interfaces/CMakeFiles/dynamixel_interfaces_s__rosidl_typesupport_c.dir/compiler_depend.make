@@ -320,6 +320,7 @@ rosidl_generator_py/dynamixel_interfaces/dynamixel_interfaces_s__rosidl_typesupp
   /usr/lib/aarch64-linux-gnu/libgcc_s.so.1 \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o \
+  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so \
   CMakeFiles/dynamixel_interfaces_s__rosidl_typesupport_c.dir/rosidl_generator_py/dynamixel_interfaces/_dynamixel_interfaces_s.ep.rosidl_typesupport_c.c.o \
@@ -339,6 +340,8 @@ CMakeFiles/dynamixel_interfaces_s__rosidl_typesupport_c.dir/rosidl_generator_py/
 /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o:
 

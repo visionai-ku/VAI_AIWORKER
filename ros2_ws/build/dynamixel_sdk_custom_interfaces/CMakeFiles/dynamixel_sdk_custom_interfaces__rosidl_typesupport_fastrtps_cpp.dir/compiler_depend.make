@@ -623,7 +623,7 @@ libdynamixel_sdk_custom_interfaces__rosidl_typesupport_fastrtps_cpp.so: /lib/aar
   /lib/ld-linux-aarch64.so.1 \
   /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_generator_c.so \
   /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_fastrtps_cpp.so \
-  /opt/ros/jazzy/lib/libfastcdr.so.2.2.5 \
+  /opt/ros/jazzy/lib/libfastcdr.so.2.2.7 \
   /opt/ros/jazzy/lib/librcutils.so \
   /opt/ros/jazzy/lib/librmw.so \
   /opt/ros/jazzy/lib/librosidl_dynamic_typesupport.so \
@@ -640,6 +640,7 @@ libdynamixel_sdk_custom_interfaces__rosidl_typesupport_fastrtps_cpp.so: /lib/aar
   /usr/lib/aarch64-linux-gnu/libm.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtbeginS.o \
   /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o \
+  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a \
   /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libstdc++.so \
@@ -657,6 +658,8 @@ CMakeFiles/dynamixel_sdk_custom_interfaces__rosidl_typesupport_fastrtps_cpp.dir/
 /usr/lib/gcc/aarch64-linux-gnu/13/libgcc_s.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/libgcc.a:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/crtendS.o:
 
@@ -919,8 +922,6 @@ rosidl_typesupport_fastrtps_cpp/dynamixel_sdk_custom_interfaces/msg/detail/set_p
 /usr/include/c++/13/bits/align.h:
 
 /usr/include/c++/13/bits/unique_ptr.h:
-
-/opt/ros/jazzy/lib/libfastcdr.so.2.2.5:
 
 /lib/ld-linux-aarch64.so.1:
 
@@ -1185,6 +1186,8 @@ rosidl_generator_c/dynamixel_sdk_custom_interfaces/msg/rosidl_generator_c__visib
 /usr/include/c++/13/bits/erase_if.h:
 
 /usr/include/c++/13/bits/shared_ptr_atomic.h:
+
+/opt/ros/jazzy/lib/libfastcdr.so.2.2.7:
 
 /opt/ros/jazzy/include/rmw/rmw/domain_id.h:
 

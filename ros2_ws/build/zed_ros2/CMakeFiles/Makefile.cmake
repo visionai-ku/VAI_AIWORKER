@@ -171,13 +171,10 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/opt/ros/jazzy/share/ament_lint_auto/cmake/ament_lint_autoConfig.cmake"
   "/opt/ros/jazzy/share/ament_lint_auto/cmake/ament_lint_auto_find_test_dependencies.cmake"
   "/opt/ros/jazzy/share/ament_lint_auto/cmake/ament_lint_auto_package_hook.cmake"
-  "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeDetermineSystem.cmake"
   "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeGenericSystem.cmake"
   "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeInitializeConfigs.cmake"
-  "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeSystem.cmake.in"
   "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeSystemSpecificInformation.cmake"
   "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeSystemSpecificInitialize.cmake"
-  "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/CMakeUnixFindMake.cmake"
   "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/DartConfiguration.tcl.in"
   "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindPackageHandleStandardArgs.cmake"
   "/opt/venv/lib/python3.12/site-packages/cmake/data/share/cmake-4.0/Modules/FindPackageMessage.cmake"
@@ -201,7 +198,6 @@ set(CMAKE_MAKEFILE_OUTPUTS
 
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
-  "CMakeFiles/4.0.0/CMakeSystem.cmake"
   "ament_cmake_core/stamps/templates_2_cmake.py.stamp"
   "ament_cmake_uninstall_target/ament_cmake_uninstall_target.cmake"
   "ament_cmake_symlink_install/ament_cmake_symlink_install.cmake"

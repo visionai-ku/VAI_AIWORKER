@@ -229,6 +229,7 @@ class SG2PostureIK:
     def solve(self, env, T_target):
         """Return a locally continuous full-pose solution without changing env."""
         started = time.perf_counter()
+        cpu_started = time.thread_time()
         if env.model is not self.model:
             raise ValueError("solver and environment must share the same MuJoCo model")
         target = np.asarray(T_target, dtype=np.float64)
@@ -263,10 +264,10 @@ class SG2PostureIK:
 
         def evaluate(q):
             nonlocal evaluations
-            if "q" in cache and np.array_equal(q, cache["q"]):
-                return cache
             if evaluations and time.perf_counter() - started >= self.max_solve_time_s:
                 raise _SolveBudgetExceeded()
+            if "q" in cache and np.array_equal(q, cache["q"]):
+                return cache
             context[self._q_indices] = q
             self._forward(context)
             shoulder, elbow, wrist, rotation = self._points()
@@ -311,6 +312,10 @@ class SG2PostureIK:
         optimizer_message = ""
         try:
             evaluate(np.clip(start, lower, upper))
+            # Do not enter SLSQP after an initial evaluation already consumed
+            # the budget (for example, a GC/scheduling pause inside FK).
+            if time.perf_counter() - started >= self.max_solve_time_s:
+                raise _SolveBudgetExceeded()
             result = minimize(lambda q: evaluate(q)["cost"], np.clip(start, lower, upper),
                               jac=lambda q: evaluate(q)["gradient"], method="SLSQP",
                               bounds=list(zip(lower, upper)), callback=callback,
@@ -353,5 +358,6 @@ class SG2PostureIK:
                     position_error_m=best["position_error"], rotation_error_rad=best["rotation_error"],
                     posture_cost=best["cost"], elbow_angle_rad=best["elbow_angle"],
                     iterations=iterations, elapsed_s=time.perf_counter() - started,
+                    thread_cpu_s=time.thread_time() - cpu_started,
                     reason=reason, budget_exhausted=budget_exhausted,
                     optimizer_message=optimizer_message, evaluations=evaluations)

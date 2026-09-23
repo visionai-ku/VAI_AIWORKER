@@ -30,7 +30,6 @@ CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis
  /opt/ros/jazzy/include/rosidl_runtime_c/rosidl_runtime_c/string.h \
  /opt/ros/jazzy/include/rosidl_runtime_c/rosidl_runtime_c/primitives_sequence.h \
  /opt/ros/jazzy/include/geometry_msgs/geometry_msgs/msg/detail/point32__struct.h \
- /opt/ros/jazzy/include/rosidl_typesupport_interface/rosidl_typesupport_interface/macros.h \
  /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__functions.h \
  /usr/include/stdlib.h /usr/include/aarch64-linux-gnu/bits/waitflags.h \
  /usr/include/aarch64-linux-gnu/bits/waitstatus.h \
@@ -78,6 +77,7 @@ CMakeFiles/robotis_interfaces__rosidl_generator_c.dir/rosidl_generator_c/robotis
  /opt/ros/jazzy/include/rcutils/rcutils/visibility_control_macros.h \
  /opt/ros/jazzy/include/rcutils/rcutils/sha256.h \
  /opt/ros/jazzy/include/rosidl_runtime_c/rosidl_runtime_c/visibility_control.h \
+ /opt/ros/jazzy/include/rosidl_typesupport_interface/rosidl_typesupport_interface/macros.h \
  /opt/ros/jazzy/include/rosidl_runtime_c/rosidl_runtime_c/service_type_support_struct.h \
  /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/rosidl_generator_c__visibility_control.h \
  /root/ros2_ws/build/robotis_interfaces/rosidl_generator_c/robotis_interfaces/msg/detail/hand_joints__type_support.h

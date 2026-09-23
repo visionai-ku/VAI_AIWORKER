@@ -4,6 +4,7 @@ from pathlib import Path
 import runpy
 import tempfile
 import unittest
+from unittest.mock import patch
 
 import numpy as np
 from scipy.spatial.transform import Rotation
@@ -251,6 +252,48 @@ class PostureIKTest(unittest.TestCase):
                 self.assertLessEqual(result["iterations"], 24)
                 self.assertTrue(np.isfinite(result["qpos_used_best"]).all())
                 np.testing.assert_array_equal(self.env.data.qpos, before)
+
+    def test_slow_initial_evaluation_does_not_start_optimizer(self):
+        for reachable in (True, False):
+            with self.subTest(reachable=reachable):
+                solver = self.solver("left")
+                target = get_sg2_wrist_control_T(self.env, "left")
+                if not reachable:
+                    target[0, 3] += 2.
+                clock = [0.]
+                forward = solver._forward
+
+                def slow_forward(q):
+                    forward(q)
+                    clock[0] += .05
+
+                with patch("package.posture_ik.time.perf_counter", side_effect=lambda: clock[0]), \
+                        patch.object(solver, "_forward", side_effect=slow_forward), \
+                        patch("package.posture_ik.minimize") as optimizer:
+                    result = solver.solve(self.env, target)
+                optimizer.assert_not_called()
+                self.assertTrue(result["budget_exhausted"])
+                self.assertEqual(result["success"], reachable)
+                self.assertEqual(result["evaluations"], 1)
+                np.testing.assert_array_equal(self.env.data.qpos, self.q_reference)
+
+    def test_cached_optimizer_evaluation_still_obeys_elapsed_budget(self):
+        solver = self.solver("left")
+        target = get_sg2_wrist_control_T(self.env, "left")
+        clock = [0.]
+
+        def optimizer(fun, start, **kwargs):
+            fun(start)
+            clock[0] = .05
+            kwargs["jac"](start)  # Same q must not bypass the elapsed budget.
+            self.fail("cached evaluation ignored exhausted budget")
+
+        with patch("package.posture_ik.time.perf_counter", side_effect=lambda: clock[0]), \
+                patch("package.posture_ik.minimize", side_effect=optimizer):
+            result = solver.solve(self.env, target)
+        self.assertTrue(result["budget_exhausted"])
+        self.assertTrue(result["success"])
+        self.assertEqual(result["evaluations"], 1)
 
 
 if __name__ == "__main__":

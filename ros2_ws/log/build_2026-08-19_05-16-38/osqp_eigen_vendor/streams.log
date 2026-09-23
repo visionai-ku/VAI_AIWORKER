@@ -1,0 +1,132 @@
+[0.057s] Invoking command in '/root/ros2_ws/build/osqp_eigen_vendor': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/cyclo_control/osqp_eigen_vendor -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/osqp_eigen_vendor
+[0.514s] -- The C compiler identification is GNU 13.3.0
+[0.692s] -- The CXX compiler identification is GNU 13.3.0
+[0.708s] -- Detecting C compiler ABI info
+[0.846s] -- Detecting C compiler ABI info - done
+[0.887s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.888s] -- Detecting C compile features
+[0.888s] -- Detecting C compile features - done
+[0.930s] -- Detecting CXX compiler ABI info
+[1.115s] -- Detecting CXX compiler ABI info - done
+[1.148s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[1.148s] -- Detecting CXX compile features
+[1.149s] -- Detecting CXX compile features - done
+[1.262s] -- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[3.157s] -- Found Python3: /opt/venv/bin/python3 (found version "3.12.3") found components: Interpreter
+[3.443s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[4.723s] -- Found ament_cmake_vendor_package: 2.5.6 (/opt/ros/jazzy/share/ament_cmake_vendor_package/cmake)
+[5.086s] -- Found osqp_vendor: 0.2.0 (/opt/ros/jazzy/share/osqp_vendor/cmake)
+[5.769s] -- Configuring done (5.1s)
+[5.770s] -- Generating done (0.0s)
+[5.770s] -- Build files have been written to: /root/ros2_ws/build/osqp_eigen_vendor
+[5.802s] Invoked command in '/root/ros2_ws/build/osqp_eigen_vendor' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/cyclo_control/osqp_eigen_vendor -DCMAKE_BUILD_TYPE=Release -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/osqp_eigen_vendor
+[5.802s] Invoking command in '/root/ros2_ws/build/osqp_eigen_vendor': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/osqp_eigen_vendor -- -j12 -l12
+[6.419s] [ 12%] Creating directories for 'osqp_eigen_vendor'
+[6.550s] [ 25%] No download step for 'osqp_eigen_vendor'
+[6.652s] [ 37%] No update_disconnected step for 'osqp_eigen_vendor'
+[6.755s] [ 50%] No patch_disconnected step for 'osqp_eigen_vendor'
+[6.814s] [ 62%] Performing configure step for 'osqp_eigen_vendor'
+[6.827s] loading initial cache file /root/ros2_ws/build/osqp_eigen_vendor/osqp_eigen_vendor-config.cmake
+[7.233s] -- The C compiler identification is GNU 13.3.0
+[7.478s] -- The CXX compiler identification is GNU 13.3.0
+[7.512s] -- Detecting C compiler ABI info
+[7.786s] -- Detecting C compiler ABI info - done
+[7.882s] -- Check for working C compiler: /usr/bin/cc - skipped
+[7.883s] -- Detecting C compile features
+[7.883s] -- Detecting C compile features - done
+[7.923s] -- Detecting CXX compiler ABI info
+[8.200s] -- Detecting CXX compiler ABI info - done
+[8.248s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[8.249s] -- Detecting CXX compile features
+[8.251s] -- Detecting CXX compile features - done
+[9.011s] -- Configuring done (2.2s)
+[9.029s] -- Generating done (0.0s)
+[9.049s] -- Build files have been written to: /root/ros2_ws/build/osqp_eigen_vendor/osqp_eigen_vendor-prefix/src/osqp_eigen_vendor-build
+[9.116s] [ 75%] Performing build step for 'osqp_eigen_vendor'
+[9.190s] [ 20%] Building CXX object CMakeFiles/OsqpEigen.dir/src/Settings.cpp.o
+[9.193s] [ 40%] Building CXX object CMakeFiles/OsqpEigen.dir/src/Data.cpp.o
+[9.210s] [ 60%] Building CXX object CMakeFiles/OsqpEigen.dir/src/Solver.cpp.o
+[9.277s] [ 80%] Building CXX object CMakeFiles/OsqpEigen.dir/src/Debug.cpp.o
+[15.282s] [100%] Linking CXX shared library libOsqpEigen.so
+[15.542s] [100%] Built target OsqpEigen
+[15.652s] [ 87%] Performing install step for 'osqp_eigen_vendor'
+[15.811s] [100%] Built target OsqpEigen
+[15.864s] Install the project...
+[15.873s] -- Install configuration: "Release"
+[15.874s] -- Installing: /root/ros2_ws/build/osqp_eigen_vendor/osqp_eigen_vendor-prefix/install/lib/libOsqpEigen.so.0.10.3
+[15.876s] -- Set non-toolchain portion of runtime path of "/root/ros2_ws/build/osqp_eigen_vendor/osqp_eigen_vendor-prefix/install/lib/libOsqpEigen.so.0.10.3" to "$ORIGIN/:$ORIGIN/../lib:/opt/ros/jazzy/lib"
+[15.876s] -- Installing: /root/ros2_ws/build/osqp_eigen_vendor/osqp_eigen_vendor-prefix/install/lib/libOsqpEigen.so
+[15.877s] -- Installing: /root/ros2_ws/build/osqp_eigen_vendor/osqp_eigen_vendor-prefix/install/include/OsqpEigen/OsqpEigen.h
+[15.878s] -- Installing: /root/ros2_ws/build/osqp_eigen_vendor/osqp_eigen_vendor-prefix/install/include/OsqpEigen/Constants.hpp
+[15.879s] -- Installing: /root/ros2_ws/build/osqp_eigen_vendor/osqp_eigen_vendor-prefix/install/include/OsqpEigen/SparseMatrixHelper.hpp
+[15.880s] -- Installing: /root/ros2_ws/build/osqp_eigen_vendor/osqp_eigen_vendor-prefix/install/include/OsqpEigen/SparseMatrixHelper.tpp
+[15.881s] -- Installing: /root/ros2_ws/build/osqp_eigen_vendor/osqp_eigen_vendor-prefix/install/include/OsqpEigen/Data.hpp
+[15.882s] -- Installing: /root/ros2_ws/build/osqp_eigen_vendor/osqp_eigen_vendor-prefix/install/include/OsqpEigen/Data.tpp
+[15.883s] -- Installing: /root/ros2_ws/build/osqp_eigen_vendor/osqp_eigen_vendor-prefix/install/include/OsqpEigen/Settings.hpp
+[15.884s] -- Installing: /root/ros2_ws/build/osqp_eigen_vendor/osqp_eigen_vendor-prefix/install/include/OsqpEigen/Solver.hpp
+[15.885s] -- Installing: /root/ros2_ws/build/osqp_eigen_vendor/osqp_eigen_vendor-prefix/install/include/OsqpEigen/Solver.tpp
+[15.886s] -- Installing: /root/ros2_ws/build/osqp_eigen_vendor/osqp_eigen_vendor-prefix/install/include/OsqpEigen/Compat.hpp
+[15.887s] -- Installing: /root/ros2_ws/build/osqp_eigen_vendor/osqp_eigen_vendor-prefix/install/include/OsqpEigen/Debug.hpp
+[15.894s] -- Installing: /root/ros2_ws/build/osqp_eigen_vendor/osqp_eigen_vendor-prefix/install/lib/cmake/OsqpEigen/OsqpEigenConfigVersion.cmake
+[15.895s] -- Installing: /root/ros2_ws/build/osqp_eigen_vendor/osqp_eigen_vendor-prefix/install/lib/cmake/OsqpEigen/OsqpEigenConfig.cmake
+[15.896s] -- Installing: /root/ros2_ws/build/osqp_eigen_vendor/osqp_eigen_vendor-prefix/install/lib/cmake/OsqpEigen/OsqpEigenTargets.cmake
+[15.897s] -- Installing: /root/ros2_ws/build/osqp_eigen_vendor/osqp_eigen_vendor-prefix/install/lib/cmake/OsqpEigen/OsqpEigenTargets-release.cmake
+[15.898s] -- Installing: /root/ros2_ws/build/osqp_eigen_vendor/osqp_eigen_vendor-prefix/install/share/cmake/osqp-eigen/package.xml
+[16.005s] [100%] Completed 'osqp_eigen_vendor'
+[16.073s] [100%] Built target osqp_eigen_vendor
+[16.105s] Invoked command in '/root/ros2_ws/build/osqp_eigen_vendor' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/osqp_eigen_vendor -- -j12 -l12
+[16.106s] Invoking command in '/root/ros2_ws/build/osqp_eigen_vendor': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/osqp_eigen_vendor
+[17.372s] -- Install configuration: "Release"
+[17.373s] -- Execute custom install script
+[17.373s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/environment/vendor_package.bat
+[17.373s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/environment/vendor_package.dsv
+[17.373s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/environment/vendor_package.sh
+[17.373s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/ament_index/resource_index/vendor_packages/osqp_eigen_vendor
+[17.373s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/THIRD_PARTY_NOTICES.md
+[17.373s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/osqp-eigen-LICENSE
+[17.373s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/ament_index/resource_index/package_run_dependencies/osqp_eigen_vendor
+[17.373s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/ament_index/resource_index/parent_prefix_path/osqp_eigen_vendor
+[17.374s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/environment/ament_prefix_path.sh
+[17.374s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/environment/ament_prefix_path.dsv
+[17.374s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/environment/path.sh
+[17.374s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/environment/path.dsv
+[17.374s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/local_setup.bash
+[17.374s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/local_setup.sh
+[17.374s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/local_setup.zsh
+[17.374s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/local_setup.dsv
+[17.374s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/package.dsv
+[17.375s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/ament_index/resource_index/packages/osqp_eigen_vendor
+[17.375s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/cmake/vendor_package_cmake_prefix.cmake
+[17.375s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/cmake/osqp_eigen_vendor-extras.cmake
+[17.375s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/cmake/ament_cmake_export_dependencies-extras.cmake
+[17.375s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/cmake/osqp_eigen_vendorConfig.cmake
+[17.375s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/cmake/osqp_eigen_vendorConfig-version.cmake
+[17.376s] -- Symlinking: /root/ros2_ws/install/osqp_eigen_vendor/share/osqp_eigen_vendor/package.xml
+[17.399s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor
+[17.400s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/share
+[17.400s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/share/cmake
+[17.400s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/share/cmake/osqp-eigen
+[17.400s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/share/cmake/osqp-eigen/package.xml
+[17.400s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib
+[17.400s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib/cmake
+[17.401s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib/cmake/OsqpEigen
+[17.401s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib/cmake/OsqpEigen/OsqpEigenTargets.cmake
+[17.401s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib/cmake/OsqpEigen/OsqpEigenConfigVersion.cmake
+[17.401s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib/cmake/OsqpEigen/OsqpEigenTargets-release.cmake
+[17.401s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib/cmake/OsqpEigen/OsqpEigenConfig.cmake
+[17.401s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib/libOsqpEigen.so.0.10.3
+[17.401s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/lib/libOsqpEigen.so
+[17.401s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include
+[17.401s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen
+[17.401s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/Debug.hpp
+[17.402s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/SparseMatrixHelper.hpp
+[17.407s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/Constants.hpp
+[17.408s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/Solver.hpp
+[17.408s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/SparseMatrixHelper.tpp
+[17.408s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/Compat.hpp
+[17.409s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/OsqpEigen.h
+[17.409s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/Data.tpp
+[17.410s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/Solver.tpp
+[17.415s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/Settings.hpp
+[17.415s] -- Installing: /root/ros2_ws/install/osqp_eigen_vendor/opt/osqp_eigen_vendor/include/OsqpEigen/Data.hpp
+[17.415s] Invoked command in '/root/ros2_ws/build/osqp_eigen_vendor' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/osqp_eigen_vendor

@@ -1,0 +1,208 @@
+[0.057s] Invoking command in '/root/ros2_ws/build/ffw_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/ai_worker/ffw_description -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/ffw_description
+[1.288s] -- Found ament_cmake: 2.5.6 (/opt/ros/jazzy/share/ament_cmake/cmake)
+[1.289s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[1.289s] -- Configuring done (0.8s)
+[1.289s] -- Generating done (0.0s)
+[1.289s] -- Build files have been written to: /root/ros2_ws/build/ffw_description
+[1.292s] [0mCMake Deprecation Warning at CMakeLists.txt:4 (cmake_minimum_required):
+[1.292s]   Compatibility with CMake < 3.10 will be removed from a future version of
+[1.292s]   CMake.
+[1.292s] 
+[1.292s]   Update the VERSION argument <min> value.  Or, use the <min>...<max> syntax
+[1.293s]   to tell CMake that the project requires at least <min> but has been updated
+[1.293s]   to work with policies introduced by <max> or earlier.
+[1.293s] 
+[1.293s] [0m
+[1.297s] Invoked command in '/root/ros2_ws/build/ffw_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake /root/ros2_ws/src/ai_worker/ffw_description -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/root/ros2_ws/install/ffw_description
+[1.298s] Invoking command in '/root/ros2_ws/build/ffw_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/ffw_description -- -j8 -l8
+[1.612s] Invoked command in '/root/ros2_ws/build/ffw_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake --build /root/ros2_ws/build/ffw_description -- -j8 -l8
+[1.862s] Invoking command in '/root/ros2_ws/build/ffw_description': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/ffw_description
+[2.118s] -- Install configuration: "Release"
+[2.118s] -- Execute custom install script
+[2.119s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/launch/ffw_bg2_rev4.launch.py
+[2.119s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/launch/ffw_bh5_rev1.launch.py
+[2.120s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/launch/ffw_f1.launch.py
+[2.120s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/launch/ffw_f2.launch.py
+[2.120s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/launch/ffw_sg2_rev1.launch.py
+[2.120s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/launch/ffw_sh5_rev1.launch.py
+[2.123s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw/arm_l_link1.stl
+[2.123s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw/arm_l_link2.stl
+[2.123s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw/arm_l_link3.stl
+[2.123s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw/arm_l_link4.stl
+[2.124s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw/arm_l_link5.stl
+[2.124s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw/arm_l_link6.stl
+[2.124s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw/arm_l_link7.stl
+[2.124s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw/arm_r_link1.stl
+[2.125s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw/arm_r_link2.stl
+[2.125s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw/arm_r_link3.stl
+[2.125s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw/arm_r_link4.stl
+[2.126s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw/arm_r_link5.stl
+[2.126s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw/arm_r_link6.stl
+[2.126s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw/arm_r_link7.stl
+[2.127s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw/body_arm_assy.stl
+[2.127s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw/head_link1.stl
+[2.127s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw/head_link2.stl
+[2.128s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_base/base_mobile_assy.stl
+[2.128s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f/arm_l_link1.stl
+[2.128s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f/arm_l_link2.stl
+[2.128s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f/arm_l_link3.stl
+[2.129s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f/arm_l_link4.stl
+[2.129s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f/arm_l_link5.stl
+[2.129s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f/arm_l_link6.stl
+[2.129s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f/arm_l_link7.stl
+[2.130s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f/arm_r_link1.stl
+[2.130s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f/arm_r_link2.stl
+[2.130s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f/arm_r_link3.stl
+[2.131s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f/arm_r_link4.stl
+[2.131s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f/arm_r_link5.stl
+[2.131s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f/arm_r_link6.stl
+[2.132s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f/arm_r_link7.stl
+[2.132s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f/body_arm_assy.stl
+[2.133s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f/head_link1.stl
+[2.133s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f/head_link2.stl
+[2.133s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f_base/base_mobile_assy.stl
+[2.133s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f_swerve/base_mobile_assy.stl
+[2.134s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f_swerve/left_wheel_drive_link.stl
+[2.134s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f_swerve/left_wheel_steer_link.stl
+[2.135s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f_swerve/lift_link.stl
+[2.140s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f_swerve/rear_wheel_drive_link.stl
+[2.141s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f_swerve/rear_wheel_steer_link.stl
+[2.142s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f_swerve/right_wheel_drive_link.stl
+[2.142s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_f_swerve/right_wheel_steer_link.stl
+[2.142s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_swerve/base_mobile_assy.stl
+[2.143s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_swerve/left_wheel_drive_link.stl
+[2.144s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_swerve/left_wheel_steer_link.stl
+[2.145s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_swerve/lift_link.stl
+[2.145s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_swerve/rear_wheel_drive_link.stl
+[2.146s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_swerve/rear_wheel_steer_link.stl
+[2.147s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_swerve/right_wheel_drive_link.stl
+[2.147s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/ffw_swerve/right_wheel_steer_link.stl
+[2.148s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/wrist_d401_base.stl
+[2.148s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/follower/zedm.stl
+[2.149s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/hx2_d1/base.stl
+[2.149s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/hx2_d1/l1.stl
+[2.149s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/hx2_d1/l2.stl
+[2.150s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/hx2_d1/r1.stl
+[2.151s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/hx2_d1/r2.stl
+[2.152s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/hx5_d20/hx5_d20_left/hx5_d20_base_unit.stl
+[2.159s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/hx5_d20/hx5_d20_left/hx5_d20_finger_dip.stl
+[2.160s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/hx5_d20/hx5_d20_left/hx5_d20_finger_mcp.stl
+[2.161s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/hx5_d20/hx5_d20_left/hx5_d20_finger_pip.stl
+[2.162s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/hx5_d20/hx5_d20_left/hx5_d20_finger_tip.stl
+[2.166s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/hx5_d20/hx5_d20_left/hx5_d20_thumb_ip.stl
+[2.167s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/hx5_d20/hx5_d20_left/hx5_d20_thumb_mcp.stl
+[2.167s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/hx5_d20/hx5_d20_left/hx5_d20_thumb_mcp2.stl
+[2.167s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/hx5_d20/hx5_d20_left/hx5_d20_thumb_tip.stl
+[2.167s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/hx5_d20/hx5_d20_right/hx5_d20_base_unit.stl
+[2.167s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/hx5_d20/hx5_d20_right/hx5_d20_finger_dip.stl
+[2.167s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/hx5_d20/hx5_d20_right/hx5_d20_finger_mcp.stl
+[2.167s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/hx5_d20/hx5_d20_right/hx5_d20_finger_pip.stl
+[2.168s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/hx5_d20/hx5_d20_right/hx5_d20_finger_tip.stl
+[2.168s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/hx5_d20/hx5_d20_right/hx5_d20_thumb_ip.stl
+[2.168s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/hx5_d20/hx5_d20_right/hx5_d20_thumb_mcp.stl
+[2.168s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/hx5_d20/hx5_d20_right/hx5_d20_thumb_mcp2.stl
+[2.169s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/hx5_d20/hx5_d20_right/hx5_d20_thumb_tip.stl
+[2.169s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/rh_p12_rn_a/base.stl
+[2.169s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/rh_p12_rn_a/l1.stl
+[2.170s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/rh_p12_rn_a/l2.stl
+[2.173s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/rh_p12_rn_a/r1.stl
+[2.173s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/common/rh_p12_rn_a/r2.stl
+[2.173s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/ffw_bg2_rev2_follower/base_mobile_assy.stl
+[2.174s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/ffw_bg2_rev3_follower/arm_l_link1.stl
+[2.174s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/ffw_bg2_rev3_follower/arm_l_link2.stl
+[2.181s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/ffw_bg2_rev3_follower/arm_l_link3.stl
+[2.185s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/ffw_bg2_rev3_follower/arm_l_link4.stl
+[2.188s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/ffw_bg2_rev3_follower/arm_l_link5.stl
+[2.189s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/ffw_bg2_rev3_follower/arm_l_link6.stl
+[2.190s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/ffw_bg2_rev3_follower/arm_l_link7.stl
+[2.190s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/ffw_bg2_rev3_follower/arm_r_link1.stl
+[2.190s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/ffw_bg2_rev3_follower/arm_r_link2.stl
+[2.190s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/ffw_bg2_rev3_follower/arm_r_link3.stl
+[2.191s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/ffw_bg2_rev3_follower/arm_r_link4.stl
+[2.191s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/ffw_bg2_rev3_follower/arm_r_link5.stl
+[2.191s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/ffw_bg2_rev3_follower/arm_r_link6.stl
+[2.191s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/ffw_bg2_rev3_follower/arm_r_link7.stl
+[2.193s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/ffw_bg2_rev3_follower/base_mobile_assy.stl
+[2.193s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/ffw_bg2_rev3_follower/body_arm_assy.stl
+[2.193s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/ffw_bg2_rev3_follower/head_link1.stl
+[2.194s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/meshes/ffw_bg2_rev3_follower/head_link2.stl
+[2.194s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/rviz/ffw_bg2.rviz
+[2.195s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/rviz/ffw_bh5.rviz
+[2.195s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/rviz/ffw_f1.rviz
+[2.195s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/rviz/ffw_f2.rviz
+[2.195s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/rviz/ffw_sg2.rviz
+[2.196s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/rviz/ffw_sh5.rviz
+[2.196s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/common/follower/ffw_f_follower_body.xacro
+[2.197s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/common/follower/ffw_follower_body.xacro
+[2.198s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/common/follower/wrist_d401.urdf.xacro
+[2.198s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/common/follower/zedm.urdf.xacro
+[2.198s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/common/hx2_d1/hx2_d1.urdf.xacro
+[2.198s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/common/hx5_d20/hx5_d20_left.urdf
+[2.199s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/common/hx5_d20/hx5_d20_left.urdf.xacro
+[2.200s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/common/hx5_d20/hx5_d20_right.urdf
+[2.201s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/common/hx5_d20/hx5_d20_right.urdf.xacro
+[2.201s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/common/leader/ffw_leader_body.urdf.xacro
+[2.201s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/common/rh_p12_rn_a/rh_p12_rn_a.urdf.xacro
+[2.201s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/ffw_bg2_rev2_follower/ffw_bg2_follower.urdf.xacro
+[2.201s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/ffw_bg2_rev3_follower/ffw_bg2_follower.urdf.xacro
+[2.202s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/ffw_bg2_rev3_follower/ffw_follower_body.xacro
+[2.202s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/ffw_bg2_rev4_follower/ffw_bg2_follower.urdf
+[2.202s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/ffw_bg2_rev4_follower/ffw_bg2_follower.urdf.xacro
+[2.202s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/ffw_bh5_rev1_follower/ffw_bh5_follower.urdf.xacro
+[2.203s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/ffw_f1_follower/ffw_f1_follower.urdf
+[2.216s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/ffw_f1_follower/ffw_f1_follower.urdf.xacro
+[2.216s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/ffw_f2_follower/ffw_f2_follower.urdf
+[2.217s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/ffw_f2_follower/ffw_f2_follower.urdf.xacro
+[2.217s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/ffw_lg2_leader/ffw_lg2_leader.urdf.xacro
+[2.218s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/ffw_mobile_base/ffw_mobile_base.urdf.xacro
+[2.218s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/ffw_sg2_rev1_follower/ffw_sg2_follower.urdf
+[2.219s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/ffw_sg2_rev1_follower/ffw_sg2_follower.urdf.xacro
+[2.220s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/ffw_sh5_rev1_follower/ffw_sh5_follower.urdf
+[2.220s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/urdf/ffw_sh5_rev1_follower/ffw_sh5_follower.urdf.xacro
+[2.220s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/gazebo/ffw_bg2_rev2_follower/ffw_bg2_follower.gazebo.xacro
+[2.220s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/gazebo/ffw_bg2_rev3_follower/ffw_bg2_follower.gazebo.xacro
+[2.221s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/gazebo/ffw_bg2_rev4_follower/ffw_bg2_follower.gazebo.xacro
+[2.221s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/gazebo/ffw_bh5_rev1_follower/ffw_bh5_follower.gazebo.xacro
+[2.221s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/gazebo/ffw_f1_follower/ffw_f1_follower.gazebo.xacro
+[2.222s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/gazebo/ffw_f2_follower/ffw_f2_follower.gazebo.xacro
+[2.222s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/gazebo/ffw_sg2_rev1_follower/ffw_sg2_follower.gazebo.xacro
+[2.222s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/gazebo/ffw_sh5_rev1_follower/ffw_sh5_follower.gazebo.xacro
+[2.222s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/ros2_control/ffw_bg2_rev2_follower/ffw_bg2_follower.ros2_control.xacro
+[2.223s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/ros2_control/ffw_bg2_rev3_follower/ffw_bg2_follower.ros2_control.xacro
+[2.223s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/ros2_control/ffw_bg2_rev4_follower/ffw_bg2_follower.ros2_control.xacro
+[2.223s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/ros2_control/ffw_bg2_rev4_follower/ffw_bg2_follower_smooth.ros2_control.xacro
+[2.224s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/ros2_control/ffw_bh5_rev1_follower/ffw_bh5_follower.ros2_control.xacro
+[2.225s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/ros2_control/ffw_f1_follower/ffw_f1_follower.ros2_control.xacro
+[2.225s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/ros2_control/ffw_f1_follower/ffw_f1_follower_smooth.ros2_control.xacro
+[2.225s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/ros2_control/ffw_f2_follower/ffw_f2_base.ros2_control.xacro
+[2.226s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/ros2_control/ffw_f2_follower/ffw_f2_follower.ros2_control.xacro
+[2.226s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/ros2_control/ffw_f2_follower/ffw_f2_follower_smooth.ros2_control.xacro
+[2.226s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/ros2_control/ffw_f2_follower/ffw_f2_sensor.ros2_control.xacro
+[2.226s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/ros2_control/ffw_lg2_leader/ffw_lg2_leader_left.ros2_control.xacro
+[2.226s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/ros2_control/ffw_lg2_leader/ffw_lg2_leader_right.ros2_control.xacro
+[2.227s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/ros2_control/ffw_mobile_base/ffw_mobile_base.ros2_control.xacro
+[2.227s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/ros2_control/ffw_sg2_rev1_follower/ffw_sg2_base.ros2_control.xacro
+[2.227s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/ros2_control/ffw_sg2_rev1_follower/ffw_sg2_follower.ros2_control.xacro
+[2.227s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/ros2_control/ffw_sg2_rev1_follower/ffw_sg2_follower_smooth.ros2_control.xacro
+[2.227s] -- Symlinking: /root/ros2_ws/install/ffw_description/share/ffw_description/ros2_control/ffw_sg2_rev1_follower/ffw_sg2_follower_smooth_copy.ros2_control.xacro
+[2.228s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/ros2_control/ffw_sg2_rev1_follower/ffw_sg2_sensor.ros2_control.xacro
+[2.228s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/ros2_control/ffw_sh5_rev1_follower/ffw_sh5_base.ros2_control.xacro
+[2.228s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/ros2_control/ffw_sh5_rev1_follower/ffw_sh5_follower.joints.xacro
+[2.228s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/ros2_control/ffw_sh5_rev1_follower/ffw_sh5_follower.ros2_control.xacro
+[2.228s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/ros2_control/ffw_sh5_rev1_follower/ffw_sh5_sensor.ros2_control.xacro
+[2.229s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ament_index/resource_index/package_run_dependencies/ffw_description
+[2.229s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ament_index/resource_index/parent_prefix_path/ffw_description
+[2.229s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/environment/ament_prefix_path.sh
+[2.229s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/environment/ament_prefix_path.dsv
+[2.229s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/environment/path.sh
+[2.230s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/environment/path.dsv
+[2.230s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/local_setup.bash
+[2.230s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/local_setup.sh
+[2.230s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/local_setup.zsh
+[2.230s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/local_setup.dsv
+[2.230s] -- Symlinking: /root/ros2_ws/install/ffw_description/share/ffw_description/package.dsv
+[2.231s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ament_index/resource_index/packages/ffw_description
+[2.231s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/cmake/ffw_descriptionConfig.cmake
+[2.231s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/cmake/ffw_descriptionConfig-version.cmake
+[2.231s] -- Up-to-date symlink: /root/ros2_ws/install/ffw_description/share/ffw_description/package.xml
+[2.293s] Invoked command in '/root/ros2_ws/build/ffw_description' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/root/ros2_ws/install/robotis_hand_bringup:/root/ros2_ws/install/cyclo_motion_controller_ros_py:/root/ros2_ws/install/robotis_hand_teleop:/root/ros2_ws/install/ffw_teleop:/root/ros2_ws/install/ffw_bringup:/opt/ros/jazzy /opt/venv/bin/cmake --install /root/ros2_ws/build/ffw_description

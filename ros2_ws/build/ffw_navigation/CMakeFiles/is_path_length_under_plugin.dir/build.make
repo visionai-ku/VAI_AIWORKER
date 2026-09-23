@@ -166,7 +166,7 @@ libis_path_length_under_plugin.so: /opt/ros/jazzy/lib/libbuiltin_interfaces__ros
 libis_path_length_under_plugin.so: /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_c.so
 libis_path_length_under_plugin.so: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_fastrtps_cpp.so
 libis_path_length_under_plugin.so: /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so
-libis_path_length_under_plugin.so: /opt/ros/jazzy/lib/libfastcdr.so.2.2.5
+libis_path_length_under_plugin.so: /opt/ros/jazzy/lib/libfastcdr.so.2.2.7
 libis_path_length_under_plugin.so: /opt/ros/jazzy/lib/librmw.so
 libis_path_length_under_plugin.so: /opt/ros/jazzy/lib/librosidl_dynamic_typesupport.so
 libis_path_length_under_plugin.so: /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_c.so

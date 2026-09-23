@@ -54,7 +54,7 @@ dual_laser_merger_node: \
   /opt/ros/jazzy/lib/librosidl_typesupport_fastrtps_cpp.so \
   /opt/ros/jazzy/lib/librmw.so \
   /opt/ros/jazzy/lib/librosidl_dynamic_typesupport.so \
-  /opt/ros/jazzy/lib/libfastcdr.so.2.2.5 \
+  /opt/ros/jazzy/lib/libfastcdr.so.2.2.7 \
   /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_cpp.so \
   /opt/ros/jazzy/lib/librosidl_typesupport_introspection_cpp.so \
   /opt/ros/jazzy/lib/librosidl_typesupport_introspection_c.so \
@@ -75,6 +75,7 @@ dual_laser_merger_node: \
   /opt/ros/jazzy/lib/librcl_logging_interface.so \
   /opt/ros/jazzy/lib/librcutils.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libdl.a \
+  /usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/libstdc++.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libm.so \
   /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libm.so \
@@ -246,7 +247,7 @@ CMakeFiles/dual_laser_merger_node.dir/rclcpp_components/node_main_dual_laser_mer
 
 /opt/ros/jazzy/lib/librosidl_dynamic_typesupport.so:
 
-/opt/ros/jazzy/lib/libfastcdr.so.2.2.5:
+/opt/ros/jazzy/lib/libfastcdr.so.2.2.7:
 
 /opt/ros/jazzy/lib/libbuiltin_interfaces__rosidl_typesupport_introspection_cpp.so:
 
@@ -287,6 +288,8 @@ CMakeFiles/dual_laser_merger_node.dir/rclcpp_components/node_main_dual_laser_mer
 /opt/ros/jazzy/lib/librcutils.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/libdl.a:
+
+/usr/lib/gcc/aarch64-linux-gnu/13/libatomic.so:
 
 /usr/lib/gcc/aarch64-linux-gnu/13/libstdc++.so:
 

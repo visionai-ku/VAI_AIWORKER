@@ -1,0 +1,17 @@
+/opt/venv/lib/python3.12/site-packages/setuptools/_distutils/dist.py:289: UserWarning: Unknown distribution option: 'tests_require'
+  warnings.warn(msg)
+running develop
+running egg_info
+writing robotis_hand_teleop.egg-info/PKG-INFO
+writing dependency_links to robotis_hand_teleop.egg-info/dependency_links.txt
+writing entry points to robotis_hand_teleop.egg-info/entry_points.txt
+writing requirements to robotis_hand_teleop.egg-info/requires.txt
+writing top-level names to robotis_hand_teleop.egg-info/top_level.txt
+reading manifest file 'robotis_hand_teleop.egg-info/SOURCES.txt'
+writing manifest file 'robotis_hand_teleop.egg-info/SOURCES.txt'
+running build_ext
+Creating /root/ros2_ws/install/robotis_hand_teleop/lib/python3.12/site-packages/robotis-hand-teleop.egg-link (link to .)
+Installing hx5_d20_teleop script to /root/ros2_ws/install/robotis_hand_teleop/lib/robotis_hand_teleop
+
+Installed /root/ros2_ws/build/robotis_hand_teleop
+running symlink_data

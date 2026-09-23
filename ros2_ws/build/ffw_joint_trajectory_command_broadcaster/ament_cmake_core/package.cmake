@@ -1,5 +1,5 @@
 set(_AMENT_PACKAGE_NAME "ffw_joint_trajectory_command_broadcaster")
-set(ffw_joint_trajectory_command_broadcaster_VERSION "1.2.1")
+set(ffw_joint_trajectory_command_broadcaster_VERSION "2.2.5")
 set(ffw_joint_trajectory_command_broadcaster_MAINTAINER "Pyo <pyo@robotis.com>")
 set(ffw_joint_trajectory_command_broadcaster_BUILD_DEPENDS "backward_ros" "builtin_interfaces" "control_msgs" "controller_interface" "generate_parameter_library" "pluginlib" "rclcpp_lifecycle" "rcutils" "realtime_tools" "sensor_msgs" "urdf" "trajectory_msgs")
 set(ffw_joint_trajectory_command_broadcaster_BUILDTOOL_DEPENDS "ament_cmake")

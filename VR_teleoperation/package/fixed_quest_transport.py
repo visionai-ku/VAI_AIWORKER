@@ -254,6 +254,11 @@ class SG2RobotStateReceiver:
         return self.cache.acknowledge_resync(generation)
 
     def latest(self, now=None):
+        self.poll(now)
+        return self.cache.latest(now)
+
+    def poll(self, now=None):
+        """Drain feedback before choosing the control tick's observation time."""
         if self._socket is not None:
             for _ in range(128):
                 try:
@@ -273,7 +278,6 @@ class SG2RobotStateReceiver:
                     self.cache.reject("invalid_json_feedback:" + str(exc))
                     continue
                 self.cache.ingest(payload, received_at=time.monotonic() if now is None else now)
-        return self.cache.latest(now)
 
     def close(self):
         if self._socket is not None:
@@ -289,6 +293,21 @@ class SG2RobotStateReceiver:
 
     def __exit__(self, *exc):
         self.close()
+
+
+def sample_control_inputs(server, receiver, *, simulated=False):
+    """Validate both snapshots against a clock read after potentially slow I/O.
+
+    REAL cache access below performs no additional socket reads. A delayed
+    poll/copy must age existing feedback, not make stale data look current or
+    make a newly arrived Quest frame appear to come from the future.
+    """
+    if not simulated:
+        receiver.poll()
+    frame = server.latest()
+    now = time.monotonic()
+    feedback = receiver.latest(now) if simulated else receiver.cache.latest(now)
+    return feedback, frame, now
 
 
 class SG2RobotCommandPublisher:
