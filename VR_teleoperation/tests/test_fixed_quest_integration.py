@@ -169,6 +169,42 @@ class FixedQuestIntegrationTest(unittest.TestCase):
         self.assertEqual(result["state"], "READY")
         return result
 
+    def assert_initial_pose_uses_bringup_head(self, use_a, initial_head=.69):
+        from package.vr_buttons import ControllerButtonActions
+
+        head = list(JOINT_NAMES).index("head_joint1")
+        self.publisher.q[head] = initial_head
+        buttons = ControllerButtonActions()
+        actions = []
+        previous_head = initial_head
+        for index in range(300):
+            frame, feedback, now = self.inputs(index)
+            frame["buttons"] = {"right": {"a": use_a and index == 1}}
+            action = actions.pop() if actions else ("home" if not use_a and index == 1 else None)
+            result = self.real.tick_grip(frame, feedback, now=now, action=action)
+            buttons(now, frame, result, self.real, actions)
+            self.assertNotEqual(result["state"], "FAULT", result["reason"])
+            self.assertGreaterEqual(self.publisher.q[head], previous_head - 1e-12)
+            self.assertLessEqual(self.publisher.q[head], .69 + 1e-12)
+            previous_head = self.publisher.q[head]
+            if result["state"] == "HOME":
+                break
+        self.assertEqual(result["state"], "HOME", result["reason"])
+        self.assertEqual(self.planner.q_home[head], .69)
+        commands = [packet for packet in self.publisher.messages if packet["mode"] == "command"]
+        self.assertTrue(commands)
+        self.assertAlmostEqual(parse_joint_groups(commands[-1]["joints"])[head], .69)
+        self.assertTrue(all(outcome["accepted"] for outcome in self.publisher.outcomes))
+
+    def test_initial_pose_button_keeps_bringup_head_in_transmitted_commands(self):
+        self.assert_initial_pose_uses_bringup_head(use_a=False)
+
+    def test_a_button_keeps_bringup_head_in_transmitted_commands(self):
+        self.assert_initial_pose_uses_bringup_head(use_a=True)
+
+    def test_initial_pose_restores_previous_head_target_to_bringup(self):
+        self.assert_initial_pose_uses_bringup_head(use_a=False, initial_head=.3)
+
     def test_delayed_arm_ack_then_both_hands_use_real_gate(self):
         self.heartbeat_period_steps = 5
         self.arm()
@@ -259,6 +295,7 @@ class FixedQuestIntegrationTest(unittest.TestCase):
         request_pose = self.real.request_pose_target
 
         def capture_target(q):
+            self.assertEqual(q[list(JOINT_NAMES).index("head_joint1")], .69)
             request_pose(q)
             requested.append(q.copy())
 
@@ -271,6 +308,7 @@ class FixedQuestIntegrationTest(unittest.TestCase):
             actions.clear()
             result = self.real.tick_grip(None if buttons.lock_input else frame,
                                          feedback, now=now, action=action)
+            self.assertAlmostEqual(self.publisher.q[list(JOINT_NAMES).index("head_joint1")], .69)
             peak_arm_speed = max(peak_arm_speed, float(np.max(np.rad2deg(
                 np.abs(self.publisher.q - previous_q)[self.real.arm_mask]) / .02)))
             if result["state"] == "HOME":

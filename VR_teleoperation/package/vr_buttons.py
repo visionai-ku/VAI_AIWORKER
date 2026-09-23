@@ -15,7 +15,8 @@ Quest controller shortcuts for run_intent_teleop(on_tick=...).
     right B          hold 1 s    reset pose: both wrists up 5 cm + 5 cm apart -> fold like worker_shutdown
                                  (4 steps) -> worker_bringup initial pose (5 steps)
 
-Both A and B leave the head tilted HEAD_TILT down; head_joint2 (yaw) keeps its measured value.
+Initial pose and A/B keep head_joint1 at the bringup target HEAD_TILT (0.69 rad),
+including every B reset stage; head_joint2 (yaw) keeps its measured value.
 
 Poses go through SG2FixedQuestReal.request_pose_target(): each straight joint path is
 guard-checked before anything is sent. The wrist lift/spread and shutdown1 alignment use
@@ -60,12 +61,12 @@ for _i, _step in enumerate(_FOLD_LEFT):
 
 # ffw_bringup/config/ffw_sg2_rev1_follower/ffw_sg2_follower_initial_positions.yaml
 # start -> step1 -> step2 -> step3 -> step4 (both arms identical); lift goes home [0] and the
-# head tilts down with the first step.
-# head_joint1 is the pitch axis (world +y), where positive looks down: 0.3 rad puts the head
-# camera ~17 deg below level, and its limit is (-0.2317, 0.6951). head_joint2 (yaw) is still
+# head keeps its bringup pitch throughout the reset sequence.
+# head_joint1 is the pitch axis (world +y), where positive looks down: the bringup target
+# is 0.69 rad (~39.5 deg), within its limit (-0.2317, 0.6951). head_joint2 (yaw) is still
 # left alone because it settles ~0.7 deg off its target. SG2FixedQuestReal widens the HOME
 # tolerance for both head joints so that settling error cannot stall a return.
-HEAD_TILT = .3
+HEAD_TILT = .69
 _BRINGUP_ARM = [
     ("start", [0.2, 0.0, 0.0, 0.0, 0.0, 0.2, 0.0, 0.0]),
     ("step1", [1.0, 0.0, 0.0, -0.3, 0.0, -1.4, 0.0, 0.0]),
@@ -293,12 +294,16 @@ class ControllerButtonActions:
         self.lock_input = True
 
     def _pose_vector(self, real, values, q_now):
-        if not isinstance(values, dict):
-            return np.asarray(values, dtype=float).copy()
         names = list(real.planner.joint_names)
-        q = np.asarray(q_now, dtype=float).copy()
-        for joint, value in values.items():
-            q[names.index(joint)] = value
+        if isinstance(values, dict):
+            q = np.asarray(q_now, dtype=float).copy()
+            for joint, value in values.items():
+                q[names.index(joint)] = value
+        else:
+            q = np.asarray(values, dtype=float).copy()
+        # Lift IK and partial arm poses otherwise inherit the measured head angle.
+        # Keep the bringup target through lift, fold, unfold and retried B stages.
+        q[names.index("head_joint1")] = HEAD_TILT
         return q
 
     def _advance(self, real, result, ui_actions, now):

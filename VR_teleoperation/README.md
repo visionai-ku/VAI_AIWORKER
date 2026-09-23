@@ -24,6 +24,8 @@ python -m jupyterlab
 
 ## 보정 데이터와 현재 동작
 
+Initial pose 버튼과 컨트롤러 A·B의 머리 `head_joint1` 목표는 bringup과 동일한 **0.69 rad(약 39.5°)** 아래 방향으로 고정한다. `head_joint2`는 실측값을 유지한다. 변경된 공용 상수를 불러오려면 실행을 종료하고 노트북 커널을 재시작한 뒤 첫 셀부터 다시 실행한다.
+
 2026-09-23 원본 `FtF_VR/project_v2`의 개인 의도 축 보정 노트북과 수집 UI를 복원했다. 새 수집은 `RESUME_CAPTURE_PATH=None`에서 시작하며 Quest 컨트롤러만 사용한다. 로봇 연결이나 grip 입력은 필요 없다. 6종 동작을 각 5회 수집하고, 결과는 시각이 붙은 새 파일로 저장한다. 기존 SIM·REAL·기록용 REAL의 보정 선택과 제어 기본값은 유지했다. 상세 절차와 결과 판정은 [보정 안내](docs/CALIBRATION.md)를 참고한다.
 
 Teleoperation의 충돌 거리 검사는 `TELEOP_COLLISION_CHECK=False`로 해제했다(SIM·REAL·기록용 REAL 공통). 양팔·그리퍼를 가까이 접근시키는 조작과 grip 재시작, 추적 일시정지·IK 대기 중 유지 명령에도 같은 설정을 적용한다. Initial pose, B 버튼 Reset pose의 각 단계, 수동 관절 이동은 전체 경로 및 전송 전 충돌 검사를 유지한다. 관절 범위·속도·팔꿈치 자세·피드백·ACK 검사는 계속 적용한다. 실행 창과 기록 메타데이터에 충돌 검사 설정을 표시하며, Teleoperation에도 검사를 적용하려면 `TELEOP_COLLISION_CHECK=True`로 바꾼다. 코드 갱신 후 노트북 커널을 재시작하고 설정 셀부터 다시 실행해야 반영된다.
