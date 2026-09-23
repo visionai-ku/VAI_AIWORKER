@@ -308,14 +308,33 @@ class SG2FixedQuestSimulation:
         return self.env_ik.get_qpos(joint_names=self.joint_names).copy()
 
     def tick(self, frame, enabled=False, now=None, action=None, eef_poses=None, pause_motion=False,
-             posture_reference_qpos=None):
-        """Validate input, solve at ik_hz, limit/check one command, then apply to SIM."""
+             posture_reference_qpos=None, q_target=None):
+        """Validate input, solve at ik_hz, limit/check one command, then apply to SIM.
+
+        action="policy": drive q_target (JOINT_NAMES order; the caller must have
+        already clipped it into JOINT_LIMITS, e.g. via policy_inference's
+        clip_to_joint_limits) through the same rate-limit + collision/posture
+        guard as teleop and HOME motion, at the "home" collision profile --
+        always checked, regardless of teleop_collision_check -- since an
+        autonomous policy is not teleoperation. No VR mapper/IK runs on this
+        tick; `frame` is ignored. `enabled=False` holds position, like a
+        released grip. Call with a fresh q_target every tick: nothing here
+        repeats a stale one.
+        """
         started = time.perf_counter()
         now = time.monotonic() if now is None else float(now)
         if not np.isfinite(now):
             raise ValueError("now must be a finite monotonic timestamp")
-        if action not in (None, "home", "cancel_home"):
+        if action not in (None, "home", "cancel_home", "policy"):
             raise ValueError("Unknown SIM action")
+        if action == "policy":
+            q_target = None if q_target is None else np.asarray(q_target, dtype=float).copy()
+            if (q_target is None or q_target.shape != (len(self.joint_names),)
+                    or not np.isfinite(q_target).all()):
+                raise ValueError("policy action requires a finite q_target of shape (%d,)"
+                                 % len(self.joint_names))
+        elif q_target is not None:
+            raise ValueError("q_target is only used with action='policy'")
         dt = 0.0 if self.last_time is None else now - self.last_time
         self.last_time = now
         planning_gap, self._home_planning_gap = self._home_planning_gap, False
@@ -373,7 +392,13 @@ class SG2FixedQuestSimulation:
         # Real adapters may anchor each clutch on fresh measured wrist FK.
         eef = ({hand: get_sg2_wrist_control_T(self.env, hand) for hand in SG2_HAND_TYPES}
                if eef_poses is None else eef_poses)
-        if pause_motion and enabled and not self.homing:
+        if action == "policy":
+            # No VR grip/IK on a policy tick -- q_target (already validated above)
+            # is the command, exactly like a HOME waypoint is.
+            mapping = dict(state="POLICY" if enabled else "HOLD",
+                           reason="policy target" if enabled else "SIM control OFF",
+                           targets={}, active=(), triggers={})
+        elif pause_motion and enabled and not self.homing:
             # Keep clutch anchors but never consume an emulated pose or advance IK.
             mapping = dict(state="TRACKING_PAUSED", reason="waiting for valid controller tracking",
                            targets={}, active=(), triggers={})
@@ -421,10 +446,12 @@ class SG2FixedQuestSimulation:
                 mapping = dict(mapping, state="HOLD", reason=reason)
 
         # A released hand must not continue converging toward its old EEF target.
-        for hand in SG2_HAND_TYPES:
-            if hand not in active and not self.homing:
-                indices = self.hand_indices[hand] + [self.gripper_indices[hand]]
-                self.q_goal[indices] = self.q_command[indices]
+        # Not for a policy tick: q_target below already covers every joint.
+        if action != "policy":
+            for hand in SG2_HAND_TYPES:
+                if hand not in active and not self.homing:
+                    indices = self.hand_indices[hand] + [self.gripper_indices[hand]]
+                    self.q_goal[indices] = self.q_command[indices]
         if active and (now - self.last_ik_time >= self.ik_period - 1e-9 or active != self.last_active):
             # Failed attempts also consume the IK cadence. Keep last_active as
             # the mapped hands, even when output motion is held below.
@@ -466,7 +493,11 @@ class SG2FixedQuestSimulation:
             if mapping["state"] != "TRACKING_PAUSED":
                 mapping = dict(mapping, state="IK_WAIT", reason="IK retry pending: " + self._ik_recovery_reason)
 
-        if (active or self.homing) and command_dt > 0 and self.fault_reason is None:
+        policy_driving = action == "policy" and enabled and self.fault_reason is None
+        if policy_driving:
+            self.q_goal = q_target.copy()
+
+        if (active or self.homing or policy_driving) and command_dt > 0 and self.fault_reason is None:
             if self.homing:
                 # Advance only from a waypoint the command actually reached. A
                 # candidate held back by real pacing then cannot cut a corner.
@@ -496,7 +527,9 @@ class SG2FixedQuestSimulation:
             arm_rate_scales = dict(zip(coordinated_hands, rate_info["group_scales"]))
             candidate, limited = rate_info["qpos"], rate_info["limited"]
             self._copy_context(self.guard.env_check)
-            motion = "home" if self.homing else "teleop"
+            # A policy is not teleoperation: keep it on the always-checked "home"
+            # collision profile even when teleop_collision_check is False.
+            motion = "home" if self.homing or policy_driving else "teleop"
             guard_info = self.check_command(self.q_command, candidate, motion=motion)
             if guard_info["accepted"] and not self.homing:
                 posture_check = self.check_posture_command(candidate)

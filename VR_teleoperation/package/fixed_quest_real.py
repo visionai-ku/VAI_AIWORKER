@@ -611,12 +611,30 @@ class SG2FixedQuestReal:
         q = feedback.get("q")
         return self._result(result, feedback, None if q is None else np.asarray(q))
 
-    def tick(self, frame, feedback, enabled=False, now=None, action=None, pause_motion=False):
+    def tick(self, frame, feedback, enabled=False, now=None, action=None, pause_motion=False, q_target=None):
+        """action="policy": drive q_target (JOINT_NAMES order, already safety-clipped
+        by the caller -- see policy_inference.clip_to_joint_limits) through the same
+        arming/lease/pacing/guard pipeline teleop already goes through, at the
+        always-checked "home" collision profile (see guard_motion below) but at
+        teleop speed/lag limits -- a trained policy is expected to move at
+        operating speed, not HOME's slow guarded-return crawl. No VR mapper/IK
+        runs; `frame` may be None. Pass action="policy" with a fresh q_target on
+        every tick for the whole session (unlike "home", this is not a one-shot
+        request that then self-sustains via self.planner.homing).
+        """
         now = time.monotonic() if now is None else float(now)
         if not np.isfinite(now):
             raise ValueError("now must be finite")
-        if action not in (None, "home", "cancel_home", "joint_adjust"):
+        if action not in (None, "home", "cancel_home", "joint_adjust", "policy"):
             raise ValueError("Unknown real control action")
+        is_policy = action == "policy"
+        if is_policy:
+            q_target = None if q_target is None else np.asarray(q_target, dtype=float).copy()
+            if (q_target is None or q_target.shape != (len(JOINT_NAMES),)
+                    or not np.isfinite(q_target).all()):
+                raise ValueError("policy action requires a finite q_target of shape (%d,)" % len(JOINT_NAMES))
+        elif q_target is not None:
+            raise ValueError("q_target is only used with action='policy'")
         recovery_before = self.planner.ik_recovery_info(now)
         feedback = feedback or {"ready": False, "reason": "waiting for robot state"}
         rising = bool(enabled) and not self.enabled_before
@@ -731,20 +749,28 @@ class SG2FixedQuestReal:
             self._sync_command(q)
             # An explicit Initial pose request needs measured robot feedback,
             # not controller tracking. Ordinary teleoperation still needs both.
-            arming_result = self.planner.tick(
-                frame, enabled=not self.home_pending, now=now,
-                posture_reference_qpos=self.env_measured.data.qpos.copy())
+            # A policy session has no VR frame at all -- arm in place, at the
+            # current measured pose, exactly like an Initial pose request does.
+            if is_policy:
+                arming_result = self.planner.tick(
+                    frame, enabled=True, now=now, action="policy", q_target=q,
+                    posture_reference_qpos=self.env_measured.data.qpos.copy())
+            else:
+                arming_result = self.planner.tick(
+                    frame, enabled=not self.home_pending, now=now,
+                    posture_reference_qpos=self.env_measured.data.qpos.copy())
             if arming_result["state"] in ("HOLD", "FAULT"):
                 return self._hold(frame, feedback, now, arming_result["reason"], True,
                                   arming_result["state"])
-            if self.home_pending:
+            if self.home_pending or is_policy:
                 self.planner.guard.env_check.data.qpos[:] = self.env_measured.data.qpos
                 self.planner.guard.env_check.data.qvel[:] = 0
                 self.planner.guard.env_check.forward()
                 arming_check = self.planner.check_command(q, q, motion="home")
                 if not arming_check["accepted"]:
                     held = self._hold(frame, feedback, now,
-                                      "initial pose arming rejected: " + arming_check["reason"], True, "FAULT")
+                                      ("policy arming rejected: " if is_policy else "initial pose arming rejected: ")
+                                      + arming_check["reason"], True, "FAULT")
                     held["guard"] = arming_check
                     return held
             if feedback.get("owner_session_id") == self.session_id and feedback.get("bridge_state") in ("ACTIVE", "active"):
@@ -780,9 +806,10 @@ class SG2FixedQuestReal:
         # return target reaches the planner before that acknowledgment.
         waiting_home_arm = self.home_pending and not self.armed
         waiting_grip_arm = self._grip_start_requested and not self.dry_run and not self.armed
+        waiting_policy_arm = is_policy and not self.dry_run and not self.armed
         home_action = "home" if self.home_pending and self.armed else action
         previous = self.planner.q_command.copy()
-        if waiting_home_arm or waiting_grip_arm:
+        if waiting_home_arm or waiting_grip_arm or waiting_policy_arm:
             result = self.planner.tick(frame, enabled=False, now=now, eef_poses=eef)
             result["enabled"] = True
         else:
@@ -793,8 +820,8 @@ class SG2FixedQuestReal:
                 if initialized["state"] == "HOLD":
                     return self._hold(frame, feedback, now, initialized["reason"], True)
                 self._grip_start_requested = False
-            result = self.planner.tick(frame, enabled=True, now=now, action=home_action, eef_poses=eef,
-                                       pause_motion=pause_motion,
+            result = self.planner.tick(frame, enabled=True, now=now, action=home_action, q_target=q_target,
+                                       eef_poses=eef, pause_motion=pause_motion,
                                        posture_reference_qpos=self.env_measured.data.qpos.copy())
         if result["state"] in ("HOLD", "FAULT"):
             if (result["state"] == "HOLD" and result["reason"] in _STARTUP_INPUT_REASONS
@@ -810,12 +837,14 @@ class SG2FixedQuestReal:
             held["attempted_posture_ik"] = result.get("posture_ik", {})
             held["ik_recovery"] = result.get("ik_recovery", held["ik_recovery"])
             return held
-        if self.dry_run and result["state"] in ("ACTIVE", "HOMING", "HOME"):
+        if self.dry_run and result["state"] in ("ACTIVE", "HOMING", "HOME", "POLICY"):
             self.control_has_started = True
         candidate = result["q_command"]
         # Capture the automatic-motion policy through the final HOME tick,
-        # even after the planner has cleared its homing flag on arrival.
-        guard_motion = "home" if returning or result["state"] in ("HOMING", "HOME") else "teleop"
+        # even after the planner has cleared its homing flag on arrival. An
+        # autonomous policy is not teleoperation either: always the checked
+        # "home" collision profile, regardless of teleop_collision_check.
+        guard_motion = "home" if returning or is_policy or result["state"] in ("HOMING", "HOME") else "teleop"
         if np.any(candidate < self.bounds[:, 0]) or np.any(candidate > self.bounds[:, 1]):
             return self._hold(frame, feedback, now, "candidate outside verified real joint limits", True, "FAULT")
         if not self.dry_run and self.armed:
@@ -841,7 +870,7 @@ class SG2FixedQuestReal:
                     self._ack_travel is None or not np.allclose(candidate, self.planner.return_target, rtol=0, atol=1e-9)):
                 self.planner.homing = True
                 result.update(state="HOMING", reason="returning to initial pose", homing=True)
-        if result["state"] in ("ACTIVE", "IK_WAIT"):
+        if result["state"] in ("ACTIVE", "IK_WAIT", "POLICY"):
             posture_check = self.planner.check_posture_command(candidate)
             result["posture_command_guard"] = posture_check
             if not posture_check["accepted"]:
@@ -875,16 +904,19 @@ class SG2FixedQuestReal:
             if waiting_home_arm and self._home_arm_deferred:
                 self._home_arm_deferred = False
                 result.update(state="ARMING", reason="initial pose path verified; arming robot bridge")
-            elif not self.armed and (result["state"] == "READY" or waiting_home_arm or waiting_grip_arm):
+            elif not self.armed and (result["state"] == "READY" or waiting_home_arm or waiting_grip_arm
+                                     or waiting_policy_arm):
                 self._reset_command_window()
                 self.session_id, self.sequence, self.arm_started = str(uuid.uuid4()), 0, now
                 self.control_has_started = True
                 sent = self._send("arm", q, feedback)
                 result.update(state="ARMING", reason=(
-                    "initial pose requested; waiting for robot bridge" if self.home_pending
+                    "policy control requested; waiting for robot bridge" if is_policy
+                    else "initial pose requested; waiting for robot bridge" if self.home_pending
                     else ("waiting for robot bridge; keep both grips held" if self._grip_engaged
                           else "waiting for robot bridge; release both grips")))
-            elif self.armed and result["state"] in ("READY", "ACTIVE", "HOMING", "HOME", "TRACKING_PAUSED", "IK_WAIT"):
+            elif self.armed and result["state"] in ("READY", "ACTIVE", "HOMING", "HOME", "TRACKING_PAUSED",
+                                                     "IK_WAIT", "POLICY"):
                 motion = "home" if result["state"] in ("HOMING", "HOME") else "teleop"
                 sent = self._send("command", candidate, feedback, motion=motion)
                 if not sent:

@@ -721,6 +721,70 @@ class FixedQuestSimulationTest(unittest.TestCase):
             self.assertLess(error["position_m"], .002)
             self.assertLess(error["rotation_rad"], np.deg2rad(1))
 
+    # ---------- action="policy" (autonomous joint target, no VR frame) ----------
+
+    def test_policy_action_requires_finite_q_target_of_right_shape(self):
+        for bad in (None, np.zeros(3), np.full(len(self.names), np.nan)):
+            with self.subTest(bad=None if bad is None else bad.shape):
+                with self.assertRaises(ValueError):
+                    self.sim.tick(None, True, 0., action="policy", q_target=bad)
+
+    def test_q_target_without_policy_action_is_rejected(self):
+        q = self.sim.q_home.copy()
+        with self.assertRaises(ValueError):
+            self.sim.tick(None, True, 0., q_target=q)
+        with self.assertRaises(ValueError):
+            self.sim.tick(None, True, 0., action="home", q_target=q)
+
+    def test_policy_disabled_holds_position(self):
+        q_target = self.sim.q_home.copy()
+        q_target[self.names.index("arm_l_joint1")] += np.deg2rad(5)
+        result = self.sim.tick(None, False, 0., action="policy", q_target=q_target)
+        self.assertEqual(result["state"], "HOLD")
+        np.testing.assert_array_equal(result["q_command"], self.sim.q_home)
+
+    def test_policy_moves_toward_target_respecting_rate_limit(self):
+        q_target = self.sim.q_home.copy()
+        q_target[self.names.index("arm_l_joint1")] += np.deg2rad(5)
+        first = self.sim.tick(None, True, 0., action="policy", q_target=q_target)
+        self.assertEqual(first["state"], "POLICY")
+        result = self.sim.tick(None, True, .02, action="policy", q_target=q_target)
+        self.assertEqual(result["state"], "POLICY")
+        dq = np.abs(result["q_command"] - self.sim.q_home)
+        self.assertGreater(np.max(dq), 0.)
+        self.assertTrue(np.all(dq <= self.sim.speed_limits * .02 + 1e-9))
+        self.assertFalse(np.allclose(result["q_command"], q_target),
+                         "one 20ms tick at the rate limit must not already reach a 5deg target")
+
+    def test_policy_reaches_target_over_many_ticks(self):
+        q_target = self.sim.q_home.copy()
+        q_target[self.names.index("arm_l_joint1")] += np.deg2rad(5)
+        result = None
+        for index in range(200):
+            result = self.sim.tick(None, True, index / 100., action="policy", q_target=q_target)
+            self.assertNotEqual(result["state"], "FAULT", result["reason"])
+        np.testing.assert_allclose(result["q_command"], q_target, atol=1e-6)
+
+    def test_policy_frame_argument_is_ignored(self):
+        q_target = self.sim.q_home.copy()
+        q_target[self.names.index("arm_l_joint1")] += np.deg2rad(5)
+        garbage_frame = {"not": "a real quest frame"}
+        result = self.sim.tick(garbage_frame, True, 0., action="policy", q_target=q_target)
+        self.assertEqual(result["state"], "POLICY")
+
+    def test_policy_target_causing_collision_is_rejected_even_when_teleop_check_disabled(self):
+        self.sim.teleop_collision_check = False
+        q_collision = self.sim.q_home.copy()
+        q_collision[self.names.index("arm_l_joint3")] = -2.
+        result = None
+        for index in range(400):
+            result = self.sim.tick(None, True, index / 100., action="policy", q_target=q_collision)
+            if result["state"] == "FAULT":
+                break
+        self.assertEqual(result["state"], "FAULT")
+        self.assertIn("command rejected", result["reason"])
+        self.assertFalse(result["guard"]["accepted"])
+
 
 if __name__ == "__main__":
     unittest.main()
