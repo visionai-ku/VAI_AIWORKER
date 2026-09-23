@@ -123,6 +123,23 @@ class ControllerButtonActionsTest(unittest.TestCase):
         self.start()  # A later reset must start slowly again.
         self.assert_speed(30)
 
+    def test_every_reset_stage_keeps_bringup_head_despite_feedback_drift(self):
+        pitch = list(JOINT_NAMES).index("head_joint1")
+        yaw = list(JOINT_NAMES).index("head_joint2")
+        self.start()  # The mocked lift IK returns a full vector with pitch zero.
+        self.assertEqual(self.targets[-1][pitch], .69)
+        for stage in range(1, 10):
+            measured_pitch = .69 - .01 * stage
+            self.real.last_feedback["q"][pitch] = measured_pitch
+            self.real.last_feedback["q"][yaw] = .05
+            self.advance("HOME")
+            self.assertEqual(self.targets[-1][pitch], .69, self.buttons.status)
+            self.assertEqual(self.targets[-1][yaw], .05)
+            self.assertEqual(self.real.last_feedback["q"][pitch], measured_pitch)
+        self.assertEqual(len(self.targets), 10)
+        self.advance("HOME")
+        self.assertIn("완료", self.buttons.status)
+
     def test_skipped_lift_still_keeps_alignment_speed(self):
         self.start(lift_ok=False)
         self.assertIn("1/9 shutdown1", self.buttons.status)

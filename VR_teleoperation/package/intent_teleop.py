@@ -538,7 +538,7 @@ def run_intent_teleop(cfg=None, on_tick=None):
             controls.layout().addWidget(tracking_row)
             controls.layout().addWidget(tracking_mode_status)
         home_button = QPushButton("Initial pose", controls)
-        home_button.setToolTip("고정된 worker_bringup 자세(BRINGUP_POSE)까지 전체 경로를 검사한 뒤 복귀합니다. (헤드 관절 제외)")
+        home_button.setToolTip("고정된 worker_bringup 자세까지 전체 경로를 검사한 뒤 복귀합니다. head_joint1 목표는 bringup과 같은 0.69 rad로 유지합니다.")
         cancel_button = QPushButton("Cancel return", controls)
         status_label = QLabel("로봇 피드백 대기", controls)
         status_label.setWordWrap(True)

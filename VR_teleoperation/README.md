@@ -14,6 +14,7 @@ python -m jupyterlab
 ```
 
 - [SIM 노트북](sim_notebook/sim_vr_teleop.ipynb)을 먼저 실행한다.
+- 새 개인 보정은 [보정 수집 노트북](calibration_notebook/calibrate_intent_axes.ipynb)에서 만든다. 준비·수집·SIM/REAL 적용 순서는 [보정 안내](docs/CALIBRATION.md)를 따른다.
 - [REAL 노트북](real_notebook/real_vr_teleop.ipynb)은 DRY RUN으로 시작하며 실제 로봇 피드백이 필요하다. [로봇 worker 적용 안내](docs/WORKER_SETUP.md)를 따른다.
 - 각 노트북은 새 커널에서 첫 셀부터 실행한다. 기존 프로젝트 모듈을 불러온 커널은 재시작한다.
 - Ubuntu에서는 저장소 루트의 `bash setup_ubuntu_env.sh`로 `ri_motion_v5_env` 환경과 Jupyter 커널을 만든다. 이 스크립트는 환경·커널 안에서 `LD_LIBRARY_PATH`의 `/usr/lib/x86_64-linux-gnu`를 제외한다. 이 경로가 앞에 있으면(예: `~/.bashrc`의 CUDA/ROS 설정) PyQt5가 시스템 Qt 5.12를 불러와 `Could not load the Qt platform plugin "xcb"`로 종료된다.
@@ -22,6 +23,10 @@ python -m jupyterlab
 숨김 파일 `.project_v2`는 작업공간 식별자로 보존했다. 폴더 이름은 `VR_teleoperation`이며 노트북 폴더와 저장소 루트 양쪽에서 찾도록 복사본의 경로 탐색을 조정했다. 실행에 필요한 `vendor/`와 `xml/`은 이 폴더 안의 사본을 사용한다.
 
 ## 보정 데이터와 현재 동작
+
+Initial pose 버튼과 컨트롤러 A·B의 머리 `head_joint1` 목표는 bringup과 동일한 **0.69 rad(약 39.5°)** 아래 방향으로 고정한다. `head_joint2`는 실측값을 유지한다. 변경된 공용 상수를 불러오려면 실행을 종료하고 노트북 커널을 재시작한 뒤 첫 셀부터 다시 실행한다.
+
+2026-09-23 원본 `FtF_VR/project_v2`의 개인 의도 축 보정 노트북과 수집 UI를 복원했다. 새 수집은 `RESUME_CAPTURE_PATH=None`에서 시작하며 Quest 컨트롤러만 사용한다. 로봇 연결이나 grip 입력은 필요 없다. 6종 동작을 각 5회 수집하고, 결과는 시각이 붙은 새 파일로 저장한다. 기존 SIM·REAL·기록용 REAL의 보정 선택과 제어 기본값은 유지했다. 상세 절차와 결과 판정은 [보정 안내](docs/CALIBRATION.md)를 참고한다.
 
 Teleoperation의 충돌 거리 검사는 `TELEOP_COLLISION_CHECK=False`로 해제했다(SIM·REAL·기록용 REAL 공통). 양팔·그리퍼를 가까이 접근시키는 조작과 grip 재시작, 추적 일시정지·IK 대기 중 유지 명령에도 같은 설정을 적용한다. Initial pose, B 버튼 Reset pose의 각 단계, 수동 관절 이동은 전체 경로 및 전송 전 충돌 검사를 유지한다. 관절 범위·속도·팔꿈치 자세·피드백·ACK 검사는 계속 적용한다. 실행 창과 기록 메타데이터에 충돌 검사 설정을 표시하며, Teleoperation에도 검사를 적용하려면 `TELEOP_COLLISION_CHECK=True`로 바꾼다. 코드 갱신 후 노트북 커널을 재시작하고 설정 셀부터 다시 실행해야 반영된다.
 
@@ -47,7 +52,7 @@ IK 후보의 허용오차는 위치 1 mm·회전 0.5°이며, 초기 팔꿈치 �
 
 ## 오프라인 검증
 
-이 폴더에서 실행한다. 실제 Quest/로봇 연결 없이 복사본의 모델, 모듈 경로, 선택된 프로필과 worker 해시를 확인한다.
+이 폴더에서 실행한다. 실제 Quest/로봇 연결 없이 복사본의 모델, 모듈 경로, 선택된 프로필과 보정 노트북 준비 설정을 확인한다.
 
 ```bash
 python scripts/check_workspace.py
@@ -55,7 +60,7 @@ python -m unittest discover -s tests -p 'test_*.py'
 python scripts/validate_intent_pipeline.py
 ```
 
-`check_workspace.py`는 두 노트북의 import·설정·모델 준비 셀만 실행한다. 라이브 실행 셀은 실행하지 않는다. 포함된 회귀 검사는 메모리 기반 transport/ROS mock을 사용한다. 합성 검증은 이상적인 관절 추종을 사용하며 실제 모터·부하·통신 검증을 대신하지 않는다. 실행 결과와 생성 장면은 `.cache/`에 저장되고 Git에서 제외된다.
+`check_workspace.py`는 SIM·REAL 두 노트북의 import·설정·모델 준비 셀과 보정 노트북의 준비 셀을 검사한다. 라이브 실행 셀은 실행하지 않는다. 포함된 회귀 검사는 메모리 기반 transport/ROS mock을 사용한다. 합성 검증은 이상적인 관절 추종을 사용하며 실제 모터·부하·통신 검증을 대신하지 않는다. 실행 결과와 생성 장면은 `.cache/`에 저장되고 Git에서 제외된다.
 
 ## 배포 범위
 
@@ -65,4 +70,4 @@ python scripts/validate_intent_pipeline.py
 
 `SOURCE_MANIFEST.json`은 2026-09-15 작업공간 생성 당시의 출처 기록으로 보존한 것이며 현재 파일 해시 목록은 아니다. 출처·라이선스는 [THIRD_PARTY.md](THIRD_PARTY.md), 로봇 자산 고지는 [ROBOTIS_LICENSE](xml/ROBOTIS_LICENSE)에 있다.
 
-과거 노트북, 실험/분석 산출물, 원본 `.cache`, 백업, 인증서/키, 컴파일 바이너리와 선택적 native C++ 빌드 소스는 포함하지 않았다. 현재 Python IK 실행에는 native 빌드가 필요하지 않다.
+2026-09-23에 복원한 보정 노트북 외의 과거 노트북, 실험/분석 산출물, 원본 `.cache`, 백업, 인증서/키, 컴파일 바이너리와 선택적 native C++ 빌드 소스는 포함하지 않았다. 현재 Python IK 실행에는 native 빌드가 필요하지 않다.
