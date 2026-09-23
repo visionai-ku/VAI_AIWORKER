@@ -81,8 +81,8 @@ The `ffw_sg2_vr_teleoperation` notebooks only need the smaller requirement set
 used by `VR_teleoperation`. From the repository root (`VAI_AIWORKER`):
 
 ```bash
-bash setup_ubuntu_env.sh          # creates ri_motion_v5_env + Jupyter kernel
-conda activate ri_motion_v5_env
+bash setup_ubuntu_env.sh          # creates ri_motion_v5_py312 (Python 3.12) + Jupyter kernel
+conda activate ri_motion_v5_py312
 jupyter lab
 ```
 
@@ -91,7 +91,9 @@ jupyter lab
   PyQt5 loads the system Qt 5.12 and aborts with
   `Could not load the Qt platform plugin "xcb"`.
 - `build_sg2_collision_aware_ik_backend(...)` compiles the native IK with `g++`
-  (`build-essential`) into `mujoco_sim/so/*-linux-gnu.so`.
+  (`build-essential`) into `mujoco_sim/so/*-linux-gnu.so`. The file name carries the
+  Python ABI (`cpython-310`, `cpython-312`, ...), so a new env just builds its own copy
+  next to the old one on first use; pass `clean=True` to force a rebuild.
 
 ## Notebook Usage
 

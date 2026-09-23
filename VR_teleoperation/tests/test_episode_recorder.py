@@ -32,9 +32,11 @@ class DatasetRootTest(unittest.TestCase):
 
     def write_episodes(self, count, frames=4):
         """A real dataset at self.root, written the way the recorder writes one."""
+        from lerobot.configs.video import RGBEncoderConfig
         from lerobot.datasets.lerobot_dataset import LeRobotDataset
         dataset = LeRobotDataset.create("local/test", 10, build_features(CAMERA_SHAPES),
-                                        root=self.root, use_videos=True, vcodec="h264",
+                                        root=self.root, use_videos=True,
+                                        rgb_encoder=RGBEncoderConfig(vcodec="h264"),
                                         video_backend="pyav")
         for _ in range(count):
             for _ in range(frames):
@@ -180,8 +182,7 @@ class DatasetRootTest(unittest.TestCase):
 
         for path in sorted(self.root.rglob("*.parquet")):
             pq.ParquetFile(path)          # footer 없으면 ArrowInvalid
-        reloaded = LeRobotDataset("local/test", root=self.root, vcodec="h264",
-                                  video_backend="pyav")
+        reloaded = LeRobotDataset("local/test", root=self.root, video_backend="pyav")
         self.assertEqual(reloaded.meta.total_episodes, 2)
         self.assertEqual([e["length"] for e in list_episodes(self.root)], [4, 5])
         self.assertEqual(len(reloaded), 9)
@@ -223,7 +224,7 @@ class DatasetRootTest(unittest.TestCase):
             recorder.close()
 
         self.assertIn("finalized", recorder.msg)
-        reloaded = LeRobotDataset("local/test", root=self.root, vcodec="h264", video_backend="pyav")
+        reloaded = LeRobotDataset("local/test", root=self.root, video_backend="pyav")
         self.assertEqual(reloaded.meta.total_episodes, 1)
         self.assertEqual(len(reloaded), 4)
 

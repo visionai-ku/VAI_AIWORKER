@@ -23,11 +23,14 @@ the wire's BGR to RGB (the convention LeRobot's own camera backends use). With
 record_eef=True the schema also has observation.eef_pose / action.eef_pose (package/eef_pose.py:
 FK of the measured / commanded joints, per hand xyz + quat wxyz in base_link).
 
-An existing `root` (one with meta/info.json) is resumed and appended to, matching
-lerobot-record --resume; a fresh `root` is created with LeRobotDataset.create(). The default
+An existing `root` (one with meta/info.json) is resumed and appended to with
+LeRobotDataset.resume(), matching lerobot-record --resume; a fresh `root` is created with
+LeRobotDataset.create(). (Since lerobot 0.5 the plain LeRobotDataset(...) constructor is
+read-only -- only create()/resume() return a dataset that accepts add_frame().) The default
 `vcodec="h264"` targets a software libx264 encoder available on stock ffmpeg builds; the
 LeRobotDataset default ("libsvtav1") needs an ffmpeg built with libsvtav1, which is not
-guaranteed to be installed.
+guaranteed to be installed. It is passed to lerobot as RGBEncoderConfig(vcodec=...), whose
+other defaults (yuv420p, g=2, crf=30) match what lerobot 0.4's `vcodec=` argument used.
 """
 import json
 import pickle
@@ -45,6 +48,7 @@ import zmq
 from PyQt5.QtCore import QTimer
 
 from ri_motion_v5_package.qt import MultiRadioQtWidget
+from lerobot.configs.video import RGBEncoderConfig
 from lerobot.datasets.lerobot_dataset import LeRobotDataset
 from package.worker.fixed_quest_protocol import JOINT_NAMES, parse_joint_groups
 
@@ -328,8 +332,7 @@ class VREpisodeRecorder:
         # the chunk/file indices from disk and rolls to new files. Only the episode being
         # recorded can now be lost.
         dataset.finalize()
-        reopened = LeRobotDataset(self.repo_id, root=self.root, vcodec=self.vcodec,
-                                  video_backend="pyav")
+        reopened = self._resume_dataset()
         meta = {"episode_index": episode_index, "duration_sec": duration, "n_frames": n_frames}
         with self.lock:
             self.dataset = reopened
@@ -420,6 +423,12 @@ class VREpisodeRecorder:
             frame["observation.images.%s" % cam] = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
         return frame
 
+    def _resume_dataset(self):
+        """The finalized dataset at `root`, opened for appending (write mode)."""
+        return LeRobotDataset.resume(self.repo_id, root=self.root,
+                                     rgb_encoder=RGBEncoderConfig(vcodec=self.vcodec),
+                                     image_writer_threads=4, video_backend="pyav")
+
     def _open_dataset(self, camera_shapes):
         # video_backend="pyav": this machine's torchcodec build (LeRobotDataset's own
         # default) fails to load its ffmpeg shared libraries; pyav works against the
@@ -429,8 +438,7 @@ class VREpisodeRecorder:
         if status in (ROOT_FOREIGN, ROOT_UNFINALIZED):
             raise _root_error(self.root, status)
         if status == ROOT_READY:
-            self.dataset = LeRobotDataset(self.repo_id, root=self.root, vcodec=self.vcodec,
-                                          video_backend="pyav")
+            self.dataset = self._resume_dataset()
             has_eef = EEF_OBS_KEY in self.dataset.meta.features
             if has_eef != bool(self.eef_names):
                 self.dataset = None
@@ -444,8 +452,8 @@ class VREpisodeRecorder:
                 self.root.rmdir()
             self.dataset = LeRobotDataset.create(
                 self.repo_id, self.hz, build_features(camera_shapes, self.eef_names), root=self.root,
-                use_videos=True, vcodec=self.vcodec, image_writer_threads=4,
-                video_backend="pyav")
+                use_videos=True, rgb_encoder=RGBEncoderConfig(vcodec=self.vcodec),
+                image_writer_threads=4, video_backend="pyav")
         self.msg = "ready (%d cameras, %d saved)" % (len(camera_shapes), self.dataset.meta.total_episodes)
         print("[rec]", self.msg)
 

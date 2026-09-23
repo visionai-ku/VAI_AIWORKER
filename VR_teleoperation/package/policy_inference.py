@@ -4,7 +4,7 @@
 Works with any policy type lerobot.policies.factory.get_policy_class knows about
 (ACT now; diffusion/pi0/etc. later need no changes here -- the checkpoint's own
 config.json picks the class and its saved normalization stats). See
-https://github.com/huggingface/lerobot (pinned lerobot==0.4.4 in requirements.txt).
+https://github.com/huggingface/lerobot (pinned lerobot==0.6.1 in requirements.txt).
 
 The observation layout matches build_features() in episode_recorder.py exactly, so
 a policy trained on a dataset this repo recorded sees the same schema at inference
@@ -73,7 +73,7 @@ class PolicyRuntime:
                  joint_names=None):
         from lerobot.configs.policies import PreTrainedConfig
         from lerobot.policies.factory import get_policy_class, make_pre_post_processors
-        from lerobot.utils.utils import get_safe_torch_device
+        from lerobot.utils.device_utils import get_safe_torch_device
 
         checkpoint_path = str(checkpoint_path)
         cfg = PreTrainedConfig.from_pretrained(checkpoint_path)
@@ -84,8 +84,14 @@ class PolicyRuntime:
             cfg.device = str(device)
         policy_cls = get_policy_class(cfg.type)
         self.policy = policy_cls.from_pretrained(checkpoint_path, config=cfg)
+        # The saved processors pin their own device (policy_preprocessor.json keeps
+        # "cuda" from the training box), so a device override must reach them too,
+        # the same way lerobot's own rollout/policy_server do it.
+        device_override = {"device": cfg.device}
         self.preprocessor, self.postprocessor = make_pre_post_processors(
-            cfg, pretrained_path=checkpoint_path)
+            cfg, pretrained_path=checkpoint_path,
+            preprocessor_overrides={"device_processor": device_override},
+            postprocessor_overrides={"device_processor": device_override})
         self.device = get_safe_torch_device(cfg.device)
         self.task, self.robot_type = str(task), str(robot_type)
         self.checkpoint_path, self.policy_type = checkpoint_path, cfg.type
@@ -141,7 +147,7 @@ class PolicyRuntime:
         19-joint target either way.
         """
         import cv2
-        from lerobot.utils.control_utils import predict_action
+        from lerobot.common.control_utils import predict_action
 
         q = np.asarray(q, dtype=np.float32)
         if q.shape != (len(JOINT_NAMES),) or not np.all(np.isfinite(q)):

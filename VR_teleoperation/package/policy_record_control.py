@@ -1,6 +1,6 @@
 """Keyboard-driven "record one episode, running the policy only for it" session.
 
-Mirrors two things from lerobot (github.com/huggingface/lerobot, pinned 0.4.4,
+Mirrors two things from lerobot (github.com/huggingface/lerobot, pinned 0.6.1,
 see also github.com/plaxxma/DiffusionPoicy_UR5e_real's lerobot/ tree):
 
 * lerobot.scripts.lerobot_record's record_loop() -- one control tick gets an

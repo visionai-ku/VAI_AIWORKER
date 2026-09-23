@@ -1,5 +1,8 @@
-# Direct dependencies observed in the working Python 3.10/macOS environment.
+# Direct dependencies for the Python 3.12 notebook environment (lerobot 0.6.x needs >=3.12).
 # This is a baseline version list, not a cross-platform transitive lock file.
+# Install torch first with the CUDA build that matches the training env (lerobot_act), e.g.
+#   pip install torch==2.11.0 torchvision==0.26.0 --index-url https://download.pytorch.org/whl/cu128
+# otherwise pip pulls the default torch wheel for this platform.
 numpy==2.2.6
 scipy==1.15.3
 matplotlib==3.10.8
@@ -16,7 +19,10 @@ pyzmq==27.1.0
 opencv-python==4.12.0.88
 websockets==15.0.1
 IPython==8.39.0
-lerobot==0.4.4  # episode_recorder.py writes directly to a LeRobotDataset (v3.0)
+# episode_recorder.py writes directly to a LeRobotDataset (v3.0). Since 0.5 the dataset stack
+# (datasets, pandas, pyarrow, av, torchcodec) lives in the [dataset] extra -- plain `lerobot`
+# cannot open or write a dataset.
+lerobot[dataset]==0.6.1
 # lerobot depends on opencv-python-headless, which unpacks over the SAME cv2/ directory as
 # opencv-python; whichever is installed last wins. The headless build reports "GUI: NONE" and
 # makes cv2.namedWindow/imshow raise "The function is not implemented". After installing or

@@ -4,7 +4,7 @@ FFW-SG2 SIM/REAL intent teleoperation 배포 폴더. 2026-09-17 현재 `FtF_VR/p
 
 ## 실행
 
-Python 3.10 환경을 기준으로 한다. `requirements-notebook.txt`는 기존 macOS 환경의 버전 목록이며 다른 OS에서 검증한 lockfile은 아니다.
+Python 3.12 환경을 기준으로 한다 (lerobot 0.6.1이 Python 3.12 이상을 요구한다. 학습 환경 `lerobot_act`와 같은 lerobot 계열). `requirements-notebook.txt`는 직접 의존성의 버전 목록이며 다른 OS에서 검증한 lockfile은 아니다. CUDA torch는 requirements보다 먼저 설치한다(`requirements.txt` 상단 주석).
 
 ```bash
 cd VR_teleoperation
@@ -17,7 +17,7 @@ python -m jupyterlab
 - 새 개인 보정은 [보정 수집 노트북](calibration_notebook/calibrate_intent_axes.ipynb)에서 만든다. 준비·수집·SIM/REAL 적용 순서는 [보정 안내](docs/CALIBRATION.md)를 따른다.
 - [REAL 노트북](real_notebook/real_vr_teleop.ipynb)은 DRY RUN으로 시작하며 실제 로봇 피드백이 필요하다. [로봇 worker 적용 안내](docs/WORKER_SETUP.md)를 따른다.
 - 각 노트북은 새 커널에서 첫 셀부터 실행한다. 기존 프로젝트 모듈을 불러온 커널은 재시작한다.
-- Ubuntu에서는 저장소 루트의 `bash setup_ubuntu_env.sh`로 `ri_motion_v5_env` 환경과 Jupyter 커널을 만든다. 이 스크립트는 환경·커널 안에서 `LD_LIBRARY_PATH`의 `/usr/lib/x86_64-linux-gnu`를 제외한다. 이 경로가 앞에 있으면(예: `~/.bashrc`의 CUDA/ROS 설정) PyQt5가 시스템 Qt 5.12를 불러와 `Could not load the Qt platform plugin "xcb"`로 종료된다.
+- Ubuntu에서는 저장소 루트의 `bash setup_ubuntu_env.sh`로 `ri_motion_v5_py312` 환경과 Jupyter 커널을 만든다 (기존 Python 3.10 / lerobot 0.4.4 환경 `ri_motion_v5_env`는 건드리지 않는다). 이 스크립트는 환경·커널 안에서 `LD_LIBRARY_PATH`의 `/usr/lib/x86_64-linux-gnu`를 제외한다. 이 경로가 앞에 있으면(예: `~/.bashrc`의 CUDA/ROS 설정) PyQt5가 시스템 Qt 5.12를 불러와 `Could not load the Qt platform plugin "xcb"`로 종료된다.
 - `QUEST_HOST` 자동 감지가 맞지 않으면 PC LAN IP를 지정한다. 기본 로봇 IP는 `192.168.6.2`다. HTTPS 인증서 생성에는 `openssl`이 필요하다.
 
 숨김 파일 `.project_v2`는 작업공간 식별자로 보존했다. 폴더 이름은 `VR_teleoperation`이며 노트북 폴더와 저장소 루트 양쪽에서 찾도록 복사본의 경로 탐색을 조정했다. 실행에 필요한 `vendor/`와 `xml/`은 이 폴더 안의 사본을 사용한다.
