@@ -1,5 +1,13 @@
 # ri_motion_v5_junha
 
+The five SG2 real notebooks for Joint, EEF, Base, state rendering, and recording
+under `project/ffw_sg2_vr_teleoperation/real_notebook/` now use the shared
+[`VR_teleoperation` runtime](../VR_teleoperation/README.md).
+Use the Python 3.12 / LeRobot 0.6.1 kernel `ri_motion_v5_py312` for these notebooks;
+the Python 3.10 setup below describes the older workspace. Base, Joint, and EEF
+use JSON by default. Update the robot workers using the
+[worker instructions](../VR_teleoperation/docs/WORKER_SETUP.md) before running Base.
+
 Integrated `ri_motion_v5` workspace for robotics simulation, notebook
 experiments, teleoperation projects, shared assets, and reusable Python code.
 

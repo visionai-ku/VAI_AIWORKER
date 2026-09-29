@@ -12,14 +12,15 @@ bash setup_ubuntu_env.sh
 
 **Mac (Apple Silicon만 가능, Intel Mac은 불가)**
 
-PyTorch가 Intel Mac용 빌드를 2.2까지만 제공하고 lerobot 0.6.1은 torch 2.7 이상이 필요하다. 레포 루트에서 Claude Code를 열고 다음과 같이 요청한다.
+검증한 환경 버전은 [`environments/ri_motion_v5_py312.macos-arm64.yml`](environments/ri_motion_v5_py312.macos-arm64.yml)에 기록되어 있다. [복원 안내](environments/README.md)에 따라 환경을 만든 뒤 OpenCV GUI 재설치와 Jupyter 커널 등록을 진행한다.
 
-```
-setup_ubuntu_env.sh를 참고해서 macOS용 Python 3.12 환경(ri_motion_v5_py312)을 만들어줘.
-CUDA torch 대신 기본 torch, LD_LIBRARY_PATH 설정은 빼고,
-마지막에 opencv-python GUI 버전 재설치랑 Jupyter 커널 등록까지 해줘.
+```bash
+conda env create -f environments/ri_motion_v5_py312.macos-arm64.yml
+conda activate ri_motion_v5_py312
+python -m pip install --force-reinstall --no-deps opencv-python==4.12.0.88
+python -m ipykernel install --user --name ri_motion_v5_py312 --display-name ri_motion_v5_py312
 ```
 
-추론 노트북의 `DEVICE = None`은 Mac에서 자동으로 `mps`를 사용한다.
+Mac에서는 CUDA wheel이나 Linux용 `LD_LIBRARY_PATH` 설정을 사용하지 않는다. 이미 검증한 같은 환경을 사용하는 경우 환경 생성은 생략한다. 추론 노트북의 `DEVICE`로 `cpu` 또는 `mps`를 지정할 수 있다.
 
 자세한 실행 방법은 [VR_teleoperation/README.md](VR_teleoperation/README.md)를 참고한다.

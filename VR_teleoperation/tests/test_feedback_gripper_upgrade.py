@@ -15,39 +15,58 @@ class FeedbackGripperUpgradeTest(unittest.TestCase):
         self.q = [0.] * 19
         self.q[6] = self.q[13] = -1.57
 
-    def test_recorded_boundary_samples_remain_fresh_end_to_end(self):
-        inbound, outbound = JointStateTracker(), JointStateTracker()
-        gate = StrictCommandGate(inbound)
-        cache = SG2RobotFeedbackCache()
-        for i, value in enumerate((-.000323574072445, -.0000119842249054, -.0000239684498107)):
-            q = self.q.copy(); q[4] = value
-            t = 1. + i * .3
-            for tracker in (inbound, outbound):
-                tracker.update(JOINT_NAMES, q, i + 1, t)
-            state = outbound.snapshot(t)
-            state.update(bridge=gate.status(t), bridge_age_s=0.)
-            self.assertTrue(cache.ingest(state, received_at=t + 100))
-            self.assertTrue(cache.latest(t + 100)['ready'])
-            self.assertEqual(cache.latest(t + 100)['q'][4], 0.)
-            adjustment = state['joint_state_diagnostics']['boundary_adjustments']['arm_l_joint2']
-            self.assertEqual(adjustment['raw_position'], value)
-            with self.assertRaises(ValueError):
-                make_joint_groups(q)  # Never extend command limits.
-        self.assertFalse(cache.latest(t + 100.21)['ready'])
+    def test_recorded_and_allowed_boundary_samples_remain_fresh_end_to_end(self):
+        cases = (('arm_l_joint2', -1.), ('arm_r_joint2', 1.),
+                 ('gripper_l_joint1', -1.), ('gripper_r_joint1', -1.))
+        excesses = (.000323574072445, .0000119842249054, .0000239684498107,
+                    .0006, .0018, .002)
+        for joint, direction in cases:
+            with self.subTest(joint=joint):
+                inbound, outbound = JointStateTracker(), JointStateTracker()
+                gate = StrictCommandGate(inbound)
+                cache = SG2RobotFeedbackCache()
+                index = JOINT_NAMES.index(joint)
+                for i, excess in enumerate(excesses):
+                    with self.subTest(excess=excess):
+                        value = direction * excess
+                        q = self.q.copy(); q[index] = value
+                        t = 1. + i * .3
+                        for tracker in (inbound, outbound):
+                            self.assertTrue(tracker.update(JOINT_NAMES, q, i + 1, t))
+                        state = outbound.snapshot(t)
+                        state.update(bridge=gate.status(t), bridge_age_s=0.)
+                        self.assertTrue(cache.ingest(state, received_at=t + 100))
+                        self.assertTrue(cache.latest(t + 100)['ready'])
+                        self.assertEqual(cache.latest(t + 100)['q'][index], 0.)
+                        adjustment = state['joint_state_diagnostics']['boundary_adjustments'][joint]
+                        self.assertEqual(adjustment['raw_position'], value)
+                        self.assertEqual(adjustment['position'], 0.)
+                        with self.assertRaises(ValueError):
+                            make_joint_groups(q)  # Never extend command limits.
+                self.assertFalse(cache.latest(t + 100.21)['ready'])
 
     def test_excess_or_stalled_timestamp_never_refreshes_state(self):
-        tracker = JointStateTracker()
-        tracker.update(JOINT_NAMES, self.q, 1, 1.)
-        bad = self.q.copy(); bad[4] = -.0006
-        with self.assertRaises(ValueError):
-            tracker.update(JOINT_NAMES, bad, 2, 1.2)
-        tiny = self.q.copy(); tiny[4] = -.00002
-        self.assertFalse(tracker.update(JOINT_NAMES, tiny, 1, 1.21))
-        self.assertFalse(tracker.snapshot(1.21)['ready'])
-        self.assertEqual(tracker.seq, 1)
-        bad = self.q.copy(); bad[-1] = -.00002
-        with self.assertRaises(ValueError):
-            tracker.update(JOINT_NAMES, bad, 3, 1.22)
+        cases = (('arm_l_joint2', -1.), ('arm_r_joint2', 1.),
+                 ('gripper_l_joint1', -1.), ('gripper_r_joint1', -1.))
+        for joint, direction in cases:
+            with self.subTest(joint=joint):
+                tracker = JointStateTracker()
+                tracker.update(JOINT_NAMES, self.q, 1, 1.)
+                index = JOINT_NAMES.index(joint)
+                bad = self.q.copy(); bad[index] = direction * .002001
+                with self.assertRaises(ValueError):
+                    tracker.update(JOINT_NAMES, bad, 2, 1.21)
+                state = tracker.snapshot(1.21)
+                self.assertFalse(state['ready'])
+                self.assertEqual(state['source_time_s'], 1.)
+                self.assertEqual(tracker.seq, 1)
+                self.assertEqual(parse_joint_groups(state['joints'], named=True), self.q)
+                allowed = self.q.copy(); allowed[index] = direction * .0018
+                self.assertFalse(tracker.update(JOINT_NAMES, allowed, 1, 1.22))
+                state = tracker.snapshot(1.22)
+                self.assertFalse(state['ready'])
+                self.assertEqual(state['source_time_s'], 1.)
+                self.assertEqual(tracker.seq, 1)
 
     def setup_gate(self, gate_options=None):
         tracker = JointStateTracker()

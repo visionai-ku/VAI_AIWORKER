@@ -1,8 +1,8 @@
 # Direct dependencies for the Python 3.12 notebook environment (lerobot 0.6.x needs >=3.12).
 # This is a baseline version list, not a cross-platform transitive lock file.
-# Install torch first with the CUDA build that matches the training env (lerobot_act), e.g.
+# On Ubuntu, install the CUDA torch build first (see ../setup_ubuntu_env.sh):
 #   pip install torch==2.11.0 torchvision==0.26.0 --index-url https://download.pytorch.org/whl/cu128
-# otherwise pip pulls the default torch wheel for this platform.
+# On macOS Apple Silicon, use the default torch wheels (no CUDA index).
 numpy==2.2.6
 scipy==1.15.3
 matplotlib==3.10.8
@@ -28,4 +28,5 @@ lerobot[dataset]==0.6.1
 # makes cv2.namedWindow/imshow raise "The function is not implemented". After installing or
 # upgrading lerobot, put the GUI build back:
 #   pip install --force-reinstall --no-deps opencv-python==4.12.0.88
-# Verify with: python -c "import cv2; print(cv2.getBuildInformation())" | grep GUI   -> QT5
+# Verify with: python -c "import cv2; print(cv2.getBuildInformation())" | grep GUI
+# Expected GUI: QT5 on Linux, COCOA on macOS.

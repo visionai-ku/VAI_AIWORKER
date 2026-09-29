@@ -29,10 +29,15 @@ FIXED_QUEST_MIN_ARM_SPEED = math.radians(10)
 FIXED_QUEST_MAX_ARM_SPEED = math.radians(120)
 FIXED_QUEST_DEFAULT_ARM_SPEED = math.radians(60)
 FIXED_QUEST_MAX_GRIPPER_SPEED = math.radians(120)
-# Feedback-only encoder boundary allowance (0.02865 degrees), limited to the
-# shoulder joints whose home position lies exactly on a mechanical bound.
-# Commands retain JOINT_LIMITS without any allowance.
-FEEDBACK_BOUNDARY_TOLERANCES = {"arm_l_joint2": .0005, "arm_r_joint2": .0005}
+BASE_MAX_LINEAR_SPEED = .3
+BASE_MAX_ANGULAR_SPEED = .6
+# Feedback-only encoder boundary allowance (0.1146 degrees), just above one
+# Dynamixel encoder tick (2*pi/4096 = 0.00153 rad), limited to the joints whose
+# rest position lies exactly on a mechanical bound (shoulders at home, grippers
+# fully open). Commands retain JOINT_LIMITS without any allowance.
+FEEDBACK_BOUNDARY_TOLERANCE_MAX = .002
+FEEDBACK_BOUNDARY_TOLERANCES = {"arm_l_joint2": .002, "arm_r_joint2": .002,
+                                "gripper_l_joint1": .002, "gripper_r_joint1": .002}
 # Controller-button reset keeps initial arm alignment at 30 deg/s, then permits
 # the remaining fold/bringup steps at 100 deg/s. Normal HOME still requests 10 deg/s.
 FIXED_QUEST_VR_HOME_SPEED = math.radians(100)
@@ -139,6 +144,16 @@ def make_joint_groups(q, named=False):
     return groups
 
 
+def parse_base_velocity(base):
+    """A bounded base_link twist; diagonal translation shares the linear cap."""
+    if not isinstance(base, list) or len(base) != 3:
+        raise ValueError("invalid_base_velocity")
+    vx, vy, wz = [_number(value, "non_finite_base_velocity") for value in base]
+    if math.hypot(vx, vy) > BASE_MAX_LINEAR_SPEED or abs(wz) > BASE_MAX_ANGULAR_SPEED:
+        raise ValueError("base_velocity_limit")
+    return [vx, vy, wz]
+
+
 class JointStateTracker:
     """Track real callback freshness per required joint, never zero-fill gaps."""
 
@@ -154,7 +169,7 @@ class JointStateTracker:
         self.last_rejection = None
         self.boundary_tolerances = dict(FEEDBACK_BOUNDARY_TOLERANCES if boundary_tolerances is None else boundary_tolerances)
         for name, value in self.boundary_tolerances.items():
-            if name not in JOINT_LIMITS or not 0 <= _number(value, "invalid_boundary_tolerance") <= .0005:
+            if name not in JOINT_LIMITS or not 0 <= _number(value, "invalid_boundary_tolerance") <= FEEDBACK_BOUNDARY_TOLERANCE_MAX:
                 raise ValueError("invalid_boundary_tolerance")
         self.boundary_adjustments = {}
         self.boundary_adjustment_count = 0
@@ -239,7 +254,7 @@ class JointStateTracker:
 
 
 class StrictCommandGate:
-    """One owner, explicit arming, finite command lease and bounded joint steps.
+    """One owner across joint/base commands, explicit arming and finite leases.
 
     Each command selects teleop or home (10 degrees/s). Generic rotary teleop
     defaults to 60 degrees/s; the fixed-Quest worker explicitly selects the
@@ -248,6 +263,8 @@ class StrictCommandGate:
     Lift keeps its metre/s limit.
     A timeout emits at most one hold at a fresh measured pose. This is a software
     command gate; it cannot establish the hardware controller's stop behavior.
+    Base sessions instead emit zero velocity on stop or expiry, even without
+    fresh joint feedback, and never emit a joint trajectory.
     """
 
     def __init__(self, tracker, bridge_id=None, timeout_s=.2, max_step_dt=.05,
@@ -288,8 +305,11 @@ class StrictCommandGate:
             "home_joint_speed_rad_s": float(max(self.home_speed[1:])),
             "lift_speed_m_s": float(max_lift_speed), "max_step_dt_s": float(max_step_dt),
             "max_tracking_lag_rad": float(max_tracking_lag), "max_lift_lag_m": float(max_lift_lag),
+            "base_linear_speed_m_s": BASE_MAX_LINEAR_SPEED,
+            "base_angular_speed_rad_s": BASE_MAX_ANGULAR_SPEED,
         }
         self.owner_session_id, self.last_command_seq = None, -1
+        self.command_kind = None
         self.state, self.reason = "DISARMED", "awaiting_arm"
         self.last_q, self.last_command_at, self.deadline = None, None, None
         self.session_sequences = {}
@@ -303,23 +323,30 @@ class StrictCommandGate:
             "ready": self.tracker.snapshot(now)["ready"], "status_time_s": float(now),
             "state": self.state, "reason": self.reason, "owner_session_id": self.owner_session_id,
             "last_command_seq": self.last_command_seq,
+            "command_kind": self.command_kind, "capabilities": {"base_json": True},
             "limits": dict(self._limits),
             "joint_state_diagnostics": self.tracker.diagnostics(now),
             "rejection_detail": None if self.rejection_detail is None else dict(self.rejection_detail),
         }
 
-    def _hold(self, now, state, reason):
-        try:
-            joints = make_joint_groups(self.tracker.current(now))
-        except ValueError:
-            joints = None
+    def _hold(self, now, state, reason, command_kind=None):
+        kind = self.command_kind if command_kind is None else command_kind
+        joints, base = None, None
+        if kind == "base":
+            base = [0., 0., 0.]
+        else:
+            try:
+                joints = make_joint_groups(self.tracker.current(now))
+            except ValueError:
+                pass
         if state == "EXPIRED" and self.owner_session_id is not None:
             self.expired_sessions.add(self.owner_session_id)
         self.owner_session_id, self.deadline = None, None
+        self.command_kind = None
         self.command_started = False
         self.state, self.reason = state, reason
         self.rejection_detail = None
-        return {"accepted": False, "reason": reason, "publish_joints": joints}
+        return {"accepted": False, "reason": reason, "publish_joints": joints, "publish_base": base}
 
     def expire(self, now):
         now = _number(now, "invalid_now")
@@ -328,15 +355,35 @@ class StrictCommandGate:
                 return self._hold(now, "EXPIRED", "command_expired")
             if not self.tracker.snapshot(now)["ready"]:
                 return self._hold(now, "EXPIRED", "feedback_expired")
-        return {"accepted": False, "reason": "no_expiry", "publish_joints": None}
+        return {"accepted": False, "reason": "no_expiry", "publish_joints": None, "publish_base": None}
+
+    def _receive_base(self, base, mode, session, seq, feedback_time, ttl, now):
+        if mode == "arm":
+            if session in self.expired_sessions:
+                raise ValueError("new_session_required")
+            if self.owner_session_id is not None and self.command_started:
+                raise ValueError("already_armed")
+            if any(base):
+                raise ValueError("base_arm_requires_zero")
+        else:
+            if self.owner_session_id != session or self.state != "ACTIVE":
+                raise ValueError("explicit_arm_required")
+            self.command_started = True
+        self.owner_session_id, self.command_kind = session, "base"
+        self.session_sequences[session] = self.last_command_seq = seq
+        self.last_command_at = now
+        self.deadline = min(now + self.timeout_s, feedback_time + ttl)
+        self.state, self.reason, self.rejection_detail = "ACTIVE", "accepted", None
+        return {"accepted": True, "reason": "accepted", "publish_joints": None, "publish_base": base}
 
     def receive(self, message, now):
         """Validate without publishing; the ROS wrapper owns the actual send."""
         now = _number(now, "invalid_now")
         expired = self.expire(now)
         try:
-            if not isinstance(message, dict) or message.get("type") != "sg2_command" or type(message.get("version")) is not int or message["version"] != 1:
+            if not isinstance(message, dict) or message.get("type") not in ("sg2_command", "sg2_base_command") or type(message.get("version")) is not int or message["version"] != 1:
                 raise ValueError("invalid_command_version")
+            kind = "base" if message["type"] == "sg2_base_command" else "joints"
             session = _identifier(message.get("session_id"), "invalid_session")
             seq = _integer(message.get("seq"), "invalid_sequence")
             if message.get("bridge_id") != self.bridge_id:
@@ -351,21 +398,42 @@ class StrictCommandGate:
                 raise ValueError("invalid_motion")
             if self.owner_session_id not in (None, session):
                 raise ValueError("owner_conflict")
+            if self.owner_session_id is not None and self.command_kind != kind:
+                raise ValueError("command_kind_conflict")
             if seq <= self.session_sequences.get(session, -1):
                 raise ValueError("repeated_sequence")
-            q = parse_joint_groups(message.get("joints"))
+            if (kind == "base" and "joints" in message) or (kind == "joints" and "base" in message):
+                raise ValueError("mixed_command_payload")
+            if kind == "base":
+                if motion != "teleop":
+                    raise ValueError("invalid_base_motion")
+                base = parse_base_velocity(message.get("base"))
+            else:
+                q = parse_joint_groups(message.get("joints"))
             ttl = _number(message.get("valid_for_s"), "invalid_ttl")
             feedback_time = _number(message.get("feedback_time_s"), "invalid_feedback_time")
             if not 0 < ttl <= self.timeout_s:
                 raise ValueError("invalid_ttl")
             if mode == "stop":
-                result = self._hold(now, "STOPPED", "stopped")
+                if kind == "base" and any(base):
+                    raise ValueError("base_stop_requires_zero")
+                result = self._hold(now, "STOPPED", "stopped", command_kind=kind)
+                if expired["publish_base"] is not None:
+                    result["publish_base"] = expired["publish_base"]
+                if kind == "base" and expired["publish_joints"] is not None:
+                    result["publish_joints"] = expired["publish_joints"]
                 self.session_sequences[session], self.last_command_seq = seq, seq
                 result["accepted"] = True
                 return result
             if not 0 <= now - feedback_time <= ttl:
                 raise ValueError("feedback_echo_expired")
             measured = self.tracker.current(now)
+            if kind == "base":
+                result = self._receive_base(base, mode, session, seq, feedback_time, ttl, now)
+                # Finish an expired joint owner's hold even if the lease crossed
+                # its deadline between the wrapper's expiry check and receive.
+                result["publish_joints"] = expired["publish_joints"]
+                return result
             if mode == "arm":
                 if session in self.expired_sessions:
                     raise ValueError("new_session_required")
@@ -415,12 +483,15 @@ class StrictCommandGate:
                     raise ValueError("tracking_lag")
                 self.command_started = True
             self.owner_session_id, self.last_command_seq = session, seq
+            self.command_kind = "joints"
             self.session_sequences[session] = seq
             self.last_q, self.last_command_at = q, now
             self.deadline = min(now + self.timeout_s, feedback_time + ttl)
             self.state, self.reason = "ACTIVE", "accepted"
             self.rejection_detail = None
-            return {"accepted": True, "reason": "accepted", "publish_joints": make_joint_groups(q)}
+            return {"accepted": True, "reason": "accepted", "publish_joints": make_joint_groups(q),
+                    "publish_base": expired["publish_base"]}
         except (ValueError, TypeError, KeyError, OverflowError) as exc:
             self.reason = str(exc)
-            return {"accepted": False, "reason": str(exc), "publish_joints": expired["publish_joints"]}
+            return {"accepted": False, "reason": str(exc), "publish_joints": expired["publish_joints"],
+                    "publish_base": expired["publish_base"]}

@@ -61,7 +61,7 @@ PUBLISH_HZ = 100.0
 class SG2ZMQRosBridge(Node):
     def __init__(self):
         super().__init__("sg2_zmq_ros2_bridge_node")
-        self.strict = os.environ.get("SG2_FIXED_QUEST", "0") == "1"
+        self.strict = os.environ.get("SG2_FIXED_QUEST", "1") == "1"
         self._last_warning_at = -float("inf")
 
         self.zmq_ctx = zmq.Context()
@@ -160,13 +160,11 @@ class SG2ZMQRosBridge(Node):
         if self.strict:
             now = time.monotonic()
             expired = self.gate.expire(now)
-            if expired["publish_joints"] is not None:
-                self.publish_joint_groups(expired["publish_joints"])
+            self.publish_gate_result(expired)
             try:
                 message = load_json_message(self.socket.recv(flags=zmq.NOBLOCK))
                 result = self.gate.receive(message, time.monotonic())
-                if result["publish_joints"] is not None:
-                    self.publish_joint_groups(result["publish_joints"])
+                self.publish_gate_result(result)
                 if not result["accepted"]:
                     self.report_warning("Strict command rejected: %s" % result["reason"])
             except zmq.Again:
@@ -185,6 +183,13 @@ class SG2ZMQRosBridge(Node):
         self.publish_joint_groups(data)
         if isinstance(data, dict) and data.get("base") is not None:
             self.publish_base(data["base"])
+
+    def publish_gate_result(self, result):
+        # Stop an expired base lease before a newly armed joint controller moves.
+        if result.get("publish_base") is not None:
+            self.publish_base(result["publish_base"])
+        if result["publish_joints"] is not None:
+            self.publish_joint_groups(result["publish_joints"])
 
     def publish_base(self, base):
         """base = [vx, vy, wz] in base_link frame [m/s, m/s, rad/s]."""
@@ -234,6 +239,8 @@ def main():
         print("Traceback: %s" % traceback.format_exc())
     finally:
         node.get_logger().info("Shutting down SG2 ZMQ ROS2 bridge...")
+        if node.strict and node.gate.command_kind == "base":
+            node.publish_base([0., 0., 0.])
         node.socket.close()
         node.destroy_node()
         rclpy.shutdown()

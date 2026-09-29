@@ -330,6 +330,7 @@ class FixedQuestProtocolTest(unittest.TestCase):
             "command_gripper_speed_limit": True,
             "home_joint_speed_rad_s": math.radians(10), "lift_speed_m_s": .01,
             "max_step_dt_s": .05, "max_tracking_lag_rad": math.radians(5), "max_lift_lag_m": .02,
+            "base_linear_speed_m_s": .3, "base_angular_speed_rad_s": .6,
         }
         status = self.gate.status(1.)
         self.assertEqual(status["limits"], expected)
@@ -346,6 +347,7 @@ class FixedQuestProtocolTest(unittest.TestCase):
             "command_gripper_speed_limit": True,
             "teleop_joint_speed_rad_s": math.radians(4), "home_joint_speed_rad_s": math.radians(4),
             "lift_speed_m_s": .007, "max_step_dt_s": .03, "max_tracking_lag_rad": .04, "max_lift_lag_m": .005,
+            "base_linear_speed_m_s": .3, "base_angular_speed_rad_s": .6,
         })
 
     def test_rate_rejection_detail_matches_comparison_without_refreshing_lease(self):
@@ -360,7 +362,8 @@ class FixedQuestProtocolTest(unittest.TestCase):
                 q = self.q.copy()
                 q[JOINT_NAMES.index(joint)] += movement
                 result = self.gate.receive(self.command(1, "command", 1. + elapsed, q, motion=motion), 1. + elapsed)
-                self.assertEqual(result, {"accepted": False, "reason": "joint_rate_limit", "publish_joints": None})
+                self.assertEqual(result, {"accepted": False, "reason": "joint_rate_limit",
+                                          "publish_joints": None, "publish_base": None})
                 detail = self.gate.status(1. + elapsed)["rejection_detail"]
                 self.assertEqual(detail["joint_name"], joint)
                 self.assertEqual(detail["motion"], motion)

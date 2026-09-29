@@ -1,11 +1,15 @@
-"""clip_to_joint_limits(): pure-numpy safety clip on predicted policy actions.
+"""Policy clipping and offline LeRobot inference compatibility.
 
-No lerobot/torch/robot needed -- PolicyRuntime (which does need them) is not
-imported here. See docs on policy_inference.py for why that import is lazy.
+Clipping needs only numpy. The compatibility test uses installed LeRobot with
+temporary processor files and a stub network, without a checkpoint or robot.
 """
+from importlib.util import find_spec
+import json
 from pathlib import Path
 import runpy
+from tempfile import TemporaryDirectory
 import unittest
+from unittest.mock import patch
 
 import numpy as np
 
@@ -78,6 +82,73 @@ class ClipToJointLimitsTest(unittest.TestCase):
         q[0] = float("inf")
         with self.assertRaises(ValueError):
             clip_to_joint_limits(q)
+
+
+@unittest.skipUnless(find_spec("lerobot"), "requires the LeRobot notebook environment")
+class PolicyRuntimeCompatibilityTest(unittest.TestCase):
+    def test_saved_cuda_processors_run_on_cpu_and_hold_excluded_joints(self):
+        import torch
+        from lerobot.configs.types import FeatureType, PolicyFeature
+        from lerobot.policies.act.configuration_act import ACTConfig
+        from lerobot.processor import DeviceProcessorStep, PolicyProcessorPipeline
+        from package.policy_inference import PolicyRuntime
+
+        joint_names = [name for name in JOINT_NAMES
+                       if name not in ("lift_joint", "head_joint1", "head_joint2")]
+        cfg = ACTConfig(
+            device="cpu",
+            input_features={
+                "observation.state": PolicyFeature(FeatureType.STATE, (len(joint_names),)),
+                "observation.images.wrist_left": PolicyFeature(FeatureType.VISUAL, (3, 2, 2)),
+            },
+            output_features={"action": PolicyFeature(FeatureType.ACTION, (len(joint_names),))},
+        )
+        target = torch.arange(len(joint_names), dtype=torch.float32).unsqueeze(0) / 100
+
+        class StubPolicy:
+            @classmethod
+            def from_pretrained(cls, checkpoint_path, config):
+                policy = cls()
+                policy.config = config
+                return policy
+
+            def select_action(self, observation):
+                self.observation = observation
+                return target.clone()
+
+        with TemporaryDirectory() as folder:
+            checkpoint = Path(folder)
+            cfg.save_pretrained(checkpoint)
+            # Serialize real processor schemas, then emulate the CUDA setting
+            # retained in a checkpoint written on the training machine.
+            for name in ("policy_preprocessor", "policy_postprocessor"):
+                pipeline = PolicyProcessorPipeline(
+                    name=name, steps=[DeviceProcessorStep(device="cpu")])
+                saved = pipeline.get_config()
+                saved["steps"][0]["config"]["device"] = "cuda"
+                (checkpoint / (name + ".json")).write_text(json.dumps(saved), encoding="utf-8")
+
+            for device in (None, "cpu"):
+                with self.subTest(device=device), patch(
+                        "lerobot.policies.factory.get_policy_class", return_value=StubPolicy):
+                    runtime = PolicyRuntime(checkpoint, device=device, joint_names=joint_names)
+                    q = mid_q()
+                    bgr = np.full((2, 2, 3), (10, 20, 30), dtype=np.uint8)
+                    actual = runtime.predict(q, {"wrist_left": bgr})
+
+                    indices = [JOINT_NAMES.index(name) for name in joint_names]
+                    expected = q.copy()
+                    expected[indices] = target.numpy()[0]
+                    np.testing.assert_array_equal(actual, expected)
+                    observation = runtime.policy.observation
+                    self.assertEqual(observation["observation.state"].device.type, "cpu")
+                    np.testing.assert_array_equal(
+                        observation["observation.state"].numpy()[0], q[indices])
+                    np.testing.assert_allclose(
+                        observation["observation.images.wrist_left"].numpy()[0, :, 0, 0],
+                        np.array([30, 20, 10], dtype=np.float32) / 255)
+                    self.assertEqual(runtime.preprocessor.steps[0].device, "cpu")
+                    self.assertEqual(runtime.postprocessor.steps[0].device, "cpu")
 
 
 import os

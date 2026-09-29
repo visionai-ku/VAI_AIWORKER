@@ -1,6 +1,7 @@
-"""PolicyDeployment construction/session lifecycle against real ZMQ sockets with
-no robot or checkpoint on the other end (never connects, never reads a real
-policy). PolicyRuntime is swapped for a stub -- the actual predict/clip/tick
+"""PolicyDeployment construction/session lifecycle against disconnected sockets.
+TCP connection calls are intercepted; no network or real checkpoint is used.
+Real ZMQ socket construction and cleanup still run. PolicyRuntime is swapped for
+a stub -- the actual predict/clip/tick
 wiring it calls is unit-tested separately in test_policy_inference.py and
 test_fixed_quest_real.py.
 """
@@ -8,8 +9,10 @@ from pathlib import Path
 import runpy
 import time
 import unittest
+from unittest.mock import patch
 
 import numpy as np
+import zmq
 
 PROJECT_DIR = Path(__file__).resolve().parents[1]
 runpy.run_path(str(PROJECT_DIR / "package/init_project.py"))
@@ -41,12 +44,21 @@ class PolicyDeploymentTest(unittest.TestCase):
         self._real_runtime = policy_deploy.PolicyRuntime
         policy_deploy.PolicyRuntime = StubPolicyRuntime
         self.addCleanup(setattr, policy_deploy, "PolicyRuntime", self._real_runtime)
+        def connect_without_network(socket, endpoint):
+            # Exercise real socket construction/cleanup while making receipt of
+            # external state impossible even on a developer's live robot LAN.
+            self.assertTrue(endpoint.startswith("tcp://" + self.UNREACHABLE_ROBOT_IP + ":"), endpoint)
+            return None
+
+        redirect = patch.object(zmq.Socket, "connect", connect_without_network)
+        redirect.start()
+        self.addCleanup(redirect.stop)
 
     # Deliberately NOT the real robot's address. These tests assert the "nothing is
     # publishing" states (WAIT_ROBOT), so pointing them at 192.168.6.2 made them pass or
     # fail depending on whether the robot happened to be powered on and on the LAN --
     # with it live the very same tick reports DISABLED (robot_ready=True) instead.
-    UNREACHABLE_ROBOT_IP = "192.168.99.250"
+    UNREACHABLE_ROBOT_IP = "192.0.2.1"  # documentation-only address, intercepted above
 
     def make_deployment(self, **options):
         options = {"hz": 30, "dry_run": True, **options}

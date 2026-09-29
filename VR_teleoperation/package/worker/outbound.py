@@ -69,7 +69,7 @@ class SG2OutboundZMQ(Node):
     def __init__(self):
         super().__init__("sg2_outbound_zmq_node")
 
-        self.strict = os.environ.get("SG2_FIXED_QUEST", "0") == "1"
+        self.strict = os.environ.get("SG2_FIXED_QUEST", "1") == "1"
         self.tracker = JointStateTracker() if self.strict else None
         self.bridge = None
         self._last_warning_at = -float("inf")

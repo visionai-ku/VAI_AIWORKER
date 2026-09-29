@@ -595,7 +595,7 @@ def run_intent_teleop(cfg=None, on_tick=None):
         server = QuestControllerServer(host="0.0.0.0", port=cfg.QUEST_PORT, certfile=certfile, keyfile=keyfile).start()
         print("Quest Browser: https://%s:%d/" % (cfg.QUEST_HOST, server.port))
         if cfg.backend == "real":
-            print("Robot workers: SG2_FIXED_QUEST=1 | inbound SG2_ZMQ_SUB_IP=" + cfg.QUEST_HOST)
+            print("Robot workers: JSON default (SG2_FIXED_QUEST=1) | inbound SG2_ZMQ_SUB_IP=" + cfg.QUEST_HOST)
         print(mode_label, "| 양손 grip으로 시작 · 한쪽이라도 놓으면 양팔 정지")
         print("IK:", "초기 팔 자세 유지 · 첫 조작 자세를 기준으로 고정" if cfg.POSTURE_IK_ENABLED
               else "기존 IK", "| 위치/방향 허용오차:",
