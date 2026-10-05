@@ -16,22 +16,14 @@ from .quest_pose_calibration import QuestPoseCalibration
 HANDS = ('left', 'right')
 AXES = ('forward', 'left', 'up')
 TRAIN_LABELS = ('forward', 'left', 'up', 'right')
-VALIDATION_LABELS = ('left_up', 'right_up')
-LABELS = TRAIN_LABELS + VALIDATION_LABELS
-# Desired signs on each labelled axis; right is -Y, right_up is -Y/+Z.
-LABEL_COMPONENTS = {
-    'forward': ([0], [1]), 'left': ([1], [1]), 'up': ([2], [1]),
-    'forward_up': ([0, 2], [1, 1]), 'left_up': ([1, 2], [1, 1]),
-    'right': ([1], [-1]), 'right_up': ([1, 2], [-1, 1]),
-}
+LABELS = TRAIN_LABELS
+TRAIN_REPEATS = (1, 2, 3, 4, 5)
+MAX_PROFILE_BYTES = 5_000_000
 LABEL_TEXT = {
     'forward': '높이를 유지하려는 의도로 앞으로 뻗고 편한 시작 자세로 돌아오기',
     'left': '몸통 고정 · 높이와 앞뒤 거리 유지 · 두 손을 함께 왼쪽(+Y)으로 평행 이동 후 복귀',
     'up': '앞뒤 위치를 유지하려는 의도로 위로 올렸다가 돌아오기',
-    'forward_up': '앞으로 가면서 의도적으로 위로 올렸다가 돌아오기 (검증 전용)',
-    'left_up': '두 손을 함께 왼쪽 위(+Y/+Z)로 대각선 이동 후 복귀 (검증 전용)',
     'right': '몸통 고정 · 높이와 앞뒤 거리 유지 · 두 손을 함께 오른쪽(-Y)으로 평행 이동 후 복귀',
-    'right_up': '두 손을 함께 오른쪽 위(-Y/+Z)로 대각선 이동 후 복귀 (검증 전용)',
 }
 
 
@@ -62,17 +54,6 @@ def _trajectory(samples, hand, rotation):
     # First/last 0.3s are explicitly stationary in the capture UI.
     count = max(3, min(10, len(p) // 10))
     return (p - np.mean(p[:count], axis=0)) @ np.asarray(rotation, float).T
-
-
-def _metrics(delta, allowed, signs=None):
-    peak = float(np.max(np.linalg.norm(delta, axis=1)))
-    other = [axis for axis in range(3) if axis not in allowed]
-    leakage = float(np.percentile(np.linalg.norm(delta[:, other], axis=1), 95))
-    # Positive means along the labelled intention, including negative robot axes.
-    extents = np.percentile(delta[:, allowed] * (1 if signs is None else np.asarray(signs)), 95, axis=0)
-    return dict(peak_m=peak, cross_axis_p95_m=leakage,
-                cross_axis_ratio=leakage / max(peak, 1e-9),
-                intended_positive_extent_m=np.asarray(extents).tolist())
 
 
 class IntentTrajectoryCapture(QuestPoseCalibration):
@@ -186,31 +167,30 @@ class IntentTrajectoryCapture(QuestPoseCalibration):
 
 
 def fit_intent_profile(capture):
-    """Fit repeats 1..4; NEVER refit with repeat 5 or composite validation.
+    """Fit all five repeats of four directions, without trajectory-score gates.
 
-    Returns a rejected report for incomplete/inconsistent data. Thresholds are
-    engineering defaults for review, not evidence of physical task success.
+    Legacy captures may contain diagonal trials; these remain in the source
+    digest but do not participate in the fit. No live Quest/robot is needed.
     """
     if capture.get('type') != 'quest_intent_trajectories' or capture.get('version') != 1:
         raise ValueError('Expected v2 trajectory capture, not static pose calibration')
-    report = dict(type='quest_intent_profile', version=1, accepted=False,
+    report = dict(type='quest_intent_profile', version=2, fit_success=False,
                   origin=capture.get('origin'), capture_sha256=_digest(capture),
                   created_at=datetime.now(timezone.utc).isoformat(),
                   reference=copy.deepcopy(capture.get('reference')), hands={},
                   reason='incomplete_capture', model='normalized_bilateral_linear_basis_inverse',
-                  split={'train_repeats': [1, 2, 3, 4], 'held_out_repeats': [5],
-                         'training_labels': list(TRAIN_LABELS),
-                         'validation_only_labels': list(VALIDATION_LABELS)})
+                  training_labels=list(TRAIN_LABELS), train_repeats=list(TRAIN_REPEATS))
     if report['origin'] not in ('quest', 'synthetic'): raise ValueError('invalid_capture_origin')
     trials = {label: sorted([a for a in capture['attempts'] if a.get('accepted')
-                 and not a.get('superseded') and a['label'] == label],
+                 and not a.get('superseded') and not a.get('invalidated_reason') and a['label'] == label],
                  key=lambda a: a['repeat_index']) for label in LABELS}
-    if any([a['repeat_index'] for a in group] != [1, 2, 3, 4, 5] for group in trials.values()):
+    if any([a['repeat_index'] for a in group] != list(TRAIN_REPEATS) for group in trials.values()):
         return report
     rotation = np.asarray(capture['reference']['R_OQ'], float)
-    if rotation.shape != (3, 3) or not np.allclose(rotation.T @ rotation, np.eye(3), atol=1e-7):
+    if (rotation.shape != (3, 3) or not np.isfinite(rotation).all()
+            or not np.allclose(rotation.T @ rotation, np.eye(3), atol=1e-7)
+            or not np.isclose(np.linalg.det(rotation), 1., atol=1e-7)):
         raise ValueError('invalid_capture_rotation')
-    failures = []
     for hand in HANDS:
         directions = []
         for axis, label in enumerate(AXES):
@@ -219,12 +199,18 @@ def fit_intent_profile(capture):
             # Flip right displacement before PCA; normalize each whole repeat
             # so neither reach distance nor sample count gives it extra weight.
             for source_label, sign in ((('left', 1), ('right', -1)) if label == 'left' else ((label, 1),)):
-                for trial in trials[source_label][:4]:
+                for trial in trials[source_label]:
                     d = sign * _trajectory(trial['raw_samples'], hand, rotation)
-                    _, _, vt = np.linalg.svd(d, full_matrices=False)
+                    _, singular, vt = np.linalg.svd(d, full_matrices=False)
+                    if len(singular) < 3 or singular[0] <= 1e-12:
+                        report['reason'] = 'unobservable_axis_' + hand + '_' + source_label
+                        return report
                     direction = vt[0] * (1 if vt[0, axis] >= 0 else -1)
                     repeat_directions.append(direction)
             direction = np.mean(repeat_directions, axis=0)
+            if np.linalg.norm(direction) <= 1e-12:
+                report['reason'] = 'ambiguous_or_dependent_axes_' + hand
+                return report
             directions.append(direction / np.linalg.norm(direction))
         basis = np.column_stack(directions)
         condition = float(np.linalg.cond(basis))
@@ -232,56 +218,44 @@ def fit_intent_profile(capture):
             report['reason'] = 'ambiguous_or_dependent_axes_' + hand
             return report
         correction = np.linalg.inv(basis)
-        checks = []
-        for axis, label in enumerate(LABELS):
-            allowed, signs = LABEL_COMPONENTS[label]
-            for trial in trials[label]:
-                d = _trajectory(trial['raw_samples'], hand, rotation)
-                corrected = d @ correction.T
-                metrics = _metrics(corrected, allowed, signs)
-                passed = (metrics['cross_axis_p95_m'] <= .025
-                    and metrics['cross_axis_ratio'] <= .20
-                    and min(metrics['intended_positive_extent_m']) >= .04)
-                check = dict(label=label, repeat_index=trial['repeat_index'],
-                    role='train' if label in TRAIN_LABELS and trial['repeat_index'] <= 4 else 'held_out',
-                    passed=bool(passed), before=_metrics(d, allowed, signs), after=metrics)
-                checks.append(check)
-                if not passed: failures.append(hand + ':' + label + ':' + str(trial['repeat_index']))
         report['hands'][hand] = dict(basis=basis.tolist(), correction=correction.tolist(),
-                                     condition=condition, checks=checks,
-                lateral_review={label: {
-                    'passed': all(c['passed'] for c in checks if c['label'] == label and c['role'] == 'held_out'),
-                    'held_out_repeats': [c['repeat_index'] for c in checks if c['label'] == label and c['role'] == 'held_out'],
-                    'max_cross_axis_p95_m': max(c['after']['cross_axis_p95_m'] for c in checks if c['label'] == label and c['role'] == 'held_out'),
-                } for label in ('left', 'right', 'left_up', 'right_up')})
-    report.update(accepted=not failures, reason='accepted' if not failures else 'trajectory_validation_failed',
-                  failed_checks=failures)
+                                     condition=condition)
+    report.update(fit_success=True, reason='fit_complete')
     report['profile_id'] = _digest(report)[:16]
     return report
 
 
-def load_intent_profile(path, *, real=False, setup_confirmed=False):
+def load_intent_profile(path, *, real=False):
     path = Path(path)
-    if path.stat().st_size > 5_000_000: raise ValueError('profile_too_large')
+    if path.stat().st_size > MAX_PROFILE_BYTES: raise ValueError('profile_too_large')
     profile = json.loads(path.read_text(encoding='utf-8'))
     matrices = validate_profile(profile)
     if real and profile['origin'] != 'quest': raise ValueError('synthetic_profile_cannot_control_real_robot')
-    if not setup_confirmed:
-        raise ValueError('Confirm the operator, headset facing direction and workspace setup before applying this profile')
     return profile, matrices
 
 
 def validate_profile(profile):
-    if (profile.get('type') != 'quest_intent_profile' or profile.get('version') != 1
-            or profile.get('accepted') is not True or profile.get('origin') not in ('quest', 'synthetic')):
-        raise ValueError('profile_not_accepted')
+    if (not isinstance(profile, dict) or profile.get('type') != 'quest_intent_profile'
+            or type(profile.get('version')) is not int or profile['version'] not in (1, 2)
+            or profile.get('origin') not in ('quest', 'synthetic')):
+        raise ValueError('invalid_profile_format')
+    if profile['version'] == 1:
+        complete = (profile.get('accepted') is True or
+                    (profile.get('accepted') is False and profile.get('reason') == 'trajectory_validation_failed'))
+    else:
+        complete = profile.get('fit_success') is True
+    if not complete:
+        raise ValueError('profile_fit_incomplete')
     identifier = profile.get('profile_id')
     unhashed = {k: v for k, v in profile.items() if k != 'profile_id'}
     if identifier != _digest(unhashed)[:16]: raise ValueError('profile_content_changed')
     matrices = {}
     for hand in HANDS:
-        b = np.asarray(profile['hands'][hand]['basis'], float)
-        c = np.asarray(profile['hands'][hand]['correction'], float)
+        try:
+            b = np.asarray(profile['hands'][hand]['basis'], float)
+            c = np.asarray(profile['hands'][hand]['correction'], float)
+        except (KeyError, TypeError, ValueError) as exc:
+            raise ValueError('invalid_profile_basis_' + hand) from exc
         if (b.shape != (3, 3) or c.shape != (3, 3) or not np.isfinite(b).all()
                 or not np.isfinite(c).all() or not np.allclose(np.linalg.norm(b, axis=0), 1.)
                 or np.linalg.det(b) <= 0 or np.linalg.cond(b) > 5

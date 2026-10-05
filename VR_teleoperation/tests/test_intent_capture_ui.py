@@ -64,10 +64,10 @@ class IntentCaptureUiTest(unittest.TestCase):
 
     def test_save_names_use_save_date_and_reject_invalid_file_names(self):
         paths = capture_ui.calibration_save_paths('/tmp/capture', ' jaehoon_table A ', datetime(2026, 9, 23))
-        self.assertEqual(paths['accepted_profile_path'].name, '260923_jaehoon_table A.json')
+        self.assertEqual(paths['profile_path'].name, '260923_jaehoon_table A.json')
         self.assertEqual(paths['capture_path'].name, '260923_jaehoon_table A_trajectory.json')
         tomorrow = capture_ui.calibration_save_paths('/tmp/capture', 'jaehoon', datetime(2026, 9, 24))
-        self.assertEqual(tomorrow['accepted_profile_path'].name, '260924_jaehoon.json')
+        self.assertEqual(tomorrow['profile_path'].name, '260924_jaehoon.json')
         for invalid in ('', '  ', '../other', r'folder\name', 'name:one', 'a\nb', 'a' * 41, '한글', 'café', 'Ａlice', 'user１２', '\tname', '\u00a0name'):
             with self.subTest(name=invalid), self.assertRaises(ValueError):
                 capture_ui.calibration_save_paths('/tmp/capture', invalid)
@@ -146,7 +146,7 @@ class IntentCaptureUiTest(unittest.TestCase):
             self.assertEqual(result['profile_path'].name, datetime.now().strftime('%y%m%d') + '_partial.json')
             self.assertEqual(result['capture_path'].stem, result['profile_path'].stem + '_trajectory')
             self.assertEqual(saved["type"], "quest_intent_trajectories")
-            self.assertFalse(profile["accepted"])
+            self.assertFalse(profile["fit_success"])
             self.assertEqual(profile["reason"], "incomplete_capture")
             self.assertEqual(profile, result["profile"])
             self.assertEqual(len(saved["attempts"]), 1)
@@ -183,13 +183,13 @@ class IntentCaptureUiTest(unittest.TestCase):
             self.assertEqual(list((root / 'calibration/diagnostics').iterdir()), [result['capture_path']])
             self.assertTrue(saved["status"]["complete"])
             self.assertEqual(saved["origin"], "synthetic")
-            profile, matrices = load_intent_profile(result["profile_path"], setup_confirmed=True)
-            self.assertTrue(profile["accepted"])
+            profile, matrices = load_intent_profile(result["profile_path"])
+            self.assertTrue(profile["fit_success"])
             self.assertEqual(profile["origin"], "synthetic")
             self.assertEqual(profile, result["profile"])
             self.assertEqual(set(matrices), {"left", "right"})
             with self.assertRaisesRegex(ValueError, "synthetic_profile_cannot_control_real_robot"):
-                load_intent_profile(result["profile_path"], real=True, setup_confirmed=True)
+                load_intent_profile(result["profile_path"], real=True)
 
     def test_empty_invalid_and_duplicate_names_keep_save_disabled_until_renamed(self):
         def drive(window, server):
@@ -220,7 +220,7 @@ class IntentCaptureUiTest(unittest.TestCase):
 
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            existing = capture_ui.calibration_save_paths(root, 'duplicate')['accepted_profile_path']
+            existing = capture_ui.calibration_save_paths(root, 'duplicate')['profile_path']
             existing.parent.mkdir(parents=True)
             existing.write_text('existing personal calibration', encoding='utf-8')
             result = self.run_capture(root, drive)
@@ -261,7 +261,7 @@ class IntentCaptureUiTest(unittest.TestCase):
             result = self.run_capture(Path(tmp), drive)
             self.assertTrue(result['capture_path'].is_file())
             self.assertTrue(result['profile_path'].is_file())
-            self.assertFalse(result['profile']['accepted'])
+            self.assertFalse(result['profile']['fit_success'])
 
 
 if __name__ == "__main__":

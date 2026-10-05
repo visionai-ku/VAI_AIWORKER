@@ -1,1 +1,0 @@
-ament_cmake_symlink_install_targets("TARGET_FILES" "/root/ros2_ws/build/cyclo_motion_controller_ros/ai_worker_bimanual_movej_controller_node" "TARGETS" "ai_worker_bimanual_movej_controller_node" "DESTINATION" "lib/cyclo_motion_controller_ros")

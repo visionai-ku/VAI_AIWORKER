@@ -17,15 +17,15 @@ dist/
 *.crt
 .env
 .env.*
+# Share worker profiles, raw captures, and calibration collection journals.
 calibration/profiles/*
 !calibration/profiles/.gitkeep
+!calibration/profiles/*.json
+!calibration/profiles/*.jsonl
 calibration/diagnostics/*
 !calibration/diagnostics/.gitkeep
+!calibration/diagnostics/*.json
+!calibration/diagnostics/*.jsonl
 
 calibration/reviews/*
 !calibration/reviews/.gitkeep
-
-# The shipped notebooks explicitly select this reviewed calibration candidate.
-!calibration/diagnostics/v1.json
-!calibration/diagnostics/v1_trajectory.json
-!calibration/reviews/v1-sim-reviewed-real-trial.json

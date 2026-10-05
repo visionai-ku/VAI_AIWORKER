@@ -20,12 +20,12 @@ def controller_frame(seq, now, delta=None, grip=1., valid=True, origin_id=0):
 
 
 def synthetic_capture(seed=19, basis=None):
-    """Known oblique axes with fresh noise on each whole repeat and composite."""
+    """Known oblique axes with fresh noise on each of twenty whole repeats."""
     rng = np.random.default_rng(seed)
     basis = synthetic_basis() if basis is None else np.asarray(basis, float)
     capture = IntentTrajectoryCapture()
     directions = {'forward': [1,0,0], 'left': [0,1,0], 'up': [0,0,1],
-                  'right': [0,-1,0], 'left_up': [0,1,.7], 'right_up': [0,-1,.7]}
+                  'right': [0,-1,0]}
     seq = 0
     for label in LABELS:
         direction = np.asarray(directions[label], float)

@@ -1,9 +1,0 @@
-{
-  "package_name": "robotis_interfaces",
-  "non_idl_tuples": [
-    "/root/ros2_ws/src/robotis_interfaces:msg/HandJoints.msg",
-    "/root/ros2_ws/src/robotis_interfaces:msg/HandPressures.msg",
-    "/root/ros2_ws/src/robotis_interfaces:msg/MoveL.msg",
-    "/root/ros2_ws/src/robotis_interfaces:msg/TactileSensor.msg"
-  ]
-}

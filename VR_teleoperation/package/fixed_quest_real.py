@@ -226,7 +226,7 @@ class SG2FixedQuestReal:
         return float(np.rad2deg(np.max(self.teleop_speed_limits[self.arm_mask])))
 
     def set_position_gains(self, lateral, vertical, now=None, *, forward=None):
-        """Apply XYZ gains after an idle tick with both grips released.
+        """Apply XYZ gains while idle; DRY RUN does not require Quest input.
 
         Omitted forward preserves X for existing callers. Z may be signed/zero.
         Preserve orientation, speed limits and the saved robot home pose.
@@ -239,7 +239,7 @@ class SG2FixedQuestReal:
         if (any(not np.isfinite(v) for v in values) or not .05 <= lateral <= 3.
                 or not -3. <= vertical <= 3. or (forward is not None and not .05 <= forward <= 3.)):
             raise ValueError("위치 배율 범위: X/Y 0.05~3.0, Z -3.0~3.0")
-        self._require_released_idle(now, "배율을")
+        self._require_released_idle(now, "배율을", allow_dry_run=True)
         scales = self.planner.mapper.position_scales
         for gains in scales.values():
             if forward is not None:
@@ -248,16 +248,26 @@ class SG2FixedQuestReal:
         self.planner.mapper.set_position_scales(scales)
         return {hand: gains.tolist() for hand, gains in scales.items()}
 
-    def _require_released_idle(self, now, subject):
-        """Allow input-policy changes only between clutches, after a recent both-released sample."""
+    def _require_released_idle(self, now, subject, *, allow_dry_run=False):
+        """Require idle and fresh release; selected DRY RUN edits may omit input."""
         now = time.monotonic() if now is None else float(now)
         if self._grip_engaged or self.armed or self._grip_home_active or self.home_pending or self.planner.homing:
             raise ValueError("조작·복귀가 끝난 뒤 양손 grip을 놓고 %s 적용하세요." % subject)
+        # Configuration edits do not authorize motion. Keep active-preview and
+        # HOME guards, but let idle DRY RUN edit without tracking/button data.
+        # REAL RUN and tracking-mode changes retain the original input checks.
+        if allow_dry_run and self.dry_run and np.isfinite(now):
+            return
         intent = self._grip_intent
         if (not np.isfinite(now) or not intent or not intent["valid"] or not intent["both_released"]
                 or self._grip_last_now is None or now < self._grip_last_now
                 or not 0 <= now - intent["effective_sample_at"] <= self.planner.mapper.timeout_s):
             raise ValueError("양손 컨트롤러 추적이 유효하고 두 grip을 놓은 상태에서 적용하세요.")
+
+    def set_intent_profile(self, matrices, profile_id, now=None):
+        """Edit while idle, including untracked DRY RUN; preserve IK/HOME/limits."""
+        self._require_released_idle(now, "보정 프로필을", allow_dry_run=True)
+        self.planner.mapper.set_intent_profile(matrices, profile_id)
 
     @property
     def tracking_loss_mode(self):

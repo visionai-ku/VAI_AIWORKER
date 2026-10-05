@@ -12,7 +12,7 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 runpy.run_path(str(ROOT / 'package/init_project.py'))
 from package.intent_offline import synthetic_capture, synthetic_basis, controller_frame
-from package.intent_calibration import fit_intent_profile, validate_profile, save_json
+from package.intent_calibration import fit_intent_profile, validate_profile
 from package.intent_teleop import IntentTeleopSettings, build_models, build_planner, execution_diagnostics
 from package.intent_sim_bridge import IntentSimBridge
 from package.fixed_quest_real import SG2FixedQuestReal
@@ -32,7 +32,7 @@ def plot_validation(rows, out):
             axis.plot(times, [1000*r['by_hand'][hand]['measured_delta'][component] for r in rows], color=color, label=hand+' measured FK')
     for axis, component, title in zip(axes, (0, 2), ('Forward X', 'Up Z')):
         axis.plot(times, [1000*r['intent'][component] if r['t'] < 20 else float('nan') for r in rows], 'k--', label='labelled synthetic intent')
-        axis.axvspan(20.5, 24, color='grey', alpha=.12, label='Initial joint pose return')
+        axis.axvspan(20.5, 28, color='grey', alpha=.12, label='Initial joint pose return')
         axis.set_ylabel(title+' (mm)'); axis.legend(loc='upper left'); axis.grid(alpha=.3)
     axes[-1].set_xlabel('Virtual time (s)')
     fig.suptitle('Synthetic intent → existing IK → ideal SIM follower (not hardware)')
@@ -44,7 +44,7 @@ def run_validation(output_dir=None):
     out.mkdir(parents=True, exist_ok=True)
     capture = synthetic_capture()
     profile = fit_intent_profile(capture)
-    assert profile['accepted'], profile['reason']
+    assert profile['fit_success'], profile['reason']
     matrices = validate_profile(profile)
     cfg = IntentTeleopSettings(POSITION_SCALE=1., POSITION_SCALE_Y=1., POSITION_SCALE_Z=1.).validate()
     models = build_models(cfg)
@@ -62,7 +62,8 @@ def run_validation(output_dir=None):
         configuration={'origin': 'synthetic', 'intent_profile': profile, 'gain': [1, 1, 1],
                        'limitations': 'ideal feedback; no actuator dynamics, network or human intent evidence'})
     try:
-        for i in range(1201):
+        # Allow the unchanged HOME planner to finish after the 20.5s request.
+        for i in range(1401):
             t, now = i * .02, 1. + i * .02
             intended = np.zeros(3)
             if 9 <= t < 12: intended[0] = .035 * np.sin(np.pi * (t - 9) / 3)**2
@@ -93,7 +94,7 @@ def run_validation(output_dir=None):
         forward_height = {hand: max(abs(r['by_hand'][hand]['measured_delta'][2]) for r in rows if 9 <= r['t'] < 11)
                           for hand in initial}
         returned_error = float(np.max(np.abs(bridge.q - planner.q_home)))
-        report = {'origin': 'synthetic', 'profile_accepted': profile['accepted'],
+        report = {'origin': 'synthetic', 'profile_fit_success': profile['fit_success'],
             'basis_inverse_max_error': max(float(np.max(np.abs(c @ basis - np.eye(3)))) for c in matrices.values()),
             'states': dict(states), 'faults': faults, 'bridge_rejections': dict(rejected),
             'forward_height_max_m': forward_height, 'intentional_up_peak_m': max_up,

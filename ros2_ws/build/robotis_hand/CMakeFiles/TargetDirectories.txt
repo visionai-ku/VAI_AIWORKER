@@ -1,9 +1,0 @@
-/root/ros2_ws/build/robotis_hand/CMakeFiles/uninstall.dir
-/root/ros2_ws/build/robotis_hand/CMakeFiles/robotis_hand_uninstall.dir
-/root/ros2_ws/build/robotis_hand/CMakeFiles/test.dir
-/root/ros2_ws/build/robotis_hand/CMakeFiles/edit_cache.dir
-/root/ros2_ws/build/robotis_hand/CMakeFiles/rebuild_cache.dir
-/root/ros2_ws/build/robotis_hand/CMakeFiles/list_install_components.dir
-/root/ros2_ws/build/robotis_hand/CMakeFiles/install.dir
-/root/ros2_ws/build/robotis_hand/CMakeFiles/install/local.dir
-/root/ros2_ws/build/robotis_hand/CMakeFiles/install/strip.dir

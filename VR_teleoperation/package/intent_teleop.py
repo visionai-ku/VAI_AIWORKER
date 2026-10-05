@@ -30,7 +30,8 @@ from package.fixed_quest_real import (SG2FixedQuestReal, FIXED_QUEST_MIN_GRIPPER
 from package.worker.fixed_quest_protocol import (JOINT_NAMES, JOINT_LIMITS, FIXED_QUEST_DEFAULT_ARM_SPEED, FIXED_QUEST_MAX_ARM_SPEED,
     OFFICIAL_VR_CONTROL_HZ, VR_ARM_TRACKING_LAG, FIXED_QUEST_VR_BRIDGE_LIMITS)
 from dataclasses import dataclass
-from .intent_calibration import load_intent_profile
+from .intent_calibration import load_intent_profile, _digest
+from .intent_profile_selector import CommandCenterProfileSelector
 from .intent_sim_bridge import IntentSimBridge
 from .home_path import HOME_PATH_STRATEGIES
 from .posture_ik import SG2PostureIK
@@ -40,11 +41,6 @@ from .runtime_diagnostics import GCPauseMonitor
 class IntentTeleopSettings:
     backend: str = "sim"
     PROFILE_PATH: object = None
-    SIM_CANDIDATE_CAPTURE_PATH: object = None
-    ALLOW_FAILED_PROFILE_IN_SIM: bool = False
-    REAL_CANDIDATE_REVIEW_PATH: object = None
-    REAL_CANDIDATE_CAPTURE_PATH: object = None
-    CONFIRM_CALIBRATION_SETUP: bool = False
     ROBOT_IP: str = "192.168.6.2"
     ROBOT_STATE_PORT: int = 5560
     ROBOT_COMMAND_PORT: int = 5561
@@ -108,12 +104,6 @@ class IntentTeleopSettings:
 
     def validate(self):
         if self.backend not in ("sim", "real"): raise ValueError("backend must be sim or real")
-        if type(self.ALLOW_FAILED_PROFILE_IN_SIM) is not bool:
-            raise ValueError('ALLOW_FAILED_PROFILE_IN_SIM must be bool')
-        if self.ALLOW_FAILED_PROFILE_IN_SIM and self.backend != 'sim':
-            raise ValueError('Failed calibration candidate is allowed only in SIM')
-        if self.REAL_CANDIDATE_REVIEW_PATH is not None and self.backend != 'real':
-            raise ValueError('REAL candidate review requires real backend')
         if type(self.DRY_RUN) is not bool: raise ValueError("DRY_RUN must be bool")
         if type(self.TELEOP_COLLISION_CHECK) is not bool:
             raise ValueError("TELEOP_COLLISION_CHECK must be bool")
@@ -168,26 +158,9 @@ class IntentTeleopSettings:
 
 
 def selected_profile(cfg):
-    # Check here too: setup notebooks can call selection without validate().
-    if cfg.REAL_CANDIDATE_REVIEW_PATH is not None:
-        if cfg.backend != 'real' or cfg.ALLOW_FAILED_PROFILE_IN_SIM:
-            raise ValueError('REAL candidate review requires real backend without SIM override')
-        if cfg.PROFILE_PATH is None:
-            raise ValueError('REAL candidate review requires PROFILE_PATH')
-        from .intent_sim_candidate import load_reviewed_real_candidate
-        return load_reviewed_real_candidate(cfg.PROFILE_PATH, cfg.REAL_CANDIDATE_CAPTURE_PATH,
-            cfg.REAL_CANDIDATE_REVIEW_PATH, setup_confirmed=cfg.CONFIRM_CALIBRATION_SETUP)
-    if cfg.ALLOW_FAILED_PROFILE_IN_SIM:
-        if cfg.backend != 'sim':
-            raise ValueError('Failed calibration candidate is allowed only in SIM')
-        if cfg.PROFILE_PATH is None:
-            raise ValueError('SIM candidate mode requires PROFILE_PATH')
-        from .intent_sim_candidate import load_sim_candidate
-        return load_sim_candidate(cfg.PROFILE_PATH, cfg.SIM_CANDIDATE_CAPTURE_PATH,
-                                  setup_confirmed=cfg.CONFIRM_CALIBRATION_SETUP)
+    """Load the selected v1/v2 matrices without capture or review dependencies."""
     if cfg.PROFILE_PATH is None: return None, None
-    return load_intent_profile(cfg.PROFILE_PATH, real=cfg.backend == "real",
-                              setup_confirmed=cfg.CONFIRM_CALIBRATION_SETUP)
+    return load_intent_profile(cfg.PROFILE_PATH, real=cfg.backend == "real")
 
 
 def feedback_diagnostic_text(feedback):
@@ -445,6 +418,8 @@ def run_intent_teleop(cfg=None, on_tick=None):
         mode_widget = QLabel(("SIM · 이상적 관절 추종" if cfg.backend == "sim" else ("DRY RUN · 미리보기" if cfg.DRY_RUN else "REAL RUN")) + " · " + speed_label, controls)
         mode_widget.setWordWrap(True)
         controls.layout().insertWidget(0, mode_widget)
+        profile_selector = CommandCenterProfileSelector(PROJECT_DIR, cfg, profile, controls)
+        controls.layout().insertWidget(1, profile_selector)
         speed_row = QWidget(controls)
         speed_row_layout = QHBoxLayout(speed_row)
         speed_row_layout.setContentsMargins(0, 0, 0, 0)
@@ -463,26 +438,28 @@ def run_intent_teleop(cfg=None, on_tick=None):
         speed_status.setWordWrap(True)
         controls.layout().insertWidget(1, speed_row)
         controls.layout().insertWidget(2, speed_status)
-        gripper_row = QWidget(controls)
-        gripper_row_layout = QHBoxLayout(gripper_row)
-        gripper_row_layout.setContentsMargins(0, 0, 0, 0)
-        gripper_input = QLineEdit("%g" % np.rad2deg(cfg.MAX_GRIPPER_SPEED), gripper_row)
-        gripper_input.setObjectName("gripper_speed_input")
-        gripper_input.setMaxLength(32)
-        gripper_input.setPlaceholderText("10~120")
-        gripper_input.setToolTip("10~120°/s 숫자를 입력하고 Enter 또는 적용을 누르세요. 복귀 중에는 복귀 속도를 따릅니다.")
-        gripper_apply = QPushButton("적용", gripper_row)
-        gripper_apply.setObjectName("gripper_speed_apply")
-        gripper_row_layout.addWidget(QLabel("그리퍼 속도 상한 (°/s)", gripper_row))
-        gripper_row_layout.addWidget(gripper_input)
-        gripper_row_layout.addWidget(gripper_apply)
-        gripper_apply.clicked.connect(lambda: gripper_speed_requests.append(gripper_input.text()))
-        gripper_input.returnPressed.connect(lambda: gripper_speed_requests.append(gripper_input.text()))
-        gripper_status = QLabel("적용: %g°/s · 입력 범위 10~120" % np.rad2deg(cfg.MAX_GRIPPER_SPEED), controls)
-        gripper_status.setObjectName("gripper_speed_status")
-        gripper_status.setWordWrap(True)
-        controls.layout().insertWidget(3, gripper_row)
-        controls.layout().insertWidget(4, gripper_status)
+        gripper_status = None
+        if cfg.backend == "sim":
+            gripper_row = QWidget(controls)
+            gripper_row_layout = QHBoxLayout(gripper_row)
+            gripper_row_layout.setContentsMargins(0, 0, 0, 0)
+            gripper_input = QLineEdit("%g" % np.rad2deg(cfg.MAX_GRIPPER_SPEED), gripper_row)
+            gripper_input.setObjectName("gripper_speed_input")
+            gripper_input.setMaxLength(32)
+            gripper_input.setPlaceholderText("10~120")
+            gripper_input.setToolTip("10~120°/s 숫자를 입력하고 Enter 또는 적용을 누르세요. 복귀 중에는 복귀 속도를 따릅니다.")
+            gripper_apply = QPushButton("적용", gripper_row)
+            gripper_apply.setObjectName("gripper_speed_apply")
+            gripper_row_layout.addWidget(QLabel("그리퍼 속도 상한 (°/s)", gripper_row))
+            gripper_row_layout.addWidget(gripper_input)
+            gripper_row_layout.addWidget(gripper_apply)
+            gripper_apply.clicked.connect(lambda: gripper_speed_requests.append(gripper_input.text()))
+            gripper_input.returnPressed.connect(lambda: gripper_speed_requests.append(gripper_input.text()))
+            gripper_status = QLabel("적용: %g°/s · 입력 범위 10~120" % np.rad2deg(cfg.MAX_GRIPPER_SPEED), controls)
+            gripper_status.setObjectName("gripper_speed_status")
+            gripper_status.setWordWrap(True)
+            controls.layout().insertWidget(3, gripper_row)
+            controls.layout().insertWidget(4, gripper_status)
         position_row = QWidget(controls)
         position_layout = QGridLayout(position_row)
         position_layout.setContentsMargins(0, 0, 0, 0)
@@ -505,7 +482,7 @@ def run_intent_teleop(cfg=None, on_tick=None):
             field.returnPressed.connect(queue_position_gains)
         position_layout.addWidget(position_apply, 0, 3, 2, 1)
         position_apply.clicked.connect(queue_position_gains)
-        position_status = QLabel("적용 배율 X %.2f / Y %.2f / Z %.2f · 양손 grip을 놓고 변경" % (
+        position_status = QLabel("적용 배율 X %.2f / Y %.2f / Z %.2f\n대기 중 DRY RUN: 추적 없이 변경 · REAL RUN: 양손 추적/해제 후 변경" % (
             cfg.POSITION_SCALE, cfg.POSITION_SCALE_Y, cfg.POSITION_SCALE_Z), controls)
         position_status.setWordWrap(True)
         controls.layout().addWidget(position_row)
@@ -515,7 +492,7 @@ def run_intent_teleop(cfg=None, on_tick=None):
         collision_status.setWordWrap(True)
         controls.layout().addWidget(collision_status)
         tracking_mode_status = None
-        if cfg.TRACKING_MODE_BUTTONS:
+        if cfg.backend == "sim" and cfg.TRACKING_MODE_BUTTONS:
             tracking_row = QWidget(controls)
             tracking_layout = QGridLayout(tracking_row)
             tracking_layout.setContentsMargins(0, 0, 0, 0)
@@ -601,15 +578,6 @@ def run_intent_teleop(cfg=None, on_tick=None):
               else "기존 IK", "| 위치/방향 허용오차:",
               ("%g mm / %g°" % (1000 * cfg.POSTURE_POSITION_TOLERANCE_M,
                                  cfg.POSTURE_ROTATION_TOLERANCE_DEG)) if cfg.POSTURE_IK_ENABLED else "기존 설정")
-        profile_widget = QLabel("개인 의도 보정: " + ("미적용 (identity)" if profile is None else profile["profile_id"]), controls)
-        profile_widget.setWordWrap(True)
-        if cfg.ALLOW_FAILED_PROFILE_IN_SIM:
-            profile_widget.setText(profile_widget.text() + '\nSIM 후보 시험 · 궤적 검증 미통과 · REAL 적용 불가')
-            profile_widget.setStyleSheet('color: #9a5500; font-weight: bold;')
-        elif cfg.REAL_CANDIDATE_REVIEW_PATH is not None:
-            profile_widget.setText(profile_widget.text() + '\n사용자 SIM 확인 후 REAL 후보 시험 · 자동 궤적 검증 미통과')
-            profile_widget.setStyleSheet('color: #9a5500; font-weight: bold;')
-        controls.layout().addWidget(profile_widget)
         mapping_widget = QLabel("입력 → 보정 → 목표 → FK (mm)", controls)
         mapping_widget.setWordWrap(True)
         controls.layout().addWidget(mapping_widget)
@@ -623,17 +591,15 @@ def run_intent_teleop(cfg=None, on_tick=None):
         outer_layout.addWidget(scroll)
         recorder = ControllerRecorder(log_path, command_joint_names, "intent_" + cfg.backend, configuration={
             "pipeline_version": 2, "backend": cfg.backend, "intent_profile": profile,
-            "failed_profile_sim_trial": cfg.ALLOW_FAILED_PROFILE_IN_SIM,
-            "operator_reviewed_real_candidate": cfg.REAL_CANDIDATE_REVIEW_PATH is not None,
-            "real_candidate_review_path": None if cfg.REAL_CANDIDATE_REVIEW_PATH is None else str(cfg.REAL_CANDIDATE_REVIEW_PATH),
-            "candidate_capture_path": None if cfg.SIM_CANDIDATE_CAPTURE_PATH is None else str(cfg.SIM_CANDIDATE_CAPTURE_PATH),
+            "profile_path": None if cfg.PROFILE_PATH is None else str(Path(cfg.PROFILE_PATH).resolve()),
+            "profile_sha256": None if profile is None else _digest(profile),
             "initial_dry_run": cfg.DRY_RUN, "robot_ip": cfg.ROBOT_IP, "input_mode": "quest", "scale": cfg.POSITION_SCALE,
             "control_source": "both_grips",
             "coordinated_arm_rate_limit": cfg.COORDINATED_ARM_RATE_LIMIT,
             "tracking_pause_s": cfg.TRACKING_PAUSE_S, "retry_ik_near_target": cfg.RETRY_IK_NEAR_TARGET,
             "accept_emulated_pose": cfg.ACCEPT_EMULATED_POSE,
             "tracking_mode_buttons": [{"key": key, "tracking_pause_s": pause, "accept_emulated": emulated}
-                                      for button in cfg.TRACKING_MODE_BUTTONS
+                                      for button in (cfg.TRACKING_MODE_BUTTONS if cfg.backend == "sim" else ())
                                       for key, _, pause, emulated in TRACKING_MODES if key == button],
             "ik_recovery_timeout_s": cfg.IK_RECOVERY_TIMEOUT_S, "null_reference": cfg.NULL_REFERENCE,
             "posture_ik_enabled": cfg.POSTURE_IK_ENABLED,
@@ -707,7 +673,7 @@ def run_intent_teleop(cfg=None, on_tick=None):
                     speed_error = "10~120°/s의 유효한 숫자를 입력하세요. 기존 속도를 유지합니다."
                     speed_change = {"requested_text": requested_text, "accepted": False, "reason": speed_error}
             gripper_speed_change = None
-            if gripper_speed_requests:
+            if cfg.backend == "sim" and gripper_speed_requests:
                 requested_text = gripper_speed_requests[-1].strip()
                 gripper_speed_requests.clear()
                 try:
@@ -761,29 +727,35 @@ def run_intent_teleop(cfg=None, on_tick=None):
                     current_gains = mapper.position_scales["left"]
                     position_status.setText("배율 유지 X %g / Y %g / Z %g · %s" % (*current_gains, str(gain_error)))
             result["position_gain_change"] = position_gain_change
-            tracking_mode_change = None
-            if tracking_mode_requests:
-                pending_tracking_mode = tracking_mode_requests[-1]
-                tracking_mode_requests.clear()
-            if pending_tracking_mode is not None:
-                if tracking_mode_key(real.tracking_loss_mode) == pending_tracking_mode:
-                    pending_tracking_mode = None
-                else:
-                    _, _, pause, emulated = next(mode for mode in TRACKING_MODES if mode[0] == pending_tracking_mode)
-                    try:
-                        # Retried every tick; applies only once both grips are released and idle.
-                        applied = real.set_tracking_loss_mode(pause, emulated, now=time.monotonic())
-                        tracking_mode_change = dict(applied, mode=pending_tracking_mode, accepted=True)
+            # Apply file clicks between clutches, using the same idle guard as
+            # XYZ gains. The just-completed tick still belongs to its old profile;
+            # this event identifies the profile effective from the next tick.
+            result["intent_profile_change"] = profile_selector.poll(real, on_tick)
+            if cfg.backend == "sim":
+                tracking_mode_change = None
+                if tracking_mode_requests:
+                    pending_tracking_mode = tracking_mode_requests[-1]
+                    tracking_mode_requests.clear()
+                if pending_tracking_mode is not None:
+                    if tracking_mode_key(real.tracking_loss_mode) == pending_tracking_mode:
                         pending_tracking_mode = None
-                    except ValueError:
-                        pass
-            result["tracking_mode_change"] = tracking_mode_change
-            result["tracking_mode_pending"] = pending_tracking_mode
+                    else:
+                        _, _, pause, emulated = next(mode for mode in TRACKING_MODES if mode[0] == pending_tracking_mode)
+                        try:
+                            # Retried every tick; applies only once both grips are released and idle.
+                            applied = real.set_tracking_loss_mode(pause, emulated, now=time.monotonic())
+                            tracking_mode_change = dict(applied, mode=pending_tracking_mode, accepted=True)
+                            pending_tracking_mode = None
+                        except ValueError:
+                            pass
+                result["tracking_mode_change"] = tracking_mode_change
+                result["tracking_mode_pending"] = pending_tracking_mode
             result["control_compute_ms"] = (time.perf_counter() - tick_started) * 1000
             result["control_thread_cpu_ms"] = (time.thread_time() - tick_cpu_started) * 1000
             result["gc_events_since_previous_tick"] = gc_monitor.take_events()
             result["speed_change"] = speed_change
-            result["gripper_speed_change"] = gripper_speed_change
+            if cfg.backend == "sim":
+                result["gripper_speed_change"] = gripper_speed_change
             speed_label = "팔 상한 %g°/s · 그리퍼 %g°/s · 복귀 %g°/s · 시작 ramp %g초" % (
                 result["teleop_speed_deg_s"], result["gripper_speed_deg_s"],
                 np.rad2deg(cfg.MAX_HOME_JOINT_SPEED), cfg.TELEOP_RAMP_S)
@@ -795,14 +767,15 @@ def run_intent_teleop(cfg=None, on_tick=None):
                     result["teleop_speed_deg_s"], result["requested_teleop_speed_deg_s"]))
             else:
                 speed_status.setText("적용: %g°/s · 입력 범위 10~120" % result["teleop_speed_deg_s"])
-            if gripper_speed_error:
-                gripper_status.setText(gripper_speed_error)
-            elif result["gripper_speed_change_pending"]:
-                gripper_status.setText("적용 중: %g → %g°/s · 이전 명령 수신 확인 대기" % (
-                    result["gripper_speed_deg_s"], result["requested_gripper_speed_deg_s"]))
-            else:
-                gripper_status.setText("적용: %g°/s · bridge 상한 %.0f°/s" %
-                                       (result["gripper_speed_deg_s"], np.rad2deg(real.gripper_bridge_cap(feedback))))
+            if gripper_status is not None:
+                if gripper_speed_error:
+                    gripper_status.setText(gripper_speed_error)
+                elif result["gripper_speed_change_pending"]:
+                    gripper_status.setText("적용 중: %g → %g°/s · 이전 명령 수신 확인 대기" % (
+                        result["gripper_speed_deg_s"], result["requested_gripper_speed_deg_s"]))
+                else:
+                    gripper_status.setText("적용: %g°/s · bridge 상한 %.0f°/s" %
+                                           (result["gripper_speed_deg_s"], np.rad2deg(real.gripper_bridge_cap(feedback))))
             if real.initialized and feedback["ready"] and real.generation == feedback["generation"]:
                 receiver.acknowledge_resync(real.generation)
             home_text = home_status_text(result)

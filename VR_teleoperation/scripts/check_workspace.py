@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import sys
+from unittest.mock import patch
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -13,6 +14,7 @@ CALIBRATION_NOTEBOOK = "calibration_notebook/calibrate_intent_axes.ipynb"
 NOTEBOOKS = (
     "sim_notebook/sim_vr_teleop.ipynb",
     "real_notebook/real_vr_teleop.ipynb",
+    "real_notebook/real_vr_teleop_record.ipynb",
     CALIBRATION_NOTEBOOK,
 )
 
@@ -66,7 +68,8 @@ def check_workspace():
     try:
         for relative in NOTEBOOKS:
             notebook = json.loads((ROOT / relative).read_text())
-            cells = [cell for cell in notebook["cells"] if cell["cell_type"] == "code"]
+            cells = [cell for cell in notebook["cells"] if cell["cell_type"] == "code"
+                     and "".join(cell["source"]).strip()]
             saved_execution_cells = [index for index, cell in enumerate(cells)
                                      if cell.get("outputs") or cell.get("execution_count") is not None]
             for index, cell in enumerate(cells):
@@ -91,8 +94,9 @@ def check_workspace():
             assert Path(namespace["PROJECT_DIR"]).resolve() == ROOT
             os.chdir(ROOT.parent)
             namespace = {"__name__": "__main__"}
-            for cell in cells[:3]:
-                exec(compile("".join(cell["source"]), relative, "exec"), namespace)
+            with patch("package.episode_recorder.find_lan_ip", return_value="192.0.2.1"):
+                for cell in cells[:3]:
+                    exec(compile("".join(cell["source"]), relative, "exec"), namespace)
             assert Path(namespace["PROJECT_DIR"]).resolve() == ROOT
             backend = namespace["settings"].backend
             if backend == "real":

@@ -47,13 +47,11 @@ def controller_status_text(frame, now, timeout_s, input_reason):
 
 
 def fit_summary_text(profile):
-    lines = [profile['reason']] + profile.get('failed_checks', [])
+    lines = ['보정 생성 완료' if profile['fit_success'] else '보정 미완료: ' + profile['reason']]
     for hand, title in (('left', '왼손'), ('right', '오른손')):
-        review = profile.get('hands', {}).get(hand, {}).get('lateral_review', {})
-        for label, item in review.items():
-            lines.append('%s / %s: %s · 교차축 p95 최대 %.1fmm (검증 반복 %s)' % (
-                title, label, 'PASS' if item['passed'] else 'FAIL',
-                item['max_cross_axis_p95_m'] * 1000, ','.join(map(str, item['held_out_repeats']))))
+        data = profile.get('hands', {}).get(hand)
+        if data:
+            lines.append('%s · 행렬 조건수 %.3f' % (title, data['condition']))
     return '\n'.join(lines)
 
 
@@ -69,8 +67,8 @@ def calibration_save_paths(project_dir, name, now=None):
     return {
         'capture_path': root / 'diagnostics' / (stem + '_trajectory.json'),
         'journal_path': root / 'diagnostics' / (stem + '_trajectory.jsonl'),
-        'accepted_profile_path': root / 'profiles' / (stem + '.json'),
-        'rejected_profile_path': root / 'diagnostics' / (stem + '.json'),
+        'profile_path': root / 'profiles' / (stem + '.json'),
+        'incomplete_profile_path': root / 'diagnostics' / (stem + '.json'),
     }
 
 
@@ -103,9 +101,7 @@ def run_intent_capture(project_dir, host, port=8443, prepare_s=3., capture_s=6.,
     window.setWindowTitle('개인 의도 축 수집 · 로봇 연결 없음')
     layout = QVBoxLayout(window)
     combo = QComboBox(window)
-    names = {'forward': '전진', 'left': '왼쪽', 'up': '상승',
-             'forward_up': '전진＋상승 · 검증', 'left_up': '왼쪽＋상승 · 검증',
-             'right': '오른쪽', 'right_up': '오른쪽＋상승 · 검증'}
+    names = {'forward': '전진', 'left': '왼쪽', 'up': '상승', 'right': '오른쪽'}
     for label in LABELS: combo.addItem(names[label] + ' (' + label + ')', label)
     remaining = [k for k,v in collector.status()['counts'].items() if v < 5]
     if remaining: combo.setCurrentIndex(LABELS.index(remaining[0]))
@@ -125,7 +121,7 @@ def run_intent_capture(project_dir, host, port=8443, prepare_s=3., capture_s=6.,
     cancel = QPushButton('현재 동작 중단', window)
     reset = QPushButton('전체 기준/수집 초기화', window)
     clear_label = QPushButton('선택 동작만 다시 수집', window)
-    preview = QPushButton('검증 결과 미리보기', window)
+    preview = QPushButton('보정 계산 미리보기', window)
     name_label = QLabel('Calibration 이름', window)
     name_input = QLineEdit(window)
     name_input.setObjectName('calibration_name_input')
@@ -156,7 +152,7 @@ def run_intent_capture(project_dir, host, port=8443, prepare_s=3., capture_s=6.,
             save_hint.setStyleSheet('color: #9a5500;')
             finish.setEnabled(False)
             return None
-        save_hint.setText('저장 이름: ' + paths['accepted_profile_path'].stem)
+        save_hint.setText('저장 이름: ' + paths['profile_path'].stem)
         save_hint.setStyleSheet('color: #16703a;')
         finish.setEnabled(True)
         return paths
@@ -265,7 +261,7 @@ def run_intent_capture(project_dir, host, port=8443, prepare_s=3., capture_s=6.,
             print('유효한 새 이름 없이 창을 닫아 실행 시각으로 자동 저장합니다.')
     if selected_paths is not None:
         _check_save_paths(selected_paths)
-        destination = selected_paths['accepted_profile_path' if profile['accepted'] else 'rejected_profile_path']
+        destination = selected_paths['profile_path' if profile['fit_success'] else 'incomplete_profile_path']
         save_json(selected_paths['capture_path'], snapshot)
         save_json(destination, profile)
         if journal.exists():
@@ -275,14 +271,13 @@ def run_intent_capture(project_dir, host, port=8443, prepare_s=3., capture_s=6.,
         output.unlink()
         output = selected_paths['capture_path']
     else:
-        destination = root / 'calibration' / ('profiles' if profile['accepted'] else 'diagnostics') / (stamp + '-intent-profile.json')
+        destination = root / 'calibration' / ('profiles' if profile['fit_success'] else 'diagnostics') / (stamp + '-intent-profile.json')
         save_json(destination, profile)
     print('수집 저장:', output)
     print('보정 결과:', profile['reason'], '|', destination)
     print(fit_summary_text(profile))
-    if profile['accepted']:
-        print('SIM의 PROFILE_PATH에 위 경로를 지정하세요. REAL은 SIM 확인 후 같은 파일을 사용합니다.')
+    if profile['fit_success']:
+        print('MuJoCo 커맨드 센터의 작업자 보정 목록에서 파일명을 선택하세요.')
     else:
-        print('자동 궤적 검증 미통과: 미완료/실패 항목을 확인하세요. 실제 조작감은 별도 확인 대상입니다.')
-        print('완료된 미통과 후보의 SIM 시험 방법: docs/CALIBRATION.md')
+        print('보정 행렬 미완료: 수집 횟수와 계산 결과를 확인하세요. docs/CALIBRATION.md')
     return {'capture_path': output, 'profile_path': destination, 'profile': profile}

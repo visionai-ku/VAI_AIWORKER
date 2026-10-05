@@ -607,6 +607,135 @@ class FixedQuestRealTest(unittest.TestCase):
         with self.assertRaises(ValueError):
             real.set_position_gains(.8, .6, now=.03)
 
+    def test_profile_switch_preserves_commands_home_reference_and_next_grip_anchor(self):
+        real = self.make_real(dry_run=True)
+        real.tick_grip(self.frame(0), self.feedback(0.), now=0.)
+        mapper = self.planner.mapper
+        home, command = self.planner.q_home.copy(), self.planner.q_command.copy()
+        speeds, scales, rotation = self.planner.speed_limits.copy(), mapper.position_scales, mapper.R_BQ
+        matrices = {hand: np.array([[1., 0., .1], [0., 1., 0.], [0., 0., 1.]])
+                    for hand in ('left', 'right')}
+        real.set_intent_profile(matrices, 'worker_b', now=0.)
+        self.assertEqual(mapper.intent_profile_id, 'worker_b')
+        np.testing.assert_array_equal(self.planner.q_home, home)
+        np.testing.assert_array_equal(self.planner.q_command, command)
+        np.testing.assert_array_equal(self.planner.speed_limits, speeds)
+        np.testing.assert_array_equal(mapper.R_BQ, rotation)
+        for hand in ('left', 'right'):
+            np.testing.assert_array_equal(mapper.position_scales[hand], scales[hand])
+            np.testing.assert_array_equal(mapper._intent_matrices[hand], matrices[hand])
+        self.assertEqual(self.publisher.messages, [])
+        result = real.tick_grip(self.frame(1, grip=True, height=.15), self.feedback(.01), now=.01)
+        self.assertEqual(result['state'], 'ACTIVE')
+        self.assertEqual(result['intent_profile_id'], 'worker_b')
+        for hand in ('left', 'right'):
+            np.testing.assert_allclose(result['targets'][hand],
+                                       get_sg2_wrist_control_T(self.env_measured, hand), atol=1e-12)
+        with self.assertRaises(ValueError):
+            real.set_intent_profile(None, None, now=.01)
+        self.assertEqual(mapper.intent_profile_id, 'worker_b')
+
+    def test_profile_switch_requires_recent_released_input_and_rejects_home(self):
+        real = self.make_real()
+        with self.assertRaises(ValueError):
+            real.set_intent_profile(None, None, now=0.)
+        frame = self.frame(0)
+        frame['hands']['left']['grip'] = 1.
+        real.tick_grip(frame, self.feedback(0.), now=0.)
+        with self.assertRaises(ValueError):
+            real.set_intent_profile(None, None, now=0.)
+        real.tick_grip(self.frame(1), self.feedback(.01), now=.01)
+        with self.assertRaises(ValueError):
+            real.set_intent_profile(None, None, now=.5)
+        real.tick_grip(self.frame(2), self.feedback(.02), now=.02, action='home')
+        with self.assertRaises(ValueError):
+            real.set_intent_profile(None, None, now=.02)
+
+    def test_untracked_dry_edits_survive_real_switch_and_require_fresh_grip_start(self):
+        real = self.make_real(dry_run=True)
+        real.tick_grip(None, self.feedback(0.), now=0.)
+        home = self.planner.q_home.copy()
+        matrices = {hand: np.array([[1., 0., .1], [0., 1., 0.], [0., 0., 1.]])
+                    for hand in ('left', 'right')}
+        real.set_position_gains(.8, .6, forward=.7, now=0.)
+        real.set_intent_profile(matrices, 'dry_worker', now=0.)
+        real.set_teleop_speed(45.)
+        self.assertEqual(self.publisher.messages, [])
+        real.set_dry_run(False, self.publisher_factory)
+        live = real.publisher
+        self.assertAlmostEqual(real.teleop_speed_deg_s, 45.)
+        self.assertEqual(self.planner.mapper.intent_profile_id, 'dry_worker')
+        np.testing.assert_array_equal(self.planner.q_home, home)
+        for hand in ('left', 'right'):
+            np.testing.assert_array_equal(self.planner.mapper.position_scales[hand], [.7, .8, .6])
+            np.testing.assert_array_equal(self.planner.mapper._intent_matrices[hand], matrices[hand])
+        real.tick_grip(None, self.feedback(.01), now=.01)
+        self.assertEqual(live.messages, [])
+        with self.assertRaises(ValueError):
+            real.set_position_gains(1., 1., now=.01)
+        with self.assertRaises(ValueError):
+            real.set_intent_profile(None, None, now=.01)
+        result = real.tick_grip(self.frame(2, grip=True), self.feedback(.02), now=.02)
+        self.assertEqual(result['state'], 'WAIT_RELEASE')
+        self.assertEqual(live.messages, [])
+        real.tick_grip(self.frame(3), self.feedback(.03), now=.03)
+        result = real.tick_grip(self.frame(4, grip=True), self.feedback(.04), now=.04)
+        self.assertEqual(result['state'], 'ARMING')
+        self.assertEqual([p['mode'] for p in live.messages], ['arm'])
+        result = real.tick_grip(self.frame(5, grip=True), self.armed_feedback(.05), now=.05)
+        self.assertEqual(result['state'], 'ACTIVE', result['reason'])
+        self.assertEqual(result['intent_profile_id'], 'dry_worker')
+        for hand in ('left', 'right'):
+            np.testing.assert_allclose(result['targets'][hand],
+                                       get_sg2_wrist_control_T(self.env_measured, hand), atol=1e-12)
+
+    def test_dry_edits_after_tracking_loss_keep_rearm_and_validation(self):
+        real = self.make_real(dry_run=True)
+        real.tick_grip(self.frame(0), self.feedback(0.), now=0.)
+        real.tick_grip(self.frame(1, grip=True), self.feedback(.01), now=.01)
+        real.tick_grip(None, self.feedback(.02), now=.02)
+        self.assertTrue(real._grip_needs_release)
+        real.set_position_gains(.8, .6, now=.02)
+        real.set_intent_profile(None, None, now=.02)
+        self.assertTrue(real._grip_needs_release)
+        self.assertEqual(self.publisher.messages, [])
+        with self.assertRaises(ValueError):
+            real.set_position_gains(float('nan'), 1., now=.02)
+        with self.assertRaises(ValueError):
+            real.set_intent_profile({'left': np.eye(3), 'right': np.zeros((3, 3))}, 'bad', now=.02)
+        for hand in ('left', 'right'):
+            np.testing.assert_array_equal(self.planner.mapper.position_scales[hand], [.5, .8, .6])
+            np.testing.assert_array_equal(self.planner.mapper._intent_matrices[hand], np.eye(3))
+
+    def test_dry_preview_home_and_tracking_mode_keep_existing_guards(self):
+        real = self.make_real(dry_run=True)
+        with self.assertRaises(ValueError):
+            real.set_tracking_loss_mode(.5, False, now=0.)
+        real.tick_grip(self.frame(0), self.feedback(0.), now=0.)
+        real.tick_grip(self.frame(1, grip=True), self.feedback(.01), now=.01)
+        with self.assertRaises(ValueError):
+            real.set_position_gains(.8, .6, now=.01)
+        with self.assertRaises(ValueError):
+            real.set_intent_profile(None, None, now=.01)
+        real.tick_grip(self.frame(2), self.feedback(.02), now=.02)
+        real.tick_grip(None, self.feedback(.03), now=.03, action='home')
+        self.assertTrue(real._grip_home_active or real.home_pending or self.planner.homing)
+        with self.assertRaises(ValueError):
+            real.set_position_gains(.8, .6, now=.03)
+        with self.assertRaises(ValueError):
+            real.set_intent_profile(None, None, now=.03)
+
+    def test_invalid_second_hand_does_not_partially_replace_profile(self):
+        real = self.make_real(dry_run=True)
+        real.tick_grip(self.frame(0), self.feedback(0.), now=0.)
+        mapper = self.planner.mapper
+        with self.assertRaises(ValueError):
+            real.set_intent_profile({'left': np.diag([1.1, 1., 1.]), 'right': np.zeros((3, 3))},
+                                    'invalid', now=0.)
+        for matrix in mapper._intent_matrices.values():
+            np.testing.assert_array_equal(matrix, np.eye(3))
+        self.assertIsNone(mapper.intent_profile_id)
+
     def test_either_grip_release_stops_both_and_fresh_regrip_starts_new_lease(self):
         for released_hand in ("left", "right"):
             with self.subTest(released_hand=released_hand):

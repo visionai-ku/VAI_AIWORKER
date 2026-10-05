@@ -13,7 +13,7 @@ python -m ipykernel install --user --name ffw-sg2-vr --display-name "FFW SG2 VR"
 python -m jupyterlab
 ```
 
-- [SIM 노트북](sim_notebook/sim_vr_teleop.ipynb)을 먼저 실행한다.
+- [SIM 노트북](sim_notebook/sim_vr_teleop.ipynb)은 선택적으로 실행한다. REAL 사용에 SIM 확인 기록은 필요하지 않다.
 - 새 개인 보정은 [보정 수집 노트북](calibration_notebook/calibrate_intent_axes.ipynb)에서 만든다. 준비·수집·SIM/REAL 적용 순서는 [보정 안내](docs/CALIBRATION.md)를 따른다.
 - [REAL 노트북](real_notebook/real_vr_teleop.ipynb)은 DRY RUN으로 시작하며 실제 로봇 피드백이 필요하다. [로봇 worker 적용 안내](docs/WORKER_SETUP.md)를 따른다.
 - 각 노트북은 새 커널에서 첫 셀부터 실행한다. 기존 프로젝트 모듈을 불러온 커널은 재시작한다.
@@ -43,7 +43,7 @@ Joint/EEF 준비 셀은 포함된 C++ 소스로 현재 Python ABI에 맞는 IK �
 
 Initial pose 버튼과 컨트롤러 A·B의 머리 `head_joint1` 목표는 bringup과 동일한 **0.69 rad(약 39.5°)** 아래 방향으로 고정한다. `head_joint2`는 실측값을 유지한다. 변경된 공용 상수를 불러오려면 실행을 종료하고 노트북 커널을 재시작한 뒤 첫 셀부터 다시 실행한다.
 
-2026-09-23 원본 `FtF_VR/project_v2`의 개인 의도 축 보정 노트북과 수집 UI를 복원했다. 새 수집은 `RESUME_CAPTURE_PATH=None`에서 시작하며 Quest 컨트롤러만 사용한다. 로봇 연결이나 grip 입력은 필요 없다. 6종 동작을 각 5회 수집하고, 결과는 시각이 붙은 새 파일로 저장한다. 기존 SIM·REAL·기록용 REAL의 보정 선택과 제어 기본값은 유지했다. 상세 절차와 결과 판정은 [보정 안내](docs/CALIBRATION.md)를 참고한다.
+2026-09-23 원본 `FtF_VR/project_v2`의 개인 의도 축 보정 노트북과 수집 UI를 복원했다. 새 수집은 `RESUME_CAPTURE_PATH=None`에서 시작하며 Quest 컨트롤러만 사용한다. 로봇 연결이나 grip 입력은 필요 없다. 현재는 전진·왼쪽·상승·오른쪽을 각 5회 수집하고 총 20회를 모두 행렬 계산에 사용한다. 대각선 수집과 궤적 점수 판정은 제거했다. 결과는 `YYMMDD_이름`의 새 파일로 저장한다. 프로필은 MuJoCo 커맨드 센터의 작업자 보정 목록에서 파일명으로 선택한다. `calibration/profiles/`와 `calibration/diagnostics/`에 사람 이름으로 보정 프로필 JSON을 두면 표시된다. 보정 미적용(identity)과 v1 원본도 별도 항목이며 파일명을 클릭하면 자동 적용한다. 조작·복귀·녹화 중에는 선택을 잠근다. DRY RUN 대기 중에는 추적 없이 프로필·XYZ 배율을 바꿀 수 있고, REAL RUN으로 전환해도 값을 유지한다. REAL RUN에서 직접 변경할 때는 기존 양손 추적·grip 해제 조건을 유지한다. 노트북 위젯이나 `ipywidgets`는 사용하지 않는다. 코드 갱신 후 커널을 재시작한다. 상세 절차와 결과 판정은 [보정 안내](docs/CALIBRATION.md)를 참고한다.
 
 Teleoperation의 충돌 거리 검사는 `TELEOP_COLLISION_CHECK=False`로 해제했다(SIM·REAL·기록용 REAL 공통). 양팔·그리퍼를 가까이 접근시키는 조작과 grip 재시작, 추적 일시정지·IK 대기 중 유지 명령에도 같은 설정을 적용한다. Initial pose, B 버튼 Reset pose의 각 단계, 수동 관절 이동은 전체 경로 및 전송 전 충돌 검사를 유지한다. 관절 범위·속도·팔꿈치 자세·피드백·ACK 검사는 계속 적용한다. 실행 창과 기록 메타데이터에 충돌 검사 설정을 표시하며, Teleoperation에도 검사를 적용하려면 `TELEOP_COLLISION_CHECK=True`로 바꾼다. 코드 갱신 후 노트북 커널을 재시작하고 설정 셀부터 다시 실행해야 반영된다.
 
@@ -55,17 +55,18 @@ IK 후보의 허용오차는 위치 1 mm·회전 0.5°이며, 초기 팔꿈치 �
 
 테스트 방법·설정·기존 IK 비교는 [자세 유지 IK 안내](docs/POSTURE_IK.md)를 참고한다. 이 IK 옵션 전환에는 로봇 worker 변경이 필요하지 않으며 REAL의 `DRY_RUN=True` 시작 설정은 유지한다.
 
-노트북 설정 그대로 실행할 수 있도록 다음 세 파일을 포함했다. 복사본 `.gitignore`에는 이 파일들만 예외로 추가했다. 일반 `git add VR_teleoperation/`에 포함되며 추가로 수집한 개인 로그·프로필은 계속 제외된다.
+시작 보정과 원본 재계산·회귀 검사를 위해 다음 두 파일을 포함한다.
 
 - `calibration/diagnostics/v1.json`
 - `calibration/diagnostics/v1_trajectory.json`
-- `calibration/reviews/v1-sim-reviewed-real-trial.json`
 
-이는 특정 사용자가 SIM에서 확인한 후보이며 `accepted=false`를 유지한다. REAL의 별도 확인 기록은 해당 프로필/시연 해시와 연결된다. 다른 사용자·Quest 방향·작업 위치에 대해 검증된 일반 보정값이라는 뜻은 아니다. 배포 시 확인 옵션이나 제어 설정은 변경하지 않았다.
+`calibration/profiles/`와 `calibration/diagnostics/`의 작업자 보정 프로필 JSON·원본 궤적 JSON(`*_trajectory.json`, `*-intent-trajectories.json`)·보정 수집 로그 JSONL은 모두 Git에 포함한다. 새 작업자 데이터도 세 종류를 함께 커밋·배포할 수 있다. 커맨드 센터 선택 목록에는 보정 프로필만 표시된다.
 
-팔과 그리퍼 시작 상한은 각각 60°/s다. 최신 worker에서 그리퍼 10~120°/s 설정을 지원하며 HOME/수동 조정은 최대 10°/s다. 기존 충돌 모델에는 로봇과 바닥만 있고 실제 책상이 포함되지 않는다. 최신 worker는 어깨·그리퍼의 0.002 rad 이내 경계 피드백을 정규화하며, 명령 관절 범위는 기존 제한을 유지한다. 장시간 실행의 모든 IK 중단 원인이 해결된 것은 아니다.
+기존 v1의 `accepted=false`와 저장 행렬은 그대로 보존한다. 공통 로더는 궤적 점수만 미통과한 v1도 파일 무결성과 행렬 유효성을 확인해 직접 읽는다. capture·SIM 확인 기록·setup 확인 옵션은 로딩에 필요하지 않다. 기존 review 파일은 로컬 과거 기록으로 보관하고 Git 배포에서 제외한다. 새 프로필은 `version=2`, `fit_success`로 계산 완료를 표시한다.
 
-추적 손실 모드: 두 노트북은 `추정 위치 사용`으로 시작한다. 한 손의 광학 추적이 끊겨도 Quest 추정 위치로 조작을 이어가며, 컨트롤러가 아예 사라지면 0.1초 뒤 정지한다. 실행 창의 `정지 0.5초` 버튼을 누르면 추적 손실 중 현재 명령을 최대 0.5초 유지하는 방식으로 바뀐다. 전환은 양손 grip을 놓은 상태에서 적용된다. 두 모드 모두 한 프레임 20cm 초과 점프·grip 해제·피드백 오류 시 정지하고, 작업범위·속도 제한은 같다. 충돌 검사는 두 추적 모드 모두 위의 Teleoperation/자동 이동 설정을 따른다. 추적 손실 모드 전환 자체에는 worker 변경이 필요하지 않다.
+일반 REAL은 팔/그리퍼 60/60°/s, 기록용 REAL은 100/120°/s의 기존 설정을 유지한다. REAL의 그리퍼 속도 입력·적용 UI만 제거했으며 팔 속도 UI는 유지한다. 그리퍼는 노트북 설정의 상한을 사용하고 HOME/수동 조정의 기존 속도 처리는 유지한다. 기존 충돌 모델에는 로봇과 바닥만 있고 실제 책상이 포함되지 않는다. 최신 worker는 어깨·그리퍼의 0.002 rad 이내 경계 피드백을 정규화하며, 명령 관절 범위는 기존 제한을 유지한다. 장시간 실행의 모든 IK 중단 원인이 해결된 것은 아니다.
+
+추적 손실 모드: 두 REAL 노트북은 기존 기본값인 `추정 위치 사용`으로 고정하며 모드 전환 버튼을 표시하지 않는다. 한 손의 광학 추적이 끊겨도 Quest 추정 위치로 조작을 이어가며, 컨트롤러가 아예 사라지면 0.1초 뒤 정지한다. 한 프레임 20cm 초과 점프·grip 해제·피드백 오류 시 정지하고 작업범위·속도 제한은 유지한다. SIM의 선택적 추적 모드·그리퍼 속도 UI는 유지한다. 제어 상태 전이, IK, worker, HOME/Reset pose, 녹화 절차는 변경하지 않았다.
 
 ## 오프라인 검증
 
@@ -77,9 +78,11 @@ python -m unittest discover -s tests -p 'test_*.py'
 python scripts/validate_intent_pipeline.py
 ```
 
-`check_workspace.py`는 SIM·REAL 두 노트북의 import·설정·모델 준비 셀과 보정 노트북의 준비 셀을 검사한다. 라이브 실행 셀은 실행하지 않는다. 포함된 회귀 검사는 메모리 기반 transport/ROS mock을 사용한다. 합성 검증은 이상적인 관절 추종을 사용하며 실제 모터·부하·통신 검증을 대신하지 않는다. 실행 결과와 생성 장면은 `.cache/`에 저장되고 Git에서 제외된다.
+`check_workspace.py`는 SIM·REAL·기록용 REAL 노트북의 import·설정·모델 준비 셀과 보정 노트북의 준비 셀을 검사한다. 라이브 실행 셀은 실행하지 않는다. 포함된 회귀 검사는 메모리 기반 transport/ROS mock을 사용한다. 합성 검증은 이상적인 관절 추종을 사용하며 실제 모터·부하·통신 검증을 대신하지 않는다. 실행 결과와 생성 장면은 `.cache/`에 저장되고 Git에서 제외된다.
 
 2026-09-29 공통 컨트롤러 반영 후 Python 3.12 환경의 전체 회귀 검사는 414개 중 412개 통과, 실제 checkpoint가 필요한 2개 skip이었다. 변경된 노트북 6개의 문법, 컨트롤러·도구 노트북 5개의 초기화 경로와 macOS native IK 컴파일·import도 확인했다. 실제 로봇 제어는 실행하지 않았다.
+
+2026-10-05 보정·프로필 선택·REAL UI 변경 후 전체 회귀 검사는 442개 중 440개 통과, 실제 checkpoint가 필요한 2개 skip이었다. 기존 v1 행렬의 정확한 보존, 5회째 수집 반영, 커맨드 센터의 identity·v1 원본·작업자 파일 선택, 조작·복귀·녹화 중 잠금, 오류 시 현재 보정 보존, REAL/SIM 위젯 및 기록 시작·종료 순서를 확인했다. 보정 교체가 HOME·명령·속도·다음 grip 기준을 바꾸지 않는 것도 확인했다. DRY RUN 대기 중 추적 없는 프로필·배율 변경과 REAL RUN 전환 후 값 유지, 전환 후 기존 grip 재시작 조건도 확인했다. 워크스페이스 준비 검사와 합성 IK·추적 일시정지·HOME 복귀 검사도 통과했다. 합성 검사의 관찰 구간만 28초로 늘려 기존 HOME 완료를 확인했으며 제어 로직은 변경하지 않았다. 실제 로봇 제어는 실행하지 않았다.
 
 ## 배포 범위
 

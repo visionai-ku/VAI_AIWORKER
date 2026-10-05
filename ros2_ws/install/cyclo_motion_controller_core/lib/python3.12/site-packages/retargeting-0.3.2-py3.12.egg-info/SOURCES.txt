@@ -1,9 +1,0 @@
-setup.py
-retargeting/__init__.py
-retargeting/optimizer.py
-retargeting/robot_wrapper.py
-retargeting/seq_retarget.py
-retargeting.egg-info/PKG-INFO
-retargeting.egg-info/SOURCES.txt
-retargeting.egg-info/dependency_links.txt
-retargeting.egg-info/top_level.txt

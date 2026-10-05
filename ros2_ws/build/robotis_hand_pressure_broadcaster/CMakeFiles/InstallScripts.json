@@ -1,7 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/root/ros2_ws/build/robotis_hand_pressure_broadcaster/cmake_install.cmake"
-	],
-	"Parallel" : false
-}

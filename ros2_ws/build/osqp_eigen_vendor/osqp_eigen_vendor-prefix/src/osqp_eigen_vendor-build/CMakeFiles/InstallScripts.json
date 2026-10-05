@@ -1,8 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/root/ros2_ws/build/osqp_eigen_vendor/osqp_eigen_vendor-prefix/src/osqp_eigen_vendor-build/cmake_install.cmake",
-		"/root/ros2_ws/build/osqp_eigen_vendor/osqp_eigen_vendor-prefix/src/osqp_eigen_vendor-build/tests/cmake_install.cmake"
-	],
-	"Parallel" : false
-}

@@ -1,4 +1,0 @@
-source;share/robotis_hand_moveit_config/local_setup.bash
-source;share/robotis_hand_moveit_config/local_setup.dsv
-source;share/robotis_hand_moveit_config/local_setup.sh
-source;share/robotis_hand_moveit_config/local_setup.zsh

@@ -153,6 +153,20 @@ class ControllerMapper:
             raise ValueError("Release controller anchors before changing position gains")
         self._position_scales = validated
 
+    def set_intent_profile(self, matrices, profile_id):
+        """Replace only calibration matrices between clutches, atomically."""
+        if self._anchors:
+            raise ValueError("Release controller anchors before changing calibration")
+        validated = {}
+        for hand in HANDS:
+            matrix = np.eye(3) if matrices is None else np.asarray(matrices[hand], float)
+            if (matrix.shape != (3, 3) or not np.isfinite(matrix).all()
+                    or np.linalg.det(matrix) <= 0 or np.linalg.cond(matrix) > 5):
+                raise ValueError("invalid_intent_matrix_" + hand)
+            validated[hand] = matrix.copy()
+        self._intent_matrices = validated
+        self.intent_profile_id = profile_id
+
     @property
     def R_BQ(self):
         """Frozen WebXR-reference to robot-base rotation, or None before setup."""

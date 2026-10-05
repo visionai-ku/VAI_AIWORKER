@@ -1,7 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/root/ros2_ws/build/ffw_moveit_config/cmake_install.cmake"
-	],
-	"Parallel" : false
-}

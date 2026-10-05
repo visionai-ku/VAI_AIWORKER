@@ -1,1 +1,15 @@
 .DS_Store
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.cache/
+.pytest_cache/
+
+# Generated ROS workspace output. Keep local installations; do not ship them in Git.
+/ros2_ws/build/
+/ros2_ws/install/
+/ros2_ws/log/
+
+# Legacy data/assets not used by the deployed Quest pipeline.
+/ri_motion_v5_VR/bvh/
+/ri_motion_v5_VR/ri_motion_v5_package/leap2/leapmotion_mac.zip

@@ -1,7 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/root/ros2_ws/build/osqp_eigen_vendor/cmake_install.cmake"
-	],
-	"Parallel" : false
-}
