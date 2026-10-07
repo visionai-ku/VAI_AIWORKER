@@ -2,12 +2,13 @@
 import copy
 import unittest
 import uuid
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 import numpy as np
 
 from test_robot_client import GateHarness
 from package.robot_client import SG2BaseCommandClient, SG2JointCommandClient
+from package.fixed_quest_transport import SG2RobotCommandPublisher
 
 
 class BaseHarness(GateHarness):
@@ -26,6 +27,24 @@ class BaseHarness(GateHarness):
 
 
 class BaseClientTest(unittest.TestCase):
+    def test_real_publisher_accepts_base_arming_motion_and_stop(self):
+        rig = BaseHarness()
+        bridge_publisher = rig.publisher()
+        publisher = SG2RobotCommandPublisher(enabled=False)
+        publisher.enabled = True
+        publisher._socket = Mock()
+        publisher._socket.send_json.side_effect = (
+            lambda packet, **kwargs: bridge_publisher.send(packet))
+        client = SG2BaseCommandClient(receiver=rig, publisher_factory=lambda: publisher)
+        self.addCleanup(client.close)
+        rig.start(client)
+        self.assertEqual(rig.tick(client, enabled=False)["state"], "OFF")
+        self.assertEqual([p["mode"] for p in bridge_publisher.packets],
+                         ["arm", "command", "command", "stop"])
+        self.assertTrue(all(result["accepted"] for _, result in rig.received))
+        self.assertEqual(bridge_publisher.packets[-1]["base"], [0., 0., 0.])
+        self.assertIsNone(publisher._socket)
+
     def make_client(self):
         rig = BaseHarness()
         client = rig.client()

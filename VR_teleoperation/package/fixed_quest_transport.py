@@ -345,7 +345,7 @@ class SG2RobotCommandPublisher:
             return False
         if self._socket is None:
             raise RuntimeError("Command publisher is closed")
-        if (not isinstance(payload, dict) or payload.get("type") != "sg2_command"
+        if (not isinstance(payload, dict) or payload.get("type") not in ("sg2_command", "sg2_base_command")
                 or type(payload.get("version")) is not int or payload["version"] != 1):
             raise ValueError("strict_command_envelope_required")
         try:
