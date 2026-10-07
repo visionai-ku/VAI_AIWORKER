@@ -1,0 +1,1636 @@
+{
+  "type": "quest_intent_profile",
+  "version": 1,
+  "accepted": false,
+  "origin": "quest",
+  "capture_sha256": "53423cbf5034867d9826809a82a8afb083a7f11c8450e4077227e66e9e0cb5c9",
+  "created_at": "2026-10-02T06:37:40.664917+00:00",
+  "reference": {
+    "session_id": "7b0e527d-5523-43f9-b965-becec7f60297",
+    "origin_id": 0,
+    "R_OQ": [
+      [
+        -0.9968844495024503,
+        0.0,
+        0.07887581593997417
+      ],
+      [
+        0.07887581593997417,
+        0.0,
+        0.9968844495024503
+      ],
+      [
+        0.0,
+        1.0,
+        0.0
+      ]
+    ],
+    "head_at_reference": {
+      "position_m": [
+        -0.17731337249279022,
+        0.012469854205846786,
+        0.210023432970047
+      ],
+      "quaternion_xyzw": [
+        -0.08416812851770954,
+        -0.6738597152779576,
+        -0.03834189442710943,
+        0.7330475492074691
+      ]
+    },
+    "first_sequence": 5872,
+    "first_sample_time_ms": 143528.238
+  },
+  "hands": {
+    "left": {
+      "basis": [
+        [
+          0.9906721513026756,
+          0.10909767760212347,
+          -0.09918390743371606
+        ],
+        [
+          -0.058516160652837976,
+          0.9929373654921261,
+          0.03057737916317839
+        ],
+        [
+          0.12306318529836574,
+          -0.04661635926774151,
+          0.9945992038955648
+        ]
+      ],
+      "correction": [
+        [
+          0.9906009001104173,
+          -0.10405301712317022,
+          0.10198413204099654
+        ],
+        [
+          0.062063368985823535,
+          0.999142203853353,
+          -0.024527932925235627
+        ],
+        [
+          -0.11965959087325322,
+          0.05970391634026368,
+          0.9916618684840336
+        ]
+      ],
+      "condition": 1.056037854431594,
+      "checks": [
+        {
+          "label": "forward",
+          "repeat_index": 1,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.2962268226292271,
+            "cross_axis_p95_m": 0.04658174704212129,
+            "cross_axis_ratio": 0.15725026730758082,
+            "intended_positive_extent_m": [
+              0.2932852479983112
+            ]
+          },
+          "after": {
+            "peak_m": 0.2960175431273895,
+            "cross_axis_p95_m": 0.03277044235326382,
+            "cross_axis_ratio": 0.11070439274324104,
+            "intended_positive_extent_m": [
+              0.2950755467067373
+            ]
+          }
+        },
+        {
+          "label": "forward",
+          "repeat_index": 2,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.33038964506690083,
+            "cross_axis_p95_m": 0.033521713802413554,
+            "cross_axis_ratio": 0.10146115140995329,
+            "intended_positive_extent_m": [
+              0.32492517092655565
+            ]
+          },
+          "after": {
+            "peak_m": 0.33101978871379883,
+            "cross_axis_p95_m": 0.06056374899942873,
+            "cross_axis_ratio": 0.1829611130946386,
+            "intended_positive_extent_m": [
+              0.32085456388475464
+            ]
+          }
+        },
+        {
+          "label": "forward",
+          "repeat_index": 3,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.34205552270233763,
+            "cross_axis_p95_m": 0.0894103398081818,
+            "cross_axis_ratio": 0.26139130601317073,
+            "intended_positive_extent_m": [
+              0.330259741326508
+            ]
+          },
+          "after": {
+            "peak_m": 0.3412158196007795,
+            "cross_axis_p95_m": 0.06451819298089857,
+            "cross_axis_ratio": 0.1890832407957652,
+            "intended_positive_extent_m": [
+              0.33697912588666834
+            ]
+          }
+        },
+        {
+          "label": "forward",
+          "repeat_index": 4,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.3275528276028737,
+            "cross_axis_p95_m": 0.058680866298085166,
+            "cross_axis_ratio": 0.17914931990521565,
+            "intended_positive_extent_m": [
+              0.3225708354339496
+            ]
+          },
+          "after": {
+            "peak_m": 0.32706668142618056,
+            "cross_axis_p95_m": 0.04856968312681867,
+            "cross_axis_ratio": 0.14850085895337803,
+            "intended_positive_extent_m": [
+              0.324127711322045
+            ]
+          }
+        },
+        {
+          "label": "forward",
+          "repeat_index": 5,
+          "role": "held_out",
+          "passed": false,
+          "before": {
+            "peak_m": 0.30131763802443273,
+            "cross_axis_p95_m": 0.038677148915744426,
+            "cross_axis_ratio": 0.12836005608343526,
+            "intended_positive_extent_m": [
+              0.2990146710109627
+            ]
+          },
+          "after": {
+            "peak_m": 0.3011499118047586,
+            "cross_axis_p95_m": 0.03767801138090128,
+            "cross_axis_ratio": 0.12511380513147444,
+            "intended_positive_extent_m": [
+              0.2974188584564468
+            ]
+          }
+        },
+        {
+          "label": "left",
+          "repeat_index": 1,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.38654536675645074,
+            "cross_axis_p95_m": 0.04322960390256039,
+            "cross_axis_ratio": 0.11183578337855984,
+            "intended_positive_extent_m": [
+              0.37854040028274605
+            ]
+          },
+          "after": {
+            "peak_m": 0.38782788328225654,
+            "cross_axis_p95_m": 0.03301624558075014,
+            "cross_axis_ratio": 0.08513118061890694,
+            "intended_positive_extent_m": [
+              0.37963655642358346
+            ]
+          }
+        },
+        {
+          "label": "left",
+          "repeat_index": 2,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.36553014937107575,
+            "cross_axis_p95_m": 0.05385710862982808,
+            "cross_axis_ratio": 0.14733971663484832,
+            "intended_positive_extent_m": [
+              0.3572771525477917
+            ]
+          },
+          "after": {
+            "peak_m": 0.36897584679420486,
+            "cross_axis_p95_m": 0.06496511960380923,
+            "cross_axis_ratio": 0.17606875942761457,
+            "intended_positive_extent_m": [
+              0.35562528032888363
+            ]
+          }
+        },
+        {
+          "label": "left",
+          "repeat_index": 3,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.36372004252625423,
+            "cross_axis_p95_m": 0.04826774516316176,
+            "cross_axis_ratio": 0.13270576135401632,
+            "intended_positive_extent_m": [
+              0.3577032382885099
+            ]
+          },
+          "after": {
+            "peak_m": 0.36584952043711527,
+            "cross_axis_p95_m": 0.051281428428789744,
+            "cross_axis_ratio": 0.14017082315023657,
+            "intended_positive_extent_m": [
+              0.35814117381992283
+            ]
+          }
+        },
+        {
+          "label": "left",
+          "repeat_index": 4,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.3373361086552195,
+            "cross_axis_p95_m": 0.047418748598165056,
+            "cross_axis_ratio": 0.1405682563517985,
+            "intended_positive_extent_m": [
+              0.3329007332374375
+            ]
+          },
+          "after": {
+            "peak_m": 0.33845098412243907,
+            "cross_axis_p95_m": 0.032968289992416154,
+            "cross_axis_ratio": 0.09740934888370555,
+            "intended_positive_extent_m": [
+              0.33408832218129075
+            ]
+          }
+        },
+        {
+          "label": "left",
+          "repeat_index": 5,
+          "role": "held_out",
+          "passed": false,
+          "before": {
+            "peak_m": 0.27862642369880974,
+            "cross_axis_p95_m": 0.03257157551084083,
+            "cross_axis_ratio": 0.11690052608237234,
+            "intended_positive_extent_m": [
+              0.2752096972432244
+            ]
+          },
+          "after": {
+            "peak_m": 0.2807322323424503,
+            "cross_axis_p95_m": 0.04894847297375592,
+            "cross_axis_ratio": 0.17436000335738536,
+            "intended_positive_extent_m": [
+              0.2746335465046826
+            ]
+          }
+        },
+        {
+          "label": "up",
+          "repeat_index": 1,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.2726010895861708,
+            "cross_axis_p95_m": 0.02991069050148079,
+            "cross_axis_ratio": 0.10972329768339333,
+            "intended_positive_extent_m": [
+              0.26531621962785723
+            ]
+          },
+          "after": {
+            "peak_m": 0.27248634631754415,
+            "cross_axis_p95_m": 0.030040535692556793,
+            "cross_axis_ratio": 0.11024602185956435,
+            "intended_positive_extent_m": [
+              0.2663137476394986
+            ]
+          }
+        },
+        {
+          "label": "up",
+          "repeat_index": 2,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.27835470899184583,
+            "cross_axis_p95_m": 0.03782868417271659,
+            "cross_axis_ratio": 0.1359010031111949,
+            "intended_positive_extent_m": [
+              0.270133520103991
+            ]
+          },
+          "after": {
+            "peak_m": 0.2788634121654725,
+            "cross_axis_p95_m": 0.03735633289066597,
+            "cross_axis_ratio": 0.13395924764952455,
+            "intended_positive_extent_m": [
+              0.27296601222642913
+            ]
+          }
+        },
+        {
+          "label": "up",
+          "repeat_index": 3,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.26928567637940515,
+            "cross_axis_p95_m": 0.05824974034667141,
+            "cross_axis_ratio": 0.21631206356702573,
+            "intended_positive_extent_m": [
+              0.2569549972191453
+            ]
+          },
+          "after": {
+            "peak_m": 0.26988434593337357,
+            "cross_axis_p95_m": 0.03235489599708928,
+            "cross_axis_ratio": 0.11988430038501285,
+            "intended_positive_extent_m": [
+              0.2621429358089502
+            ]
+          }
+        },
+        {
+          "label": "up",
+          "repeat_index": 4,
+          "role": "train",
+          "passed": true,
+          "before": {
+            "peak_m": 0.281756539480903,
+            "cross_axis_p95_m": 0.04210337461240945,
+            "cross_axis_ratio": 0.14943175654406823,
+            "intended_positive_extent_m": [
+              0.2708686889149248
+            ]
+          },
+          "after": {
+            "peak_m": 0.2819896624341082,
+            "cross_axis_p95_m": 0.017729747691781008,
+            "cross_axis_ratio": 0.06287375054368835,
+            "intended_positive_extent_m": [
+              0.273744769761989
+            ]
+          }
+        },
+        {
+          "label": "up",
+          "repeat_index": 5,
+          "role": "held_out",
+          "passed": false,
+          "before": {
+            "peak_m": 0.2700411804142658,
+            "cross_axis_p95_m": 0.052268552871540336,
+            "cross_axis_ratio": 0.19355771142518338,
+            "intended_positive_extent_m": [
+              0.2612791351974011
+            ]
+          },
+          "after": {
+            "peak_m": 0.27060934807776826,
+            "cross_axis_p95_m": 0.02526017736486947,
+            "cross_axis_ratio": 0.09334554605855726,
+            "intended_positive_extent_m": [
+              0.26581680283101766
+            ]
+          }
+        },
+        {
+          "label": "right",
+          "repeat_index": 1,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.21864335902581514,
+            "cross_axis_p95_m": 0.04595978058833478,
+            "cross_axis_ratio": 0.21020432906406422,
+            "intended_positive_extent_m": [
+              0.20982876241005796
+            ]
+          },
+          "after": {
+            "peak_m": 0.21753641904014828,
+            "cross_axis_p95_m": 0.02509613123515849,
+            "cross_axis_ratio": 0.11536519423226681,
+            "intended_positive_extent_m": [
+              0.21254690899252765
+            ]
+          }
+        },
+        {
+          "label": "right",
+          "repeat_index": 2,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.21536753560066363,
+            "cross_axis_p95_m": 0.036670015950631914,
+            "cross_axis_ratio": 0.17026714749908164,
+            "intended_positive_extent_m": [
+              0.2101207189850561
+            ]
+          },
+          "after": {
+            "peak_m": 0.21537174497088146,
+            "cross_axis_p95_m": 0.04276012956602769,
+            "cross_axis_ratio": 0.19854103690253758,
+            "intended_positive_extent_m": [
+              0.21142267884537205
+            ]
+          }
+        },
+        {
+          "label": "right",
+          "repeat_index": 3,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.23545779989269155,
+            "cross_axis_p95_m": 0.06545196869270774,
+            "cross_axis_ratio": 0.27797749202845295,
+            "intended_positive_extent_m": [
+              0.2211783111222759
+            ]
+          },
+          "after": {
+            "peak_m": 0.2333862442246008,
+            "cross_axis_p95_m": 0.03954170397457674,
+            "cross_axis_ratio": 0.16942602639649798,
+            "intended_positive_extent_m": [
+              0.2252691936829049
+            ]
+          }
+        },
+        {
+          "label": "right",
+          "repeat_index": 4,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.1884777808933212,
+            "cross_axis_p95_m": 0.06585196532903276,
+            "cross_axis_ratio": 0.34938847972910453,
+            "intended_positive_extent_m": [
+              0.17110864622532443
+            ]
+          },
+          "after": {
+            "peak_m": 0.18609834616116672,
+            "cross_axis_p95_m": 0.04588096143960559,
+            "cross_axis_ratio": 0.24654147866457293,
+            "intended_positive_extent_m": [
+              0.17519470784137342
+            ]
+          }
+        },
+        {
+          "label": "right",
+          "repeat_index": 5,
+          "role": "held_out",
+          "passed": false,
+          "before": {
+            "peak_m": 0.18424775858677053,
+            "cross_axis_p95_m": 0.06479015324567705,
+            "cross_axis_ratio": 0.35164690057906167,
+            "intended_positive_extent_m": [
+              0.16772326463373283
+            ]
+          },
+          "after": {
+            "peak_m": 0.18231502667095387,
+            "cross_axis_p95_m": 0.048590510854951016,
+            "cross_axis_ratio": 0.26651950605612024,
+            "intended_positive_extent_m": [
+              0.1713379432085363
+            ]
+          }
+        },
+        {
+          "label": "left_up",
+          "repeat_index": 1,
+          "role": "held_out",
+          "passed": false,
+          "before": {
+            "peak_m": 0.2619674386427182,
+            "cross_axis_p95_m": 0.0364556916036127,
+            "cross_axis_ratio": 0.13916115602951878,
+            "intended_positive_extent_m": [
+              0.16595402856356575,
+              0.1916910694912076
+            ]
+          },
+          "after": {
+            "peak_m": 0.26407547789642055,
+            "cross_axis_p95_m": 0.038533365227998356,
+            "cross_axis_ratio": 0.14591799865306865,
+            "intended_positive_extent_m": [
+              0.1628748023050969,
+              0.19623616526084214
+            ]
+          }
+        },
+        {
+          "label": "left_up",
+          "repeat_index": 2,
+          "role": "held_out",
+          "passed": false,
+          "before": {
+            "peak_m": 0.2700822001680966,
+            "cross_axis_p95_m": 0.04328908520171671,
+            "cross_axis_ratio": 0.16028114838658009,
+            "intended_positive_extent_m": [
+              0.18003202836096507,
+              0.19190708845853804
+            ]
+          },
+          "after": {
+            "peak_m": 0.2718637561076302,
+            "cross_axis_p95_m": 0.04492345421516746,
+            "cross_axis_ratio": 0.1652425275746664,
+            "intended_positive_extent_m": [
+              0.17759522657160326,
+              0.1965092410524638
+            ]
+          }
+        },
+        {
+          "label": "left_up",
+          "repeat_index": 3,
+          "role": "held_out",
+          "passed": false,
+          "before": {
+            "peak_m": 0.2789266707618585,
+            "cross_axis_p95_m": 0.03151365408283102,
+            "cross_axis_ratio": 0.11298186005932968,
+            "intended_positive_extent_m": [
+              0.18772512922548315,
+              0.1990391254425049
+            ]
+          },
+          "after": {
+            "peak_m": 0.28140917494788487,
+            "cross_axis_p95_m": 0.033101521814460834,
+            "cross_axis_ratio": 0.11762772774054371,
+            "intended_positive_extent_m": [
+              0.18420331404948673,
+              0.205602998840984
+            ]
+          }
+        },
+        {
+          "label": "left_up",
+          "repeat_index": 4,
+          "role": "held_out",
+          "passed": false,
+          "before": {
+            "peak_m": 0.21355292654060404,
+            "cross_axis_p95_m": 0.037792612635013545,
+            "cross_axis_ratio": 0.17697070813884547,
+            "intended_positive_extent_m": [
+              0.14694933016939965,
+              0.14763041287660597
+            ]
+          },
+          "after": {
+            "peak_m": 0.214623766517617,
+            "cross_axis_p95_m": 0.03728701242572543,
+            "cross_axis_ratio": 0.17373198239284834,
+            "intended_positive_extent_m": [
+              0.14550371140520585,
+              0.15075487782381355
+            ]
+          }
+        },
+        {
+          "label": "left_up",
+          "repeat_index": 5,
+          "role": "held_out",
+          "passed": false,
+          "before": {
+            "peak_m": 0.2462130869618308,
+            "cross_axis_p95_m": 0.03073906304285216,
+            "cross_axis_ratio": 0.12484739711507489,
+            "intended_positive_extent_m": [
+              0.18820763786016953,
+              0.1500675395131111
+            ]
+          },
+          "after": {
+            "peak_m": 0.24819415457878935,
+            "cross_axis_p95_m": 0.028038278611858865,
+            "cross_axis_ratio": 0.11296913361816545,
+            "intended_positive_extent_m": [
+              0.18622381365133128,
+              0.1565350944454979
+            ]
+          }
+        },
+        {
+          "label": "right_up",
+          "repeat_index": 1,
+          "role": "held_out",
+          "passed": true,
+          "before": {
+            "peak_m": 0.24394985039332556,
+            "cross_axis_p95_m": 0.028405474800831682,
+            "cross_axis_ratio": 0.11643981234271276,
+            "intended_positive_extent_m": [
+              0.12096132038560747,
+              0.2066384551115334
+            ]
+          },
+          "after": {
+            "peak_m": 0.24106435264542117,
+            "cross_axis_p95_m": 0.02264078257265711,
+            "cross_axis_ratio": 0.09392007704249489,
+            "intended_positive_extent_m": [
+              0.12768521629216312,
+              0.2010875818551508
+            ]
+          }
+        },
+        {
+          "label": "right_up",
+          "repeat_index": 2,
+          "role": "held_out",
+          "passed": true,
+          "before": {
+            "peak_m": 0.19428999991158852,
+            "cross_axis_p95_m": 0.028891570287360478,
+            "cross_axis_ratio": 0.14870333162029728,
+            "intended_positive_extent_m": [
+              0.11202579465769683,
+              0.15517881289124488
+            ]
+          },
+          "after": {
+            "peak_m": 0.1917946349682665,
+            "cross_axis_p95_m": 0.011518835269265693,
+            "cross_axis_ratio": 0.0600581724883574,
+            "intended_positive_extent_m": [
+              0.11755477109682089,
+              0.15062761917480602
+            ]
+          }
+        },
+        {
+          "label": "right_up",
+          "repeat_index": 3,
+          "role": "held_out",
+          "passed": true,
+          "before": {
+            "peak_m": 0.2274768701098482,
+            "cross_axis_p95_m": 0.014460625074642845,
+            "cross_axis_ratio": 0.06356965025789142,
+            "intended_positive_extent_m": [
+              0.10864371622802355,
+              0.19816951202228666
+            ]
+          },
+          "after": {
+            "peak_m": 0.2249155847263571,
+            "cross_axis_p95_m": 0.02382936278962997,
+            "cross_axis_ratio": 0.10594802853978258,
+            "intended_positive_extent_m": [
+              0.11433974432298734,
+              0.19176258906404808
+            ]
+          }
+        },
+        {
+          "label": "right_up",
+          "repeat_index": 4,
+          "role": "held_out",
+          "passed": false,
+          "before": {
+            "peak_m": 0.24567069568363817,
+            "cross_axis_p95_m": 0.016640625796019846,
+            "cross_axis_ratio": 0.06773549344057206,
+            "intended_positive_extent_m": [
+              0.1397843031557105,
+              0.19657492376863955
+            ]
+          },
+          "after": {
+            "peak_m": 0.24281146414996943,
+            "cross_axis_p95_m": 0.034195671249100314,
+            "cross_axis_ratio": 0.14083219410093334,
+            "intended_positive_extent_m": [
+              0.14491963516403095,
+              0.18728345688097203
+            ]
+          }
+        },
+        {
+          "label": "right_up",
+          "repeat_index": 5,
+          "role": "held_out",
+          "passed": false,
+          "before": {
+            "peak_m": 0.2163645627482703,
+            "cross_axis_p95_m": 0.02300653092141343,
+            "cross_axis_ratio": 0.10633225066611493,
+            "intended_positive_extent_m": [
+              0.12092973735834855,
+              0.17324977219104765
+            ]
+          },
+          "after": {
+            "peak_m": 0.2138380682140283,
+            "cross_axis_p95_m": 0.034888464694509805,
+            "cross_axis_ratio": 0.16315366569618608,
+            "intended_positive_extent_m": [
+              0.12543135480124967,
+              0.1653353359462671
+            ]
+          }
+        }
+      ],
+      "lateral_review": {
+        "left": {
+          "passed": false,
+          "held_out_repeats": [
+            5
+          ],
+          "max_cross_axis_p95_m": 0.04894847297375592
+        },
+        "right": {
+          "passed": false,
+          "held_out_repeats": [
+            5
+          ],
+          "max_cross_axis_p95_m": 0.048590510854951016
+        },
+        "left_up": {
+          "passed": false,
+          "held_out_repeats": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "max_cross_axis_p95_m": 0.04492345421516746
+        },
+        "right_up": {
+          "passed": false,
+          "held_out_repeats": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "max_cross_axis_p95_m": 0.034888464694509805
+        }
+      }
+    },
+    "right": {
+      "basis": [
+        [
+          0.9962822291978851,
+          0.025150312009175203,
+          -0.08901824914165947
+        ],
+        [
+          -0.03704405569709706,
+          0.9960747618723224,
+          0.03320539856236282
+        ],
+        [
+          0.07777825995741491,
+          0.08486772394048,
+          0.9954763446843266
+        ]
+      ],
+      "correction": [
+        [
+          0.9954766104950229,
+          -0.03281301391457431,
+          0.09011279334945187
+        ],
+        [
+          0.039727553561755204,
+          1.0054925619635715,
+          -0.029986954657580354
+        ],
+        [
+          -0.08116518897969346,
+          -0.08315790373998999,
+          1.0000600352173763
+        ]
+      ],
+      "condition": 1.1236350228787229,
+      "checks": [
+        {
+          "label": "forward",
+          "repeat_index": 1,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.31127300977620215,
+            "cross_axis_p95_m": 0.04765009154399695,
+            "cross_axis_ratio": 0.1530813467517027,
+            "intended_positive_extent_m": [
+              0.30503325315037705
+            ]
+          },
+          "after": {
+            "peak_m": 0.3105681835380506,
+            "cross_axis_p95_m": 0.04511575727589074,
+            "cross_axis_ratio": 0.1452684456016184,
+            "intended_positive_extent_m": [
+              0.30541695151753867
+            ]
+          }
+        },
+        {
+          "label": "forward",
+          "repeat_index": 2,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.3310228552691268,
+            "cross_axis_p95_m": 0.05605772544641467,
+            "cross_axis_ratio": 0.16934699388306243,
+            "intended_positive_extent_m": [
+              0.3235027288589627
+            ]
+          },
+          "after": {
+            "peak_m": 0.33036227943337526,
+            "cross_axis_p95_m": 0.05053633760635722,
+            "cross_axis_ratio": 0.15297248128035446,
+            "intended_positive_extent_m": [
+              0.32292824737786663
+            ]
+          }
+        },
+        {
+          "label": "forward",
+          "repeat_index": 3,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.3695629505315642,
+            "cross_axis_p95_m": 0.06981955049712538,
+            "cross_axis_ratio": 0.1889246484170012,
+            "intended_positive_extent_m": [
+              0.36367114691227437
+            ]
+          },
+          "after": {
+            "peak_m": 0.3697716701504596,
+            "cross_axis_p95_m": 0.056885977498949344,
+            "cross_axis_ratio": 0.15384082148803482,
+            "intended_positive_extent_m": [
+              0.3658259427269171
+            ]
+          }
+        },
+        {
+          "label": "forward",
+          "repeat_index": 4,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.3712931998767821,
+            "cross_axis_p95_m": 0.04473016530877641,
+            "cross_axis_ratio": 0.1204712753253241,
+            "intended_positive_extent_m": [
+              0.3690748393046374
+            ]
+          },
+          "after": {
+            "peak_m": 0.37121315430996854,
+            "cross_axis_p95_m": 0.034473555916749714,
+            "cross_axis_ratio": 0.09286727993470775,
+            "intended_positive_extent_m": [
+              0.3686029352738551
+            ]
+          }
+        },
+        {
+          "label": "forward",
+          "repeat_index": 5,
+          "role": "held_out",
+          "passed": false,
+          "before": {
+            "peak_m": 0.33112984673845725,
+            "cross_axis_p95_m": 0.03098367705587898,
+            "cross_axis_ratio": 0.09356956904084646,
+            "intended_positive_extent_m": [
+              0.32960653269376666
+            ]
+          },
+          "after": {
+            "peak_m": 0.33079383820648395,
+            "cross_axis_p95_m": 0.027843779330809285,
+            "cross_axis_ratio": 0.08417260575884425,
+            "intended_positive_extent_m": [
+              0.32882046557057937
+            ]
+          }
+        },
+        {
+          "label": "left",
+          "repeat_index": 1,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.2973928659795938,
+            "cross_axis_p95_m": 0.040105854311841445,
+            "cross_axis_ratio": 0.13485815868425502,
+            "intended_positive_extent_m": [
+              0.2897280780984129
+            ]
+          },
+          "after": {
+            "peak_m": 0.2964486830374552,
+            "cross_axis_p95_m": 0.03456221334580959,
+            "cross_axis_ratio": 0.1165875084742501,
+            "intended_positive_extent_m": [
+              0.2894199449644188
+            ]
+          }
+        },
+        {
+          "label": "left",
+          "repeat_index": 2,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.29226916516580304,
+            "cross_axis_p95_m": 0.06508396838096968,
+            "cross_axis_ratio": 0.2226850319432357,
+            "intended_positive_extent_m": [
+              0.2814159363141538
+            ]
+          },
+          "after": {
+            "peak_m": 0.2892558436177087,
+            "cross_axis_p95_m": 0.05824273615497387,
+            "cross_axis_ratio": 0.20135370620878326,
+            "intended_positive_extent_m": [
+              0.279667447267336
+            ]
+          }
+        },
+        {
+          "label": "left",
+          "repeat_index": 3,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.2668614674099395,
+            "cross_axis_p95_m": 0.04371468982656693,
+            "cross_axis_ratio": 0.1638104228791284,
+            "intended_positive_extent_m": [
+              0.26013928344436604
+            ]
+          },
+          "after": {
+            "peak_m": 0.2643107112321605,
+            "cross_axis_p95_m": 0.025989394005559427,
+            "cross_axis_ratio": 0.09832894733778431,
+            "intended_positive_extent_m": [
+              0.2599428472994746
+            ]
+          }
+        },
+        {
+          "label": "left",
+          "repeat_index": 4,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.2874371412495334,
+            "cross_axis_p95_m": 0.05372952982564202,
+            "cross_axis_ratio": 0.18692619051272044,
+            "intended_positive_extent_m": [
+              0.2791774659676369
+            ]
+          },
+          "after": {
+            "peak_m": 0.28484636042007117,
+            "cross_axis_p95_m": 0.038202688906274596,
+            "cross_axis_ratio": 0.1341168230127146,
+            "intended_positive_extent_m": [
+              0.2798110615848988
+            ]
+          }
+        },
+        {
+          "label": "left",
+          "repeat_index": 5,
+          "role": "held_out",
+          "passed": true,
+          "before": {
+            "peak_m": 0.22040838817066633,
+            "cross_axis_p95_m": 0.03835408354817288,
+            "cross_axis_ratio": 0.17401372001538615,
+            "intended_positive_extent_m": [
+              0.21312580624521965
+            ]
+          },
+          "after": {
+            "peak_m": 0.2180117814499032,
+            "cross_axis_p95_m": 0.02415844766918976,
+            "cross_axis_ratio": 0.1108125786070929,
+            "intended_positive_extent_m": [
+              0.212763250994968
+            ]
+          }
+        },
+        {
+          "label": "up",
+          "repeat_index": 1,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.2578287648258987,
+            "cross_axis_p95_m": 0.022650092123937652,
+            "cross_axis_ratio": 0.08784936056003037,
+            "intended_positive_extent_m": [
+              0.24900587424635887
+            ]
+          },
+          "after": {
+            "peak_m": 0.2575115760171444,
+            "cross_axis_p95_m": 0.02874856134885116,
+            "cross_axis_ratio": 0.11163987962598294,
+            "intended_positive_extent_m": [
+              0.2492382441966623
+            ]
+          }
+        },
+        {
+          "label": "up",
+          "repeat_index": 2,
+          "role": "train",
+          "passed": true,
+          "before": {
+            "peak_m": 0.2682041881065816,
+            "cross_axis_p95_m": 0.03193962939168764,
+            "cross_axis_ratio": 0.11908698971917306,
+            "intended_positive_extent_m": [
+              0.2614668220281601
+            ]
+          },
+          "after": {
+            "peak_m": 0.2680331508238415,
+            "cross_axis_p95_m": 0.022915359493651165,
+            "cross_axis_ratio": 0.08549449731578818,
+            "intended_positive_extent_m": [
+              0.2628830919736947
+            ]
+          }
+        },
+        {
+          "label": "up",
+          "repeat_index": 3,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.26693673767589304,
+            "cross_axis_p95_m": 0.0516661496121796,
+            "cross_axis_ratio": 0.19355203806720364,
+            "intended_positive_extent_m": [
+              0.25594522655010227
+            ]
+          },
+          "after": {
+            "peak_m": 0.2678674434813022,
+            "cross_axis_p95_m": 0.03008516661523647,
+            "cross_axis_ratio": 0.11231363626814353,
+            "intended_positive_extent_m": [
+              0.26013962232833954
+            ]
+          }
+        },
+        {
+          "label": "up",
+          "repeat_index": 4,
+          "role": "train",
+          "passed": true,
+          "before": {
+            "peak_m": 0.28293927931348306,
+            "cross_axis_p95_m": 0.04178562740006247,
+            "cross_axis_ratio": 0.14768408084395385,
+            "intended_positive_extent_m": [
+              0.27347556119784716
+            ]
+          },
+          "after": {
+            "peak_m": 0.28295184796909856,
+            "cross_axis_p95_m": 0.018918515846988455,
+            "cross_axis_ratio": 0.06686125566161549,
+            "intended_positive_extent_m": [
+              0.27613311403536767
+            ]
+          }
+        },
+        {
+          "label": "up",
+          "repeat_index": 5,
+          "role": "held_out",
+          "passed": false,
+          "before": {
+            "peak_m": 0.28386837380293256,
+            "cross_axis_p95_m": 0.054659914887051575,
+            "cross_axis_ratio": 0.19255373240344711,
+            "intended_positive_extent_m": [
+              0.2756520902737975
+            ]
+          },
+          "after": {
+            "peak_m": 0.2837385618569427,
+            "cross_axis_p95_m": 0.029159048147173842,
+            "cross_axis_ratio": 0.10276730789195815,
+            "intended_positive_extent_m": [
+              0.2792970275085076
+            ]
+          }
+        },
+        {
+          "label": "right",
+          "repeat_index": 1,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.2651753591551566,
+            "cross_axis_p95_m": 0.032862116841666414,
+            "cross_axis_ratio": 0.12392598221178792,
+            "intended_positive_extent_m": [
+              0.25918160742872437
+            ]
+          },
+          "after": {
+            "peak_m": 0.2675339006897317,
+            "cross_axis_p95_m": 0.03077172996486487,
+            "cross_axis_ratio": 0.11501992788776293,
+            "intended_positive_extent_m": [
+              0.2617362531703236
+            ]
+          }
+        },
+        {
+          "label": "right",
+          "repeat_index": 2,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.27292283711749327,
+            "cross_axis_p95_m": 0.026338050131391434,
+            "cross_axis_ratio": 0.09650365066391606,
+            "intended_positive_extent_m": [
+              0.2656783100768322
+            ]
+          },
+          "after": {
+            "peak_m": 0.27529736642269603,
+            "cross_axis_p95_m": 0.026558997135790095,
+            "cross_axis_ratio": 0.09647385109747465,
+            "intended_positive_extent_m": [
+              0.2670878968397619
+            ]
+          }
+        },
+        {
+          "label": "right",
+          "repeat_index": 3,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.31238684663331,
+            "cross_axis_p95_m": 0.04075133389722826,
+            "cross_axis_ratio": 0.13045150375701803,
+            "intended_positive_extent_m": [
+              0.30433136361946883
+            ]
+          },
+          "after": {
+            "peak_m": 0.31722318076787526,
+            "cross_axis_p95_m": 0.04832934313970235,
+            "cross_axis_ratio": 0.15235123430360797,
+            "intended_positive_extent_m": [
+              0.30783377299377007
+            ]
+          }
+        },
+        {
+          "label": "right",
+          "repeat_index": 4,
+          "role": "train",
+          "passed": false,
+          "before": {
+            "peak_m": 0.24381866784697165,
+            "cross_axis_p95_m": 0.03560926518543385,
+            "cross_axis_ratio": 0.14604814922450218,
+            "intended_positive_extent_m": [
+              0.23726649213561093
+            ]
+          },
+          "after": {
+            "peak_m": 0.24526242605260326,
+            "cross_axis_p95_m": 0.03184175312540288,
+            "cross_axis_ratio": 0.12982727781781603,
+            "intended_positive_extent_m": [
+              0.23881039110076527
+            ]
+          }
+        },
+        {
+          "label": "right",
+          "repeat_index": 5,
+          "role": "held_out",
+          "passed": true,
+          "before": {
+            "peak_m": 0.219687712118195,
+            "cross_axis_p95_m": 0.02247854955970666,
+            "cross_axis_ratio": 0.10232046819083306,
+            "intended_positive_extent_m": [
+              0.21484968407486005
+            ]
+          },
+          "after": {
+            "peak_m": 0.2218902251265354,
+            "cross_axis_p95_m": 0.02226913426594677,
+            "cross_axis_ratio": 0.10036104228227065,
+            "intended_positive_extent_m": [
+              0.21677868448291518
+            ]
+          }
+        },
+        {
+          "label": "left_up",
+          "repeat_index": 1,
+          "role": "held_out",
+          "passed": false,
+          "before": {
+            "peak_m": 0.2534214512692644,
+            "cross_axis_p95_m": 0.046510186811256224,
+            "cross_axis_ratio": 0.1835290050558443,
+            "intended_positive_extent_m": [
+              0.14139837668380484,
+              0.19939164742827417
+            ]
+          },
+          "after": {
+            "peak_m": 0.24169528942660376,
+            "cross_axis_p95_m": 0.0568107394160786,
+            "cross_axis_ratio": 0.23505108250498388,
+            "intended_positive_extent_m": [
+              0.13766490541332604,
+              0.18448049116870013
+            ]
+          }
+        },
+        {
+          "label": "left_up",
+          "repeat_index": 2,
+          "role": "held_out",
+          "passed": false,
+          "before": {
+            "peak_m": 0.25234869049835845,
+            "cross_axis_p95_m": 0.02703607510144623,
+            "cross_axis_ratio": 0.10713776658818089,
+            "intended_positive_extent_m": [
+              0.14917948917012186,
+              0.1980345819145441
+            ]
+          },
+          "after": {
+            "peak_m": 0.23997285066073157,
+            "cross_axis_p95_m": 0.03667143999693802,
+            "cross_axis_ratio": 0.15281495342480766,
+            "intended_positive_extent_m": [
+              0.14492529395960493,
+              0.18392062988071317
+            ]
+          }
+        },
+        {
+          "label": "left_up",
+          "repeat_index": 3,
+          "role": "held_out",
+          "passed": false,
+          "before": {
+            "peak_m": 0.2852651353628285,
+            "cross_axis_p95_m": 0.04061782685656977,
+            "cross_axis_ratio": 0.14238622888460586,
+            "intended_positive_extent_m": [
+              0.1826937930562795,
+              0.21151310727000233
+            ]
+          },
+          "after": {
+            "peak_m": 0.2712753484182921,
+            "cross_axis_p95_m": 0.05257423997583771,
+            "cross_axis_ratio": 0.19380397180347933,
+            "intended_positive_extent_m": [
+              0.17887032593414698,
+              0.19315717745061609
+            ]
+          }
+        },
+        {
+          "label": "left_up",
+          "repeat_index": 4,
+          "role": "held_out",
+          "passed": false,
+          "before": {
+            "peak_m": 0.23808756943237094,
+            "cross_axis_p95_m": 0.061426081795488606,
+            "cross_axis_ratio": 0.25799785323499114,
+            "intended_positive_extent_m": [
+              0.12874518622392236,
+              0.18737546652555465
+            ]
+          },
+          "after": {
+            "peak_m": 0.2280112073365402,
+            "cross_axis_p95_m": 0.07362987528906613,
+            "cross_axis_ratio": 0.3229221762787731,
+            "intended_positive_extent_m": [
+              0.12627640588146993,
+              0.17181944238659147
+            ]
+          }
+        },
+        {
+          "label": "left_up",
+          "repeat_index": 5,
+          "role": "held_out",
+          "passed": false,
+          "before": {
+            "peak_m": 0.24437193808360752,
+            "cross_axis_p95_m": 0.02474103972155285,
+            "cross_axis_ratio": 0.10124337481453433,
+            "intended_positive_extent_m": [
+              0.15054767088382265,
+              0.18973192274570466
+            ]
+          },
+          "after": {
+            "peak_m": 0.23216627892622238,
+            "cross_axis_p95_m": 0.03489940291130619,
+            "cross_axis_ratio": 0.15032072302970623,
+            "intended_positive_extent_m": [
+              0.1464525807740633,
+              0.1757551139480217
+            ]
+          }
+        },
+        {
+          "label": "right_up",
+          "repeat_index": 1,
+          "role": "held_out",
+          "passed": false,
+          "before": {
+            "peak_m": 0.23513973336095942,
+            "cross_axis_p95_m": 0.01670496323867307,
+            "cross_axis_ratio": 0.0710427072443326,
+            "intended_positive_extent_m": [
+              0.143232100454094,
+              0.18097740970551968
+            ]
+          },
+          "after": {
+            "peak_m": 0.24954871124291497,
+            "cross_axis_p95_m": 0.03080376399528224,
+            "cross_axis_ratio": 0.12343788049178635,
+            "intended_positive_extent_m": [
+              0.1494427032195626,
+              0.19294963234912504
+            ]
+          }
+        },
+        {
+          "label": "right_up",
+          "repeat_index": 2,
+          "role": "held_out",
+          "passed": true,
+          "before": {
+            "peak_m": 0.19901001122944137,
+            "cross_axis_p95_m": 0.014913755215591337,
+            "cross_axis_ratio": 0.07493972350163361,
+            "intended_positive_extent_m": [
+              0.13965805007690937,
+              0.13551172167062758
+            ]
+          },
+          "after": {
+            "peak_m": 0.21160197616211004,
+            "cross_axis_p95_m": 0.021150880585874655,
+            "cross_axis_ratio": 0.0999559690769182,
+            "intended_positive_extent_m": [
+              0.1449815137660681,
+              0.1480896597804663
+            ]
+          }
+        },
+        {
+          "label": "right_up",
+          "repeat_index": 3,
+          "role": "held_out",
+          "passed": true,
+          "before": {
+            "peak_m": 0.2340327596113077,
+            "cross_axis_p95_m": 0.017932626718032012,
+            "cross_axis_ratio": 0.07662442962179884,
+            "intended_positive_extent_m": [
+              0.14841137545552738,
+              0.175142515078187
+            ]
+          },
+          "after": {
+            "peak_m": 0.24858472962279152,
+            "cross_axis_p95_m": 0.022106001675046772,
+            "cross_axis_ratio": 0.08892743214191376,
+            "intended_positive_extent_m": [
+              0.15492273181565386,
+              0.1883137230767787
+            ]
+          }
+        },
+        {
+          "label": "right_up",
+          "repeat_index": 4,
+          "role": "held_out",
+          "passed": false,
+          "before": {
+            "peak_m": 0.2337561948884338,
+            "cross_axis_p95_m": 0.019463783120845454,
+            "cross_axis_ratio": 0.08326531465886947,
+            "intended_positive_extent_m": [
+              0.17136578515821632,
+              0.1507658064365387
+            ]
+          },
+          "after": {
+            "peak_m": 0.2485096871412109,
+            "cross_axis_p95_m": 0.028562726988090023,
+            "cross_axis_ratio": 0.11493607076918412,
+            "intended_positive_extent_m": [
+              0.17683338793711803,
+              0.16507613319537534
+            ]
+          }
+        },
+        {
+          "label": "right_up",
+          "repeat_index": 5,
+          "role": "held_out",
+          "passed": false,
+          "before": {
+            "peak_m": 0.2345243627292322,
+            "cross_axis_p95_m": 0.02882874278172525,
+            "cross_axis_ratio": 0.1229242985514865,
+            "intended_positive_extent_m": [
+              0.17944769597911897,
+              0.13708750456571578
+            ]
+          },
+          "after": {
+            "peak_m": 0.24900854439085265,
+            "cross_axis_p95_m": 0.039292041511799755,
+            "cross_axis_ratio": 0.1577939488298264,
+            "intended_positive_extent_m": [
+              0.1842538567596606,
+              0.15153160670565552
+            ]
+          }
+        }
+      ],
+      "lateral_review": {
+        "left": {
+          "passed": true,
+          "held_out_repeats": [
+            5
+          ],
+          "max_cross_axis_p95_m": 0.02415844766918976
+        },
+        "right": {
+          "passed": true,
+          "held_out_repeats": [
+            5
+          ],
+          "max_cross_axis_p95_m": 0.02226913426594677
+        },
+        "left_up": {
+          "passed": false,
+          "held_out_repeats": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "max_cross_axis_p95_m": 0.07362987528906613
+        },
+        "right_up": {
+          "passed": false,
+          "held_out_repeats": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ],
+          "max_cross_axis_p95_m": 0.039292041511799755
+        }
+      }
+    }
+  },
+  "reason": "trajectory_validation_failed",
+  "model": "normalized_bilateral_linear_basis_inverse",
+  "split": {
+    "train_repeats": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "held_out_repeats": [
+      5
+    ],
+    "training_labels": [
+      "forward",
+      "left",
+      "up",
+      "right"
+    ],
+    "validation_only_labels": [
+      "left_up",
+      "right_up"
+    ]
+  },
+  "failed_checks": [
+    "left:forward:1",
+    "left:forward:2",
+    "left:forward:3",
+    "left:forward:4",
+    "left:forward:5",
+    "left:left:1",
+    "left:left:2",
+    "left:left:3",
+    "left:left:4",
+    "left:left:5",
+    "left:up:1",
+    "left:up:2",
+    "left:up:3",
+    "left:up:5",
+    "left:right:1",
+    "left:right:2",
+    "left:right:3",
+    "left:right:4",
+    "left:right:5",
+    "left:left_up:1",
+    "left:left_up:2",
+    "left:left_up:3",
+    "left:left_up:4",
+    "left:left_up:5",
+    "left:right_up:4",
+    "left:right_up:5",
+    "right:forward:1",
+    "right:forward:2",
+    "right:forward:3",
+    "right:forward:4",
+    "right:forward:5",
+    "right:left:1",
+    "right:left:2",
+    "right:left:3",
+    "right:left:4",
+    "right:up:1",
+    "right:up:3",
+    "right:up:5",
+    "right:right:1",
+    "right:right:2",
+    "right:right:3",
+    "right:right:4",
+    "right:left_up:1",
+    "right:left_up:2",
+    "right:left_up:3",
+    "right:left_up:4",
+    "right:left_up:5",
+    "right:right_up:1",
+    "right:right_up:4",
+    "right:right_up:5"
+  ],
+  "profile_id": "db809a748879e58d"
+}
