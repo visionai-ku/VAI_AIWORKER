@@ -66,6 +66,10 @@ class IntentTeleopSettings:
     POSTURE_POSITION_TOLERANCE_M: float = .001
     POSTURE_ROTATION_TOLERANCE_DEG: float = .5
     POSTURE_ELBOW_LIMIT_DEG: float = 85.
+    # Posture IK keeps arm joints this far inside their limits [rad] (0.29 deg), so teleop
+    # never parks a joint on a bound where feedback can read it just past the limit. A joint
+    # already on a bound (e.g. shoulders at Initial pose) may stay. Legacy IK is unaffected.
+    IK_JOINT_LIMIT_MARGIN_RAD: float = .005
     # Ignore controller rotations up to this angle per clutch (soft deadband); 0 = off.
     ROTATION_DEADBAND_DEG: float = 0.0
     CONTROL_HZ: float = OFFICIAL_VR_CONTROL_HZ
@@ -74,6 +78,8 @@ class IntentTeleopSettings:
     POSITION_SCALE: float = .5
     POSITION_SCALE_Y: float = .5
     POSITION_SCALE_Z: float = .5
+    # Per-clutch EEF displacement cap [m]; None = unlimited (ControllerMapper default is .20).
+    MAX_TRANSLATION_M: object = None
     MAX_JOINT_SPEED: float = FIXED_QUEST_DEFAULT_ARM_SPEED
     MAX_AUX_JOINT_SPEED: float = np.deg2rad(60.)
     MAX_GRIPPER_SPEED: float = np.deg2rad(60.)
@@ -117,6 +123,10 @@ class IntentTeleopSettings:
         if not all(np.isfinite(x) and .05 <= x <= 3 for x in
                    (self.POSITION_SCALE, self.POSITION_SCALE_Y, self.POSITION_SCALE_Z)):
             raise ValueError("v2 intent gains must be positive: .05..3; do not invert intent Z")
+        if self.MAX_TRANSLATION_M is not None and (
+                isinstance(self.MAX_TRANSLATION_M, (bool, np.bool_)) or not isinstance(self.MAX_TRANSLATION_M, Real)
+                or not np.isfinite(self.MAX_TRANSLATION_M) or self.MAX_TRANSLATION_M <= 0):
+            raise ValueError("MAX_TRANSLATION_M must be None or a positive finite number")
         for name in ("CONTROL_HZ", "IK_HZ", "RENDER_HZ"):
             if not np.isfinite(getattr(self, name)) or getattr(self, name) <= 0: raise ValueError(name)
         recovery_timeout = self.IK_RECOVERY_TIMEOUT_S
@@ -136,6 +146,10 @@ class IntentTeleopSettings:
             if (isinstance(value, (bool, np.bool_)) or not isinstance(value, Real)
                     or not np.isfinite(value) or not 0 < value <= maximum):
                 raise ValueError(name + " must be finite and positive, at most " + str(maximum))
+        margin = self.IK_JOINT_LIMIT_MARGIN_RAD
+        if (isinstance(margin, (bool, np.bool_)) or not isinstance(margin, Real)
+                or not np.isfinite(margin) or not 0 <= margin <= .05):
+            raise ValueError("IK_JOINT_LIMIT_MARGIN_RAD must be a number in 0..0.05 rad")
         deadband = self.ROTATION_DEADBAND_DEG
         if (isinstance(deadband, (bool, np.bool_)) or not isinstance(deadband, Real)
                 or not np.isfinite(deadband) or not 0 <= deadband <= 30):
@@ -170,6 +184,7 @@ def feedback_diagnostic_text(feedback):
     detail = feedback["diagnostics"]
     age = detail.get("packet_age_s")
     lines = [] if age is None else ["ZMQ 마지막 수신: %.0fms 전" % (1000 * age)]
+    limit_rejection = None
     for key, label in (("outbound_joint_state", "outbound"), ("inbound_joint_state", "inbound")):
         worker = detail.get(key)
         if not isinstance(worker, dict):
@@ -177,10 +192,22 @@ def feedback_diagnostic_text(feedback):
         lines.append(label + " ROS: " + str(worker.get("last_callback_result")))
         rejection = worker.get("last_rejection")
         stale = worker.get("stale_joints")
-        if worker.get("last_callback_result") == "rejected" and isinstance(rejection, dict):
-            lines.append(str(rejection.get("reason", "")))
+        reason = str(rejection.get("reason", "")) if isinstance(rejection, dict) else ""
+        if worker.get("last_callback_result") == "rejected" and reason:
+            lines.append(reason)
         elif isinstance(stale, list) and stale:
             lines.append("갱신 지연: " + ", ".join(str(name) for name in stale))
+            if reason:
+                lines.append("마지막 거부: " + reason)
+        # A joint resting just past its limit keeps every sample rejected, and
+        # without fresh feedback the PC can send nothing that would move it back.
+        if reason.startswith("joint_limit:") and (worker.get("last_callback_result") == "rejected"
+                                                  or (isinstance(stale, list) and stale)):
+            limit_rejection = reason.split(":")[1]
+    if limit_rejection:
+        lines.append("!! %s가 관절 한계를 미세하게 넘어 worker가 피드백을 거부 중입니다. 로봇이 그 자세에 있는 한 "
+                     "재시작해도 풀리지 않고 PC에서 명령도 보낼 수 없습니다. free-drive·토크 OFF 등으로 %s를 "
+                     "한계 안쪽으로 옮기거나, 관절 한계 tolerance가 적용된 worker로 재시작하세요." % (limit_rejection, limit_rejection))
     return "\n" + "\n".join(lines) if lines else ""
 
 
@@ -308,7 +335,7 @@ def build_models(cfg):
     }
     q_msg_layout = build_q_msg_layout(env, q_msg_format_dict, use_joint_names=command_joint_names)
     ik_solvers, arm_joint_names = create_sg2_arm_ik_solvers(env_ik, MuJoCoParser, BodyPositionIKSolverRevPriBase)
-    guard = SG2CommandGuard(env_check, command_joint_names, safe_margin=cfg.COLLISION_MARGIN_M,
+    guard =SG2CommandGuard(env_check, command_joint_names, safe_margin=cfg.COLLISION_MARGIN_M,
                             escape_min_distance=cfg.COLLISION_ESCAPE_MIN_M)
     print("Command joints:", len(command_joint_names), "| Collision pairs:", len(guard.candidate_geom_pairs))
     print("No robot connection or commands in this setup cell.")
@@ -325,9 +352,11 @@ def build_planner(models, cfg, profile=None, intent_matrices=None):
     posture_solvers = ({hand: SG2PostureIK(
         env_ik, hand, position_tolerance=cfg.POSTURE_POSITION_TOLERANCE_M,
         rotation_tolerance=np.deg2rad(cfg.POSTURE_ROTATION_TOLERANCE_DEG),
-        elbow_limit_rad=np.deg2rad(cfg.POSTURE_ELBOW_LIMIT_DEG)) for hand in SG2_HAND_TYPES}
+        elbow_limit_rad=np.deg2rad(cfg.POSTURE_ELBOW_LIMIT_DEG),
+        limit_margin=cfg.IK_JOINT_LIMIT_MARGIN_RAD) for hand in SG2_HAND_TYPES}
         if cfg.POSTURE_IK_ENABLED else None)
     mapper = ControllerMapper(scale=cfg.POSITION_SCALE, timeout_s=cfg.INPUT_TIMEOUT_S, R_BQ=cfg.R_BQ,
+                              max_translation_m=cfg.MAX_TRANSLATION_M,
                               position_scales=cfg.POSITION_SCALES, intent_matrices=intent_matrices,
                               intent_profile_id=None if profile is None else profile["profile_id"],
                               accept_emulated=cfg.ACCEPT_EMULATED_POSE,

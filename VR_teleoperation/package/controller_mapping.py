@@ -120,7 +120,9 @@ class ControllerMapper:
         self.scale = _number(scale, "invalid_scale")
         self.timeout_s = _number(timeout_s, "invalid_timeout")
         self.grip_threshold = _number(grip_threshold, "invalid_grip_threshold")
-        self.max_translation_m = _number(max_translation_m, "invalid_workspace")
+        # None disables the per-clutch displacement clamp entirely.
+        self.max_translation_m = (np.inf if max_translation_m is None
+                                  else _number(max_translation_m, "invalid_workspace"))
         self.max_position_step_m = _number(max_position_step_m, "invalid_jump_limit")
         self.max_rotation_step_rad = _number(max_rotation_step_rad, "invalid_jump_limit")
         if (min(self.scale, self.timeout_s, self.max_translation_m,

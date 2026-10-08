@@ -108,6 +108,34 @@ class PostureIKTest(unittest.TestCase):
         self.set_arm(hand, q)
         self.assert_pose(hand, target)
 
+    def test_limit_margin_accepts_start_on_bound_but_never_drives_to_it(self):
+        # Initial pose parks both shoulders (joint2) exactly on 0. Shrinking the
+        # model range instead faulted every grip with "reference arm joints
+        # exceed model limits"; the margin must only bound the optimizer.
+        for hand in ("left", "right"):
+            with self.subTest(hand=hand, case="start_on_bound"):
+                reset_sg2_sim(self.env)
+                q = self.q_arm(hand); q[1] = 0.
+                self.set_arm(hand, q)
+                solver = SG2PostureIK(self.env, hand, limit_margin=.005)
+                solver.capture_reference(self.env.data.qpos.copy())
+                result = solver.solve(self.env, get_sg2_wrist_control_T(self.env, hand))
+                self.assertTrue(result["success"], result)
+                self.assertEqual(result["qpos_used_best"][1], 0.)
+            with self.subTest(hand=hand, case="target_on_bound"):
+                reset_sg2_sim(self.env)
+                solver = SG2PostureIK(self.env, hand, limit_margin=.005)
+                solver.capture_reference(self.env.data.qpos.copy())
+                q = self.q_arm(hand); q[5] = 1.57
+                self.set_arm(hand, q)
+                target = get_sg2_wrist_control_T(self.env, hand)
+                q[5] = 1.55
+                self.set_arm(hand, q)
+                result = solver.solve(self.env, target)
+                self.assertLessEqual(result["qpos_used_best"][5], 1.565 + 1e-9)
+        with self.assertRaises(ValueError):
+            SG2PostureIK(self.env, "left", limit_margin=.06)
+
     def test_both_arms_reach_full_position_and_orientation_targets(self):
         offsets = (
             [.07, .14, -.09, .11, .12, -.06, .03],

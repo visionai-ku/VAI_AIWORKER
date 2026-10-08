@@ -37,7 +37,7 @@ outbound 시작 로그는 `Protocol: strict JSON with source freshness`, inbound
 
 Base 노트북은 `capabilities.base_json=true`를 확인하고, 0 속도 arming 및 0 명령의 ACK 후 새 키 입력을 받는다. 이전 worker는 Base ON 단계에서 거부된다. 평면 속도 크기는 최대 0.3 m/s, 회전은 최대 0.6 rad/s다. OFF·SPACE·노트북 종료 시 0 stop을 보내며, worker는 최대 0.2초의 command lease 또는 관절 피드백 만료 시 `/cmd_vel=0`을 발행한다. 화면 위치는 open-loop 표시이고 실제 위치 피드백이 아니다.
 
-어깨·그리퍼의 0.002 rad 이내 경계 피드백은 정규화하지만 명령 관절 범위는 넓히지 않는다. Joint/EEF 클라이언트는 일시적인 `joint_rate_limit` 거부 시 같은 제한된 목표를 재전송하고 ACK 후 진행한다. 피드백·소유권·ACK 시간 제한은 계속 적용된다.
+모든 관절의 0.002 rad(lift 0.001 m) 이내 경계 피드백은 경계값으로 정규화하지만 명령 관절 범위는 넓히지 않는다. 이전 worker는 어깨·그리퍼만 허용해서, 손목 joint6나 lift가 한계를 미세하게 넘은 채 멈추면 피드백이 계속 `stale_joint_state`로 남고 PC에서 아무 명령도 보낼 수 없었다. 롤백용 이전 파일은 `backup/worker_before_all_joint_tolerance/`에 있다. Joint/EEF 클라이언트는 일시적인 `joint_rate_limit` 거부 시 같은 제한된 목표를 재전송하고 ACK 후 진행한다. 피드백·소유권·ACK 시간 제한은 계속 적용된다.
 
 REAL motion executor 예제와 과거 MetaQuest VR 노트북은 아직 legacy 통신을 사용한다. 해당 예제를 사용할 때만 공통 inbound/outbound 양쪽에 `SG2_FIXED_QUEST=0`을 명시하고, JSON 제어와 동시에 실행하지 않는다. Base는 이 예외에 포함되지 않는다.
 

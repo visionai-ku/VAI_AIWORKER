@@ -32,12 +32,17 @@ FIXED_QUEST_MAX_GRIPPER_SPEED = math.radians(120)
 BASE_MAX_LINEAR_SPEED = .3
 BASE_MAX_ANGULAR_SPEED = .6
 # Feedback-only encoder boundary allowance (0.1146 degrees), just above one
-# Dynamixel encoder tick (2*pi/4096 = 0.00153 rad), limited to the joints whose
-# rest position lies exactly on a mechanical bound (shoulders at home, grippers
-# fully open). Commands retain JOINT_LIMITS without any allowance.
+# Dynamixel encoder tick (2*pi/4096 = 0.00153 rad); the lift gets 1 mm. Every
+# joint gets it: any joint commanded onto a bound (e.g. wrist joint6 at 1.57,
+# lift at 0) can settle a few microradians past it, and rejecting that sample
+# makes feedback permanently stale while the robot rests there -- which also
+# blocks every command that could move it back. Out-of-range samples are
+# normalized onto the bound. Commands retain JOINT_LIMITS without any allowance.
 FEEDBACK_BOUNDARY_TOLERANCE_MAX = .002
-FEEDBACK_BOUNDARY_TOLERANCES = {"arm_l_joint2": .002, "arm_r_joint2": .002,
-                                "gripper_l_joint1": .002, "gripper_r_joint1": .002}
+FEEDBACK_BOUNDARY_TOLERANCES = {name: .001 if name == "lift_joint" else .002 for name in (
+    "lift_joint", "head_joint1", "head_joint2",
+    *("arm_%s_joint%d" % (side, i) for side in "lr" for i in range(1, 8)),
+    "gripper_l_joint1", "gripper_r_joint1")}
 # Controller-button reset keeps initial arm alignment at 30 deg/s, then permits
 # the remaining fold/bringup steps at 100 deg/s. Normal HOME still requests 10 deg/s.
 FIXED_QUEST_VR_HOME_SPEED = math.radians(100)

@@ -47,7 +47,7 @@ class SG2PostureIK:
     def __init__(self, env, hand, *, position_tolerance=.001,
                  rotation_tolerance=np.deg2rad(.5), elbow_limit_rad=np.deg2rad(85),
                  max_iterations=24, max_solve_time_s=.04,
-                 max_joint_step=np.deg2rad(20)):
+                 max_joint_step=np.deg2rad(20), limit_margin=0.):
         if hand not in SG2_ARM_JOINT_NAMES:
             raise ValueError("hand must be 'left' or 'right'")
         for name, value in (("position_tolerance", position_tolerance),
@@ -57,6 +57,8 @@ class SG2PostureIK:
                             ("max_joint_step", max_joint_step)):
             if not np.isfinite(value) or value <= 0:
                 raise ValueError("%s must be positive and finite" % name)
+        if not np.isfinite(limit_margin) or not 0 <= limit_margin <= .05:
+            raise ValueError("limit_margin must be in 0..0.05 rad")
         if not 0 < elbow_limit_rad < np.pi / 2:
             raise ValueError("elbow_limit_rad must be less than 90 degrees")
         if isinstance(max_iterations, bool) or int(max_iterations) != max_iterations or max_iterations < 1:
@@ -70,6 +72,9 @@ class SG2PostureIK:
         self.max_iterations = int(max_iterations)
         self.max_solve_time_s = float(max_solve_time_s)
         self.max_joint_step = float(max_joint_step)
+        # Solutions stay this far inside each joint range, or no farther out than
+        # the start: a joint already on a bound may stay but is never driven there.
+        self.limit_margin = float(limit_margin)
         self.posture_weights = np.array([.25, .25, 4., .25, 4., 2.5, 2.5])
         self.elbow_weight = 4.
         self._data = mujoco.MjData(self.model)
@@ -248,8 +253,8 @@ class SG2PostureIK:
                         elbow_angle_rad=np.nan, iterations=0,
                         elapsed_s=time.perf_counter() - started,
                         reason="posture reference not captured", budget_exhausted=False)
-        lower = np.maximum(self._lower, start - self.max_joint_step)
-        upper = np.minimum(self._upper, start + self.max_joint_step)
+        lower = np.maximum(np.minimum(self._lower + self.limit_margin, start), start - self.max_joint_step)
+        upper = np.minimum(np.maximum(self._upper - self.limit_margin, start), start + self.max_joint_step)
         if np.any(lower > upper):
             return dict(qpos_used_best=start, success=False, position_error_m=np.inf,
                         rotation_error_rad=np.inf, posture_cost=np.inf,

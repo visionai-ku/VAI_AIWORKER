@@ -68,6 +68,28 @@ class FeedbackGripperUpgradeTest(unittest.TestCase):
                 self.assertEqual(state['source_time_s'], 1.)
                 self.assertEqual(tracker.seq, 1)
 
+    def test_every_joint_boundary_sample_is_normalized(self):
+        # Recorded: arm_l_joint6 settled 5.4e-6 rad past 1.57 and lift 4e-5 m past 0;
+        # rejecting them left feedback stale for as long as the robot rested there.
+        cases = (('arm_l_joint6', 1.57, 1., .002), ('arm_r_joint6', -1.57, -1., .002),
+                 ('head_joint2', .35, 1., .002), ('lift_joint', 0., 1., .001))
+        for joint, bound, direction, tolerance in cases:
+            index = JOINT_NAMES.index(joint)
+            for excess in (.0000053679511429, .00004, tolerance * .999):
+                with self.subTest(joint=joint, excess=excess):
+                    tracker = JointStateTracker()
+                    q = self.q.copy(); q[index] = bound + direction * excess
+                    self.assertTrue(tracker.update(JOINT_NAMES, q, 1, 1.))
+                    state = tracker.snapshot(1.)
+                    self.assertTrue(state['ready'])
+                    self.assertEqual(parse_joint_groups(state['joints'], named=True)[index], bound)
+                    with self.assertRaises(ValueError):
+                        make_joint_groups(q)  # Never extend command limits.
+            with self.subTest(joint=joint, excess='beyond'):
+                q = self.q.copy(); q[index] = bound + direction * (tolerance + 1e-6)
+                with self.assertRaises(ValueError):
+                    JointStateTracker().update(JOINT_NAMES, q, 1, 1.)
+
     def setup_gate(self, gate_options=None):
         tracker = JointStateTracker()
         tracker.update(JOINT_NAMES, self.q, 1, 1.)
