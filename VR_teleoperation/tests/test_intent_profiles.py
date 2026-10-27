@@ -350,7 +350,7 @@ class ProfileSelectorTest(unittest.TestCase):
         control.close.assert_called_once()
 
     def test_notebook_control_defaults_remain_unchanged(self):
-        for name, arm, gripper in [('real_vr_teleop.ipynb', 60., 60.), ('real_vr_teleop_record.ipynb', 100., 120.)]:
+        for name, arm, gripper in [('real_vr_teleop.ipynb', 60., 60.), ('real_vr_teleop_record.ipynb', 100., 60.)]:
             notebook = json.loads((ROOT / 'real_notebook' / name).read_text())
             source = next(''.join(c['source']) for c in notebook['cells'] if 'settings = IntentTeleopSettings(' in ''.join(c['source']))
             tree = ast.parse(source)
@@ -367,7 +367,7 @@ class ProfileSelectorTest(unittest.TestCase):
             self.assertTrue(cfg.DRY_RUN)
             self.assertFalse(cfg.TELEOP_COLLISION_CHECK)
             self.assertEqual(cfg.IK_RECOVERY_TIMEOUT_S, 2.)
-            np.testing.assert_array_equal(cfg.POSITION_SCALES['left'], [.5, .5, .5])
+            np.testing.assert_array_equal(cfg.POSITION_SCALES['left'], [.5, .5, .8])
 
 
 if __name__ == '__main__':

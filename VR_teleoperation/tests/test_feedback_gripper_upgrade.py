@@ -6,7 +6,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from package.worker.fixed_quest_protocol import (JOINT_NAMES, JointStateTracker, StrictCommandGate,
-    FIXED_QUEST_VR_GATE_OPTIONS, make_joint_groups, parse_joint_groups)
+    FIXED_QUEST_VR_GATE_OPTIONS, FEEDBACK_BOUNDARY_TOLERANCES, FIXED_QUEST_GRIPPER_TRACKING_LAG,
+    make_joint_groups, parse_joint_groups)
 from package.fixed_quest_transport import SG2RobotFeedbackCache
 
 
@@ -53,7 +54,7 @@ class FeedbackGripperUpgradeTest(unittest.TestCase):
                 tracker = JointStateTracker()
                 tracker.update(JOINT_NAMES, self.q, 1, 1.)
                 index = JOINT_NAMES.index(joint)
-                bad = self.q.copy(); bad[index] = direction * .002001
+                bad = self.q.copy(); bad[index] = direction * (FEEDBACK_BOUNDARY_TOLERANCES[joint] + 1e-6)
                 with self.assertRaises(ValueError):
                     tracker.update(JOINT_NAMES, bad, 2, 1.21)
                 state = tracker.snapshot(1.21)
@@ -89,6 +90,40 @@ class FeedbackGripperUpgradeTest(unittest.TestCase):
                 q = self.q.copy(); q[index] = bound + direction * (tolerance + 1e-6)
                 with self.assertRaises(ValueError):
                     JointStateTracker().update(JOINT_NAMES, q, 1, 1.)
+
+    def test_recorded_gripper_samples_one_step_past_bound_are_normalized(self):
+        # Recorded 2026-10-06/07: grippers read one encoder step past either bound.
+        for joint, bound, raw in (('gripper_l_joint1', 1.1, 1.10293218649),
+                                  ('gripper_r_joint1', 1.1, 1.10293218649),
+                                  ('gripper_r_joint1', 0., -.00306796157577)):
+            with self.subTest(joint=joint, raw=raw):
+                index = JOINT_NAMES.index(joint)
+                q = self.q.copy(); q[index] = raw
+                tracker = JointStateTracker()
+                self.assertTrue(tracker.update(JOINT_NAMES, q, 1, 1.))
+                state = tracker.snapshot(1.)
+                self.assertTrue(state['ready'])
+                self.assertEqual(parse_joint_groups(state['joints'], named=True)[index], bound)
+        self.assertEqual(FEEDBACK_BOUNDARY_TOLERANCES['arm_l_joint6'], .002)  # arms unchanged
+
+    def test_gripper_tracking_lag_is_wider_than_head_in_teleop_and_home(self):
+        lag = FIXED_QUEST_GRIPPER_TRACKING_LAG
+        for motion in ('teleop', 'home'):
+            for joint, offset, accepted in (('gripper_l_joint1', lag - 1e-4, True),
+                                            ('gripper_r_joint1', lag + 1e-4, False),
+                                            ('head_joint2', math.radians(5) + 1e-4, False)):
+                with self.subTest(motion=motion, joint=joint):
+                    tracker, gate, packet = self.setup_gate()
+                    index = JOINT_NAMES.index(joint)
+                    # Measured joint coasted away; the command stays where it was.
+                    measured = self.q.copy(); measured[index] = offset
+                    tracker.update(JOINT_NAMES, measured, 2, 1.02)
+                    p = packet(1, 1.02, self.q); p['motion'] = motion
+                    result = gate.receive(p, 1.02)
+                    self.assertEqual(result['accepted'], accepted, result)
+                    if not accepted:
+                        self.assertEqual(result['reason'], 'tracking_lag')
+        self.assertAlmostEqual(gate.status(1.02)['limits']['max_gripper_tracking_lag_rad'], lag)
 
     def setup_gate(self, gate_options=None):
         tracker = JointStateTracker()

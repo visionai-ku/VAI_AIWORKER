@@ -73,7 +73,7 @@ class SG2FixedQuestReal:
                  max_joint_lag=np.deg2rad(5), max_lift_lag=.01, command_ttl_s=.2,
                  max_home_joint_speed=np.deg2rad(10), max_arm_joint_lag=None,
                  teleop_ramp_s=0., required_bridge_limits=None, command_arm_speed_limit=False,
-                 tracking_pause_s=0.):
+                 tracking_pause_s=0., max_gripper_joint_lag=None):
         if planner.mode != "kinematic" or env_measured in (planner.env, planner.env_ik, planner.guard.env_check):
             raise ValueError("Real adapter needs separate measured and command-preview environments")
         if list(planner.joint_names) != list(JOINT_NAMES):
@@ -98,6 +98,8 @@ class SG2FixedQuestReal:
             raise ValueError("Invalid teleop ramp duration")
         if max_arm_joint_lag is not None and (not np.isfinite(max_arm_joint_lag) or max_arm_joint_lag <= 0):
             raise ValueError("Invalid arm tracking limit")
+        if max_gripper_joint_lag is not None and (not np.isfinite(max_gripper_joint_lag) or max_gripper_joint_lag <= 0):
+            raise ValueError("Invalid gripper tracking limit")
         self.teleop_ramp_s = float(teleop_ramp_s)
         self.teleop_started_at = None
         self.teleop_ramp_scale = 1.
@@ -110,6 +112,10 @@ class SG2FixedQuestReal:
         self.bounds = np.asarray([JOINT_LIMITS[name] for name in JOINT_NAMES], dtype=float)
         self.lag_limits = np.full(len(JOINT_NAMES), max_joint_lag)
         self.lag_limits[list(JOINT_NAMES).index("lift_joint")] = max_lift_lag
+        # Current-limited fingers may trail their command (blocked by cloth, or still
+        # coasting after an open/close reversal); applies to teleop and home alike.
+        if max_gripper_joint_lag is not None:
+            self.lag_limits[self.gripper_mask] = max_gripper_joint_lag
         self.home_lag_limits = self.lag_limits.copy()
         self.teleop_lag_limits = self.lag_limits.copy()
         if max_arm_joint_lag is not None:

@@ -28,7 +28,7 @@ from package.fixed_quest_transport import SG2RobotStateReceiver, SG2RobotCommand
 from package.fixed_quest_real import (SG2FixedQuestReal, FIXED_QUEST_MIN_GRIPPER_SPEED,
                                       FIXED_QUEST_MAX_GRIPPER_SPEED, FIXED_QUEST_MAX_TRACKING_PAUSE_S)
 from package.worker.fixed_quest_protocol import (JOINT_NAMES, JOINT_LIMITS, FIXED_QUEST_DEFAULT_ARM_SPEED, FIXED_QUEST_MAX_ARM_SPEED,
-    OFFICIAL_VR_CONTROL_HZ, VR_ARM_TRACKING_LAG, FIXED_QUEST_VR_BRIDGE_LIMITS)
+    OFFICIAL_VR_CONTROL_HZ, VR_ARM_TRACKING_LAG, FIXED_QUEST_VR_BRIDGE_LIMITS, FIXED_QUEST_GRIPPER_TRACKING_LAG)
 from dataclasses import dataclass
 from .intent_calibration import load_intent_profile, _digest
 from .intent_profile_selector import CommandCenterProfileSelector
@@ -88,6 +88,8 @@ class IntentTeleopSettings:
     MAX_HOME_JOINT_SPEED: float = np.deg2rad(10.)
     MAX_LIFT_SPEED: float = .01
     MAX_JOINT_LAG: float = np.deg2rad(5.)
+    # Gripper command–measured guard [rad]; at most the worker's advertised gripper lag.
+    MAX_GRIPPER_JOINT_LAG: float = FIXED_QUEST_GRIPPER_TRACKING_LAG
     MAX_LIFT_LAG: float = .01
     INPUT_TIMEOUT_S: float = .2
     FEEDBACK_TIMEOUT_S: float = .2
@@ -120,6 +122,10 @@ class IntentTeleopSettings:
         if (isinstance(self.MAX_GRIPPER_SPEED, (bool, np.bool_)) or not isinstance(self.MAX_GRIPPER_SPEED, Real)
                 or not FIXED_QUEST_MIN_GRIPPER_SPEED <= self.MAX_GRIPPER_SPEED <= FIXED_QUEST_MAX_GRIPPER_SPEED):
             raise ValueError("gripper speed must be 10..120 deg/s")
+        gripper_lag = self.MAX_GRIPPER_JOINT_LAG
+        if (isinstance(gripper_lag, (bool, np.bool_)) or not isinstance(gripper_lag, Real)
+                or not np.isfinite(gripper_lag) or not 0 < gripper_lag <= FIXED_QUEST_GRIPPER_TRACKING_LAG + 1e-12):
+            raise ValueError("MAX_GRIPPER_JOINT_LAG must be in (0, %.1f deg]" % np.rad2deg(FIXED_QUEST_GRIPPER_TRACKING_LAG))
         if not all(np.isfinite(x) and .05 <= x <= 3 for x in
                    (self.POSITION_SCALE, self.POSITION_SCALE_Y, self.POSITION_SCALE_Z)):
             raise ValueError("v2 intent gains must be positive: .05..3; do not invert intent Z")
@@ -596,7 +602,8 @@ def run_intent_teleop(cfg=None, on_tick=None):
             max_joint_lag=cfg.MAX_JOINT_LAG, max_lift_lag=cfg.MAX_LIFT_LAG, command_ttl_s=cfg.COMMAND_TTL_S,
             max_home_joint_speed=cfg.MAX_HOME_JOINT_SPEED, max_arm_joint_lag=cfg.MAX_ARM_JOINT_LAG,
             teleop_ramp_s=cfg.TELEOP_RAMP_S, required_bridge_limits=FIXED_QUEST_VR_BRIDGE_LIMITS,
-            command_arm_speed_limit=True, tracking_pause_s=cfg.TRACKING_PAUSE_S)
+            command_arm_speed_limit=True, tracking_pause_s=cfg.TRACKING_PAUSE_S,
+            max_gripper_joint_lag=cfg.MAX_GRIPPER_JOINT_LAG)
         certfile, keyfile = (cfg.CERTFILE, cfg.KEYFILE) if cfg.CERTFILE else create_self_signed_certificate(PROJECT_DIR / ".cache" / "fixed_quest" / "tls", cfg.QUEST_HOST)
         server = QuestControllerServer(host="0.0.0.0", port=cfg.QUEST_PORT, certfile=certfile, keyfile=keyfile).start()
         print("Quest Browser: https://%s:%d/" % (cfg.QUEST_HOST, server.port))
@@ -642,6 +649,7 @@ def run_intent_teleop(cfg=None, on_tick=None):
             "teleop_ramp_s": cfg.TELEOP_RAMP_S,
             "speed_input_range_deg_s": [10, 120], "command_arm_speed_limit": True,
             "max_arm_joint_lag_rad": cfg.MAX_ARM_JOINT_LAG,
+            "max_gripper_joint_lag_rad": cfg.MAX_GRIPPER_JOINT_LAG,
             "max_home_joint_speed_rad_s": cfg.MAX_HOME_JOINT_SPEED,
             "home_target": "first_measured_pose_of_run",
             "home_path_strategies": [name for name, _ in HOME_PATH_STRATEGIES],

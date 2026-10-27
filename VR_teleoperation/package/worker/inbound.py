@@ -102,10 +102,10 @@ class SG2ZMQRosBridge(Node):
             # still in flight without advancing beyond the last accepted pose.
             self.status_timer = self.create_timer(.02, self.publish_status)
             self.get_logger().info(
-                "Strict limits: arm teleop %.1f deg/s, gripper %.1f deg/s, home %.1f deg/s, "
+                "Strict limits: arm teleop %.1f deg/s, gripper %.1f deg/s (lag %.1f deg), home %.1f deg/s, "
                 "lift %.3f m/s; acknowledgment 50Hz" % (
                     math.degrees(self.gate.speed[3]),
-                    math.degrees(self.gate.speed[-1]),
+                    math.degrees(self.gate.speed[-1]), math.degrees(self.gate.lag_limit[-1]),
                     math.degrees(max(self.gate.home_speed[1:])), self.gate.speed[0]))
         self.get_logger().info("SG2 ZMQ ROS2 Bridge ready (%.0fHz)" % PUBLISH_HZ)
         self.get_logger().info("Protocol: %s" % ("strict JSON; explicit arm required" if self.strict else "legacy pickle"))

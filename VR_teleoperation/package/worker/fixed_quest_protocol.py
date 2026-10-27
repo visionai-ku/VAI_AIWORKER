@@ -38,11 +38,18 @@ BASE_MAX_ANGULAR_SPEED = .6
 # makes feedback permanently stale while the robot rests there -- which also
 # blocks every command that could move it back. Out-of-range samples are
 # normalized onto the bound. Commands retain JOINT_LIMITS without any allowance.
-FEEDBACK_BOUNDARY_TOLERANCE_MAX = .002
-FEEDBACK_BOUNDARY_TOLERANCES = {name: .001 if name == "lift_joint" else .002 for name in (
+# Gripper feedback moves in coarser ~0.003 rad steps and was recorded one step past
+# both bounds (1.10293 rad closed, -0.00307 rad open), so grippers get 0.005 rad.
+FEEDBACK_BOUNDARY_TOLERANCE_MAX = .005
+FEEDBACK_BOUNDARY_TOLERANCES = {name: .001 if name == "lift_joint" else .005 if name.startswith("gripper_") else .002
+    for name in (
     "lift_joint", "head_joint1", "head_joint2",
     *("arm_%s_joint%d" % (side, i) for side in "lr" for i in range(1, 8)),
     "gripper_l_joint1", "gripper_r_joint1")}
+# Grippers run current-based position control, so a finger blocked by cloth or still
+# coasting after a quick open/close reversal may trail its command past the 5-degree
+# head guard without loading the arm. Applies to teleop and home alike.
+FIXED_QUEST_GRIPPER_TRACKING_LAG = math.radians(12)
 # Controller-button reset keeps initial arm alignment at 30 deg/s, then permits
 # the remaining fold/bringup steps at 100 deg/s. Normal HOME still requests 10 deg/s.
 FIXED_QUEST_VR_HOME_SPEED = math.radians(100)
@@ -51,10 +58,12 @@ FIXED_QUEST_VR_GATE_OPTIONS = {
     "max_arm_joint_speed": FIXED_QUEST_MAX_ARM_SPEED,
     "max_arm_tracking_lag": VR_ARM_TRACKING_LAG,
     "max_gripper_joint_speed": FIXED_QUEST_MAX_GRIPPER_SPEED,
+    "max_gripper_tracking_lag": FIXED_QUEST_GRIPPER_TRACKING_LAG,
 }
 FIXED_QUEST_VR_BRIDGE_LIMITS = {
     "teleop_arm_joint_speed_rad_s": FIXED_QUEST_MAX_ARM_SPEED,
     "max_arm_tracking_lag_rad": VR_ARM_TRACKING_LAG,
+    "max_gripper_tracking_lag_rad": FIXED_QUEST_GRIPPER_TRACKING_LAG,
     "command_arm_speed_limit": True,
 }
 # Radian/metre ranges from xml/ffw_sg2.xml. Wrist7 uses the conservative
@@ -277,14 +286,17 @@ class StrictCommandGate:
                  arm_tolerance=math.radians(1), arm_lift_tolerance=.002,
                  max_tracking_lag=math.radians(5), max_lift_lag=.02,
                  max_home_joint_speed=math.radians(10),
-                 max_arm_joint_speed=None, max_arm_tracking_lag=None, max_gripper_joint_speed=None):
+                 max_arm_joint_speed=None, max_arm_tracking_lag=None, max_gripper_joint_speed=None,
+                 max_gripper_tracking_lag=None):
         self.tracker, self.bridge_id = tracker, bridge_id or str(uuid.uuid4())
         max_arm_joint_speed = max_joint_speed if max_arm_joint_speed is None else max_arm_joint_speed
         max_arm_tracking_lag = max_tracking_lag if max_arm_tracking_lag is None else max_arm_tracking_lag
         max_gripper_joint_speed = max_joint_speed if max_gripper_joint_speed is None else max_gripper_joint_speed
+        max_gripper_tracking_lag = max_tracking_lag if max_gripper_tracking_lag is None else max_gripper_tracking_lag
         parameters = (timeout_s, max_step_dt, max_joint_speed, max_lift_speed,
                       arm_tolerance, arm_lift_tolerance, max_tracking_lag, max_lift_lag,
-                      max_home_joint_speed, max_arm_joint_speed, max_arm_tracking_lag, max_gripper_joint_speed)
+                      max_home_joint_speed, max_arm_joint_speed, max_arm_tracking_lag, max_gripper_joint_speed,
+                      max_gripper_tracking_lag)
         if any(_number(value, "invalid_gate_parameter") <= 0 for value in parameters) or timeout_s > .2:
             raise ValueError("invalid_gate_parameter")
         self.timeout_s, self.max_step_dt = timeout_s, max_step_dt
@@ -294,7 +306,9 @@ class StrictCommandGate:
         self.home_speed = [speed if name == "lift_joint" else min(speed, max_home_joint_speed)
                            for name, speed in zip(JOINT_NAMES, self.speed)]
         self.arm_tolerance = [arm_lift_tolerance if name == "lift_joint" else arm_tolerance for name in JOINT_NAMES]
-        self.lag_limit = [max_lift_lag if name == "lift_joint" else max_tracking_lag for name in JOINT_NAMES]
+        self.lag_limit = [max_lift_lag if name == "lift_joint" else
+                          max_gripper_tracking_lag if name.startswith("gripper_") else max_tracking_lag
+                          for name in JOINT_NAMES]
         self.home_lag_limit = self.lag_limit.copy()
         self.lag_limit = [max_arm_tracking_lag if name.startswith("arm_") else limit
                           for name, limit in zip(JOINT_NAMES, self.lag_limit)]
@@ -304,6 +318,7 @@ class StrictCommandGate:
             "max_arm_tracking_lag_rad": float(max_arm_tracking_lag),
             "command_arm_speed_limit": True,
             "teleop_gripper_joint_speed_rad_s": float(max_gripper_joint_speed),
+            "max_gripper_tracking_lag_rad": float(max_gripper_tracking_lag),
             "command_gripper_speed_limit": True,
             # Advertise the rotary ceiling, not the lower head-only speed.
             # Each joint still enforces its own home_speed above.

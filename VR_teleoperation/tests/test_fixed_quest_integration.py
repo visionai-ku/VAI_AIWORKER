@@ -242,7 +242,7 @@ class FixedQuestIntegrationTest(unittest.TestCase):
         self.assertEqual(self.publisher.messages[-1]["mode"], "stop")
         self.assertEqual(self.gate.state, "STOPPED")
 
-    def configure_adjustable_profile(self):
+    def configure_adjustable_profile(self, **options):
         from package.worker.fixed_quest_protocol import FIXED_QUEST_VR_GATE_OPTIONS, FIXED_QUEST_VR_BRIDGE_LIMITS
         self.gate = StrictCommandGate(self.tracker, **FIXED_QUEST_VR_GATE_OPTIONS)
         self.publisher.gate = self.gate
@@ -251,7 +251,29 @@ class FixedQuestIntegrationTest(unittest.TestCase):
         self.planner.ik_period = .02
         self.real = SG2FixedQuestReal(self.planner, self.env_measured, self.layout, self.publisher,
             dry_run=False, max_arm_joint_lag=.48, teleop_ramp_s=8.,
-            required_bridge_limits=FIXED_QUEST_VR_BRIDGE_LIMITS, command_arm_speed_limit=True)
+            required_bridge_limits=FIXED_QUEST_VR_BRIDGE_LIMITS, command_arm_speed_limit=True, **options)
+
+    def test_gripper_trailing_past_head_guard_keeps_teleop_until_gripper_limit(self):
+        # Recorded 2026-10-07: a quick open->close trigger reversal left the left finger
+        # 5.1 deg behind its command and the shared 5-degree guard stopped teleoperation.
+        from package.worker.fixed_quest_protocol import FIXED_QUEST_GRIPPER_TRACKING_LAG
+        gripper = list(JOINT_NAMES).index("gripper_l_joint1")
+        for lag_deg, faults in ((5.1, False), (11.5, False), (12.1, True)):
+            with self.subTest(lag_deg=lag_deg):
+                self.setUp()
+                self.configure_adjustable_profile(max_gripper_joint_lag=FIXED_QUEST_GRIPPER_TRACKING_LAG)
+                self.arm()
+                self.assertEqual(self.tick(6, grip=True)["state"], "ACTIVE")
+                command = self.real.planner.q_command[gripper]
+                self.publisher.q[gripper] = command + np.deg2rad(lag_deg)
+                result = self.tick(7, grip=True)
+                if faults:
+                    self.assertEqual(result["state"], "FAULT")
+                    self.assertIn("tracking difference exceeds limit", result["reason"])
+                else:
+                    self.assertEqual(result["state"], "ACTIVE", result["reason"])
+                    self.assertTrue(result["transmitted"])
+                    self.assertTrue(self.publisher.outcomes[-1]["accepted"], self.publisher.outcomes[-1])
 
     def test_adjustable_profile_existing_ik_exceeds_old_cap_and_home_stays_slow(self):
         self.configure_adjustable_profile()
