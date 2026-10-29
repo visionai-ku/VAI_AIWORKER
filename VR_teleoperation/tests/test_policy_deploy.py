@@ -104,6 +104,27 @@ class PolicyDeploymentTest(unittest.TestCase):
         self.assertEqual(ticks[-1][0], True,
                          "must keep ticking enabled while the return is still arming")
 
+    def test_only_act_keeps_synchronous_inference(self):
+        self.assertIsInstance(self.make_deployment().policy, StubPolicyRuntime)
+        StubPolicyRuntime.policy_type = "molmoact2"
+        self.addCleanup(delattr, StubPolicyRuntime, "policy_type")
+        deployment = self.make_deployment()
+        self.assertIsInstance(deployment.policy, policy_deploy.AsyncChunkPolicy)
+        self.assertEqual(deployment.policy.policy_type, "molmoact2")
+        self.assertIsInstance(self.make_deployment(async_inference=False).policy, StubPolicyRuntime)
+
+    def test_holds_while_the_first_async_chunk_is_computed(self):
+        deployment = self.make_deployment()
+        deployment.start()
+        deployment.policy.predict = lambda q, frames, task=None: None
+        deployment.receiver.latest = lambda now: {"ready": True, "q": np.zeros(len(JOINT_NAMES))}
+        deployment._poll_cameras = lambda: {"head": np.zeros((2, 2, 3), np.uint8)}
+        ticks = []
+        deployment.real.tick = lambda frame, feedback, enabled=False, now=None, **kw: (
+            ticks.append((enabled, kw.get("action"))) or {"state": "DISABLED", "reason": "", "action": None})
+        deployment.step(now=time.monotonic())
+        self.assertEqual(ticks, [(False, None)])
+
     def test_step_before_start_raises(self):
         deployment = self.make_deployment()
         with self.assertRaises(RuntimeError):

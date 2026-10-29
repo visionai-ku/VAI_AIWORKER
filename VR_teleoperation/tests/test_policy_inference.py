@@ -16,7 +16,7 @@ import numpy as np
 PROJECT_DIR = Path(__file__).resolve().parents[1]
 runpy.run_path(str(PROJECT_DIR / "package/init_project.py"))
 
-from package.policy_inference import clip_to_joint_limits
+from package.policy_inference import AsyncChunkPolicy, clip_to_joint_limits
 from package.worker.fixed_quest_protocol import JOINT_LIMITS, JOINT_NAMES
 
 
@@ -149,6 +149,136 @@ class PolicyRuntimeCompatibilityTest(unittest.TestCase):
                         np.array([30, 20, 10], dtype=np.float32) / 255)
                     self.assertEqual(runtime.preprocessor.steps[0].device, "cpu")
                     self.assertEqual(runtime.postprocessor.steps[0].device, "cpu")
+
+
+
+class GatedChunkRuntime:
+    """Stands in for PolicyRuntime: chunk k (1-based) is k*100 + step index on
+    every predicted joint, and is only returned once the test release()s it."""
+
+    def __init__(self, chunk_len=10, excluded=("lift_joint", "head_joint1", "head_joint2")):
+        import threading
+        self.joint_names = [name for name in JOINT_NAMES if name not in excluded]
+        self.joint_indices = [JOINT_NAMES.index(name) for name in self.joint_names]
+        self.chunk_len, self.calls, self.reset_count, self.error = chunk_len, 0, 0, None
+        self._gates, self._lock = {}, threading.Lock()
+
+    def _gate(self, call):
+        import threading
+        with self._lock:
+            return self._gates.setdefault(call, threading.Event())
+
+    def release(self, call):
+        self._gate(call).set()
+
+    def predict_chunk(self, q, frames, task=None):
+        self.calls += 1
+        call = self.calls
+        if not self._gate(call).wait(5):
+            raise TimeoutError("chunk %d was never released" % call)
+        if self.error is not None:
+            raise self.error
+        steps = call * 100 + np.arange(self.chunk_len, dtype=np.float32)
+        return np.repeat(steps[:, None], len(self.joint_names), axis=1)
+
+    def reset(self):
+        self.reset_count += 1
+
+
+class AsyncChunkPolicyTest(unittest.TestCase):
+    def make(self, lead=3, chunk_len=10):
+        runtime = GatedChunkRuntime(chunk_len)
+        policy = AsyncChunkPolicy(runtime, hz=30, lead=lead)
+        self.addCleanup(policy.close)
+        # Count chunk requests as they are submitted: runtime.calls only moves once
+        # the worker thread actually starts one.
+        self.requests, submit = 0, policy._executor.submit
+        def counting_submit(fn, *args, **kwargs):
+            if fn == policy._compute:
+                self.requests += 1
+            return submit(fn, *args, **kwargs)
+        policy._executor.submit = counting_submit
+        return runtime, policy
+
+    @staticmethod
+    def wait_for_chunk(policy):
+        policy._future.result(timeout=5)
+
+    def step(self, policy, q=None):
+        action = policy.predict(mid_q() if q is None else q, {"head": np.zeros((2, 2, 3), np.uint8)})
+        return None if action is None else float(action[JOINT_NAMES.index("arm_l_joint1")])
+
+    def test_holds_until_the_first_chunk_then_plays_it_from_its_first_step(self):
+        runtime, policy = self.make()
+        self.assertIsNone(self.step(policy))
+        self.assertIsNone(self.step(policy), "must not block or resubmit while computing")
+        self.assertEqual(self.requests, 1)
+        runtime.release(1)
+        self.wait_for_chunk(policy)
+        self.assertEqual([self.step(policy) for _ in range(3)], [100, 101, 102])
+
+    def test_next_chunk_is_requested_early_and_skips_the_steps_already_executed(self):
+        runtime, policy = self.make(lead=3)
+        self.step(policy)
+        runtime.release(1)
+        self.wait_for_chunk(policy)
+        played = [self.step(policy) for _ in range(9)]       # 100..108; chunk 2 requested at 107
+        self.assertEqual(played, [100 + i for i in range(9)])
+        self.assertEqual(self.requests, 2)
+        runtime.release(2)
+        self.wait_for_chunk(policy)
+        # Chunk 2 saw the state before step 107; 107 and 108 ran since, so it resumes at its index 2.
+        self.assertEqual(self.step(policy), 202)
+
+    def test_repeats_the_last_step_while_starved(self):
+        runtime, policy = self.make(lead=1, chunk_len=3)
+        self.step(policy)
+        runtime.release(1)
+        self.wait_for_chunk(policy)
+        played = [self.step(policy) for _ in range(5)]
+        self.assertEqual(played, [100, 101, 102, 102, 102])
+        self.assertEqual(policy.starved_steps, 2)
+
+    def test_reset_discards_the_chunk_in_flight_without_blocking(self):
+        runtime, policy = self.make()
+        self.step(policy)                     # chunk 1 in flight
+        policy.reset()
+        self.assertIsNone(self.step(policy))  # requests chunk 2, still nothing to play
+        runtime.release(1)
+        runtime.release(2)
+        self.wait_for_chunk(policy)
+        self.assertEqual(self.step(policy), 200, "chunk 1 predates the reset and must be dropped")
+        self.assertEqual(runtime.reset_count, 1)
+
+    def test_excluded_joints_follow_the_current_measurement(self):
+        runtime, policy = self.make()
+        self.step(policy)
+        runtime.release(1)
+        self.wait_for_chunk(policy)
+        q = mid_q()
+        q[JOINT_NAMES.index("lift_joint")], q[JOINT_NAMES.index("head_joint1")] = .1, .69
+        action = policy.predict(q, {"head": np.zeros((2, 2, 3), np.uint8)})
+        self.assertAlmostEqual(action[JOINT_NAMES.index("lift_joint")], .1, places=6)
+        self.assertAlmostEqual(action[JOINT_NAMES.index("head_joint1")], .69, places=6)
+        self.assertEqual(action[JOINT_NAMES.index("arm_r_joint7")], 100)
+
+    def test_a_failed_prediction_is_raised_to_the_control_loop(self):
+        runtime, policy = self.make()
+        runtime.error = RuntimeError("cuda out of memory")
+        self.step(policy)
+        runtime.release(1)
+        with self.assertRaises(RuntimeError):
+            self.wait_for_chunk(policy)
+        with self.assertRaises(RuntimeError):
+            self.step(policy)
+
+    def test_lead_covers_the_measured_latency_with_margin(self):
+        policy = AsyncChunkPolicy(GatedChunkRuntime(), hz=30)
+        self.addCleanup(policy.close)
+        policy._update_lead(.174, chunk_len=30)   # MolmoAct2 on the RTX 6000 Ada
+        self.assertEqual(policy.lead, 10)
+        policy._update_lead(2.0, chunk_len=30)
+        self.assertEqual(policy.lead, 29, "never more than the chunk minus one step")
 
 
 import os

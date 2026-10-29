@@ -146,16 +146,9 @@ class PolicyRuntime:
         predicted -- the caller's guard/collision pipeline still sees a full
         19-joint target either way.
         """
-        import cv2
         from lerobot.common.control_utils import predict_action
 
-        q = np.asarray(q, dtype=np.float32)
-        if q.shape != (len(JOINT_NAMES),) or not np.all(np.isfinite(q)):
-            raise ValueError("q must be a finite (%d,) vector in JOINT_NAMES order" % len(JOINT_NAMES))
-        observation = {"observation.state": q[self._joint_idx]}
-        for cam, bgr in frames.items():
-            observation["observation.images.%s" % cam] = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
-
+        q, observation = self._observation(q, frames)
         action = predict_action(
             observation=observation, policy=self.policy, device=self.device,
             preprocessor=self.preprocessor, postprocessor=self.postprocessor,
@@ -165,3 +158,175 @@ class PolicyRuntime:
         full = q.copy()
         full[self._joint_idx] = action
         return full
+
+    @property
+    def joint_indices(self):
+        """Positions of self.joint_names inside JOINT_NAMES."""
+        return list(self._joint_idx)
+
+    def predict_chunk(self, q, frames, task=None):
+        """Predict the policy's whole next action chunk from one observation.
+
+        Same inputs as predict(), but bypasses the policy's own select_action()
+        queue: preprocess -> predict_action_chunk() -> postprocess in one call, so
+        AsyncChunkPolicy can run it off the control thread while the previous
+        chunk is still being executed.
+
+        -> (n_action_steps, len(self.joint_names)) float32, self.joint_names order,
+        NOT yet safety clipped. Unlike predict(), joints outside self.joint_names
+        are not filled in here -- the caller holds them at the value measured when
+        each step is actually used.
+        """
+        from contextlib import nullcontext
+        import torch
+        from lerobot.policies import prepare_observation_for_inference
+
+        _, observation = self._observation(q, frames)
+        use_amp = bool(self.policy.config.use_amp) and self.device.type == "cuda"
+        with torch.inference_mode(), torch.autocast(device_type=self.device.type) if use_amp else nullcontext():
+            batch = prepare_observation_for_inference(
+                observation, self.device, self.task if task is None else str(task), self.robot_type)
+            batch = self.preprocessor(batch)
+            chunk = self.policy.predict_action_chunk(batch)[:, : self.policy.config.n_action_steps]
+            chunk = self.postprocessor(chunk)
+        return chunk.squeeze(0).to("cpu").numpy().astype(np.float32)
+
+    def _observation(self, q, frames):
+        import cv2
+
+        q = np.asarray(q, dtype=np.float32)
+        if q.shape != (len(JOINT_NAMES),) or not np.all(np.isfinite(q)):
+            raise ValueError("q must be a finite (%d,) vector in JOINT_NAMES order" % len(JOINT_NAMES))
+        observation = {"observation.state": q[self._joint_idx]}
+        for cam, bgr in frames.items():
+            observation["observation.images.%s" % cam] = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
+        return q, observation
+
+
+class AsyncChunkPolicy:
+    """Runs PolicyRuntime.predict_chunk() on a background thread so the control
+    loop never waits on the model.
+
+    PolicyRuntime.predict() goes through the policy's select_action(), which
+    computes a whole chunk synchronously whenever its queue runs dry. For ACT that
+    is ~1ms, but a VLA policy (pi05, MolmoAct2) measured 140-175ms per chunk on the
+    RTX 6000 Ada -- longer than MAX_LOOP_DT_S (0.10s), so the tick that refills the
+    queue faults the session ("control loop delay"). Here the next chunk is
+    requested while `lead` steps of the current one are still queued, and each
+    tick only pops an already computed step.
+
+    When a chunk arrives, its first steps -- those whose time already passed while
+    it was being computed, counted in steps executed since its observation was
+    taken -- are dropped and the rest replaces the queue. `lead` adapts to the
+    measured inference time (see _update_lead). If the queue still runs dry, the
+    last step is repeated (the robot holds its last target) until the next chunk
+    arrives. Before the first chunk of a session/episode, predict() returns None
+    and the caller holds position.
+
+    Same predict()/reset()/warmup() interface as PolicyRuntime, so
+    PolicyDeployment uses either one.
+    """
+
+    def __init__(self, runtime, hz, lead=None):
+        from concurrent.futures import ThreadPoolExecutor
+
+        self.runtime, self.hz = runtime, float(hz)
+        self.fixed_lead = lead
+        self.lead = 1 if lead is None else int(lead)
+        # One worker: chunk requests and reset() run strictly in submission order.
+        self._executor = ThreadPoolExecutor(max_workers=1, thread_name_prefix="policy-chunk")
+        self._latencies = []
+        self._generation = 0
+        self._clear()
+
+    def __getattr__(self, name):
+        # policy_type, device, checkpoint_path, policy, ... of the wrapped runtime.
+        if name == "runtime":
+            raise AttributeError(name)
+        return getattr(self.runtime, name)
+
+    def _clear(self):
+        self._queue, self._last, self._future = [], None, None
+        self._executed = 0          # queued steps executed since reset()
+        self.starved_steps = 0      # ticks that repeated the last step for lack of a chunk
+
+    def reset(self):
+        """Start a new episode: drop the queue and any chunk still being computed.
+
+        Never blocks: the runtime's own reset is queued behind the in-flight chunk
+        on the same worker thread, and that chunk's result is discarded."""
+        self._generation += 1
+        self._executor.submit(self.runtime.reset)
+        self._clear()
+
+    def warmup(self):
+        """Pay the one-off first-call cost and measure the chunk latency that sets `lead`.
+
+        Blocks until done; runs on the worker thread, behind anything still in flight."""
+        self._executor.submit(self._warmup).result()
+
+    def _warmup(self):
+        import time
+
+        self.runtime.warmup()
+        shapes = {key.rsplit(".", 1)[-1]: feature.shape
+                  for key, feature in self.runtime.policy.config.input_features.items()
+                  if key.startswith("observation.images.")}
+        frames = {cam: np.zeros((shape[1], shape[2], 3), dtype=np.uint8) for cam, shape in shapes.items()}
+        start = time.monotonic()
+        self.runtime.predict_chunk(np.zeros(len(JOINT_NAMES), dtype=np.float32), frames)
+        self._update_lead(time.monotonic() - start, chunk_len=self.runtime.policy.config.n_action_steps)
+        self.runtime.reset()
+
+    def _update_lead(self, latency_s, chunk_len):
+        self._latencies = (self._latencies + [float(latency_s)])[-10:]
+        if self.fixed_lead is None:
+            # 1.5x the slowest recent chunk (the control thread competes for the GIL
+            # while it runs), plus two ticks of margin.
+            steps = int(np.ceil(max(self._latencies) * self.hz * 1.5)) + 2
+            self.lead = int(min(max(steps, 1), max(chunk_len - 1, 1)))
+
+    def _compute(self, generation, executed, q, frames, task):
+        import time
+
+        start = time.monotonic()
+        chunk = self.runtime.predict_chunk(q, frames, task=task)
+        return generation, executed, chunk, time.monotonic() - start
+
+    def predict(self, q, frames, task=None):
+        """q: (len(JOINT_NAMES),) measured state, JOINT_NAMES order; frames as in
+        PolicyRuntime.predict().
+
+        -> next joint target, JOINT_NAMES order, float32, NOT yet safety clipped,
+        joints outside runtime.joint_names held at their value in `q`; or None
+        while the first chunk of this session/episode is still being computed.
+        Raises whatever the background prediction raised.
+        """
+        q = np.asarray(q, dtype=np.float32)
+        if self._future is not None and self._future.done():
+            generation, executed, chunk, latency = self._future.result()
+            self._future = None
+            if generation == self._generation:
+                self._update_lead(latency, chunk_len=len(chunk))
+                fresh = list(chunk[self._executed - executed:])
+                if fresh:
+                    self._queue = fresh
+        if self._future is None and len(self._queue) <= self.lead:
+            snapshot = {cam: np.array(bgr, copy=True) for cam, bgr in frames.items()}
+            self._future = self._executor.submit(
+                self._compute, self._generation, self._executed, q.copy(), snapshot, task)
+        if self._queue:
+            self._last = self._queue.pop(0)
+            self._executed += 1
+        elif self._last is None:
+            return None
+        else:
+            self.starved_steps += 1
+        full = q.copy()
+        full[self.runtime.joint_indices] = self._last
+        return full
+
+    def close(self):
+        """Stop the worker thread. An in-flight chunk is left to finish on its own."""
+        self._generation += 1
+        self._executor.shutdown(wait=False, cancel_futures=True)

@@ -10,10 +10,11 @@ Quest controller server, no Qt window: this is a headless deployment loop.
 Control frequency: one fixed hz for both reading observations and predicting
 (matching the dataset's own recording rate, the same pattern lerobot's own
 record_loop() uses). ACTPolicy.select_action() already queues a chunk
-internally and only calls the model again once it is consumed, so a single
-hz is enough for a first deployment; split it into separate inference/control
-rates (see the ROBOTIS AIWorker inference docs) only if per-tick latency at
-this hz ever falls behind.
+internally and only calls the model again once it is consumed, and at ~1ms per
+chunk that runs inline. Slower chunk policies (pi05, MolmoAct2: 140-175ms per
+chunk, over MAX_LOOP_DT_S) instead go through AsyncChunkPolicy, which computes
+the next chunk on a background thread while the current one is executed
+(async_inference=None picks this for every policy type except ACT).
 
 Session control: intentionally bare. Call start()/step()/stop() (or the
 blocking run()) from a notebook cell, a keypress loop, whatever the caller
@@ -38,7 +39,7 @@ from package.fixed_quest_real import SG2FixedQuestReal
 from package.fixed_quest_sim import reset_sg2_sim
 from package.fixed_quest_transport import SG2RobotCommandPublisher, SG2RobotStateReceiver
 from package.intent_teleop import IntentTeleopSettings, build_models, build_planner
-from package.policy_inference import DEFAULT_TASK, PolicyRuntime, clip_to_joint_limits
+from package.policy_inference import DEFAULT_TASK, AsyncChunkPolicy, PolicyRuntime, clip_to_joint_limits
 from package.safety_box import wrist_safety_box_violations
 from package.worker.fixed_quest_protocol import FIXED_QUEST_VR_BRIDGE_LIMITS, JOINT_NAMES
 
@@ -48,7 +49,7 @@ class PolicyDeployment:
 
     def __init__(self, checkpoint_path, robot_ip="192.168.6.2", cameras=None, hz=30,
                  task=None, device=None, dry_run=True, collision_margin_m=0.0005,
-                 state_joint_names=None):
+                 state_joint_names=None, async_inference=None):
         if not 0 < hz <= 200:
             raise ValueError("hz must be in (0, 200]")
         # Policy actions are always collision-checked (see fixed_quest_sim.py's
@@ -76,6 +77,10 @@ class PolicyDeployment:
         self.robot_ip, self.cameras = robot_ip, dict(DEFAULT_CAMERAS if cameras is None else cameras)
         self.policy = PolicyRuntime(checkpoint_path, device=device, task=task or DEFAULT_TASK,
                                     joint_names=state_joint_names)
+        if async_inference is None:
+            async_inference = getattr(self.policy, "policy_type", "act") != "act"
+        if async_inference:
+            self.policy = AsyncChunkPolicy(self.policy, hz)
         self.hz, self.dt = float(hz), 1. / float(hz)
         self.dry_run = dry_run
         self.running = False
@@ -136,6 +141,8 @@ class PolicyDeployment:
         self.stop()
         self.receiver.close()
         self.publisher.close()
+        if hasattr(self.policy, "close"):
+            self.policy.close()
 
     # ---------- control ----------
     def step(self, now=None, action=None, enabled=True):
@@ -182,11 +189,15 @@ class PolicyDeployment:
             return result
         frames = self._poll_cameras()
         ready = feedback.get("ready") and feedback.get("q") is not None and len(frames) == len(self.cameras)
-        if not ready:
-            result = self.real.tick(None, feedback, enabled=False, now=now)
-        else:
+        raw_action = None
+        if ready:
             q = np.asarray(feedback["q"], dtype=float)
             raw_action = self.policy.predict(q, frames)
+        if raw_action is None:
+            # Not ready, or AsyncChunkPolicy's first chunk of this session/episode
+            # is still being computed.
+            result = self.real.tick(None, feedback, enabled=False, now=now)
+        else:
             q_target, exceeded = clip_to_joint_limits(raw_action)
             self.last_clipped = exceeded
             if exceeded:
