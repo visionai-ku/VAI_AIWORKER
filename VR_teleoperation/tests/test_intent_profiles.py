@@ -350,7 +350,8 @@ class ProfileSelectorTest(unittest.TestCase):
         control.close.assert_called_once()
 
     def test_notebook_control_defaults_remain_unchanged(self):
-        for name, arm, gripper in [('real_vr_teleop.ipynb', 60., 60.), ('real_vr_teleop_record.ipynb', 100., 60.)]:
+        for name, arm, gripper, home, stall in [('real_vr_teleop.ipynb', 60., 60., 10., 'off'),
+                                                ('real_vr_teleop_record.ipynb', 100., 60., 20., 'observe')]:
             notebook = json.loads((ROOT / 'real_notebook' / name).read_text())
             source = next(''.join(c['source']) for c in notebook['cells'] if 'settings = IntentTeleopSettings(' in ''.join(c['source']))
             tree = ast.parse(source)
@@ -362,12 +363,30 @@ class ProfileSelectorTest(unittest.TestCase):
             cfg.validate()
             self.assertAlmostEqual(np.rad2deg(cfg.MAX_JOINT_SPEED), arm)
             self.assertAlmostEqual(np.rad2deg(cfg.MAX_GRIPPER_SPEED), gripper)
+            self.assertAlmostEqual(np.rad2deg(cfg.MAX_HOME_JOINT_SPEED), home)
             self.assertEqual(cfg.TRACKING_PAUSE_S, .1)
             self.assertTrue(cfg.ACCEPT_EMULATED_POSE)
             self.assertTrue(cfg.DRY_RUN)
             self.assertFalse(cfg.TELEOP_COLLISION_CHECK)
             self.assertEqual(cfg.IK_RECOVERY_TIMEOUT_S, 2.)
             np.testing.assert_array_equal(cfg.POSITION_SCALES['left'], [.5, .5, .8])
+            self.assertEqual(cfg.STALL_LIMIT_MODE, stall)
+
+    def test_home_speed_accepts_up_to_sixty_degrees_per_second(self):
+        for degrees in (5., 10., 20., 60.):
+            cfg = IntentTeleopSettings(MAX_HOME_JOINT_SPEED=np.deg2rad(degrees)).validate()
+            self.assertAlmostEqual(np.rad2deg(cfg.MAX_HOME_JOINT_SPEED), degrees)
+        for degrees in (0., -10., 61., np.nan):
+            with self.subTest(degrees=degrees), self.assertRaisesRegex(ValueError, 'home speed'):
+                IntentTeleopSettings(MAX_HOME_JOINT_SPEED=np.deg2rad(degrees)).validate()
+
+    def test_stall_mode_accepts_only_off_and_observe(self):
+        for mode in ('off', 'observe'):
+            self.assertEqual(IntentTeleopSettings(STALL_LIMIT_MODE=mode).validate().STALL_LIMIT_MODE, mode)
+        for options in ({'STALL_LIMIT_MODE': 'limit'}, {'STALL_LIMIT_MODE': 'OBSERVE'},
+                        {'STALL_ENTER_LEAD_DEG': 3.}, {'STALL_WINDOW_S': 0.}):
+            with self.subTest(options=options), self.assertRaises(ValueError):
+                IntentTeleopSettings(**options).validate()
 
 
 if __name__ == '__main__':

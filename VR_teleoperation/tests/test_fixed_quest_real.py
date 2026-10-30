@@ -2533,6 +2533,11 @@ class FixedQuestRealTest(unittest.TestCase):
         self.arm_policy()
         self.assertEqual(self.publisher.messages[-1]["motion"], "teleop")
 
+    def test_policy_is_never_stall_observed(self):
+        from package.stall_observer import StallObserver
+        ready = self.arm_policy(stall_observer=StallObserver(self.planner.hand_indices))
+        self.assertEqual(ready["stall_observer"], {"applicable": False})
+
     def test_policy_disabled_holds_without_arming(self):
         real = self.make_real()
         q_target = self.robot_initial.copy()

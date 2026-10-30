@@ -73,7 +73,7 @@ class SG2FixedQuestReal:
                  max_joint_lag=np.deg2rad(5), max_lift_lag=.01, command_ttl_s=.2,
                  max_home_joint_speed=np.deg2rad(10), max_arm_joint_lag=None,
                  teleop_ramp_s=0., required_bridge_limits=None, command_arm_speed_limit=False,
-                 tracking_pause_s=0., max_gripper_joint_lag=None):
+                 tracking_pause_s=0., max_gripper_joint_lag=None, stall_observer=None):
         if planner.mode != "kinematic" or env_measured in (planner.env, planner.env_ik, planner.guard.env_check):
             raise ValueError("Real adapter needs separate measured and command-preview environments")
         if list(planner.joint_names) != list(JOINT_NAMES):
@@ -167,6 +167,8 @@ class SG2FixedQuestReal:
             self.home_tolerance[list(JOINT_NAMES).index(_head)] = np.deg2rad(2.)
         self.ack_window_s = .04
         self.tracking_soft_fraction = .8
+        # Observe-only (package/stall_observer.py): reads commands and feedback, never changes them.
+        self.stall_observer = stall_observer
         self._reset_command_window()
 
     def _set_q(self, env, q):
@@ -177,8 +179,8 @@ class SG2FixedQuestReal:
     def preview_joint_adjustment(self, joint_name, degrees, feedback):
         """Preview one absolute arm angle with existing FK/guard; never send.
 
-        Execution rechecks the path from fresh feedback and uses HOME's 10 deg/s
-        coordinated runner. The captured session home is never overwritten.
+        Execution rechecks the path from fresh feedback and uses HOME's coordinated
+        runner at max_home_joint_speed. The captured session home is never overwritten.
         """
         self._joint_preview = None
         if (not self.initialized or not feedback.get("ready") or self.armed
@@ -213,7 +215,7 @@ class SG2FixedQuestReal:
         """Queue a full-pose target for the next "home" action (controller buttons).
 
         Uses the same path as manual adjustment: the straight joint path is
-        guard-checked before anything is sent, then HOME's 10 deg/s runner moves
+        guard-checked before anything is sent, then the HOME-speed runner moves
         there. A blocked path sends nothing. q_home (Initial pose) is untouched.
         """
         target = np.asarray(target, dtype=float).copy()
@@ -523,6 +525,8 @@ class SG2FixedQuestReal:
             self._grip_start_requested = False
             self._grip_home_active = False
             self._reset_command_window()
+            if self.stall_observer is not None:
+                self.stall_observer.reset("stop")
         return sent
 
     def set_dry_run(self, dry_run, publisher_factory):
@@ -856,6 +860,7 @@ class SG2FixedQuestReal:
         if self.dry_run and result["state"] in ("ACTIVE", "HOMING", "HOME", "POLICY"):
             self.control_has_started = True
         candidate = result["q_command"]
+        requested = None if self.stall_observer is None else candidate.copy()
         # Capture the automatic-motion policy through the final HOME tick,
         # even after the planner has cleared its homing flag on arrival. An
         # autonomous policy is not teleoperation either: always the checked
@@ -937,6 +942,12 @@ class SG2FixedQuestReal:
                 sent = self._send("command", candidate, feedback, motion=motion)
                 if not sent:
                     return self._hold(frame, feedback, now, "robot command could not be queued", True, "FAULT")
+        if self.stall_observer is not None:
+            # Decided from this tick's live motion, never from past manual/HOME history.
+            applicable = (not self.dry_run and self.armed and sent and not is_policy
+                          and result["state"] == "ACTIVE" and not (self.home_pending or self.planner.homing))
+            result["stall_observer"] = self._observe_stall(result, feedback, q, previous, requested,
+                                                           candidate, applicable)
         if result["state"] == "HOME":
             self.stop()
             self.latched_reason = ("session-start preview reached; control OFF" if self.dry_run
@@ -949,6 +960,26 @@ class SG2FixedQuestReal:
         if home_plan is not None:
             result["home_plan"] = home_plan_summary(home_plan)
         return self._result(result, feedback, q, sent)
+
+    def _observe_stall(self, result, feedback, q, previous, requested, sent_q, applicable):
+        """Diagnostics only: a failure here is logged and must not stop control."""
+        try:
+            if not applicable:
+                self.stall_observer.reset("not_applicable")
+                return {"applicable": False}
+            state = feedback["state"]
+            return self.stall_observer.update(
+                sample_key=(feedback.get("generation"), state["seq"], state["source_stamp_ns"]),
+                sample_time=state["source_time_s"], sample_age=feedback.get("age_s"),
+                q_measured=q, q_previous=previous, q_requested=requested, q_sent=sent_q,
+                tcp_measured={hand: get_sg2_wrist_control_T(self.env_measured, hand)[:3, 3]
+                              for hand in self.planner.hand_indices},
+                tcp_requested={hand: stage.get("bounded_eef_m")
+                               for hand, stage in (result.get("mapping_stages") or {}).items()},
+                ik_target_limited=result.get("ik_target_limited", False))
+        except Exception as exc:  # noqa: BLE001 -- observer must never affect control
+            self.stall_observer.reset("error")
+            return {"applicable": applicable, "error": "%s: %s" % (type(exc).__name__, exc)}
 
     def _grip_failure(self, result):
         self._grip_engaged = False

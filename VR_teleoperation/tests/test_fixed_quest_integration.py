@@ -70,6 +70,16 @@ class MemoryBridgePublisher:
         return True
 
 
+class _DryPublisher:
+    enabled = False
+
+    def send(self, packet):
+        raise AssertionError("DRY RUN must not send")
+
+    def close(self):
+        pass
+
+
 class FixedQuestIntegrationTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -252,6 +262,61 @@ class FixedQuestIntegrationTest(unittest.TestCase):
         self.real = SG2FixedQuestReal(self.planner, self.env_measured, self.layout, self.publisher,
             dry_run=False, max_arm_joint_lag=.48, teleop_ramp_s=8.,
             required_bridge_limits=FIXED_QUEST_VR_BRIDGE_LIMITS, command_arm_speed_limit=True, **options)
+
+    def run_stall_scenario(self, observe, manual_history=False):
+        """Free motion, a left arm that stops following, then Initial pose; returns sent packets/results."""
+        from package.stall_observer import StallObserver
+        self.setUp()
+        self.configure_adjustable_profile(
+            stall_observer=StallObserver(self.planner.hand_indices) if observe else None)
+        self.real._manual_motion = manual_history  # stale manual/HOME history must not disable observing
+        self.arm()
+        self.real.teleop_started_at -= 8.
+        results = [self.tick(index, grip=True, height=.01 * (index - 5)) for index in range(6, 20)]
+        blocked = np.full(len(JOINT_NAMES), 1e3)
+        blocked[self.planner.hand_indices["left"]] = 0.
+        self.publisher.follow_speed = blocked
+        results += [self.tick(index, grip=True, height=.14 + .01 * (index - 19)) for index in range(20, 60)]
+        self.publisher.follow_speed = None
+        results += [self.tick(index, grip=True, height=.54) for index in range(60, 70)]
+        for index in range(70, 260):
+            result = self.tick(index, action="home" if index == 70 else None)
+            results.append(result)
+            if result["state"] == "HOME":
+                break
+        packets = [{key: value for key, value in packet.items() if key not in ("session_id", "bridge_id")}
+                   for packet in self.publisher.messages]
+        return packets, results
+
+    def test_stall_observer_never_changes_sent_commands(self):
+        off_packets, off_results = self.run_stall_scenario(observe=False)
+        observe_packets, observe_results = self.run_stall_scenario(observe=True)
+        self.assertEqual(off_packets, observe_packets)
+        self.assertEqual([r["state"] for r in off_results], [r["state"] for r in observe_results])
+        self.assertTrue(all("stall_observer" not in r for r in off_results))
+        observed = [r["stall_observer"] for r in observe_results if "stall_observer" in r]
+        self.assertTrue(any(o.get("applicable") and o["hands"]["left"]["state"] == "STALL_SUSPECTED"
+                            for o in observed), "the blocked left arm must be observed as stalled")
+        self.assertFalse(any(o.get("applicable") and o["hands"]["right"]["state"] == "STALL_SUSPECTED"
+                             for o in observed))
+        self.assertFalse(any("error" in o for o in observed))
+        # HOME / ARMING ticks are not observed, and an observed arm resets once teleop ends.
+        for result in observe_results:
+            if result["state"] != "ACTIVE" and "stall_observer" in result:
+                self.assertFalse(result["stall_observer"]["applicable"])
+
+    def test_stall_observer_runs_after_manual_or_home_history(self):
+        _, results = self.run_stall_scenario(observe=True, manual_history=True)
+        self.assertTrue(any(r.get("stall_observer", {}).get("applicable") for r in results))
+
+    def test_stall_observer_skips_dry_run(self):
+        from package.stall_observer import StallObserver
+        self.real = SG2FixedQuestReal(self.planner, self.env_measured, self.layout, _DryPublisher(),
+                                      dry_run=True, stall_observer=StallObserver(self.planner.hand_indices))
+        self.tick(0, enabled=False)  # synchronize with the first robot state, as arm() does
+        results = [self.tick(index, grip=index >= 5, height=.01 * index) for index in range(1, 40)]
+        self.assertTrue(any(r["state"] == "ACTIVE" for r in results))
+        self.assertTrue(all(not r.get("stall_observer", {}).get("applicable", False) for r in results))
 
     def test_gripper_trailing_past_head_guard_keeps_teleop_until_gripper_limit(self):
         # Recorded 2026-10-07: a quick open->close trigger reversal left the left finger

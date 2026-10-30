@@ -36,6 +36,11 @@ from .intent_sim_bridge import IntentSimBridge
 from .home_path import HOME_PATH_STRATEGIES
 from .posture_ik import SG2PostureIK
 from .runtime_diagnostics import GCPauseMonitor
+from .stall_observer import STALL_MODES, StallObserver
+
+# Upper bound for MAX_HOME_JOINT_SPEED; the worker's own HOME ceiling is 100 deg/s.
+MAX_HOME_JOINT_SPEED_LIMIT = np.deg2rad(60.)
+
 
 @dataclass
 class IntentTeleopSettings:
@@ -85,6 +90,7 @@ class IntentTeleopSettings:
     MAX_GRIPPER_SPEED: float = np.deg2rad(60.)
     TELEOP_RAMP_S: float = 3.0
     MAX_ARM_JOINT_LAG: float = VR_ARM_TRACKING_LAG
+    # Initial pose / manual adjustment speed. B's reset keeps its own 10 deg/s-based profile.
     MAX_HOME_JOINT_SPEED: float = np.deg2rad(10.)
     MAX_LIFT_SPEED: float = .01
     MAX_JOINT_LAG: float = np.deg2rad(5.)
@@ -103,7 +109,25 @@ class IntentTeleopSettings:
     # Allow commands that move OUT of the margin (clearance never decreasing) when the measured
     # pose drifted inside it, down to this distance [m]; None = off (original strict guard).
     COLLISION_ESCAPE_MIN_M: object = None
+    # Arm stall observer (claude-codex.md P0): "observe" only logs, never changes commands.
+    STALL_LIMIT_MODE: str = "off"
+    STALL_ENTER_LEAD_DEG: float = 6.
+    STALL_LEAD_DEG: float = 4.
+    STALL_WINDOW_S: float = .08
+    STALL_EPS_DEG: float = .3
+    STALL_TCP_EPS_M: float = .003
+    STALL_SAMPLE_GAP_MAX_S: float = .03
+    STALL_SAMPLE_AGE_MAX_S: float = .03
+    STALL_RELEASE_HOLD_S: float = .15
+    STALL_RELEASE_TCP_M: float = .01
     R_BQ: object = None
+
+    def stall_observer_options(self):
+        return dict(enter_lead_rad=np.deg2rad(self.STALL_ENTER_LEAD_DEG), stall_lead_rad=np.deg2rad(self.STALL_LEAD_DEG),
+                    window_s=self.STALL_WINDOW_S, stall_eps_rad=np.deg2rad(self.STALL_EPS_DEG),
+                    tcp_eps_m=self.STALL_TCP_EPS_M, sample_gap_max_s=self.STALL_SAMPLE_GAP_MAX_S,
+                    sample_age_max_s=self.STALL_SAMPLE_AGE_MAX_S, release_hold_s=self.STALL_RELEASE_HOLD_S,
+                    release_tcp_m=self.STALL_RELEASE_TCP_M)
 
     @property
     def POSITION_SCALES(self):
@@ -118,10 +142,14 @@ class IntentTeleopSettings:
         if self.backend == "sim": self.DRY_RUN = False  # in-process gate only; no robot connection
         if not np.deg2rad(10) <= self.MAX_JOINT_SPEED <= FIXED_QUEST_MAX_ARM_SPEED:
             raise ValueError("arm speed must be 10..120 deg/s")
-        if not 0 < self.MAX_HOME_JOINT_SPEED <= np.deg2rad(10): raise ValueError("home speed exceeds 10 deg/s")
+        if not 0 < self.MAX_HOME_JOINT_SPEED <= MAX_HOME_JOINT_SPEED_LIMIT:
+            raise ValueError("home speed must be in (0, %.0f] deg/s" % np.rad2deg(MAX_HOME_JOINT_SPEED_LIMIT))
         if (isinstance(self.MAX_GRIPPER_SPEED, (bool, np.bool_)) or not isinstance(self.MAX_GRIPPER_SPEED, Real)
                 or not FIXED_QUEST_MIN_GRIPPER_SPEED <= self.MAX_GRIPPER_SPEED <= FIXED_QUEST_MAX_GRIPPER_SPEED):
             raise ValueError("gripper speed must be 10..120 deg/s")
+        if self.STALL_LIMIT_MODE not in STALL_MODES:
+            raise ValueError("STALL_LIMIT_MODE must be one of %s; command limiting is not implemented yet" % (STALL_MODES,))
+        StallObserver({}, **self.stall_observer_options())  # validates the observer parameters
         gripper_lag = self.MAX_GRIPPER_JOINT_LAG
         if (isinstance(gripper_lag, (bool, np.bool_)) or not isinstance(gripper_lag, Real)
                 or not np.isfinite(gripper_lag) or not 0 < gripper_lag <= FIXED_QUEST_GRIPPER_TRACKING_LAG + 1e-12):
@@ -275,7 +303,7 @@ HOME_STRATEGY_LABELS = {
 def home_status_text(result):
     """Initial pose path check and progress; empty when no return is involved."""
     if result.get("manual_adjustment"):
-        return "수동 관절 조정 완료" if result.get("state") == "HOME" else "수동 관절 조정 · 최대 10°/s · Cancel return으로 중단"
+        return "수동 관절 조정 완료" if result.get("state") == "HOME" else "수동 관절 조정 · Initial pose 속도 · Cancel return으로 중단"
     plan = result.get("home_plan")
     if plan is not None and not plan["ok"]:
         hint = ("현재 자세가 이미 충돌 여유 기준 안쪽입니다" if "current pose already" in plan["reason"]
@@ -571,7 +599,7 @@ def run_intent_teleop(cfg=None, on_tick=None):
         joint_angle.setPlaceholderText("절대 목표 각도 (°)")
         joint_preview_button = QPushButton("관절 미리보기", joint_row)
         joint_preview_button.setObjectName("manual_joint_preview")
-        joint_apply_button = QPushButton("조정 실행 (≤10°/s)", joint_row)
+        joint_apply_button = QPushButton("조정 실행 (≤%.0f°/s)" % np.rad2deg(cfg.MAX_HOME_JOINT_SPEED), joint_row)
         joint_apply_button.setObjectName("manual_joint_apply")
         joint_apply_button.setEnabled(False)
         joint_current = QLabel("관절 피드백 대기", joint_row)
@@ -603,7 +631,9 @@ def run_intent_teleop(cfg=None, on_tick=None):
             max_home_joint_speed=cfg.MAX_HOME_JOINT_SPEED, max_arm_joint_lag=cfg.MAX_ARM_JOINT_LAG,
             teleop_ramp_s=cfg.TELEOP_RAMP_S, required_bridge_limits=FIXED_QUEST_VR_BRIDGE_LIMITS,
             command_arm_speed_limit=True, tracking_pause_s=cfg.TRACKING_PAUSE_S,
-            max_gripper_joint_lag=cfg.MAX_GRIPPER_JOINT_LAG)
+            max_gripper_joint_lag=cfg.MAX_GRIPPER_JOINT_LAG,
+            stall_observer=(StallObserver(planner.hand_indices, **cfg.stall_observer_options())
+                            if cfg.STALL_LIMIT_MODE == "observe" else None))
         certfile, keyfile = (cfg.CERTFILE, cfg.KEYFILE) if cfg.CERTFILE else create_self_signed_certificate(PROJECT_DIR / ".cache" / "fixed_quest" / "tls", cfg.QUEST_HOST)
         server = QuestControllerServer(host="0.0.0.0", port=cfg.QUEST_PORT, certfile=certfile, keyfile=keyfile).start()
         print("Quest Browser: https://%s:%d/" % (cfg.QUEST_HOST, server.port))
@@ -650,6 +680,8 @@ def run_intent_teleop(cfg=None, on_tick=None):
             "speed_input_range_deg_s": [10, 120], "command_arm_speed_limit": True,
             "max_arm_joint_lag_rad": cfg.MAX_ARM_JOINT_LAG,
             "max_gripper_joint_lag_rad": cfg.MAX_GRIPPER_JOINT_LAG,
+            "stall_limit_mode": cfg.STALL_LIMIT_MODE,
+            "stall_observer": cfg.stall_observer_options(),
             "max_home_joint_speed_rad_s": cfg.MAX_HOME_JOINT_SPEED,
             "home_target": "first_measured_pose_of_run",
             "home_path_strategies": [name for name, _ in HOME_PATH_STRATEGIES],
@@ -893,7 +925,8 @@ def run_intent_teleop(cfg=None, on_tick=None):
                     home_button.setToolTip(
                         "그립이나 Quest 추적 없이 이번 실행의 첫 실측 자세로 복귀합니다. 누르는 순간 전체 경로를 충돌 검사하고, "
                         "직선 경로가 막히면 J3·J5 먼저 풀기 등 단계 경로를 사용합니다. 모든 경로가 막히면 움직이지 않습니다. "
-                        "REAL RUN은 로봇 승인 후 10°/s로 복귀하고, DRY RUN은 미리보기만 복귀합니다.")
+                        "REAL RUN은 로봇 승인 후 %.0f°/s로 복귀하고, DRY RUN은 미리보기만 복귀합니다."
+                        % np.rad2deg(cfg.MAX_HOME_JOINT_SPEED))
                 cancel_button.setEnabled(returning)
                 if tracking_mode_status is not None:
                     tracking_text = "적용: " + tracking_mode_text(real.tracking_loss_mode)

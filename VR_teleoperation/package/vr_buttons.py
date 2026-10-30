@@ -1,7 +1,9 @@
 """
 Quest controller shortcuts for run_intent_teleop(on_tick=...).
 
-    left  X          press       toggle recording (REC <-> STOP)
+    left  X          press       toggle recording (REC <-> STOP). STOP also returns to the Initial
+                                 pose, exactly like A, once the episode is saved and the robot
+                                 feedback is fresh again (home_after_record=True).
     left  Y          press       discard the running episode, else mark the last saved one as
                                  rejected (reversible; review_dataset.ipynb drops the marks).
                                  Measured Quest taps are 0.03-0.26 s, so only B still asks for
@@ -9,7 +11,7 @@ Quest controller shortcuts for run_intent_teleop(on_tick=...).
     right A          press       Initial pose: guarded return to the fixed worker_bringup pose.
                                  A single press, exactly like clicking the "Initial pose" button:
                                  the whole path is guard-checked before anything is sent and the
-                                 return runs at the 10 deg/s HOME speed, so there is nothing for a
+                                 return runs at the HOME speed (MAX_HOME_JOINT_SPEED), so there is nothing for a
                                  hold-to-confirm to protect. Quest taps are often shorter than
                                  100 ms, so a hold would simply never fire.
     right B          hold 1 s    reset pose: both wrists up 5 cm + 5 cm apart -> fold like worker_shutdown
@@ -20,12 +22,13 @@ including every B reset stage; head_joint2 (yaw) keeps its measured value.
 
 Poses go through SG2FixedQuestReal.request_pose_target(): each straight joint path is
 guard-checked before anything is sent. The wrist lift/spread and shutdown1 alignment use
-speed_scale x the 10 deg/s home speed (default 3 -> 30 deg/s).
+speed_scale x the 10 deg/s reference HOME speed (default 3 -> 30 deg/s), independent of a
+faster MAX_HOME_JOINT_SPEED for the Initial pose.
 Shutdown2 onward uses fold_speed_scale (default 10 -> 100 deg/s). Arm reset speeds
 are independent of the teleop speed setting; head/grippers keep their existing caps.
 The live bridge's HOME ceiling caps every step, so older 30/60 deg/s workers run the
 full sequence at their supported speed and report that an update is needed. The on-screen
-Initial pose / manual adjustment keep 10 deg/s. A blocked path sends nothing and the
+Initial pose / manual adjustment use MAX_HOME_JOINT_SPEED. A blocked path sends nothing and the
 sequence stops. Teleop input is ignored while the B sequence runs. Requires the Quest page
 to send "buttons" (quest_client/client.js); older pages never trigger anything.
 """
@@ -41,6 +44,11 @@ TRANSIENT_REASONS = ("control loop delay", "settling time", "lease lost", "comma
                      "stale", "waiting for robot", "feedback")
 MAX_STEP_RETRIES = 2
 RETRY_DELAY_S = 0.3
+# B's stage speeds are multiples of this, whatever MAX_HOME_JOINT_SPEED the Initial pose uses.
+RESET_REFERENCE_HOME_SPEED = np.deg2rad(10.)
+# After the save, the automatic return waits at most this long for fresh robot feedback
+# (stale for up to ~0.5 s after a save); otherwise it is dropped rather than firing later.
+HOME_AFTER_SAVE_WAIT_S = 2.0
 
 # ffw_bringup/config/ffw_sg2_rev1_follower/shutdown_position.yaml (step1..step4, arms + grippers)
 # Only the right arm's joint3 has the opposite sign.
@@ -144,8 +152,11 @@ def lifted_arm_pose(env, joint_names, q_now, dz=0.05, dy=0.0, iters=200, pos_tol
 
 class ControllerButtonActions:
     def __init__(self, record_control=None, hold_s=1.0, speed_scale=3.0, lift_dz=0.05,
-                 spread_dy=0.05, *, fold_speed_scale=10.0):
+                 spread_dy=0.05, *, fold_speed_scale=10.0, home_after_record=True):
         self.record_control = record_control
+        self.home_after_record = bool(home_after_record)
+        self._home_after_save = False
+        self._home_save_done_at = None
         self.hold_s = float(hold_s)
         if not 0 < speed_scale <= 3.0:
             raise ValueError("speed_scale must be in (0, 3]; alignment uses up to 30 deg/s")
@@ -219,12 +230,13 @@ class ControllerButtonActions:
             self._base_home_speed = real.home_speed_limits.copy()
         speeds = self._base_home_speed.copy()
         if speed_scale is not None:
+            reference = np.minimum(self._base_home_speed, RESET_REFERENCE_HOME_SPEED)
             rotary = np.asarray([name != "lift_joint" for name in real.planner.joint_names])
-            speeds[rotary] = np.minimum(real.teleop_speed_limits[rotary], speeds[rotary] * speed_scale)
+            speeds[rotary] = np.minimum(real.teleop_speed_limits[rotary], reference[rotary] * speed_scale)
             # B's automatic arm motion has its own speed profile. A normal
             # teleop setting of 60 deg/s must not silently cap the 100 deg/s reset.
             speeds[real.arm_mask] = np.minimum(FIXED_QUEST_MAX_ARM_SPEED,
-                                               self._base_home_speed[real.arm_mask] * speed_scale)
+                                               reference[real.arm_mask] * speed_scale)
         return speeds
 
     def _set_sequence_speed(self, real, speed_scale=None):
@@ -366,11 +378,33 @@ class ControllerButtonActions:
             recording = self.record_control.widget.get_button_option(label_text="Record") == "REC"
             self.record_control.widget.set_button_option(label_text="Record", option_text="STOP" if recording else "REC")
             self.status = "녹화 %s (X)" % ("종료" if recording else "시작")
+            if recording and self.home_after_record:
+                self._home_after_save, self._home_save_done_at = True, None
+                self.status += " · 저장 후 Initial pose 자동 복귀"
         if self._pressed_edge("Y", state) and self.record_control is not None:
             self.record_control.widget.set_button_option(label_text="Record", option_text="DEL")
             self.status = "삭제 (Y)"
         if self._pressed_edge("A", state) and not busy:
+            self._home_after_save = False
             self._start_home(real, ui_actions)
+        elif self._home_after_save and self.record_control.prev == "STOP":
+            # RecordControl.tick saves the episode synchronously inside the teleop loop, so
+            # prev only turns STOP once the save is done. The first ticks after that long
+            # save still see a stale joint state, so wait for fresh feedback before asking.
+            if self._home_save_done_at is None:
+                self._home_save_done_at = now
+            if busy or real._grip_home_active or real.home_pending or real.planner.homing:
+                self._home_after_save = False
+            elif now - self._home_save_done_at > HOME_AFTER_SAVE_WAIT_S:
+                self._home_after_save = False
+                self.status = "녹화 저장 완료 · 로봇 피드백이 돌아오지 않아 자동 복귀 취소 (A로 복귀)"
+                print("[buttons]", self.status)
+            elif result.get("robot_ready"):
+                self._home_after_save = False
+                self._start_home(real, ui_actions)
+                if ui_actions and ui_actions[-1] == "home":
+                    self.status = "녹화 저장 완료 · Initial pose로 자동 복귀"
+                    print("[buttons]", self.status)
         if self._held("B", state, now) and not busy:
             self._start_reset(real)
 

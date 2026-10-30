@@ -66,6 +66,91 @@ class ControllerButtonActionsTest(unittest.TestCase):
         self.tick(now=1.02, y=True)
         self.assertEqual(pressed, ["REC", "DEL"])
 
+    def recording_control(self, prev="REC"):
+        """A RecordControl stand-in whose prev turns STOP only once its (synchronous) save ran."""
+        options = []
+        widget = SimpleNamespace(get_button_option=lambda label_text: options[-1] if options else "REC",
+                                 set_button_option=lambda label_text, option_text: options.append(option_text))
+        self.buttons.record_control = SimpleNamespace(widget=widget, prev=prev)
+        return self.buttons.record_control
+
+    def ready_tick(self, now, ready=True, **pressed):
+        self.actions.clear()
+        frame = {"buttons": {"left": {"x": pressed.get("x", False), "y": False},
+                             "right": {"a": pressed.get("a", False), "b": False}}}
+        self.buttons(now, frame, {"state": "WAIT_GRIP", "reason": "", "robot_ready": ready}, self.real, self.actions)
+
+    def test_x_stop_returns_to_initial_pose_once_the_save_is_done_and_feedback_is_fresh(self):
+        control = self.recording_control()
+        self.ready_tick(1., x=True)
+        self.assertEqual(self.actions, [])
+        self.assertIn("자동 복귀", self.buttons.status)
+        self.ready_tick(1.01)
+        self.assertEqual(self.actions, [], "the save has not run yet")
+        control.prev = "STOP"            # RecordControl.tick returned from save_episode()
+        self.ready_tick(20., ready=False)
+        self.assertEqual(self.actions, [], "stale feedback right after the save")
+        self.ready_tick(20.3)
+        self.assertEqual(self.actions, ["home"])
+        self.assertIn("녹화 저장 완료", self.buttons.status)
+        for now in (20.31, 25.):
+            self.ready_tick(now)
+            self.assertEqual(self.actions, [], "the return is requested only once")
+
+    def test_auto_return_is_dropped_when_feedback_does_not_come_back(self):
+        control = self.recording_control()
+        self.ready_tick(1., x=True)
+        control.prev = "STOP"
+        self.ready_tick(20., ready=False)
+        self.ready_tick(22.1, ready=False)
+        self.assertIn("자동 복귀 취소", self.buttons.status)
+        self.ready_tick(60.)
+        self.assertEqual(self.actions, [], "a late recovery must not move the robot unasked")
+
+    def test_x_start_and_disabled_option_never_return(self):
+        control = self.recording_control(prev="STOP")
+        control.widget.set_button_option(label_text="Record", option_text="STOP")
+        self.ready_tick(1., x=True)          # STOP -> REC: a start
+        self.ready_tick(2.)
+        self.assertEqual(self.actions, [])
+        self.buttons = ControllerButtonActions(home_after_record=False)
+        control = self.recording_control()
+        self.ready_tick(3., x=True)
+        control.prev = "STOP"
+        self.ready_tick(4.)
+        self.assertEqual(self.actions, [])
+
+    def test_a_after_x_requests_a_single_return(self):
+        control = self.recording_control()
+        self.ready_tick(1., x=True)
+        control.prev = "STOP"
+        self.ready_tick(20., a=True)
+        self.assertEqual(self.actions, ["home"])
+        self.ready_tick(20.01)
+        self.assertEqual(self.actions, [])
+
+    def test_auto_return_skips_when_a_return_or_reset_already_runs(self):
+        control = self.recording_control()
+        self.ready_tick(1., x=True)
+        control.prev = "STOP"
+        self.real.home_pending = True
+        self.ready_tick(20.)
+        self.real.home_pending = False
+        self.ready_tick(21.)
+        self.assertEqual(self.actions, [])
+
+    def test_faster_initial_pose_keeps_the_reset_profile(self):
+        self.base_speed[1:] = np.deg2rad(20.)
+        self.real.home_speed_limits = self.base_speed.copy()
+        self.start(lift_ok=False)
+        self.assert_speed(30)
+        self.advance("HOME")
+        np.testing.assert_allclose(self.real.home_speed_limits[self.real.arm_mask], np.deg2rad(100))
+        for _ in range(9):
+            self.advance("HOME")
+        self.assertIn("완료", self.buttons.status)
+        np.testing.assert_array_equal(self.real.home_speed_limits, self.base_speed)
+
     def test_a_requests_initial_pose_on_a_single_press(self):
         # Quest taps last well under the 1 s hold used by Y/B: measured presses were
         # 0.00-0.26 s, so A must fire on the press edge like the on-screen button.
