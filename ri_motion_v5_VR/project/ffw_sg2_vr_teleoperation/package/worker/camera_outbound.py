@@ -14,7 +14,8 @@ from outbound import get_ip_address
 
 # camera name -> (compressed image topic, ZMQ PUB port)
 CAMERAS = {
-    "head": ("/zed/zed_node/left/image_rect_color/compressed", 5570),
+    # "head": ("/zed/zed_node/left/image_rect_color/compressed", 5570),  # ZED-M head (replaced)
+    "head": ("/camera_head/camera_head/color/image_rect_raw/compressed", 5570),  # D405 head, 640x480@30
     "wrist_left": ("/camera_left/camera_left/color/image_rect_raw/compressed", 5571),
     "wrist_right": ("/camera_right/camera_right/color/image_rect_raw/compressed", 5572),
 }
