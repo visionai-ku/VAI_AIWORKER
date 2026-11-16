@@ -38,6 +38,32 @@ _JOINT_LOWER = np.array([JOINT_LIMITS[name][0] for name in JOINT_NAMES], dtype=n
 _JOINT_UPPER = np.array([JOINT_LIMITS[name][1] for name in JOINT_NAMES], dtype=np.float64)
 
 
+def orient_frame(cam, frame, expected_hw):
+    """Turn a live camera frame into the orientation the checkpoint was trained on.
+
+    The wrist cameras stream landscape 240x424 frames with the gripper fingers on the
+    left. Datasets made from 2026-11-10 on (the sim datasets v0.2 / v0.2-tuft and new
+    real recordings) store the wrist images turned 90 degrees counter-clockwise -- portrait
+    424x240, fingers at the bottom -- with np.rot90(frame) (k=1), the same call as the
+    sim export (export_lerobot.py --wrist-rotate ccw). Older checkpoints (real v0.1,
+    e.g. pi05_full_v01_30k_r2) were trained on the landscape frames.
+
+    The policy resizes and pads every image to its own input size, so a frame in the
+    wrong orientation would not raise; it would just be seen sideways. Hence this
+    decides from the checkpoint's own image shape: a wrist frame whose (h, w) is the
+    expected (w, h) is turned with np.rot90(frame); anything else, the head camera
+    included, passes unchanged.
+
+    cam: camera name (e.g. "wrist_left"); frame: HWC array; expected_hw: (h, w) from
+    the checkpoint's observation.images.<cam> feature, or None when unknown.
+    -> (frame, rotated)
+    """
+    if (expected_hw is not None and cam.startswith("wrist") and frame.shape[0] != frame.shape[1]
+            and tuple(frame.shape[:2]) == (expected_hw[1], expected_hw[0])):
+        return np.ascontiguousarray(np.rot90(frame)), True
+    return frame, False
+
+
 def clip_to_joint_limits(q):
     """Clip a predicted joint target into JOINT_LIMITS (the same bounds
     fixed_quest_real.py already enforces on measured state via self.bounds).
@@ -100,6 +126,11 @@ class PolicyRuntime:
             raise ValueError("joint_names has names outside JOINT_NAMES: %s"
                              % sorted(set(self.joint_names) - set(JOINT_NAMES)))
         self._joint_idx = [JOINT_NAMES.index(name) for name in self.joint_names]
+        # (h, w) each camera's images had in training; live frames are turned to match (orient_frame).
+        self._image_hw = {key.rsplit(".", 1)[-1]: tuple(feature.shape[1:3])
+                          for key, feature in self.policy.config.input_features.items()
+                          if key.startswith("observation.images.")}
+        self._orient_reported = set()
         state_dim = self.policy.config.input_features["observation.state"].shape[0]
         action_dim = self.policy.config.output_features["action"].shape[0]
         if state_dim != len(self.joint_names) or action_dim != len(self.joint_names):
@@ -199,6 +230,15 @@ class PolicyRuntime:
             raise ValueError("q must be a finite (%d,) vector in JOINT_NAMES order" % len(JOINT_NAMES))
         observation = {"observation.state": q[self._joint_idx]}
         for cam, bgr in frames.items():
+            in_hw = tuple(bgr.shape[:2])
+            bgr, rotated = orient_frame(cam, bgr, self._image_hw.get(cam))
+            if (cam, in_hw) not in self._orient_reported:
+                # Once per camera and frame size, so the orientation can be checked before a robot run.
+                self._orient_reported.add((cam, in_hw))
+                print("[policy] %s: frame %dx%d -> %s (checkpoint %s)" % (
+                    cam, in_hw[0], in_hw[1],
+                    "rotated 90 deg CCW to %dx%d" % bgr.shape[:2] if rotated else "unchanged",
+                    "%dx%d" % self._image_hw[cam] if cam in self._image_hw else "has no such camera"))
             observation["observation.images.%s" % cam] = cv2.cvtColor(bgr, cv2.COLOR_BGR2RGB)
         return q, observation
 

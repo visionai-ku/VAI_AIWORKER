@@ -16,7 +16,7 @@ import numpy as np
 PROJECT_DIR = Path(__file__).resolve().parents[1]
 runpy.run_path(str(PROJECT_DIR / "package/init_project.py"))
 
-from package.policy_inference import AsyncChunkPolicy, clip_to_joint_limits
+from package.policy_inference import AsyncChunkPolicy, clip_to_joint_limits, orient_frame
 from package.worker.fixed_quest_protocol import JOINT_LIMITS, JOINT_NAMES
 
 
@@ -84,6 +84,54 @@ class ClipToJointLimitsTest(unittest.TestCase):
             clip_to_joint_limits(q)
 
 
+class OrientFrameTest(unittest.TestCase):
+    """Live wrist frames are landscape (240x424 on the robot, fingers on the left);
+    checkpoints trained on data from 11/10 on expect them turned 90 deg CCW."""
+
+    @staticmethod
+    def landscape_wrist(h=4, w=6):
+        frame = np.zeros((h, w, 3), dtype=np.uint8)
+        frame[:, 0] = 255          # the fingers: the image's left column
+        return frame
+
+    def test_wrist_frame_is_turned_ccw_for_a_portrait_checkpoint(self):
+        frame = self.landscape_wrist()
+        out, rotated = orient_frame("wrist_left", frame, (6, 4))
+        self.assertTrue(rotated)
+        self.assertEqual(out.shape, (6, 4, 3))
+        np.testing.assert_array_equal(out, np.rot90(frame))
+        # CCW: the left column (fingers) ends up as the bottom row.
+        self.assertTrue(np.all(out[-1] == 255))
+        self.assertTrue(np.all(out[:-1] == 0))
+        self.assertTrue(out.flags["C_CONTIGUOUS"])
+
+    def test_robot_sized_wrist_frame(self):
+        out, rotated = orient_frame("wrist_right", np.zeros((240, 424, 3), np.uint8), (424, 240))
+        self.assertTrue(rotated)
+        self.assertEqual(out.shape, (424, 240, 3))
+
+    def test_landscape_checkpoint_keeps_the_frame(self):
+        # real v0.1 checkpoints (e.g. pi05_full_v01_30k_r2) were trained on the landscape frames
+        frame = self.landscape_wrist()
+        out, rotated = orient_frame("wrist_left", frame, (4, 6))
+        self.assertFalse(rotated)
+        self.assertIs(out, frame)
+
+    def test_head_is_never_turned(self):
+        frame = np.zeros((4, 6, 3), np.uint8)
+        out, rotated = orient_frame("head", frame, (6, 4))
+        self.assertFalse(rotated)
+        self.assertIs(out, frame)
+
+    def test_unknown_or_unrelated_shape_passes_unchanged(self):
+        frame = self.landscape_wrist()
+        for expected in (None, (8, 8), (12, 18)):
+            with self.subTest(expected=expected):
+                out, rotated = orient_frame("wrist_left", frame, expected)
+                self.assertFalse(rotated)
+                self.assertIs(out, frame)
+
+
 @unittest.skipUnless(find_spec("lerobot"), "requires the LeRobot notebook environment")
 class PolicyRuntimeCompatibilityTest(unittest.TestCase):
     def test_saved_cuda_processors_run_on_cpu_and_hold_excluded_joints(self):
@@ -149,6 +197,52 @@ class PolicyRuntimeCompatibilityTest(unittest.TestCase):
                         np.array([30, 20, 10], dtype=np.float32) / 255)
                     self.assertEqual(runtime.preprocessor.steps[0].device, "cpu")
                     self.assertEqual(runtime.postprocessor.steps[0].device, "cpu")
+
+    def test_landscape_wrist_frame_reaches_a_portrait_policy_turned_ccw(self):
+        import torch
+        from lerobot.configs.types import FeatureType, PolicyFeature
+        from lerobot.policies.act.configuration_act import ACTConfig
+        from lerobot.processor import DeviceProcessorStep, PolicyProcessorPipeline
+        from package.policy_inference import PolicyRuntime
+
+        cfg = ACTConfig(
+            device="cpu",
+            input_features={
+                "observation.state": PolicyFeature(FeatureType.STATE, (len(JOINT_NAMES),)),
+                "observation.images.wrist_left": PolicyFeature(FeatureType.VISUAL, (3, 3, 2)),  # portrait
+                "observation.images.head": PolicyFeature(FeatureType.VISUAL, (3, 2, 3)),
+            },
+            output_features={"action": PolicyFeature(FeatureType.ACTION, (len(JOINT_NAMES),))},
+        )
+
+        class StubPolicy:
+            @classmethod
+            def from_pretrained(cls, checkpoint_path, config):
+                policy = cls()
+                policy.config = config
+                return policy
+
+            def select_action(self, observation):
+                self.observation = observation
+                return torch.zeros(1, len(JOINT_NAMES))
+
+        with TemporaryDirectory() as folder:
+            checkpoint = Path(folder)
+            cfg.save_pretrained(checkpoint)
+            for name in ("policy_preprocessor", "policy_postprocessor"):
+                pipeline = PolicyProcessorPipeline(name=name, steps=[DeviceProcessorStep(device="cpu")])
+                (checkpoint / (name + ".json")).write_text(json.dumps(pipeline.get_config()), encoding="utf-8")
+            with patch("lerobot.policies.factory.get_policy_class", return_value=StubPolicy):
+                runtime = PolicyRuntime(checkpoint)
+            wrist = np.zeros((2, 3, 3), np.uint8)     # landscape, as the camera sends it
+            wrist[:, 0] = 255                         # fingers on the left
+            head = np.zeros((2, 3, 3), np.uint8)
+            runtime.predict(mid_q(), {"wrist_left": wrist, "head": head})
+            seen = runtime.policy.observation["observation.images.wrist_left"].numpy()[0]   # CHW
+            self.assertEqual(seen.shape, (3, 3, 2))
+            np.testing.assert_allclose(seen[:, -1], 1.0)   # fingers now along the bottom row
+            np.testing.assert_allclose(seen[:, :-1], 0.0)
+            self.assertEqual(tuple(runtime.policy.observation["observation.images.head"].shape[2:]), (2, 3))
 
 
 
