@@ -1,10 +1,10 @@
 # UR5e teleoperation
 
-Quest 3의 컨트롤러 한 개 또는 3Dconnexion SpaceMouse로 TCP의 3축 이동과 3축 회전을 조작한다. 시뮬레이션에서는 기본 모델의 플랜지(`attachment_site`), 실기에서는 티치 펜던트에 설정된 TCP가 기준이다. 두 환경에서 같은 지점을 비교하려면 툴 오프셋을 맞춘다.
+Quest 3의 컨트롤러 한 개 또는 3Dconnexion SpaceMouse로 TCP의 3축 이동과 3축 회전을 조작한다. MuJoCo는 DRY RUN, SIM RUN, REAL RUN에서 UR5e 손목에 장착된 OnRobot RG2와 두 손가락을 표시한다. 시뮬레이션의 팔 제어 기준은 손목 플랜지(`attachment_site`), 실기의 기준은 티치 펜던트에 설정된 TCP다. 두 환경에서 같은 지점을 비교하려면 툴 오프셋을 맞춘다.
 
 ## 설치
 
-[기존 Python 환경](../../SETUP.md)을 활성화하고 저장소 루트에서 실행한다. **Quest + 시뮬레이션**은 이 환경만으로 실행할 수 있다. SpaceMouse에는 `pyspacemouse`와 시스템 HIDAPI, 실기에는 `ur-rtde`가 필요하다. 준비된 워크스테이션에는 두 드라이버를 함께 설치할 수 있다.
+[기존 Python 환경](../../SETUP.md)을 활성화하고 저장소 루트에서 실행한다. **Quest + 시뮬레이션**은 이 환경만으로 실행할 수 있다. SpaceMouse에는 `pyspacemouse`와 시스템 HIDAPI, 실물 UR5e와 RG2에는 각각 `ur-rtde`와 `pymodbus`를 사용한다. Python 패키지는 다음 명령으로 설치한다.
 
 ```bash
 python -m pip install -r vai_robotics/requirements-teleop.txt
@@ -40,6 +40,23 @@ python -m vai_robotics.ur5e.teleop --backend real --input spacemouse --robot-ip 
 1. 조작 PC와 UR 컨트롤러를 서로 통신할 수 있는 네트워크에 연결한다. 티치 펜던트의 네트워크 설정에서 **UR 컨트롤러의 IP**를 확인해 실기 노트북의 `ROBOT_IP` 또는 CLI의 `--robot-ip`에 입력한다. Quest를 함께 쓰면 `--quest-host`에는 헤드셋에서 접속할 **조작 PC의 주소**를 입력한다.
 2. `--backend real`로 실행하면 PC가 `ur-rtde`의 수신 인터페이스로 컨트롤러의 RTDE 포트(TCP 30004)에 접속해 6개 관절 각도와 TCP 자세를 읽는다. 패널의 실측 TCP와 미리보기 가상 팔의 초기 자세를 확인한다. 기본 DRY RUN은 이 읽기 연결만 사용한다.
 3. 실기를 움직이기 전 TCP·안전 평면·작업 공간을 확인하고, 펜던트에서 원격 제어 모드를 설정한 뒤 실행 중인 프로그램을 정지한다. **REAL RUN**으로 전환하면 PC가 같은 UR 컨트롤러에 제어 인터페이스를 추가로 열어 클러치 입력에 따라 `servoL`로 TCP 목표를 전송한다. 이때도 수신 연결을 유지해 현재 자세와 제어 상태를 계속 확인한다.
+
+### OnRobot RG2 연결과 조작
+
+실물 그리퍼를 함께 쓰려면 **OnRobot Compute Box의 IP**를 실기 노트북의 `GRIPPER_IP`에 입력하거나 CLI에 `--gripper-ip`로 전달한다. 팔의 `ROBOT_IP`와 별도로 설정하는 Modbus TCP 연결이다(포트 502, 단일 그리퍼 장치 ID 65). 그리퍼 주소를 생략해도 팔을 조작할 수 있으며, 이때 실물 RG2의 개도 수신과 구동은 꺼져 있다. 아래 명령은 현재 워크스테이션의 주소를 사용한다.
+
+```bash
+ROBOT_IP=192.168.0.252
+GRIPPER_IP=192.168.0.72
+python -m vai_robotics.ur5e.teleop --backend real --input spacemouse \
+  --robot-ip "$ROBOT_IP" --gripper-ip "$GRIPPER_IP"
+```
+
+SpaceMouse의 **0번과 1번을 함께 누르면 닫히고, 둘 중 하나를 놓으면 열린다**. Compact에서는 왼쪽이 0번, 오른쪽이 1번이다. 두 버튼을 누른 채 캡을 움직이면 물체를 잡은 상태로 팔을 이동할 수 있다. `--button`은 팔 클러치만 변경하며 그리퍼 조합은 0번과 1번이다.
+
+DRY RUN과 SIM RUN에서는 가상 손가락의 개폐를 먼저 확인한다. 실물을 움직이려면 두 버튼을 모두 놓고 REAL RUN을 선택한 뒤 새로 함께 누른다. RG2의 목표는 닫힘 0 mm, 열림 110 mm이며 설정 힘은 20 N이다. REAL RUN에서 뷰어는 Compute Box가 보고한 실측 개도를 사용한다. 패널의 RG2 행에서 버튼 상태, 연결 상태와 개도(mm)를 확인한다. 물체를 잡은 경우 실측 개도는 닫힘 목표보다 클 수 있다.
+
+RG2 메시는 오사카대 Harada 연구실의 모델을 사용한다. 최대 열림 명령 110 mm에서 메시의 안쪽 패드 간격은 약 104 mm다. 손가락 링크는 시각화용이다. [모델 출처와 라이선스](assets/README.md#onrobot-rg2)
 
 ## 장치 조작
 

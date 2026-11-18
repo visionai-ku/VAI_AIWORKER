@@ -1,4 +1,5 @@
 import unittest
+from dataclasses import replace
 from unittest.mock import Mock, call, patch
 
 import numpy as np
@@ -26,7 +27,7 @@ class RealViewerSessionTest(unittest.TestCase):
         self.backend.pose.side_effect = lambda: (np.array([0.4, self.frame / 1000, 0.3]), Rotation.identity())
         self.backend.joints.side_effect = lambda: np.arange(6) + self.frame / 100
 
-    def run_frames(self, *, dry_run, requests, samples):
+    def run_frames(self, *, dry_run, requests, samples, gripper=None):
         def poll():
             self.frame += 1
             self.panel.is_open = self.frame < len(requests)
@@ -35,7 +36,7 @@ class RealViewerSessionTest(unittest.TestCase):
 
         self.panel.poll.side_effect = poll
         self.device.read.side_effect = lambda: samples[self.frame]
-        run_teleop(self.device, self.backend, dry_run=dry_run, panel=self.panel)
+        run_teleop(self.device, self.backend, dry_run=dry_run, panel=self.panel, gripper=gripper)
         self.viewer_type.assert_called_once()
         self.viewer_type.return_value.__exit__.assert_called_once()
         updates = [entry.kwargs for entry in self.viewer.update.call_args_list]
@@ -67,6 +68,22 @@ class RealViewerSessionTest(unittest.TestCase):
             self.assertIsNone(state["target"])
         self.backend.command.assert_called_once()
         self.assertEqual(shutdown, [("motion", False), "viewer exit"])
+
+    def test_gripper_chord_is_virtual_in_dry_and_real_view_shows_feedback(self):
+        opened = replace(self.released, gripper_chord=False)
+        close_edge = replace(self.held, buttons_released=False, gripper_chord=True, gripper_command=True)
+        open_edge = replace(opened, gripper_command=False)
+        # A workpiece keeps the real finger width at 42 mm even with a close command.
+        gripper = Mock(width_mm=42.0, status="RG2 42 mm")
+        levels = []
+        gripper.update.side_effect = lambda level: levels.append((self.frame, level))
+        updates = self.run_frames(dry_run=True, gripper=gripper,
+                                  requests=[None, None, None, False, None, None, None, True],
+                                  samples=[opened, close_edge, open_edge, opened, opened, close_edge, open_edge, opened])
+        self.assertEqual([u["gripper_width_mm"] for u in updates], [42, 0, 110, 42, 42, 42, 42, 42])
+        self.assertEqual([level for frame, level in levels if frame < 3], [None, None, None])
+        self.assertEqual([level for frame, level in levels if 4 <= frame <= 6], [False, True, False])
+        self.assertEqual(levels[-1][1], None)
 
     def test_stopped_control_script_with_healthy_feedback_keeps_same_viewer_in_dry(self):
         measured_pose = self.backend.pose.side_effect

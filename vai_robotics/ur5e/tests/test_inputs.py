@@ -140,6 +140,75 @@ class SpaceMouseTests(unittest.TestCase):
         self.assertIsNone(self.sample(hid_report(1.2, button=1, x=1, motion_event=False), 1.2))
         self.assertIs(self.device.clutch_pressed, True)
 
+    def test_both_buttons_close_while_carrying_and_either_release_opens_once(self):
+        for index, (left, right) in enumerate(((0, 1), (1, 0))):
+            with self.subTest(left=left, right=right):
+                now = 1 + index
+                rest = self.sample(hid_report(now), now)
+                self.assertTrue(rest.buttons_released)
+                self.assertIsNone(rest.gripper_command)
+                right_only = self.sample(hid_report(now + .01, button=1), now + .01)
+                self.assertTrue(right_only.enabled)
+                self.assertFalse(right_only.buttons_released)
+                self.assertFalse(right_only.gripper_chord)
+                self.assertIsNone(right_only.gripper_command)
+                held = hid_report(now + .02, left=1, button=1, x=.8)
+                grasp = self.sample(held, now + .02)
+                self.assertIs(grasp.gripper_command, True)
+                self.assertTrue(grasp.gripper_chord)
+                self.assertTrue(grasp.enabled)
+                self.assertGreater(grasp.translation[1], 0)
+                self.assertIsNone(self.sample(held, now + .03).gripper_command)
+                release = hid_report(now + .04, left=left, button=right)
+                opened = self.sample(release, now + .04)
+                self.assertIs(opened.gripper_command, False)
+                self.assertFalse(opened.gripper_chord)
+                self.assertFalse(opened.buttons_released)
+                self.assertEqual(opened.enabled, bool(right))
+                self.assertIsNone(self.sample(release, now + .05).gripper_command)
+
+    def test_gripper_coalesces_fast_edges_and_never_replays_a_missed_close(self):
+        self.sample(hid_report(1), 1)
+        tapped = self.sample(hid_report(1.02), 1.02,
+                             earlier=[hid_report(1.01, left=1, button=1)])
+        self.assertIsNone(tapped.gripper_command)
+        self.assertFalse(tapped.gripper_chord)
+        late = hid_report(2, left=1, button=1)
+        self.assertIsNone(self.sample(late, 2))
+        self.assertIsNone(self.sample(late, 2.01))
+        self.assertIsNone(self.sample(hid_report(2.02), 2.02).gripper_command)
+        self.assertIs(self.sample(hid_report(2.03, left=1, button=1), 2.03).gripper_command, True)
+
+    def test_disconnect_while_closed_waits_for_a_new_chord_without_opening(self):
+        self.device.wait_for_device = True
+        self.sample(hid_report(1), 1)
+        self.assertIs(self.sample(hid_report(1.02, left=1, button=1), 1.02).gripper_command, True)
+        self.hid.read.side_effect = ConnectionError("unplugged")
+        self.assertIsNone(self.device.read())
+        self.assertIsNone(self.device.gripper_chord)
+        with patch("time.monotonic", return_value=self.device.retry_at):
+            self.assertIsNone(self.device.read())
+        self.assertIsNone(self.sample(hid_report(2, left=1, button=1), 2))
+        self.assertIsNone(self.device.gripper_chord)
+        released = self.sample(hid_report(2.01), 2.01)
+        self.assertTrue(released.buttons_released)
+        self.assertIsNone(released.gripper_command)
+        self.assertIs(self.sample(hid_report(2.02, left=1, button=1), 2.02).gripper_command, True)
+
+    def test_gripper_button_state_remains_known_with_stale_axes_and_resets_on_overrun(self):
+        self.sample(hid_report(1), 1)
+        held = hid_report(1.01, left=1, button=1, x=.5)
+        self.sample(held, 1.01)
+        self.assertIsNone(self.sample(held, 1.2))
+        self.assertTrue(self.device.gripper_chord)
+        opened = self.sample(hid_report(1.21, button=1, x=.5, motion_event=False), 1.21)
+        self.assertIs(opened.gripper_command, False)
+        self.assertIs(self.device.gripper_chord, False)
+
+        burst = [hid_report(1.22 + i / 10000, left=1, button=1) for i in range(64)]
+        self.assertIsNone(self.sample(burst[-1], 1.23, earlier=burst[:-1]))
+        self.assertIsNone(self.device.gripper_chord)
+
     def test_synthetic_initial_button_state_and_release_between_ticks(self):
         self.assertIsNone(self.sample(hid_report(-1, button_event=False), 1))
         self.assertIsNone(self.sample(hid_report(1.01, x=0.9, button_event=False), 1.01))

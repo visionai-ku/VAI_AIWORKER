@@ -26,8 +26,9 @@ class RealViewerTests(unittest.TestCase):
         self.tcp = np.array([0.2, 0.3, 0.4]), Rotation.from_euler("x", 30, degrees=True)
         self.target = np.array([0.7, 0, 0]), Rotation.from_euler("y", 45, degrees=True)
 
-    def send(self, dry_run, target):
-        self.viewer.update(q=self.q, measured_tcp=self.tcp, dry_run=dry_run, target=target)
+    def send(self, dry_run, target, width=None):
+        self.viewer.update(q=self.q, measured_tcp=self.tcp, dry_run=dry_run, target=target,
+                           gripper_width_mm=width)
 
     def test_draws_latest_measured_joints_and_tcp_in_real_and_reseeds_skipped_grips(self):
         # Run the production consumer against a real pipe. Simulate a renderer that
@@ -42,7 +43,7 @@ class RealViewerTests(unittest.TestCase):
                 self.send(True, None)
                 self.send(True, self.target)
             if len(observed) == 2:
-                self.send(False, self.target)
+                self.send(False, self.target, 50.6)
 
         view.tick.side_effect = draw
         now = time.monotonic()
@@ -57,6 +58,8 @@ class RealViewerTests(unittest.TestCase):
             np.testing.assert_array_equal(frame["target"][0], self.target[0])
             np.testing.assert_allclose(frame["target"][1].as_matrix(), self.target[1].as_matrix())
         self.assertFalse(live["dry_run"])
+        self.assertAlmostEqual(live["gripper_width_mm"], 50.6)
+        self.assertIsNone(first["gripper_width_mm"])
         self.assertIsNone(live["target"])
         np.testing.assert_array_equal(live["measured_q"], self.q)
         np.testing.assert_array_equal(live["measured_tcp"][0], self.tcp[0])

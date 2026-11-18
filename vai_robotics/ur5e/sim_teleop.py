@@ -4,6 +4,7 @@ import mujoco
 import numpy as np
 from scipy.spatial.transform import Rotation
 
+from .rg2_visual import OPEN_WIDTH_MM, set_rg2_width
 from .sim import load_simulation
 
 
@@ -24,6 +25,7 @@ class SimBackend:
         self._shadow = None
         self._previewing = False
         self._preview_clutched = False
+        self._last_measured_width = OPEN_WIDTH_MM
 
     def __enter__(self):
         self.sim = load_simulation()
@@ -44,6 +46,7 @@ class SimBackend:
             raise
         self.active = False
         self.tick_count = 0
+        self._last_measured_width = OPEN_WIDTH_MM
         return self
 
     def _flange_pose(self, data):
@@ -114,9 +117,14 @@ class SimBackend:
             mujoco.mj_forward(self.sim.model, self._shadow)
         self._preview_clutched = target is not None
 
-    def tick(self, *, dry_run=False, target=None, measured_q=None, measured_tcp=None, reset_preview=False):
+    def tick(self, *, dry_run=False, target=None, measured_q=None, measured_tcp=None, reset_preview=False,
+             gripper_width_mm=None):
         """Advance live physics, mirror RTDE joints, or articulate the independent preview."""
         sim = self.sim
+        # Width is visual geometry; all six RTDE joints still address the arm.
+        if measured_q is not None and not dry_run and gripper_width_mm is not None:
+            self._last_measured_width = gripper_width_mm
+        set_rg2_width(sim.model, self._last_measured_width if gripper_width_mm is None else gripper_width_mm)
         if measured_q is not None:
             q = np.asarray(measured_q, dtype=float)
             if q.shape != (sim.model.nq,) or not np.isfinite(q).all():
@@ -141,6 +149,8 @@ class SimBackend:
             if measured_q is not None:
                 mode, source = ("DRY RUN", "Preview") if dry_run else ("REAL RUN", "Measured")
                 sim.viewer_text_overlay(mode, source, loc="top left")
+                if gripper_width_mm is None:
+                    sim.viewer_text_overlay("RG2", "Width unavailable", loc="top left")
             display_tcp = target if dry_run else measured_tcp
             if display_tcp is not None:
                 xyz, rotation = display_tcp

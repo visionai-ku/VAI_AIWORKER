@@ -1,3 +1,4 @@
 # Hardware add-ons to the existing ri_motion_v5_py312 environment.
 pyspacemouse==2.1.0
 ur-rtde==1.6.5
+pymodbus==3.11.4

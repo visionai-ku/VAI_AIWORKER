@@ -92,13 +92,13 @@ class TeleopPanel:
                 self._can_send = True
         return request
 
-    def refresh(self, *, dry_run, clutch, measured, target, message=""):
+    def refresh(self, *, dry_run, clutch, measured, target, message="", gripper=""):
         now = time.monotonic()
         if not self.is_open or not self._can_send or now < self._next_update:
             return
         # At most one small display frame can be outstanding, even if Qt stalls.
         state = dict(dry_run=dry_run, clutch=clutch, measured=_display_pose(measured),
-                     target=_display_pose(target), message=message[:256])
+                     target=_display_pose(target), message=message[:256], gripper=gripper[:256])
         try:
             _send(self._process.stdin, state)
         except (BrokenPipeError, OSError):
@@ -197,6 +197,10 @@ class _PanelWindow:
 
         self.clutch_label = QLabel("입력 대기")
         layout.addWidget(self.clutch_label)
+        self.gripper_label = QLabel()
+        self.gripper_label.setWordWrap(True)
+        self.gripper_label.setTextFormat(Qt.PlainText)
+        layout.addWidget(self.gripper_label)
         source = "MuJoCo" if simulation else "RTDE"
         if robot_ip and not simulation:
             source += f" · {robot_ip}"
@@ -259,9 +263,10 @@ class _PanelWindow:
         request, self._requested_dry_run = self._requested_dry_run, None
         return request
 
-    def refresh(self, *, dry_run, clutch, measured, target, message=""):
+    def refresh(self, *, dry_run, clutch, measured, target, message="", gripper=""):
         self._show_mode(dry_run)
         self.clutch_label.setText(clutch)
+        self.gripper_label.setText(gripper)
         self.message_label.setText(message)
         self.message_label.setVisible(bool(message))
         for i, pose in enumerate((measured, target)):

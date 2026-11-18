@@ -41,6 +41,16 @@ class SimBackendTest(unittest.TestCase):
             np.testing.assert_allclose(backend.sim.data.qpos, released, atol=1e-3)
         self.assertFalse(backend.is_running())
 
+    def test_live_gripper_mirrors_measured_width_and_keeps_it_on_data_loss(self):
+        with SimBackend(headless=True) as backend:
+            q = backend.sim.data.qpos.copy()
+            tcp = backend.pose()
+            for dry, width, expected in ((False, 50.6, 50.6), (True, 0, 0), (False, None, 50.6)):
+                backend.tick(dry_run=dry, measured_q=q, measured_tcp=tcp, gripper_width_mm=width)
+                displayed = backend._shadow if dry else backend.sim.data
+                gap = displayed.site("rg2_left_pad").xpos - displayed.site("rg2_right_pad").xpos
+                self.assertAlmostEqual(1000 * np.linalg.norm(gap), expected, places=4)
+
     def test_dry_arm_moves_separately_and_releases_to_live_pose_in_one_tick(self):
         with SimBackend(headless=True) as backend:
             origin, rotation = backend.pose()

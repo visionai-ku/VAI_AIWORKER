@@ -10,6 +10,7 @@ import numpy as np
 from scipy.spatial.transform import Rotation
 
 from .real import RobotControlStopped
+from .rg2_visual import OPEN_WIDTH_MM
 
 
 HZ = 50
@@ -41,8 +42,8 @@ class TeleopController:
     def set_mode(self, dry_run, *, simulation, sample):
         if dry_run == self.dry_run:
             return ""
-        if not dry_run and not simulation and (sample is None or sample.enabled):
-            return "입력 장치를 연결하고 클러치를 놓은 뒤 REAL RUN을 선택하세요."
+        if not dry_run and not simulation and (sample is None or sample.enabled or not sample.buttons_released):
+            return "입력 장치를 연결하고 클러치와 그리퍼 버튼을 놓은 뒤 REAL RUN을 선택하세요."
         self.backend.hold()
         self.target = self.last_tick = None
         self.ready_after_release = False
@@ -106,11 +107,12 @@ def clutch_text(device, sample, active):
     return "놓음" if not sample.enabled else "클러치를 놓으세요"
 
 
-def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None):
+def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper=None):
     controller = TeleopController(backend, dry_run=dry_run)
     last_report = float("-inf")
     message = ""
     active = False
+    preview_width = None
     print("Release the device clutch, then hold it to move. Ctrl+C exits.", flush=True)
     with ExitStack() as session:
         view = backend if sim else None
@@ -122,6 +124,8 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None):
             session.callback(backend.set_motion_enabled, False)
         else:
             session.callback(backend.hold)
+        if gripper is not None:
+            session.callback(gripper.update, None)
         while view is None or view.is_running():
             started = time.monotonic()
             request = panel.poll() if panel is not None else None
@@ -131,32 +135,65 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None):
             # Going back to preview takes priority over polling USB or network input.
             sample = None if change_mode and request else device.read()
             if change_mode:
+                if gripper is not None:
+                    gripper.update(None)
                 message = controller.set_mode(request, simulation=sim, sample=sample)
                 # Don't use input captured before a transition opened an RTDE session.
                 if not message:
                     sample = None
+                    preview_width = None
+                    if request and gripper is not None:
+                        # The arm writer is detached. Finish any Modbus write already in flight
+                        # before presenting the transition to read-only control as complete.
+                        gripper.wait_for_writes()
             try:
                 controller.update(sample, time.monotonic(), scale=panel.scale if panel is not None else 1.0)
             except RobotControlStopped as error:
                 if sim or panel is None or controller.dry_run:
                     raise
+                if gripper is not None:
+                    gripper.update(None)
                 controller.set_mode(True, simulation=False, sample=None)
+                if gripper is not None:
+                    gripper.wait_for_writes()
                 sample = None
+                preview_width = None
                 controller.update(sample, time.monotonic())  # Verify feedback before showing a measured pose.
                 message = "실기 제어 연결이 중단되어 DRY RUN으로 전환했습니다."
                 print(f"{message} {error}", file=sys.stderr, flush=True)
+            measured_width = None
+            if gripper is not None:
+                chord = sample.gripper_chord if sample is not None else getattr(device, "gripper_chord", None)
+                gripper.update(None if controller.dry_run or change_mode else chord)
+                measured_width = gripper.width_mm
+            width = measured_width
+            if sim or controller.dry_run:
+                if sample is not None and sample.gripper_command is not None:
+                    preview_width = 0.0 if sample.gripper_command else OPEN_WIDTH_MM
+                width = preview_width if preview_width is not None else measured_width
+                if width is None:
+                    width = OPEN_WIDTH_MM
             if sim:
-                backend.tick(dry_run=controller.dry_run, target=controller.target)
+                backend.tick(dry_run=controller.dry_run, target=controller.target, gripper_width_mm=width)
             elif view is not None:
                 view.update(q=backend.joints(), measured_tcp=controller.measured, dry_run=controller.dry_run,
-                            target=controller.target if controller.dry_run else None)
+                            target=controller.target if controller.dry_run else None, gripper_width_mm=width)
             if (controller.target is not None) != active:
                 active = controller.target is not None
                 print("Clutch active" if active else "Holding", flush=True)
             if panel is not None:
+                if sim:
+                    gripper_text = f"RG2 · 가상 폭 {width:.1f} mm"
+                else:
+                    gripper_text = gripper.status if gripper is not None else "RG2 · 그리퍼 IP 미설정"
+                    if controller.dry_run:
+                        gripper_text += f" · 미리보기 {width:.1f} mm"
+                if hasattr(device, "gripper_chord"):
+                    state = {True: "누름", False: "놓음", None: "입력 대기"}[device.gripper_chord]
+                    gripper_text = f"버튼 0+1: {state} · {gripper_text}"
                 panel.refresh(dry_run=controller.dry_run, clutch=clutch_text(device, sample, active),
                               measured=controller.measured,
-                              target=controller.target, message=message)
+                              target=controller.target, message=message, gripper=gripper_text)
             elif controller.dry_run and active and started - last_report >= 0.5:
                 xyz, rot = controller.target
                 print("Dry-run target [m, rad]:", np.round(np.r_[xyz, rot.as_rotvec()], 4), flush=True)
@@ -173,6 +210,7 @@ def main(argv=None):
     parser.add_argument("--hand", choices=("left", "right"), default="right")
     parser.add_argument("--button", type=int, default=1, help="SpaceMouse clutch button index (default 1)")
     parser.add_argument("--robot-ip", help="UR controller address for the real backend")
+    parser.add_argument("--gripper-ip", help="OnRobot Compute Box address for RG2 feedback and control")
     initial_mode = parser.add_mutually_exclusive_group()
     initial_mode.add_argument("--enable-motion", action="store_true", help="send real robot motion commands")
     initial_mode.add_argument("--dry-run", action="store_true", help="start with the virtual arm preview")
@@ -181,6 +219,8 @@ def main(argv=None):
     args = parser.parse_args(argv)
     if args.backend == "real" and not args.robot_ip:
         parser.error("--backend real requires --robot-ip")
+    if args.gripper_ip and args.backend != "real":
+        parser.error("--gripper-ip applies only to --backend real")
     if args.input == "quest" and not args.quest_host:
         parser.error("--input quest requires --quest-host")
     if args.backend == "sim" and args.enable_motion:
@@ -219,9 +259,14 @@ def main(argv=None):
             print("Real robot motion ENABLED" if args.enable_motion else "Real robot, receive-only dry run", flush=True)
             backend = RealUR5e(args.robot_ip, enable_motion=args.enable_motion, frequency=HZ)
         stack.enter_context(device)
+        gripper = None
+        if args.gripper_ip:
+            from .rg2 import RG2
+
+            gripper = stack.enter_context(RG2(args.gripper_ip))
         stack.enter_context(backend)
         try:
-            run_teleop(device, backend, sim=simulation, dry_run=dry_run, panel=panel)
+            run_teleop(device, backend, sim=simulation, dry_run=dry_run, panel=panel, gripper=gripper)
         except KeyboardInterrupt:
             pass
 

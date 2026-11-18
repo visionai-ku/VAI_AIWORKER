@@ -20,6 +20,9 @@
       </default>
       <default class="visual">
         <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+        <default class="rg2_visual">
+          <geom mass="0" rgba="0.8 0.8 0.8 1"/>
+        </default>
       </default>
       <default class="collision">
         <geom type="capsule" group="3"/>
@@ -57,6 +60,10 @@
     <mesh file="wrist2_1.obj"/>
     <mesh file="wrist2_2.obj"/>
     <mesh file="wrist3.obj"/>
+    <mesh name="rg2_base_mesh" file="rg2/base_link.stl"/>
+    <mesh name="rg2_outer_mesh" file="rg2/outer_knuckle.stl"/>
+    <mesh name="rg2_inner_mesh" file="rg2/inner_knuckle.stl"/>
+    <mesh name="rg2_finger_mesh" file="rg2/inner_finger.stl"/>
   </asset>
 
   <worldbody>
@@ -111,6 +118,7 @@
                   <geom material="linkgray" mesh="wrist3" class="visual"/>
                   <geom class="eef_collision" pos="0 0.08 0" quat="1 1 0 0" size="0.04 0.02"/>
                   <site name="attachment_site" pos="0 0.1 0" quat="-1 1 0 0"/>
+                  <include file="rg2_visual.xml"/>
                 </body>
               </body>
             </body>

@@ -1,5 +1,6 @@
 """Send UR feedback to a local MuJoCo window without blocking the RTDE loop."""
 
+import math
 import os
 import select
 import struct
@@ -11,7 +12,7 @@ import time
 # Monotonic timestamp, grip generation, dry/preview flags, measured joints,
 # measured TCP and optional preview TCP (xyz and rotation vector for each TCP).
 # One frame fits in POSIX PIPE_BUF, so the nonblocking pipe writes are atomic.
-_FRAME = struct.Struct("<dQ??18d")
+_FRAME = struct.Struct("<dQ??19d")  # Last double is the RG2 width in mm, NaN if unavailable.
 _HZ = 50
 _ZERO_TCP = (0.0,) * 6
 
@@ -35,7 +36,7 @@ class RealViewer:
             raise
         return self
 
-    def update(self, *, q, measured_tcp, dry_run, target):
+    def update(self, *, q, measured_tcp, dry_run, target, gripper_width_mm=None):
         clutched = dry_run and target is not None
         if clutched and not self._clutched:
             self._generation += 1
@@ -48,7 +49,8 @@ class RealViewer:
         xyz, rotation = measured_tcp
         preview = (*target[0], *target[1].as_rotvec()) if clutched else _ZERO_TCP
         frame = _FRAME.pack(now, self._generation, dry_run, clutched, *q, *xyz,
-                            *rotation.as_rotvec(), *preview)
+                            *rotation.as_rotvec(), *preview,
+                            math.nan if gripper_width_mm is None else gripper_width_mm)
         try:
             os.write(self._process.stdin.fileno(), frame)
         except (BlockingIOError, BrokenPipeError):
@@ -112,7 +114,8 @@ def _display(view, fd, poll_events):
         measured_tcp = frame[10:13], Rotation.from_rotvec(frame[13:16])
         target = (frame[16:19], Rotation.from_rotvec(frame[19:22])) if clutched else None
         view.tick(dry_run=dry_run, target=target, measured_q=frame[4:10],
-                  measured_tcp=measured_tcp, reset_preview=grip != previous_grip)
+                  measured_tcp=measured_tcp, reset_preview=grip != previous_grip,
+                  gripper_width_mm=None if math.isnan(frame[22]) else frame[22])
         previous_grip = grip
 
 

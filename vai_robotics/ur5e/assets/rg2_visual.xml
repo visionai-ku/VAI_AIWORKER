@@ -1,0 +1,29 @@
+<mujocoinclude>
+  <!-- Mounted on the UR tool flange with the fingers extending along tool +Z.
+       Fixed, massless bodies allow visual articulation independent of the arm solver.
+       The initial quaternions are the RG2 linkage at its open stop (-32 degrees). -->
+  <body name="rg2_base" pos="0 0.1 0" quat="-1 1 0 0" childclass="rg2_visual">
+    <geom mesh="rg2_base_mesh"/>
+    <body name="rg2_left_outer" pos="0 -0.017178 0.125797" quat="0.96126175 0.27563718 0 0">
+      <geom mesh="rg2_outer_mesh"/>
+      <body name="rg2_left_finger" pos="0 -0.039592 0.038177" quat="0.96126175 -0.27563718 0 0">
+        <geom mesh="rg2_finger_mesh" rgba="0.10 0.10 0.10 1"/>
+        <site name="rg2_left_pad" pos="0 0.01895 0.045" group="4"/>
+      </body>
+    </body>
+    <body name="rg2_left_inner" pos="0 -0.007678 0.142297" quat="0.96126175 0.27563718 0 0">
+      <geom mesh="rg2_inner_mesh"/>
+    </body>
+    <!-- The opposite linkage shares the same meshes, rotated 180 degrees about Z. -->
+    <body name="rg2_right_outer" pos="0 0.017178 0.125797" quat="0 0 0.27563718 0.96126175">
+      <geom mesh="rg2_outer_mesh"/>
+      <body name="rg2_right_finger" pos="0 -0.039592 0.038177" quat="0.96126175 -0.27563718 0 0">
+        <geom mesh="rg2_finger_mesh" rgba="0.10 0.10 0.10 1"/>
+        <site name="rg2_right_pad" pos="0 0.01895 0.045" group="4"/>
+      </body>
+    </body>
+    <body name="rg2_right_inner" pos="0 0.007678 0.142297" quat="0 0 0.27563718 0.96126175">
+      <geom mesh="rg2_inner_mesh"/>
+    </body>
+  </body>
+</mujocoinclude>

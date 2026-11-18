@@ -2,6 +2,7 @@
 
 import sys
 import time
+from dataclasses import replace
 from pathlib import Path
 
 import numpy as np
@@ -109,6 +110,13 @@ class SpaceMouseInput:
         self.wait_for_device = wait_for_device
         self.device = None
         self._clutch_pressed = None
+        self._reset_gripper_buttons()
+
+    def _reset_gripper_buttons(self):
+        self._gripper_chord = None
+        self._gripper_armed = False
+        self._gripper_engaged = False
+        self._buttons_released = False
 
     def __enter__(self):
         self.driver, self.hid_error = _load_spacemouse()
@@ -124,6 +132,11 @@ class SpaceMouseInput:
         """Last selected-button HID observation; None before confirmation or after unplug."""
         return self._clutch_pressed if self.device is not None else None
 
+    @property
+    def gripper_chord(self):
+        """Confirmed button 0+1 state, independent of the six-axis stream."""
+        return self._gripper_chord if self.device is not None and self._gripper_armed else None
+
     def _connect(self):
         self.retry_at = time.monotonic() + 1.0
         devices = self.driver.get_connected_devices()
@@ -135,6 +148,7 @@ class SpaceMouseInput:
         self.report_time = -1.0
         self.motion_time = -1.0
         self._clutch_pressed = None
+        self._reset_gripper_buttons()
         self.saw_release = False
         self.release_pending = False
         try:
@@ -157,9 +171,14 @@ class SpaceMouseInput:
         # zeros. Only a real button report can establish a released clutch.
         if self.button < len(buttons):
             self._clutch_pressed = bool(buttons[self.button])
+            self._buttons_released = not self._clutch_pressed and not any(buttons[:2])
             if not self._clutch_pressed:
                 self.saw_release = True
                 self.release_pending = True
+        if len(buttons) >= 2:
+            self._gripper_chord = bool(buttons[0] and buttons[1])
+            if not any(buttons[:2]):
+                self._gripper_armed = True
 
     def _motion(self, state):
         self.motion_time = state.t
@@ -179,6 +198,7 @@ class SpaceMouseInput:
                     raise
                 self.device.close()
                 self.device = None
+                self._reset_gripper_buttons()
                 self.retry_at = time.monotonic() + 1.0
                 return None
             if self.button >= len(state.buttons):
@@ -189,6 +209,7 @@ class SpaceMouseInput:
         else:
             self.saw_release = False
             self.release_pending = False
+            self._reset_gripper_buttons()
             self.last_tick = None
             return None
 
@@ -197,6 +218,23 @@ class SpaceMouseInput:
         self.last_tick = now
         if self.report_time <= 0:
             return None
+        arm = self._arm_sample(state, now, dt)
+        command = None
+        # Coalesce fast edges within one poll to the operator's final intent.
+        # A held button at startup or a delayed new close cannot acquire a grasp.
+        if self._gripper_chord and not self._gripper_engaged and dt > INPUT_TIMEOUT:
+            self._gripper_armed = False
+        engaged = self._gripper_armed and self._gripper_chord is True
+        if engaged != self._gripper_engaged:
+            command = self._gripper_engaged = engaged
+        if arm is None:
+            if command is None:
+                return None
+            arm = _stationary()
+        return replace(arm, gripper_command=command, buttons_released=self._buttons_released,
+                       gripper_chord=self.gripper_chord)
+
+    def _arm_sample(self, state, now, dt):
         if self.release_pending:
             # Deliver an actual release even if a new press is already queued.
             self.release_pending = False
