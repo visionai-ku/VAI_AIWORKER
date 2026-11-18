@@ -4,7 +4,32 @@ from pathlib import Path
 import mujoco
 import numpy as np
 
-from vai_robotics.ur5e.rg2_visual import OPEN_WIDTH_MM, set_rg2_width
+from vai_robotics.ur5e.rg2_visual import OPEN_WIDTH_MM, RG2Preview, set_rg2_width
+
+
+class RG2PreviewTest(unittest.TestCase):
+    def test_full_stroke_is_timed_and_stops_at_each_endpoint(self):
+        for hz in (25, 50, 100):
+            with self.subTest(hz=hz):
+                preview = RG2Preview()
+                preview.update(0, None, True, True)
+                for i in range(1, 3 * hz + 1):
+                    width = preview.update(i / hz, None, None, True)
+                    self.assertAlmostEqual(width, max(0, 110 - 40 * i / hz))
+                for i in range(1, 3 * hz + 1):
+                    width = preview.update(3 + i / hz, None, False if i == 1 else None, False)
+                    self.assertAlmostEqual(width, min(110, 40 * i / hz))
+
+    def test_reverses_in_flight_and_does_not_replay_elapsed_time(self):
+        preview = RG2Preview()
+        preview.update(0, 50.6, None, False)
+        self.assertAlmostEqual(preview.update(0.02, 50.6, True, True), 49.8)
+        self.assertAlmostEqual(preview.update(0.04, 50.6, None, True), 49.0)
+        self.assertAlmostEqual(preview.update(0.06, 50.6, False, False), 49.8)
+        self.assertAlmostEqual(preview.update(0.08, 50.6, None, None), 49.8)
+        self.assertAlmostEqual(preview.update(2.0, 50.6, None, False), 51.8)
+        preview.reset()
+        self.assertEqual(preview.update(2.02, 38.0, None, False), 38.0)
 
 
 class RG2VisualTest(unittest.TestCase):

@@ -10,7 +10,7 @@ import numpy as np
 from scipy.spatial.transform import Rotation
 
 from .real import RobotControlStopped
-from .rg2_visual import OPEN_WIDTH_MM
+from .rg2_visual import RG2Preview
 
 
 HZ = 50
@@ -112,7 +112,7 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
     last_report = float("-inf")
     message = ""
     active = False
-    preview_width = None
+    preview = RG2Preview()
     print("Release the device clutch, then hold it to move. Ctrl+C exits.", flush=True)
     with ExitStack() as session:
         view = backend if sim else None
@@ -141,7 +141,7 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
                 # Don't use input captured before a transition opened an RTDE session.
                 if not message:
                     sample = None
-                    preview_width = None
+                    preview.reset()
                     if request and gripper is not None:
                         # The arm writer is detached. Finish any Modbus write already in flight
                         # before presenting the transition to read-only control as complete.
@@ -157,22 +157,19 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
                 if gripper is not None:
                     gripper.wait_for_writes()
                 sample = None
-                preview_width = None
+                preview.reset()
                 controller.update(sample, time.monotonic())  # Verify feedback before showing a measured pose.
                 message = "실기 제어 연결이 중단되어 DRY RUN으로 전환했습니다."
                 print(f"{message} {error}", file=sys.stderr, flush=True)
             measured_width = None
+            chord = sample.gripper_chord if sample is not None else getattr(device, "gripper_chord", None)
             if gripper is not None:
-                chord = sample.gripper_chord if sample is not None else getattr(device, "gripper_chord", None)
                 gripper.update(None if controller.dry_run or change_mode else chord)
                 measured_width = gripper.width_mm
             width = measured_width
             if sim or controller.dry_run:
-                if sample is not None and sample.gripper_command is not None:
-                    preview_width = 0.0 if sample.gripper_command else OPEN_WIDTH_MM
-                width = preview_width if preview_width is not None else measured_width
-                if width is None:
-                    width = OPEN_WIDTH_MM
+                command = sample.gripper_command if sample is not None else None
+                width = preview.update(time.monotonic(), measured_width, command, chord)
             if sim:
                 backend.tick(dry_run=controller.dry_run, target=controller.target, gripper_width_mm=width)
             elif view is not None:

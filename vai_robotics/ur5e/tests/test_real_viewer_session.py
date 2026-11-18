@@ -80,7 +80,7 @@ class RealViewerSessionTest(unittest.TestCase):
         updates = self.run_frames(dry_run=True, gripper=gripper,
                                   requests=[None, None, None, False, None, None, None, True],
                                   samples=[opened, close_edge, open_edge, opened, opened, close_edge, open_edge, opened])
-        self.assertEqual([u["gripper_width_mm"] for u in updates], [42, 0, 110, 42, 42, 42, 42, 42])
+        np.testing.assert_allclose([u["gripper_width_mm"] for u in updates], [42, 41.2, 42, 42, 42, 42, 42, 42])
         self.assertEqual([level for frame, level in levels if frame < 3], [None, None, None])
         self.assertEqual([level for frame, level in levels if 4 <= frame <= 6], [False, True, False])
         self.assertEqual(levels[-1][1], None)

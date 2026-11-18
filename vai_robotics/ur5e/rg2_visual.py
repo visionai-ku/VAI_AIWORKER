@@ -6,6 +6,36 @@ import math
 OPEN_WIDTH_MM = 110.0
 
 
+class RG2Preview:
+    """Advance the simulated finger gap in millimetres from the last displayed pose."""
+
+    SPEED_MM_S = 40.0
+
+    def __init__(self):
+        self.width_mm = OPEN_WIDTH_MM
+        self.reset()
+
+    def reset(self):
+        self._closing = None
+        self._last_tick = None
+
+    def update(self, now, measured_width, command, chord):
+        dt = 0.0 if self._last_tick is None else now - self._last_tick
+        self._last_tick = now
+        if self._closing is None and measured_width is not None:
+            self.width_mm = measured_width
+        if command is not None:
+            self._closing = command
+        if self._closing is not None and chord == self._closing:
+            # On a delayed control tick, resume from the visible width without catching up.
+            step = self.SPEED_MM_S * min(0.05, max(dt, 0.0))
+            if self._closing:
+                self.width_mm = max(0.0, self.width_mm - step)
+            else:
+                self.width_mm = min(OPEN_WIDTH_MM, self.width_mm + step)
+        return self.width_mm
+
+
 def set_rg2_width(model, width_mm):
     """Set the six visual link orientations before the caller's next MuJoCo forward."""
     if not math.isfinite(width_mm):
