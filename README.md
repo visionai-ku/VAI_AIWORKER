@@ -5,6 +5,18 @@
 - [로봇 worker 업데이트](VR_teleoperation/docs/WORKER_SETUP.md): Base JSON 지원에 필요한 파일과 실행 명령
 - [macOS 환경 복원](environments/README.md)
 
+## UR5e MuJoCo 시뮬레이터
+
+[환경 설치](SETUP.md)에서 만든 환경을 활성화하고 저장소 루트에서 실행한다.
+
+```bash
+python -m vai_robotics.ur5e.sim
+```
+
+UR5e가 홈 자세로 열리면 오른쪽 **Control** 패널의 슬라이더로 여섯 관절을 움직일 수 있다.
+[UR5e 시뮬레이터 노트북](vai_robotics/ur5e/notebooks/sim_teleop.ipynb)에서도 같은 뷰어를 실행할 수 있다.
+창 없이 모델과 관절 동작만 확인하려면 `python -m vai_robotics.ur5e.sim --check`를 실행한다.
+
 ## 배포 파일 관리
 
 - `VR_teleoperation/`의 실행 코드·모델·Quest 클라이언트와 기존 Joint·EEF·Base 노트북 진입점을 유지한다. 작업자 보정 프로필 JSON·원본 궤적 JSON·보정 수집 로그 JSONL은 모두 Git에 포함하며, 그 외 실행 로그·캐시·생성 바이너리는 제외한다.
