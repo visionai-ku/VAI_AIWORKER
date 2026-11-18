@@ -106,7 +106,10 @@ class ControllerMapper:
                  max_translation_m=0.20, R_BQ=None,
                  max_position_step_m=0.20, max_rotation_step_rad=np.pi/2,
                  position_scales=None, intent_matrices=None, intent_profile_id=None,
-                 accept_emulated=False, rotation_deadband_rad=0.0):
+                 accept_emulated=False, rotation_deadband_rad=0.0, tracked_hand=None):
+        if tracked_hand is not None and tracked_hand not in HANDS:
+            raise ValueError("tracked_hand must be left or right")
+        self.hands = HANDS if tracked_hand is None else (tracked_hand,)
         # Soft deadband on each clutch's relative controller rotation: rotations up to
         # this angle are ignored, larger ones apply only the excess (continuous, no jump).
         self.rotation_deadband_rad = float(rotation_deadband_rad)
@@ -223,7 +226,7 @@ class ControllerMapper:
         except (TypeError, ValueError, AttributeError, OverflowError) as exc:
             return dict(valid=False, fresh=False, reason=str(exc), pose_age_s=self._age(),
                         both_held=False, both_released=False)
-        grips = [sample["hands"][hand]["grip"] >= self.grip_threshold for hand in HANDS]
+        grips = [sample["hands"][hand]["grip"] >= self.grip_threshold for hand in self.hands]
         return dict(valid=True, fresh=fresh, reason="ready", pose_age_s=self._age(),
                     both_held=all(grips), both_released=not any(grips),
                     effective_sample_at=self._now - self._age())
@@ -241,7 +244,7 @@ class ControllerMapper:
             sample, _, changed = self._read_frame(frame)
             if changed:
                 raise ValueError("reference_changed")
-            if not all(sample["hands"][hand]["grip"] >= self.grip_threshold for hand in HANDS):
+            if not all(sample["hands"][hand]["grip"] >= self.grip_threshold for hand in self.hands):
                 raise ValueError("both_grips_required")
             if self._R_BQ is None:
                 self._freeze_yaw(sample["head"])
@@ -286,7 +289,7 @@ class ControllerMapper:
             raise ValueError("session_not_visible")
 
         hands = {}
-        for hand in HANDS:
+        for hand in self.hands:
             data = frame.get("hands", {}).get(hand)
             # The Quest client marks estimated poses valid=False, emulated=True.
             estimated = (self.accept_emulated and isinstance(data, dict)
@@ -351,7 +354,7 @@ class ControllerMapper:
             return self._hold("reference_changed")
         hands = sample["hands"]
         if self._needs_release:
-            if not fresh or any(hands[hand]["grip"] >= self.grip_threshold for hand in HANDS):
+            if not fresh or any(hands[hand]["grip"] >= self.grip_threshold for hand in self.hands):
                 return self._result("WAIT_RELEASE", "release_both_grips")
             if self._R_BQ is None:
                 try:
@@ -362,7 +365,7 @@ class ControllerMapper:
             return self._result("READY", "ready")
 
         targets, triggers, clamped = {}, {}, []
-        for hand in HANDS:
+        for hand in self.hands:
             data = hands[hand]
             if data["grip"] < self.grip_threshold:
                 self._anchors.pop(hand, None)

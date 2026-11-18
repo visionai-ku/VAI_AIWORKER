@@ -136,7 +136,7 @@ async function checkXRSupport() {
       ui.status.textContent = "XR 미지원 브라우저 · 입력 연결 안 함";
       diagnosticText.socket = "연결하지 않음 · XR 미지원";
       ui.connect.hidden = true;
-      ui.error.textContent = "이 입력 페이지는 Quest Browser에서 여세요. PC의 SIM 제어는 노트북에서 합니다. Quest에서 이 안내가 보이면 아래 보안 컨텍스트와 WebXR 상태를 확인하세요.";
+      ui.error.textContent = "이 입력 페이지는 Quest Browser에서 여세요. Quest에서 이 안내가 보이면 아래 보안 컨텍스트와 WebXR 상태를 확인하세요.";
     }
     showDiagnostics();
     return supportsImmersiveXR;
@@ -167,7 +167,7 @@ function connect() {
       // Also invalidate calibration after very short network outages that the
       // notebook's polling loop may not have observed as a disconnect.
       originId += 1;
-      diagnosticText.event = "PC 재연결 · 양손 grip을 놓은 뒤 다시 시작";
+      diagnosticText.event = "PC 재연결 · 사용하는 손의 grip을 놓은 뒤 다시 시작";
       invalidate(session.visibilityState);
     }
     hasConnected = true;
@@ -210,7 +210,7 @@ function connect() {
   });
   connection.addEventListener("error", () => {
     if (socket !== connection) return;
-    ui.error.textContent = "PC 수신기에 연결할 수 없습니다. 노트북 실행 상태와 HTTPS 연결을 확인하세요.";
+    ui.error.textContent = "PC 수신기에 연결할 수 없습니다. 수신기 실행 상태와 HTTPS 연결을 확인하세요.";
     transportError = true;
     diagnosticText.socket = "연결 오류";
     showDiagnostics();

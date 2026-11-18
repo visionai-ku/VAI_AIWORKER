@@ -17,6 +17,8 @@ UR5e가 홈 자세로 열리면 오른쪽 **Control** 패널의 슬라이더로 
 [UR5e 시뮬레이터 노트북](vai_robotics/ur5e/notebooks/sim_teleop.ipynb)에서도 같은 뷰어를 실행할 수 있다.
 창 없이 모델과 관절 동작만 확인하려면 `python -m vai_robotics.ur5e.sim --check`를 실행한다.
 
+Quest 3 또는 3Dconnexion SpaceMouse로 TCP를 조작하려면 [UR5e teleop 실행 안내](vai_robotics/ur5e/README.md)를 따른다. [시뮬레이션 노트북](vai_robotics/ur5e/notebooks/sim_teleop.ipynb)과 [실기 노트북](vai_robotics/ur5e/notebooks/real_teleop.ipynb)에서 같은 입력 방식을 선택할 수 있다.
+
 ## 배포 파일 관리
 
 - `VR_teleoperation/`의 실행 코드·모델·Quest 클라이언트와 기존 Joint·EEF·Base 노트북 진입점을 유지한다. 작업자 보정 프로필 JSON·원본 궤적 JSON·보정 수집 로그 JSONL은 모두 Git에 포함하며, 그 외 실행 로그·캐시·생성 바이너리는 제외한다.

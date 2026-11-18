@@ -4,11 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <title>SG2 · Fixed Quest</title>
+  <title>Quest 3 컨트롤러 입력</title>
   <style>
     :root { font-family: system-ui, sans-serif; color: #e5edf5; background: #111a23; }
     body { max-width: 880px; margin: 0 auto; padding: 44px 28px; }
-    .eyebrow { color: #7edfc2; letter-spacing: .12em; font-size: 14px; font-weight: 600; }
     h1 { font-size: 38px; margin: 14px 0 10px; font-weight: 650; }
     p { color: #b8c8d8; line-height: 1.65; }
     .panel { background: #1a2734; border: 1px solid #324557; border-radius: 16px; padding: 24px; margin-top: 28px; }
@@ -32,10 +31,10 @@
   </style>
 </head>
 <body>
-  <div class="eyebrow">ROBOTIS SG2 / CONTROLLER INPUT</div>
-  <h1>Fixed Quest</h1>
-  <p>Quest 3의 카메라를 조작자 방향으로 고정하고, 양손 컨트롤러로 시뮬레이션의 팔을 움직입니다.<br>이 페이지는 컨트롤러 입력만 전송합니다. 제어와 시뮬레이션은 PC 노트북에서 실행됩니다.</p>
-  <p class="note">이 주소는 Quest Browser에서 여세요. PC에서는 SIM 노트북의 제어창을 사용합니다. ‘다른 Quest 탭’ 연결 오류가 나오면 이전 Quest 탭을 닫거나 XR을 종료한 뒤 다시 연결하세요.</p>
+  <h1>Quest 3 컨트롤러 입력</h1>
+  <p><strong>UR5e</strong>는 로봇을 바라보고 선택한 손의 측면 grip을 놓은 뒤 다시 쥐어 조작합니다.<br>
+     <strong>SG2</strong>는 Quest 카메라를 조작자 방향으로 고정하고 PC 노트북에서 양손 제어를 시작합니다.</p>
+  <p class="note">이 주소는 Quest Browser에서 여세요. ‘다른 Quest 탭’ 연결 오류가 나오면 이전 Quest 탭을 닫거나 XR을 종료한 뒤 다시 연결하세요.</p>
   <div class="panel">
     <div class="status"><span>입력 연결</span><span id="status">연결 중…</span></div>
     <button id="start" disabled>Quest에서 XR 시작</button>
@@ -62,12 +61,14 @@
         <dt>전송한 프레임</dt><dd id="diag-sent">0개</dd>
         <dt>최근 상태 변화</dt><dd id="diag-event">페이지 열림</dd>
       </dl>
-      <p class="note">추적 정보는 XR 세션 중에 갱신됩니다. 세션 종료 후 마지막 관측값을 여기서 볼 수 있으며, 같은 진단 정보가 PC 기록에도 저장됩니다. 프레임 전송 수는 로봇의 명령 수신·동작을 뜻하지 않습니다.</p>
+      <p class="note">추적 정보는 XR 세션 중에 갱신됩니다. 세션 종료 후에는 마지막 관측값이 표시됩니다.</p>
     </details>
   </div>
-  <p><strong>측면 grip:</strong> 누른 동안 팔 이동 · 놓으면 정지 · 다시 누르면 현재 위치에서 시작<br><strong>검지 trigger:</strong> grip을 누른 동안 그리퍼 개폐</p>
-  <p class="note">XR은 처음 한 번 Quest Browser에서 시작합니다. XR을 켜 둔 동안에는 PC 수신기를 다시 실행해도 자동으로 재연결하므로 이 버튼을 반복해서 누를 필요가 없습니다. 재연결 후에는 양손 grip을 놓고 PC의 SIM 제어를 켠 뒤 다시 누르세요. 페이지를 새로고침하거나 XR 세션이 종료되면 Quest에서 시작 버튼을 다시 눌러야 합니다.</p>
-  <p class="note">먼저 PC에서 SIM 노트북을 실행하세요. Quest Browser에서 이 PC의 HTTPS 주소를 열고 인증서를 신뢰해야 합니다. 헤드셋을 벗었을 때 XR 세션이 멈추는지는 기기 설정과 실제 고정 배치에서 확인해야 합니다. 추적이 복구되면 양손 grip을 놓은 뒤 다시 눌러 시작합니다.</p>
+  <p>측면 grip을 누른 동안 팔이 이동합니다. 놓으면 정지하고 다시 쥐면 현재 위치에서 시작합니다.
+     SG2에서는 grip을 쥔 채 검지 trigger로 그리퍼를 여닫습니다.</p>
+  <p class="note">PC에서 입력 수신기를 실행하고 Quest Browser에서 PC의 HTTPS 인증서를 신뢰하세요.
+     XR 세션 중에는 수신기가 자동으로 재연결됩니다. 재연결되거나 추적이 복구되면 사용하는 손의 grip을 놓은 뒤 다시 쥐세요.
+     페이지를 새로고침하거나 XR 세션이 종료되면 시작 버튼을 다시 누르세요.</p>
   <script type="module" src="/client.js"></script>
 </body>
 </html>
