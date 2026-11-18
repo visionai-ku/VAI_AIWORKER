@@ -14,7 +14,7 @@ class RealUR5e:
     FEEDBACK_TIMEOUT = 0.15
     MAX_POSITION_LEAD = 0.03  # m, relative to the measured TCP
     MAX_ANGLE_LEAD = 0.15  # rad, relative to the measured TCP
-    RTDE_FIELDS = ("timestamp", "actual_TCP_pose", "runtime_state", "robot_mode", "safety_mode")
+    RTDE_FIELDS = ("timestamp", "actual_TCP_pose", "actual_q", "runtime_state", "robot_mode", "safety_mode")
 
     def __init__(self, host, *, enable_motion=False, frequency=50.0):
         if not host or not host.strip():
@@ -52,6 +52,13 @@ class RealUR5e:
     @property
     def motion_enabled(self):
         return self._control is not None
+
+    def joints(self):
+        """Measured shoulder-to-wrist joint angles in the controller's native order."""
+        q = np.asarray(self._receive.getActualQ(), dtype=float)
+        if q.shape != (6,) or not np.isfinite(q).all():
+            raise RuntimeError("UR5e returned invalid joint feedback.")
+        return q
 
     def set_motion_enabled(self, enabled):
         """Acquire or release the motion writer while the feedback stream stays open."""

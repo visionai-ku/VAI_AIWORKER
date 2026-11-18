@@ -85,14 +85,42 @@ class TeleopController:
         self.backend.hold()
 
 
+def clutch_text(device, sample, active):
+    if hasattr(device, "clutch_pressed"):
+        pressed = device.clutch_pressed
+        if pressed is None:
+            state = device.status or "입력 대기"
+        elif not pressed:
+            state = "놓음"
+        elif active:
+            state = "누름"
+        else:
+            state = "누름 · 놓았다가 다시 누르세요"
+        return f"버튼 {device.button}: {state}"
+    if sample is None:
+        return "입력 대기"
+    if active:
+        return "누름"
+    return "놓음" if not sample.enabled else "클러치를 놓으세요"
+
+
 def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None):
     controller = TeleopController(backend, dry_run=dry_run)
     last_report = float("-inf")
     message = ""
     active = False
+    view = backend if sim else None
     print("Release the device clutch, then hold it to move. Ctrl+C exits.", flush=True)
-    try:
-        while not sim or backend.is_running():
+    with ExitStack() as session:
+        preview_resources = session.enter_context(ExitStack())
+        session.callback(backend.hold)
+        while view is None or view.is_running():
+            if not sim and panel is not None and controller.dry_run and view is None:
+                from .sim_teleop import SimBackend
+
+                # The desktop preview only owns simulation state. Load/render it
+                # while the real backend is receive-only, outside active servoing.
+                view = preview_resources.enter_context(SimBackend(hz=HZ))
             started = time.monotonic()
             request = panel.poll() if panel is not None else None
             if panel is not None and not panel.is_open:
@@ -101,34 +129,31 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None):
             # Going back to preview takes priority over polling USB or network input.
             sample = None if change_mode and request else device.read()
             if change_mode:
+                if not sim and not request and view is not None and sample is not None and not sample.enabled:
+                    preview_resources.close()
+                    view = None
                 message = controller.set_mode(request, simulation=sim, sample=sample)
                 # Don't use input captured before a transition opened an RTDE session.
                 if not message:
                     sample = None
             controller.update(sample, time.monotonic(), scale=panel.scale if panel is not None else 1.0)
             if sim:
-                if controller.dry_run and controller.target is not None:
-                    backend.show_preview(*controller.target)
-                backend.tick()
+                view.tick(dry_run=controller.dry_run, target=controller.target)
+            elif view is not None:
+                view.tick(dry_run=True, target=controller.target, measured_q=backend.joints(),
+                          measured_tcp=controller.measured)
             if (controller.target is not None) != active:
                 active = controller.target is not None
                 print("Clutch active" if active else "Holding", flush=True)
             if panel is not None:
-                if sample is None:
-                    clutch = getattr(device, "status", "") or "입력 대기"
-                elif active:
-                    clutch = "누름"
-                else:
-                    clutch = "놓음" if not sample.enabled else "클러치를 놓으세요"
-                panel.refresh(dry_run=controller.dry_run, clutch=clutch, measured=controller.measured,
+                panel.refresh(dry_run=controller.dry_run, clutch=clutch_text(device, sample, active),
+                              measured=controller.measured,
                               target=controller.target, message=message)
             elif controller.dry_run and active and started - last_report >= 0.5:
                 xyz, rot = controller.target
                 print("Dry-run target [m, rad]:", np.round(np.r_[xyz, rot.as_rotvec()], 4), flush=True)
                 last_report = started
             time.sleep(max(0.0, started + 1 / HZ - time.monotonic()))
-    finally:
-        backend.hold()
 
 
 def main(argv=None):
@@ -138,9 +163,11 @@ def main(argv=None):
     parser.add_argument("--quest-host", help="operator PC LAN address reachable from the Quest")
     parser.add_argument("--quest-port", type=int, default=8443)
     parser.add_argument("--hand", choices=("left", "right"), default="right")
-    parser.add_argument("--button", type=int, default=0, help="SpaceMouse clutch button index (default 0)")
+    parser.add_argument("--button", type=int, default=1, help="SpaceMouse clutch button index (default 1)")
     parser.add_argument("--robot-ip", help="UR controller address for the real backend")
-    parser.add_argument("--enable-motion", action="store_true", help="send real robot motion commands")
+    initial_mode = parser.add_mutually_exclusive_group()
+    initial_mode.add_argument("--enable-motion", action="store_true", help="send real robot motion commands")
+    initial_mode.add_argument("--dry-run", action="store_true", help="start with the virtual arm preview")
     parser.add_argument("--headless", action="store_true", help="run simulation without a viewer")
     parser.add_argument("--no-panel", action="store_true", help="run without the desktop settings panel")
     args = parser.parse_args(argv)
@@ -158,7 +185,7 @@ def main(argv=None):
     from .inputs import QuestInput, SpaceMouseInput
 
     simulation = args.backend == "sim"
-    dry_run = not simulation and not args.enable_motion
+    dry_run = args.dry_run or (not simulation and not args.enable_motion)
     desktop = sys.platform != "linux" or bool(os.environ.get("DISPLAY") or os.environ.get("WAYLAND_DISPLAY"))
     show_panel = desktop and not args.no_panel and not args.headless
     with ExitStack() as stack:
@@ -167,7 +194,8 @@ def main(argv=None):
             from .teleop_panel import TeleopPanel
 
             device_name = f"Quest 3 · {args.hand}" if args.input == "quest" else f"SpaceMouse · 버튼 {args.button}"
-            panel = TeleopPanel(simulation=simulation, device_name=device_name, dry_run=dry_run)
+            panel = TeleopPanel(simulation=simulation, device_name=device_name, dry_run=dry_run,
+                                robot_ip=args.robot_ip)
             stack.callback(panel.close)
         if args.input == "quest":
             device = QuestInput(host=args.quest_host, port=args.quest_port, hand=args.hand)

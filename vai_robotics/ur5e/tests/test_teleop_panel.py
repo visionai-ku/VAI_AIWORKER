@@ -50,6 +50,8 @@ class TeleopPanelTest(unittest.TestCase):
         with patch.dict(os.environ, QT_QPA_PLATFORM="offscreen"):
             panel = TeleopPanel(simulation=True, device_name="SpaceMouse", dry_run=True)
         self.addCleanup(panel.close)
+        if os.name == "posix":
+            self.assertNotEqual(os.getpgid(panel._process.pid), os.getpgrp())
         panel.refresh(dry_run=True, clutch="입력 대기", measured=None, target=None)
         self.assertFalse(panel._can_send)
         deadline = time.monotonic() + 2

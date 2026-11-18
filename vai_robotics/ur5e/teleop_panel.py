@@ -51,11 +51,13 @@ def _display_pose(pose):
 class TeleopPanel:
     """Qt owns the Cocoa event loop in a separate process from the MuJoCo viewer."""
 
-    def __init__(self, *, simulation, device_name, dry_run):
-        settings = dict(simulation=simulation, device_name=device_name, dry_run=dry_run)
+    def __init__(self, *, simulation, device_name, dry_run, robot_ip=None):
+        settings = dict(simulation=simulation, device_name=device_name, dry_run=dry_run, robot_ip=robot_ip)
         self._process = subprocess.Popen(
             [sys.executable, str(Path(__file__).resolve()), json.dumps(settings)],
             stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True, encoding="utf-8",
+            # The controller handles terminal Ctrl+C. Qt exits on pipe EOF after cleanup.
+            start_new_session=(os.name == "posix"),
         )
         self._messages = _incoming(self._process.stdout)
         self._open = True
@@ -122,7 +124,7 @@ class TeleopPanel:
 class _PanelWindow:
     """The operator's selection is a request until confirmed by the control loop."""
 
-    def __init__(self, *, simulation, device_name, dry_run):
+    def __init__(self, *, simulation, device_name, dry_run, robot_ip=None):
         from PyQt5.QtCore import Qt
         from PyQt5.QtGui import QFontDatabase, QFontMetrics
         from PyQt5.QtWidgets import (
@@ -195,7 +197,10 @@ class _PanelWindow:
 
         self.clutch_label = QLabel("입력 대기")
         layout.addWidget(self.clutch_label)
-        tcp = QGroupBox("TCP · 베이스 좌표계")
+        source = "MuJoCo" if simulation else "RTDE"
+        if robot_ip and not simulation:
+            source += f" · {robot_ip}"
+        tcp = QGroupBox(f"TCP · {source} · 베이스 좌표계")
         grid = QGridLayout(tcp)
         self.pose_rows = []
         fixed_font = QFontDatabase.systemFont(QFontDatabase.FixedFont)

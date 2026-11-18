@@ -100,7 +100,7 @@ def _load_spacemouse():
 class SpaceMouseInput:
     """Integrate normalized SpaceMouse velocity while the clutch button is held."""
 
-    def __init__(self, button=0, linear_speed=0.08, angular_speed=0.5, *, wait_for_device=False):
+    def __init__(self, button=1, linear_speed=0.08, angular_speed=0.5, *, wait_for_device=False):
         if button < 0 or not all(np.isfinite(v) and v > 0 for v in (linear_speed, angular_speed)):
             raise ValueError("Use a nonnegative button index and positive, finite input speeds")
         self.button = button
@@ -108,6 +108,7 @@ class SpaceMouseInput:
         self.angular_speed = angular_speed
         self.wait_for_device = wait_for_device
         self.device = None
+        self._clutch_pressed = None
 
     def __enter__(self):
         self.driver, self.hid_error = _load_spacemouse()
@@ -118,6 +119,11 @@ class SpaceMouseInput:
     def status(self):
         return "SpaceMouse USB 연결 대기" if self.device is None else ""
 
+    @property
+    def clutch_pressed(self):
+        """Last selected-button HID observation; None before confirmation or after unplug."""
+        return self._clutch_pressed if self.device is not None else None
+
     def _connect(self):
         self.retry_at = time.monotonic() + 1.0
         devices = self.driver.get_connected_devices()
@@ -127,12 +133,14 @@ class SpaceMouseInput:
             raise RuntimeError("No connected SpaceMouse found. Connect a supported USB device.")
         self.last_tick = None
         self.report_time = -1.0
+        self.motion_time = -1.0
+        self._clutch_pressed = None
         self.saw_release = False
         self.release_pending = False
         try:
             self.device = self.driver.open(device=devices[0], nonblocking=True,
                                            axis_convention=self.driver.AxisConvention.HID_Z_UP,
-                                           button_callback=self._buttons)
+                                           button_callback=self._buttons, dof_callback=self._motion)
         except (RuntimeError, OSError, self.hid_error) as exc:
             # A removal between enumeration and open is a normal hot-plug race.
             if self.wait_for_device and devices[0] not in self.driver.get_connected_devices():
@@ -147,9 +155,14 @@ class SpaceMouseInput:
     def _buttons(self, state, buttons):
         # Axis-only HID reports retain the driver's synthetic initial button
         # zeros. Only a real button report can establish a released clutch.
-        if self.button < len(buttons) and not buttons[self.button]:
-            self.saw_release = True
-            self.release_pending = True
+        if self.button < len(buttons):
+            self._clutch_pressed = bool(buttons[self.button])
+            if not self._clutch_pressed:
+                self.saw_release = True
+                self.release_pending = True
+
+    def _motion(self, state):
+        self.motion_time = state.t
 
     def read(self):
         if self.device is None:
@@ -188,20 +201,21 @@ class SpaceMouseInput:
             # Deliver an actual release even if a new press is already queued.
             self.release_pending = False
             return _stationary()
-        if not state.buttons[self.button]:
+        if not self._clutch_pressed:
             # An idle, released SpaceMouse may send no further reports.
             return _stationary() if self.saw_release else None
-        if now - self.report_time > INPUT_TIMEOUT or dt > INPUT_TIMEOUT:
-            self.saw_release = False
-        if not self.saw_release:
-            return None
         # HID_Z_UP is (right, away, up). Facing the robot, UR base axes are
         # (toward the user, right, up), matching the calibrated Quest mapping.
         axes = np.array([-state.y, state.x, state.z, -state.pitch, state.roll, state.yaw])
-        if not np.isfinite(axes).all():
+        if not np.isfinite(axes).all() or dt > INPUT_TIMEOUT:
             self.saw_release = False
-            return None
         axes = np.clip(axes, -1, 1)
         axes[np.abs(axes) < 0.05] = 0
+        # HID is event-driven. Silence while the cap is centered is expected
+        # even with the button down; only a nonzero cached velocity can go stale.
+        if axes.any() and now - self.motion_time > INPUT_TIMEOUT:
+            self.saw_release = False
+        if not self.saw_release:
+            return None
         return InputSample(axes[:3] * self.linear_speed * dt,
                            axes[3:] * self.angular_speed * dt, True)

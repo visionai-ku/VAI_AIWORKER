@@ -60,9 +60,9 @@ class QuestInputTests(unittest.TestCase):
         self.assertIsNone(self.sample(quest_frame(9, 1.28, 1, origin=1)))
 
 
-def hid_report(t, button=0, x=0, y=0, pitch=0, button_event=True):
-    return SimpleNamespace(t=t, buttons=[button, 0], button_event=button_event,
-                           x=x, y=y, z=0, roll=0, pitch=pitch, yaw=0)
+def hid_report(t, button=0, x=0, y=0, pitch=0, button_event=True, motion_event=True, left=0):
+    return SimpleNamespace(t=t, buttons=[left, button], button_event=button_event,
+                           motion_event=motion_event, x=x, y=y, z=0, roll=0, pitch=pitch, yaw=0)
 
 
 class SpaceMouseTests(unittest.TestCase):
@@ -74,7 +74,6 @@ class SpaceMouseTests(unittest.TestCase):
         self.enterContext(patch("vai_robotics.ur5e.inputs._load_spacemouse",
                                 return_value=(self.driver, ConnectionError)))
         self.device = self.enterContext(SpaceMouseInput())
-        self.button_callback = self.driver.open.call_args.kwargs["button_callback"]
 
     def sample(self, report, now, earlier=()):
         queue = list(earlier) + [report]
@@ -82,8 +81,12 @@ class SpaceMouseTests(unittest.TestCase):
         def read():
             if queue:
                 item = queue.pop(0)
-                if item.button_event and item.t != self.device.report_time:
-                    self.button_callback(item, item.buttons)
+                callbacks = self.driver.open.call_args.kwargs
+                if item.t != self.device.report_time:
+                    if item.motion_event:
+                        callbacks["dof_callback"](item)
+                    if item.button_event:
+                        callbacks["button_callback"](item, item.buttons)
                 return item
             return report
 
@@ -110,6 +113,33 @@ class SpaceMouseTests(unittest.TestCase):
         self.assertFalse(released.enabled)
         self.assertTrue(self.sample(hid_report(1.21, button=1), 1.21).enabled)
 
+    def test_button_one_stays_pressed_at_rest_and_resumes_on_axis_input(self):
+        self.assertEqual(self.device.button, 1)
+        self.assertIsNone(self.device.clutch_pressed)
+        self.assertIsNone(self.sample(hid_report(1, button_event=False), 1))
+        self.assertIsNone(self.device.clutch_pressed)
+        self.assertFalse(self.sample(hid_report(1.01, left=1), 1.01).enabled)
+        self.assertIs(self.device.clutch_pressed, False)
+        pressed = hid_report(1.02, button=1, motion_event=False)
+        for now in np.arange(1.02, 2.0, 0.02):
+            idle = self.sample(pressed, now)
+            self.assertTrue(idle.enabled)
+            np.testing.assert_array_equal(idle.translation, 0)
+        self.assertIs(self.device.clutch_pressed, True)
+        motion = self.sample(hid_report(2.01, button=1, x=0.5, button_event=False), 2.01)
+        self.assertTrue(motion.enabled)
+        self.assertGreater(motion.translation[1], 0)
+        self.assertFalse(self.sample(hid_report(2.02, left=1), 2.02).enabled)
+        self.assertIs(self.device.clutch_pressed, False)
+
+    def test_button_reports_never_refresh_a_stale_nonzero_axis(self):
+        self.sample(hid_report(1), 1)
+        self.assertTrue(self.sample(hid_report(1.02, button=1, x=1), 1.02).enabled)
+        for now in (1.04, 1.08, 1.13):
+            self.assertTrue(self.sample(hid_report(now, button=1, x=1, motion_event=False), now).enabled)
+        self.assertIsNone(self.sample(hid_report(1.2, button=1, x=1, motion_event=False), 1.2))
+        self.assertIs(self.device.clutch_pressed, True)
+
     def test_synthetic_initial_button_state_and_release_between_ticks(self):
         self.assertIsNone(self.sample(hid_report(-1, button_event=False), 1))
         self.assertIsNone(self.sample(hid_report(1.01, x=0.9, button_event=False), 1.01))
@@ -134,12 +164,12 @@ class SpaceMouseTests(unittest.TestCase):
         clock.return_value = 1.1
         self.assertIsNone(self.device.read())
         self.assertFalse(self.device.status)
-        self.button_callback = self.driver.open.call_args.kwargs["button_callback"]
         self.assertFalse(self.sample(hid_report(2), 2).enabled)
         self.assertTrue(self.sample(hid_report(2.01, button=1), 2.01).enabled)
         self.hid.read.side_effect = ConnectionError("device removed")
         self.assertIsNone(self.device.read())
         self.hid.close.assert_called_once()
+        self.assertIsNone(self.device.clutch_pressed)
         self.assertIn("대기", self.device.status)
         clock.return_value = 2.2
         self.assertIsNone(self.device.read())

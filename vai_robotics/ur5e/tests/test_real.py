@@ -37,6 +37,15 @@ class RealUR5eTests(unittest.TestCase):
         self.control_cls.assert_not_called()
         self.receiver.disconnect.assert_called_once()
 
+    def test_dry_view_receives_six_joints_without_control_connection(self):
+        self.receiver.getActualQ.return_value = [-1.0, -1.5, 1.2, -1.5, -1.5, 0.1]
+        with RealUR5e("test") as robot:
+            np.testing.assert_array_equal(robot.joints(), self.receiver.getActualQ.return_value)
+            self.receiver.getActualQ.return_value = [0.0] * 5
+            with self.assertRaisesRegex(RuntimeError, "joint feedback"):
+                robot.joints()
+        self.control_cls.assert_not_called()
+
     def test_live_clutch_and_cleanup(self):
         with RealUR5e("test", enable_motion=True) as robot:
             xyz, rot = robot.pose()

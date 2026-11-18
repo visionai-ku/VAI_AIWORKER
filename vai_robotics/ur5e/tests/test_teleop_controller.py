@@ -4,7 +4,7 @@ from unittest.mock import Mock
 import numpy as np
 from scipy.spatial.transform import Rotation
 
-from vai_robotics.ur5e.teleop import TeleopController
+from vai_robotics.ur5e.teleop import TeleopController, clutch_text
 from vai_robotics.ur5e.teleop_types import InputSample
 
 
@@ -70,6 +70,29 @@ class TeleopControllerTest(unittest.TestCase):
         self.controller.update(self.rest, 2.06)
         self.controller.update(self.held, 2.08)
         np.testing.assert_array_equal(self.backend.command.call_args.args[0], origin)
+
+    def test_dry_regrip_starts_at_latest_robot_pose(self):
+        controller = TeleopController(self.backend, dry_run=True)
+        controller.update(self.rest, 0)
+        controller.update(self.held, 0.02)
+        controller.update(self.held, 0.04)
+        controller.update(self.rest, 0.06)
+        self.assertIsNone(controller.target)
+        xyz = np.array([0.3, 0.1, 0.2])
+        rot = Rotation.from_euler("x", 20, degrees=True)
+        self.backend.pose.return_value = xyz, rot
+        controller.update(self.held, 0.08)
+        np.testing.assert_array_equal(controller.target[0], xyz)
+        np.testing.assert_array_equal(controller.target[1].as_matrix(), rot.as_matrix())
+        self.backend.command.assert_not_called()
+
+    def test_spacemouse_label_reports_selected_physical_button(self):
+        device = Mock(button=1, clutch_pressed=True)
+        self.assertEqual(clutch_text(device, self.held, True), "버튼 1: 누름")
+        self.assertIn("놓았다가", clutch_text(device, None, False))
+        device.button = 0
+        device.clutch_pressed = False
+        self.assertEqual(clutch_text(device, self.rest, False), "버튼 0: 놓음")
 
     def test_real_run_requires_released_input_and_successful_writer_attachment(self):
         self.controller = TeleopController(self.backend, dry_run=True)
