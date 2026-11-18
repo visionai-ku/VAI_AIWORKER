@@ -207,6 +207,24 @@ class RealViewerSessionTest(unittest.TestCase):
         self.backend.command.assert_called_once()
         self.assertNotIn(call(True), self.backend.set_motion_enabled.call_args_list)
 
+    def test_servo_refusal_and_unconfirmed_stop_are_visible_in_dry_without_rearming(self):
+        self.backend.command.side_effect = RobotControlStopped("servoL rejected")
+        self.backend.set_motion_enabled.side_effect = [RobotControlStopped("servoStop unacknowledged"), None]
+        self.backend.motion_enabled = False  # RealUR5e releases its writer even if servoStop fails.
+        gripper = Mock(open_width_mm=75.0, width_mm=51.2, status="RG2 51.2 mm")
+        close = replace(self.held, gripper_command=True, gripper_chord=True)
+        updates = self.run_frames(dry_run=False, requests=[None] * 4,
+                                  samples=[self.released, close, close, self.released], gripper=gripper)
+        self.assertEqual([frame["dry_run"] for frame in updates], [False, True, True, True])
+        self.assertIsNone(updates[1]["target"])
+        message = self.panel.refresh.call_args_list[1].kwargs["message"]
+        self.assertIn("servoL rejected", message)
+        self.assertIn("servoStop unacknowledged", message)
+        self.assertEqual(gripper.wait_for_writes.call_count, 1)
+        self.assertNotIn(call(True), gripper.update.call_args_list)
+        self.assertNotIn(call(True), self.backend.set_motion_enabled.call_args_list)
+        self.backend.command.assert_called_once()
+
     def test_unavailable_pose_feedback_ends_real_session(self):
         for errors in ([RuntimeError("feedback is stale")],
                        [RobotControlStopped("script stopped"), RuntimeError("feedback is stale")]):
@@ -218,6 +236,19 @@ class RealViewerSessionTest(unittest.TestCase):
                     run_teleop(self.device, self.backend, dry_run=False, panel=self.panel)
                 self.backend.command.assert_not_called()
                 self.viewer.update.assert_not_called()
+
+    def test_requested_dry_run_reports_unconfirmed_stop_after_detaching_writer(self):
+        self.backend.motion_enabled = False
+        self.backend.set_motion_enabled.side_effect = [RobotControlStopped("servoStop unacknowledged"), None]
+        gripper = Mock(open_width_mm=75.0, width_mm=41.5, status="RG2 41.5 mm")
+        frames = self.run_frames(dry_run=False, requests=[None, True], samples=[self.released, self.held],
+                                 gripper=gripper)
+        self.assertTrue(frames[-1]["dry_run"])
+        result = self.panel.mode_result.call_args.kwargs
+        self.assertTrue(result["dry_run"])
+        self.assertIn("servoStop unacknowledged", result["message"])
+        gripper.wait_for_writes.assert_called_once()
+        self.backend.command.assert_not_called()
 
     def test_no_panel_skips_viewer_and_joint_reads(self):
         self.device.read.side_effect = [self.released, KeyboardInterrupt()]

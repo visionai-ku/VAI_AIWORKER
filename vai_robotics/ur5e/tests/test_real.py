@@ -42,8 +42,9 @@ class RealUR5eTests(unittest.TestCase):
         with RealUR5e("test") as robot:
             np.testing.assert_array_equal(robot.joints(), self.receiver.getActualQ.return_value)
             self.receiver.getActualQ.return_value = [0.0] * 5
-            with self.assertRaisesRegex(RuntimeError, "joint feedback"):
+            with self.assertRaisesRegex(RuntimeError, "joint feedback") as caught:
                 robot.joints()
+            self.assertNotIsInstance(caught.exception, RobotControlStopped)
         self.control_cls.assert_not_called()
 
     def test_live_clutch_and_cleanup(self):
@@ -98,7 +99,7 @@ class RealUR5eTests(unittest.TestCase):
     def test_panel_enable_refusals_leave_receive_only_session(self):
         with RealUR5e("test") as robot:
             self.receiver.getSafetyMode.return_value = 3
-            with self.assertRaisesRegex(RuntimeError, "safety mode"):
+            with self.assertRaisesRegex(RobotControlStopped, r"RUNNING\(7\), safety mode=PROTECTIVE_STOP\(3\)"):
                 robot.set_motion_enabled(True)
             self.receiver.getSafetyMode.return_value = 1
             self.clock.return_value += robot.FEEDBACK_TIMEOUT + 0.01
@@ -131,21 +132,23 @@ class RealUR5eTests(unittest.TestCase):
     def test_safety_and_lead_limits(self):
         with RealUR5e("test", enable_motion=True) as robot:
             xyz, rot = robot.pose()
-            with self.assertRaisesRegex(ValueError, "lead"):
+            with self.assertRaisesRegex(RobotControlStopped, "lead"):
                 robot.command(xyz + [0, 0, 0.04], rot)
-            with self.assertRaisesRegex(ValueError, "lead"):
+            with self.assertRaisesRegex(RobotControlStopped, "lead"):
                 robot.command(xyz, Rotation.from_rotvec([0, 0, 0.2]))
             self.control.isPoseWithinSafetyLimits.return_value = False
-            with self.assertRaisesRegex(RuntimeError, "safety limits"):
+            with self.assertRaisesRegex(RobotControlStopped, "safety limits"):
                 robot.command(xyz, rot)
             self.receiver.getSafetyMode.return_value = 3
-            with self.assertRaisesRegex(RuntimeError, "safety mode"):
+            self.receiver.getRobotMode.return_value = 5
+            self.receiver.getRuntimeState.return_value = 4
+            with self.assertRaisesRegex(RobotControlStopped, r"IDLE\(5\), safety mode=PROTECTIVE_STOP\(3\), runtime_state=4"):
                 robot.command(xyz, rot)
         self.control.servoL.assert_not_called()
 
     def test_refused_servo_stops_and_disconnects(self):
         self.control.servoL.return_value = False
-        with self.assertRaisesRegex(RuntimeError, "servo command"):
+        with self.assertRaisesRegex(RobotControlStopped, "servo command"):
             with RealUR5e("test", enable_motion=True) as robot:
                 robot.command(*robot.pose())
         self.control.servoStop.assert_called_once()
@@ -153,11 +156,12 @@ class RealUR5eTests(unittest.TestCase):
         self.receiver.disconnect.assert_called_once()
 
     def test_stale_or_invalid_feedback_stops_servo(self):
-        with self.assertRaisesRegex(RuntimeError, "stale"):
+        with self.assertRaisesRegex(RuntimeError, "stale") as caught:
             with RealUR5e("test", enable_motion=True) as robot:
                 robot.command(*robot.pose())
                 self.clock.return_value += 0.3
                 robot.pose()
+        self.assertNotIsInstance(caught.exception, RobotControlStopped)
         self.control.servoStop.assert_called_once()
         self.receiver.getTimestamp.return_value = float("nan")
         with self.assertRaisesRegex(RuntimeError, "timestamp"):
@@ -169,11 +173,65 @@ class RealUR5eTests(unittest.TestCase):
             self.control.isProgramRunning.return_value = False
             with self.assertRaises(RobotControlStopped):
                 robot.pose()
+            self.control.isProgramRunning.return_value = True  # Another program started before cleanup.
             robot.set_motion_enabled(False)
             xyz, _ = robot.pose()
             np.testing.assert_array_equal(xyz, [0.3, 0.1, 0.4])
             self.control.disconnect.assert_called_once()
+            self.control.stopScript.assert_not_called()
             self.receiver.disconnect.assert_not_called()
+
+    def test_unacknowledged_hold_attempted_once_then_script_stopped_and_feedback_available(self):
+        with RealUR5e("test", enable_motion=True) as robot:
+            robot.command(*robot.pose())
+            self.control.servoStop.side_effect = RuntimeError("stop command failed")
+            with self.assertRaisesRegex(RobotControlStopped, "servoStop.*stop command failed"):
+                robot.hold()
+            robot.set_motion_enabled(False)
+            robot.pose()
+            self.control.servoStop.assert_called_once()
+            self.control.stopScript.assert_called_once()
+            self.control.disconnect.assert_called_once()
+            self.receiver.disconnect.assert_not_called()
+
+    def test_negative_acknowledgement_of_script_stop_is_reported_after_disconnect(self):
+        with RealUR5e("test", enable_motion=True) as robot:
+            self.control.stopScript.return_value = False
+            with self.assertRaisesRegex(RuntimeError, "stopScript") as caught:
+                robot.set_motion_enabled(False)
+            self.assertNotIsInstance(caught.exception, RobotControlStopped)
+            self.assertFalse(robot.motion_enabled)
+            self.control.stopScript.assert_called_once()
+            self.control.disconnect.assert_called_once()
+
+    def test_watchdog_rejection_and_target_validation_timeout_stop_control(self):
+        with RealUR5e("test", enable_motion=True) as robot:
+            self.clock.return_value += 0.06
+            self.control.kickWatchdog.return_value = False
+            with self.assertRaisesRegex(RobotControlStopped, "watchdog heartbeat"):
+                robot.pose()
+            robot.set_motion_enabled(False)
+            robot.set_motion_enabled(True)
+
+            def slow_validation(target):
+                self.clock.return_value += robot.FEEDBACK_TIMEOUT + 0.01
+                return True
+
+            self.control.isPoseWithinSafetyLimits.side_effect = slow_validation
+            with self.assertRaisesRegex(RobotControlStopped, "target validation timed out"):
+                robot.command(*robot.pose())
+            self.control.servoL.assert_not_called()
+
+    def test_reader_errors_stay_fatal_during_motion_session(self):
+        with RealUR5e("test", enable_motion=True) as robot:
+            self.receiver.getActualTCPPose.return_value = [float("nan")] * 6
+            with self.assertRaisesRegex(RuntimeError, "invalid TCP pose") as caught:
+                robot.pose()
+            self.assertNotIsInstance(caught.exception, RobotControlStopped)
+            self.receiver.isConnected.return_value = False
+            with self.assertRaisesRegex(RuntimeError, "feedback is disconnected") as caught:
+                robot.pose()
+            self.assertNotIsInstance(caught.exception, RobotControlStopped)
 
     def test_watchdog_is_required_and_disconnected_on_partial_start(self):
         self.control.setWatchdog.return_value = False

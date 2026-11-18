@@ -7,6 +7,18 @@ import numpy as np
 from scipy.spatial.transform import Rotation
 
 
+# RTDE getRobotMode()/getSafetyMode() return UR's numeric modes.
+_ROBOT_MODES = {
+    -1: "NO_CONTROLLER", 0: "DISCONNECTED", 1: "CONFIRM_SAFETY", 2: "BOOTING",
+    3: "POWER_OFF", 4: "POWER_ON", 5: "IDLE", 6: "BACKDRIVE", 7: "RUNNING", 8: "UPDATING_FIRMWARE",
+}
+_SAFETY_MODES = {
+    1: "NORMAL", 2: "REDUCED", 3: "PROTECTIVE_STOP", 4: "RECOVERY", 5: "SAFEGUARD_STOP",
+    6: "SYSTEM_EMERGENCY_STOP", 7: "ROBOT_EMERGENCY_STOP", 8: "VIOLATION", 9: "FAULT",
+    10: "VALIDATE_JOINT_ID", 11: "UNDEFINED_SAFETY_MODE",
+}
+
+
 class RobotControlStopped(RuntimeError):
     """The motion writer has stopped while the RTDE reader can still be healthy."""
 
@@ -30,6 +42,7 @@ class RealUR5e:
         self.period = 1.0 / frequency
         self._receive = None
         self._control = None
+        self._lost_script = False
         self._servo_active = False
         self._timestamp = None
         self._updated_at = 0.0
@@ -87,19 +100,50 @@ class RealUR5e:
         from rtde_control import RTDEControlInterface
 
         self._control = RTDEControlInterface(self.host)
+        self._lost_script = False
         try:
-            if not self._control.setWatchdog(self.WATCHDOG_HZ):
-                raise RuntimeError("UR5e did not enable the RTDE command watchdog.")
+            self._require_command(self._control.setWatchdog, self.WATCHDOG_HZ,
+                                  reason="UR5e did not enable the RTDE command watchdog.")
             self._heartbeat_at = time.monotonic()
             self.pose()  # Check fresh feedback and script status after the upload.
         except BaseException:
             self.set_motion_enabled(False)
             raise
 
+    def _motion_denied(self, reason, modes=None):
+        if modes is None:
+            modes = self._receive.getRobotMode(), self._receive.getSafetyMode()
+        robot, safety = modes
+        runtime = self._receive.getRuntimeState()
+        return RobotControlStopped(
+            f"{reason} robot mode={_ROBOT_MODES.get(robot, 'UNKNOWN')}({robot}), "
+            f"safety mode={_SAFETY_MODES.get(safety, 'UNKNOWN')}({safety}), runtime_state={runtime}"
+        )
+
     def _check_safety_mode(self):
-        # UR robot mode 7 is RUNNING; safety modes 1 and 2 are NORMAL and REDUCED.
-        if self._receive.getRobotMode() != 7 or self._receive.getSafetyMode() not in (1, 2):
-            raise RuntimeError("UR5e must be running in normal or reduced safety mode.")
+        robot, safety = self._receive.getRobotMode(), self._receive.getSafetyMode()
+        if robot != 7 or safety not in (1, 2):
+            raise self._motion_denied("UR5e must be running in normal or reduced safety mode.", (robot, safety))
+
+    def _require_command(self, operation, *args, reason):
+        try:
+            accepted = operation(*args)
+        except (RuntimeError, OSError) as error:
+            raise self._motion_denied(f"{reason} {error}") from error
+        if not accepted:
+            raise self._motion_denied(reason)
+
+    def _owned_program_running(self):
+        if self._lost_script:
+            return False
+        try:
+            running = self._control.isConnected() and self._control.isProgramRunning()
+        except (RuntimeError, OSError) as error:
+            raise self._motion_denied(f"UR5e writer status unavailable: {error}") from error
+        if not running:
+            # A program started after we saw our script stop belongs to someone else.
+            self._lost_script = True
+        return running
 
     def pose(self):
         """Return measured TCP position in metres and orientation relative to the UR base."""
@@ -120,14 +164,14 @@ class RealUR5e:
         if raw.shape != (6,) or not np.all(np.isfinite(raw)):
             raise RuntimeError("UR5e returned an invalid TCP pose.")
         if self._control is not None:
+            running = self._owned_program_running()
             self._check_safety_mode()
-            if not self._control.isConnected() or not self._control.isProgramRunning():
-                raise RobotControlStopped("The UR5e teleoperation control script is no longer running.")
+            if not running:
+                raise self._motion_denied("UR5e teleoperation script stopped or its writer disconnected.")
             # Active servo commands themselves update the watchdog register. An
             # idle receive loop must keep it alive after servoStop or before a grip.
             if not self._servo_active and now - self._heartbeat_at >= 0.05:
-                if not self._control.kickWatchdog():
-                    raise RuntimeError("UR5e rejected the watchdog heartbeat.")
+                self._require_command(self._control.kickWatchdog, reason="UR5e rejected the watchdog heartbeat.")
                 self._heartbeat_at = now
         return raw[:3], Rotation.from_rotvec(raw[3:])
 
@@ -141,30 +185,33 @@ class RealUR5e:
             raise ValueError("A TCP target needs three finite position and rotation coordinates.")
         if (np.linalg.norm(xyz - measured_xyz) > self.MAX_POSITION_LEAD or
                 (rotation * measured_rotation.inv()).magnitude() > self.MAX_ANGLE_LEAD):
-            raise ValueError("TCP target exceeds the allowed lead from the measured pose.")
+            reason = "TCP target exceeds the allowed lead from the measured pose."
+            if self.motion_enabled:
+                raise self._motion_denied(reason)
+            raise ValueError(reason)
         if self._control is None:
             return
         target = np.concatenate((xyz, rotvec)).tolist()
         checked_at = time.monotonic()
-        if not self._control.isPoseWithinSafetyLimits(target):
-            raise RuntimeError("Target exceeds the robot's configured safety limits or IK reach.")
+        self._require_command(self._control.isPoseWithinSafetyLimits, target,
+                              reason="Target exceeds the robot's configured safety limits or IK reach.")
         if time.monotonic() - checked_at >= self.FEEDBACK_TIMEOUT:
-            raise RuntimeError("UR5e target validation timed out.")
+            raise self._motion_denied("UR5e target validation timed out.")
         self._servo_active = True  # A failed acknowledgement may follow a transmitted command.
-        if not self._control.servoL(target, 0.10, 0.25, self.period, 0.10, 300):
-            raise RuntimeError("UR5e rejected the Cartesian servo command.")
+        self._require_command(self._control.servoL, target, 0.10, 0.25, self.period, 0.10, 300,
+                              reason="UR5e rejected the Cartesian servo command.")
 
     def hold(self):
         """Stop servoing once on clutch release; remain in the current physical pose."""
         if self._servo_active:
-            if self._control.isConnected() and self._control.isProgramRunning():
-                if not self._control.servoStop():
-                    raise RuntimeError("UR5e did not acknowledge servoStop.")
-            self._servo_active = False
+            self._servo_active = False  # Cleanup still stops the owned script after a rejected servoStop.
+            if self._owned_program_running():
+                self._require_command(self._control.servoStop, reason="UR5e did not acknowledge servoStop.")
 
     def _stop_owned_script(self):
-        if self._control.isConnected() and self._control.isProgramRunning():
-            self._control.stopScript()
+        if self._owned_program_running() and self._control.stopScript() is False:
+            # ur_rtde 1.6 returns None on success; report an explicit negative acknowledgement.
+            raise RuntimeError("UR5e did not acknowledge stopScript.")
 
     def close(self):
         try:

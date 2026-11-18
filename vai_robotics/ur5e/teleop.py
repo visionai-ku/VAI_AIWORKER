@@ -51,17 +51,21 @@ class TeleopController:
                     return f"SpaceMouse {device.button}번 버튼을 한 번 눌렀다 놓은 뒤 실기 구동을 다시 선택하세요."
                 return "SpaceMouse의 모든 버튼을 놓은 뒤 실기 구동을 다시 선택하세요."
             return "컨트롤러의 추적 상태를 확인하고 클러치를 놓은 뒤 실기 구동을 다시 선택하세요."
-        self.backend.hold()
         self.target = self.last_tick = None
         self.ready_after_release = False
-        if not simulation:
-            if dry_run:
-                self.backend.set_motion_enabled(False)
-            else:
-                try:
-                    self.backend.set_motion_enabled(True)
-                except (RuntimeError, OSError, ImportError) as error:
+        if simulation:
+            self.backend.hold()
+        else:
+            try:
+                # Detaching the real writer also stops its servo and script.
+                self.backend.set_motion_enabled(not dry_run)
+            except (RuntimeError, OSError, ImportError) as error:
+                if not dry_run:
                     return f"REAL RUN 전환 실패 · {error}"
+                if self.backend.motion_enabled:
+                    raise
+                self.dry_run = True
+                return f"실기 제어 연결 해제 · 정지 응답을 확인하지 못했습니다. 펜던트를 확인하세요. ({error})"
         self.dry_run = dry_run
         return ""
 
@@ -153,7 +157,7 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
                     gripper.update(None)
                 message = controller.set_mode(request, simulation=sim, sample=sample, device=device)
                 # Don't use input captured before a transition opened an RTDE session.
-                if not message:
+                if controller.dry_run == request:
                     sample = None
                     preview.reset(baseline_width)
                     if request and gripper is not None:
@@ -167,14 +171,16 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
                     raise
                 if gripper is not None:
                     gripper.update(None)
-                controller.set_mode(True, simulation=False, sample=None)
+                stop_message = controller.set_mode(True, simulation=False, sample=None)
                 if gripper is not None:
                     gripper.wait_for_writes()
                 sample = None
                 preview.reset(baseline_width)
                 controller.update(sample, time.monotonic())  # Verify feedback before showing a measured pose.
-                message = "실기 제어 연결이 중단되어 DRY RUN으로 전환했습니다."
-                print(f"{message} {error}", file=sys.stderr, flush=True)
+                message = f"DRY RUN 전환 · {error}"
+                if stop_message:
+                    message += f" · {stop_message}"
+                print(message, file=sys.stderr, flush=True)
             if request is not None:
                 if not change_mode:
                     message = ""
