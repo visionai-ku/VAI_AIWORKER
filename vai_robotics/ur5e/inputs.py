@@ -72,7 +72,7 @@ class QuestInput:
                            Rotation.from_matrix(relative).as_rotvec(), True)
 
 
-def _open_spacemouse(button_callback):
+def _load_spacemouse():
     if sys.platform == "darwin":
         # easyhid 0.0.10 tests for "Darwin" in platform.platform(). Modern
         # Python reports "macOS", so pre-load hidapi symbols before importing it.
@@ -91,35 +91,58 @@ def _open_spacemouse(button_callback):
         CDLL(library, mode=RTLD_GLOBAL)
     try:
         import pyspacemouse
+        from easyhid import HIDException
     except ImportError as exc:
         raise RuntimeError("Install the optional SpaceMouse dependency: pip install pyspacemouse==2.1.0") from exc
-    try:
-        return pyspacemouse.open(nonblocking=True, axis_convention=pyspacemouse.AxisConvention.HID_Z_UP,
-                                 button_callback=button_callback)
-    except (RuntimeError, OSError) as exc:
-        raise RuntimeError(f"Cannot open SpaceMouse: {exc} Check USB connection, hidapi, and HID permissions.") from exc
+    return pyspacemouse, HIDException
 
 
 class SpaceMouseInput:
     """Integrate normalized SpaceMouse velocity while the clutch button is held."""
 
-    def __init__(self, button=0, linear_speed=0.08, angular_speed=0.5):
+    def __init__(self, button=0, linear_speed=0.08, angular_speed=0.5, *, wait_for_device=False):
         if button < 0 or not all(np.isfinite(v) and v > 0 for v in (linear_speed, angular_speed)):
             raise ValueError("Use a nonnegative button index and positive, finite input speeds")
         self.button = button
         self.linear_speed = linear_speed
         self.angular_speed = angular_speed
+        self.wait_for_device = wait_for_device
+        self.device = None
 
     def __enter__(self):
+        self.driver, self.hid_error = _load_spacemouse()
+        self._connect()
+        return self
+
+    @property
+    def status(self):
+        return "SpaceMouse USB 연결 대기" if self.device is None else ""
+
+    def _connect(self):
+        self.retry_at = time.monotonic() + 1.0
+        devices = self.driver.get_connected_devices()
+        if not devices:
+            if self.wait_for_device:
+                return
+            raise RuntimeError("No connected SpaceMouse found. Connect a supported USB device.")
         self.last_tick = None
         self.report_time = -1.0
         self.saw_release = False
         self.release_pending = False
-        self.device = _open_spacemouse(self._buttons)
-        return self
+        try:
+            self.device = self.driver.open(device=devices[0], nonblocking=True,
+                                           axis_convention=self.driver.AxisConvention.HID_Z_UP,
+                                           button_callback=self._buttons)
+        except (RuntimeError, OSError, self.hid_error) as exc:
+            # A removal between enumeration and open is a normal hot-plug race.
+            if self.wait_for_device and devices[0] not in self.driver.get_connected_devices():
+                return
+            raise RuntimeError(f"Cannot open SpaceMouse: {exc} Check HID permissions and other drivers.") from exc
 
     def __exit__(self, *exc):
-        self.device.close()
+        if self.device is not None:
+            self.device.close()
+            self.device = None
 
     def _buttons(self, state, buttons):
         # Axis-only HID reports retain the driver's synthetic initial button
@@ -129,10 +152,22 @@ class SpaceMouseInput:
             self.release_pending = True
 
     def read(self):
+        if self.device is None:
+            if time.monotonic() >= self.retry_at:
+                self._connect()
+            return None
         # Some models send separate reports for translation, rotation and buttons.
         # Drain the nonblocking HID queue so a queued release takes effect this tick.
         for _ in range(64):
-            state = self.device.read()
+            try:
+                state = self.device.read()
+            except (self.hid_error, OSError):
+                if not self.wait_for_device:
+                    raise
+                self.device.close()
+                self.device = None
+                self.retry_at = time.monotonic() + 1.0
+                return None
             if self.button >= len(state.buttons):
                 raise ValueError(f"Button {self.button} unavailable; device has {len(state.buttons)} buttons.")
             if state.t == self.report_time:

@@ -62,6 +62,63 @@ class RealUR5eTests(unittest.TestCase):
                     self.fail("unexpected motion session")
         self.control_cls.assert_not_called()
 
+    def test_toggle_keeps_feedback_and_releases_the_writer_once(self):
+        second_writer = MagicMock()
+        self.control_cls.side_effect = [self.control, second_writer]
+        with RealUR5e("test") as robot:
+            self.assertFalse(robot.motion_enabled)
+            robot.set_motion_enabled(True)
+            robot.set_motion_enabled(True)
+            robot.command(*robot.pose())
+            self.control.servoL.assert_called_once()
+            robot.set_motion_enabled(False)
+            robot.set_motion_enabled(False)
+            self.assertFalse(robot.motion_enabled)
+            robot.command(*robot.pose())
+            self.control.servoL.assert_called_once()
+            self.control.servoStop.assert_called_once()
+            self.control.stopScript.assert_called_once()
+            self.control.disconnect.assert_called_once()
+            self.receiver.disconnect.assert_not_called()
+            robot.set_motion_enabled(True)
+            self.assertTrue(robot.motion_enabled)
+            second_writer.setWatchdog.assert_called_once()
+        second_writer.disconnect.assert_called_once()
+        self.receiver.disconnect.assert_called_once()
+
+    def test_panel_enable_refusals_leave_receive_only_session(self):
+        with RealUR5e("test") as robot:
+            self.receiver.getSafetyMode.return_value = 3
+            with self.assertRaisesRegex(RuntimeError, "safety mode"):
+                robot.set_motion_enabled(True)
+            self.receiver.getSafetyMode.return_value = 1
+            self.clock.return_value += robot.FEEDBACK_TIMEOUT + 0.01
+            with self.assertRaisesRegex(RuntimeError, "stale"):
+                robot.set_motion_enabled(True)
+            self.control_cls.assert_not_called()
+            self.receiver.getTimestamp.return_value += 0.2
+            self.control.setWatchdog.return_value = False
+            with self.assertRaisesRegex(RuntimeError, "watchdog"):
+                robot.set_motion_enabled(True)
+            self.assertFalse(robot.motion_enabled)
+            self.control.stopScript.assert_called_once()
+            self.control.disconnect.assert_called_once()
+            robot.command(*robot.pose())
+            self.control.servoL.assert_not_called()
+            self.receiver.disconnect.assert_not_called()
+
+    def test_stop_failure_detaches_writer_before_further_commands(self):
+        with RealUR5e("test", enable_motion=True) as robot:
+            robot.command(*robot.pose())
+            self.control.servoStop.return_value = False
+            with self.assertRaisesRegex(RuntimeError, "servoStop"):
+                robot.set_motion_enabled(False)
+            self.assertFalse(robot.motion_enabled)
+            self.control.stopScript.assert_called_once()
+            self.control.disconnect.assert_called_once()
+            robot.command(*robot.pose())
+            self.control.servoL.assert_called_once()
+
     def test_safety_and_lead_limits(self):
         with RealUR5e("test", enable_motion=True) as robot:
             xyz, rot = robot.pose()

@@ -71,6 +71,11 @@ class SimBackend:
             self.sim.data.ctrl[:] = self.sim.data.qpos
             self.active = False
 
+    def show_preview(self, xyz, rotation):
+        """Draw the intended TCP frame for this tick without applying a target."""
+        if not self.headless and self.is_running():
+            self.sim.plot_T(p=xyz, R=rotation.as_matrix(), axis_len=0.08, axis_width=0.004)
+
     def tick(self):
         sim = self.sim
         self.tick_count += 1

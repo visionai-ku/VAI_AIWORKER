@@ -52,3 +52,36 @@ class TeleopControllerTest(unittest.TestCase):
         xyz, rot = self.controller.target
         self.assertAlmostEqual(np.linalg.norm(xyz - origin), 0.025)
         self.assertAlmostEqual((rot * self.start_rot.inv()).magnitude(), 0.12)
+
+    def test_dry_run_previews_scaled_input_and_discards_it_on_mode_change(self):
+        self.controller.set_mode(True, simulation=True, sample=None)
+        self.controller.update(self.rest, 0)
+        self.controller.update(self.held, 0.02)
+        for i in range(2, 102):
+            self.controller.update(self.held, i / 50, scale=0.5)
+        origin, rotation = self.backend.pose.return_value
+        xyz, rot = self.controller.target
+        np.testing.assert_allclose(xyz, origin + [0.050, 0, 0])
+        self.assertAlmostEqual((rot * rotation.inv()).magnitude(), 0.50)
+        self.backend.command.assert_not_called()
+        self.controller.set_mode(False, simulation=True, sample=self.held)
+        self.controller.update(self.held, 2.04)
+        self.backend.command.assert_not_called()
+        self.controller.update(self.rest, 2.06)
+        self.controller.update(self.held, 2.08)
+        np.testing.assert_array_equal(self.backend.command.call_args.args[0], origin)
+
+    def test_real_run_requires_released_input_and_successful_writer_attachment(self):
+        self.controller = TeleopController(self.backend, dry_run=True)
+        for sample in (None, self.held):
+            self.assertTrue(self.controller.set_mode(False, simulation=False, sample=sample))
+        self.backend.set_motion_enabled.assert_not_called()
+        self.backend.set_motion_enabled.side_effect = RuntimeError("program active")
+        self.assertIn("program active", self.controller.set_mode(False, simulation=False, sample=self.rest))
+        self.assertTrue(self.controller.dry_run)
+        self.backend.set_motion_enabled.side_effect = None
+        self.assertFalse(self.controller.set_mode(False, simulation=False, sample=self.rest))
+        self.assertFalse(self.controller.dry_run)
+        self.controller.set_mode(True, simulation=False, sample=self.held)
+        self.assertTrue(self.controller.dry_run)
+        self.backend.set_motion_enabled.assert_called_with(False)

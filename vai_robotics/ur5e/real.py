@@ -22,9 +22,8 @@ class RealUR5e:
         if not np.isfinite(frequency) or not 10 <= frequency <= 500:
             raise ValueError("RTDE teleoperation frequency must be between 10 and 500 Hz.")
         self.host = host
-        self.enable_motion = enable_motion
+        self._start_with_motion = enable_motion
         self.period = 1.0 / frequency
-        self._resources = ExitStack()
         self._receive = None
         self._control = None
         self._servo_active = False
@@ -42,25 +41,54 @@ class RealUR5e:
 
         try:
             self._receive = RTDEReceiveInterface(self.host, -1.0, list(self.RTDE_FIELDS))
-            self._resources.callback(self._receive.disconnect)
             self.pose()
-            if self.enable_motion:
-                from rtde_control import RTDEControlInterface
-
-                # The default ur_rtde constructor uploads a script and can stop a
-                # running program. Start only when the robot reports STOPPED.
-                if self._receive.getRuntimeState() != 1:
-                    raise RuntimeError("The robot already has an active or paused program.")
-                self._control = RTDEControlInterface(self.host)
-                self._resources.callback(self._control.disconnect)
-                self._resources.callback(self._stop_owned_script)
-                if not self._control.setWatchdog(self.WATCHDOG_HZ):
-                    raise RuntimeError("UR5e did not enable the RTDE command watchdog.")
-                self._heartbeat_at = time.monotonic()
+            if self._start_with_motion:
+                self.set_motion_enabled(True)
             return self
         except BaseException:
             self.close()
             raise
+
+    @property
+    def motion_enabled(self):
+        return self._control is not None
+
+    def set_motion_enabled(self, enabled):
+        """Acquire or release the motion writer while the feedback stream stays open."""
+        if enabled == self.motion_enabled:
+            return
+        if not enabled:
+            try:
+                with ExitStack() as cleanup:
+                    cleanup.callback(self._control.disconnect)
+                    cleanup.callback(self._stop_owned_script)
+                    self.hold()
+            finally:
+                self._control = None
+                self._servo_active = False
+            return
+
+        self.pose()
+        self._check_safety_mode()
+        # ur_rtde uploads its own control script and can stop a running one.
+        if self._receive.getRuntimeState() != 1:  # STOPPED
+            raise RuntimeError("The robot already has an active or paused program.")
+        from rtde_control import RTDEControlInterface
+
+        self._control = RTDEControlInterface(self.host)
+        try:
+            if not self._control.setWatchdog(self.WATCHDOG_HZ):
+                raise RuntimeError("UR5e did not enable the RTDE command watchdog.")
+            self._heartbeat_at = time.monotonic()
+            self.pose()  # Check fresh feedback and script status after the upload.
+        except BaseException:
+            self.set_motion_enabled(False)
+            raise
+
+    def _check_safety_mode(self):
+        # UR robot mode 7 is RUNNING; safety modes 1 and 2 are NORMAL and REDUCED.
+        if self._receive.getRobotMode() != 7 or self._receive.getSafetyMode() not in (1, 2):
+            raise RuntimeError("UR5e must be running in normal or reduced safety mode.")
 
     def pose(self):
         """Return measured TCP position in metres and orientation relative to the UR base."""
@@ -80,10 +108,8 @@ class RealUR5e:
         raw = np.asarray(receiver.getActualTCPPose(), dtype=float)
         if raw.shape != (6,) or not np.all(np.isfinite(raw)):
             raise RuntimeError("UR5e returned an invalid TCP pose.")
-        # UR robot mode 7 is RUNNING; safety modes 1 and 2 are NORMAL and REDUCED.
-        if self.enable_motion and (receiver.getRobotMode() != 7 or receiver.getSafetyMode() not in (1, 2)):
-            raise RuntimeError("UR5e must be running in normal or reduced safety mode.")
         if self._control is not None:
+            self._check_safety_mode()
             if not self._control.isConnected() or not self._control.isProgramRunning():
                 raise RuntimeError("The UR5e teleoperation control script is no longer running.")
             # Active servo commands themselves update the watchdog register. An
@@ -131,11 +157,12 @@ class RealUR5e:
 
     def close(self):
         try:
-            with self._resources:
-                self.hold()
+            self.set_motion_enabled(False)
         finally:
-            self._control = self._receive = self._timestamp = None
-            self._servo_active = False
+            receiver, self._receive = self._receive, None
+            self._timestamp = None
+            if receiver is not None:
+                receiver.disconnect()
 
     def __exit__(self, exc_type, exc_value, traceback):
         self.close()

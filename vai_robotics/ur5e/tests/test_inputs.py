@@ -68,9 +68,13 @@ def hid_report(t, button=0, x=0, y=0, pitch=0, button_event=True):
 class SpaceMouseTests(unittest.TestCase):
     def setUp(self):
         self.hid = Mock()
-        with patch("vai_robotics.ur5e.inputs._open_spacemouse", return_value=self.hid) as opener:
-            self.device = self.enterContext(SpaceMouseInput())
-        self.button_callback = opener.call_args.args[0]
+        self.driver = Mock()
+        self.driver.get_connected_devices.return_value = ["SpaceMouse Compact"]
+        self.driver.open.return_value = self.hid
+        self.enterContext(patch("vai_robotics.ur5e.inputs._load_spacemouse",
+                                return_value=(self.driver, ConnectionError)))
+        self.device = self.enterContext(SpaceMouseInput())
+        self.button_callback = self.driver.open.call_args.kwargs["button_callback"]
 
     def sample(self, report, now, earlier=()):
         queue = list(earlier) + [report]
@@ -116,3 +120,40 @@ class SpaceMouseTests(unittest.TestCase):
         observed = self.sample(pressed, 1.06, earlier=[hid_report(1.05)])
         self.assertFalse(observed.enabled)
         self.assertTrue(self.sample(pressed, 1.07).enabled)
+
+    def test_usb_wait_throttles_retries_and_unplug_requires_fresh_release(self):
+        self.driver.reset_mock()
+        self.driver.get_connected_devices.return_value = []
+        clock = self.enterContext(patch("time.monotonic", return_value=0.0))
+        self.device = self.enterContext(SpaceMouseInput(wait_for_device=True))
+        self.assertIn("대기", self.device.status)
+        for _ in range(5):
+            self.assertIsNone(self.device.read())
+        self.driver.get_connected_devices.assert_called_once()
+        self.driver.get_connected_devices.return_value = ["SpaceMouse Compact"]
+        clock.return_value = 1.1
+        self.assertIsNone(self.device.read())
+        self.assertFalse(self.device.status)
+        self.button_callback = self.driver.open.call_args.kwargs["button_callback"]
+        self.assertFalse(self.sample(hid_report(2), 2).enabled)
+        self.assertTrue(self.sample(hid_report(2.01, button=1), 2.01).enabled)
+        self.hid.read.side_effect = ConnectionError("device removed")
+        self.assertIsNone(self.device.read())
+        self.hid.close.assert_called_once()
+        self.assertIn("대기", self.device.status)
+        clock.return_value = 2.2
+        self.assertIsNone(self.device.read())
+        self.assertIsNone(self.sample(hid_report(3, button=1), 3))
+        self.assertFalse(self.sample(hid_report(3.01), 3.01).enabled)
+        self.assertTrue(self.sample(hid_report(3.02, button=1), 3.02).enabled)
+
+    def test_missing_device_fails_fast_without_panel_and_permissions_fail_with_panel(self):
+        self.driver.get_connected_devices.return_value = []
+        with self.assertRaisesRegex(RuntimeError, "No connected SpaceMouse"):
+            with SpaceMouseInput():
+                self.fail("started without a device")
+        self.driver.get_connected_devices.return_value = ["SpaceMouse Compact"]
+        self.driver.open.side_effect = PermissionError("access denied")
+        with self.assertRaisesRegex(RuntimeError, "access denied"):
+            with SpaceMouseInput(wait_for_device=True):
+                self.fail("silently waiting for a connected but inaccessible device")

@@ -2,6 +2,8 @@
 
 import argparse
 from contextlib import ExitStack
+import os
+import sys
 import time
 
 import numpy as np
@@ -26,16 +28,38 @@ def bounded_vector(vector, limit):
 class TeleopController:
     """Integrate clutched deltas into bounded absolute targets for either backend."""
 
-    def __init__(self, backend):
+    def __init__(self, backend, *, dry_run=False):
         self.backend = backend
+        self.dry_run = dry_run
+        self.measured = None
         self.ready_after_release = False
         self.target = None
         self.last_tick = None
 
-    def update(self, sample, now):
+    def set_mode(self, dry_run, *, simulation, sample):
+        if dry_run == self.dry_run:
+            return ""
+        if not dry_run and not simulation and (sample is None or sample.enabled):
+            return "입력 장치를 연결하고 클러치를 놓은 뒤 REAL RUN을 선택하세요."
+        self.backend.hold()
+        self.target = self.last_tick = None
+        self.ready_after_release = False
+        if not simulation:
+            if dry_run:
+                self.backend.set_motion_enabled(False)
+            else:
+                try:
+                    self.backend.set_motion_enabled(True)
+                except (RuntimeError, OSError, ImportError) as error:
+                    return f"REAL RUN 전환 실패 · {error}"
+        self.dry_run = dry_run
+        return ""
+
+    def update(self, sample, now, *, scale=1.0):
         dt = 0.0 if self.last_tick is None else now - self.last_tick
         self.last_tick = now
-        measured_xyz, measured_rot = self.backend.pose()
+        self.measured = self.backend.pose()
+        measured_xyz, measured_rot = self.measured
         if sample is None or not 0.0 <= dt <= 0.12:
             self.ready_after_release = False
         elif not sample.enabled:
@@ -47,32 +71,58 @@ class TeleopController:
                 xyz, rot = self.target
                 # Never replay a backlog after a slow frame.
                 dt = min(dt, 2 / HZ)
-                xyz = xyz + bounded_vector(sample.translation, MAX_LINEAR_SPEED * dt)
-                rot = Rotation.from_rotvec(bounded_vector(sample.rotation, MAX_ANGULAR_SPEED * dt)) * rot
-                lead = bounded_vector(xyz - measured_xyz, MAX_POSITION_LEAD)
-                angular_lead = bounded_vector((rot * measured_rot.inv()).as_rotvec(), MAX_ROTATION_LEAD)
-                self.target = measured_xyz + lead, Rotation.from_rotvec(angular_lead) * measured_rot
-            self.backend.command(*self.target)
+                xyz = xyz + scale * bounded_vector(sample.translation, MAX_LINEAR_SPEED * dt)
+                rot = Rotation.from_rotvec(scale * bounded_vector(sample.rotation, MAX_ANGULAR_SPEED * dt)) * rot
+                if not self.dry_run:
+                    xyz = measured_xyz + bounded_vector(xyz - measured_xyz, MAX_POSITION_LEAD)
+                    lead = bounded_vector((rot * measured_rot.inv()).as_rotvec(), MAX_ROTATION_LEAD)
+                    rot = Rotation.from_rotvec(lead) * measured_rot
+                self.target = xyz, rot
+            if not self.dry_run:
+                self.backend.command(*self.target)
             return
         self.target = None
         self.backend.hold()
 
 
-def run_teleop(device, backend, *, sim=False, dry_run=False):
-    controller = TeleopController(backend)
+def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None):
+    controller = TeleopController(backend, dry_run=dry_run)
     last_report = float("-inf")
+    message = ""
     active = False
     print("Release the device clutch, then hold it to move. Ctrl+C exits.", flush=True)
     try:
         while not sim or backend.is_running():
             started = time.monotonic()
-            controller.update(device.read(), time.monotonic())
+            request = panel.poll() if panel is not None else None
+            if panel is not None and not panel.is_open:
+                break
+            change_mode = request is not None and request != controller.dry_run
+            # Going back to preview takes priority over polling USB or network input.
+            sample = None if change_mode and request else device.read()
+            if change_mode:
+                message = controller.set_mode(request, simulation=sim, sample=sample)
+                # Don't use input captured before a transition opened an RTDE session.
+                if not message:
+                    sample = None
+            controller.update(sample, time.monotonic(), scale=panel.scale if panel is not None else 1.0)
             if sim:
+                if controller.dry_run and controller.target is not None:
+                    backend.show_preview(*controller.target)
                 backend.tick()
             if (controller.target is not None) != active:
                 active = controller.target is not None
                 print("Clutch active" if active else "Holding", flush=True)
-            if dry_run and active and started - last_report >= 0.5:
+            if panel is not None:
+                if sample is None:
+                    clutch = getattr(device, "status", "") or "입력 대기"
+                elif active:
+                    clutch = "누름"
+                else:
+                    clutch = "놓음" if not sample.enabled else "클러치를 놓으세요"
+                panel.refresh(dry_run=controller.dry_run, clutch=clutch, measured=controller.measured,
+                              target=controller.target, message=message)
+            elif controller.dry_run and active and started - last_report >= 0.5:
                 xyz, rot = controller.target
                 print("Dry-run target [m, rad]:", np.round(np.r_[xyz, rot.as_rotvec()], 4), flush=True)
                 last_report = started
@@ -92,6 +142,7 @@ def main(argv=None):
     parser.add_argument("--robot-ip", help="UR controller address for the real backend")
     parser.add_argument("--enable-motion", action="store_true", help="send real robot motion commands")
     parser.add_argument("--headless", action="store_true", help="run simulation without a viewer")
+    parser.add_argument("--no-panel", action="store_true", help="run without the desktop settings panel")
     args = parser.parse_args(argv)
     if args.backend == "real" and not args.robot_ip:
         parser.error("--backend real requires --robot-ip")
@@ -108,11 +159,20 @@ def main(argv=None):
 
     simulation = args.backend == "sim"
     dry_run = not simulation and not args.enable_motion
+    desktop = sys.platform != "linux" or bool(os.environ.get("DISPLAY") or os.environ.get("WAYLAND_DISPLAY"))
+    show_panel = desktop and not args.no_panel and not args.headless
     with ExitStack() as stack:
+        panel = None
+        if show_panel:
+            from .teleop_panel import TeleopPanel
+
+            device_name = f"Quest 3 · {args.hand}" if args.input == "quest" else f"SpaceMouse · 버튼 {args.button}"
+            panel = TeleopPanel(simulation=simulation, device_name=device_name, dry_run=dry_run)
+            stack.callback(panel.close)
         if args.input == "quest":
             device = QuestInput(host=args.quest_host, port=args.quest_port, hand=args.hand)
         else:
-            device = SpaceMouseInput(button=args.button)
+            device = SpaceMouseInput(button=args.button, wait_for_device=show_panel)
         if simulation:
             from .sim_teleop import SimBackend
 
@@ -125,7 +185,7 @@ def main(argv=None):
         stack.enter_context(device)
         stack.enter_context(backend)
         try:
-            run_teleop(device, backend, sim=simulation, dry_run=dry_run)
+            run_teleop(device, backend, sim=simulation, dry_run=dry_run, panel=panel)
         except KeyboardInterrupt:
             pass
 
