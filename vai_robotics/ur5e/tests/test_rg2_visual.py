@@ -24,10 +24,34 @@ class RG2PreviewTest(unittest.TestCase):
                 self.assertTrue(30 < speeds[0] < 60)
                 self.assertTrue(105 < speeds[midstroke] < 133)
                 self.assertLessEqual(speeds.max(), 133)
-                opened = [preview.update(3 + i / hz, None, False if i == 1 else None, False)
+                opened = [preview.update(3 + i / hz, None, False if i == 1 else None, False,
+                                         open_width_mm=OPEN_WIDTH_MM)
                           for i in range(1, 3 * hz + 1)]
                 self.assertTrue(np.all(np.diff(opened) >= 0))
                 self.assertEqual(opened[-1], OPEN_WIDTH_MM)
+
+    def test_default_open_goal_from_below_and_above(self):
+        for measured in (38.0, 110.6):
+            with self.subTest(measured=measured):
+                preview = RG2Preview()
+                self.assertEqual(preview.update(0, measured, None, False), measured)
+                first = preview.update(0.02, measured, False, False)
+                self.assertTrue(min(measured, 75.0) < first < max(measured, 75.0))
+                for frame in range(2, 101):
+                    width = preview.update(frame / 50, measured, None, False)
+                self.assertEqual(width, 75.0)
+
+    def test_edit_takes_effect_on_next_open_command(self):
+        preview = RG2Preview()
+        preview.update(0, 30.0, False, False, open_width_mm=60.11)
+        for frame in range(1, 101):
+            width = preview.update(frame / 50, None, None, False, open_width_mm=89.0)
+        self.assertEqual(width, 60.1)
+        preview.update(2.02, None, True, True, open_width_mm=89.0)
+        preview.update(2.04, None, False, False, open_width_mm=89.0)
+        for frame in range(103, 151):
+            width = preview.update(frame / 50, None, None, False)
+        self.assertEqual(width, 89.0)
 
     def test_40n_preview_closes_from_half_open_in_about_four_tenths_of_a_second(self):
         preview = RG2Preview()
@@ -92,7 +116,7 @@ class RG2VisualTest(unittest.TestCase):
 
     def test_open_closed_and_partial_apertures_preserve_parallel_pads(self):
         self.assertAlmostEqual(self.gap_mm(), 104.0693, places=3)
-        for width, expected_gap in ((0, 0), (55, 55), (100, 100), (OPEN_WIDTH_MM, 104.0693)):
+        for width, expected_gap in ((0, 0), (55, 55), (100, 100), (OPEN_WIDTH_MM, 104.0693), (110.6, 104.0693)):
             set_rg2_width(self.model, width)
             mujoco.mj_forward(self.model, self.data)
             self.assertAlmostEqual(self.gap_mm(), expected_gap, places=3)

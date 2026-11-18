@@ -14,7 +14,7 @@ class RealViewerSessionTest(unittest.TestCase):
     def setUp(self):
         self.backend = Mock()
         self.device = Mock(spec=["read"])
-        self.panel = Mock(scale=1.0, is_open=True)
+        self.panel = Mock(scale=1.0, is_open=True, open_width_mm=75.0)
         self.released = InputSample(np.zeros(3), np.zeros(3), False)
         self.held = InputSample(np.array([0.001, 0, 0]), np.zeros(3), True)
         self.frame = -1
@@ -71,6 +71,30 @@ class RealViewerSessionTest(unittest.TestCase):
             self.assertIsNone(state["target"])
         self.backend.command.assert_called_once()
         self.assertEqual(shutdown, [("motion", False), "viewer exit"])
+
+    def test_real_run_rejects_unconfirmed_or_held_spacemouse_until_explicit_retry(self):
+        self.device.button = 1
+        type(self.device).status = PropertyMock(side_effect=lambda: "SpaceMouse USB 연결 대기" if self.frame == 0 else "")
+        # USB unplugged, connected but unknown, clutch held, button 0 alone, then both up.
+        clutch_states = [None, None, True, False, False, False]
+        type(self.device).clutch_pressed = PropertyMock(side_effect=lambda: clutch_states[self.frame])
+        button_zero_only = replace(self.released, buttons_released=False)
+        updates = self.run_frames(
+            dry_run=True,
+            requests=[False, False, False, False, None, False],
+            samples=[None, None, None, button_zero_only, self.released, self.released],
+        )
+
+        self.assertEqual([frame["dry_run"] for frame in updates], [True, True, True, True, True, False])
+        results = [entry.kwargs for entry in self.panel.mode_result.call_args_list]
+        self.assertEqual([result["dry_run"] for result in results], [True, True, True, True, False])
+        self.assertIn("USB", results[0]["message"])
+        self.assertIn("1번 버튼을 한 번 눌렀다 놓", results[1]["message"])
+        for result in results[2:4]:
+            self.assertIn("버튼을 놓", result["message"])
+        self.assertEqual(results[-1]["message"], "")
+        self.assertEqual(self.backend.set_motion_enabled.call_args_list, [call(True), call(False)])
+        self.backend.command.assert_not_called()
 
     def test_gripper_chord_is_virtual_in_dry_and_real_view_shows_feedback(self):
         opened = replace(self.released, gripper_chord=False)
@@ -141,6 +165,27 @@ class RealViewerSessionTest(unittest.TestCase):
         updates = self.run_frames(dry_run=False, gripper=gripper, requests=[None] * len(measured),
                                   samples=[idle, close, replace(close, gripper_command=None), release])
         self.assertEqual([u["gripper_width_mm"] for u in updates], measured)
+
+    def test_panel_open_target_reaches_gripper_without_moving_it_or_clipping_feedback(self):
+        gripper = Mock(width_mm=110.6, open_width_mm=75.0, status="RG2 110.6 mm")
+        type(self.panel).open_width_mm = PropertyMock(side_effect=lambda: 75.0 if self.frame == 0 else 62.5)
+        updates = self.run_frames(dry_run=True, gripper=gripper, requests=[None] * 3,
+                                  samples=[self.released] * 3)
+        gripper.set_open_width.assert_called_once_with(62.5)
+        self.assertEqual([u["gripper_width_mm"] for u in updates], [110.6] * 3)
+        self.assertTrue(all(c.args == (None,) for c in gripper.update.call_args_list))
+
+    def test_sim_release_uses_panel_open_target(self):
+        self.panel.open_width_mm = 35.0
+        idle = replace(self.released, gripper_chord=False)
+        close = replace(self.held, gripper_command=True, gripper_chord=True)
+        held = replace(close, gripper_command=None)
+        release = replace(idle, gripper_command=False)
+        samples = [idle, close] + [held] * 50 + [release] + [idle] * 50
+        frames = self.run_frames(dry_run=False, simulation=True, requests=[None] * len(samples), samples=samples)
+        self.assertEqual(frames[0]["gripper_width_mm"], 75.0)
+        self.assertEqual(frames[51]["gripper_width_mm"], 0.0)
+        self.assertEqual(frames[-1]["gripper_width_mm"], 35.0)
 
     def test_stopped_control_script_with_healthy_feedback_keeps_same_viewer_in_dry(self):
         measured_pose = self.backend.pose.side_effect

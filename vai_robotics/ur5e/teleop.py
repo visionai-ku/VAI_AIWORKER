@@ -10,7 +10,7 @@ import numpy as np
 from scipy.spatial.transform import Rotation
 
 from .real import RobotControlStopped
-from .rg2 import DEFAULT_GRIP_FORCE_N
+from .rg2 import DEFAULT_GRIP_FORCE_N, DEFAULT_OPEN_WIDTH_MM
 from .rg2_visual import OPEN_WIDTH_MM, RG2Preview
 
 
@@ -40,11 +40,17 @@ class TeleopController:
         self.target = None
         self.last_tick = None
 
-    def set_mode(self, dry_run, *, simulation, sample):
+    def set_mode(self, dry_run, *, simulation, sample, device=None):
         if dry_run == self.dry_run:
             return ""
         if not dry_run and not simulation and (sample is None or sample.enabled or not sample.buttons_released):
-            return "입력 장치를 연결하고 클러치와 그리퍼 버튼을 놓은 뒤 REAL RUN을 선택하세요."
+            if hasattr(device, "clutch_pressed"):
+                if device.status:
+                    return "SpaceMouse를 USB에 연결한 뒤 다시 시도하세요."
+                if device.clutch_pressed is None:
+                    return f"SpaceMouse {device.button}번 버튼을 한 번 눌렀다 놓은 뒤 실기 구동을 다시 선택하세요."
+                return "SpaceMouse의 모든 버튼을 놓은 뒤 실기 구동을 다시 선택하세요."
+            return "컨트롤러의 추적 상태를 확인하고 클러치를 놓은 뒤 실기 구동을 다시 선택하세요."
         self.backend.hold()
         self.target = self.last_tick = None
         self.ready_after_release = False
@@ -93,7 +99,7 @@ def clutch_text(device, sample, active):
     if hasattr(device, "clutch_pressed"):
         pressed = device.clutch_pressed
         if pressed is None:
-            state = device.status or "입력 대기"
+            state = device.status or "상태 확인 대기 · 한 번 눌렀다 놓으세요"
         elif not pressed:
             state = "놓음"
         elif active:
@@ -115,7 +121,8 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
     message = ""
     active = False
     preview = RG2Preview(gripper_force_n)
-    baseline_width = OPEN_WIDTH_MM
+    open_width_mm = gripper.open_width_mm if gripper is not None else DEFAULT_OPEN_WIDTH_MM
+    baseline_width = open_width_mm if sim else OPEN_WIDTH_MM
     print("Release the device clutch, then hold it to move. Ctrl+C exits.", flush=True)
     with ExitStack() as session:
         view = backend if sim else None
@@ -134,13 +141,17 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
             request = panel.poll() if panel is not None else None
             if panel is not None and not panel.is_open:
                 break
+            if panel is not None and panel.open_width_mm != open_width_mm:
+                open_width_mm = panel.open_width_mm
+                if gripper is not None:
+                    gripper.set_open_width(open_width_mm)
             change_mode = request is not None and request != controller.dry_run
             # Going back to preview takes priority over polling USB or network input.
             sample = None if change_mode and request else device.read()
             if change_mode:
                 if gripper is not None:
                     gripper.update(None)
-                message = controller.set_mode(request, simulation=sim, sample=sample)
+                message = controller.set_mode(request, simulation=sim, sample=sample, device=device)
                 # Don't use input captured before a transition opened an RTDE session.
                 if not message:
                     sample = None
@@ -164,6 +175,12 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
                 controller.update(sample, time.monotonic())  # Verify feedback before showing a measured pose.
                 message = "실기 제어 연결이 중단되어 DRY RUN으로 전환했습니다."
                 print(f"{message} {error}", file=sys.stderr, flush=True)
+            if request is not None:
+                if not change_mode:
+                    message = ""
+                panel.mode_result(dry_run=controller.dry_run, message=message)
+                requested_mode = "DRY RUN" if request else ("SIM RUN" if sim else "REAL RUN")
+                print(f"{requested_mode} · {message or '전환 완료'}", flush=True)
             measured_width = None
             chord = sample.gripper_chord if sample is not None else getattr(device, "gripper_chord", None)
             if gripper is not None:
@@ -178,7 +195,8 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
                     # Released preview mirrors fresh RTDE/Modbus feedback or the frozen SIM RUN pose.
                     preview.reset(baseline_width)
                     command = None
-                width = preview.update(time.monotonic(), baseline_width, command, chord)
+                width = preview.update(time.monotonic(), baseline_width, command, chord,
+                                       open_width_mm=open_width_mm)
                 if sim and not controller.dry_run:
                     baseline_width = width
             if sim:

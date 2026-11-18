@@ -37,16 +37,17 @@ class RG2Test(unittest.TestCase):
         grip.update(False)
         grip._poll()
         grip._poll()  # A busy owned move receives only one stop.
+        grip.set_open_width(20)  # The pending release already captured 75 mm.
         self.feedback.registers = [350, 0]
         grip._poll()
         grip._poll()
         self.assertEqual(self.client.write_registers.call_args_list, [
             call(0, [400, 0, 1], device_id=65), call(2, [8], device_id=65),
-            call(0, [400, 1100, 1], device_id=65),
+            call(0, [400, 750, 1], device_id=65),
         ])
 
     def test_custom_force_is_written_in_decinewtons(self):
-        self.gripper = RG2("compute-box", force_n=20.0)
+        self.gripper = RG2("compute-box", force_n=20.0, open_width_mm=110)
         self.gripper._client = self.client
         self.gripper._poll()
         self.press()
@@ -56,6 +57,53 @@ class RG2Test(unittest.TestCase):
         self.assertEqual(self.client.write_registers.call_args_list, [
             call(0, [200, 0, 1], device_id=65), call(0, [200, 1100, 1], device_id=65),
         ])
+
+    def test_open_stop_feedback_preserves_width_and_release(self):
+        self.assertEqual(self.gripper.open_width_mm, 75)
+        self.feedback.registers = [1106, 0]  # Observed full-open encoder value.
+        self.gripper._poll()
+        self.assertEqual(self.gripper.width_mm, 110.6)
+        self.assertIn("110.6 mm", self.gripper.status)
+        self.press()
+        self.gripper._poll()
+        self.gripper.update(False)
+        self.gripper._poll()
+        self.assertEqual(self.client.write_registers.call_args_list, [
+            call(0, [400, 0, 1], device_id=65), call(0, [400, 750, 1], device_id=65),
+        ])
+
+    def test_setting_open_width_only_affects_future_open_commands(self):
+        self.gripper.set_open_width(60.44)
+        self.assertEqual(self.gripper.open_width_mm, 60.4)
+        self.gripper._poll()
+        self.client.write_registers.assert_not_called()
+        self.press()
+        self.gripper._poll()
+        self.gripper.update(False)
+        self.gripper._poll()
+        self.client.write_registers.assert_called_with(0, [400, 604, 1], device_id=65)
+        self.gripper.set_open_width(25)
+        self.feedback.registers = [310, 1]  # Opening to 60.4 mm is still in progress.
+        self.gripper._poll()
+        self.feedback.registers = [604, 0]
+        self.gripper._poll()
+        self.assertEqual(self.client.write_registers.call_count, 2)
+        self.press()
+        self.gripper._poll()
+        self.gripper.update(False)
+        self.gripper._poll()
+        self.client.write_registers.assert_called_with(0, [400, 250, 1], device_id=65)
+        for invalid in (-0.1, 110.6, float("nan"), float("inf")):
+            with self.subTest(invalid=invalid), self.assertRaises(ValueError):
+                self.gripper.set_open_width(invalid)
+        self.assertEqual(self.gripper.open_width_mm, 25.0)
+
+    def test_grossly_invalid_width_never_dispatches_pending_close(self):
+        self.press()
+        self.feedback.registers = [0xffff, 0]
+        with self.assertRaisesRegex(OSError, "Invalid RG2 actual width"):
+            self.gripper._poll()
+        self.client.write_registers.assert_not_called()
 
     def test_never_preempts_external_motion_or_replays_canceled_close(self):
         self.feedback.registers = [560, 1]

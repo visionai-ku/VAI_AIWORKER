@@ -51,8 +51,14 @@ def _display_pose(pose):
 class TeleopPanel:
     """Qt owns the Cocoa event loop in a separate process from the MuJoCo viewer."""
 
-    def __init__(self, *, simulation, device_name, dry_run, robot_ip=None):
-        settings = dict(simulation=simulation, device_name=device_name, dry_run=dry_run, robot_ip=robot_ip)
+    def __init__(self, *, simulation, device_name, dry_run, robot_ip=None, open_width_mm=None):
+        from .rg2 import DEFAULT_OPEN_WIDTH_MM, normalize_open_width_mm
+
+        if open_width_mm is None:
+            open_width_mm = DEFAULT_OPEN_WIDTH_MM
+        self.open_width_mm = normalize_open_width_mm(open_width_mm)
+        settings = dict(simulation=simulation, device_name=device_name, dry_run=dry_run, robot_ip=robot_ip,
+                        open_width_mm=self.open_width_mm)
         self._process = subprocess.Popen(
             [sys.executable, str(Path(__file__).resolve()), json.dumps(settings)],
             stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True, encoding="utf-8",
@@ -88,6 +94,8 @@ class TeleopPanel:
                 request = event["mode"]
             if "scale" in event:
                 self.scale = event["scale"]
+            if "open_width_mm" in event:
+                self.open_width_mm = event["open_width_mm"]
             if "ack" in event:
                 self._can_send = True
         return request
@@ -107,6 +115,14 @@ class TeleopPanel:
         self._can_send = False
         self._next_update = now + 0.1
 
+    def mode_result(self, *, dry_run, message=""):
+        """Acknowledge one requested switch, independently of the telemetry frame rate."""
+        if self.is_open:
+            try:
+                _send(self._process.stdin, {"mode_result": {"dry_run": dry_run, "message": message[:256]}})
+            except (BrokenPipeError, OSError):
+                self._open = False
+
     def close(self):
         self._open = False
         try:
@@ -124,11 +140,11 @@ class TeleopPanel:
 class _PanelWindow:
     """The operator's selection is a request until confirmed by the control loop."""
 
-    def __init__(self, *, simulation, device_name, dry_run, robot_ip=None):
+    def __init__(self, *, simulation, device_name, dry_run, open_width_mm, robot_ip=None):
         from PyQt5.QtCore import Qt
         from PyQt5.QtGui import QFontDatabase, QFontMetrics
         from PyQt5.QtWidgets import (
-            QApplication, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QPushButton,
+            QApplication, QDoubleSpinBox, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QPushButton,
             QSlider, QVBoxLayout, QWidget,
         )
 
@@ -143,6 +159,7 @@ class _PanelWindow:
         self.app = app
         self._applied_dry_run = dry_run
         self._requested_dry_run = None
+        self._awaiting_mode_result = False
 
         self.window = QWidget()
         self.window.setAttribute(Qt.WA_QuitOnClose, False)
@@ -181,6 +198,12 @@ class _PanelWindow:
         self._show_mode(dry_run)
         layout.addWidget(modes)
 
+        self.message_label = QLabel()
+        self.message_label.setWordWrap(True)
+        self.message_label.setTextFormat(Qt.PlainText)
+        self.message_label.hide()
+        layout.addWidget(self.message_label)
+
         gain_row = QHBoxLayout()
         gain_row.addWidget(QLabel("입력 배율"))
         self.gain = QSlider(Qt.Horizontal)
@@ -197,6 +220,21 @@ class _PanelWindow:
 
         self.clutch_label = QLabel("입력 대기")
         layout.addWidget(self.clutch_label)
+        width_row = QHBoxLayout()
+        width_label = QLabel("열림 목표 폭")
+        width_row.addWidget(width_label)
+        self.open_width = QDoubleSpinBox()
+        width_label.setBuddy(self.open_width)
+        self.open_width.setAccessibleName(width_label.text())
+        self.open_width.setDecimals(1)
+        self.open_width.setRange(0.0, 110.0)
+        self.open_width.setSingleStep(0.1)
+        self.open_width.setSuffix(" mm")
+        self.open_width.setKeyboardTracking(False)
+        self.open_width.setValue(open_width_mm)
+        width_row.addWidget(self.open_width)
+        width_row.addStretch(1)
+        layout.addLayout(width_row)
         self.gripper_label = QLabel()
         self.gripper_label.setWordWrap(True)
         self.gripper_label.setTextFormat(Qt.PlainText)
@@ -226,11 +264,6 @@ class _PanelWindow:
             self.pose_rows.append(cells)
         layout.addWidget(tcp)
 
-        self.message_label = QLabel()
-        self.message_label.setWordWrap(True)
-        self.message_label.setTextFormat(Qt.PlainText)
-        self.message_label.hide()
-        layout.addWidget(self.message_label)
         exit_button = QPushButton("세션 종료")
         exit_button.clicked.connect(self.close)
         layout.addWidget(exit_button)
@@ -250,25 +283,46 @@ class _PanelWindow:
     def scale(self):
         return self.gain.value() / 100
 
+    @property
+    def open_width_mm(self):
+        return round(self.open_width.value(), self.open_width.decimals())
+
     def _show_mode(self, dry_run):
         self._applied_dry_run = dry_run
         self.dry_button.setChecked(dry_run)
         self.run_button.setChecked(not dry_run)
 
     def _request_mode(self, dry_run):
-        self._requested_dry_run = dry_run
         self._show_mode(self._applied_dry_run)
+        if self._awaiting_mode_result or dry_run == self._applied_dry_run:
+            return
+        self._requested_dry_run = dry_run
+        self._awaiting_mode_result = True
+        self.run_button.setEnabled(False)
+        self.dry_button.setEnabled(False)
+        button = self.dry_button if dry_run else self.run_button
+        self.message_label.setText(f"{button.text()} 전환 중…")
+        self.message_label.show()
 
     def take_request(self):
         request, self._requested_dry_run = self._requested_dry_run, None
         return request
 
-    def refresh(self, *, dry_run, clutch, measured, target, message="", gripper=""):
+    def mode_result(self, *, dry_run, message=""):
+        self._awaiting_mode_result = False
+        self.run_button.setEnabled(True)
+        self.dry_button.setEnabled(True)
         self._show_mode(dry_run)
-        self.clutch_label.setText(clutch)
-        self.gripper_label.setText(gripper)
         self.message_label.setText(message)
         self.message_label.setVisible(bool(message))
+
+    def refresh(self, *, dry_run, clutch, measured, target, message="", gripper=""):
+        if not self._awaiting_mode_result:
+            self._show_mode(dry_run)
+            self.message_label.setText(message)
+            self.message_label.setVisible(bool(message))
+        self.clutch_label.setText(clutch)
+        self.gripper_label.setText(gripper)
         for i, pose in enumerate((measured, target)):
             values = (None, None) if pose is None else pose
             for cells, vector in zip((self.pose_rows[i], self.pose_rows[i + 2]), values):
@@ -285,9 +339,10 @@ def _run_window(settings):
     window = _PanelWindow(**settings)
     messages = _incoming(sys.stdin)
     previous_scale = window.scale
+    previous_width = window.open_width_mm
 
     def exchange():
-        nonlocal previous_scale
+        nonlocal previous_scale, previous_width
         if not window.is_open:
             window.app.quit()
             return
@@ -296,14 +351,20 @@ def _run_window(settings):
             if state is None:
                 window.app.quit()
                 return
-            window.refresh(**state)
-            event["ack"] = True
+            if "mode_result" in state:
+                window.mode_result(**state["mode_result"])
+            else:
+                window.refresh(**state)
+                event["ack"] = True
         requested = window.take_request()
         if requested is not None:
             event["mode"] = requested
         if window.scale != previous_scale:
             previous_scale = window.scale
             event["scale"] = previous_scale
+        if window.open_width_mm != previous_width:
+            previous_width = window.open_width_mm
+            event["open_width_mm"] = previous_width
         if event:
             try:
                 _send(sys.stdout, event)

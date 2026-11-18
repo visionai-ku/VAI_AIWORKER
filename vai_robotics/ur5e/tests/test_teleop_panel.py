@@ -6,28 +6,39 @@ from unittest.mock import patch
 import numpy as np
 from scipy.spatial.transform import Rotation
 
+from vai_robotics.ur5e.rg2 import DEFAULT_OPEN_WIDTH_MM
 from vai_robotics.ur5e.teleop_panel import TeleopPanel, _display_pose, _PanelWindow
 
 
 class TeleopPanelTest(unittest.TestCase):
-    def make_panel(self, simulation=False):
+    def make_panel(self, simulation=False, open_width_mm=DEFAULT_OPEN_WIDTH_MM):
         with patch.dict(os.environ, QT_QPA_PLATFORM="offscreen"):
-            panel = _PanelWindow(simulation=simulation, device_name="spacemouse", dry_run=True)
+            panel = _PanelWindow(simulation=simulation, device_name="spacemouse", dry_run=True,
+                                 open_width_mm=open_width_mm)
         self.addCleanup(panel.close)
         return panel
 
-    def test_real_button_requests_mode_and_only_feedback_marks_it_applied(self):
+    def test_real_button_stays_pending_until_controller_accepts_or_refuses(self):
         panel = self.make_panel()
         panel.run_button.click()
         self.assertIs(panel.take_request(), False)
         self.assertTrue(panel.dry_button.isChecked())
         self.assertIsNone(panel.take_request())
-
+        self.assertIn("전환 중", panel.message_label.text())
         panel.refresh(dry_run=True, clutch="클러치 해제", measured=None, target=None, message="실기 연결 대기")
+        self.assertIn("전환 중", panel.message_label.text())
         self.assertTrue(panel.dry_button.isChecked())
-        self.assertEqual(panel.message_label.text(), "실기 연결 대기")
-        panel.refresh(dry_run=False, clutch="클러치 해제", measured=None, target=None)
+        panel.run_button.click()
+        self.assertIsNone(panel.take_request())
+        panel.mode_result(dry_run=True, message="클러치를 놓으세요")
+        self.assertTrue(panel.dry_button.isChecked())
+        self.assertEqual(panel.message_label.text(), "클러치를 놓으세요")
+
+        panel.run_button.click()
+        self.assertIs(panel.take_request(), False)
+        panel.mode_result(dry_run=False)
         self.assertTrue(panel.run_button.isChecked())
+        self.assertFalse(panel.message_label.isVisible())
         panel.dry_button.click()
         self.assertIs(panel.take_request(), True)
 
@@ -46,10 +57,33 @@ class TeleopPanelTest(unittest.TestCase):
         panel.close()
         self.assertFalse(panel.is_open)
 
+    def test_open_width_edits_commit_in_tenths_of_a_millimeter(self):
+        from PyQt5.QtCore import Qt
+        from PyQt5.QtTest import QTest
+
+        panel = self.make_panel(open_width_mm=81.3)
+        control = panel.open_width
+        self.assertEqual(control.accessibleName(), "열림 목표 폭")
+        self.assertEqual(control.suffix(), " mm")
+        self.assertEqual(panel.open_width_mm, 81.3)
+        control.setFocus()
+        control.selectAll()
+        QTest.keyClicks(control, "54.7")
+        self.assertEqual(panel.open_width_mm, 81.3)
+        QTest.keyClick(control, Qt.Key_Return)
+        self.assertEqual(panel.open_width_mm, 54.7)
+        control.stepUp()
+        self.assertEqual(panel.open_width_mm, 54.8)
+        control.setValue(-0.1)
+        self.assertEqual(panel.open_width_mm, 0.0)
+        control.setValue(110.1)
+        self.assertEqual(panel.open_width_mm, 110.0)
+
     def test_separate_panel_process_consumes_frame_and_exits_on_pipe_eof(self):
         with patch.dict(os.environ, QT_QPA_PLATFORM="offscreen"):
             panel = TeleopPanel(simulation=True, device_name="SpaceMouse", dry_run=True)
         self.addCleanup(panel.close)
+        self.assertEqual(panel.open_width_mm, 75.0)
         if os.name == "posix":
             self.assertNotEqual(os.getpgid(panel._process.pid), os.getpgrp())
         panel.refresh(dry_run=True, clutch="입력 대기", measured=None, target=None)

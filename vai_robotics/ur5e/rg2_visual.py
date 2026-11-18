@@ -4,7 +4,7 @@ import math
 
 import numpy as np
 
-from .rg2 import DEFAULT_GRIP_FORCE_N
+from .rg2 import DEFAULT_GRIP_FORCE_N, DEFAULT_OPEN_WIDTH_MM, normalize_open_width_mm
 
 
 OPEN_WIDTH_MM = 110.0
@@ -33,23 +33,25 @@ class RG2Preview:
         if width_mm is not None:
             self.width_mm = width_mm
         self._closing = None
+        self._target_width_mm = None
         self._last_tick = None
 
-    def update(self, now, measured_width, command, chord):
+    def update(self, now, measured_width, command, chord, *, open_width_mm=DEFAULT_OPEN_WIDTH_MM):
         dt = 0.0 if self._last_tick is None else now - self._last_tick
         self._last_tick = now
         if self._closing is None and measured_width is not None:
             self.width_mm = measured_width
         if command is not None:
+            self._target_width_mm = 0.0 if command else normalize_open_width_mm(open_width_mm)
             self._closing = command
         if self._closing is not None and chord == self._closing:
             # On a delayed control tick, resume from the visible width without catching up.
             speed_mm_s = float(np.interp(self.width_mm, _SPEED_GRAPH[:, 0], self._speeds))
             step = speed_mm_s * min(0.05, max(dt, 0.0))
-            if self._closing:
-                self.width_mm = max(0.0, self.width_mm - step)
+            if self.width_mm > self._target_width_mm:
+                self.width_mm = max(self._target_width_mm, self.width_mm - step)
             else:
-                self.width_mm = min(OPEN_WIDTH_MM, self.width_mm + step)
+                self.width_mm = min(self._target_width_mm, self.width_mm + step)
         return self.width_mm
 
 

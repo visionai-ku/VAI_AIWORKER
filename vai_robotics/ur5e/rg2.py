@@ -6,17 +6,27 @@ import time
 
 
 DEFAULT_GRIP_FORCE_N = 40.0
+DEFAULT_OPEN_WIDTH_MM = 75.0
+
+
+def normalize_open_width_mm(width_mm):
+    """Return an RG2 target width at the Compute Box's 0.1 mm resolution."""
+    if not math.isfinite(width_mm) or not 0 <= width_mm <= 110.0:
+        raise ValueError("RG2 open width must be between 0 and 110 mm.")
+    return round(width_mm * 10) / 10
 
 
 class RG2:
     """Poll measured aperture and handle button edges outside the arm's RTDE loop."""
 
     UNIT = 65
-    OPEN_MM = 110.0
+    # Encoder feedback can overshoot the nominal 110 mm travel at the end stop.
+    # This plausibility check rejects grossly invalid words such as 0xffff.
+    MAX_FEEDBACK_WIDTH_MM = 120.0
     INPUT_TIMEOUT = 0.15
     FEEDBACK_TIMEOUT = 0.30
 
-    def __init__(self, host, *, port=502, force_n=DEFAULT_GRIP_FORCE_N):
+    def __init__(self, host, *, port=502, force_n=DEFAULT_GRIP_FORCE_N, open_width_mm=DEFAULT_OPEN_WIDTH_MM):
         if not host or not host.strip():
             raise ValueError("Provide the RG2 Compute Box address.")
         if not 1 <= port <= 65535 or not math.isfinite(force_n) or not 3 <= force_n <= 40:
@@ -24,6 +34,7 @@ class RG2:
         self.host, self.port = host, port
         self._force = round(force_n * 10)
         self._lock = threading.Lock()
+        self.set_open_width(open_width_mm)
         self._write_gate = threading.Lock()
         self._stop = threading.Event()
         self._thread = None
@@ -55,6 +66,17 @@ class RG2:
         return self
 
     @property
+    def open_width_mm(self):
+        with self._lock:
+            return self._open_width_mm
+
+    def set_open_width(self, width_mm):
+        """Set the target for the next open command, in 0.1 mm increments."""
+        width_mm = normalize_open_width_mm(width_mm)
+        with self._lock:
+            self._open_width_mm = width_mm
+
+    @property
     def width_mm(self):
         with self._lock:
             if time.monotonic() - self._feedback_at < self.FEEDBACK_TIMEOUT:
@@ -80,10 +102,10 @@ class RG2:
                 self._reset_input()
             self._input_at = now
             if chord and self._chord is False:
-                self._pending = True
+                self._pending = (True, 0)
             elif not chord and self._chord is True:
                 # Release opens only after this session actually sent a close.
-                self._pending = False if self._issued is True else None
+                self._pending = (False, round(self._open_width_mm * 10)) if self._issued is True else None
             self._chord = bool(chord)
 
     def wait_for_writes(self):
@@ -115,12 +137,11 @@ class RG2:
                     return
                 self._stopping = True
                 return 2, [8]
-            self._issued = self._pending
+            self._issued, target_width = self._pending
             self._pending = None
             self._own_motion = True
-            width = 0 if self._issued else int(self.OPEN_MM * 10)
             # Force (0.1 N), width (0.1 mm), grip in the same reference as 267.
-            return 0, [self._force, width, 1]
+            return 0, [self._force, target_width, 1]
 
     def _poll(self):
         # FC3, actual width (aluminum finger spacing in tenths of mm) and status.
@@ -128,7 +149,7 @@ class RG2:
         if feedback.isError() or len(feedback.registers) != 2:
             raise OSError(f"RG2 feedback failed: {feedback}")
         width, flags = feedback.registers
-        if not 0 <= width <= 1100:
+        if not 0 <= width <= 10 * self.MAX_FEEDBACK_WIDTH_MM:
             raise OSError(f"Invalid RG2 actual width: {width / 10:.1f} mm")
         with self._write_gate:
             command = self._command_for_feedback(width, flags)
