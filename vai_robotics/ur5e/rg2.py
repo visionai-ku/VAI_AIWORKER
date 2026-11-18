@@ -5,6 +5,9 @@ import threading
 import time
 
 
+DEFAULT_GRIP_FORCE_N = 40.0
+
+
 class RG2:
     """Poll measured aperture and handle button edges outside the arm's RTDE loop."""
 
@@ -13,7 +16,7 @@ class RG2:
     INPUT_TIMEOUT = 0.15
     FEEDBACK_TIMEOUT = 0.30
 
-    def __init__(self, host, *, port=502, force_n=20.0):
+    def __init__(self, host, *, port=502, force_n=DEFAULT_GRIP_FORCE_N):
         if not host or not host.strip():
             raise ValueError("Provide the RG2 Compute Box address.")
         if not 1 <= port <= 65535 or not math.isfinite(force_n) or not 3 <= force_n <= 40:

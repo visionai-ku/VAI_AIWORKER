@@ -13,23 +13,56 @@ class RG2PreviewTest(unittest.TestCase):
             with self.subTest(hz=hz):
                 preview = RG2Preview()
                 preview.update(0, None, True, True)
-                for i in range(1, 3 * hz + 1):
-                    width = preview.update(i / hz, None, None, True)
-                    self.assertAlmostEqual(width, max(0, 110 - 40 * i / hz))
-                for i in range(1, 3 * hz + 1):
-                    width = preview.update(3 + i / hz, None, False if i == 1 else None, False)
-                    self.assertAlmostEqual(width, min(110, 40 * i / hz))
+                widths = [OPEN_WIDTH_MM] + [preview.update(i / hz, None, None, True)
+                                           for i in range(1, 3 * hz + 1)]
+                self.assertEqual(widths[-1], 0.0)
+                self.assertTrue(np.all(np.diff(widths) <= 0))
+                speeds = -np.diff(widths) * hz
+                midstroke = next(i for i, width in enumerate(widths) if width <= 50)
+                # The manufacturer's 40 N curve reaches about 117 mm/s near
+                # 50 mm width, and drops to about 38 mm/s at the open stop.
+                self.assertTrue(30 < speeds[0] < 60)
+                self.assertTrue(105 < speeds[midstroke] < 133)
+                self.assertLessEqual(speeds.max(), 133)
+                opened = [preview.update(3 + i / hz, None, False if i == 1 else None, False)
+                          for i in range(1, 3 * hz + 1)]
+                self.assertTrue(np.all(np.diff(opened) >= 0))
+                self.assertEqual(opened[-1], OPEN_WIDTH_MM)
+
+    def test_40n_preview_closes_from_half_open_in_about_four_tenths_of_a_second(self):
+        preview = RG2Preview()
+        preview.update(0, 50.6, True, True)
+        for frame in range(1, 51):
+            if preview.update(frame / 50, 50.6, None, True) == 0.0:
+                break
+        self.assertTrue(0.36 <= frame / 50 <= 0.48)
+
+    def test_halving_commanded_force_reduces_aperture_speed_near_midstroke(self):
+        speeds = []
+        for force_n in (20.0, 40.0):
+            preview = RG2Preview(force_n=force_n)
+            preview.update(0, 50.0, True, True)
+            width = preview.update(0.02, 50.0, None, True)
+            speeds.append((50.0 - width) / 0.02)
+        self.assertTrue(50 < speeds[0] < 70)
+        self.assertTrue(105 < speeds[1] < 133)
 
     def test_reverses_in_flight_and_does_not_replay_elapsed_time(self):
         preview = RG2Preview()
         preview.update(0, 50.6, None, False)
-        self.assertAlmostEqual(preview.update(0.02, 50.6, True, True), 49.8)
-        self.assertAlmostEqual(preview.update(0.04, 50.6, None, True), 49.0)
-        self.assertAlmostEqual(preview.update(0.06, 50.6, False, False), 49.8)
-        self.assertAlmostEqual(preview.update(0.08, 50.6, None, None), 49.8)
-        self.assertAlmostEqual(preview.update(2.0, 50.6, None, False), 51.8)
+        closed = preview.update(0.02, 50.6, True, True)
+        self.assertTrue(47.9 < closed < 48.5)
+        narrower = preview.update(0.04, 50.6, None, True)
+        self.assertLess(narrower, closed)
+        opening = preview.update(0.06, 50.6, False, False)
+        self.assertTrue(narrower < opening < 50.6)
+        self.assertEqual(preview.update(0.08, 50.6, None, None), opening)
+        after_delay = preview.update(2.0, 50.6, None, False)
+        self.assertTrue(opening < after_delay <= opening + 133 * .05)
         preview.reset()
         self.assertEqual(preview.update(2.02, 38.0, None, False), 38.0)
+        preview.reset(24.0)
+        self.assertEqual(preview.update(2.04, None, None, False), 24.0)
 
 
 class RG2VisualTest(unittest.TestCase):

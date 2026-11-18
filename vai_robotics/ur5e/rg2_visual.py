@@ -2,20 +2,36 @@
 
 import math
 
+import numpy as np
+
+from .rg2 import DEFAULT_GRIP_FORCE_N
+
 
 OPEN_WIDTH_MM = 110.0
+
+# Approximate aperture rates from OnRobot RG2 Datasheet v1.8, pp. 2–3.
+# Each row is (gap mm, speed mm/s at 3, 20, 40 N). Cap at the specified 127 mm/s.
+_SPEED_GRAPH = np.array([
+    (0,   13, 66, 127), (20, 13, 66, 127), (40, 12, 63, 123),
+    (60,  11, 57, 112), (80,  9.5, 49, 95), (90, 8, 42, 82),
+    (100, 6.5, 34, 65), (105, 5.5, 28, 54), (108, 4.5, 23, 45), (110, 4, 20, 38),
+])
 
 
 class RG2Preview:
     """Advance the simulated finger gap in millimetres from the last displayed pose."""
 
-    SPEED_MM_S = 40.0
-
-    def __init__(self):
+    def __init__(self, force_n=DEFAULT_GRIP_FORCE_N):
+        if not math.isfinite(force_n) or not 3 <= force_n <= 40:
+            raise ValueError("RG2 gripping force must be between 3 and 40 N.")
+        force_n = round(force_n * 10) / 10  # Match the resolution of the Compute Box.
+        self._speeds = [np.interp(force_n, (3, 20, 40), row[1:]) for row in _SPEED_GRAPH]
         self.width_mm = OPEN_WIDTH_MM
         self.reset()
 
-    def reset(self):
+    def reset(self, width_mm=None):
+        if width_mm is not None:
+            self.width_mm = width_mm
         self._closing = None
         self._last_tick = None
 
@@ -28,7 +44,8 @@ class RG2Preview:
             self._closing = command
         if self._closing is not None and chord == self._closing:
             # On a delayed control tick, resume from the visible width without catching up.
-            step = self.SPEED_MM_S * min(0.05, max(dt, 0.0))
+            speed_mm_s = float(np.interp(self.width_mm, _SPEED_GRAPH[:, 0], self._speeds))
+            step = speed_mm_s * min(0.05, max(dt, 0.0))
             if self._closing:
                 self.width_mm = max(0.0, self.width_mm - step)
             else:

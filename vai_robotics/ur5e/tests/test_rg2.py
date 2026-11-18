@@ -41,8 +41,20 @@ class RG2Test(unittest.TestCase):
         grip._poll()
         grip._poll()
         self.assertEqual(self.client.write_registers.call_args_list, [
-            call(0, [200, 0, 1], device_id=65), call(2, [8], device_id=65),
-            call(0, [200, 1100, 1], device_id=65),
+            call(0, [400, 0, 1], device_id=65), call(2, [8], device_id=65),
+            call(0, [400, 1100, 1], device_id=65),
+        ])
+
+    def test_custom_force_is_written_in_decinewtons(self):
+        self.gripper = RG2("compute-box", force_n=20.0)
+        self.gripper._client = self.client
+        self.gripper._poll()
+        self.press()
+        self.gripper._poll()
+        self.gripper.update(False)
+        self.gripper._poll()
+        self.assertEqual(self.client.write_registers.call_args_list, [
+            call(0, [200, 0, 1], device_id=65), call(0, [200, 1100, 1], device_id=65),
         ])
 
     def test_never_preempts_external_motion_or_replays_canceled_close(self):

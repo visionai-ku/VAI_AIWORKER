@@ -10,7 +10,8 @@ import numpy as np
 from scipy.spatial.transform import Rotation
 
 from .real import RobotControlStopped
-from .rg2_visual import RG2Preview
+from .rg2 import DEFAULT_GRIP_FORCE_N
+from .rg2_visual import OPEN_WIDTH_MM, RG2Preview
 
 
 HZ = 50
@@ -107,12 +108,14 @@ def clutch_text(device, sample, active):
     return "놓음" if not sample.enabled else "클러치를 놓으세요"
 
 
-def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper=None):
+def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper=None,
+               gripper_force_n=DEFAULT_GRIP_FORCE_N):
     controller = TeleopController(backend, dry_run=dry_run)
     last_report = float("-inf")
     message = ""
     active = False
-    preview = RG2Preview()
+    preview = RG2Preview(gripper_force_n)
+    baseline_width = OPEN_WIDTH_MM
     print("Release the device clutch, then hold it to move. Ctrl+C exits.", flush=True)
     with ExitStack() as session:
         view = backend if sim else None
@@ -141,7 +144,7 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
                 # Don't use input captured before a transition opened an RTDE session.
                 if not message:
                     sample = None
-                    preview.reset()
+                    preview.reset(baseline_width)
                     if request and gripper is not None:
                         # The arm writer is detached. Finish any Modbus write already in flight
                         # before presenting the transition to read-only control as complete.
@@ -157,7 +160,7 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
                 if gripper is not None:
                     gripper.wait_for_writes()
                 sample = None
-                preview.reset()
+                preview.reset(baseline_width)
                 controller.update(sample, time.monotonic())  # Verify feedback before showing a measured pose.
                 message = "실기 제어 연결이 중단되어 DRY RUN으로 전환했습니다."
                 print(f"{message} {error}", file=sys.stderr, flush=True)
@@ -166,10 +169,18 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
             if gripper is not None:
                 gripper.update(None if controller.dry_run or change_mode else chord)
                 measured_width = gripper.width_mm
+                if measured_width is not None:
+                    baseline_width = measured_width
             width = measured_width
             if sim or controller.dry_run:
                 command = sample.gripper_command if sample is not None else None
-                width = preview.update(time.monotonic(), measured_width, command, chord)
+                if controller.dry_run and chord is not True:
+                    # Released preview mirrors fresh RTDE/Modbus feedback or the frozen SIM RUN pose.
+                    preview.reset(baseline_width)
+                    command = None
+                width = preview.update(time.monotonic(), baseline_width, command, chord)
+                if sim and not controller.dry_run:
+                    baseline_width = width
             if sim:
                 backend.tick(dry_run=controller.dry_run, target=controller.target, gripper_width_mm=width)
             elif view is not None:
@@ -185,6 +196,7 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
                     gripper_text = gripper.status if gripper is not None else "RG2 · 그리퍼 IP 미설정"
                     if controller.dry_run:
                         gripper_text += f" · 미리보기 {width:.1f} mm"
+                gripper_text += f" · 설정 파지력 {gripper_force_n:g} N"
                 if hasattr(device, "gripper_chord"):
                     state = {True: "누름", False: "놓음", None: "입력 대기"}[device.gripper_chord]
                     gripper_text = f"버튼 0+1: {state} · {gripper_text}"
@@ -208,6 +220,8 @@ def main(argv=None):
     parser.add_argument("--button", type=int, default=1, help="SpaceMouse clutch button index (default 1)")
     parser.add_argument("--robot-ip", help="UR controller address for the real backend")
     parser.add_argument("--gripper-ip", help="OnRobot Compute Box address for RG2 feedback and control")
+    parser.add_argument("--gripper-force-n", type=float, default=DEFAULT_GRIP_FORCE_N,
+                        help="RG2 grip force for preview and real commands, in newtons (3–40, default 40)")
     initial_mode = parser.add_mutually_exclusive_group()
     initial_mode.add_argument("--enable-motion", action="store_true", help="send real robot motion commands")
     initial_mode.add_argument("--dry-run", action="store_true", help="start with the virtual arm preview")
@@ -218,6 +232,8 @@ def main(argv=None):
         parser.error("--backend real requires --robot-ip")
     if args.gripper_ip and args.backend != "real":
         parser.error("--gripper-ip applies only to --backend real")
+    if not 3 <= args.gripper_force_n <= 40:
+        parser.error("--gripper-force-n must be between 3 and 40 N")
     if args.input == "quest" and not args.quest_host:
         parser.error("--input quest requires --quest-host")
     if args.backend == "sim" and args.enable_motion:
@@ -260,10 +276,11 @@ def main(argv=None):
         if args.gripper_ip:
             from .rg2 import RG2
 
-            gripper = stack.enter_context(RG2(args.gripper_ip))
+            gripper = stack.enter_context(RG2(args.gripper_ip, force_n=args.gripper_force_n))
         stack.enter_context(backend)
         try:
-            run_teleop(device, backend, sim=simulation, dry_run=dry_run, panel=panel, gripper=gripper)
+            run_teleop(device, backend, sim=simulation, dry_run=dry_run, panel=panel, gripper=gripper,
+                       gripper_force_n=args.gripper_force_n)
         except KeyboardInterrupt:
             pass
 

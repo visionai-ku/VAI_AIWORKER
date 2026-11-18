@@ -49,14 +49,16 @@ python -m vai_robotics.ur5e.teleop --backend real --input spacemouse --robot-ip 
 ROBOT_IP=192.168.0.252
 GRIPPER_IP=192.168.0.72
 python -m vai_robotics.ur5e.teleop --backend real --input spacemouse \
-  --robot-ip "$ROBOT_IP" --gripper-ip "$GRIPPER_IP"
+  --robot-ip "$ROBOT_IP" --gripper-ip "$GRIPPER_IP" --gripper-force-n 40
 ```
 
-SpaceMouse의 **0번과 1번을 함께 누르면 닫히고, 둘 중 하나를 놓으면 열린다**. Compact에서는 왼쪽이 0번, 오른쪽이 1번이다. 두 버튼을 누른 채 캡을 움직이면 물체를 잡은 상태로 팔을 이동할 수 있다. `--button`은 팔 클러치만 변경하며 그리퍼 조합은 0번과 1번이다.
+SpaceMouse의 **0번과 1번을 함께 누르는 동안 그리퍼 닫힘을 요청한다**. Compact에서는 왼쪽이 0번, 오른쪽이 1번이다. 두 버튼을 누른 채 캡을 움직이면 물체를 잡은 상태로 팔을 이동할 수 있다. `--button`은 팔 클러치만 변경하며 그리퍼 조합은 0번과 1번이다.
 
-DRY RUN과 SIM RUN에서 가상 그리퍼의 개도는 초당 40 mm씩 변한다. 110 mm에서 완전히 닫히기까지 약 2.75초가 걸린다. 닫히는 도중 버튼 하나를 놓으면 그때의 개도에서 다시 열리기 시작한다.
+실기와 시뮬레이션 모두 `--gripper-force-n`으로 RG2 파지력을 설정한다(기본 40 N, 범위 3–40 N). 노트북에서는 `GRIPPER_FORCE_N`을 바꾼다. 예를 들어 `python -m vai_robotics.ur5e.teleop --backend sim --input spacemouse --dry-run --gripper-force-n 40`으로 실기와 같은 설정을 미리 볼 수 있다.
 
-실물을 움직이려면 두 버튼을 모두 놓고 REAL RUN을 선택한 뒤 새로 함께 누른다. RG2의 목표는 닫힘 0 mm, 열림 110 mm이며 설정 힘은 20 N이다. REAL RUN에서 뷰어는 Compute Box가 보고한 실측 개도를 사용한다. 패널의 RG2 행에서 버튼 상태, 연결 상태와 개도(mm)를 확인한다. 물체를 잡은 경우 실측 개도는 닫힘 목표보다 클 수 있다.
+**DRY RUN**에서 두 버튼을 누르면 설정 파지력과 현재 개도에 해당하는 제조사 속도 곡선을 따라 가상 그리퍼가 닫힌다. 완전히 열려 있을 때는 천천히 움직이고 닫힐수록 빨라진다. 40 N에서 110 mm를 전부 닫는 데 약 1.1–1.2초, 50 mm에서 닫는 데 약 0.4초가 걸리는 모델이다. 버튼 하나를 놓으면 즉시 실물 RG2의 현재 개도 또는 보존된 SIM RUN 개도로 돌아간다. 실측값이 끊기면 마지막 기준 개도를 사용하며, 실측 이력이 없으면 110 mm에서 시작한다. [OnRobot RG2 데이터시트 3쪽의 속도 곡선](https://onrobot.com/storage/datasheets/rg2/datasheet_rg2_v1.8_en.pdf#page=3)
+
+**SIM RUN**에서 하나를 놓으면 같은 곡선에 따라 가상 그리퍼가 현재 개도에서 열린다. **REAL RUN**에서는 두 버튼을 놓은 상태로 모드를 전환하고, 새로 함께 누르면 닫힘(0 mm), 하나를 놓으면 열림(110 mm)을 요청한다. Compute Box에 목표 개도와 설정 파지력을 전송하고, 뷰어는 수신한 실측 개도를 표시한다. 물체를 잡으면 실측 개도가 닫힘 목표보다 클 수 있다. 패널의 RG2 행에서 버튼 상태, 연결 상태와 개도(mm)를 확인한다.
 
 RG2 메시는 오사카대 Harada 연구실의 모델을 사용한다. 최대 열림 명령 110 mm에서 메시의 안쪽 패드 간격은 약 104 mm다. 손가락 링크는 시각화용이다. [모델 출처와 라이선스](assets/README.md#onrobot-rg2)
 

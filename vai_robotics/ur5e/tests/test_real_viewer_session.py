@@ -1,6 +1,6 @@
 import unittest
 from dataclasses import replace
-from unittest.mock import Mock, call, patch
+from unittest.mock import Mock, PropertyMock, call, patch
 
 import numpy as np
 from scipy.spatial.transform import Rotation
@@ -27,7 +27,7 @@ class RealViewerSessionTest(unittest.TestCase):
         self.backend.pose.side_effect = lambda: (np.array([0.4, self.frame / 1000, 0.3]), Rotation.identity())
         self.backend.joints.side_effect = lambda: np.arange(6) + self.frame / 100
 
-    def run_frames(self, *, dry_run, requests, samples, gripper=None):
+    def run_frames(self, *, dry_run, requests, samples, gripper=None, simulation=False):
         def poll():
             self.frame += 1
             self.panel.is_open = self.frame < len(requests)
@@ -36,7 +36,10 @@ class RealViewerSessionTest(unittest.TestCase):
 
         self.panel.poll.side_effect = poll
         self.device.read.side_effect = lambda: samples[self.frame]
-        run_teleop(self.device, self.backend, dry_run=dry_run, panel=self.panel, gripper=gripper)
+        run_teleop(self.device, self.backend, dry_run=dry_run, panel=self.panel, gripper=gripper, sim=simulation)
+        if simulation:
+            self.viewer_type.assert_not_called()
+            return [call.kwargs for call in self.backend.tick.call_args_list]
         self.viewer_type.assert_called_once()
         self.viewer_type.return_value.__exit__.assert_called_once()
         updates = [entry.kwargs for entry in self.viewer.update.call_args_list]
@@ -80,10 +83,64 @@ class RealViewerSessionTest(unittest.TestCase):
         updates = self.run_frames(dry_run=True, gripper=gripper,
                                   requests=[None, None, None, False, None, None, None, True],
                                   samples=[opened, close_edge, open_edge, opened, opened, close_edge, open_edge, opened])
-        np.testing.assert_allclose([u["gripper_width_mm"] for u in updates], [42, 41.2, 42, 42, 42, 42, 42, 42])
+        widths = [u["gripper_width_mm"] for u in updates]
+        self.assertEqual(widths[0], 42)
+        self.assertTrue(39.3 < widths[1] < 40.0)
+        np.testing.assert_allclose(widths[2:], [42] * 6)
         self.assertEqual([level for frame, level in levels if frame < 3], [None, None, None])
         self.assertEqual([level for frame, level in levels if 4 <= frame <= 6], [False, True, False])
         self.assertEqual(levels[-1][1], None)
+
+    def test_dry_release_with_arm_still_clutched_snaps_to_current_then_tracks_new_measurements(self):
+        idle = replace(self.released, gripper_chord=False)
+        close = replace(self.held, buttons_released=False, gripper_command=True, gripper_chord=True)
+        held = replace(close, gripper_command=None)
+        # The operator releases button 0 and continues holding arm clutch button 1.
+        release = replace(self.held, buttons_released=False, gripper_command=False, gripper_chord=False)
+        right_only = replace(release, gripper_command=None)
+        measured = [4.0, 4.0, 58.0, 58.0, 62.0, 65.0, 39.0]
+        gripper = Mock(status="RG2 connected")
+        type(gripper).width_mm = PropertyMock(side_effect=lambda: measured[self.frame])
+        updates = self.run_frames(dry_run=True, gripper=gripper, requests=[None] * len(measured),
+                                  samples=[idle, close, held, held, held, release, right_only])
+        widths = [u["gripper_width_mm"] for u in updates]
+        self.assertEqual(widths[0], 4.0)
+        self.assertTrue(1 < widths[1] < 3)
+        np.testing.assert_allclose(widths[2:], [0, 0, 0, 65, 39], atol=1e-9)
+        self.assertTrue(all(call.args == (None,) for call in gripper.update.call_args_list))
+
+    def test_dry_sim_preview_restores_saved_sim_width_and_sim_release_opens_gradually(self):
+        idle = replace(self.released, gripper_chord=False)
+        close = replace(self.held, buttons_released=False, gripper_command=True, gripper_chord=True)
+        held = replace(close, gripper_command=None)
+        release = replace(idle, gripper_command=False)
+        samples = [idle, close, held, held, held, idle, idle, close, held, release,
+                   close, held, idle, idle, close, held, release, idle]
+        requests = [None] * len(samples)
+        requests[5], requests[12] = True, False
+        updates = self.run_frames(dry_run=False, simulation=True, requests=requests, samples=samples)
+        widths = [u["gripper_width_mm"] for u in updates]
+        baseline = widths[4]
+        self.assertLess(baseline, 110.0)
+        np.testing.assert_allclose(widths[5:7], [baseline, baseline])
+        self.assertLess(widths[8], baseline)
+        self.assertAlmostEqual(widths[9], baseline)
+        self.assertLess(widths[11], baseline)
+        np.testing.assert_allclose(widths[12:14], [baseline, baseline])
+        self.assertLess(widths[15], widths[14])
+        self.assertTrue(widths[15] < widths[16] < widths[17] < 110)
+        self.assertLess(max(np.abs(np.diff(widths[14:18]))), 133 / 50)
+
+    def test_real_width_mirrors_fast_changes_and_missing_feedback(self):
+        idle = replace(self.released, gripper_chord=False)
+        close = replace(self.held, buttons_released=False, gripper_command=True, gripper_chord=True)
+        release = replace(idle, gripper_command=False)
+        measured = [74.0, 35.0, None, 50.0]
+        gripper = Mock(status="RG2")
+        type(gripper).width_mm = PropertyMock(side_effect=lambda: measured[self.frame])
+        updates = self.run_frames(dry_run=False, gripper=gripper, requests=[None] * len(measured),
+                                  samples=[idle, close, replace(close, gripper_command=None), release])
+        self.assertEqual([u["gripper_width_mm"] for u in updates], measured)
 
     def test_stopped_control_script_with_healthy_feedback_keeps_same_viewer_in_dry(self):
         measured_pose = self.backend.pose.side_effect
