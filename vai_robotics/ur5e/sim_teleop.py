@@ -114,7 +114,7 @@ class SimBackend:
             mujoco.mj_forward(self.sim.model, self._shadow)
         self._preview_clutched = target is not None
 
-    def tick(self, *, dry_run=False, target=None, measured_q=None, measured_tcp=None):
+    def tick(self, *, dry_run=False, target=None, measured_q=None, measured_tcp=None, reset_preview=False):
         """Advance live physics, mirror RTDE joints, or articulate the independent preview."""
         sim = self.sim
         if measured_q is not None:
@@ -130,13 +130,20 @@ class SimBackend:
             sim.step(nstep=nstep)
         self._previewing = dry_run
         if dry_run:
+            # A renderer can skip every released frame between two clutches.
+            if reset_preview:
+                self._preview_clutched = False
             self._update_shadow(target, measured_tcp)
         else:
             self._preview_clutched = False
         if not self.headless and self.is_running():
             sim.viewer.data = self._shadow if dry_run else sim.data
-            if dry_run and target is not None:
-                xyz, rotation = target
+            if measured_q is not None:
+                mode, source = ("DRY RUN", "Preview") if dry_run else ("REAL RUN", "Measured")
+                sim.viewer_text_overlay(mode, source, loc="top left")
+            display_tcp = target if dry_run else measured_tcp
+            if display_tcp is not None:
+                xyz, rotation = display_tcp
                 sim.plot_T(p=xyz, R=rotation.as_matrix(), axis_len=0.08, axis_width=0.004)
             sim.render()
 

@@ -9,6 +9,8 @@ import time
 import numpy as np
 from scipy.spatial.transform import Rotation
 
+from .real import RobotControlStopped
+
 
 HZ = 50
 MAX_LINEAR_SPEED = 0.10       # m/s
@@ -109,18 +111,18 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None):
     last_report = float("-inf")
     message = ""
     active = False
-    view = backend if sim else None
     print("Release the device clutch, then hold it to move. Ctrl+C exits.", flush=True)
     with ExitStack() as session:
-        preview_resources = session.enter_context(ExitStack())
-        session.callback(backend.hold)
-        while view is None or view.is_running():
-            if not sim and panel is not None and controller.dry_run and view is None:
-                from .sim_teleop import SimBackend
+        view = backend if sim else None
+        if not sim and panel is not None:
+            from .real_viewer import RealViewer
 
-                # The desktop preview only owns simulation state. Load/render it
-                # while the real backend is receive-only, outside active servoing.
-                view = preview_resources.enter_context(SimBackend(hz=HZ))
+            view = session.enter_context(RealViewer())
+            # Release the RTDE writer before waiting for the GUI to close.
+            session.callback(backend.set_motion_enabled, False)
+        else:
+            session.callback(backend.hold)
+        while view is None or view.is_running():
             started = time.monotonic()
             request = panel.poll() if panel is not None else None
             if panel is not None and not panel.is_open:
@@ -129,19 +131,25 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None):
             # Going back to preview takes priority over polling USB or network input.
             sample = None if change_mode and request else device.read()
             if change_mode:
-                if not sim and not request and view is not None and sample is not None and not sample.enabled:
-                    preview_resources.close()
-                    view = None
                 message = controller.set_mode(request, simulation=sim, sample=sample)
                 # Don't use input captured before a transition opened an RTDE session.
                 if not message:
                     sample = None
-            controller.update(sample, time.monotonic(), scale=panel.scale if panel is not None else 1.0)
+            try:
+                controller.update(sample, time.monotonic(), scale=panel.scale if panel is not None else 1.0)
+            except RobotControlStopped as error:
+                if sim or panel is None or controller.dry_run:
+                    raise
+                controller.set_mode(True, simulation=False, sample=None)
+                sample = None
+                controller.update(sample, time.monotonic())  # Verify feedback before showing a measured pose.
+                message = "실기 제어 연결이 중단되어 DRY RUN으로 전환했습니다."
+                print(f"{message} {error}", file=sys.stderr, flush=True)
             if sim:
-                view.tick(dry_run=controller.dry_run, target=controller.target)
+                backend.tick(dry_run=controller.dry_run, target=controller.target)
             elif view is not None:
-                view.tick(dry_run=True, target=controller.target, measured_q=backend.joints(),
-                          measured_tcp=controller.measured)
+                view.update(q=backend.joints(), measured_tcp=controller.measured, dry_run=controller.dry_run,
+                            target=controller.target if controller.dry_run else None)
             if (controller.target is not None) != active:
                 active = controller.target is not None
                 print("Clutch active" if active else "Holding", flush=True)

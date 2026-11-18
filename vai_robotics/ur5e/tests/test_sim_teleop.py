@@ -82,6 +82,9 @@ class SimBackendTest(unittest.TestCase):
             np.testing.assert_allclose(backend.preview_pose()[0], target[0], atol=1e-5)
             self.assertLess((backend.preview_pose()[1] * target[1].inv()).magnitude(), 1e-5)
             np.testing.assert_array_equal(backend.sim.data.qpos, q)
+            # The renderer missed the release and first sees the next press.
+            backend.tick(dry_run=True, target=tcp, measured_q=q, measured_tcp=tcp, reset_preview=True)
+            np.testing.assert_allclose(backend._shadow.qpos, q, atol=1e-10)
             for delta in (0.15, 0.3):
                 # Rotate the entire arm around base Z while the clutch is up.
                 new_q = q + [delta, 0, 0, 0, 0, 0]

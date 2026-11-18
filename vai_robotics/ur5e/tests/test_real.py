@@ -8,7 +8,7 @@ from unittest.mock import MagicMock, patch
 import numpy as np
 from scipy.spatial.transform import Rotation
 
-from vai_robotics.ur5e.real import RealUR5e
+from vai_robotics.ur5e.real import RealUR5e, RobotControlStopped
 
 
 class RealUR5eTests(unittest.TestCase):
@@ -163,6 +163,17 @@ class RealUR5eTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "timestamp"):
             with RealUR5e("test"):
                 self.fail("accepted invalid timestamp")
+
+    def test_script_exit_keeps_measured_pose_available_after_writer_release(self):
+        with RealUR5e("test", enable_motion=True) as robot:
+            self.control.isProgramRunning.return_value = False
+            with self.assertRaises(RobotControlStopped):
+                robot.pose()
+            robot.set_motion_enabled(False)
+            xyz, _ = robot.pose()
+            np.testing.assert_array_equal(xyz, [0.3, 0.1, 0.4])
+            self.control.disconnect.assert_called_once()
+            self.receiver.disconnect.assert_not_called()
 
     def test_watchdog_is_required_and_disconnected_on_partial_start(self):
         self.control.setWatchdog.return_value = False

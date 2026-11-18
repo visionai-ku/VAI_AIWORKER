@@ -7,6 +7,10 @@ import numpy as np
 from scipy.spatial.transform import Rotation
 
 
+class RobotControlStopped(RuntimeError):
+    """The motion writer has stopped while the RTDE reader can still be healthy."""
+
+
 class RealUR5e:
     """One control loop owns this session and calls pose() even while idle."""
 
@@ -118,7 +122,7 @@ class RealUR5e:
         if self._control is not None:
             self._check_safety_mode()
             if not self._control.isConnected() or not self._control.isProgramRunning():
-                raise RuntimeError("The UR5e teleoperation control script is no longer running.")
+                raise RobotControlStopped("The UR5e teleoperation control script is no longer running.")
             # Active servo commands themselves update the watchdog register. An
             # idle receive loop must keep it alive after servoStop or before a grip.
             if not self._servo_active and now - self._heartbeat_at >= 0.05:
