@@ -149,9 +149,23 @@ class SimBackend:
         self._equilibrium = xyz.copy(), rotation
         self.active = True
 
-    def _advance(self, nstep):
+    def _impedance_torque(self, data):
+        if isinstance(self._equilibrium, tuple):
+            jacobian = self._jacobian(data)
+            wrench = cartesian_wrench(
+                *self._equilibrium, *self._flange_pose(data), jacobian @ data.qvel,
+                **self._gains.coefficients("eef"),
+            )
+            return jacobian.T @ wrench
+        return joint_torque(
+            self._equilibrium, data.qpos, data.qvel, **self._gains.coefficients("joint"),
+        )
+
+    def _advance_physics(self):
         sim = self.sim
         model, data = sim.model, sim.data
+        self.tick_count += 1
+        nstep = round((self.tick_count * self.period - data.time) / sim.dt)
         # The parser writes gravity compensation into qfrc_applied. Preserve
         # torques applied by the caller (contacts and mouse forces use separate fields).
         external = data.qfrc_applied.copy()
@@ -168,14 +182,7 @@ class SimBackend:
             model.opt.disableactuator |= 1
             for _ in range(nstep):
                 mujoco.mj_step1(model, data)
-                if isinstance(self._equilibrium, tuple):
-                    jacobian = self._jacobian(data)
-                    wrench = cartesian_wrench(*self._equilibrium, *self._flange_pose(data), jacobian @ data.qvel,
-                                              **self._gains.coefficients("eef"))
-                    torque = jacobian.T @ wrench
-                else:
-                    torque = joint_torque(self._equilibrium, data.qpos, data.qvel,
-                                          **self._gains.coefficients("joint"))
+                torque = self._impedance_torque(data)
                 sim.compensate_gravity(["base"])
                 data.qfrc_applied[:] += external + torque
                 mujoco.mj_step2(model, data)
@@ -191,18 +198,25 @@ class SimBackend:
             self._equilibrium = None
             self.active = False
 
-    def _update_shadow(self, target, joint_target, measured_tcp):
+    def _reset_shadow_to_arm(self, measured_tcp):
+        self._shadow.qpos[:] = self.sim.data.qpos
+        mujoco.mj_forward(self.sim.model, self._shadow)
+        # A real TCP can be offset and rotated relative to this model's flange.
+        if measured_tcp is None:
+            self._flange_to_tcp = np.zeros(3), Rotation.identity()
+        else:
+            xyz, rotation = self._flange_pose(self._shadow)
+            tcp_xyz, tcp_rotation = measured_tcp
+            inverse_rotation = rotation.inv()
+            self._flange_to_tcp = inverse_rotation.apply(tcp_xyz - xyz), inverse_rotation * tcp_rotation
+
+    def _update_shadow(self, target, joint_target, measured_tcp, reset_preview):
+        # A renderer can skip every released frame between two clutches.
+        if reset_preview:
+            self._preview_clutched = False
         clutched = target is not None or joint_target is not None
         if not clutched or not self._preview_clutched:
-            self._shadow.qpos[:] = self.sim.data.qpos
-            mujoco.mj_forward(self.sim.model, self._shadow)
-            # A real TCP can be offset and rotated relative to this model's flange.
-            if measured_tcp is None:
-                self._flange_to_tcp = np.zeros(3), Rotation.identity()
-            else:
-                xyz, rotation = self._flange_pose(self._shadow)
-                tcp_xyz, tcp_rotation = measured_tcp
-                self._flange_to_tcp = rotation.inv().apply(tcp_xyz - xyz), rotation.inv() * tcp_rotation
+            self._reset_shadow_to_arm(measured_tcp)
         if joint_target is not None:
             q = np.asarray(joint_target, dtype=float)
             if q.shape != (6,) or not np.isfinite(q).all():
@@ -219,46 +233,59 @@ class SimBackend:
             mujoco.mj_forward(self.sim.model, self._shadow)
         self._preview_clutched = clutched
 
+    def _update_gripper_width(self, width_mm, *, measured):
+        # The RG2 is posed via its geometry, independently of the six RTDE joints.
+        if width_mm is None:
+            width_mm = self._last_measured_width
+        elif measured:
+            self._last_measured_width = width_mm
+        set_rg2_width(self.sim.model, width_mm)
+
+    def _mirror_joints(self, measured_q):
+        sim = self.sim
+        q = np.asarray(measured_q, dtype=float)
+        if q.shape != (sim.model.nq,) or not np.isfinite(q).all():
+            raise ValueError("expected six finite measured joint angles")
+        sim.data.qpos[:] = q
+        mujoco.mj_forward(sim.model, sim.data)
+
+    def _render_frame(self, display_tcp, *, mirroring_robot, width_available):
+        sim = self.sim
+        sim.viewer.data = self._shadow if self._previewing else sim.data
+        if mirroring_robot:
+            mode, source = ("DRY RUN", "Preview") if self._previewing else ("REAL RUN", "Measured")
+            sim.viewer_text_overlay(mode, source, loc="top left")
+            if not width_available:
+                sim.viewer_text_overlay("RG2", "Width unavailable", loc="top left")
+        if display_tcp is not None:
+            xyz, rotation = display_tcp
+            sim.plot_T(p=xyz, R=rotation.as_matrix(), axis_len=0.08, axis_width=0.004)
+        sim.render()
+
     def tick(self, *, dry_run=False, target=None, joint_target=None, measured_q=None, measured_tcp=None,
              reset_preview=False, gripper_width_mm=None):
         """Advance live physics, mirror RTDE joints, or articulate the independent preview."""
-        sim = self.sim
-        # Width is visual geometry; all six RTDE joints still address the arm.
-        if measured_q is not None and not dry_run and gripper_width_mm is not None:
-            self._last_measured_width = gripper_width_mm
-        set_rg2_width(sim.model, self._last_measured_width if gripper_width_mm is None else gripper_width_mm)
-        if measured_q is not None:
-            q = np.asarray(measured_q, dtype=float)
-            if q.shape != (sim.model.nq,) or not np.isfinite(q).all():
-                raise ValueError("expected six finite measured joint angles")
-            sim.data.qpos[:] = q
-            mujoco.mj_forward(sim.model, sim.data)
+        mirroring_robot = measured_q is not None
+        self._update_gripper_width(gripper_width_mm, measured=mirroring_robot and not dry_run)
+        if mirroring_robot:
+            self._mirror_joints(measured_q)
         elif not dry_run:
-            self.tick_count += 1
-            nstep = round((self.tick_count * self.period - sim.data.time) / sim.dt)
-            self._advance(nstep)
+            self._advance_physics()
+
         self._previewing = dry_run
         if dry_run:
-            # A renderer can skip every released frame between two clutches.
-            if reset_preview:
-                self._preview_clutched = False
-            self._update_shadow(target, joint_target, measured_tcp)
+            self._update_shadow(target, joint_target, measured_tcp, reset_preview)
         else:
             self._preview_clutched = False
-        if not self.headless and self.is_running():
-            sim.viewer.data = self._shadow if dry_run else sim.data
-            if measured_q is not None:
-                mode, source = ("DRY RUN", "Preview") if dry_run else ("REAL RUN", "Measured")
-                sim.viewer_text_overlay(mode, source, loc="top left")
-                if gripper_width_mm is None:
-                    sim.viewer_text_overlay("RG2", "Width unavailable", loc="top left")
-            display_tcp = target if dry_run else measured_tcp
-            if dry_run and joint_target is not None:
-                display_tcp = self.preview_pose()
-            if display_tcp is not None:
-                xyz, rotation = display_tcp
-                sim.plot_T(p=xyz, R=rotation.as_matrix(), axis_len=0.08, axis_width=0.004)
-            sim.render()
+
+        if self.headless or not self.is_running():
+            return
+        display_tcp = measured_tcp
+        if dry_run:
+            display_tcp = self.preview_pose() if joint_target is not None else target
+        self._render_frame(
+            display_tcp, mirroring_robot=mirroring_robot, width_available=gripper_width_mm is not None,
+        )
 
     def is_running(self):
         return self.sim is not None and (self.headless or self.sim.is_viewer_alive())

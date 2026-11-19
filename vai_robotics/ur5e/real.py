@@ -102,17 +102,12 @@ class RealUR5e:
         """Acquire or release the motion writer while the feedback stream stays open."""
         if enabled == self.motion_enabled:
             return
-        if not enabled:
-            try:
-                with ExitStack() as cleanup:
-                    cleanup.callback(self._control.disconnect)
-                    cleanup.callback(self._stop_owned_script)
-                    self.hold()
-            finally:
-                self._control = None
-                self._active_mode = None
-            return
+        if enabled:
+            self._acquire_motion_writer()
+        else:
+            self._release_motion_writer()
 
+    def _acquire_motion_writer(self):
         self.pose()
         self._check_safety_mode()
         # ur_rtde uploads its own control script and can stop a running one.
@@ -134,8 +129,18 @@ class RealUR5e:
             self._heartbeat_at = time.monotonic()
             self.pose()  # Check fresh feedback and script status after the upload.
         except BaseException:
-            self.set_motion_enabled(False)
+            self._release_motion_writer()
             raise
+
+    def _release_motion_writer(self):
+        try:
+            with ExitStack() as cleanup:
+                cleanup.callback(self._control.disconnect)
+                cleanup.callback(self._stop_owned_script)
+                self.hold()
+        finally:
+            self._control = None
+            self._active_mode = None
 
     def _motion_denied(self, reason, modes=None):
         if modes is None:
@@ -178,7 +183,15 @@ class RealUR5e:
         if receiver is None or not receiver.isConnected():
             raise RuntimeError("UR5e RTDE feedback is disconnected.")
         now = time.monotonic()
-        timestamp = receiver.getTimestamp()
+        self._check_feedback_timestamp(receiver.getTimestamp(), now)
+        raw = np.asarray(receiver.getActualTCPPose(), dtype=float)
+        if raw.shape != (6,) or not np.all(np.isfinite(raw)):
+            raise RuntimeError("UR5e returned an invalid TCP pose.")
+        if self.motion_enabled:
+            self._service_motion_writer(now)
+        return raw[:3], Rotation.from_rotvec(raw[3:])
+
+    def _check_feedback_timestamp(self, timestamp, now):
         if not np.isfinite(timestamp) or timestamp <= 0:
             raise RuntimeError("UR5e feedback has an invalid timestamp.")
         if self._timestamp is not None and timestamp < self._timestamp:
@@ -187,20 +200,16 @@ class RealUR5e:
             self._timestamp, self._updated_at = timestamp, now
         if now - self._updated_at >= self.FEEDBACK_TIMEOUT:
             raise RuntimeError("UR5e feedback is stale.")
-        raw = np.asarray(receiver.getActualTCPPose(), dtype=float)
-        if raw.shape != (6,) or not np.all(np.isfinite(raw)):
-            raise RuntimeError("UR5e returned an invalid TCP pose.")
-        if self._control is not None:
-            running = self._owned_program_running()
-            self._check_safety_mode()
-            if not running:
-                raise self._motion_denied("UR5e teleoperation script stopped or its writer disconnected.")
-            # Active servo commands themselves update the watchdog register. An
-            # idle receive loop must keep it alive after servoStop or before a grip.
-            if self._active_mode is None and now - self._heartbeat_at >= 0.05:
-                self._require_command(self._control.kickWatchdog, reason="UR5e rejected the watchdog heartbeat.")
-                self._heartbeat_at = now
-        return raw[:3], Rotation.from_rotvec(raw[3:])
+
+    def _service_motion_writer(self, now):
+        running = self._owned_program_running()
+        self._check_safety_mode()
+        if not running:
+            raise self._motion_denied("UR5e teleoperation script stopped or its writer disconnected.")
+        # Active servo commands refresh the watchdog. While idle, the feedback loop does it.
+        if self._active_mode is None and now - self._heartbeat_at >= 0.05:
+            self._require_command(self._control.kickWatchdog, reason="UR5e rejected the watchdog heartbeat.")
+            self._heartbeat_at = now
 
     def _stop_other_mode(self, next_mode):
         if self._joint_impedance != (next_mode == "joint_impedance"):

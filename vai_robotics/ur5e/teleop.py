@@ -36,7 +36,7 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
             time.sleep(max(0.0, started + 1 / HZ - time.monotonic()))
 
 
-def main(argv=None):
+def _argument_parser():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--backend", choices=("sim", "real"), required=True)
     parser.add_argument("--input", choices=("quest", "spacemouse"), required=True)
@@ -55,6 +55,11 @@ def main(argv=None):
     initial_mode.add_argument("--dry-run", action="store_true", help="start with the virtual arm preview")
     parser.add_argument("--headless", action="store_true", help="run simulation without a viewer")
     parser.add_argument("--no-panel", action="store_true", help="run without the desktop settings panel")
+    return parser
+
+
+def _parse_args(argv):
+    parser = _argument_parser()
     args = parser.parse_args(argv)
     if args.backend == "real" and not args.robot_ip:
         parser.error("--backend real requires --robot-ip")
@@ -71,37 +76,58 @@ def main(argv=None):
     if args.button < 0 or not 1 <= args.quest_port <= 65535:
         parser.error("Invalid button index or Quest port")
 
+    has_display = sys.platform != "linux" or bool(os.environ.get("DISPLAY") or os.environ.get("WAYLAND_DISPLAY"))
+    args.show_panel = has_display and not args.no_panel and not args.headless
+    if args.command_mode.endswith("-absolute") and not args.show_panel:
+        parser.error("Absolute teleoperation requires the target panel. "
+                     "Use TeleopController.update(values=...) for headless targets.")
+    return args
+
+
+def _make_panel(args, dry_run):
+    from .teleop_panel import TeleopPanel
+
+    device_name = f"Quest 3 · {args.hand}" if args.input == "quest" else f"SpaceMouse · 버튼 {args.button}"
+    return TeleopPanel(
+        simulation=args.backend == "sim", device_name=device_name, dry_run=dry_run,
+        robot_ip=args.robot_ip, command_mode=args.command_mode, control_law=args.control_law,
+    )
+
+
+def _make_input(args):
     from .inputs import QuestInput, SpaceMouseInput
 
+    if args.input == "quest":
+        return QuestInput(host=args.quest_host, port=args.quest_port, hand=args.hand)
+    return SpaceMouseInput(button=args.button, wait_for_device=args.show_panel)
+
+
+def _make_backend(args):
+    if args.backend == "sim":
+        from .sim_teleop import SimBackend
+
+        return SimBackend(hz=HZ, headless=args.headless)
+
+    from .real import RealUR5e
+
+    print("Real robot motion ENABLED" if args.enable_motion else "Real robot, receive-only dry run", flush=True)
+    return RealUR5e(
+        args.robot_ip, enable_motion=args.enable_motion, frequency=HZ,
+        joint_impedance=args.command_mode.startswith("joint-") and args.control_law == "impedance",
+    )
+
+
+def main(argv=None):
+    args = _parse_args(argv)
     simulation = args.backend == "sim"
     dry_run = args.dry_run or (not simulation and not args.enable_motion)
-    desktop = sys.platform != "linux" or bool(os.environ.get("DISPLAY") or os.environ.get("WAYLAND_DISPLAY"))
-    show_panel = desktop and not args.no_panel and not args.headless
-    if args.command_mode.endswith("-absolute") and not show_panel:
-        parser.error("Absolute teleoperation requires the target panel. Use TeleopController.update(values=...) for headless targets.")
+
     with ExitStack() as stack:
-        panel = None
-        if show_panel:
-            from .teleop_panel import TeleopPanel
-
-            device_name = f"Quest 3 · {args.hand}" if args.input == "quest" else f"SpaceMouse · 버튼 {args.button}"
-            panel = TeleopPanel(simulation=simulation, device_name=device_name, dry_run=dry_run,
-                                robot_ip=args.robot_ip, command_mode=args.command_mode, control_law=args.control_law)
+        panel = _make_panel(args, dry_run) if args.show_panel else None
+        if panel is not None:
             stack.callback(panel.close)
-        if args.input == "quest":
-            device = QuestInput(host=args.quest_host, port=args.quest_port, hand=args.hand)
-        else:
-            device = SpaceMouseInput(button=args.button, wait_for_device=show_panel)
-        if simulation:
-            from .sim_teleop import SimBackend
-
-            backend = SimBackend(hz=HZ, headless=args.headless)
-        else:
-            from .real import RealUR5e
-
-            print("Real robot motion ENABLED" if args.enable_motion else "Real robot, receive-only dry run", flush=True)
-            backend = RealUR5e(args.robot_ip, enable_motion=args.enable_motion, frequency=HZ,
-                               joint_impedance=args.command_mode.startswith("joint-") and args.control_law == "impedance")
+        device = _make_input(args)
+        backend = _make_backend(args)
         stack.enter_context(device)
         gripper = None
         if args.gripper_ip:

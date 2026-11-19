@@ -33,45 +33,61 @@ _STATE_LABELS = {
 }
 
 
+def _panel_application():
+    app = QApplication.instance()
+    if app is not None:
+        return app
+    # Linux OpenCV wheels can point Qt at their own incompatible xcb plugin.
+    if sys.platform.startswith("linux"):
+        for key in ("QT_QPA_PLATFORM_PLUGIN_PATH", "QT_QPA_FONTDIR"):
+            if "cv2" in Path(os.environ.get(key, "")).parts:
+                os.environ.pop(key, None)
+    return QApplication([])
+
+
 class PanelWindow:
     """Show the active configuration until the control loop confirms a request."""
 
     def __init__(self, *, simulation, device_name, dry_run, open_width_mm, robot_ip=None,
                  command_mode="eef-delta", control_law="position"):
-        app = QApplication.instance()
-        if app is None:
-            # Linux OpenCV wheels can point Qt at their own incompatible xcb plugin.
-            if sys.platform.startswith("linux"):
-                for key in ("QT_QPA_PLATFORM_PLUGIN_PATH", "QT_QPA_FONTDIR"):
-                    if "cv2" in Path(os.environ.get(key, "")).parts:
-                        os.environ.pop(key, None)
-            app = QApplication([])
-        self.app = app
+        self.app = _panel_application()
         self._simulation = simulation
         self._operator_state = None
         self._applied_dry_run = dry_run
         self._control_law = control_law
         self._pending_switch = None
         self._switch_request = {}
-        self._last_measured = self._target_event = self._command_mode = None
+        self._last_measured = None
+        self._target_event = None
+        self._command_mode = None
         self._loaded_absolute = False
         self._first_frame = True
 
         self.window = QWidget()
-        self.window.setObjectName("panel")
-        self.window.setAttribute(Qt.WA_QuitOnClose, False)
-        self.window.setWindowTitle("UR5e 조작 패널")
         self._feedback_timer = QTimer(self.window)
         self._feedback_timer.setSingleShot(True)
         self._feedback_timer.setInterval(1500)  # Display frames normally arrive at 10 Hz.
         self._feedback_timer.timeout.connect(self._clear_operator_state)
+
+        self._build_window(device_name, open_width_mm, robot_ip)
+        self._show_mode(dry_run)
+        self._update_state_header()
+        self._show_command_mode(command_mode)
+        self._open_window()
+
+    def _build_window(self, device_name, open_width_mm, robot_ip):
+        self.window.setObjectName("panel")
+        self.window.setAttribute(Qt.WA_QuitOnClose, False)
+        self.window.setWindowTitle("UR5e 조작 패널")
         outer = QVBoxLayout(self.window)
         outer.setContentsMargins(0, 0, 0, 0)
         outer.setSpacing(0)
-        self._build_header(outer, simulation)
-        self._show_mode(dry_run)
-        self._update_state_header()
+        self._build_header(outer)
+        self._build_body(outer, device_name, open_width_mm)
+        self._build_footer(outer, robot_ip)
+        self.window.setStyleSheet(Path(__file__).with_name("style.qss").read_text(encoding="utf-8"))
 
+    def _build_body(self, outer, device_name, open_width_mm):
         self.scroll = QScrollArea()
         self.scroll.setFrameShape(QFrame.NoFrame)
         self.scroll.setWidgetResizable(True)
@@ -89,10 +105,8 @@ class PanelWindow:
         self._build_targets(add_section(layout))
         layout.addStretch()
         self.scroll.setWidget(self.body)
-        self._build_footer(outer, simulation, robot_ip)
-        self.window.setStyleSheet(Path(__file__).with_name("style.qss").read_text(encoding="utf-8"))
-        self._show_command_mode(command_mode)
 
+    def _open_window(self):
         self.window.ensurePolished()
         self.window.layout().activate()
         # Obtain native frame margins without flashing a default-sized window.
@@ -102,7 +116,7 @@ class PanelWindow:
         self._automatic_size = self.window.size()
         QTimer.singleShot(0, self._fit_window)
 
-    def _build_header(self, outer, simulation):
+    def _build_header(self, outer):
         header = QFrame()
         header.setObjectName("header")
         layout = QVBoxLayout(header)
@@ -122,9 +136,9 @@ class PanelWindow:
         row = QHBoxLayout()
         row.setSpacing(6)
         self.dry_button = QPushButton("DRY RUN · 미리보기")
-        self.run_button = QPushButton("SIM RUN · 시뮬레이션" if simulation else "REAL RUN · 실기 구동")
+        self.run_button = QPushButton("SIM RUN · 시뮬레이션" if self._simulation else "REAL RUN · 실기 구동")
         for button, dry, name in ((self.dry_button, True, "dry"),
-                                  (self.run_button, False, "sim" if simulation else "real")):
+                                  (self.run_button, False, "sim" if self._simulation else "real")):
             button.setObjectName(name)
             button.setProperty("role", "mode")
             button.setAttribute(Qt.WA_LayoutUsesWidgetRect)
@@ -176,6 +190,11 @@ class PanelWindow:
         for row, name, status in ((0, "클러치", self.clutch_label), (1, "그리퍼", self.gripper_label)):
             grid.addWidget(make_label(name, role="muted"), row, 0, Qt.AlignTop)
             grid.addWidget(status, row, 1, 1, 2)
+        self._add_scale_control(grid, row=2)
+        self._add_open_width_control(grid, row=3, width_mm=open_width_mm)
+        layout.addLayout(grid)
+
+    def _add_scale_control(self, grid, row):
         self.gain = QSlider(Qt.Horizontal)
         self.gain.setAccessibleName("입력 배율")
         self.gain.setRange(10, 100)
@@ -186,10 +205,11 @@ class PanelWindow:
         gain_value.setMinimumWidth(gain_value.sizeHint().width())
         gain_value.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         self.gain.valueChanged.connect(lambda value: gain_value.setText(f"{value}%"))
-        grid.addWidget(gain_label, 2, 0)
-        grid.addWidget(self.gain, 2, 1)
-        grid.addWidget(gain_value, 2, 2)
+        grid.addWidget(gain_label, row, 0)
+        grid.addWidget(self.gain, row, 1)
+        grid.addWidget(gain_value, row, 2)
 
+    def _add_open_width_control(self, grid, row, width_mm):
         width_label = make_label("열림 목표 폭", role="muted")
         self.open_width = QDoubleSpinBox()
         width_label.setBuddy(self.open_width)
@@ -199,10 +219,9 @@ class PanelWindow:
         self.open_width.setSingleStep(0.1)
         self.open_width.setSuffix(" mm")
         self.open_width.setKeyboardTracking(False)
-        self.open_width.setValue(open_width_mm)
-        grid.addWidget(width_label, 3, 0)
-        grid.addWidget(self.open_width, 3, 1, 1, 2, Qt.AlignLeft)
-        layout.addLayout(grid)
+        self.open_width.setValue(width_mm)
+        grid.addWidget(width_label, row, 0)
+        grid.addWidget(self.open_width, row, 1, 1, 2, Qt.AlignLeft)
 
     def _build_targets(self, layout):
         layout.addWidget(make_label("목표 제어", emphasis=2))
@@ -265,33 +284,36 @@ class PanelWindow:
         fixed_font = QFontDatabase.systemFont(QFontDatabase.FixedFont)
         fixed_font.setPointSizeF(self.window.font().pointSizeF())
         for row in range(1, 7):
-            axis = make_label("")
-            self.axis_labels.append(axis)
-            grid.addWidget(axis, row, 0)
-            for column, cells in enumerate((self.measured_cells, self.target_cells), 1):
-                cell = make_label("—")
-                cell.setFont(fixed_font)
-                cell.setMinimumWidth(cell.fontMetrics().horizontalAdvance("-2000.0"))
-                cell.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-                grid.addWidget(cell, row, column)
-                cells.append(cell)
-            box = QDoubleSpinBox()
-            box.setFont(fixed_font)
-            box.setAlignment(Qt.AlignRight)
-            box.setDecimals(2)
-            box.setSingleStep(1.0)
-            box.setKeyboardTracking(False)
-            axis.setBuddy(box)
-            self.target_inputs.append(box)
-            grid.addWidget(box, row, 3)
+            self._add_target_axis(grid, row, fixed_font)
         layout.addLayout(grid)
 
-    def _build_footer(self, outer, simulation, robot_ip):
+    def _add_target_axis(self, grid, row, font):
+        axis = make_label("")
+        self.axis_labels.append(axis)
+        grid.addWidget(axis, row, 0)
+        for column, cells in enumerate((self.measured_cells, self.target_cells), 1):
+            cell = make_label("—")
+            cell.setFont(font)
+            cell.setMinimumWidth(cell.fontMetrics().horizontalAdvance("-2000.0"))
+            cell.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+            grid.addWidget(cell, row, column)
+            cells.append(cell)
+        box = QDoubleSpinBox()
+        box.setFont(font)
+        box.setAlignment(Qt.AlignRight)
+        box.setDecimals(2)
+        box.setSingleStep(1.0)
+        box.setKeyboardTracking(False)
+        axis.setBuddy(box)
+        self.target_inputs.append(box)
+        grid.addWidget(box, row, 3)
+
+    def _build_footer(self, outer, robot_ip):
         footer = QFrame()
         footer.setObjectName("footer")
         row = QHBoxLayout(footer)
         row.setContentsMargins(16, 6, 16, 6)
-        if simulation:
+        if self._simulation:
             row.addStretch(1)
         else:
             source = f"RTDE · {robot_ip}" if robot_ip else "RTDE"
@@ -529,6 +551,12 @@ class PanelWindow:
         else:
             measured = None if measured is None else [*measured[0], *measured[1]]
             target = None if target is None else [*target[0], *target[1]]
+        self._update_target_table(measured, target)
+        if self._first_frame:
+            self._first_frame = False
+            QTimer.singleShot(0, self._fit_window)
+
+    def _update_target_table(self, measured, target):
         self._last_measured = measured
         if measured is None:
             self._loaded_absolute = False
@@ -536,9 +564,6 @@ class PanelWindow:
             for i, cell in enumerate(cells):
                 cell.setText("—" if values is None else f"{values[i]:.1f}")
         self._enable_target_controls()
-        if self._first_frame:
-            self._first_frame = False
-            QTimer.singleShot(0, self._fit_window)
 
     def close(self):
         self.window.close()

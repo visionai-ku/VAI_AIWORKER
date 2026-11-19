@@ -20,14 +20,8 @@ class ImpedanceEditor:
         self.space = None
         self.confirmed = {space: default_impedance_gains(space) for space in ("eef", "joint")}
         self.drafts = {}
-        self.toggle = QToolButton()
-        self.toggle.setObjectName("gainDisclosure")
-        self.toggle.setFont(QApplication.font("QLabel"))
-        arrow_size = self.toggle.fontMetrics().height() // 2
-        self.toggle.setIconSize(QSize(arrow_size, arrow_size))
-        self.toggle.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
-        self.toggle.setArrowType(Qt.RightArrow)
-        self.toggle.setCheckable(True)
+
+        self.toggle = self._make_disclosure()
         layout.addWidget(self.toggle, 0, Qt.AlignLeft)
         self.body = QWidget()
         self.body.hide()
@@ -35,8 +29,23 @@ class ImpedanceEditor:
         body = QVBoxLayout(self.body)
         body.setContentsMargins(0, 0, 0, 5)
         body.setSpacing(5)
+        body.addLayout(self._build_gain_table())
+        body.addLayout(self._build_actions(submit))
         self.toggle.toggled.connect(self._expand)
 
+    @staticmethod
+    def _make_disclosure():
+        toggle = QToolButton()
+        toggle.setObjectName("gainDisclosure")
+        toggle.setFont(QApplication.font("QLabel"))
+        arrow_size = toggle.fontMetrics().height() // 2
+        toggle.setIconSize(QSize(arrow_size, arrow_size))
+        toggle.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
+        toggle.setArrowType(Qt.RightArrow)
+        toggle.setCheckable(True)
+        return toggle
+
+    def _build_gain_table(self):
         grid = QGridLayout()
         grid.setContentsMargins(0, 0, 0, 0)
         grid.setHorizontalSpacing(6)
@@ -51,8 +60,7 @@ class ImpedanceEditor:
             self.headers.append(headings)
         self.axes = []
         self.inputs = {"stiffness": [], "damping": []}
-        for i in range(6):
-            row = i + 1 if i < 3 else i + 2
+        for row in (1, 2, 3, 5, 6, 7):
             axis = make_label("")
             self.axes.append(axis)
             grid.addWidget(axis, row, 0)
@@ -63,7 +71,9 @@ class ImpedanceEditor:
                 box.valueChanged.connect(self._mark_edits)
                 fields.append(box)
                 grid.addWidget(box, row, col)
-        body.addLayout(grid)
+        return grid
+
+    def _build_actions(self, submit):
         actions = QHBoxLayout()
         self.status = make_label("", role="muted", wrap=True)
         actions.addWidget(self.status, 1)
@@ -73,7 +83,7 @@ class ImpedanceEditor:
         self.apply = QPushButton("계수 적용")
         self.apply.clicked.connect(lambda: submit(self.space, self.values()))
         actions.addWidget(self.apply)
-        body.addLayout(actions)
+        return actions
 
     def _expand(self, expanded):
         self.toggle.setArrowType(Qt.DownArrow if expanded else Qt.RightArrow)

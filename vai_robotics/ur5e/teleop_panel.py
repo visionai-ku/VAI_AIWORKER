@@ -53,6 +53,18 @@ def _display_pose(pose):
     return (xyz * 1000).tolist(), rotation.as_rotvec(degrees=True).tolist()
 
 
+def _start_window_process(**settings):
+    return subprocess.Popen(
+        [sys.executable, str(Path(__file__).resolve()), json.dumps(settings)],
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        text=True,
+        encoding="utf-8",
+        # The controller handles terminal Ctrl+C. Qt exits on pipe EOF after cleanup.
+        start_new_session=(os.name == "posix"),
+    )
+
+
 class TeleopPanel:
     """Qt owns the Cocoa event loop in a separate process from the MuJoCo viewer."""
 
@@ -65,13 +77,14 @@ class TeleopPanel:
         if open_width_mm is None:
             open_width_mm = DEFAULT_OPEN_WIDTH_MM
         self.open_width_mm = normalize_open_width_mm(open_width_mm)
-        settings = dict(simulation=simulation, device_name=device_name, dry_run=dry_run, robot_ip=robot_ip,
-                        open_width_mm=self.open_width_mm, command_mode=command_mode, control_law=control_law)
-        self._process = subprocess.Popen(
-            [sys.executable, str(Path(__file__).resolve()), json.dumps(settings)],
-            stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True, encoding="utf-8",
-            # The controller handles terminal Ctrl+C. Qt exits on pipe EOF after cleanup.
-            start_new_session=(os.name == "posix"),
+        self._process = _start_window_process(
+            simulation=simulation,
+            device_name=device_name,
+            dry_run=dry_run,
+            robot_ip=robot_ip,
+            open_width_mm=self.open_width_mm,
+            command_mode=command_mode,
+            control_law=control_law,
         )
         self._messages = _incoming(self._process.stdout)
         self._open = True
@@ -82,6 +95,9 @@ class TeleopPanel:
         self.scale = 1.0
         self._can_send = True
         self._next_update = 0.0
+        self._wait_until_ready()
+
+    def _wait_until_ready(self):
         try:
             if self._messages.get(timeout=10) != "ready":
                 raise RuntimeError("UR5e 조작 패널을 열 수 없습니다.")
@@ -212,53 +228,71 @@ def __getattr__(name):
     raise AttributeError(name)
 
 
+class _WindowConnection:
+    """Qt side of the pipe. Each timer tick consumes updates before sending edits."""
+
+    def __init__(self, window):
+        self.window = window
+        self.messages = _incoming(sys.stdin)
+        self.result_handlers = {
+            "mode_result": window.mode_result,
+            "command_mode_result": window.command_mode_result,
+            "control_law_result": window.control_law_result,
+            "impedance_gains_result": window.impedance_gains_result,
+        }
+        self.previous_scale = window.scale
+        self.previous_width = window.open_width_mm
+
+    def exchange(self):
+        if not self.window.is_open:
+            self.window.app.quit()
+            return
+        reply = self._receive_updates()
+        if reply is None:
+            self.window.app.quit()
+            return
+        reply.update(self._take_operator_events())
+        if reply:
+            try:
+                _send(sys.stdout, reply)
+            except (BrokenPipeError, OSError):
+                self.window.app.quit()
+
+    def _receive_updates(self):
+        """Apply controller messages, returning the telemetry acknowledgement or None on EOF."""
+        reply = {}
+        for state in _drain(self.messages):
+            if state is None:
+                return None
+            for name, handler in self.result_handlers.items():
+                if name in state:
+                    handler(**state[name])
+                    break
+            else:
+                self.window.refresh(**state)
+                reply["ack"] = True
+        return reply
+
+    def _take_operator_events(self):
+        events = self.window.take_operator_events()
+        if self.window.scale != self.previous_scale:
+            self.previous_scale = self.window.scale
+            events["scale"] = self.previous_scale
+        if self.window.open_width_mm != self.previous_width:
+            self.previous_width = self.window.open_width_mm
+            events["open_width_mm"] = self.previous_width
+        return events
+
+
 def _run_window(settings):
     from PyQt5.QtCore import QTimer
 
     from vai_robotics.ur5e.panel.window import PanelWindow
 
     window = PanelWindow(**settings)
-    results = {
-        "mode_result": window.mode_result,
-        "command_mode_result": window.command_mode_result,
-        "control_law_result": window.control_law_result,
-        "impedance_gains_result": window.impedance_gains_result,
-    }
-    messages = _incoming(sys.stdin)
-    previous_scale = window.scale
-    previous_width = window.open_width_mm
-
-    def exchange():
-        nonlocal previous_scale, previous_width
-        if not window.is_open:
-            window.app.quit()
-            return
-        event = {}
-        for state in _drain(messages):
-            if state is None:
-                window.app.quit()
-                return
-            result = next((name for name in results if name in state), None)
-            if result is not None:
-                results[result](**state[result])
-            else:
-                window.refresh(**state)
-                event["ack"] = True
-        event.update(window.take_operator_events())
-        if window.scale != previous_scale:
-            previous_scale = window.scale
-            event["scale"] = previous_scale
-        if window.open_width_mm != previous_width:
-            previous_width = window.open_width_mm
-            event["open_width_mm"] = previous_width
-        if event:
-            try:
-                _send(sys.stdout, event)
-            except (BrokenPipeError, OSError):
-                window.app.quit()
-
+    connection = _WindowConnection(window)
     timer = QTimer()
-    timer.timeout.connect(exchange)
+    timer.timeout.connect(connection.exchange)
     timer.start(16)
     _send(sys.stdout, "ready")
     window.app.exec_()
