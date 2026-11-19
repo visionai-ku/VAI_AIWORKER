@@ -1,5 +1,7 @@
+from contextlib import chdir
 import os
 from queue import Queue
+from tempfile import TemporaryDirectory
 import time
 import unittest
 from unittest.mock import patch
@@ -136,8 +138,10 @@ class TeleopPanelTest(unittest.TestCase):
         self.assertEqual(panel.open_width_mm, 110.0)
 
     def test_separate_panel_process_consumes_frame_and_exits_on_pipe_eof(self):
-        with patch.dict(os.environ, QT_QPA_PLATFORM="offscreen"):
-            panel = TeleopPanel(simulation=True, device_name="SpaceMouse", dry_run=True)
+        # Notebooks can launch the panel with a working directory outside the checkout.
+        with TemporaryDirectory() as cwd, chdir(cwd):
+            with patch.dict(os.environ, QT_QPA_PLATFORM="offscreen", PYTHONPATH=""):
+                panel = TeleopPanel(simulation=True, device_name="SpaceMouse", dry_run=True)
         self.addCleanup(panel.close)
         self.assertEqual(panel.open_width_mm, 75.0)
         if os.name == "posix":

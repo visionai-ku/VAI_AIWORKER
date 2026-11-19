@@ -115,3 +115,15 @@ RG2 메시는 오사카대 Harada 연구실의 모델을 사용한다. 최대 �
 기본 배치에서 작업자는 로봇의 +X 쪽에서 베이스를 바라본다. 손이나 캡을 앞으로 밀면 베이스 −X, 오른쪽으로 밀면 +Y, 위로 올리면 +Z 방향이다. SIM RUN과 REAL RUN에서는 클러치를 놓으면 그 위치에서 정지한다. 추적 소실·입력 만료 후에는 클러치를 놓았다 다시 누른다. 종료는 `Ctrl+C` 또는 조작 패널의 **세션 종료**다.
 
 공통 루프는 50 Hz에서 입력을 처리하며 TCP 목표 변화율을 최대 0.10 m/s, 0.60 rad/s로 제한한다. 실기에서는 목표와 피드백 간 거리·각도, UR이 보고한 안전 상태와 목표 도달 가능성을 검사한다. 제어 프로세스의 명령이 끊기면 UR 컨트롤러의 RTDE watchdog이 제어 프로그램을 정지시킨다.
+
+## 코드 구조
+
+| 확인할 동작 | 담당 코드 |
+| --- | --- |
+| CLI 옵션, 장치·뷰어 연결과 종료, 50 Hz 실행 주기 | [teleop.py](teleop.py) |
+| Quest 자세 및 SpaceMouse HID 보고서를 베이스 좌표계의 입력으로 변환 | [inputs/quest.py](inputs/quest.py), [inputs/spacemouse.py](inputs/spacemouse.py) |
+| 한 주기 안에서 패널 요청, 팔·그리퍼 제어, 화면 갱신을 처리하는 순서 | [teleop_session.py](teleop_session.py)의 `TeleopSession.step()` |
+| 클러치 재활성화 조건, TCP·관절 목표와 속도 제한, 제어 방식 선택 | [controllers.py](controllers.py)의 `TeleopController.update()` |
+| MuJoCo에 힘·토크 적용, 실기 RTDE와 관절 토크 명령 전송 | [sim_teleop.py](sim_teleop.py), [real.py](real.py), [joint_writer.py](joint_writer.py) |
+| 패널 프로세스의 요청·응답 통신 | [teleop_panel.py](teleop_panel.py) |
+| Qt 화면 배치와 상태 표시, 축별 임피던스 편집, 패널 스타일 | [panel/window.py](panel/window.py), [panel/impedance_editor.py](panel/impedance_editor.py), [panel/style.qss](panel/style.qss) |

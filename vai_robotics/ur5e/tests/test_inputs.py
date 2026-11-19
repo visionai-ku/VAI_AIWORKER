@@ -71,7 +71,7 @@ class SpaceMouseTests(unittest.TestCase):
         self.driver = Mock()
         self.driver.get_connected_devices.return_value = ["SpaceMouse Compact"]
         self.driver.open.return_value = self.hid
-        self.enterContext(patch("vai_robotics.ur5e.inputs._load_spacemouse",
+        self.enterContext(patch("vai_robotics.ur5e.inputs.spacemouse._load_spacemouse",
                                 return_value=(self.driver, ConnectionError)))
         self.device = self.enterContext(SpaceMouseInput())
 

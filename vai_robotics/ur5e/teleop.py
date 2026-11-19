@@ -6,216 +6,33 @@ import os
 import sys
 import time
 
-import numpy as np
-
 from .controllers import COMMAND_MODES, CONTROL_LAWS, HZ, TeleopController
-from .real import RobotControlStopped
-from .rg2 import DEFAULT_GRIP_FORCE_N, DEFAULT_OPEN_WIDTH_MM
-from .rg2_visual import OPEN_WIDTH_MM, RG2Preview
-
-
-def clutch_text(device, sample, active):
-    if hasattr(device, "clutch_pressed"):
-        pressed = device.clutch_pressed
-        if pressed is None:
-            state = device.status or "상태 확인 대기 · 한 번 눌렀다 놓으세요"
-        elif not pressed:
-            state = "놓음"
-        elif active:
-            state = "누름"
-        else:
-            state = "누름 · 놓았다가 다시 누르세요"
-        return f"버튼 {device.button}: {state}"
-    if sample is None:
-        return "입력 대기"
-    if active:
-        return "누름"
-    return "놓음" if not sample.enabled else "클러치를 놓으세요"
-
-
-def operator_state(device, sample, controller):
-    """Summarize the latest control tick, including each input's release interlock."""
-    if controller.active:
-        return "active"
-    if getattr(device, "connected", True) is False:
-        return "waiting-device"
-    if hasattr(device, "clutch_pressed"):
-        if device.clutch_pressed is None:
-            return "waiting-clutch"
-        if device.clutch_pressed and not controller.ready_after_release:
-            return "release-clutch"
-    if getattr(device, "waiting_for_release", False) is True or (sample is not None and sample.enabled):
-        return "release-clutch"
-    if sample is not None and controller.ready_after_release:
-        return "ready"
-    return "waiting-input"
+from .rg2 import DEFAULT_GRIP_FORCE_N
+from .teleop_session import TeleopSession, clutch_text, operator_state
 
 
 def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper=None,
                gripper_force_n=DEFAULT_GRIP_FORCE_N, command_mode="eef-delta", control_law="position"):
-    limits = backend.joint_limits() if sim and (panel is not None or command_mode.startswith("joint-")) else None
-    controller = TeleopController(backend, dry_run=dry_run, command_mode=command_mode,
-                                  control_law=control_law, joint_limits=limits)
-    last_report = float("-inf")
-    message = ""
-    active = False
-    preview = RG2Preview(gripper_force_n)
-    open_width_mm = gripper.open_width_mm if gripper is not None else DEFAULT_OPEN_WIDTH_MM
-    baseline_width = open_width_mm if sim else OPEN_WIDTH_MM
+    session = TeleopSession(device, backend, simulation=sim, dry_run=dry_run, panel=panel, gripper=gripper,
+                            gripper_force_n=gripper_force_n, command_mode=command_mode, control_law=control_law,
+                            monotonic=time.monotonic)
     print("Release the device clutch, then hold it to move. Ctrl+C exits.", flush=True)
-    with ExitStack() as session:
+    with ExitStack() as cleanup:
         view = backend if sim else None
         if not sim and panel is not None:
             from .real_viewer import RealViewer
 
-            view = session.enter_context(RealViewer())
+            view = cleanup.enter_context(RealViewer())
             # Release the RTDE writer before waiting for the GUI to close.
-            session.callback(backend.set_motion_enabled, False)
+            cleanup.callback(backend.set_motion_enabled, False)
         else:
-            session.callback(backend.hold)
+            cleanup.callback(backend.hold)
         if gripper is not None:
-            session.callback(gripper.update, None)
+            cleanup.callback(gripper.update, None)
         while view is None or view.is_running():
             started = time.monotonic()
-            request = panel.poll() if panel is not None else None
-            if panel is not None and not panel.is_open:
+            if not session.step(view, started):
                 break
-            command_request = panel.take_command_mode() if panel is not None else None
-            law_request = panel.take_control_law() if panel is not None else None
-            gain_request = panel.take_impedance_gains() if panel is not None else None
-            gain_space = gain_request.get("space") if isinstance(gain_request, dict) else None
-            if gain_space not in ("eef", "joint"):
-                gain_space = None
-            configuration_count = sum(item is not None for item in (command_request, law_request, gain_request))
-            values = panel.take_target() if panel is not None else None
-            if panel is not None and panel.open_width_mm != open_width_mm:
-                open_width_mm = panel.open_width_mm
-                if gripper is not None:
-                    gripper.set_open_width(open_width_mm)
-            change_mode = request is not None and request != controller.dry_run
-            # Going back to preview takes priority over polling USB or network input.
-            sample = None if change_mode and request else device.read()
-            if change_mode:
-                values = None
-                if gripper is not None:
-                    gripper.update(None)
-                message = controller.set_mode(request, simulation=sim, sample=sample, device=device)
-                # Don't use input captured before a transition opened an RTDE session.
-                if controller.dry_run == request:
-                    sample = None
-                    preview.reset(baseline_width)
-                    if request and gripper is not None:
-                        # The arm writer is detached. Finish any Modbus write already in flight
-                        # before presenting the transition to read-only control as complete.
-                        gripper.wait_for_writes()
-            try:
-                arm_sample = sample
-                if configuration_count:
-                    # A selection is a separate input event. Never replay an arm
-                    # sample or target captured under the old mode or law.
-                    arm_sample = values = None
-                    if request is None:
-                        if configuration_count > 1:
-                            message = "제어 설정은 한 번에 하나씩 변경하세요."
-                        elif command_request is not None:
-                            message = controller.set_command_mode(command_request, simulation=sim,
-                                                                  sample=sample, device=device)
-                        elif law_request is not None:
-                            message = controller.set_control_law(law_request, simulation=sim,
-                                                                 sample=sample, device=device)
-                        elif gain_space is not None:
-                            message = controller.set_impedance_gains(gain_space, gain_request.get("gains"),
-                                                                     simulation=sim, sample=sample, device=device)
-                        else:
-                            message = "강성·감쇠 설정의 좌표계를 확인하세요."
-                notice = controller.update(arm_sample, time.monotonic(), values=values,
-                                           scale=panel.scale if panel is not None else 1.0)
-                if values is not None:
-                    message = notice or ""
-            except RobotControlStopped as error:
-                if sim or panel is None or controller.dry_run:
-                    raise
-                if gripper is not None:
-                    gripper.update(None)
-                stop_message = controller.set_mode(True, simulation=False, sample=None)
-                if gripper is not None:
-                    gripper.wait_for_writes()
-                sample = None
-                preview.reset(baseline_width)
-                controller.update(sample, time.monotonic())  # Verify feedback before showing a measured pose.
-                message = f"DRY RUN 전환 · {error}"
-                if stop_message:
-                    message += f" · {stop_message}"
-                print(message, file=sys.stderr, flush=True)
-            if request is not None:
-                if not change_mode:
-                    message = ""
-                panel.mode_result(dry_run=controller.dry_run, message=message)
-                requested_mode = "DRY RUN" if request else ("SIM RUN" if sim else "REAL RUN")
-                print(f"{requested_mode} · {message or '전환 완료'}", flush=True)
-            if configuration_count and request is not None and not message:
-                message = "실행 모드 전환 후 설정을 다시 선택하세요."
-            if command_request is not None:
-                panel.command_mode_result(command_mode=controller.command_mode, message=message)
-            if law_request is not None:
-                panel.control_law_result(control_law=controller.control_law, message=message)
-            if gain_request is not None:
-                gains = backend.get_impedance_gains(gain_space) if gain_space is not None else None
-                panel.impedance_gains_result(space=gain_space, gains=gains, message=message)
-            measured_width = None
-            chord = sample.gripper_chord if sample is not None else getattr(device, "gripper_chord", None)
-            if gripper is not None:
-                gripper.update(None if controller.dry_run or change_mode else chord)
-                measured_width = gripper.width_mm
-                if measured_width is not None:
-                    baseline_width = measured_width
-            width = measured_width
-            if sim or controller.dry_run:
-                command = sample.gripper_command if sample is not None else None
-                if controller.dry_run and chord is not True:
-                    # Released preview mirrors fresh RTDE/Modbus feedback or the frozen SIM RUN pose.
-                    preview.reset(baseline_width)
-                    command = None
-                width = preview.update(time.monotonic(), baseline_width, command, chord,
-                                       open_width_mm=open_width_mm)
-                if sim and not controller.dry_run:
-                    baseline_width = width
-            if sim:
-                backend.tick(dry_run=controller.dry_run, target=controller.target,
-                             joint_target=controller.joint_target if controller.dry_run else None,
-                             gripper_width_mm=width)
-            elif view is not None:
-                q = controller.measured_joints if controller.joint_space else backend.joints()
-                view.update(q=q, measured_tcp=controller.measured, dry_run=controller.dry_run,
-                            target=controller.target if controller.dry_run else None,
-                            joint_target=controller.joint_target if controller.dry_run else None,
-                            gripper_width_mm=width)
-            if controller.active != active:
-                active = controller.active
-                print("Clutch active" if active else "Holding", flush=True)
-            if panel is not None:
-                if sim:
-                    gripper_text = f"RG2 · 가상 폭 {width:.1f} mm"
-                else:
-                    gripper_text = gripper.status if gripper is not None else "RG2 · 그리퍼 IP 미설정"
-                    if controller.dry_run:
-                        gripper_text += f" · 미리보기 {width:.1f} mm"
-                gripper_text += f" · 설정 파지력 {gripper_force_n:g} N"
-                if hasattr(device, "gripper_chord"):
-                    state = {True: "누름", False: "놓음", None: "입력 대기"}[device.gripper_chord]
-                    gripper_text = f"버튼 0+1: {state} · {gripper_text}"
-                panel.refresh(dry_run=controller.dry_run, clutch=clutch_text(device, sample, active),
-                              operator_state=operator_state(device, sample, controller),
-                              measured=controller.measured,
-                              measured_joints=controller.measured_joints, target_joints=controller.joint_target,
-                              target=controller.target, message=message, gripper=gripper_text)
-            elif controller.dry_run and active and started - last_report >= 0.5:
-                if controller.joint_space:
-                    print("Dry-run joints [rad]:", np.round(controller.joint_target, 4), flush=True)
-                else:
-                    xyz, rot = controller.target
-                    print("Dry-run target [m, rad]:", np.round(np.r_[xyz, rot.as_rotvec()], 4), flush=True)
-                last_report = started
             time.sleep(max(0.0, started + 1 / HZ - time.monotonic()))
 
 

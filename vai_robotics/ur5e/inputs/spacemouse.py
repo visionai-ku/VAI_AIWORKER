@@ -1,4 +1,4 @@
-"""Six-axis, clutched operator input in UR base coordinates."""
+"""Read SpaceMouse HID reports and map the cap and buttons to teleop input."""
 
 import sys
 import time
@@ -6,74 +6,8 @@ from dataclasses import replace
 from pathlib import Path
 
 import numpy as np
-from scipy.spatial.transform import Rotation
 
-from vai_robotics.core.quest import (
-    ControllerMapper,
-    QuestControllerServer,
-    create_self_signed_certificate,
-)
-from .teleop_types import InputSample
-
-
-INPUT_TIMEOUT = 0.15  # seconds without a valid pose / active HID report
-
-
-def _stationary(enabled=False):
-    return InputSample(np.zeros(3), np.zeros(3), enabled)
-
-
-class QuestInput:
-    """One controller; facing yaw is taken from the first tracked, released frame."""
-
-    def __init__(self, host, port=8443, hand="right", cert_dir=None):
-        self.host = host
-        self.port = port
-        self.hand = hand
-        self.cert_dir = cert_dir or Path(__file__).resolve().parents[2] / ".cache" / "quest"
-        self.mapper = ControllerMapper(tracked_hand=hand, timeout_s=INPUT_TIMEOUT,
-                                       scale=1.0, max_translation_m=None)
-        self.receiver = None
-        self.reference = {hand: np.eye(4)}
-        self.previous_pose = None
-        self.last_received = None
-        self.waiting_for_release = False
-
-    def __enter__(self):
-        if self.host in ("0.0.0.0", "::", "[::]"):
-            raise ValueError("Set --quest-host to the operator PC's LAN IP address.")
-        cert, key = create_self_signed_certificate(self.cert_dir, self.host)
-        self.receiver = QuestControllerServer(self.host, self.port, cert, key).start()
-        self.mapper.reset()
-        self.previous_pose = self.last_received = None
-        self.waiting_for_release = False
-        print(f"Quest Browser: {self.receiver.url}  |  {self.hand} grip  |  certificate: {cert}", flush=True)
-        return self
-
-    def __exit__(self, *exc):
-        self.receiver.close()
-
-    def read(self):
-        frame = self.receiver.latest()
-        if frame is not None:
-            received = frame["received_at"]
-            if self.last_received is not None and received - self.last_received > INPUT_TIMEOUT:
-                self.mapper.require_release()
-            self.last_received = received
-        result = self.mapper.update(frame, self.reference, enabled=True)
-        self.waiting_for_release = result["state"] == "WAIT_RELEASE"
-        target = result["targets"].get(self.hand)
-        if target is None:
-            self.previous_pose = None
-            return _stationary() if result["state"] == "READY" else None
-
-        previous = self.previous_pose
-        self.previous_pose = target
-        if previous is None:
-            return _stationary(enabled=True)
-        relative = target[:3, :3] @ previous[:3, :3].T
-        return InputSample(target[:3, 3] - previous[:3, 3],
-                           Rotation.from_matrix(relative).as_rotvec(), True)
+from ..teleop_types import INPUT_TIMEOUT, InputSample
 
 
 def _load_spacemouse():
@@ -195,6 +129,26 @@ class SpaceMouseInput:
             if time.monotonic() >= self.retry_at:
                 self._connect()
             return None
+
+        state = self._latest_report()
+        if state is None:
+            return None
+        now = time.perf_counter()  # Same clock as pyspacemouse HID reports.
+        dt = 0 if self.last_tick is None else now - self.last_tick
+        self.last_tick = now
+        if self.report_time <= 0:
+            return None
+
+        arm = self._arm_sample(state, now, dt)
+        command = self._gripper_command(dt)
+        if arm is None and command is None:
+            return None
+        if arm is None:
+            arm = InputSample.stationary()
+        return replace(arm, gripper_command=command, buttons_released=self._buttons_released,
+                       gripper_chord=self.gripper_chord)
+
+    def _latest_report(self):
         # Some models send separate reports for translation, rotation and buttons.
         # Drain the nonblocking HID queue so a queued release takes effect this tick.
         for _ in range(64):
@@ -211,44 +165,35 @@ class SpaceMouseInput:
             if self.button >= len(state.buttons):
                 raise ValueError(f"Button {self.button} unavailable; device has {len(state.buttons)} buttons.")
             if state.t == self.report_time:
-                break
+                return state
             self.report_time = state.t
-        else:
-            self.saw_release = False
-            self.release_pending = False
-            self._reset_gripper_buttons()
-            self.last_tick = None
-            return None
 
-        now = time.perf_counter()  # pyspacemouse timestamps use timeit.default_timer
-        dt = 0 if self.last_tick is None else now - self.last_tick
-        self.last_tick = now
-        if self.report_time <= 0:
-            return None
-        arm = self._arm_sample(state, now, dt)
-        command = None
+        # Queue overrun: wait for a fresh release before accepting motion.
+        self.saw_release = False
+        self.release_pending = False
+        self._reset_gripper_buttons()
+        self.last_tick = None
+        return None
+
+    def _gripper_command(self, dt):
         # Coalesce fast edges within one poll to the operator's final intent.
         # A held button at startup or a delayed new close cannot acquire a grasp.
         if self._gripper_chord and not self._gripper_engaged and dt > INPUT_TIMEOUT:
             self._gripper_armed = False
         engaged = self._gripper_armed and self._gripper_chord is True
-        if engaged != self._gripper_engaged:
-            command = self._gripper_engaged = engaged
-        if arm is None:
-            if command is None:
-                return None
-            arm = _stationary()
-        return replace(arm, gripper_command=command, buttons_released=self._buttons_released,
-                       gripper_chord=self.gripper_chord)
+        if engaged == self._gripper_engaged:
+            return None
+        self._gripper_engaged = engaged
+        return engaged
 
     def _arm_sample(self, state, now, dt):
         if self.release_pending:
             # Deliver an actual release even if a new press is already queued.
             self.release_pending = False
-            return _stationary()
+            return InputSample.stationary()
         if not self._clutch_pressed:
             # An idle, released SpaceMouse may send no further reports.
-            return _stationary() if self.saw_release else None
+            return InputSample.stationary() if self.saw_release else None
         # HID_Z_UP is (right, away, up). Facing the robot, UR base axes are
         # (toward the user, right, up), matching the calibrated Quest mapping.
         axes = np.array([-state.y, state.x, state.z, -state.pitch, state.roll, state.yaw])
