@@ -22,6 +22,21 @@ class RG2Test(unittest.TestCase):
         self.gripper.update(False)
         self.gripper.update(True)
 
+    def test_recorded_target_follows_acknowledged_close_stop_and_open(self):
+        self.press()
+        self.assertEqual(self.gripper.recording_widths(), (50.6, 50.6))
+        self.gripper._poll()
+        self.assertEqual(self.gripper.recording_widths(), (50.6, 0))
+        self.gripper.update(False)
+        self.feedback.registers = [420, 1]
+        self.gripper._poll()  # Busy, Compute Box acknowledged stop before reversing.
+        self.assertEqual(self.gripper.recording_widths(), (42, 42))
+        self.feedback.registers = [416, 0]
+        self.gripper._poll()
+        self.assertEqual(self.gripper.recording_widths(), (41.6, 75))
+        self.clock.return_value += 1
+        self.assertEqual(self.gripper.recording_widths(), (None, None))
+
     def test_registers_startup_busy_reversal_and_deduplication(self):
         grip = self.gripper
         self.client.read_holding_registers.assert_called_once_with(267, count=2, device_id=65)

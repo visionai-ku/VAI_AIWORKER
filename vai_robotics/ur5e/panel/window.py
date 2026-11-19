@@ -14,6 +14,7 @@ from PyQt5.QtWidgets import (
 )
 
 from .impedance_editor import ImpedanceEditor
+from .recording import EpisodeControls
 from .widgets import ModePicker, add_divider, add_section, make_label, set_status_text
 
 
@@ -102,6 +103,7 @@ class PanelWindow:
         self.message_label.hide()
         layout.addWidget(self.message_label)
         self._build_inputs(add_section(layout), device_name, open_width_mm)
+        self.recording = EpisodeControls(add_section(layout))
         self._build_targets(add_section(layout))
         layout.addStretch()
         self.scroll.setWidget(self.body)
@@ -531,15 +533,30 @@ class PanelWindow:
         target = self.take_target_event()
         if not events and target is not None:
             events["target"] = target
+        record = self.recording.take_request()
+        if record is not None:
+            events["record"] = record
         return events
 
     def mode_result(self, *, dry_run, message=""):
         self._show_mode(dry_run)
         self._finish_switch("mode", message)
 
+    def recording_result(self, *, recording):
+        self._update_recording(recording, acknowledged=True)
+
+    def _update_recording(self, recording, *, acknowledged=False):
+        section = self.recording.section
+        previous_height = section.heightForWidth(section.width()) if section.isVisible() else 0
+        self.recording.refresh(recording, acknowledged=acknowledged)
+        if section.heightForWidth(section.width()) != previous_height:
+            QTimer.singleShot(0, self._fit_window)
+
     def refresh(self, *, dry_run, clutch, measured, target, message="", gripper="",
-                measured_joints=None, target_joints=None, operator_state="waiting-input"):
+                measured_joints=None, target_joints=None, operator_state="waiting-input", recording=None):
         self._feedback_timer.start()
+        if recording is not None:
+            self._update_recording(recording)
         if self._pending_switch is None:
             self._show_mode(dry_run)
             self._set_message(message)

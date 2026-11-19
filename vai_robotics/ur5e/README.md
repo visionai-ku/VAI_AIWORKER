@@ -107,6 +107,46 @@ SpaceMouse의 **0번과 1번을 함께 누르는 동안 그리퍼 닫힘을 요�
 
 RG2 메시는 오사카대 Harada 연구실의 모델을 사용한다. 최대 열림 명령 110 mm에서 메시의 안쪽 패드 간격은 약 104 mm다. 손가락 링크는 시각화용이다. [모델 출처와 라이선스](assets/README.md#onrobot-rg2)
 
+## 시연 데이터셋 기록
+
+SpaceMouse 또는 Quest로 한 번 시연한 동작을 로컬 LeRobot v3 Dataset의 Episode로 저장할 수 있다. `ri_motion_v5_py312` 환경(LeRobot 0.6.1)에서 저장소 루트를 기준으로 실행한다. [환경 설정](../../SETUP.md)
+
+```bash
+python -m vai_robotics.ur5e.teleop --backend sim --input spacemouse \
+  --record-dir datasets/ur5e --record-task 'Pick up the block'
+```
+
+1. **SIM RUN** 또는 **REAL RUN**을 선택하고 시연 시작 자세를 잡는다. 실기 세션의 기본 시작 모드는 **DRY RUN**이다. 녹화 설정만으로 실기 구동이나 기록이 시작되지는 않는다.
+2. 패널에서 **Record**를 누른 뒤 상태가 **Recording**으로 바뀌면 작업을 한 번 수행한다. **Save Episode**를 누르고 저장 완료를 확인한다. 다시 시연하려면 **Discard**로 현재 Episode를 버리고 **Record**를 누른다. 기본값은 6,000 Frame(50 Hz 기준 120초)에서 자동 저장하며, 이 길이는 `--record-max-seconds`로 바꾼다. 저장을 요청하기 전에 세션을 닫으면 진행 중인 Episode는 폐기된다.
+3. 같은 설정으로 **Record**와 **Save Episode**를 반복하면 동일 Dataset에 Episode가 추가된다. 기록 중 **DRY RUN**으로 돌아가거나 Command Mode 또는 Control Law를 바꾸면 전환 전까지 수집된 Frame이 하나의 Episode로 저장된다. 새 설정에서 시연을 시작할 때 **Record**를 다시 누른다.
+
+`--record-dir` 기본값은 `datasets/ur5e`, `--record-task` 기본값은 `UR5e teleoperation`이다. 실제 Dataset 디렉터리는 `<record-dir>/<sim|real>/<command-mode>-<control-law>`다. 노트북에서는 `RECORD_DIR`, `RECORD_TASK`, `RECORD_CAMERAS`를 설정한다. 기본값은 로봇 상태와 명령만 기록한다.
+
+영상도 필요하면 실행 중인 AI Worker ZMQ Camera Publisher의 주소를 `--record-camera "wrist=tcp://${CAMERA_HOST}:5571"` 형식으로 추가한다. `CAMERA_HOST`와 포트는 해당 Publisher 설정에 맞춘다. 여러 카메라는 옵션을 반복하고 서로 다른 이름을 사용한다. 매 제어 주기마다 가장 최근에 수신한 RGB Frame을 사용하며, Stereo 스트림은 왼쪽 영상을 저장한다. 기록 중 카메라 수신이 250 ms를 넘겨 끊기거나 해상도가 바뀌면 해당 Episode의 기록이 중단된다. 카메라의 이름·해상도나 RG2 사용 여부를 바꾸면 다른 `--record-dir`을 지정한다.
+
+| Frame 필드 | 저장값 |
+| --- | --- |
+| `observation.state` | 관측한 J1–J6 각도(rad). 시뮬레이션과 RG2를 연결한 실기에서는 마지막에 RG2 개도(mm)를 추가한다. |
+| `observation.eef_pose` | 베이스 기준 TCP의 xyz(m)와 quaternion(w, x, y, z). |
+| `action` | TCP 모드는 절대 TCP 목표(xyz m, quaternion wxyz), Joint 모드는 절대 J1–J6 목표(rad). Delta 입력도 적용된 절대 목표로 기록한다. RG2를 사용하는 Dataset에서는 마지막 값이 목표 개도(mm)다. |
+| `control.active` | 해당 Frame에서 팔 제어가 활성화됐는지 표시한다. 비활성 Frame은 관측한 팔 자세를 유지 목표로 기록한다. |
+| `control.elapsed_s` | Episode 첫 Frame부터의 실제 경과 시간(s). monotonic clock을 사용한다. |
+| `control.stiffness`, `control.damping` | Impedance 모드에서 각 Frame에 적용된 축별 Gains. TCP는 X/Y/Z/Rx/Ry/Rz, Joint는 J1–J6 순서다. |
+| `observation.images.<name>` | 설정한 각 카메라의 RGB 영상. |
+
+LeRobot의 기준 FPS는 50 Hz다. 다음 예시는 위 명령으로 저장한 Dataset에서 첫 Frame을 읽는다.
+
+```python
+from pathlib import Path
+from lerobot.datasets.lerobot_dataset import LeRobotDataset
+
+root = Path("datasets/ur5e/sim/eef-delta-position")
+ds = LeRobotDataset("local/ur5e", root=root, video_backend="pyav")
+frame = ds[0]
+print(ds.meta.total_episodes, len(ds))
+print(frame["observation.state"], frame["observation.eef_pose"], frame["action"])
+```
+
 ## 장치 조작
 
 | 장치 | 시작과 조작 |

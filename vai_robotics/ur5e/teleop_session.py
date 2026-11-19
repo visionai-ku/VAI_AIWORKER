@@ -120,6 +120,21 @@ class _SessionGripper:
         self.preview = RG2Preview(force_n)
         self.open_width_mm = hardware.open_width_mm if hardware is not None else DEFAULT_OPEN_WIDTH_MM
         self.baseline_mm = self.open_width_mm if simulation else OPEN_WIDTH_MM
+        self.chord = None
+
+    @property
+    def has_recorded_width(self):
+        return self.simulation or self.hardware is not None
+
+    def measured_width(self):
+        if self.simulation:
+            return self.baseline_mm
+        return self.hardware.width_mm if self.hardware is not None else None
+
+    def commanded_width(self, previous_width):
+        if self.simulation:
+            return self.preview.commanded_width(self.chord, previous_width)
+        return self.hardware.recording_widths()[1]
 
     def set_open_width(self, width):
         if width != self.open_width_mm:
@@ -129,6 +144,7 @@ class _SessionGripper:
 
     def update(self, device, sample, *, dry_run, run_switch_requested, monotonic):
         chord = sample.gripper_chord if sample is not None else getattr(device, "gripper_chord", None)
+        self.chord = chord
         measured = None
         if self.hardware is not None:
             self.hardware.update(None if dry_run or run_switch_requested else chord)
@@ -165,12 +181,13 @@ class _SessionGripper:
 
 class TeleopSession:
     def __init__(self, device, backend, *, simulation, dry_run, panel, gripper,
-                 gripper_force_n, command_mode, control_law, monotonic):
+                 gripper_force_n, command_mode, control_law, monotonic, recording=None):
         self.device = device
         self.backend = backend
         self.simulation = simulation
         self.panel = panel
         self.monotonic = monotonic
+        self.recording = recording
         limits = None
         if simulation and (panel is not None or command_mode.startswith("joint-")):
             limits = backend.joint_limits()
@@ -186,6 +203,8 @@ class TeleopSession:
         """Return False when the panel closes, before sampling or sending commands."""
         requests = _PanelRequests.poll(self.panel)
         if requests is None:
+            if self.recording is not None and self.panel.take_record_request() == "save":
+                self.recording.save_pending()
             return False
         if self.panel is not None:
             self.gripper.set_open_width(self.panel.open_width_mm)
@@ -196,6 +215,8 @@ class TeleopSession:
         if run_switch:
             sample = self._switch_run_mode(requests.dry_run, sample)
 
+        request = self.panel.take_record_request() if self.recording is not None and self.panel is not None else None
+        observation = self.recording.observe(self.controller, self.gripper, request) if self.recording else None
         try:
             self._advance_arm(requests, sample, run_switch)
         except RobotControlStopped as error:
@@ -208,9 +229,18 @@ class TeleopSession:
                                             run_switch_requested=run_switch, message=self.message)
         width = self.gripper.update(self.device, sample, dry_run=self.controller.dry_run,
                                     run_switch_requested=run_switch, monotonic=self.monotonic)
+        recording_status = self._record_tick(request, observation, started)
         self._render(view, width, started)
-        self._report(sample, width, started)
+        self._report(sample, width, started, recording_status)
         return True
+
+    def _record_tick(self, request, observation, started):
+        if self.recording is None:
+            return None
+        status = self.recording.update(request, self.controller, self.gripper, observation, started)
+        if request is not None:
+            self.panel.recording_result(status)
+        return status
 
     def _switch_run_mode(self, dry_run, sample):
         hardware = self.gripper.hardware
@@ -239,6 +269,8 @@ class TeleopSession:
             self.message = notice or ""
 
     def _recover_to_preview(self, error):
+        if self.recording is not None:
+            self.recording.fail(str(error))
         hardware = self.gripper.hardware
         if hardware is not None:
             hardware.update(None)
@@ -273,7 +305,7 @@ class TeleopSession:
                         target=arm.target if arm.dry_run else None, joint_target=joint_preview,
                         gripper_width_mm=width, preview_gains=gains, preview_delta=preview_delta)
 
-    def _report(self, sample, width, started):
+    def _report(self, sample, width, started, recording_status):
         arm = self.controller
         if arm.active != self._was_active:
             self._was_active = arm.active
@@ -284,7 +316,7 @@ class TeleopSession:
                                operator_state=operator_state(self.device, sample, arm),
                                measured=arm.measured, target=arm.target, measured_joints=arm.measured_joints,
                                target_joints=arm.joint_target, message=self.message,
-                               gripper=gripper_text)
+                               gripper=gripper_text, recording=recording_status)
         elif arm.dry_run and arm.active and started - self._last_report >= 0.5:
             if arm.joint_space:
                 print("Dry-run joints [rad]:", np.round(arm.joint_target, 4), flush=True)

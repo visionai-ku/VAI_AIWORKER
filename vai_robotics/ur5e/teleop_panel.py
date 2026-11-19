@@ -91,6 +91,7 @@ class TeleopPanel:
         self._command_mode = command_mode
         self._control_law = control_law
         self._requests = {}
+        self._record_request = None
         self._target_event = None
         self.scale = 1.0
         self._can_send = True
@@ -128,6 +129,9 @@ class TeleopPanel:
                     self._requests[name] = event[name]
             if "target" in event:
                 self._target_event = event["target"]
+            if event.get("record") in ("start", "save", "discard"):
+                # The panel permits one recording request until an explicit result arrives.
+                self._record_request = event["record"]
             if "scale" in event:
                 self.scale = event["scale"]
             if "open_width_mm" in event:
@@ -136,6 +140,8 @@ class TeleopPanel:
                 self._can_send = True
         if not self._open:
             self._requests.clear()
+            if self._record_request != "save":
+                self._record_request = None
         # A target captured before a switch must never drive the new configuration.
         pending_configuration = any(value is not None for value in self._requests.values())
         if not self._open or run_mode is not None or pending_configuration:
@@ -151,6 +157,10 @@ class TeleopPanel:
     def take_impedance_gains(self):
         return self._requests.pop("impedance_gains", None)
 
+    def take_record_request(self):
+        request, self._record_request = self._record_request, None
+        return request
+
     def take_target(self):
         event, self._target_event = self._target_event, None
         if (event is None or event.get("command_mode") != self._command_mode
@@ -161,7 +171,7 @@ class TeleopPanel:
         return None
 
     def refresh(self, *, dry_run, clutch, measured, target, message="", gripper="",
-                measured_joints=None, target_joints=None, operator_state="waiting-input"):
+                measured_joints=None, target_joints=None, operator_state="waiting-input", recording=None):
         now = time.monotonic()
         if not self.is_open or not self._can_send or now < self._next_update:
             return
@@ -170,6 +180,8 @@ class TeleopPanel:
                      target=_display_pose(target), message=message[:256], gripper=gripper[:256],
                      measured_joints=None if measured_joints is None else list(map(math.degrees, measured_joints)),
                      target_joints=None if target_joints is None else list(map(math.degrees, target_joints)))
+        if recording is not None:
+            state["recording"] = recording
         try:
             _send(self._process.stdin, state)
         except (BrokenPipeError, OSError):
@@ -179,28 +191,33 @@ class TeleopPanel:
         self._next_update = now + 0.1
 
     def mode_result(self, *, dry_run, message=""):
-        self._send_mode_result("mode_result", message, dry_run=dry_run)
+        self._send_result("mode_result", message, dry_run=dry_run)
 
     def command_mode_result(self, *, command_mode, message=""):
         self._command_mode = command_mode
-        self._send_mode_result("command_mode_result", message, command_mode=command_mode)
+        self._send_result("command_mode_result", message, command_mode=command_mode)
 
     def control_law_result(self, *, control_law, message=""):
         self._control_law = control_law
-        self._send_mode_result("control_law_result", message, control_law=control_law)
+        self._send_result("control_law_result", message, control_law=control_law)
 
     def impedance_gains_result(self, *, space, gains, message=""):
         if not message and gains is not None:
             # A late target tagged with the same mode and law can predate these gains.
             self._targets_valid_since = time.monotonic()
             self._target_event = None
-        self._send_mode_result("impedance_gains_result", message, space=space, gains=gains)
+        self._send_result("impedance_gains_result", message, space=space, gains=gains)
 
-    def _send_mode_result(self, key, message, **state):
-        """Acknowledge a switch independently of the telemetry frame rate."""
+    def recording_result(self, recording):
+        self._send_result("recording_result", recording=recording)
+
+    def _send_result(self, key, message=None, **state):
+        """Acknowledge an operator request independently of the telemetry frame rate."""
         if self.is_open:
+            if message is not None:
+                state["message"] = message[:256]
             try:
-                _send(self._process.stdin, {key: {**state, "message": message[:256]}})
+                _send(self._process.stdin, {key: state})
             except (BrokenPipeError, OSError):
                 self._open = False
 
@@ -239,6 +256,7 @@ class _WindowConnection:
             "command_mode_result": window.command_mode_result,
             "control_law_result": window.control_law_result,
             "impedance_gains_result": window.impedance_gains_result,
+            "recording_result": window.recording_result,
         }
         self.previous_scale = window.scale
         self.previous_width = window.open_width_mm
@@ -296,6 +314,12 @@ def _run_window(settings):
     timer.start(16)
     _send(sys.stdout, "ready")
     window.app.exec_()
+    # Flush a Save click if the window closed before the 16 ms exchange timer.
+    if window.recording.take_request() == "save":
+        try:
+            _send(sys.stdout, {"record": "save"})
+        except (BrokenPipeError, OSError):
+            pass
     window.close()
 
 

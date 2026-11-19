@@ -54,6 +54,12 @@ class RG2Preview:
                 self.width_mm = min(self._target_width_mm, self.width_mm + step)
         return self.width_mm
 
+    def commanded_width(self, chord, previous_width):
+        """Return this tick's simulated setpoint, including holds on lost input."""
+        if self._closing is not None and self._closing == chord:
+            return self._target_width_mm
+        return previous_width
+
 
 def set_rg2_width(model, width_mm):
     """Set the six visual link orientations before the caller's next MuJoCo forward."""

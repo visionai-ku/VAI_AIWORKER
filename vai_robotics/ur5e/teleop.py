@@ -12,10 +12,11 @@ from .teleop_session import TeleopSession, clutch_text, operator_state
 
 
 def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper=None,
-               gripper_force_n=DEFAULT_GRIP_FORCE_N, command_mode="eef-delta", control_law="position"):
+               gripper_force_n=DEFAULT_GRIP_FORCE_N, command_mode="eef-delta", control_law="position",
+               recording=None):
     session = TeleopSession(device, backend, simulation=sim, dry_run=dry_run, panel=panel, gripper=gripper,
                             gripper_force_n=gripper_force_n, command_mode=command_mode, control_law=control_law,
-                            monotonic=time.monotonic)
+                            monotonic=time.monotonic, recording=recording)
     print("Release the device clutch, then hold it to move. Ctrl+C exits.", flush=True)
     with ExitStack() as cleanup:
         view = backend if sim else None
@@ -55,6 +56,11 @@ def _argument_parser():
     initial_mode.add_argument("--dry-run", action="store_true", help="start with the virtual arm preview")
     parser.add_argument("--headless", action="store_true", help="run simulation without a viewer")
     parser.add_argument("--no-panel", action="store_true", help="run without the desktop settings panel")
+    parser.add_argument("--record-dir", help="base directory for local LeRobot datasets (default: datasets/ur5e)")
+    parser.add_argument("--record-task", help="episode task description (default: UR5e teleoperation)")
+    parser.add_argument("--record-max-seconds", type=int, help="auto-save after this duration at 50 Hz (default: 120)")
+    parser.add_argument("--record-camera", action="append", default=[], metavar="NAME=tcp://HOST:PORT",
+                        help="AI Worker ZMQ RGB stream to record; repeat for multiple cameras")
     return parser
 
 
@@ -81,6 +87,19 @@ def _parse_args(argv):
     if args.command_mode.endswith("-absolute") and not args.show_panel:
         parser.error("Absolute teleoperation requires the target panel. "
                      "Use TeleopController.update(values=...) for headless targets.")
+    recording_options = (args.record_dir, args.record_task, args.record_max_seconds)
+    if (any(value is not None for value in recording_options) or args.record_camera) and not args.show_panel:
+        parser.error("Recording controls require the desktop panel")
+    if args.record_max_seconds is not None and args.record_max_seconds < 1:
+        parser.error("--record-max-seconds must be positive")
+    if args.record_task is not None and not args.record_task.strip():
+        parser.error("--record-task must contain a task description")
+    from .recording_camera import parse_camera_endpoints
+
+    try:
+        args.camera_endpoints = parse_camera_endpoints(args.record_camera)
+    except ValueError as error:
+        parser.error(str(error))
     return args
 
 
@@ -124,8 +143,17 @@ def main(argv=None):
 
     with ExitStack() as stack:
         panel = _make_panel(args, dry_run) if args.show_panel else None
+        recording = None
         if panel is not None:
+            from .demonstrations import DemonstrationRecording
+            from .recording_camera import RecordingCameras
+
             stack.callback(panel.close)
+            cameras = stack.enter_context(RecordingCameras(args.camera_endpoints))
+            recording = DemonstrationRecording(args.record_dir or "datasets/ur5e", simulation=simulation,
+                                               task=args.record_task or "UR5e teleoperation", cameras=cameras,
+                                               max_seconds=args.record_max_seconds or 120)
+            stack.callback(recording.close)
         device = _make_input(args)
         backend = _make_backend(args)
         stack.enter_context(device)
@@ -138,7 +166,7 @@ def main(argv=None):
         try:
             run_teleop(device, backend, sim=simulation, dry_run=dry_run, panel=panel, gripper=gripper,
                        gripper_force_n=args.gripper_force_n, command_mode=args.command_mode,
-                       control_law=args.control_law)
+                       control_law=args.control_law, recording=recording)
         except KeyboardInterrupt:
             pass
 

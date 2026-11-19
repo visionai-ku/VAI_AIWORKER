@@ -47,6 +47,7 @@ class RG2:
 
     def _reset_input(self):
         self._chord = None
+        self._accepted_width_mm = None
         self._pending = None
         self._issued = None
         self._stopping = False
@@ -78,10 +79,15 @@ class RG2:
 
     @property
     def width_mm(self):
+        return self.recording_widths()[0]
+
+    def recording_widths(self):
+        """Sample fresh measured width and the last acknowledged Modbus target together."""
         with self._lock:
-            if time.monotonic() - self._feedback_at < self.FEEDBACK_TIMEOUT:
-                return self._width
-            return None
+            if time.monotonic() - self._feedback_at >= self.FEEDBACK_TIMEOUT:
+                return None, None
+            target = self._accepted_width_mm
+            return self._width, self._width if target is None else target
 
     @property
     def status(self):
@@ -158,6 +164,9 @@ class RG2:
                 result = self._client.write_registers(address, values, device_id=self.UNIT)
                 if result.isError():
                     raise OSError(f"RG2 command failed: {result}")
+                with self._lock:
+                    if self._chord is not None:
+                        self._accepted_width_mm = values[1] / 10 if address == 0 else None
 
     def _disconnect(self, reason):
         with self._lock:

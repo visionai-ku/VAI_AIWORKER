@@ -4,6 +4,7 @@ __pycache__/
 .ipynb_checkpoints/
 .cache/
 .pytest_cache/
+/datasets/ur5e/
 
 # Generated ROS workspace output. Keep local installations; do not ship them in Git.
 /ros2_ws/build/
