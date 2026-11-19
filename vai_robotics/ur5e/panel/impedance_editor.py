@@ -80,7 +80,7 @@ class ImpedanceEditor:
         defaults = QPushButton("기본값 불러오기")
         defaults.clicked.connect(lambda: self._set_values(default_impedance_gains(self.space)))
         actions.addWidget(defaults)
-        self.apply = QPushButton("계수 적용")
+        self.apply = QPushButton("Apply Gains")
         self.apply.clicked.connect(lambda: submit(self.space, self.values()))
         actions.addWidget(self.apply)
         return actions
@@ -102,8 +102,9 @@ class ImpedanceEditor:
             self.drafts[self.space] = self.values()
         self.space = space
         joint = space == "joint"
-        self.toggle.setText(f"{'관절' if joint else 'TCP'} 임피던스 · 강성·감쇠 설정")
-        for col, name in enumerate(("강성", "감쇠")):
+        self.toggle.setText(f"{'Joint' if joint else 'TCP'} Impedance · Stiffness/Damping")
+        for col, key in enumerate(self.inputs):
+            name = key.capitalize()
             top_units = self.angular_units if joint else self.linear_units
             self.headers[0][col].setText(f"{name}\n{top_units[col]}")
             self.headers[1][col].setText(f"{name}\n{self.angular_units[col]}")
@@ -118,7 +119,7 @@ class ImpedanceEditor:
             self.axes[i].setText(axis)
             for col, (key, fields) in enumerate(self.inputs.items()):
                 box = fields[i]
-                name = ("강성", "감쇠")[col]
+                name = key.capitalize()
                 unit = (self.angular_units if joint or i >= 3 else self.linear_units)[col]
                 box.setAccessibleName(f"{axis} {name} ({unit})")
                 box.setToolTip(f"{axis} {name} · 현재 적용값 {self.confirmed[self.space][key][i]:g} {unit}\n"

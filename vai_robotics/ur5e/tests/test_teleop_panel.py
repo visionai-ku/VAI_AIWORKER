@@ -121,7 +121,7 @@ class TeleopPanelTest(unittest.TestCase):
 
         panel = self.make_panel(open_width_mm=81.3)
         control = panel.open_width
-        self.assertEqual(control.accessibleName(), "열림 목표 폭")
+        self.assertEqual(control.accessibleName(), "Open Width")
         self.assertEqual(control.suffix(), " mm")
         self.assertEqual(panel.open_width_mm, 81.3)
         control.setFocus()

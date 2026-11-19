@@ -47,7 +47,7 @@ class PanelLayoutTest(unittest.TestCase):
         pose = ([-412.5, -152.3, 514.2], [-121.5, 121.5, 0.0])
         telemetry = dict(dry_run=True, measured=pose, target=pose,
                          clutch="버튼 1: 상태 확인 대기 · 한 번 눌렀다 놓으세요",
-                         gripper="버튼 0+1: 놓음 · RG2 75.0 mm · 미리보기 75.0 mm · 설정 파지력 40 N")
+                         gripper="버튼 0+1: 놓음 · RG2 75.0 mm · Preview Width 75.0 mm · Grip Force (set) 40 N")
         self.panel.refresh(**{**telemetry, **overrides})
         self.settle()
 
@@ -143,7 +143,7 @@ class PanelLayoutTest(unittest.TestCase):
         self.assertEqual(label.text(), "조작 준비 완료")
         self.panel.command_picker.setCurrentIndex(self.panel.command_picker.findData("joint-delta"))
         self.populate(operator_state="ready")
-        self.assertEqual(label.text(), "명령 모드 전환 중")
+        self.assertEqual(label.text(), "Command Mode 전환 중")
         self.panel.command_mode_result(command_mode="joint-delta")
         self.assertEqual(label.text(), "상태 수신 대기")
         self.populate(operator_state="active", measured_joints=[0.0] * 6)

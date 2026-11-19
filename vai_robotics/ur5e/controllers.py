@@ -65,18 +65,18 @@ class TeleopController:
 
     def set_command_mode(self, command_mode, *, simulation, sample, device=None):
         if command_mode not in COMMAND_MODES:
-            return "지원하지 않는 명령 모드입니다."
+            return "지원하지 않는 Command Mode입니다."
         return self._configure(command_mode, self.control_law, simulation, sample, device)
 
     def set_control_law(self, control_law, *, simulation, sample, device=None):
         if control_law not in CONTROL_LAWS:
-            return "지원하지 않는 제어 방식입니다."
+            return "지원하지 않는 Control Law입니다."
         return self._configure(self.command_mode, control_law, simulation, sample, device)
 
     def _release_check(self, simulation, sample, device):
         if sample is not None:
             if sample.enabled or not sample.buttons_released:
-                return "클러치와 그리퍼 버튼을 놓은 뒤 다시 선택하세요."
+                return "Clutch와 Gripper 버튼을 놓은 뒤 다시 선택하세요."
             return ""
 
         # An idle simulation or preview can be configured with no input device.
@@ -84,22 +84,22 @@ class TeleopController:
                 getattr(device, "clutch_pressed", None) is True or
                 getattr(device, "gripper_chord", None) is True or
                 getattr(device, "waiting_for_release", False) is True):
-            return "입력 장치 연결을 확인하고 클러치를 놓은 뒤 다시 선택하세요."
+            return "입력 장치 연결을 확인하고 Clutch를 놓은 뒤 다시 선택하세요."
         return ""
 
     def set_impedance_gains(self, space, gains, *, simulation, sample, device=None):
         if self.control_law != "impedance" or space != ("joint" if self.joint_space else "eef"):
-            return "현재 명령 모드의 임피던스 제어를 선택한 뒤 적용하세요."
+            return "현재 Command Mode에 맞는 TCP 또는 Joint 설정인지, Impedance Control이 선택되어 있는지 확인하세요."
         reason = self._release_check(simulation, sample, device)
         if reason:
             return reason
         if self.active:
-            return "클러치를 놓고 팔 조작을 마친 뒤 적용하세요."
+            return "Clutch를 놓고 팔 조작을 마친 뒤 적용하세요."
         self.backend.hold()
         try:
             self.backend.set_impedance_gains(space, gains)
         except ValueError as error:
-            return f"강성·감쇠 설정을 적용할 수 없습니다. {error}"
+            return f"Stiffness / Damping을 적용할 수 없습니다. {error}"
         self._reset_targets()
         self.measured = self.measured_joints = None
         return ""
@@ -115,7 +115,7 @@ class TeleopController:
         needs_joint_writer = command_mode.startswith("joint-") and control_law == "impedance"
         change_writer = not simulation and needs_joint_writer != using_joint_writer
         if change_writer and not self.dry_run:
-            return "관절 토크 제어 프로그램을 전환하려면 DRY RUN에서 설정을 바꾼 뒤 REAL RUN을 선택하세요."
+            return "Joint Impedance로 전환하거나 해제하려면 DRY RUN에서 설정을 바꾼 뒤 REAL RUN을 선택하세요."
 
         self.backend.hold()
         if change_writer:
@@ -131,12 +131,12 @@ class TeleopController:
         if sample is not None and not sample.enabled and sample.buttons_released:
             return ""
         if not hasattr(device, "clutch_pressed"):
-            return "컨트롤러의 추적 상태를 확인하고 클러치를 놓은 뒤 실기 구동을 다시 선택하세요."
+            return "Quest tracking 상태를 확인하고 Clutch를 놓은 뒤 REAL RUN을 다시 선택하세요."
         if device.status:
             return "SpaceMouse를 USB에 연결한 뒤 다시 시도하세요."
         if device.clutch_pressed is None:
-            return f"SpaceMouse {device.button}번 버튼을 한 번 눌렀다 놓은 뒤 실기 구동을 다시 선택하세요."
-        return "SpaceMouse의 모든 버튼을 놓은 뒤 실기 구동을 다시 선택하세요."
+            return f"SpaceMouse {device.button}번 버튼을 한 번 눌렀다 놓은 뒤 REAL RUN을 다시 선택하세요."
+        return "SpaceMouse의 모든 버튼을 놓은 뒤 REAL RUN을 다시 선택하세요."
 
     def set_mode(self, dry_run, *, simulation, sample, device=None):
         if dry_run == self.dry_run:
@@ -158,7 +158,7 @@ class TeleopController:
                 if self.backend.motion_enabled:
                     raise
                 self.dry_run = True
-                return f"실기 제어 연결 해제 · 정지 응답을 확인하지 못했습니다. 펜던트를 확인하세요. ({error})"
+                return f"실기 제어 연결 해제 · 정지 응답을 확인하지 못했습니다. Teach Pendant를 확인하세요. ({error})"
         self.dry_run = dry_run
         return ""
 
@@ -174,7 +174,7 @@ class TeleopController:
             self.target = self.joint_target = self.goal = None
             self.backend.hold()
             if values is not None:
-                return "클러치를 놓았다 다시 누른 상태에서 목표 적용을 누르세요."
+                return "Clutch를 놓았다 다시 누른 상태에서 Apply Target을 누르세요."
             return
 
         # A delayed tick may advance the target by at most two control periods.
@@ -262,7 +262,7 @@ class TeleopController:
                 lower, upper = self.joint_limits
                 if np.any(requested < lower) or np.any(requested > upper):
                     self.goal = None
-                    return "목표가 시뮬레이터의 관절 범위를 벗어납니다."
+                    return "입력한 각도가 시뮬레이터의 Joint Limits를 벗어납니다."
             self.goal = requested
         if self.goal is None:
             step = np.r_[JOINT_RAD_PER_METRE * delta[:3], delta[3:]]

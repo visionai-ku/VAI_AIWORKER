@@ -126,7 +126,7 @@ class TeleopControllerTest(unittest.TestCase):
         c.update(self.held, 0.02)
         c.update(self.held, 0.04)
         np.testing.assert_allclose(c.joint_target, [0.005, 0, 0, 0, 0, 0.01])
-        self.assertIn("관절 범위", c.update(self.held, 0.06, values=np.ones(6)))
+        self.assertIn("Joint Limits", c.update(self.held, 0.06, values=np.ones(6)))
         self.backend.command_joints.assert_not_called()
         absolute = TeleopController(self.backend, command_mode="joint-absolute")
         absolute.update(self.rest, 0)

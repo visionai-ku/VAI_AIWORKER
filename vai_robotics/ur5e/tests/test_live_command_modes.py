@@ -134,7 +134,7 @@ class LiveCommandModeTest(unittest.TestCase):
         for _, q in joint_commands:
             np.testing.assert_array_equal(q, np.full(6, 0.07))
         self.assertEqual(self.backend.tick.call_count, len(samples))
-        self.assertIn("관절 범위", panel.refresh.call_args.kwargs["message"])
+        self.assertIn("Joint Limits", panel.refresh.call_args.kwargs["message"])
 
     def test_joint_law_change_selects_writer_on_next_real_run_in_both_directions(self):
         robot = RealUR5e("test")

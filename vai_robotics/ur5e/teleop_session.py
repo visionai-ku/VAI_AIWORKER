@@ -27,7 +27,7 @@ def clutch_text(device, sample, active):
         return "입력 대기"
     if active:
         return "누름"
-    return "놓음" if not sample.enabled else "클러치를 놓으세요"
+    return "놓음" if not sample.enabled else "Clutch를 놓으세요"
 
 
 def operator_state(device, sample, controller):
@@ -86,7 +86,7 @@ class _PanelRequests:
         if self.control_law is not None:
             return controller.set_control_law(self.control_law, simulation=simulation, sample=sample, device=device)
         if self.gain_space is None:
-            return "강성·감쇠 설정의 좌표계를 확인하세요."
+            return "Stiffness / Damping을 적용할 대상(TCP 또는 Joint)을 확인하세요."
         return controller.set_impedance_gains(self.gain_space, self.gains.get("gains"),
                                               simulation=simulation, sample=sample, device=device)
 
@@ -151,12 +151,12 @@ class _SessionGripper:
 
     def status(self, device, width, dry_run):
         if self.simulation:
-            text = f"RG2 · 가상 폭 {width:.1f} mm"
+            text = f"RG2 · Simulated Width {width:.1f} mm"
         else:
-            text = self.hardware.status if self.hardware is not None else "RG2 · 그리퍼 IP 미설정"
+            text = self.hardware.status if self.hardware is not None else "RG2 · Gripper IP 미설정"
             if dry_run:
-                text += f" · 미리보기 {width:.1f} mm"
-        text += f" · 설정 파지력 {self.force_n:g} N"
+                text += f" · Preview Width {width:.1f} mm"
+        text += f" · Grip Force (set) {self.force_n:g} N"
         if hasattr(device, "gripper_chord"):
             state = {True: "누름", False: "놓음", None: "입력 대기"}[device.gripper_chord]
             text = f"버튼 0+1: {state} · {text}"

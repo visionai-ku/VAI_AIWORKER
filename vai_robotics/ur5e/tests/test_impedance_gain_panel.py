@@ -35,8 +35,8 @@ class ImpedanceGainPanelTest(unittest.TestCase):
         panel.apply_target.click()
         original = default_impedance_gains("eef")
         self.assertFalse(editor.apply.isEnabled())
-        self.assertIn("N/m", editor.inputs["stiffness"][0].accessibleName())
-        self.assertIn("N·m·s/rad", editor.inputs["damping"][5].accessibleName())
+        self.assertEqual(editor.inputs["stiffness"][0].accessibleName(), "X Stiffness (N/m)")
+        self.assertEqual(editor.inputs["damping"][5].accessibleName(), "Rz Damping (N·m·s/rad)")
         editor.inputs["stiffness"][0].setValue(157.5)
         editor.inputs["damping"][5].setValue(2.1)
         self.assertIsNone(panel.take_impedance_gains())
@@ -47,7 +47,7 @@ class ImpedanceGainPanelTest(unittest.TestCase):
             self.assertEqual(request, {"space": "eef", "gains": editor.values()})
             self.assertIsNone(panel.take_impedance_gains())
             self.assertIsNone(panel.take_target_event())
-            self.assertEqual(panel.state_label.text(), "강성·감쇠 적용 중")
+            self.assertEqual(panel.state_label.text(), "Stiffness/Damping 적용 중")
             for control in (panel.control_law_picker, panel.command_picker, panel.run_button,
                             editor.body, panel.apply_target):
                 self.assertFalse(control.isEnabled())
@@ -66,9 +66,9 @@ class ImpedanceGainPanelTest(unittest.TestCase):
                 self.assertEqual(panel.measured_cells[0].text(), "—")
 
         panel.command_mode_result(command_mode="joint-absolute")
-        self.assertIn("관절", editor.toggle.text())
+        self.assertEqual(editor.toggle.text(), "Joint Impedance · Stiffness/Damping")
         self.assertEqual(editor.values(), default_impedance_gains("joint"))
-        self.assertEqual(editor.inputs["stiffness"][0].accessibleName(), "J1 강성 (N·m/rad)")
+        self.assertEqual(editor.inputs["stiffness"][0].accessibleName(), "J1 Stiffness (N·m/rad)")
         editor.inputs["damping"][0].setValue(5.1)
         panel.command_mode_result(command_mode="eef-delta")
         self.assertEqual(editor.values(), request["gains"])

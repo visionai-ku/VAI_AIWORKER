@@ -19,16 +19,16 @@ from .widgets import ModePicker, add_divider, add_section, make_label, set_statu
 
 _PENDING_TITLES = {
     "mode": "실행 모드 전환 중",
-    "command_mode": "명령 모드 전환 중",
-    "control_law": "제어 방식 전환 중",
-    "impedance_gains": "강성·감쇠 적용 중",
+    "command_mode": "Command Mode 전환 중",
+    "control_law": "Control Law 전환 중",
+    "impedance_gains": "Stiffness/Damping 적용 중",
 }
 
 _STATE_LABELS = {
     "waiting-device": ("입력 장치 연결 대기", "idle"),
     "waiting-input": ("입력 신호 대기", "idle"),
-    "waiting-clutch": ("클러치 확인 대기", "attention"),
-    "release-clutch": ("클러치를 놓으세요", "attention"),
+    "waiting-clutch": ("Clutch 확인 대기", "attention"),
+    "release-clutch": ("Clutch를 놓으세요", "attention"),
     "ready": ("조작 준비 완료", "ready"),
 }
 
@@ -95,7 +95,7 @@ class PanelWindow:
         self.body = QWidget()
         self.body.setObjectName("body")
         layout = QVBoxLayout(self.body)
-        layout.setContentsMargins(10, 10, 10, 10)
+        layout.setContentsMargins(6, 10, 6, 10)
         layout.setSpacing(8)
         self.message_label = make_label("", wrap=True)
         self.message_label.setObjectName("message")
@@ -175,7 +175,7 @@ class PanelWindow:
     def _build_inputs(self, layout, device_name, open_width_mm):
         device = {"spacemouse": "SpaceMouse", "quest": "Quest 3"}.get(device_name, device_name)
         top = QHBoxLayout()
-        top.addWidget(make_label("입력 장치", emphasis=2))
+        top.addWidget(make_label("Input Device", emphasis=2))
         top.addStretch()
         top.addWidget(make_label(device, role="muted", wrap=True))
         layout.addLayout(top)
@@ -187,7 +187,7 @@ class PanelWindow:
         grid.setColumnStretch(1, 1)
         self.clutch_label = make_label("입력 대기", wrap=True)
         self.gripper_label = make_label("상태 수신 대기", wrap=True)
-        for row, name, status in ((0, "클러치", self.clutch_label), (1, "그리퍼", self.gripper_label)):
+        for row, name, status in ((0, "Clutch", self.clutch_label), (1, "Gripper", self.gripper_label)):
             grid.addWidget(make_label(name, role="muted"), row, 0, Qt.AlignTop)
             grid.addWidget(status, row, 1, 1, 2)
         self._add_scale_control(grid, row=2)
@@ -196,10 +196,10 @@ class PanelWindow:
 
     def _add_scale_control(self, grid, row):
         self.gain = QSlider(Qt.Horizontal)
-        self.gain.setAccessibleName("입력 배율")
+        self.gain.setAccessibleName("Input Scale")
         self.gain.setRange(10, 100)
         self.gain.setValue(100)
-        gain_label = make_label("입력 배율", role="muted")
+        gain_label = make_label("Input Scale", role="muted")
         gain_label.setBuddy(self.gain)
         gain_value = make_label("100%")
         gain_value.setMinimumWidth(gain_value.sizeHint().width())
@@ -210,7 +210,7 @@ class PanelWindow:
         grid.addWidget(gain_value, row, 2)
 
     def _add_open_width_control(self, grid, row, width_mm):
-        width_label = make_label("열림 목표 폭", role="muted")
+        width_label = make_label("Open Width", role="muted")
         self.open_width = QDoubleSpinBox()
         width_label.setBuddy(self.open_width)
         self.open_width.setAccessibleName(width_label.text())
@@ -224,7 +224,7 @@ class PanelWindow:
         grid.addWidget(self.open_width, row, 1, 1, 2, Qt.AlignLeft)
 
     def _build_targets(self, layout):
-        layout.addWidget(make_label("목표 제어", emphasis=2))
+        layout.addWidget(make_label("Target Control", emphasis=2))
         self._build_mode_selectors(layout)
         self.gain_editor = ImpedanceEditor(layout, self._request_impedance_gains)
         self.gain_editor.toggle.toggled.connect(lambda expanded: self._fit_window(shrink=not expanded))
@@ -233,14 +233,14 @@ class PanelWindow:
         add_divider(layout)
         self._build_target_table(layout)
 
-        layout.addWidget(make_label("클러치를 누른 상태에서 목표를 적용하세요.", role="muted", wrap=True))
+        layout.addWidget(make_label("Clutch를 누른 상태에서 Apply Target을 선택하세요.", role="muted", wrap=True))
         actions = QHBoxLayout()
         actions.setSpacing(6)
         actions.addStretch()
-        self.load_target = QPushButton("실측값 불러오기")
+        self.load_target = QPushButton("Load Measured")
         self.load_target.clicked.connect(self._load_measured)
         actions.addWidget(self.load_target)
-        self.apply_target = QPushButton("목표 적용")
+        self.apply_target = QPushButton("Apply Target")
         self.apply_target.setObjectName("apply")
         self.apply_target.clicked.connect(self._submit_target)
         actions.addWidget(self.apply_target)
@@ -248,19 +248,19 @@ class PanelWindow:
 
     def _build_mode_selectors(self, layout):
         self.command_picker = ModePicker()
-        for space, name in (("eef", "TCP"), ("joint", "관절")):
-            self.command_picker.addItem(f"{name} · 상대 변화량", f"{space}-delta")
-            self.command_picker.addItem(f"{name} · 절대 목표", f"{space}-absolute")
+        for space, name in (("eef", "TCP"), ("joint", "Joint")):
+            self.command_picker.addItem(f"{name} · Delta", f"{space}-delta")
+            self.command_picker.addItem(f"{name} · Absolute", f"{space}-absolute")
         self.command_picker.currentIndexChanged.connect(self._request_command_mode)
         self.control_law_picker = ModePicker()
-        self.control_law_picker.addItem("위치 제어", "position")
-        self.control_law_picker.addItem("임피던스 제어", "impedance")
+        self.control_law_picker.addItem("Position Control", "position")
+        self.control_law_picker.addItem("Impedance Control", "impedance")
         self.control_law_picker.setCurrentIndex(self.control_law_picker.findData(self._control_law))
         self.control_law_picker.currentIndexChanged.connect(self._request_control_law)
         config = QGridLayout()
         config.setColumnStretch(1, 1)
-        for row, (name, picker) in enumerate((("명령 모드", self.command_picker),
-                                              ("제어 방식", self.control_law_picker))):
+        for row, (name, picker) in enumerate((("Command Mode", self.command_picker),
+                                              ("Control Law", self.control_law_picker))):
             caption = make_label(name, role="muted")
             caption.setBuddy(picker)
             picker.setAccessibleName(name)
@@ -274,8 +274,8 @@ class PanelWindow:
         grid.setHorizontalSpacing(5)
         grid.setVerticalSpacing(3)
         self.entry_heading = make_label("", role="column")
-        for column, heading in enumerate((make_label("축", role="column"), make_label("실측", role="column"),
-                                          make_label("현재 목표", role="column"), self.entry_heading)):
+        for column, heading in enumerate((make_label("Axis", role="column"), make_label("Measured", role="column"),
+                                          make_label("Target", role="column"), self.entry_heading)):
             if column:
                 heading.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
             grid.addWidget(heading, 0, column)
@@ -317,7 +317,7 @@ class PanelWindow:
             row.addStretch(1)
         else:
             source = f"RTDE · {robot_ip}" if robot_ip else "RTDE"
-            row.addWidget(make_label(f"데이터 소스   {source}", role="muted", wrap=True), 1)
+            row.addWidget(make_label(source, role="muted", wrap=True), 1)
         exit_button = QPushButton("세션 종료")
         exit_button.clicked.connect(self.close)
         row.addWidget(exit_button)
@@ -366,9 +366,10 @@ class PanelWindow:
         self._command_mode = mode
         self._joint_space = mode.startswith("joint-")
         self._absolute = mode.endswith("-absolute")
-        command = "절대 목표" if self._absolute else "상대 변화량"
-        self.entry_heading.setText("절대값 입력" if self._absolute else "변화량 입력")
-        self.coordinate_label.setText("관절각 · J1–J6" if self._joint_space else "베이스 좌표계 · Rx/Ry/Rz 회전벡터")
+        command = "Absolute" if self._absolute else "Delta"
+        self.entry_heading.setText(command)
+        self.coordinate_label.setText("Joint Angles · J1–J6" if self._joint_space
+                                      else "Base Frame · Rotation Vector (Rx/Ry/Rz)")
         axes = [f"J{i + 1}" for i in range(6)] if self._joint_space else ("X", "Y", "Z", "Rx", "Ry", "Rz")
         for i, (axis, box) in enumerate(zip(axes, self.target_inputs)):
             linear = not self._joint_space and i < 3
@@ -403,7 +404,7 @@ class PanelWindow:
             self._begin_switch("control_law", requested, self.control_law_picker.itemText(index))
 
     def _request_impedance_gains(self, space, gains):
-        self._begin_switch("impedance_gains", {"space": space, "gains": gains}, "강성·감쇠")
+        self._begin_switch("impedance_gains", {"space": space, "gains": gains}, "Stiffness/Damping")
 
     def _begin_switch(self, kind, value, caption):
         if self._pending_switch is not None:
