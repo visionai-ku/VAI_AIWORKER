@@ -9,6 +9,7 @@ from .impedance_gains import (
 )
 
 JOINT_TORQUE_LIMIT = (15., 15., 12., 4., 4., 3.)       # Nm, excluding gravity compensation
+TCP_SPEED_LIMITS = (0.06, 0.06, 0.06, 0.25, 0.25, 0.25)  # m/s and rad/s per compliant axis
 
 
 class ImpedanceSettings:

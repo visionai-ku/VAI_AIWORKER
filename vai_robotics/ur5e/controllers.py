@@ -62,6 +62,7 @@ class TeleopController:
         self.ready_after_release = False
         self.last_tick = None
         self.target = self.joint_target = self.goal = None
+        self.target_from_device = False
 
     def set_command_mode(self, command_mode, *, simulation, sample, device=None):
         if command_mode not in COMMAND_MODES:
@@ -212,10 +213,20 @@ class TeleopController:
             rotation = bounded_vector(sample.rotation, MAX_ANGULAR_SPEED * dt)
             delta = scale * np.r_[translation, rotation]
 
+        numerical = self.absolute or values is not None or self.goal is not None
         if self.joint_space:
-            return self._advance_joints(delta, values, dt)
-        if not starting or values is not None:
+            notice = self._advance_joints(delta, values, dt)
+            if notice:
+                return notice
+        elif not starting or values is not None:
             self._advance_tcp(delta, values, dt)
+
+        # A numerical target still needs to settle after its input ramp finishes.
+        # A centered device supplies no new target to replace it.
+        if numerical:
+            self.target_from_device = False
+        elif starting or np.any(delta):
+            self.target_from_device = True
 
     def _send_target(self):
         """Dispatch a calculated target. Both laws share the same limits and clutch."""

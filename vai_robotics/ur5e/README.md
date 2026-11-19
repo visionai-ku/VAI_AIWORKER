@@ -72,7 +72,7 @@ python -m vai_robotics.ur5e.teleop --backend sim --input spacemouse --command-mo
 | TCP 회전 Rx, Ry, Rz | 각 8 N·m/rad | 각 1.5 N·m·s/rad |
 | 관절 J1–J6 순서 | 40, 45, 35, 12, 10, 8 N·m/rad | 10, 10, 8, 2.5, 2, 1.6 N·m·s/rad |
 
-패널에서 TCP X/Y/Z Stiffness는 0–600 N/m로 설정할 수 있다. 예를 들어 X축 Stiffness가 기본값인 360 N/m이고 정지 상태의 X 오차가 10 mm라면 X 방향 spring force는 3.6 N이다. 값을 180 N/m로 낮추면 1.8 N이 된다. **SIM RUN**에서는 MuJoCo가 힘을 적용한 뒤의 움직임을 볼 수 있다. **DRY RUN**에서는 IK로 Target을 표시하므로 Stiffness나 Damping을 바꿔도 미리보기 속도는 같다. [기본값과 입력 범위](impedance_gains.py)
+패널에서 TCP X/Y/Z Stiffness는 0–600 N/m로 설정할 수 있다. 예를 들어 X축 Stiffness가 기본값인 360 N/m이고 정지 상태의 X 오차가 10 mm라면 X 방향 spring force는 3.6 N이다. 값을 180 N/m로 낮추면 1.8 N이 된다. **SIM RUN**에서는 MuJoCo가 힘을 적용한 뒤의 움직임을 볼 수 있다. **DRY RUN**에서 Impedance Control을 선택하면 별도의 MuJoCo 상태에서 같은 Stiffness와 Damping으로 가상 팔을 움직인다. TCP 미리보기에는 실기와 같은 축별 Speed Limit이 적용된다. 패널의 Target은 입력으로 생성한 목표이고, 화면의 가상 팔은 그 목표를 따라가는 예측 자세다. 로봇에 연결한 DRY RUN에서 Measured는 RTDE 실측값을 표시한다. 장착된 tool의 payload, 접촉 상태, UR 내부 force controller에 따라 미리보기와 실측 속도에 차이가 날 수 있다. Clutch를 놓으면 즉시 기준 자세로 돌아간다. [기본값과 입력 범위](impedance_gains.py)
 
 **REAL RUN**의 Cartesian Impedance에서는 TCP의 `Target`이 `Measured`보다 최대 25 mm 앞설 수 있다. 기본 Stiffness 360 N/m에서 이 거리에 해당하는 spring force는 9 N이다. `forceMode`에 지정한 각 축의 속도 상한은 이동 60 mm/s, 회전 0.25 rad/s다. SpaceMouse를 한 축으로 끝까지 밀면 Input Scale 100%에서 이동 입력은 80 mm/s에 해당한다. 패널의 `Target`과 `Measured`를 비교하면 입력으로 만든 목표와 로봇이 실제로 따라온 거리를 확인할 수 있다. [TCP target 계산](controllers.py) · [실기 forceMode 설정](real.py)
 

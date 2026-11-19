@@ -143,7 +143,10 @@ class TeleopControllerTest(unittest.TestCase):
         for tick in range(3, 7):
             controller.update(self.held, tick * 0.02)
         np.testing.assert_allclose(controller.target[0], xyz + [0, 0.01, 0])
-        controller.update(self.held, 0.14)
+        controller.update(InputSample.stationary(enabled=True), 0.14)
+        self.assertFalse(controller.target_from_device)
+        controller.update(self.held, 0.16)
+        self.assertTrue(controller.target_from_device)
         np.testing.assert_allclose(controller.target[0], xyz + [0.001, 0.01, 0])
         self.backend.command.assert_not_called()
 

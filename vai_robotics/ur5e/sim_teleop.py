@@ -5,6 +5,7 @@ import numpy as np
 from scipy.spatial.transform import Rotation
 
 from .impedance import ImpedanceSettings, cartesian_wrench, joint_torque
+from .impedance_preview import ImpedancePreview
 from .rg2_visual import OPEN_WIDTH_MM, set_rg2_width
 from .sim import load_simulation
 
@@ -26,8 +27,9 @@ class SimBackend:
         self._equilibrium = None
         self.tick_count = 0
         self._shadow = None
+        self._impedance_preview = None
         self._previewing = False
-        self._preview_clutched = False
+        self._preview_mode = None
         self._last_measured_width = OPEN_WIDTH_MM
 
     def __enter__(self):
@@ -35,6 +37,7 @@ class SimBackend:
         try:
             # Pose the same meshes with separate joint state during DRY RUN.
             self._shadow = mujoco.MjData(self.sim.model)
+            self._impedance_preview = ImpedancePreview(self.sim.model, self._shadow, self.site_name, self._gains)
             if self.period < self.sim.dt:
                 raise ValueError("teleop frequency exceeds the MuJoCo physics rate")
             if not self.headless:
@@ -71,9 +74,7 @@ class SimBackend:
         """The displayed shadow TCP in UR base coordinates during DRY RUN."""
         if not self._previewing:
             return None
-        xyz, rotation = self._flange_pose(self._shadow)
-        offset, tool_rotation = self._flange_to_tcp
-        return xyz + rotation.apply(offset), rotation * tool_rotation
+        return self._impedance_preview.tcp_pose(self._flange_to_tcp)
 
     def _joint_target(self, data, xyz, rotation, previous_target):
         # Loaded by load_simulation from the same bundled motion library as the SG2.
@@ -199,6 +200,8 @@ class SimBackend:
             self.active = False
 
     def _reset_shadow_to_arm(self, measured_tcp):
+        self._impedance_preview.reset()
+        mujoco.mj_resetData(self.sim.model, self._shadow)
         self._shadow.qpos[:] = self.sim.data.qpos
         mujoco.mj_forward(self.sim.model, self._shadow)
         # A real TCP can be offset and rotated relative to this model's flange.
@@ -210,20 +213,25 @@ class SimBackend:
             inverse_rotation = rotation.inv()
             self._flange_to_tcp = inverse_rotation.apply(tcp_xyz - xyz), inverse_rotation * tcp_rotation
 
-    def _update_shadow(self, target, joint_target, measured_tcp, reset_preview):
-        # A renderer can skip every released frame between two clutches.
-        if reset_preview:
-            self._preview_clutched = False
-        clutched = target is not None or joint_target is not None
-        if not clutched or not self._preview_clutched:
+    def _update_shadow(self, target, joint_target, measured_tcp, reset_preview, impedance, dt, incremental):
+        if target is None and joint_target is None:
             self._reset_shadow_to_arm(measured_tcp)
-        if joint_target is not None:
+            self._preview_mode = None
+            return
+        mode = ("joint" if joint_target is not None else "eef", impedance)
+        # A renderer can skip every released frame between two clutches.
+        if reset_preview or mode != self._preview_mode:
+            self._reset_shadow_to_arm(measured_tcp)
+        self._preview_mode = mode
+        if impedance:
+            self._impedance_preview.advance(target, joint_target, self._flange_to_tcp, dt, incremental)
+        elif joint_target is not None:
             q = np.asarray(joint_target, dtype=float)
             if q.shape != (6,) or not np.isfinite(q).all():
                 raise ValueError("Expected six finite preview joint angles.")
             self._shadow.qpos[:] = q
             mujoco.mj_forward(self.sim.model, self._shadow)
-        elif target is not None:
+        else:
             tcp_xyz, tcp_rotation = target
             offset, tool_rotation = self._flange_to_tcp
             flange_rotation = tcp_rotation * tool_rotation.inv()
@@ -231,7 +239,6 @@ class SimBackend:
             self._shadow.qpos[:] = self._joint_target(
                 self._shadow, flange_xyz, flange_rotation, self._shadow.qpos)
             mujoco.mj_forward(self.sim.model, self._shadow)
-        self._preview_clutched = clutched
 
     def _update_gripper_width(self, width_mm, *, measured):
         # The RG2 is posed via its geometry, independently of the six RTDE joints.
@@ -263,7 +270,8 @@ class SimBackend:
         sim.render()
 
     def tick(self, *, dry_run=False, target=None, joint_target=None, measured_q=None, measured_tcp=None,
-             reset_preview=False, gripper_width_mm=None):
+             reset_preview=False, gripper_width_mm=None, preview_impedance=False, preview_dt=None,
+             preview_delta=False):
         """Advance live physics, mirror RTDE joints, or articulate the independent preview."""
         mirroring_robot = measured_q is not None
         self._update_gripper_width(gripper_width_mm, measured=mirroring_robot and not dry_run)
@@ -274,15 +282,18 @@ class SimBackend:
 
         self._previewing = dry_run
         if dry_run:
-            self._update_shadow(target, joint_target, measured_tcp, reset_preview)
+            dt = self.period if preview_dt is None else preview_dt
+            self._update_shadow(target, joint_target, measured_tcp, reset_preview, preview_impedance, dt, preview_delta)
         else:
-            self._preview_clutched = False
+            self._preview_mode = None
 
         if self.headless or not self.is_running():
             return
         display_tcp = measured_tcp
         if dry_run:
-            display_tcp = self.preview_pose() if joint_target is not None else target
+            display_tcp = target
+            if joint_target is not None or (preview_impedance and target is not None):
+                display_tcp = self.preview_pose()
         self._render_frame(
             display_tcp, mirroring_robot=mirroring_robot, width_available=gripper_width_mm is not None,
         )
@@ -296,7 +307,9 @@ class SimBackend:
                 self.sim.close_viewer()
             self.sim = None
         self._shadow = None
-        self._previewing = self._preview_clutched = False
+        self._impedance_preview = None
+        self._previewing = False
+        self._preview_mode = None
 
     def __exit__(self, *exc):
         self.close()

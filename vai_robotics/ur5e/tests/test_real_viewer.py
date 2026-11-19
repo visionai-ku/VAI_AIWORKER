@@ -87,6 +87,53 @@ class RealViewerTests(unittest.TestCase):
         np.testing.assert_array_equal(frame["joint_target"], preview)
         np.testing.assert_array_equal(frame["measured_q"], self.q)
 
+    def test_impedance_frames_keep_gains_and_elapsed_time_after_drops(self):
+        view = Mock()
+        frames = []
+        view.is_running.side_effect = lambda: len(frames) < 6
+        gains = {"stiffness": [360.] * 3 + [8.] * 3, "damping": [30.] * 3 + [1.5] * 3}
+        joint_gains = {"stiffness": [20.] * 6, "damping": [3.] * 6}
+        with patch.object(real_viewer.time, "monotonic", return_value=10.) as clock:
+            def send(at, *, dry=True, joint=False, delta=True):
+                clock.return_value = at
+                self.viewer.update(q=self.q, measured_tcp=self.tcp, dry_run=dry,
+                                   target=None if joint else self.target, joint_target=self.q if joint else None,
+                                   preview_delta=delta, preview_gains=joint_gains if joint else gains)
+
+            def draw(**frame):
+                frames.append(frame)
+                if len(frames) == 1:
+                    send(10.03)  # Skipped by the renderer, as happens when rendering is slow.
+                    send(10.08, delta=False)
+                elif len(frames) == 2:
+                    send(11.)
+                elif len(frames) == 3:
+                    send(11.05, joint=True)
+                elif len(frames) == 4:
+                    send(11.1, joint=True, dry=False)
+                elif len(frames) == 5:
+                    joint_gains["damping"][2] = 4.5
+                    send(11.15, joint=True)
+
+            view.tick.side_effect = draw
+            send(10.)
+            real_viewer._display(view, self.read_fd, lambda: None)
+
+        first, coalesced, after_pause, joint, live, reapplied = frames
+        self.assertTrue(first["preview_impedance"] and first["preview_delta"])
+        self.assertFalse(coalesced["preview_delta"] or coalesced["reset_preview"])
+        self.assertAlmostEqual(coalesced["preview_dt"], 0.08)
+        self.assertAlmostEqual(after_pause["preview_dt"], 1 / real_viewer._HZ)
+        self.assertTrue(joint["reset_preview"] and reapplied["reset_preview"])
+        self.assertAlmostEqual(joint["preview_dt"], 1 / real_viewer._HZ)
+        np.testing.assert_array_equal(joint["joint_target"], self.q)
+        self.assertFalse(live["preview_impedance"] or live["preview_delta"])
+        gains_applied = [call.args for call in view.set_impedance_gains.call_args_list]
+        self.assertEqual([space for space, _ in gains_applied], ["eef", "joint", "joint"])
+        np.testing.assert_array_equal(gains_applied[0][1]["stiffness"], gains["stiffness"])
+        self.assertEqual(gains_applied[1][1]["damping"][2], 3.)
+        self.assertEqual(gains_applied[2][1]["damping"][2], 4.5)
+
     def test_updates_are_rate_limited(self):
         with patch.object(real_viewer.time, "monotonic", return_value=10.0):
             for _ in range(4):

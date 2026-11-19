@@ -180,6 +180,7 @@ class TeleopSession:
         self.message = ""
         self._was_active = False
         self._last_report = float("-inf")
+        self._last_preview_at = None
 
     def step(self, view, started):
         """Return False when the panel closes, before sampling or sending commands."""
@@ -207,7 +208,7 @@ class TeleopSession:
                                             run_switch_requested=run_switch, message=self.message)
         width = self.gripper.update(self.device, sample, dry_run=self.controller.dry_run,
                                     run_switch_requested=run_switch, monotonic=self.monotonic)
-        self._render(view, width)
+        self._render(view, width, started)
         self._report(sample, width, started)
         return True
 
@@ -251,17 +252,26 @@ class TeleopSession:
             self.message += f" · {stop_message}"
         print(self.message, file=sys.stderr, flush=True)
 
-    def _render(self, view, width):
+    def _render(self, view, width, started):
         arm = self.controller
         joint_preview = arm.joint_target if arm.dry_run else None
+        impedance_preview = arm.dry_run and arm.active and arm.control_law == "impedance"
+        preview_delta = impedance_preview and arm.target_from_device
         if self.simulation:
-            self.backend.tick(dry_run=arm.dry_run, target=arm.target, joint_target=joint_preview,
-                              gripper_width_mm=width)
+            elapsed = None if self._last_preview_at is None else started - self._last_preview_at
+            self._last_preview_at = started if impedance_preview else None
+            self.backend.tick(
+                dry_run=arm.dry_run, target=arm.target, joint_target=joint_preview, gripper_width_mm=width,
+                preview_impedance=impedance_preview, preview_delta=preview_delta, preview_dt=elapsed,
+            )
         elif view is not None:
             q = arm.measured_joints if arm.joint_space else self.backend.joints()
+            gains = None
+            if impedance_preview:
+                gains = self.backend.get_impedance_gains("joint" if arm.joint_space else "eef")
             view.update(q=q, measured_tcp=arm.measured, dry_run=arm.dry_run,
                         target=arm.target if arm.dry_run else None, joint_target=joint_preview,
-                        gripper_width_mm=width)
+                        gripper_width_mm=width, preview_gains=gains, preview_delta=preview_delta)
 
     def _report(self, sample, width, started):
         arm = self.controller

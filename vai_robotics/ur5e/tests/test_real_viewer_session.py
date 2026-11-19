@@ -76,6 +76,23 @@ class RealViewerSessionTest(unittest.TestCase):
         self.backend.command.assert_called_once()
         self.assertEqual(shutdown, [("motion", False), "viewer exit"])
 
+    def test_preview_uses_confirmed_joint_gains_without_acquiring_a_motion_writer(self):
+        settings = RealUR5e("test")
+        self.backend.get_impedance_gains.side_effect = settings.get_impedance_gains
+        self.backend.set_impedance_gains.side_effect = settings.set_impedance_gains
+        gains = settings.get_impedance_gains("joint")
+        gains["damping"][0] = 6.5
+        self.panel.take_control_law.side_effect = lambda: "impedance" if self.frame == 0 else None
+        self.panel.take_command_mode.side_effect = lambda: "joint-delta" if self.frame == 1 else None
+        self.panel.take_impedance_gains.side_effect = lambda: {"space": "joint", "gains": gains} if self.frame == 2 else None
+        updates = self.run_frames(dry_run=True, requests=[None] * 6,
+                                  samples=[self.released] * 4 + [self.held, self.released])
+        self.assertEqual([u["preview_gains"] for u in updates], [None] * 4 + [gains, None])
+        self.assertTrue(updates[4]["preview_delta"])
+        self.assertIsNotNone(updates[4]["joint_target"])
+        self.backend.command_joint_impedance.assert_not_called()
+        self.backend.set_motion_enabled.assert_called_once_with(False)  # Exit cleanup.
+
     def test_live_tcp_law_changes_rearm_from_feedback_and_retain_same_writer(self):
         self.panel.take_control_law.side_effect = lambda: {2: "impedance", 4: "impedance", 8: "position"}.get(self.frame)
         self.panel.take_target.side_effect = lambda: [0.5] * 6 if self.frame in (2, 4, 8) else None

@@ -6,7 +6,7 @@ import time
 import numpy as np
 from scipy.spatial.transform import Rotation
 
-from .impedance import ImpedanceSettings, cartesian_wrench
+from .impedance import TCP_SPEED_LIMITS, ImpedanceSettings, cartesian_wrench
 
 
 # RTDE getRobotMode()/getSafetyMode() return UR's numeric modes.
@@ -33,7 +33,7 @@ class RealUR5e:
     MAX_POSITION_LEAD = 0.03  # m, relative to the measured TCP
     MAX_ANGLE_LEAD = 0.15  # rad, relative to the measured TCP
     MAX_JOINT_LEAD = 0.15  # rad per joint
-    FORCE_SPEED_LIMITS = (0.06, 0.06, 0.06, 0.25, 0.25, 0.25)  # m/s and rad/s on compliant axes
+    FORCE_SPEED_LIMITS = TCP_SPEED_LIMITS
     RTDE_FIELDS = ("timestamp", "actual_TCP_pose", "actual_TCP_speed", "actual_q",
                    "runtime_state", "robot_mode", "safety_mode")
 
