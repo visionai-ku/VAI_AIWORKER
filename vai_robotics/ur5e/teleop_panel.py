@@ -337,9 +337,6 @@ class _PanelWindow:
         self.state_label.setObjectName("title")
         self.state_label.setAccessibleDescription("현재 조작 상태")
         title_row.addWidget(self.state_label, 1)
-        context = _label("시뮬레이션" if simulation else "실제 로봇")
-        context.setObjectName("environment")
-        title_row.addWidget(context)
         layout.addLayout(title_row)
 
         row = QHBoxLayout()
@@ -527,10 +524,11 @@ class _PanelWindow:
         footer.setObjectName("footer")
         row = QHBoxLayout(footer)
         row.setContentsMargins(16, 6, 16, 6)
-        source = "MuJoCo" if simulation else "RTDE"
-        if robot_ip and not simulation:
-            source += f" · {robot_ip}"
-        row.addWidget(_label(f"데이터 소스   {source}", role="muted", wrap=True), 1)
+        if simulation:
+            row.addStretch(1)
+        else:
+            source = f"RTDE · {robot_ip}" if robot_ip else "RTDE"
+            row.addWidget(_label(f"데이터 소스   {source}", role="muted", wrap=True), 1)
         exit_button = QPushButton("세션 종료")
         exit_button.clicked.connect(self.close)
         row.addWidget(exit_button)

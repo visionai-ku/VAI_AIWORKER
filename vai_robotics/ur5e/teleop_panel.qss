@@ -2,7 +2,6 @@ QWidget#panel, QWidget#body, QScrollArea { background: #f0f3f5; }
 QFrame#header { background: #192e39; }
 QLabel { color: #203541; background: transparent; }
 QLabel#title { color: #ffffff; }
-QLabel#environment { color: #d1e2e6; }
 QFrame#stateDot { background: #97acb6; border-radius: 4px; }
 QFrame#stateDot[tone="attention"] { background: #ffd28b; }
 QFrame#stateDot[tone="ready"] { background: #b9d9e3; }
