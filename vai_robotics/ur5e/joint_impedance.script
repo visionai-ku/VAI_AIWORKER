@@ -1,0 +1,127 @@
+def vai_joint_impedance():
+  if not socket_open("$HOST", $PORT, "vai"):
+    return None
+  end
+  if not socket_send_int($NONCE, "vai"):
+    socket_close("vai")
+    return None
+  end
+  # One packet in flight. TCP reads and acknowledgements run off the torque loop.
+  global vai_packet = [0,0,0,0,0,0,0,0,0]
+  global vai_applied = 0
+  global vai_failed = False
+  global vai_finished = False
+  thread read_command():
+    local expected = 1
+    while not vai_failed:
+      local p = socket_read_binary_integer(8, "vai", 0.15)
+      if p[0] != 8 or p[1] != expected or p[2] < 0 or p[2] > 2 or (expected == 1 and p[2] != 0):
+        global vai_failed = True
+        break
+      end
+      global vai_packet = p
+      while vai_applied != expected and not vai_failed:
+        sync()
+      end
+      if vai_failed:
+        break
+      end
+      if not socket_send_int(expected, "vai"):
+        global vai_failed = True
+        break
+      end
+      if p[2] == 2:
+        break
+      end
+      expected = expected + 1
+    end
+    global vai_finished = True
+  end
+  local reader = run read_command()
+  local kp = $STIFFNESS
+  local kd = $DAMPING
+  local cap = $TORQUE_LIMIT
+  local last = 0
+  local updated = get_rtde_value("timestamp")
+  local mode = 0
+  local active = False
+  local target = get_actual_joint_positions()
+  while not vai_failed:
+    # Controller time advances even if a program is paused and later resumed.
+    local now = get_rtde_value("timestamp")
+    if now - updated >= 0.15 or now < updated:
+      global vai_failed = True
+      break
+    end
+    local p = vai_packet
+    if p[1] != last:
+      last = p[1]
+      updated = now
+      mode = p[2]
+      if mode == 1:
+        target = [p[3],p[4],p[5],p[6],p[7],p[8]] / 1000000.0
+        if not is_within_safety_limits(target):
+          global vai_failed = True
+          break
+        end
+      end
+    end
+    if mode == 1:
+      local safety = get_rtde_value("safety_status")
+      if get_rtde_value("robot_mode") != 7 or (safety != 1 and safety != 2):
+        global vai_failed = True
+        break
+      end
+      local q = get_actual_joint_positions()
+      local qd = get_actual_joint_speeds()
+      local tau = [0.0,0.0,0.0,0.0,0.0,0.0]
+      local i = 0
+      while i < 6:
+        local error = target[i] - q[i]
+        if norm(error) > $MAX_LEAD or norm(qd[i]) > 0.75:
+          global vai_failed = True
+          break
+        end
+        local t = kp[i] * error - kd[i] * qd[i]
+        if t > cap[i]:
+          t = cap[i]
+        elif t < -cap[i]:
+          t = -cap[i]
+        end
+        tau[i] = t
+        i = i + 1
+      end
+      if vai_failed:
+        break
+      end
+      active = True
+      direct_torque(tau)
+    else:
+      if active:
+        stopj(3.0)
+        active = False
+        updated = get_rtde_value("timestamp")
+      end
+      sync()
+    end
+    global vai_applied = last
+    if mode == 2:
+      break
+    end
+  end
+  if active:
+    stopj(3.0)
+  end
+  if mode == 2:
+    # Give the reader a bounded interval to send the post-stop acknowledgement.
+    local n = 0
+    while not vai_finished and n < 50:
+      sync()
+      n = n + 1
+    end
+  end
+  if not vai_finished:
+    kill reader
+  end
+  socket_close("vai")
+end

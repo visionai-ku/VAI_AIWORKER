@@ -84,6 +84,67 @@ class TeleopControllerTest(unittest.TestCase):
         controller.update(self.held, 0.08)
         np.testing.assert_array_equal(controller.target[0], xyz)
         np.testing.assert_array_equal(controller.target[1].as_matrix(), rot.as_matrix())
+
+    def test_numeric_goals_are_one_shot_in_both_spaces_and_laws(self):
+        angles = np.array([0.35, -1.5, 1.2, -1.5, -1.5, 0.1])
+        self.backend.joints.return_value = angles
+        xyz, rot = self.backend.pose.return_value
+        held_still = InputSample(np.zeros(3), np.zeros(3), True)
+        base_turn = Rotation.from_rotvec([0.018, 0.0, 0.0])
+        for mode in ("eef-delta", "eef-absolute", "joint-delta", "joint-absolute"):
+            for law in ("position", "impedance"):
+                with self.subTest(mode=mode, law=law):
+                    self.backend.reset_mock()
+                    controller = TeleopController(self.backend, command_mode=mode, control_law=law)
+                    if controller.joint_space:
+                        end = angles + 0.018
+                        values = end if controller.absolute else np.full(6, 0.018)
+                    else:
+                        end = xyz + [0.008, 0, 0], base_turn * rot
+                        values = np.r_[end[0], end[1].as_rotvec()] if controller.absolute else [0.008, 0, 0, 0.018, 0, 0]
+                    self.assertTrue(controller.update(self.rest, 0, values=values))
+                    controller.update(held_still, 0.02)
+                    controller.update(held_still, 0.04, values=values)
+                    for tick in range(3, 12):
+                        controller.update(held_still, tick * 0.02)
+                    if controller.joint_space:
+                        command = self.backend.command_joints if law == "position" else self.backend.command_joint_impedance
+                        np.testing.assert_allclose(command.call_args.args[0], end)
+                    else:
+                        command = self.backend.command if law == "position" else self.backend.command_cartesian_impedance
+                        np.testing.assert_allclose(command.call_args.args[0], end[0])
+                        np.testing.assert_allclose(command.call_args.args[1].as_matrix(), end[1].as_matrix(), atol=1e-12)
+                    controller.update(self.rest, 0.24)
+                    self.assertFalse(controller.active)
+                    self.assertIsNone(controller.goal)
+
+    def test_joint_jog_dry_limit_and_absolute_ignores_device_axes(self):
+        self.backend.joints.return_value = np.zeros(6)
+        limits = np.full(6, -0.5), np.full(6, 0.5)
+        c = TeleopController(self.backend, dry_run=True, command_mode="joint-delta", joint_limits=limits)
+        c.update(self.rest, 0)
+        c.update(self.held, 0.02)
+        c.update(self.held, 0.04)
+        np.testing.assert_allclose(c.joint_target, [0.005, 0, 0, 0, 0, 0.01])
+        self.assertIn("관절 범위", c.update(self.held, 0.06, values=np.ones(6)))
+        self.backend.command_joints.assert_not_called()
+        absolute = TeleopController(self.backend, command_mode="joint-absolute")
+        absolute.update(self.rest, 0)
+        absolute.update(self.held, 0.02)
+        absolute.update(self.held, 0.04)
+        np.testing.assert_array_equal(absolute.joint_target, self.backend.joints.return_value)
+
+    def test_numeric_delta_completes_despite_device_jitter_then_returns_to_jog(self):
+        controller = TeleopController(self.backend, dry_run=True)
+        xyz = self.backend.pose.return_value[0]
+        controller.update(self.rest, 0)
+        controller.update(self.held, 0.02)
+        controller.update(self.held, 0.04, values=[0, 0.01, 0, 0, 0, 0])
+        for tick in range(3, 7):
+            controller.update(self.held, tick * 0.02)
+        np.testing.assert_allclose(controller.target[0], xyz + [0, 0.01, 0])
+        controller.update(self.held, 0.14)
+        np.testing.assert_allclose(controller.target[0], xyz + [0.001, 0.01, 0])
         self.backend.command.assert_not_called()
 
     def test_spacemouse_label_reports_selected_physical_button(self):

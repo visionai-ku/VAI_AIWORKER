@@ -6,6 +6,8 @@ import time
 import numpy as np
 from scipy.spatial.transform import Rotation
 
+from .impedance import cartesian_wrench
+
 
 # RTDE getRobotMode()/getSafetyMode() return UR's numeric modes.
 _ROBOT_MODES = {
@@ -30,20 +32,24 @@ class RealUR5e:
     FEEDBACK_TIMEOUT = 0.15
     MAX_POSITION_LEAD = 0.03  # m, relative to the measured TCP
     MAX_ANGLE_LEAD = 0.15  # rad, relative to the measured TCP
-    RTDE_FIELDS = ("timestamp", "actual_TCP_pose", "actual_q", "runtime_state", "robot_mode", "safety_mode")
+    MAX_JOINT_LEAD = 0.15  # rad per joint
+    FORCE_SPEED_LIMITS = (0.05, 0.05, 0.05, 0.25, 0.25, 0.25)  # m/s and rad/s on compliant axes
+    RTDE_FIELDS = ("timestamp", "actual_TCP_pose", "actual_TCP_speed", "actual_q",
+                   "runtime_state", "robot_mode", "safety_mode")
 
-    def __init__(self, host, *, enable_motion=False, frequency=50.0):
+    def __init__(self, host, *, enable_motion=False, frequency=50.0, joint_impedance=False):
         if not host or not host.strip():
             raise ValueError("Provide the UR5e IP address or hostname.")
         if not np.isfinite(frequency) or not 10 <= frequency <= 500:
             raise ValueError("RTDE teleoperation frequency must be between 10 and 500 Hz.")
         self.host = host
         self._start_with_motion = enable_motion
+        self._joint_impedance = joint_impedance
         self.period = 1.0 / frequency
         self._receive = None
         self._control = None
         self._lost_script = False
-        self._servo_active = False
+        self._active_mode = None
         self._timestamp = None
         self._updated_at = 0.0
         self._heartbeat_at = 0.0
@@ -89,7 +95,7 @@ class RealUR5e:
                     self.hold()
             finally:
                 self._control = None
-                self._servo_active = False
+                self._active_mode = None
             return
 
         self.pose()
@@ -97,13 +103,19 @@ class RealUR5e:
         # ur_rtde uploads its own control script and can stop a running one.
         if self._receive.getRuntimeState() != 1:  # STOPPED
             raise RuntimeError("The robot already has an active or paused program.")
-        from rtde_control import RTDEControlInterface
+        if self._joint_impedance:
+            from .joint_writer import JointImpedanceWriter
 
-        self._control = RTDEControlInterface(self.host)
+            self._control = JointImpedanceWriter.open(self.host, self._receive, self.MAX_JOINT_LEAD)
+        else:
+            from rtde_control import RTDEControlInterface
+
+            self._control = RTDEControlInterface(self.host)
         self._lost_script = False
         try:
-            self._require_command(self._control.setWatchdog, self.WATCHDOG_HZ,
-                                  reason="UR5e did not enable the RTDE command watchdog.")
+            if not self._joint_impedance:
+                self._require_command(self._control.setWatchdog, self.WATCHDOG_HZ,
+                                      reason="UR5e did not enable the RTDE command watchdog.")
             self._heartbeat_at = time.monotonic()
             self.pose()  # Check fresh feedback and script status after the upload.
         except BaseException:
@@ -170,42 +182,110 @@ class RealUR5e:
                 raise self._motion_denied("UR5e teleoperation script stopped or its writer disconnected.")
             # Active servo commands themselves update the watchdog register. An
             # idle receive loop must keep it alive after servoStop or before a grip.
-            if not self._servo_active and now - self._heartbeat_at >= 0.05:
+            if self._active_mode is None and now - self._heartbeat_at >= 0.05:
                 self._require_command(self._control.kickWatchdog, reason="UR5e rejected the watchdog heartbeat.")
                 self._heartbeat_at = now
         return raw[:3], Rotation.from_rotvec(raw[3:])
 
-    def command(self, xyz, rotation):
-        """Apply a small absolute TCP target. Dry-run validates it using measured feedback."""
+    def _stop_other_mode(self, next_mode):
+        if self._joint_impedance != (next_mode == "joint_impedance"):
+            raise ValueError("Choose the joint impedance writer or the RTDE servo/force writer at startup.")
+        if self._active_mode is not None and self._active_mode != next_mode:
+            self.hold()
+
+    def _check_lead(self, exceeds_limit, reason):
+        if exceeds_limit:
+            if self.motion_enabled:
+                raise self._motion_denied(reason)
+            raise ValueError(reason)
+
+    def _check_target(self, operation, target, reason):
+        checked_at = time.monotonic()
+        self._require_command(operation, target, reason=reason)
+        if time.monotonic() - checked_at >= self.FEEDBACK_TIMEOUT:
+            raise self._motion_denied("UR5e target validation timed out.")
+
+    def _checked_tcp(self, xyz, rotation):
         measured_xyz, measured_rotation = self.pose()
         xyz = np.asarray(xyz, dtype=float)
         rotvec = rotation.as_rotvec()
         if (xyz.shape != (3,) or rotvec.shape != (3,) or
                 not np.all(np.isfinite(xyz)) or not np.all(np.isfinite(rotvec))):
             raise ValueError("A TCP target needs three finite position and rotation coordinates.")
-        if (np.linalg.norm(xyz - measured_xyz) > self.MAX_POSITION_LEAD or
-                (rotation * measured_rotation.inv()).magnitude() > self.MAX_ANGLE_LEAD):
-            reason = "TCP target exceeds the allowed lead from the measured pose."
-            if self.motion_enabled:
-                raise self._motion_denied(reason)
-            raise ValueError(reason)
-        if self._control is None:
-            return
+        self._check_lead(np.linalg.norm(xyz - measured_xyz) > self.MAX_POSITION_LEAD or
+                         (rotation * measured_rotation.inv()).magnitude() > self.MAX_ANGLE_LEAD,
+                         "TCP target exceeds the allowed lead from the measured pose.")
         target = np.concatenate((xyz, rotvec)).tolist()
-        checked_at = time.monotonic()
-        self._require_command(self._control.isPoseWithinSafetyLimits, target,
-                              reason="Target exceeds the robot's configured safety limits or IK reach.")
-        if time.monotonic() - checked_at >= self.FEEDBACK_TIMEOUT:
-            raise self._motion_denied("UR5e target validation timed out.")
-        self._servo_active = True  # A failed acknowledgement may follow a transmitted command.
-        self._require_command(self._control.servoL, target, 0.10, 0.25, self.period, 0.10, 300,
-                              reason="UR5e rejected the Cartesian servo command.")
+        if self.motion_enabled:
+            self._check_target(self._control.isPoseWithinSafetyLimits, target,
+                               "Target exceeds the robot's configured safety limits or IK reach.")
+        return target, measured_xyz, measured_rotation
+
+    def command(self, xyz, rotation):
+        """Apply a small absolute TCP target. Dry-run validates it using measured feedback."""
+        self._stop_other_mode("servo")
+        target, _, _ = self._checked_tcp(xyz, rotation)
+        if self.motion_enabled:
+            self._active_mode = "servo"  # A failed acknowledgement may follow a transmitted command.
+            self._require_command(self._control.servoL, target, 0.10, 0.25, self.period, 0.10, 300,
+                                  reason="UR5e rejected the Cartesian servo command.")
+
+    def _checked_joints(self, q):
+        self.pose()  # Fresh RTDE data, safety state and script ownership.
+        measured = self.joints()
+        q = np.asarray(q, dtype=float)
+        if q.shape != (6,) or not np.isfinite(q).all():
+            raise ValueError("A joint target needs six finite angles in radians.")
+        self._check_lead(np.max(np.abs(q - measured)) > self.MAX_JOINT_LEAD,
+                         "Joint target exceeds the allowed lead from the measured joints.")
+        return q.tolist()
+
+    def command_joints(self, q):
+        """Apply six absolute joint angles in native order, in radians."""
+        self._stop_other_mode("servo")
+        target = self._checked_joints(q)
+        if self.motion_enabled:
+            self._check_target(self._control.isJointsWithinSafetyLimits, target,
+                               "Joint target exceeds the robot's configured safety limits.")
+            self._active_mode = "servo"
+            self._require_command(self._control.servoJ, target, 0.10, 0.25, self.period, 0.10, 300,
+                                  reason="UR5e rejected the joint servo command.")
+
+    def command_joint_impedance(self, q):
+        """Update the equilibrium of the robot-side 500 Hz joint torque loop."""
+        self._stop_other_mode("joint_impedance")
+        target = self._checked_joints(q)
+        if self.motion_enabled:
+            self._active_mode = "joint_impedance"
+            self._require_command(self._control.command, target,
+                                  reason="Joint impedance target rejected or acknowledgement lost.")
+
+    def command_cartesian_impedance(self, xyz, rotation):
+        """Drive a bounded base-frame spring and damper at the measured TCP."""
+        self._stop_other_mode("force")
+        _, measured_xyz, measured_rotation = self._checked_tcp(xyz, rotation)
+        if self.motion_enabled:
+            twist = np.asarray(self._receive.getActualTCPSpeed(), dtype=float)
+            if twist.shape != (6,) or not np.isfinite(twist).all():
+                raise self._motion_denied("UR5e returned invalid TCP velocity feedback.")
+            wrench = cartesian_wrench(xyz, rotation, measured_xyz, measured_rotation, twist)
+            # Type 2 keeps the axes base-aligned. Locate the origin at the TCP
+            # because the wrench's moment is computed about that point.
+            task_frame = [*measured_xyz.tolist(), 0.0, 0.0, 0.0]
+            self._active_mode = "force"
+            self._require_command(self._control.forceMode, task_frame, [1] * 6,
+                                  wrench.tolist(), 2, list(self.FORCE_SPEED_LIMITS),
+                                  reason="UR5e rejected the Cartesian impedance wrench.")
 
     def hold(self):
         """Stop servoing once on clutch release; remain in the current physical pose."""
-        if self._servo_active:
-            self._servo_active = False  # Cleanup still stops the owned script after a rejected servoStop.
-            if self._owned_program_running():
+        mode, self._active_mode = self._active_mode, None
+        if mode is not None and self._owned_program_running():
+            if mode == "force":
+                self._require_command(self._control.forceModeStop, reason="UR5e did not acknowledge forceModeStop.")
+            elif mode == "joint_impedance":
+                self._require_command(self._control.hold, reason="UR5e did not acknowledge joint impedance stop.")
+            else:
                 self._require_command(self._control.servoStop, reason="UR5e did not acknowledge servoStop.")
 
     def _stop_owned_script(self):

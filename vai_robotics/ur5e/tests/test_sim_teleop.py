@@ -7,6 +7,57 @@ from vai_robotics.ur5e.sim_teleop import SimBackend
 
 
 class SimBackendTest(unittest.TestCase):
+    def test_joint_commands_and_joint_dry_preview_have_separate_state(self):
+        with SimBackend(headless=True) as backend:
+            q = backend.joints()
+            requested = q + [0.15, -0.06, 0, 0.10, 0, 0.02]
+            backend.tick(dry_run=True, joint_target=requested)
+            np.testing.assert_allclose(backend._shadow.qpos, requested)
+            np.testing.assert_array_equal(backend.joints(), q)
+            self.assertEqual(backend.sim.data.time, 0)
+            backend.tick(dry_run=True)
+            np.testing.assert_array_equal(backend._shadow.qpos, q)
+            for _ in range(100):
+                backend.command_joints(requested)
+                backend.tick()
+            np.testing.assert_allclose(backend.joints(), requested, atol=2e-4)
+            for bad in (np.zeros(5), np.full(6, np.nan), np.full(6, 9.0)):
+                for command in (backend.command_joints, backend.command_joint_impedance):
+                    with self.subTest(command=command, bad=bad), self.assertRaises(ValueError):
+                        command(bad)
+
+    def test_joint_impedance_yields_to_external_torque_and_release_latches_new_pose(self):
+        with SimBackend(headless=True) as backend:
+            q = backend.joints()
+            backend.command_joint_impedance(q)
+            applied = backend.sim.data.qfrc_applied
+            applied[0] = 1.2  # 1.2 Nm / 40 Nm/rad = 0.03 rad spring deflection
+            for _ in range(150):
+                backend.tick()
+            self.assertEqual(applied[0], 1.2)
+            displaced = backend.joints()
+            self.assertAlmostEqual(displaced[0] - q[0], .030, delta=.002)
+            backend.hold()
+            applied[0] = 0.0
+            for _ in range(60):
+                backend.tick()
+            np.testing.assert_allclose(backend.joints(), displaced, atol=2e-4)
+
+    def test_cartesian_impedance_deflects_under_load_and_returns_to_fixed_equilibrium(self):
+        with SimBackend(headless=True) as backend:
+            p, rotation = backend.pose()
+            backend.command_cartesian_impedance(p, rotation)
+            applied = backend.sim.data.xfrc_applied[backend.sim.model.body("wrist_3_link").id]
+            applied[0] = 4.0  # 4 N / 300 N/m = 13.33 mm TCP displacement in X
+            for _ in range(150):
+                backend.tick()
+            np.testing.assert_allclose(backend.pose()[0] - p, [4/300, 0, 0], atol=.001)
+            self.assertEqual(applied[0], 4.0)
+            applied[0] = 0.0
+            for _ in range(180):
+                backend.tick()
+            np.testing.assert_allclose(backend.pose()[0], p, atol=.0002)
+
     def test_pose_tracks_translation_and_world_frame_rotation(self):
         with SimBackend(headless=True) as backend:
             position, rotation = backend.pose()

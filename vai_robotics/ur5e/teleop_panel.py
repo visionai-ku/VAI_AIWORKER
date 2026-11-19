@@ -1,6 +1,7 @@
 """Operator controls for a running UR5e teleoperation session."""
 
 import json
+import math
 import os
 from pathlib import Path
 from queue import Empty, Queue
@@ -8,6 +9,10 @@ import subprocess
 import sys
 from threading import Thread
 import time
+
+
+# A clicked target is an input event, just like a sample from the operator device.
+TARGET_TIMEOUT = 0.15
 
 
 def _incoming(stream):
@@ -51,14 +56,15 @@ def _display_pose(pose):
 class TeleopPanel:
     """Qt owns the Cocoa event loop in a separate process from the MuJoCo viewer."""
 
-    def __init__(self, *, simulation, device_name, dry_run, robot_ip=None, open_width_mm=None):
+    def __init__(self, *, simulation, device_name, dry_run, robot_ip=None, open_width_mm=None,
+                 command_mode="eef-delta", control_law="position"):
         from .rg2 import DEFAULT_OPEN_WIDTH_MM, normalize_open_width_mm
 
         if open_width_mm is None:
             open_width_mm = DEFAULT_OPEN_WIDTH_MM
         self.open_width_mm = normalize_open_width_mm(open_width_mm)
         settings = dict(simulation=simulation, device_name=device_name, dry_run=dry_run, robot_ip=robot_ip,
-                        open_width_mm=self.open_width_mm)
+                        open_width_mm=self.open_width_mm, command_mode=command_mode, control_law=control_law)
         self._process = subprocess.Popen(
             [sys.executable, str(Path(__file__).resolve()), json.dumps(settings)],
             stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True, encoding="utf-8",
@@ -67,6 +73,7 @@ class TeleopPanel:
         )
         self._messages = _incoming(self._process.stdout)
         self._open = True
+        self._target_event = None
         self.scale = 1.0
         self._can_send = True
         self._next_update = 0.0
@@ -86,27 +93,41 @@ class TeleopPanel:
 
     def poll(self):
         request = None
+        self._target_event = None
         for event in _drain(self._messages):
             if event is None:
                 self._open = False
                 break
             if "mode" in event:
                 request = event["mode"]
+            if "target" in event:
+                self._target_event = event["target"]
             if "scale" in event:
                 self.scale = event["scale"]
             if "open_width_mm" in event:
                 self.open_width_mm = event["open_width_mm"]
             if "ack" in event:
                 self._can_send = True
+        if request is not None or not self._open:
+            self._target_event = None
         return request
 
-    def refresh(self, *, dry_run, clutch, measured, target, message="", gripper=""):
+    def take_target(self):
+        event, self._target_event = self._target_event, None
+        if event is not None and 0 <= time.monotonic() - event["time"] <= TARGET_TIMEOUT:
+            return event["values"]
+        return None
+
+    def refresh(self, *, dry_run, clutch, measured, target, message="", gripper="",
+                measured_joints=None, target_joints=None):
         now = time.monotonic()
         if not self.is_open or not self._can_send or now < self._next_update:
             return
         # At most one small display frame can be outstanding, even if Qt stalls.
         state = dict(dry_run=dry_run, clutch=clutch, measured=_display_pose(measured),
-                     target=_display_pose(target), message=message[:256], gripper=gripper[:256])
+                     target=_display_pose(target), message=message[:256], gripper=gripper[:256],
+                     measured_joints=None if measured_joints is None else list(map(math.degrees, measured_joints)),
+                     target_joints=None if target_joints is None else list(map(math.degrees, target_joints)))
         try:
             _send(self._process.stdin, state)
         except (BrokenPipeError, OSError):
@@ -140,12 +161,13 @@ class TeleopPanel:
 class _PanelWindow:
     """The operator's selection is a request until confirmed by the control loop."""
 
-    def __init__(self, *, simulation, device_name, dry_run, open_width_mm, robot_ip=None):
+    def __init__(self, *, simulation, device_name, dry_run, open_width_mm, robot_ip=None,
+                 command_mode="eef-delta", control_law="position"):
         from PyQt5.QtCore import Qt
         from PyQt5.QtGui import QFontDatabase, QFontMetrics
         from PyQt5.QtWidgets import (
-            QApplication, QDoubleSpinBox, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QPushButton,
-            QSlider, QVBoxLayout, QWidget,
+            QApplication, QDoubleSpinBox, QFrame, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QPushButton,
+            QScrollArea, QSlider, QVBoxLayout, QWidget,
         )
 
         app = QApplication.instance()
@@ -160,12 +182,24 @@ class _PanelWindow:
         self._applied_dry_run = dry_run
         self._requested_dry_run = None
         self._awaiting_mode_result = False
+        self._joint_space = command_mode.startswith("joint-")
+        self._absolute = command_mode.endswith("-absolute")
+        self._last_measured = None
+        self._loaded_absolute = False
+        self._target_event = None
 
         self.window = QWidget()
         self.window.setAttribute(Qt.WA_QuitOnClose, False)
         self.window.setWindowTitle("UR5e 조작 패널")
-        self.window.setMinimumWidth(350)
-        layout = QVBoxLayout(self.window)
+        content = QWidget()
+        scroll = QScrollArea()
+        scroll.setFrameShape(QFrame.NoFrame)
+        scroll.setWidgetResizable(True)
+        scroll.setWidget(content)
+        outer = QVBoxLayout(self.window)
+        outer.setContentsMargins(0, 0, 0, 0)
+        outer.addWidget(scroll)
+        layout = QVBoxLayout(content)
         layout.setContentsMargins(16, 16, 16, 14)
         layout.setSpacing(10)
         device_label = {"spacemouse": "SpaceMouse", "quest": "Quest 3"}.get(device_name, device_name)
@@ -242,35 +276,69 @@ class _PanelWindow:
         source = "MuJoCo" if simulation else "RTDE"
         if robot_ip and not simulation:
             source += f" · {robot_ip}"
-        tcp = QGroupBox(f"TCP · {source} · 베이스 좌표계")
-        grid = QGridLayout(tcp)
-        self.pose_rows = []
+        coordinate = "관절" if self._joint_space else "TCP (베이스 좌표계)"
+        command = "절대 목표" if self._absolute else "상대 변화량"
+        law = "위치 제어" if control_law == "position" else "임피던스 제어"
+        targets = QGroupBox(f"{coordinate} · {command} · {law}")
+        grid = QGridLayout(targets)
+        self.measured_cells = []
+        self.target_cells = []
+        self.target_inputs = []
         fixed_font = QFontDatabase.systemFont(QFontDatabase.FixedFont)
-        for column, axis in enumerate("XYZ", start=1):
-            heading = QLabel(axis)
-            heading.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        for column, name in enumerate(("축", "실측", "목표", command)):
+            heading = QLabel(name)
             grid.addWidget(heading, 0, column)
-            grid.setColumnStretch(column, 1)
-        for row_index, name in enumerate(("실측 위치 (mm)", "목표 위치 (mm)",
-                                          "실측 회전벡터 (°)", "목표 회전벡터 (°)"), start=1):
-            grid.addWidget(QLabel(name), row_index, 0)
-            cells = []
-            for column in range(1, 4):
+        axes = [f"J{i + 1}" for i in range(6)] if self._joint_space else ("X", "Y", "Z", "Rx", "Ry", "Rz")
+        for i, axis in enumerate(axes):
+            linear = not self._joint_space and i < 3
+            unit = "mm" if linear else "°"
+            axis_label = QLabel(f"{axis} ({unit})")
+            grid.addWidget(axis_label, i + 1, 0)
+            for column, cells in enumerate((self.measured_cells, self.target_cells), 1):
                 cell = QLabel("—")
                 cell.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
                 cell.setFont(fixed_font)
-                grid.addWidget(cell, row_index, column)
+                grid.addWidget(cell, i + 1, column)
                 cells.append(cell)
-            self.pose_rows.append(cells)
-        layout.addWidget(tcp)
+            box = QDoubleSpinBox()
+            # UI units only; each backend owns reach, joint and slew limits.
+            limit = 2000.0 if linear else 360.0
+            box.setRange(-limit, limit)
+            box.setDecimals(2)
+            box.setSingleStep(1.0)
+            box.setKeyboardTracking(False)
+            box.setAccessibleName(f"{axis} {command} ({unit})")
+            axis_label.setBuddy(box)
+            self.target_inputs.append(box)
+            grid.addWidget(box, i + 1, 3)
+        readout = source if self._joint_space else f"{source} · Rx/Ry/Rz는 회전벡터"
+        grid.addWidget(QLabel(readout), 7, 0, 1, 4)
+        self.load_target = QPushButton("실측값 불러오기")
+        self.load_target.setVisible(self._absolute)
+        self.load_target.clicked.connect(self._load_measured)
+        self.apply_target = QPushButton("목표 적용")
+        self.apply_target.clicked.connect(self._submit_target)
+        buttons = QHBoxLayout()
+        if self._absolute:
+            buttons.addWidget(self.load_target)
+        buttons.addWidget(self.apply_target)
+        grid.addLayout(buttons, 8, 0, 1, 4)
+        grid.addWidget(QLabel("클러치를 누른 상태에서 목표를 적용하세요."), 9, 0, 1, 4)
+        self._enable_target_controls()
+        layout.addWidget(targets)
 
         exit_button = QPushButton("세션 종료")
         exit_button.clicked.connect(self.close)
         layout.addWidget(exit_button)
-        self.window.adjustSize()
         screen = app.primaryScreen()
+        size = content.sizeHint()
+        # Reserve the scrollbar width as mode errors can wrap onto several lines.
+        min_width = content.minimumSizeHint().width() + scroll.verticalScrollBar().sizeHint().width()
+        self.window.setMinimumWidth(max(350, min_width))
+        self.window.resize(max(self.window.minimumWidth(), size.width()), size.height())
         if screen:
             area = screen.availableGeometry()
+            self.window.resize(self.window.width(), min(size.height(), max(1, area.height() - 64)))
             self.window.move(max(area.left(), area.right() - self.window.width() - 16),
                              area.top() + 32)
         self.window.show()
@@ -288,6 +356,9 @@ class _PanelWindow:
         return round(self.open_width.value(), self.open_width.decimals())
 
     def _show_mode(self, dry_run):
+        if dry_run != self._applied_dry_run:
+            self._target_event = self._last_measured = None
+            self._loaded_absolute = False
         self._applied_dry_run = dry_run
         self.dry_button.setChecked(dry_run)
         self.run_button.setChecked(not dry_run)
@@ -298,6 +369,8 @@ class _PanelWindow:
             return
         self._requested_dry_run = dry_run
         self._awaiting_mode_result = True
+        self._target_event = None
+        self._enable_target_controls()
         self.run_button.setEnabled(False)
         self.dry_button.setEnabled(False)
         button = self.dry_button if dry_run else self.run_button
@@ -308,26 +381,59 @@ class _PanelWindow:
         request, self._requested_dry_run = self._requested_dry_run, None
         return request
 
+    def _enable_target_controls(self):
+        ready = not self._awaiting_mode_result and self._last_measured is not None
+        self.load_target.setEnabled(ready)
+        self.apply_target.setEnabled(ready and (not self._absolute or self._loaded_absolute))
+
+    def _load_measured(self):
+        for box, value in zip(self.target_inputs, self._last_measured):
+            # A configured TCP offset or a multi-turn joint can lie beyond the
+            # initial entry range. Loading its measurement must never clip it.
+            box.setRange(min(box.minimum(), value), max(box.maximum(), value))
+            box.setValue(value)
+        self._loaded_absolute = True
+        self._enable_target_controls()
+
+    def _submit_target(self):
+        display = [box.value() for box in self.target_inputs]
+        values = ([math.radians(v) for v in display] if self._joint_space else
+                  [v / 1000 for v in display[:3]] + [math.radians(v) for v in display[3:]])
+        self._target_event = {"time": time.monotonic(), "values": values}
+
+    def take_target_event(self):
+        event, self._target_event = self._target_event, None
+        return event
+
     def mode_result(self, *, dry_run, message=""):
         self._awaiting_mode_result = False
         self.run_button.setEnabled(True)
         self.dry_button.setEnabled(True)
         self._show_mode(dry_run)
+        self._enable_target_controls()
         self.message_label.setText(message)
         self.message_label.setVisible(bool(message))
 
-    def refresh(self, *, dry_run, clutch, measured, target, message="", gripper=""):
+    def refresh(self, *, dry_run, clutch, measured, target, message="", gripper="",
+                measured_joints=None, target_joints=None):
         if not self._awaiting_mode_result:
             self._show_mode(dry_run)
             self.message_label.setText(message)
             self.message_label.setVisible(bool(message))
         self.clutch_label.setText(clutch)
         self.gripper_label.setText(gripper)
-        for i, pose in enumerate((measured, target)):
-            values = (None, None) if pose is None else pose
-            for cells, vector in zip((self.pose_rows[i], self.pose_rows[i + 2]), values):
-                for axis, cell in enumerate(cells):
-                    cell.setText("—" if vector is None else f"{vector[axis]:.1f}")
+        if self._joint_space:
+            measured, target = measured_joints, target_joints
+        else:
+            measured = None if measured is None else [*measured[0], *measured[1]]
+            target = None if target is None else [*target[0], *target[1]]
+        self._last_measured = measured
+        if measured is None:
+            self._loaded_absolute = False
+        for cells, values in ((self.measured_cells, measured), (self.target_cells, target)):
+            for i, cell in enumerate(cells):
+                cell.setText("—" if values is None else f"{values[i]:.1f}")
+        self._enable_target_controls()
 
     def close(self):
         self.window.close()
@@ -359,6 +465,9 @@ def _run_window(settings):
         requested = window.take_request()
         if requested is not None:
             event["mode"] = requested
+        target = window.take_target_event()
+        if target is not None:
+            event["target"] = target
         if window.scale != previous_scale:
             previous_scale = window.scale
             event["scale"] = previous_scale

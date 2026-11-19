@@ -1,4 +1,4 @@
-"""Run Cartesian UR5e teleoperation with a Quest 3 or a 3Dconnexion SpaceMouse."""
+"""Teleoperate the UR5e in EEF or joint space with a Quest 3 or SpaceMouse."""
 
 import argparse
 from contextlib import ExitStack
@@ -7,96 +7,11 @@ import sys
 import time
 
 import numpy as np
-from scipy.spatial.transform import Rotation
 
+from .controllers import COMMAND_MODES, CONTROL_LAWS, HZ, TeleopController
 from .real import RobotControlStopped
 from .rg2 import DEFAULT_GRIP_FORCE_N, DEFAULT_OPEN_WIDTH_MM
 from .rg2_visual import OPEN_WIDTH_MM, RG2Preview
-
-
-HZ = 50
-MAX_LINEAR_SPEED = 0.10       # m/s
-MAX_ANGULAR_SPEED = 0.60      # rad/s
-MAX_POSITION_LEAD = 0.025     # m from feedback
-MAX_ROTATION_LEAD = 0.12      # rad from feedback
-
-
-def bounded_vector(vector, limit):
-    vector = np.asarray(vector, dtype=float)
-    if vector.shape != (3,) or not np.isfinite(vector).all():
-        raise ValueError("Expected a finite 3D vector")
-    norm = np.linalg.norm(vector)
-    return vector * (limit / norm) if norm > limit else vector
-
-
-class TeleopController:
-    """Integrate clutched deltas into bounded absolute targets for either backend."""
-
-    def __init__(self, backend, *, dry_run=False):
-        self.backend = backend
-        self.dry_run = dry_run
-        self.measured = None
-        self.ready_after_release = False
-        self.target = None
-        self.last_tick = None
-
-    def set_mode(self, dry_run, *, simulation, sample, device=None):
-        if dry_run == self.dry_run:
-            return ""
-        if not dry_run and not simulation and (sample is None or sample.enabled or not sample.buttons_released):
-            if hasattr(device, "clutch_pressed"):
-                if device.status:
-                    return "SpaceMouse를 USB에 연결한 뒤 다시 시도하세요."
-                if device.clutch_pressed is None:
-                    return f"SpaceMouse {device.button}번 버튼을 한 번 눌렀다 놓은 뒤 실기 구동을 다시 선택하세요."
-                return "SpaceMouse의 모든 버튼을 놓은 뒤 실기 구동을 다시 선택하세요."
-            return "컨트롤러의 추적 상태를 확인하고 클러치를 놓은 뒤 실기 구동을 다시 선택하세요."
-        self.target = self.last_tick = None
-        self.ready_after_release = False
-        if simulation:
-            self.backend.hold()
-        else:
-            try:
-                # Detaching the real writer also stops its servo and script.
-                self.backend.set_motion_enabled(not dry_run)
-            except (RuntimeError, OSError, ImportError) as error:
-                if not dry_run:
-                    return f"REAL RUN 전환 실패 · {error}"
-                if self.backend.motion_enabled:
-                    raise
-                self.dry_run = True
-                return f"실기 제어 연결 해제 · 정지 응답을 확인하지 못했습니다. 펜던트를 확인하세요. ({error})"
-        self.dry_run = dry_run
-        return ""
-
-    def update(self, sample, now, *, scale=1.0):
-        dt = 0.0 if self.last_tick is None else now - self.last_tick
-        self.last_tick = now
-        self.measured = self.backend.pose()
-        measured_xyz, measured_rot = self.measured
-        if sample is None or not 0.0 <= dt <= 0.12:
-            self.ready_after_release = False
-        elif not sample.enabled:
-            self.ready_after_release = True
-        elif self.ready_after_release:
-            if self.target is None:
-                self.target = (measured_xyz.copy(), measured_rot)
-            else:
-                xyz, rot = self.target
-                # Never replay a backlog after a slow frame.
-                dt = min(dt, 2 / HZ)
-                xyz = xyz + scale * bounded_vector(sample.translation, MAX_LINEAR_SPEED * dt)
-                rot = Rotation.from_rotvec(scale * bounded_vector(sample.rotation, MAX_ANGULAR_SPEED * dt)) * rot
-                if not self.dry_run:
-                    xyz = measured_xyz + bounded_vector(xyz - measured_xyz, MAX_POSITION_LEAD)
-                    lead = bounded_vector((rot * measured_rot.inv()).as_rotvec(), MAX_ROTATION_LEAD)
-                    rot = Rotation.from_rotvec(lead) * measured_rot
-                self.target = xyz, rot
-            if not self.dry_run:
-                self.backend.command(*self.target)
-            return
-        self.target = None
-        self.backend.hold()
 
 
 def clutch_text(device, sample, active):
@@ -119,8 +34,10 @@ def clutch_text(device, sample, active):
 
 
 def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper=None,
-               gripper_force_n=DEFAULT_GRIP_FORCE_N):
-    controller = TeleopController(backend, dry_run=dry_run)
+               gripper_force_n=DEFAULT_GRIP_FORCE_N, command_mode="eef-delta", control_law="position"):
+    limits = backend.joint_limits() if sim and command_mode.startswith("joint-") else None
+    controller = TeleopController(backend, dry_run=dry_run, command_mode=command_mode,
+                                  control_law=control_law, joint_limits=limits)
     last_report = float("-inf")
     message = ""
     active = False
@@ -145,6 +62,7 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
             request = panel.poll() if panel is not None else None
             if panel is not None and not panel.is_open:
                 break
+            values = panel.take_target() if panel is not None else None
             if panel is not None and panel.open_width_mm != open_width_mm:
                 open_width_mm = panel.open_width_mm
                 if gripper is not None:
@@ -153,6 +71,7 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
             # Going back to preview takes priority over polling USB or network input.
             sample = None if change_mode and request else device.read()
             if change_mode:
+                values = None
                 if gripper is not None:
                     gripper.update(None)
                 message = controller.set_mode(request, simulation=sim, sample=sample, device=device)
@@ -165,7 +84,10 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
                         # before presenting the transition to read-only control as complete.
                         gripper.wait_for_writes()
             try:
-                controller.update(sample, time.monotonic(), scale=panel.scale if panel is not None else 1.0)
+                notice = controller.update(sample, time.monotonic(), values=values,
+                                           scale=panel.scale if panel is not None else 1.0)
+                if values is not None:
+                    message = notice or ""
             except RobotControlStopped as error:
                 if sim or panel is None or controller.dry_run:
                     raise
@@ -206,12 +128,17 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
                 if sim and not controller.dry_run:
                     baseline_width = width
             if sim:
-                backend.tick(dry_run=controller.dry_run, target=controller.target, gripper_width_mm=width)
+                backend.tick(dry_run=controller.dry_run, target=controller.target,
+                             joint_target=controller.joint_target if controller.dry_run else None,
+                             gripper_width_mm=width)
             elif view is not None:
-                view.update(q=backend.joints(), measured_tcp=controller.measured, dry_run=controller.dry_run,
-                            target=controller.target if controller.dry_run else None, gripper_width_mm=width)
-            if (controller.target is not None) != active:
-                active = controller.target is not None
+                q = controller.measured_joints if controller.joint_space else backend.joints()
+                view.update(q=q, measured_tcp=controller.measured, dry_run=controller.dry_run,
+                            target=controller.target if controller.dry_run else None,
+                            joint_target=controller.joint_target if controller.dry_run else None,
+                            gripper_width_mm=width)
+            if controller.active != active:
+                active = controller.active
                 print("Clutch active" if active else "Holding", flush=True)
             if panel is not None:
                 if sim:
@@ -226,10 +153,14 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
                     gripper_text = f"버튼 0+1: {state} · {gripper_text}"
                 panel.refresh(dry_run=controller.dry_run, clutch=clutch_text(device, sample, active),
                               measured=controller.measured,
+                              measured_joints=controller.measured_joints, target_joints=controller.joint_target,
                               target=controller.target, message=message, gripper=gripper_text)
             elif controller.dry_run and active and started - last_report >= 0.5:
-                xyz, rot = controller.target
-                print("Dry-run target [m, rad]:", np.round(np.r_[xyz, rot.as_rotvec()], 4), flush=True)
+                if controller.joint_space:
+                    print("Dry-run joints [rad]:", np.round(controller.joint_target, 4), flush=True)
+                else:
+                    xyz, rot = controller.target
+                    print("Dry-run target [m, rad]:", np.round(np.r_[xyz, rot.as_rotvec()], 4), flush=True)
                 last_report = started
             time.sleep(max(0.0, started + 1 / HZ - time.monotonic()))
 
@@ -238,6 +169,8 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--backend", choices=("sim", "real"), required=True)
     parser.add_argument("--input", choices=("quest", "spacemouse"), required=True)
+    parser.add_argument("--command-mode", choices=COMMAND_MODES, default="eef-delta")
+    parser.add_argument("--control-law", choices=CONTROL_LAWS, default="position")
     parser.add_argument("--quest-host", help="operator PC LAN address reachable from the Quest")
     parser.add_argument("--quest-port", type=int, default=8443)
     parser.add_argument("--hand", choices=("left", "right"), default="right")
@@ -273,6 +206,8 @@ def main(argv=None):
     dry_run = args.dry_run or (not simulation and not args.enable_motion)
     desktop = sys.platform != "linux" or bool(os.environ.get("DISPLAY") or os.environ.get("WAYLAND_DISPLAY"))
     show_panel = desktop and not args.no_panel and not args.headless
+    if args.command_mode.endswith("-absolute") and not show_panel:
+        parser.error("Absolute teleoperation requires the target panel. Use TeleopController.update(values=...) for headless targets.")
     with ExitStack() as stack:
         panel = None
         if show_panel:
@@ -280,7 +215,7 @@ def main(argv=None):
 
             device_name = f"Quest 3 · {args.hand}" if args.input == "quest" else f"SpaceMouse · 버튼 {args.button}"
             panel = TeleopPanel(simulation=simulation, device_name=device_name, dry_run=dry_run,
-                                robot_ip=args.robot_ip)
+                                robot_ip=args.robot_ip, command_mode=args.command_mode, control_law=args.control_law)
             stack.callback(panel.close)
         if args.input == "quest":
             device = QuestInput(host=args.quest_host, port=args.quest_port, hand=args.hand)
@@ -294,7 +229,8 @@ def main(argv=None):
             from .real import RealUR5e
 
             print("Real robot motion ENABLED" if args.enable_motion else "Real robot, receive-only dry run", flush=True)
-            backend = RealUR5e(args.robot_ip, enable_motion=args.enable_motion, frequency=HZ)
+            backend = RealUR5e(args.robot_ip, enable_motion=args.enable_motion, frequency=HZ,
+                               joint_impedance=args.command_mode.startswith("joint-") and args.control_law == "impedance")
         stack.enter_context(device)
         gripper = None
         if args.gripper_ip:
@@ -304,7 +240,8 @@ def main(argv=None):
         stack.enter_context(backend)
         try:
             run_teleop(device, backend, sim=simulation, dry_run=dry_run, panel=panel, gripper=gripper,
-                       gripper_force_n=args.gripper_force_n)
+                       gripper_force_n=args.gripper_force_n, command_mode=args.command_mode,
+                       control_law=args.control_law)
         except KeyboardInterrupt:
             pass
 

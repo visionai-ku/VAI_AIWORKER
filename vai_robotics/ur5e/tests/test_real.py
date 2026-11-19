@@ -47,6 +47,71 @@ class RealUR5eTests(unittest.TestCase):
             self.assertNotIsInstance(caught.exception, RobotControlStopped)
         self.control_cls.assert_not_called()
 
+    def test_joint_servo_checks_angles_feedback_and_robot_limits(self):
+        measured = np.array([0.4, -1.1, 1.8, -1.4, -1.3, 0.2])
+        self.receiver.getActualQ.return_value = measured
+        target = measured + [0.02, 0, 0, 0, -0.01, 0]
+        with RealUR5e("test") as robot:
+            robot.command_joints(target)
+            robot.set_motion_enabled(True)
+            for invalid in ([0] * 5, [np.nan] * 6):
+                with self.assertRaises(ValueError):
+                    robot.command_joints(invalid)
+            with self.assertRaisesRegex(RobotControlStopped, "lead"):
+                robot.command_joints(target + [0, 0, 0.16, 0, 0, 0])
+            self.control.isJointsWithinSafetyLimits.assert_not_called()
+            self.control.isJointsWithinSafetyLimits.return_value = False
+            with self.assertRaisesRegex(RobotControlStopped, "safety limits"):
+                robot.command_joints(target)
+            self.control.servoJ.assert_not_called()
+            self.control.isJointsWithinSafetyLimits.return_value = True
+            robot.command_joints(target)
+            self.control.servoJ.assert_called_once_with(target.tolist(), 0.10, 0.25, 0.02, 0.10, 300)
+        self.control.servoStop.assert_called_once()
+
+    def test_cartesian_impedance_wrench_and_mode_handoff(self):
+        from vai_robotics.ur5e.impedance import cartesian_wrench
+
+        measured = Rotation.from_euler("z", 90, degrees=True)
+        xyz = np.array([0.3, 0.1, 0.4])
+        self.receiver.getActualTCPPose.return_value = [*xyz, *measured.as_rotvec()]
+        twist = np.array([0.01, -0.03, 0, 0.02, 0, 0])
+        self.receiver.getActualTCPSpeed.return_value = twist
+        target = xyz + [0.01, 0, 0]
+        rot = Rotation.from_rotvec([0.05, 0, 0]) * measured
+        with RealUR5e("test") as robot:
+            robot.command_cartesian_impedance(target, rot)
+            self.control_cls.assert_not_called()
+            robot.set_motion_enabled(True)
+            robot.command(target, rot)
+            robot.command_cartesian_impedance(target, rot)
+            self.control.servoStop.assert_called_once()
+            frame, axes, wrench, kind, limits = self.control.forceMode.call_args.args
+            np.testing.assert_allclose(frame, [*xyz, 0, 0, 0])
+            np.testing.assert_allclose(wrench, cartesian_wrench(target, rot, xyz, measured, twist), atol=1e-12)
+            self.assertEqual((axes, kind, limits), ([1] * 6, 2, list(robot.FORCE_SPEED_LIMITS)))
+            robot.command_cartesian_impedance(target, rot)
+            self.control.forceModeStop.assert_not_called()
+            robot.command(target, rot)
+            self.control.forceModeStop.assert_called_once()
+        self.assertEqual(self.control.servoStop.call_count, 2)
+
+    def test_refused_wrench_stops_force_mode_once_and_invalid_speed_never_starts_it(self):
+        with RealUR5e("test", enable_motion=True) as robot:
+            xyz, rot = robot.pose()
+            self.receiver.getActualTCPSpeed.return_value = [np.nan] * 6
+            with self.assertRaisesRegex(RobotControlStopped, "invalid TCP velocity"):
+                robot.command_cartesian_impedance(xyz, rot)
+            self.control.forceMode.assert_not_called()
+            self.receiver.getActualTCPSpeed.return_value = [0] * 6
+            self.control.forceMode.return_value = False
+            with self.assertRaisesRegex(RobotControlStopped, "impedance wrench"):
+                robot.command_cartesian_impedance(xyz, rot)
+            robot.hold()
+            robot.set_motion_enabled(False)
+        self.control.forceModeStop.assert_called_once()
+        self.control.servoStop.assert_not_called()
+
     def test_live_clutch_and_cleanup(self):
         with RealUR5e("test", enable_motion=True) as robot:
             xyz, rot = robot.pose()

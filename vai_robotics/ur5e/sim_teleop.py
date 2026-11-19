@@ -1,9 +1,10 @@
-"""Cartesian teleoperation of the UR5e arm in the bundled MuJoCo scene."""
+"""Joint and Cartesian teleoperation of the UR5e in the bundled MuJoCo scene."""
 
 import mujoco
 import numpy as np
 from scipy.spatial.transform import Rotation
 
+from .impedance import cartesian_wrench, joint_torque
 from .rg2_visual import OPEN_WIDTH_MM, set_rg2_width
 from .sim import load_simulation
 
@@ -21,6 +22,7 @@ class SimBackend:
         self.headless = headless
         self.sim = None
         self.active = False
+        self._equilibrium = None
         self.tick_count = 0
         self._shadow = None
         self._previewing = False
@@ -45,6 +47,7 @@ class SimBackend:
             self.close()
             raise
         self.active = False
+        self._equilibrium = None
         self.tick_count = 0
         self._last_measured_width = OPEN_WIDTH_MM
         return self
@@ -55,6 +58,13 @@ class SimBackend:
 
     def pose(self):
         return self._flange_pose(self.sim.data)
+
+    def joints(self):
+        return self.sim.data.qpos.copy()
+
+    def joint_limits(self):
+        lower, upper = self.sim.model.actuator_ctrlrange.T
+        return lower.copy(), upper.copy()
 
     def preview_pose(self):
         """The displayed shadow TCP in UR base coordinates during DRY RUN."""
@@ -74,8 +84,7 @@ class SimBackend:
             raise ValueError("expected a finite xyz position and one orientation")
         current_xyz, current_rot = self._flange_pose(data)
         error = np.r_[xyz - current_xyz, (rotation * current_rot.inv()).as_rotvec()]
-        jacobian = np.empty((6, sim.model.nv))
-        mujoco.mj_jacSite(sim.model, data, jacobian[:3], jacobian[3:], data.site(self.site_name).id)
+        jacobian = self._jacobian(data)
         q_target = data.qpos + solve_dls(jacobian, error, lam=0.002**2)
         max_step = self.joint_speed * self.period
         change = q_target - previous_target
@@ -86,18 +95,92 @@ class SimBackend:
 
     def command(self, xyz, rotation):
         """Apply one bounded differential IK update to the six live position actuators."""
+        if self._equilibrium is not None:
+            self.hold()
         data = self.sim.data
         data.ctrl[:] = self._joint_target(data, xyz, rotation, data.ctrl)
         self.active = True
+
+    def _jacobian(self, data):
+        jacobian = np.empty((6, self.sim.model.nv))
+        mujoco.mj_jacSite(self.sim.model, data, jacobian[:3], jacobian[3:], data.site(self.site_name).id)
+        return jacobian
+
+    def _checked_joints(self, q):
+        q = np.asarray(q, dtype=float)
+        if q.shape != (6,) or not np.isfinite(q).all():
+            raise ValueError("Expected six finite target joint angles in radians.")
+        lower, upper = self.sim.model.actuator_ctrlrange.T
+        if np.any(q < lower) or np.any(q > upper):
+            raise ValueError("Target joint angles exceed the MuJoCo joint limits.")
+        return q
+
+    def command_joints(self, q):
+        """Slew the six position servo references toward an absolute joint target."""
+        q = self._checked_joints(q)
+        if self._equilibrium is not None:
+            self.hold()
+        ctrl = self.sim.data.ctrl
+        delta = q - ctrl
+        max_step = self.joint_speed * self.period
+        ctrl[:] += delta * (max_step / max(max_step, np.max(np.abs(delta))))
+        self.active = True
+
+    def command_joint_impedance(self, q):
+        self._equilibrium = self._checked_joints(q).copy()
+        self.active = True
+
+    def command_cartesian_impedance(self, xyz, rotation):
+        xyz = np.asarray(xyz, dtype=float)
+        if (xyz.shape != (3,) or not np.isfinite(xyz).all()
+                or not isinstance(rotation, Rotation) or not rotation.single or not np.isfinite(rotation.as_quat()).all()):
+            raise ValueError("Expected a finite TCP position and a single orientation.")
+        self._equilibrium = xyz.copy(), rotation
+        self.active = True
+
+    def _advance(self, nstep):
+        sim = self.sim
+        model, data = sim.model, sim.data
+        # The parser writes gravity compensation into qfrc_applied. Preserve
+        # torques applied by the caller (contacts and mouse forces use separate fields).
+        external = data.qfrc_applied.copy()
+        original_groups = model.opt.disableactuator
+        try:
+            if self._equilibrium is None:
+                sim.compensate_gravity(["base"])
+                data.qfrc_applied[:] += external
+                sim.step(nstep=nstep)
+                return
+
+            # All six position actuators in ur5e.xml are in group zero. Only
+            # the impedance torque law should supply feedback during these steps.
+            model.opt.disableactuator |= 1
+            for _ in range(nstep):
+                mujoco.mj_step1(model, data)
+                if isinstance(self._equilibrium, tuple):
+                    jacobian = self._jacobian(data)
+                    wrench = cartesian_wrench(*self._equilibrium, *self._flange_pose(data), jacobian @ data.qvel)
+                    torque = jacobian.T @ wrench
+                else:
+                    torque = joint_torque(self._equilibrium, data.qpos, data.qvel)
+                sim.compensate_gravity(["base"])
+                data.qfrc_applied[:] += external + torque
+                mujoco.mj_step2(model, data)
+            sim.increase_wall_time()
+        finally:
+            data.qfrc_applied[:] = external
+            model.opt.disableactuator = original_groups
 
     def hold(self):
         """Latch measured joint positions on release; keep holding on subsequent ticks."""
         if self.active:
             self.sim.data.ctrl[:] = self.sim.data.qpos
+            self._equilibrium = None
             self.active = False
 
-    def _update_shadow(self, target, measured_tcp):
-        if target is None or not self._preview_clutched:
+    def _update_shadow(self, target, joint_target, measured_tcp):
+        clutched = target is not None or joint_target is not None
+        if not clutched or not self._preview_clutched:
             self._shadow.qpos[:] = self.sim.data.qpos
             mujoco.mj_forward(self.sim.model, self._shadow)
             # A real TCP can be offset and rotated relative to this model's flange.
@@ -107,7 +190,13 @@ class SimBackend:
                 xyz, rotation = self._flange_pose(self._shadow)
                 tcp_xyz, tcp_rotation = measured_tcp
                 self._flange_to_tcp = rotation.inv().apply(tcp_xyz - xyz), rotation.inv() * tcp_rotation
-        if target is not None:
+        if joint_target is not None:
+            q = np.asarray(joint_target, dtype=float)
+            if q.shape != (6,) or not np.isfinite(q).all():
+                raise ValueError("Expected six finite preview joint angles.")
+            self._shadow.qpos[:] = q
+            mujoco.mj_forward(self.sim.model, self._shadow)
+        elif target is not None:
             tcp_xyz, tcp_rotation = target
             offset, tool_rotation = self._flange_to_tcp
             flange_rotation = tcp_rotation * tool_rotation.inv()
@@ -115,10 +204,10 @@ class SimBackend:
             self._shadow.qpos[:] = self._joint_target(
                 self._shadow, flange_xyz, flange_rotation, self._shadow.qpos)
             mujoco.mj_forward(self.sim.model, self._shadow)
-        self._preview_clutched = target is not None
+        self._preview_clutched = clutched
 
-    def tick(self, *, dry_run=False, target=None, measured_q=None, measured_tcp=None, reset_preview=False,
-             gripper_width_mm=None):
+    def tick(self, *, dry_run=False, target=None, joint_target=None, measured_q=None, measured_tcp=None,
+             reset_preview=False, gripper_width_mm=None):
         """Advance live physics, mirror RTDE joints, or articulate the independent preview."""
         sim = self.sim
         # Width is visual geometry; all six RTDE joints still address the arm.
@@ -134,14 +223,13 @@ class SimBackend:
         elif not dry_run:
             self.tick_count += 1
             nstep = round((self.tick_count * self.period - sim.data.time) / sim.dt)
-            sim.compensate_gravity(["base"])
-            sim.step(nstep=nstep)
+            self._advance(nstep)
         self._previewing = dry_run
         if dry_run:
             # A renderer can skip every released frame between two clutches.
             if reset_preview:
                 self._preview_clutched = False
-            self._update_shadow(target, measured_tcp)
+            self._update_shadow(target, joint_target, measured_tcp)
         else:
             self._preview_clutched = False
         if not self.headless and self.is_running():
@@ -152,6 +240,8 @@ class SimBackend:
                 if gripper_width_mm is None:
                     sim.viewer_text_overlay("RG2", "Width unavailable", loc="top left")
             display_tcp = target if dry_run else measured_tcp
+            if dry_run and joint_target is not None:
+                display_tcp = self.preview_pose()
             if display_tcp is not None:
                 xyz, rotation = display_tcp
                 sim.plot_T(p=xyz, R=rotation.as_matrix(), axis_len=0.08, axis_width=0.004)

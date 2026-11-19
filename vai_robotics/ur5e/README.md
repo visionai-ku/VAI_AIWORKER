@@ -37,11 +37,34 @@ SpaceMouse를 처음 연결하거나 세션을 다시 열었을 때 **상태 확
 
 실기 뷰어 왼쪽 위의 `DRY RUN · Preview`와 `REAL RUN · Measured` 표시로 현재 화면을 구분한다. REAL RUN에서 팔은 실측 관절각을, 색깔 좌표축은 컨트롤러가 보고한 현재 TCP의 위치와 방향을 보여준다. 실기 구동 중 운전·안전 상태 검사가 실패하거나 서보 명령이 거절되면 제어 연결을 해제한다. 자세 수신이 정상이면 패널과 뷰어는 수신 전용 DRY RUN을 유지하고 패널에 중단 사유를 표시한다. 다시 구동하려면 펜던트에서 로봇 상태와 원인을 확인한 뒤 클러치를 놓고 REAL RUN을 선택한다.
 
+### 팔 명령과 임피던스
+
+세션을 시작할 때 노트북의 `COMMAND_MODE`, `CONTROL_LAW` 또는 CLI 옵션으로 선택한다. 기본값은 `eef-delta`와 `position`이다. SpaceMouse로 Cartesian impedance를 시뮬레이션하려면 저장소 루트에서 실행한다.
+
+```bash
+python -m vai_robotics.ur5e.teleop --backend sim --input spacemouse --command-mode eef-delta --control-law impedance
+```
+
+| `--command-mode` | 클러치를 누른 동안의 조작 |
+| --- | --- |
+| `eef-delta` | 장치의 6축 입력 또는 패널의 변화량으로 현재 TCP 목표를 이동·회전한다. 회전 증분은 베이스 좌표계에서 합성한다. |
+| `eef-absolute` | **실측값 불러오기**로 시작해 베이스 기준 TCP 위치(mm)와 회전벡터(°)를 편집한 뒤 **목표 적용**을 누른다. |
+| `joint-delta` | 장치의 이동 X/Y/Z가 J1–J3, 회전 X/Y/Z가 J4–J6을 순서대로 조작한다. 패널에서는 관절별 변화량(°)을 입력한다. |
+| `joint-absolute` | **실측값 불러오기**로 여섯 관절각을 가져와 편집한 뒤 **목표 적용**을 누른다. |
+
+**목표 적용**은 누를 때 한 번 반영된다. 클러치를 계속 누르면 속도 제한 안에서 목표에 접근하고, 놓거나 입력이 끊기면 목표를 지운다. 다음 조작은 그때의 실측 자세에서 시작한다. 절대 모드에서는 장치가 클러치를 담당한다. Python에서는 `controllers.TeleopController.update(sample, now, values=...)`로 같은 경로에 한 번에 여섯 값을 입력한다. EEF 값은 [x, y, z, rx, ry, rz] 순서로 m·rad, 관절값은 J1부터 J6 순서로 rad를 사용한다.
+
+`--control-law position`은 관절 또는 TCP 위치를 추종한다. `impedance`는 관절 모드에서 각도 오차와 각속도로 토크를 계산하고, EEF 모드에서 TCP 자세 오차와 속도로 힘·모멘트를 계산한다. [계수와 출력 한계](impedance.py)는 시뮬레이션에서 검증한 초기값이다. 외력에 대한 복원 동작을 보려면 **SIM RUN**에서 클러치를 유지한다. **DRY RUN**의 가상 팔은 목표 자세를 보여주는 운동학 미리보기다.
+
 ### 실물 UR5e 연결
 
 1. 조작 PC와 UR 컨트롤러를 서로 통신할 수 있는 네트워크에 연결한다. 티치 펜던트의 네트워크 설정에서 **UR 컨트롤러의 IP**를 확인해 실기 노트북의 `ROBOT_IP` 또는 CLI의 `--robot-ip`에 입력한다. Quest를 함께 쓰면 `--quest-host`에는 헤드셋에서 접속할 **조작 PC의 주소**를 입력한다.
 2. `--backend real`로 실행하면 PC가 `ur-rtde`의 수신 인터페이스로 컨트롤러의 RTDE 포트(TCP 30004)에 접속해 6개 관절 각도와 TCP 자세를 읽는다. 패널의 실측 TCP와 미리보기 가상 팔의 초기 자세를 확인한다. 기본 DRY RUN은 이 읽기 연결만 사용한다.
-3. 실기를 움직이기 전 TCP·안전 평면·작업 공간을 확인하고, 펜던트에서 원격 제어 모드를 설정한 뒤 실행 중인 프로그램을 정지한다. **REAL RUN**으로 전환하면 PC가 같은 UR 컨트롤러에 제어 인터페이스를 추가로 열어 클러치 입력에 따라 `servoL`로 TCP 목표를 전송한다. 이때도 수신 연결을 유지해 현재 자세와 제어 상태를 계속 확인한다.
+3. 실기를 움직이기 전 TCP·페이로드·안전 평면·작업 공간을 확인하고, 펜던트에서 원격 제어 모드를 설정한 뒤 실행 중인 프로그램을 정지한다. **REAL RUN**에서 위치 제어는 TCP에 `servoL`, 관절에 `servoJ`를 사용한다. Cartesian impedance는 현재 TCP를 원점으로 베이스 축과 정렬한 좌표계에서 계산한 힘과 모멘트를 `forceMode`에 전달한다. 클러치를 놓으면 해당 모드를 정지한다. [ur_rtde 명령 사양](https://sdurobotics.gitlab.io/ur_rtde/pages/reference/api.html)
+
+관절 임피던스는 UR5e의 PolyScope 5.23 이상에서 제공하는 URScript `direct_torque`를 사용한다. **REAL RUN**으로 전환할 때 PC가 Dashboard(29999)로 버전과 원격 모드를 확인하고, 상태 확인 후 30002 포트로 전용 스크립트를 전송한다. 로봇에서 PC의 임시 TCP 포트로 연결할 수 있어야 한다. PC는 목표 관절각을 보내고, 로봇은 자체 500 Hz 루프에서 실측 각도와 속도로 토크를 계산한다. 목표 갱신이 150 ms 동안 끊기면 스크립트가 중단 처리한다. [URScript 직접 토크 명령](https://www.universal-robots.com/manuals/EN/HTML/SW5_23/Content/prod-scriptmanual/all_scripts/direct_torque.htm)
+
+검증 범위는 MuJoCo 물리 응답과 모의 실기 인터페이스다. 실물에서의 힘 응답, 페이로드 보상 및 관절 토크 루프는 해당 펌웨어와 장착 툴로 시운전 검증이 필요하다.
 
 ### OnRobot RG2 연결과 조작
 

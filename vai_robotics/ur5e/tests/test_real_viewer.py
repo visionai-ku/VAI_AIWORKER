@@ -76,6 +76,17 @@ class RealViewerTests(unittest.TestCase):
         self.assertFalse(list(real_viewer._snapshots(self.read_fd)))
         self.assertFalse(self.viewer.is_running())
 
+    def test_joint_preview_crosses_pipe_without_changing_measured_q(self):
+        preview = self.q + 0.2
+        self.viewer.update(q=self.q, measured_tcp=self.tcp, dry_run=True, target=None, joint_target=preview)
+        view = Mock()
+        view.is_running.side_effect = [True, False]
+        real_viewer._display(view, self.read_fd, lambda: None)
+        frame = view.tick.call_args.kwargs
+        self.assertIsNone(frame["target"])
+        np.testing.assert_array_equal(frame["joint_target"], preview)
+        np.testing.assert_array_equal(frame["measured_q"], self.q)
+
     def test_updates_are_rate_limited(self):
         with patch.object(real_viewer.time, "monotonic", return_value=10.0):
             for _ in range(4):
