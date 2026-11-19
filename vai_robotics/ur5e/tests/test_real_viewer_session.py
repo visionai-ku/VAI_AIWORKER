@@ -17,6 +17,7 @@ class RealViewerSessionTest(unittest.TestCase):
         self.panel = Mock(scale=1.0, is_open=True, open_width_mm=75.0)
         self.panel.take_target.return_value = None
         self.panel.take_command_mode.return_value = None
+        self.panel.take_control_law.return_value = None
         self.released = InputSample(np.zeros(3), np.zeros(3), False)
         self.held = InputSample(np.array([0.001, 0, 0]), np.zeros(3), True)
         self.frame = -1
@@ -73,6 +74,41 @@ class RealViewerSessionTest(unittest.TestCase):
             self.assertIsNone(state["target"])
         self.backend.command.assert_called_once()
         self.assertEqual(shutdown, [("motion", False), "viewer exit"])
+
+    def test_live_tcp_law_changes_rearm_from_feedback_and_retain_same_writer(self):
+        self.panel.take_control_law.side_effect = lambda: {2: "impedance", 4: "impedance", 8: "position"}.get(self.frame)
+        self.panel.take_target.side_effect = lambda: [0.5] * 6 if self.frame in (2, 4, 8) else None
+        dispatch = []
+        self.backend.command.side_effect = lambda xyz, r: dispatch.append(("position", self.frame, xyz.copy()))
+        self.backend.command_cartesian_impedance.side_effect = lambda xyz, r: dispatch.append(
+            ("impedance", self.frame, xyz.copy()))
+        self.run_frames(dry_run=False, requests=[None] * 12,
+                        samples=[self.released, self.held, self.held, self.released,
+                                 self.released, self.held, self.released, self.held,
+                                 self.released, self.held, self.released, self.held])
+        receipts = [item.kwargs for item in self.panel.control_law_result.call_args_list]
+        self.assertEqual([r["control_law"] for r in receipts], ["position", "impedance", "position"])
+        self.assertTrue(receipts[0]["message"])
+        self.assertFalse(any(r["message"] for r in receipts[1:]))
+        self.assertEqual([(law, tick) for law, tick, _ in dispatch],
+                         [("position", 1), ("impedance", 7), ("position", 11)])
+        for _, tick, xyz in dispatch:
+            np.testing.assert_array_equal(xyz, [0.4, tick / 1000, 0.3])
+        self.backend.set_motion_enabled.assert_called_once_with(False)  # Session cleanup only.
+
+    def test_concurrent_panel_requests_keep_confirmed_modes_and_prioritize_dry_run(self):
+        self.panel.take_control_law.side_effect = ["impedance"] * 3
+        self.panel.take_command_mode.side_effect = [None, "joint-absolute", None]
+        frames = self.run_frames(dry_run=False, simulation=True,
+                                 requests=[True, None, None], samples=[None, self.released, None])
+        self.assertTrue(all(frame["dry_run"] for frame in frames))
+        self.assertEqual(self.panel.mode_result.call_args.kwargs["dry_run"], True)
+        self.assertEqual(self.panel.command_mode_result.call_args.kwargs["command_mode"], "eef-delta")
+        receipts = [item.kwargs for item in self.panel.control_law_result.call_args_list]
+        self.assertEqual([r["control_law"] for r in receipts], ["position", "position", "impedance"])
+        self.assertTrue(all(r["message"] for r in receipts[:2]))
+        self.assertFalse(receipts[2]["message"])
+        self.backend.command_cartesian_impedance.assert_not_called()
 
     def test_real_run_rejects_unconfirmed_or_held_spacemouse_until_explicit_retry(self):
         self.device.button = 1

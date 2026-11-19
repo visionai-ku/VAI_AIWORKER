@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 from PyQt5.QtCore import QPoint, QRect
 from PyQt5.QtGui import QFont, QScreen
-from PyQt5.QtWidgets import QApplication, QDoubleSpinBox, QLabel, QPushButton, QScrollArea
+from PyQt5.QtWidgets import QApplication, QDoubleSpinBox, QLabel, QPushButton, QScrollArea, QStyle, QStyleOptionComboBox
 
 from vai_robotics.ur5e.teleop_panel import _PanelWindow
 
@@ -156,6 +156,14 @@ class PanelLayoutTest(unittest.TestCase):
         self.populate(message=diagnostic)
         self.assertTrue(self.desktop.contains(self.window.frameGeometry()))
         self.assertEqual(self.scroll.horizontalScrollBar().maximum(), 0)
+        picker = self.panel.control_law_picker
+        self.scroll.ensureWidgetVisible(picker)
+        self.settle()
+        self.assert_inside(picker, self.scroll.viewport())
+        option = QStyleOptionComboBox()
+        picker.initStyleOption(option)
+        field = picker.style().subControlRect(QStyle.CC_ComboBox, option, QStyle.SC_ComboBoxEditField, picker)
+        self.assertGreaterEqual(field.width(), picker.fontMetrics().horizontalAdvance(picker.currentText()))
         label = self.panel.message_label
         self.assertGreater(label.contentsRect().height(), label.fontMetrics().height())
         self.assertGreaterEqual(label.height(), label.heightForWidth(label.width()))

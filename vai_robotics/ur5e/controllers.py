@@ -25,7 +25,7 @@ def bounded_vector(vector, limit):
 
 
 class TeleopController:
-    """Anchor clutched targets to feedback and dispatch one control law per session."""
+    """Anchor clutched targets to feedback and dispatch the selected control law."""
 
     def __init__(self, backend, *, dry_run=False, command_mode="eef-delta", control_law="position",
                  joint_limits=None):
@@ -55,26 +55,38 @@ class TeleopController:
     def set_command_mode(self, command_mode, *, simulation, sample, device=None):
         if command_mode not in COMMAND_MODES:
             return "지원하지 않는 명령 모드입니다."
-        if command_mode == self.command_mode:
+        return self._configure(command_mode, self.control_law, simulation, sample, device)
+
+    def set_control_law(self, control_law, *, simulation, sample, device=None):
+        if control_law not in CONTROL_LAWS:
+            return "지원하지 않는 제어 방식입니다."
+        return self._configure(self.command_mode, control_law, simulation, sample, device)
+
+    def _configure(self, command_mode, control_law, simulation, sample, device):
+        if (command_mode, control_law) == (self.command_mode, self.control_law):
             return ""
         if sample is None:
             if (self.active or not (simulation or self.dry_run) or
                     getattr(device, "clutch_pressed", None) is True or
-                    getattr(device, "gripper_chord", None) is True):
-                return "입력 장치 연결을 확인하고 클러치를 놓은 뒤 명령 모드를 다시 선택하세요."
+                    getattr(device, "gripper_chord", None) is True or
+                    getattr(device, "waiting_for_release", False) is True):
+                return "입력 장치 연결을 확인하고 클러치를 놓은 뒤 다시 선택하세요."
         elif sample.enabled or not sample.buttons_released:
-            return "클러치와 그리퍼 버튼을 놓은 뒤 명령 모드를 다시 선택하세요."
+            return "클러치와 그리퍼 버튼을 놓은 뒤 다시 선택하세요."
 
-        joint_space = command_mode.startswith("joint-")
-        if not simulation and self.control_law == "impedance" and self.joint_space != joint_space:
-            # The TCP and joint torque loops use different robot-side programs.
-            if not self.dry_run:
-                return "실기 임피던스 제어에서 TCP와 관절을 바꾸려면 DRY RUN으로 전환한 뒤 선택하세요."
-            self.backend.set_joint_impedance_writer(joint_space)
+        using_joint_writer = self.joint_space and self.control_law == "impedance"
+        needs_joint_writer = command_mode.startswith("joint-") and control_law == "impedance"
+        change_writer = not simulation and needs_joint_writer != using_joint_writer
+        if change_writer and not self.dry_run:
+            return "관절 토크 제어 프로그램을 전환하려면 DRY RUN에서 설정을 바꾼 뒤 REAL RUN을 선택하세요."
+
         self.backend.hold()
+        if change_writer:
+            self.backend.set_joint_impedance_writer(needs_joint_writer)
         self._reset_targets()
         self.measured = self.measured_joints = None
         self.command_mode = command_mode
+        self.control_law = control_law
         return ""
 
     def set_mode(self, dry_run, *, simulation, sample, device=None):

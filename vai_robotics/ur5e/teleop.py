@@ -81,6 +81,8 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
             if panel is not None and not panel.is_open:
                 break
             command_request = panel.take_command_mode() if panel is not None else None
+            law_request = panel.take_control_law() if panel is not None else None
+            configuration_requested = command_request is not None or law_request is not None
             values = panel.take_target() if panel is not None else None
             if panel is not None and panel.open_width_mm != open_width_mm:
                 open_width_mm = panel.open_width_mm
@@ -104,13 +106,19 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
                         gripper.wait_for_writes()
             try:
                 arm_sample = sample
-                if command_request is not None:
-                    # Serialize execution- and command-mode changes; never interpret an
-                    # old target or held device input using the new coordinate system.
-                    if request is None:
-                        message = controller.set_command_mode(command_request, simulation=sim,
-                                                              sample=sample, device=device)
+                if configuration_requested:
+                    # A selection is a separate input event. Never replay an arm
+                    # sample or target captured under the old mode or law.
                     arm_sample = values = None
+                    if request is None:
+                        if command_request is not None and law_request is not None:
+                            message = "명령 모드와 제어 방식은 한 번에 하나씩 선택하세요."
+                        elif command_request is not None:
+                            message = controller.set_command_mode(command_request, simulation=sim,
+                                                                  sample=sample, device=device)
+                        else:
+                            message = controller.set_control_law(law_request, simulation=sim,
+                                                                 sample=sample, device=device)
                 notice = controller.update(arm_sample, time.monotonic(), values=values,
                                            scale=panel.scale if panel is not None else 1.0)
                 if values is not None:
@@ -136,10 +144,12 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
                 panel.mode_result(dry_run=controller.dry_run, message=message)
                 requested_mode = "DRY RUN" if request else ("SIM RUN" if sim else "REAL RUN")
                 print(f"{requested_mode} · {message or '전환 완료'}", flush=True)
+            if configuration_requested and request is not None and not message:
+                message = "실행 모드 전환 후 설정을 다시 선택하세요."
             if command_request is not None:
-                if request is not None and not message:
-                    message = "실행 모드 전환 후 명령 모드를 다시 선택하세요."
                 panel.command_mode_result(command_mode=controller.command_mode, message=message)
+            if law_request is not None:
+                panel.control_law_result(control_law=controller.control_law, message=message)
             measured_width = None
             chord = sample.gripper_chord if sample is not None else getattr(device, "gripper_chord", None)
             if gripper is not None:

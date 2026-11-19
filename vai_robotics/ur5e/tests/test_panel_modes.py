@@ -20,7 +20,8 @@ class CommandModeProtocolTest(unittest.TestCase):
         panel._process.stdin = io.StringIO()
         panel._can_send = False  # A telemetry frame is still in flight.
         panel._command_mode = "eef-delta"
-        target = dict(command_mode="eef-delta", values=[0.001] * 6, time=time.monotonic())
+        panel._control_law = "position"
+        target = dict(command_mode="eef-delta", control_law="position", values=[0.001] * 6, time=time.monotonic())
 
         # A previous click and a picker edit can arrive in a single polling cycle.
         panel._messages.put({"target": target})
@@ -41,6 +42,27 @@ class CommandModeProtocolTest(unittest.TestCase):
                 panel._messages.put({"target": event})
                 panel.poll()
                 self.assertEqual(panel.take_target(), event["values"] if mode == "joint-absolute" else None)
+
+        # With the same coordinate mode, targets must still match the newly confirmed law.
+        panel._messages.put({"target": dict(target, command_mode="joint-absolute")})
+        panel._messages.put({"control_law": "impedance"})
+        self.assertIsNone(panel.poll())
+        self.assertEqual(panel.take_control_law(), "impedance")
+        self.assertIsNone(panel.take_control_law())
+        self.assertIsNone(panel.take_target())
+        panel.control_law_result(control_law="impedance")
+        self.assertEqual(json.loads(panel._process.stdin.getvalue().splitlines()[-1]),
+                         {"control_law_result": {"control_law": "impedance", "message": ""}})
+        for law in (None, "position", "impedance"):
+            with self.subTest(law=law):
+                event = dict(target, command_mode="joint-absolute", time=time.monotonic())
+                if law is None:
+                    del event["control_law"]
+                else:
+                    event["control_law"] = law
+                panel._messages.put({"target": event})
+                panel.poll()
+                self.assertEqual(panel.take_target(), event["values"] if law == "impedance" else None)
 
 
 class CommandPickerTest(unittest.TestCase):
@@ -103,3 +125,45 @@ class CommandPickerTest(unittest.TestCase):
         self.assertTrue(self.panel.command_picker.isEnabled())
         self.assertEqual(self.panel.message_label.text(), "클러치를 놓으세요.")
         self.select_mode("eef-absolute")
+
+    def test_law_picker_waits_for_ack_and_requires_new_absolute_measurement_on_success(self):
+        panel = self.panel
+        self.select_mode("joint-absolute")
+        panel.command_mode_result(command_mode="joint-absolute")
+        self.refresh()
+        panel.load_target.click()
+        panel.target_inputs[0].setValue(60)
+        picker = panel.control_law_picker
+        for confirmed in ("position", "impedance"):
+            panel.apply_target.click()
+            picker.setCurrentIndex(picker.findData("impedance"))
+            self.assertEqual(panel.take_control_law(), "impedance")
+            self.assertIsNone(panel.take_control_law())
+            self.assertIsNone(panel.take_target_event())
+            self.assertEqual(picker.currentData(), "position")
+            self.refresh()  # Old-law feedback can arrive during the request.
+            self.assertIn("전환 중", panel.state_label.text())
+            for control in (picker, panel.command_picker, panel.run_button, panel.apply_target, panel.load_target):
+                self.assertFalse(control.isEnabled())
+            refusal = "클러치를 놓으세요." if confirmed == "position" else ""
+            panel.control_law_result(control_law=confirmed, message=refusal)
+            self.assertEqual(picker.currentData(), confirmed)
+            self.assertTrue(picker.isEnabled())
+            if refusal:
+                self.assertEqual(panel.message_label.text(), refusal)
+                self.assertEqual(panel.target_inputs[0].value(), 60)
+                self.assertTrue(panel.apply_target.isEnabled())
+
+        self.assertEqual(panel.command_picker.currentData(), "joint-absolute")
+        self.assertEqual(panel.measured_cells[0].text(), "—")
+        self.assertEqual([field.value() for field in panel.target_inputs], [0.0] * 6)
+        self.assertFalse(panel.load_target.isEnabled())
+        self.refresh()
+        self.assertTrue(panel.load_target.isEnabled())
+        self.assertFalse(panel.apply_target.isEnabled())
+        panel.load_target.click()
+        panel.apply_target.click()
+        target = panel.take_target_event()
+        self.assertEqual(target["command_mode"], "joint-absolute")
+        self.assertEqual(target["control_law"], "impedance")
+        self.assertAlmostEqual(target["values"][0], math.radians(self.joints[0]))

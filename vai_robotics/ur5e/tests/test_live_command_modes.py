@@ -75,6 +75,7 @@ class LiveCommandModeTest(unittest.TestCase):
 
     def test_runner_confirms_requested_mode_and_discards_stale_numeric_targets(self):
         panel = Mock(is_open=True, scale=1.0, open_width_mm=75.0)
+        panel.take_control_law.return_value = None
         device = Mock(spec=["read"])
         samples = [self.rest, self.held, self.held, self.rest, self.rest, self.held,
                    self.rest, self.held, self.held, self.held]
@@ -108,3 +109,32 @@ class LiveCommandModeTest(unittest.TestCase):
             np.testing.assert_array_equal(q, np.full(6, 0.07))
         self.assertEqual(self.backend.tick.call_count, len(samples))
         self.assertIn("관절 범위", panel.refresh.call_args.kwargs["message"])
+
+    def test_joint_law_change_selects_writer_on_next_real_run_in_both_directions(self):
+        robot = RealUR5e("test")
+        writer = robot._control = Mock()
+        robot._receive = Mock()
+        robot._receive.getRuntimeState.return_value = 1
+        self.addCleanup(robot.close)
+        self.enterContext(patch.object(robot, "pose"))
+        self.enterContext(patch.object(robot, "_check_safety_mode"))
+        rtde = Mock()
+        self.enterContext(patch.dict(sys.modules, rtde_control=SimpleNamespace(RTDEControlInterface=rtde)))
+        torque = self.enterContext(patch("vai_robotics.ur5e.joint_writer.JointImpedanceWriter.open"))
+        controller = TeleopController(robot, command_mode="joint-absolute")
+        for law, factory in (("impedance", torque), ("position", rtde)):
+            with self.subTest(law=law):
+                previous = controller.control_law
+                reason = controller.set_control_law(law, simulation=False, sample=self.rest)
+                self.assertIn("DRY RUN", reason)
+                self.assertEqual(controller.control_law, previous)
+                writer.disconnect.assert_not_called()
+                self.assertFalse(controller.set_mode(True, simulation=False, sample=None))
+                writer.disconnect.assert_called_once()
+                self.assertFalse(controller.set_control_law(law, simulation=False, sample=None))
+                self.assertEqual(controller.control_law, law)
+                self.assertEqual(controller.command_mode, "joint-absolute")
+                factory.assert_not_called()
+                self.assertFalse(controller.set_mode(False, simulation=False, sample=self.rest))
+                factory.assert_called_once()
+                writer = factory.return_value

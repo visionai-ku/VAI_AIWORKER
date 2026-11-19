@@ -98,7 +98,8 @@ class TeleopPanelTest(unittest.TestCase):
         panel._messages = Queue()
         panel._open = True
         panel._command_mode = "eef-delta"
-        event = dict(time=9.95, values=[0.001] * 6, command_mode="eef-delta")
+        panel._control_law = "position"
+        event = dict(time=9.95, values=[0.001] * 6, command_mode="eef-delta", control_law="position")
         with patch("vai_robotics.ur5e.teleop_panel.time.monotonic", return_value=10.0):
             panel._messages.put({"target": dict(event, time=9.0)})
             panel.poll()

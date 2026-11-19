@@ -16,7 +16,6 @@ QFrame#section {
 }
 QFrame#footer { background: #ffffff; border-top: 1px solid #d2dce0; }
 QLabel[role="muted"], QLabel[role="column"] { color: #506672; }
-QLabel#law { color: #176b60; }
 QLabel#message {
     color: #643f11; background: #fff4df;
     border-left: 3px solid #c68629; padding: 6px 9px;

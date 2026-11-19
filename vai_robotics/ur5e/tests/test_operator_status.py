@@ -19,6 +19,7 @@ class OperatorStatusTest(unittest.TestCase):
     def test_runner_reports_usb_connection_initialization_release_and_actual_engagement(self):
         panel = Mock(is_open=True, scale=1.0, open_width_mm=75.0)
         panel.poll.return_value = panel.take_target.return_value = panel.take_command_mode.return_value = None
+        panel.take_control_law.return_value = None
         device = SpaceMouseInput()
         handle = object()
         released = InputSample(np.zeros(3), np.zeros(3), False)

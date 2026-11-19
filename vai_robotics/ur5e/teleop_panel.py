@@ -75,7 +75,9 @@ class TeleopPanel:
         self._messages = _incoming(self._process.stdout)
         self._open = True
         self._command_mode = command_mode
+        self._control_law = control_law
         self._command_mode_request = None
+        self._control_law_request = None
         self._target_event = None
         self.scale = 1.0
         self._can_send = True
@@ -97,6 +99,7 @@ class TeleopPanel:
     def poll(self):
         request = None
         self._command_mode_request = None
+        self._control_law_request = None
         self._target_event = None
         for event in _drain(self._messages):
             if event is None:
@@ -106,6 +109,8 @@ class TeleopPanel:
                 request = event["mode"]
             if "command_mode" in event:
                 self._command_mode_request = event["command_mode"]
+            if "control_law" in event:
+                self._control_law_request = event["control_law"]
             if "target" in event:
                 self._target_event = event["target"]
             if "scale" in event:
@@ -116,7 +121,9 @@ class TeleopPanel:
                 self._can_send = True
         if not self._open:
             self._command_mode_request = None
-        if request is not None or self._command_mode_request is not None or not self._open:
+            self._control_law_request = None
+        if (not self._open or request is not None or self._command_mode_request is not None
+                or self._control_law_request is not None):
             self._target_event = None
         return request
 
@@ -124,9 +131,14 @@ class TeleopPanel:
         request, self._command_mode_request = self._command_mode_request, None
         return request
 
+    def take_control_law(self):
+        request, self._control_law_request = self._control_law_request, None
+        return request
+
     def take_target(self):
         event, self._target_event = self._target_event, None
-        if event is None or event.get("command_mode") != self._command_mode:
+        if (event is None or event.get("command_mode") != self._command_mode
+                or event.get("control_law") != self._control_law):
             return None
         if 0 <= time.monotonic() - event["time"] <= TARGET_TIMEOUT:
             return event["values"]
@@ -156,6 +168,10 @@ class TeleopPanel:
     def command_mode_result(self, *, command_mode, message=""):
         self._command_mode = command_mode
         self._send_mode_result("command_mode_result", message, command_mode=command_mode)
+
+    def control_law_result(self, *, control_law, message=""):
+        self._control_law = control_law
+        self._send_mode_result("control_law_result", message, control_law=control_law)
 
     def _send_mode_result(self, key, message, **state):
         """Acknowledge a switch independently of the telemetry frame rate."""
@@ -251,9 +267,9 @@ class _PanelWindow:
         self._simulation = simulation
         self._operator_state = None
         self._applied_dry_run = dry_run
-        self._requested_dry_run = None
-        self._requested_command_mode = None
-        self._awaiting_mode_result = self._awaiting_command_result = False
+        self._control_law = control_law
+        self._pending_switch = None
+        self._switch_request = {}
         self._last_measured = self._target_event = self._command_mode = None
         self._loaded_absolute = False
         self._first_frame = True
@@ -287,7 +303,7 @@ class _PanelWindow:
         self.message_label.hide()
         layout.addWidget(self.message_label)
         self._build_inputs(_section(layout), device_name, open_width_mm)
-        self._build_targets(_section(layout), control_law)
+        self._build_targets(_section(layout))
         layout.addStretch()
         self.scroll.setWidget(self.body)
         self._build_footer(outer, simulation, robot_ip)
@@ -342,10 +358,10 @@ class _PanelWindow:
         outer.addWidget(header)
 
     def _update_state_header(self):
-        if self._awaiting_mode_result:
-            title, color = "실행 모드 전환 중", "attention"
-        elif self._awaiting_command_result:
-            title, color = "명령 모드 전환 중", "attention"
+        if self._pending_switch:
+            title = {"mode": "실행 모드 전환 중", "command_mode": "명령 모드 전환 중",
+                     "control_law": "제어 방식 전환 중"}[self._pending_switch]
+            color = "attention"
         elif self._operator_state == "active":
             if self._applied_dry_run:
                 title, color = "미리보기 조작 중", "preview"
@@ -421,29 +437,37 @@ class _PanelWindow:
         grid.addWidget(self.open_width, 3, 1, 1, 2, Qt.AlignLeft)
         layout.addLayout(grid)
 
-    def _build_targets(self, layout, control_law):
+    def _build_targets(self, layout):
         from PyQt5.QtCore import Qt
         from PyQt5.QtGui import QFontDatabase
         from PyQt5.QtWidgets import QComboBox, QDoubleSpinBox, QGridLayout, QHBoxLayout, QPushButton
 
-        title_row = QHBoxLayout()
-        title_row.addWidget(_label("목표 제어", emphasis=2), 1)
-        law = _label("위치 제어" if control_law == "position" else "임피던스 제어")
-        law.setObjectName("law")
-        title_row.addWidget(law)
-        layout.addLayout(title_row)
-        mode_row = QHBoxLayout()
-        caption = _label("명령 모드", role="muted")
-        self.command_picker = QComboBox()
-        self.command_picker.setAccessibleName(caption.text())
-        caption.setBuddy(self.command_picker)
+        class ModePicker(QComboBox):
+            def wheelEvent(self, event):
+                # Scrolling the panel should never request a controller change.
+                event.ignore()
+
+        layout.addWidget(_label("목표 제어", emphasis=2))
+        self.command_picker = ModePicker()
         for space, name in (("eef", "TCP"), ("joint", "관절")):
             self.command_picker.addItem(f"{name} · 상대 변화량", f"{space}-delta")
             self.command_picker.addItem(f"{name} · 절대 목표", f"{space}-absolute")
         self.command_picker.currentIndexChanged.connect(self._request_command_mode)
-        mode_row.addWidget(caption)
-        mode_row.addWidget(self.command_picker, 1)
-        layout.addLayout(mode_row)
+        self.control_law_picker = ModePicker()
+        self.control_law_picker.addItem("위치 제어", "position")
+        self.control_law_picker.addItem("임피던스 제어", "impedance")
+        self.control_law_picker.setCurrentIndex(self.control_law_picker.findData(self._control_law))
+        self.control_law_picker.currentIndexChanged.connect(self._request_control_law)
+        config = QGridLayout()
+        config.setColumnStretch(1, 1)
+        for row, (name, picker) in enumerate((("명령 모드", self.command_picker),
+                                              ("제어 방식", self.control_law_picker))):
+            caption = _label(name, role="muted")
+            caption.setBuddy(picker)
+            picker.setAccessibleName(name)
+            config.addWidget(caption, row, 0)
+            config.addWidget(picker, row, 1)
+        layout.addLayout(config)
         self.coordinate_label = _label("", role="muted", wrap=True)
         layout.addWidget(self.coordinate_label)
         _rule(layout)
@@ -544,18 +568,20 @@ class _PanelWindow:
             window.move(x, area.top())
         self._automatic_size = window.size()
 
-    def _show_command_mode(self, mode):
+    @staticmethod
+    def _select_confirmed(picker, value):
         from PyQt5.QtCore import QSignalBlocker
 
-        with QSignalBlocker(self.command_picker):
-            self.command_picker.setCurrentIndex(self.command_picker.findData(mode))
+        with QSignalBlocker(picker):
+            picker.setCurrentIndex(picker.findData(value))
+
+    def _show_command_mode(self, mode):
+        self._select_confirmed(self.command_picker, mode)
         if self._command_mode == mode:
             return
         self._command_mode = mode
         self._joint_space = mode.startswith("joint-")
         self._absolute = mode.endswith("-absolute")
-        self._last_measured = self._target_event = None
-        self._loaded_absolute = False
         command = "절대 목표" if self._absolute else "상대 변화량"
         self.entry_heading.setText("절대값 입력" if self._absolute else "변화량 입력")
         self.coordinate_label.setText("관절각 · J1–J6" if self._joint_space else "베이스 좌표계 · Rx/Ry/Rz 회전벡터")
@@ -565,39 +591,70 @@ class _PanelWindow:
             unit = "mm" if linear else "°"
             self.axis_labels[i].setText(f"{axis} ({unit})")
             box.setAccessibleName(f"{axis} {command} ({unit})")
-            limit = 2000.0 if linear else 360.0
+        self.load_target.setVisible(self._absolute)
+        self._reset_target_editor()
+        self._enable_target_controls()
+
+    def _reset_target_editor(self):
+        self._last_measured = self._target_event = None
+        self._loaded_absolute = False
+        for i, box in enumerate(self.target_inputs):
+            limit = 2000.0 if not self._joint_space and i < 3 else 360.0
             box.setRange(-limit, limit)
             box.setValue(0)
             self.measured_cells[i].setText("—")
             self.target_cells[i].setText("—")
-        self.load_target.setVisible(self._absolute)
-        self._enable_target_controls()
 
     def _request_command_mode(self, index):
         requested = self.command_picker.itemData(index)
-        self._show_command_mode(self._command_mode)
-        if requested == self._command_mode or self._awaiting_command_result or self._awaiting_mode_result:
+        self._select_confirmed(self.command_picker, self._command_mode)
+        if requested is not None and requested != self._command_mode:
+            self._begin_switch("command_mode", requested, self.command_picker.itemText(index))
+
+    def _request_control_law(self, index):
+        requested = self.control_law_picker.itemData(index)
+        self._select_confirmed(self.control_law_picker, self._control_law)
+        if requested is not None and requested != self._control_law:
+            self._begin_switch("control_law", requested, self.control_law_picker.itemText(index))
+
+    def _begin_switch(self, kind, value, caption):
+        if self._pending_switch is not None:
             return
-        self._requested_command_mode = requested
-        self._awaiting_command_result = True
+        self._pending_switch = kind
+        self._switch_request[kind] = value
         self._target_event = None
         self._enable_target_controls()
         self._update_state_header()
-        self._set_message(f"{self.command_picker.itemText(index)} 전환 중…", reveal=True)
+        self._set_message(f"{caption} 전환 중…")
+
+    def _finish_switch(self, kind, message):
+        if self._pending_switch == kind:
+            self._pending_switch = None
+            self._switch_request.pop(kind, None)
+        self._enable_target_controls()
+        self._clear_operator_state()
+        if self._pending_switch is None:
+            self._set_message(message, reveal=True)
 
     def take_command_mode(self):
-        mode, self._requested_command_mode = self._requested_command_mode, None
-        return mode
+        return self._switch_request.pop("command_mode", None)
+
+    def take_control_law(self):
+        return self._switch_request.pop("control_law", None)
 
     def command_mode_result(self, *, command_mode, message=""):
         changed = command_mode != self._command_mode
-        self._awaiting_command_result = False
         self._show_command_mode(command_mode)
-        self._enable_target_controls()
-        self._clear_operator_state()
-        self._set_message(message, reveal=True)
+        self._finish_switch("command_mode", message)
         if changed:
             self._fit_window()
+
+    def control_law_result(self, *, control_law, message=""):
+        self._select_confirmed(self.control_law_picker, control_law)
+        if self._control_law != control_law:
+            self._control_law = control_law
+            self._reset_target_editor()
+        self._finish_switch("control_law", message)
 
     def _set_message(self, message, *, reveal=False):
         _set_status(self.message_label, message)
@@ -627,25 +684,19 @@ class _PanelWindow:
 
     def _request_mode(self, dry_run):
         self._show_mode(self._applied_dry_run)
-        if self._awaiting_mode_result or self._awaiting_command_result or dry_run == self._applied_dry_run:
-            return
-        self._requested_dry_run = dry_run
-        self._awaiting_mode_result = True
-        self._target_event = None
-        self._enable_target_controls()
-        self._update_state_header()
-        button = self.dry_button if dry_run else self.run_button
-        self._set_message(f"{button.text()} 전환 중…", reveal=True)
+        if dry_run != self._applied_dry_run:
+            button = self.dry_button if dry_run else self.run_button
+            self._begin_switch("mode", dry_run, button.text())
 
     def take_request(self):
-        request, self._requested_dry_run = self._requested_dry_run, None
-        return request
+        return self._switch_request.pop("mode", None)
 
     def _enable_target_controls(self):
-        idle = not (self._awaiting_mode_result or self._awaiting_command_result)
+        idle = self._pending_switch is None
         self.run_button.setEnabled(idle)
         self.dry_button.setEnabled(idle)
         self.command_picker.setEnabled(idle)
+        self.control_law_picker.setEnabled(idle)
         ready = idle and self._last_measured is not None
         self.load_target.setEnabled(ready)
         self.apply_target.setEnabled(ready and (not self._absolute or self._loaded_absolute))
@@ -663,23 +714,21 @@ class _PanelWindow:
         display = [box.value() for box in self.target_inputs]
         values = ([math.radians(v) for v in display] if self._joint_space else
                   [v / 1000 for v in display[:3]] + [math.radians(v) for v in display[3:]])
-        self._target_event = {"time": time.monotonic(), "values": values, "command_mode": self._command_mode}
+        self._target_event = {"time": time.monotonic(), "values": values,
+                              "command_mode": self._command_mode, "control_law": self._control_law}
 
     def take_target_event(self):
         event, self._target_event = self._target_event, None
         return event
 
     def mode_result(self, *, dry_run, message=""):
-        self._awaiting_mode_result = False
         self._show_mode(dry_run)
-        self._enable_target_controls()
-        self._clear_operator_state()
-        self._set_message(message, reveal=True)
+        self._finish_switch("mode", message)
 
     def refresh(self, *, dry_run, clutch, measured, target, message="", gripper="",
                 measured_joints=None, target_joints=None, operator_state="waiting-input"):
         self._feedback_timer.start()
-        if not (self._awaiting_mode_result or self._awaiting_command_result):
+        if self._pending_switch is None:
             self._show_mode(dry_run)
             self._set_message(message)
             self._operator_state = operator_state
@@ -730,6 +779,8 @@ def _run_window(settings):
                 window.mode_result(**state["mode_result"])
             elif "command_mode_result" in state:
                 window.command_mode_result(**state["command_mode_result"])
+            elif "control_law_result" in state:
+                window.control_law_result(**state["control_law_result"])
             else:
                 window.refresh(**state)
                 event["ack"] = True
@@ -739,8 +790,11 @@ def _run_window(settings):
         command_request = window.take_command_mode()
         if command_request is not None:
             event["command_mode"] = command_request
+        law_request = window.take_control_law()
+        if law_request is not None:
+            event["control_law"] = law_request
         target = window.take_target_event()
-        if target is not None and requested is None and command_request is None:
+        if target is not None and requested is None and command_request is None and law_request is None:
             event["target"] = target
         if window.scale != previous_scale:
             previous_scale = window.scale
