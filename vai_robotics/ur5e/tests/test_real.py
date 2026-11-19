@@ -89,7 +89,7 @@ class RealUR5eTests(unittest.TestCase):
             frame, axes, wrench, kind, limits = self.control.forceMode.call_args.args
             np.testing.assert_allclose(frame, [*xyz, 0, 0, 0])
             np.testing.assert_allclose(wrench, cartesian_wrench(target, rot, xyz, measured, twist), atol=1e-12)
-            self.assertEqual((axes, kind, limits), ([1] * 6, 2, list(robot.FORCE_SPEED_LIMITS)))
+            self.assertEqual((axes, kind, limits), ([1] * 6, 2, [0.06] * 3 + [0.25] * 3))
             robot.command_cartesian_impedance(target, rot)
             self.control.forceModeStop.assert_not_called()
             robot.command(target, rot)

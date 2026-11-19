@@ -6,7 +6,7 @@ from numbers import Real
 
 # Cartesian entries use base-frame X/Y/Z translation then X/Y/Z rotation.
 # Joint entries follow shoulder pan through wrist 3.
-TCP_STIFFNESS = (300., 300., 300., 8., 8., 8.)    # N/m, Nm/rad
+TCP_STIFFNESS = (360., 360., 360., 8., 8., 8.)    # N/m, Nm/rad
 TCP_DAMPING = (30., 30., 30., 1.5, 1.5, 1.5)      # N s/m, Nm s/rad
 JOINT_STIFFNESS = (40., 45., 35., 12., 10., 8.)    # Nm/rad
 JOINT_DAMPING = (10., 10., 8., 2.5, 2., 1.6)       # Nm s/rad
@@ -17,15 +17,25 @@ _DEFAULTS = {
 }
 
 
-def default_impedance_gains(space):
+# Operator-editable gain limits are independent of the startup tuning.
+_MAXIMA = {
+    "eef": {"stiffness": (600., 600., 600., 16., 16., 16.), "damping": (60., 60., 60., 3., 3., 3.)},
+    "joint": {"stiffness": (80., 90., 70., 24., 20., 16.), "damping": (20., 20., 16., 5., 4., 3.2)},
+}
+
+
+def _copy_profile(profiles, space):
     if space not in ("eef", "joint"):
         raise ValueError("Expected 'eef' or 'joint' impedance gains.")
-    return {name: list(values) for name, values in _DEFAULTS[space].items()}
+    return {name: list(values) for name, values in profiles[space].items()}
+
+
+def default_impedance_gains(space):
+    return _copy_profile(_DEFAULTS, space)
 
 
 def max_impedance_gains(space):
-    return {name: [2 * value for value in values]
-            for name, values in default_impedance_gains(space).items()}
+    return _copy_profile(_MAXIMA, space)
 
 
 def validate_impedance_gains(space, gains):

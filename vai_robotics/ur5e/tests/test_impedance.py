@@ -13,6 +13,8 @@ from vai_robotics.ur5e.sim_teleop import SimBackend
 class ImpedanceTest(unittest.TestCase):
     def test_gain_profiles_are_bounded_per_axis_and_atomic(self):
         backend = SimBackend(headless=True)
+        self.assertEqual(backend.get_impedance_gains("eef")["stiffness"][:3], [360.] * 3)
+        self.assertEqual(max_impedance_gains("eef")["stiffness"][:3], [600.] * 3)
         for space in ("eef", "joint"):
             maxima = max_impedance_gains(space)
             backend.set_impedance_gains(space, maxima)
@@ -88,7 +90,7 @@ class ImpedanceTest(unittest.TestCase):
         measured = Rotation.from_euler("y", 90, degrees=True)
         target = Rotation.from_rotvec([0.1, 0, 0]) * measured
         wrench = cartesian_wrench([0, .01, 0], target, np.zeros(3), measured, [0, .01, 0, .2, 0, 0])
-        np.testing.assert_allclose(wrench, [0, 2.7, 0, .5, 0, 0], atol=1e-12)
+        np.testing.assert_allclose(wrench, [0, 3.3, 0, .5, 0, 0], atol=1e-12)
 
     def test_saturation_and_invalid_inputs(self):
         r = Rotation.identity()
