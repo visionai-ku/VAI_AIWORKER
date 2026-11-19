@@ -16,6 +16,7 @@ class RealViewerSessionTest(unittest.TestCase):
         self.device = Mock(spec=["read"])
         self.panel = Mock(scale=1.0, is_open=True, open_width_mm=75.0)
         self.panel.take_target.return_value = None
+        self.panel.take_command_mode.return_value = None
         self.released = InputSample(np.zeros(3), np.zeros(3), False)
         self.held = InputSample(np.array([0.001, 0, 0]), np.zeros(3), True)
         self.frame = -1

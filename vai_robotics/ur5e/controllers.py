@@ -33,18 +33,49 @@ class TeleopController:
             raise ValueError("Unknown UR5e command mode or control law")
         self.command_mode = command_mode
         self.control_law = control_law
-        self.joint_space = command_mode.startswith("joint-")
-        self.absolute = command_mode.endswith("-absolute")
         self.measured_joints = None
         self.joint_limits = joint_limits
-        self.joint_target = None
-        self.goal = None
         self.backend = backend
         self.dry_run = dry_run
         self.measured = None
+        self._reset_targets()
+
+    @property
+    def joint_space(self):
+        return self.command_mode.startswith("joint-")
+
+    @property
+    def absolute(self):
+        return self.command_mode.endswith("-absolute")
+
+    def _reset_targets(self):
         self.ready_after_release = False
-        self.target = None
-        self.last_tick = None
+        self.target = self.joint_target = self.goal = self.last_tick = None
+
+    def set_command_mode(self, command_mode, *, simulation, sample, device=None):
+        if command_mode not in COMMAND_MODES:
+            return "지원하지 않는 명령 모드입니다."
+        if command_mode == self.command_mode:
+            return ""
+        if sample is None:
+            if (self.active or not (simulation or self.dry_run) or
+                    getattr(device, "clutch_pressed", None) is True or
+                    getattr(device, "gripper_chord", None) is True):
+                return "입력 장치 연결을 확인하고 클러치를 놓은 뒤 명령 모드를 다시 선택하세요."
+        elif sample.enabled or not sample.buttons_released:
+            return "클러치와 그리퍼 버튼을 놓은 뒤 명령 모드를 다시 선택하세요."
+
+        joint_space = command_mode.startswith("joint-")
+        if not simulation and self.control_law == "impedance" and self.joint_space != joint_space:
+            # The TCP and joint torque loops use different robot-side programs.
+            if not self.dry_run:
+                return "실기 임피던스 제어에서 TCP와 관절을 바꾸려면 DRY RUN으로 전환한 뒤 선택하세요."
+            self.backend.set_joint_impedance_writer(joint_space)
+        self.backend.hold()
+        self._reset_targets()
+        self.measured = self.measured_joints = None
+        self.command_mode = command_mode
+        return ""
 
     def set_mode(self, dry_run, *, simulation, sample, device=None):
         if dry_run == self.dry_run:
@@ -57,8 +88,7 @@ class TeleopController:
                     return f"SpaceMouse {device.button}번 버튼을 한 번 눌렀다 놓은 뒤 실기 구동을 다시 선택하세요."
                 return "SpaceMouse의 모든 버튼을 놓은 뒤 실기 구동을 다시 선택하세요."
             return "컨트롤러의 추적 상태를 확인하고 클러치를 놓은 뒤 실기 구동을 다시 선택하세요."
-        self.target = self.joint_target = self.goal = self.last_tick = None
-        self.ready_after_release = False
+        self._reset_targets()
         if simulation:
             self.backend.hold()
         else:

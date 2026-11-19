@@ -83,6 +83,12 @@ class RealUR5e:
             raise RuntimeError("UR5e returned invalid joint feedback.")
         return q
 
+    def set_joint_impedance_writer(self, required):
+        """Select the program for the next REAL RUN without disturbing the RTDE reader."""
+        if self.motion_enabled and required != self._joint_impedance:
+            raise RuntimeError("Switch to DRY RUN before changing the robot-side impedance program.")
+        self._joint_impedance = required
+
     def set_motion_enabled(self, enabled):
         """Acquire or release the motion writer while the feedback stream stays open."""
         if enabled == self.motion_enabled:
@@ -189,7 +195,7 @@ class RealUR5e:
 
     def _stop_other_mode(self, next_mode):
         if self._joint_impedance != (next_mode == "joint_impedance"):
-            raise ValueError("Choose the joint impedance writer or the RTDE servo/force writer at startup.")
+            raise ValueError("The selected robot-side writer does not support this control law.")
         if self._active_mode is not None and self._active_mode != next_mode:
             self.hold()
 

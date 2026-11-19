@@ -5,6 +5,7 @@ import math
 import os
 from pathlib import Path
 from queue import Empty, Queue
+import re
 import subprocess
 import sys
 from threading import Thread
@@ -73,6 +74,8 @@ class TeleopPanel:
         )
         self._messages = _incoming(self._process.stdout)
         self._open = True
+        self._command_mode = command_mode
+        self._command_mode_request = None
         self._target_event = None
         self.scale = 1.0
         self._can_send = True
@@ -93,6 +96,7 @@ class TeleopPanel:
 
     def poll(self):
         request = None
+        self._command_mode_request = None
         self._target_event = None
         for event in _drain(self._messages):
             if event is None:
@@ -100,6 +104,8 @@ class TeleopPanel:
                 break
             if "mode" in event:
                 request = event["mode"]
+            if "command_mode" in event:
+                self._command_mode_request = event["command_mode"]
             if "target" in event:
                 self._target_event = event["target"]
             if "scale" in event:
@@ -108,23 +114,31 @@ class TeleopPanel:
                 self.open_width_mm = event["open_width_mm"]
             if "ack" in event:
                 self._can_send = True
-        if request is not None or not self._open:
+        if not self._open:
+            self._command_mode_request = None
+        if request is not None or self._command_mode_request is not None or not self._open:
             self._target_event = None
+        return request
+
+    def take_command_mode(self):
+        request, self._command_mode_request = self._command_mode_request, None
         return request
 
     def take_target(self):
         event, self._target_event = self._target_event, None
-        if event is not None and 0 <= time.monotonic() - event["time"] <= TARGET_TIMEOUT:
+        if event is None or event.get("command_mode") != self._command_mode:
+            return None
+        if 0 <= time.monotonic() - event["time"] <= TARGET_TIMEOUT:
             return event["values"]
         return None
 
     def refresh(self, *, dry_run, clutch, measured, target, message="", gripper="",
-                measured_joints=None, target_joints=None):
+                measured_joints=None, target_joints=None, operator_state="waiting-input"):
         now = time.monotonic()
         if not self.is_open or not self._can_send or now < self._next_update:
             return
         # At most one small display frame can be outstanding, even if Qt stalls.
-        state = dict(dry_run=dry_run, clutch=clutch, measured=_display_pose(measured),
+        state = dict(dry_run=dry_run, clutch=clutch, operator_state=operator_state, measured=_display_pose(measured),
                      target=_display_pose(target), message=message[:256], gripper=gripper[:256],
                      measured_joints=None if measured_joints is None else list(map(math.degrees, measured_joints)),
                      target_joints=None if target_joints is None else list(map(math.degrees, target_joints)))
@@ -137,10 +151,17 @@ class TeleopPanel:
         self._next_update = now + 0.1
 
     def mode_result(self, *, dry_run, message=""):
-        """Acknowledge one requested switch, independently of the telemetry frame rate."""
+        self._send_mode_result("mode_result", message, dry_run=dry_run)
+
+    def command_mode_result(self, *, command_mode, message=""):
+        self._command_mode = command_mode
+        self._send_mode_result("command_mode_result", message, command_mode=command_mode)
+
+    def _send_mode_result(self, key, message, **state):
+        """Acknowledge a switch independently of the telemetry frame rate."""
         if self.is_open:
             try:
-                _send(self._process.stdin, {"mode_result": {"dry_run": dry_run, "message": message[:256]}})
+                _send(self._process.stdin, {key: {**state, "message": message[:256]}})
             except (BrokenPipeError, OSError):
                 self._open = False
 
@@ -158,17 +179,65 @@ class TeleopPanel:
         self._process.stdout.close()
 
 
+def _label(text, *, role=None, wrap=False, emphasis=0):
+    from PyQt5.QtCore import Qt
+    from PyQt5.QtWidgets import QLabel, QSizePolicy
+
+    label = QLabel(text)
+    label.setTextFormat(Qt.PlainText)
+    if role:
+        label.setProperty("role", role)
+    if wrap:
+        label.setWordWrap(True)
+        label.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Preferred)
+    if emphasis:
+        font = label.font()
+        font.setBold(True)
+        font.setPointSizeF(font.pointSizeF() + emphasis)
+        label.setFont(font)
+    return label
+
+
+def _set_status(label, text):
+    # QLabel only wraps at word boundaries. Driver names and addresses can be
+    # longer than the whole status column on a small screen.
+    def break_token(match):
+        token = match.group()
+        return "\u200b".join(token[i:i + 12] for i in range(0, len(token), 12))
+
+    display = re.sub(r"\S{20,}", break_token, text)
+    label.setText(display)
+    label.setToolTip(text if display != text else "")
+
+
+def _section(parent_layout):
+    from PyQt5.QtWidgets import QFrame, QVBoxLayout
+
+    frame = QFrame()
+    frame.setObjectName("section")
+    layout = QVBoxLayout(frame)
+    layout.setContentsMargins(11, 11, 11, 12)
+    layout.setSpacing(6)
+    parent_layout.addWidget(frame)
+    return layout
+
+
+def _rule(layout):
+    from PyQt5.QtWidgets import QFrame
+
+    rule = QFrame()
+    rule.setObjectName("rule")
+    rule.setFixedHeight(1)
+    layout.addWidget(rule)
+
+
 class _PanelWindow:
-    """The operator's selection is a request until confirmed by the control loop."""
+    """Show the active configuration until the control loop confirms a request."""
 
     def __init__(self, *, simulation, device_name, dry_run, open_width_mm, robot_ip=None,
                  command_mode="eef-delta", control_law="position"):
-        from PyQt5.QtCore import Qt
-        from PyQt5.QtGui import QFontDatabase, QFontMetrics
-        from PyQt5.QtWidgets import (
-            QApplication, QDoubleSpinBox, QFrame, QGridLayout, QGroupBox, QHBoxLayout, QLabel, QPushButton,
-            QScrollArea, QSlider, QVBoxLayout, QWidget,
-        )
+        from PyQt5.QtCore import Qt, QTimer
+        from PyQt5.QtWidgets import QApplication, QFrame, QScrollArea, QVBoxLayout, QWidget
 
         app = QApplication.instance()
         if app is None:
@@ -179,84 +248,166 @@ class _PanelWindow:
                         os.environ.pop(key, None)
             app = QApplication([])
         self.app = app
+        self._simulation = simulation
+        self._operator_state = None
         self._applied_dry_run = dry_run
         self._requested_dry_run = None
-        self._awaiting_mode_result = False
-        self._joint_space = command_mode.startswith("joint-")
-        self._absolute = command_mode.endswith("-absolute")
-        self._last_measured = None
+        self._requested_command_mode = None
+        self._awaiting_mode_result = self._awaiting_command_result = False
+        self._last_measured = self._target_event = self._command_mode = None
         self._loaded_absolute = False
-        self._target_event = None
+        self._first_frame = True
 
         self.window = QWidget()
+        self.window.setObjectName("panel")
         self.window.setAttribute(Qt.WA_QuitOnClose, False)
         self.window.setWindowTitle("UR5e 조작 패널")
-        content = QWidget()
-        scroll = QScrollArea()
-        scroll.setFrameShape(QFrame.NoFrame)
-        scroll.setWidgetResizable(True)
-        scroll.setWidget(content)
+        self._feedback_timer = QTimer(self.window)
+        self._feedback_timer.setSingleShot(True)
+        self._feedback_timer.setInterval(1500)  # Display frames normally arrive at 10 Hz.
+        self._feedback_timer.timeout.connect(self._clear_operator_state)
         outer = QVBoxLayout(self.window)
         outer.setContentsMargins(0, 0, 0, 0)
-        outer.addWidget(scroll)
-        layout = QVBoxLayout(content)
-        layout.setContentsMargins(16, 16, 16, 14)
-        layout.setSpacing(10)
-        device_label = {"spacemouse": "SpaceMouse", "quest": "Quest 3"}.get(device_name, device_name)
-        title = QLabel(f"UR5e {'시뮬레이션' if simulation else '실기'} · {device_label}")
-        font = title.font()
-        font.setBold(True)
-        font.setPointSizeF(font.pointSizeF() + 2)
-        title.setFont(font)
-        layout.addWidget(title)
-
-        modes = QGroupBox("실행 모드")
-        row = QHBoxLayout(modes)
-        self.dry_button = QPushButton("DRY RUN · 미리보기")
-        self.run_button = QPushButton("SIM RUN · 시뮬레이션" if simulation else "REAL RUN · 실기 구동")
-        for button, value, color in (
-            (self.dry_button, True, "#275671"),
-            (self.run_button, False, "#30654f" if simulation else "#994729"),
-        ):
-            button.setCheckable(True)
-            button.setMinimumHeight(32)
-            selected_font = button.font()
-            selected_font.setBold(True)
-            button.setMinimumWidth(QFontMetrics(selected_font).horizontalAdvance(button.text()) + 16)
-            button.setStyleSheet(
-                f"QPushButton:checked {{ background-color: {color}; color: white; "
-                "border-radius: 5px; font-weight: bold; }"
-            )
-            button.clicked.connect(lambda checked, requested=value: self._request_mode(requested))
-            row.addWidget(button)
+        outer.setSpacing(0)
+        self._build_header(outer, simulation)
         self._show_mode(dry_run)
-        layout.addWidget(modes)
+        self._update_state_header()
 
-        self.message_label = QLabel()
-        self.message_label.setWordWrap(True)
-        self.message_label.setTextFormat(Qt.PlainText)
+        self.scroll = QScrollArea()
+        self.scroll.setFrameShape(QFrame.NoFrame)
+        self.scroll.setWidgetResizable(True)
+        outer.addWidget(self.scroll, 1)
+        self.body = QWidget()
+        self.body.setObjectName("body")
+        layout = QVBoxLayout(self.body)
+        layout.setContentsMargins(10, 10, 10, 10)
+        layout.setSpacing(8)
+        self.message_label = _label("", wrap=True)
+        self.message_label.setObjectName("message")
         self.message_label.hide()
         layout.addWidget(self.message_label)
+        self._build_inputs(_section(layout), device_name, open_width_mm)
+        self._build_targets(_section(layout), control_law)
+        layout.addStretch()
+        self.scroll.setWidget(self.body)
+        self._build_footer(outer, simulation, robot_ip)
+        self.window.setStyleSheet(Path(__file__).with_suffix(".qss").read_text(encoding="utf-8"))
+        self._show_command_mode(command_mode)
 
-        gain_row = QHBoxLayout()
-        gain_row.addWidget(QLabel("입력 배율"))
+        self.window.ensurePolished()
+        self.window.layout().activate()
+        # Obtain native frame margins without flashing a default-sized window.
+        self.window.winId()
+        self._fit_window(initial=True)
+        self.window.show()
+        self._automatic_size = self.window.size()
+        QTimer.singleShot(0, self._fit_window)
+
+    def _build_header(self, outer, simulation):
+        from PyQt5.QtCore import Qt
+        from PyQt5.QtWidgets import QFrame, QHBoxLayout, QPushButton, QVBoxLayout
+
+        header = QFrame()
+        header.setObjectName("header")
+        layout = QVBoxLayout(header)
+        layout.setContentsMargins(14, 12, 14, 12)
+        layout.setSpacing(9)
+        title_row = QHBoxLayout()
+        self.state_dot = QFrame()
+        self.state_dot.setObjectName("stateDot")
+        self.state_dot.setFixedSize(8, 8)
+        title_row.addWidget(self.state_dot, 0, Qt.AlignVCenter)
+        self.state_label = _label("", wrap=True, emphasis=6)
+        self.state_label.setObjectName("title")
+        self.state_label.setAccessibleDescription("현재 조작 상태")
+        title_row.addWidget(self.state_label, 1)
+        context = _label("시뮬레이션" if simulation else "실제 로봇")
+        context.setObjectName("environment")
+        title_row.addWidget(context)
+        layout.addLayout(title_row)
+
+        row = QHBoxLayout()
+        row.setSpacing(6)
+        self.dry_button = QPushButton("DRY RUN · 미리보기")
+        self.run_button = QPushButton("SIM RUN · 시뮬레이션" if simulation else "REAL RUN · 실기 구동")
+        for button, dry, name in ((self.dry_button, True, "dry"),
+                                  (self.run_button, False, "sim" if simulation else "real")):
+            button.setObjectName(name)
+            button.setProperty("role", "mode")
+            button.setAttribute(Qt.WA_LayoutUsesWidgetRect)
+            button.setCheckable(True)
+            button.clicked.connect(lambda checked, requested=dry: self._request_mode(requested))
+            row.addWidget(button, 1)
+        layout.addLayout(row)
+        outer.addWidget(header)
+
+    def _update_state_header(self):
+        if self._awaiting_mode_result:
+            title, color = "실행 모드 전환 중", "attention"
+        elif self._awaiting_command_result:
+            title, color = "명령 모드 전환 중", "attention"
+        elif self._operator_state == "active":
+            if self._applied_dry_run:
+                title, color = "미리보기 조작 중", "preview"
+            elif self._simulation:
+                title, color = "시뮬레이션 조작 중", "active"
+            else:
+                title, color = "실기 조작 중", "real"
+        else:
+            title, color = {
+                "waiting-device": ("입력 장치 연결 대기", "idle"),
+                "waiting-input": ("입력 신호 대기", "idle"),
+                "waiting-clutch": ("클러치 확인 대기", "attention"),
+                "release-clutch": ("클러치를 놓으세요", "attention"),
+                "ready": ("조작 준비 완료", "ready"),
+            }.get(self._operator_state, ("상태 수신 대기", "idle"))
+        self.state_label.setText(title)
+        if self.state_dot.property("tone") != color:
+            self.state_dot.setProperty("tone", color)
+            self.state_dot.style().unpolish(self.state_dot)
+            self.state_dot.style().polish(self.state_dot)
+            self.state_dot.update()
+
+    def _clear_operator_state(self):
+        self._operator_state = None
+        self._update_state_header()
+
+    def _build_inputs(self, layout, device_name, open_width_mm):
+        from PyQt5.QtCore import Qt
+        from PyQt5.QtWidgets import QDoubleSpinBox, QGridLayout, QHBoxLayout, QSlider
+
+        device = {"spacemouse": "SpaceMouse", "quest": "Quest 3"}.get(device_name, device_name)
+        top = QHBoxLayout()
+        top.addWidget(_label("입력 장치", emphasis=2))
+        top.addStretch()
+        top.addWidget(_label(device, role="muted", wrap=True))
+        layout.addLayout(top)
+
+        grid = QGridLayout()
+        grid.setContentsMargins(0, 0, 0, 0)
+        grid.setHorizontalSpacing(12)
+        grid.setVerticalSpacing(4)
+        grid.setColumnStretch(1, 1)
+        self.clutch_label = _label("입력 대기", wrap=True)
+        self.gripper_label = _label("상태 수신 대기", wrap=True)
+        for row, name, status in ((0, "클러치", self.clutch_label), (1, "그리퍼", self.gripper_label)):
+            grid.addWidget(_label(name, role="muted"), row, 0, Qt.AlignTop)
+            grid.addWidget(status, row, 1, 1, 2)
         self.gain = QSlider(Qt.Horizontal)
         self.gain.setAccessibleName("입력 배율")
         self.gain.setRange(10, 100)
         self.gain.setValue(100)
-        gain_row.addWidget(self.gain, 1)
-        gain_value = QLabel("100%")
+        gain_label = _label("입력 배율", role="muted")
+        gain_label.setBuddy(self.gain)
+        gain_value = _label("100%")
         gain_value.setMinimumWidth(gain_value.sizeHint().width())
         gain_value.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         self.gain.valueChanged.connect(lambda value: gain_value.setText(f"{value}%"))
-        gain_row.addWidget(gain_value)
-        layout.addLayout(gain_row)
+        grid.addWidget(gain_label, 2, 0)
+        grid.addWidget(self.gain, 2, 1)
+        grid.addWidget(gain_value, 2, 2)
 
-        self.clutch_label = QLabel("입력 대기")
-        layout.addWidget(self.clutch_label)
-        width_row = QHBoxLayout()
-        width_label = QLabel("열림 목표 폭")
-        width_row.addWidget(width_label)
+        width_label = _label("열림 목표 폭", role="muted")
         self.open_width = QDoubleSpinBox()
         width_label.setBuddy(self.open_width)
         self.open_width.setAccessibleName(width_label.text())
@@ -266,82 +417,193 @@ class _PanelWindow:
         self.open_width.setSuffix(" mm")
         self.open_width.setKeyboardTracking(False)
         self.open_width.setValue(open_width_mm)
-        width_row.addWidget(self.open_width)
-        width_row.addStretch(1)
-        layout.addLayout(width_row)
-        self.gripper_label = QLabel()
-        self.gripper_label.setWordWrap(True)
-        self.gripper_label.setTextFormat(Qt.PlainText)
-        layout.addWidget(self.gripper_label)
-        source = "MuJoCo" if simulation else "RTDE"
-        if robot_ip and not simulation:
-            source += f" · {robot_ip}"
-        coordinate = "관절" if self._joint_space else "TCP (베이스 좌표계)"
-        command = "절대 목표" if self._absolute else "상대 변화량"
-        law = "위치 제어" if control_law == "position" else "임피던스 제어"
-        targets = QGroupBox(f"{coordinate} · {command} · {law}")
-        grid = QGridLayout(targets)
-        self.measured_cells = []
-        self.target_cells = []
-        self.target_inputs = []
-        fixed_font = QFontDatabase.systemFont(QFontDatabase.FixedFont)
-        for column, name in enumerate(("축", "실측", "목표", command)):
-            heading = QLabel(name)
+        grid.addWidget(width_label, 3, 0)
+        grid.addWidget(self.open_width, 3, 1, 1, 2, Qt.AlignLeft)
+        layout.addLayout(grid)
+
+    def _build_targets(self, layout, control_law):
+        from PyQt5.QtCore import Qt
+        from PyQt5.QtGui import QFontDatabase
+        from PyQt5.QtWidgets import QComboBox, QDoubleSpinBox, QGridLayout, QHBoxLayout, QPushButton
+
+        title_row = QHBoxLayout()
+        title_row.addWidget(_label("목표 제어", emphasis=2), 1)
+        law = _label("위치 제어" if control_law == "position" else "임피던스 제어")
+        law.setObjectName("law")
+        title_row.addWidget(law)
+        layout.addLayout(title_row)
+        mode_row = QHBoxLayout()
+        caption = _label("명령 모드", role="muted")
+        self.command_picker = QComboBox()
+        self.command_picker.setAccessibleName(caption.text())
+        caption.setBuddy(self.command_picker)
+        for space, name in (("eef", "TCP"), ("joint", "관절")):
+            self.command_picker.addItem(f"{name} · 상대 변화량", f"{space}-delta")
+            self.command_picker.addItem(f"{name} · 절대 목표", f"{space}-absolute")
+        self.command_picker.currentIndexChanged.connect(self._request_command_mode)
+        mode_row.addWidget(caption)
+        mode_row.addWidget(self.command_picker, 1)
+        layout.addLayout(mode_row)
+        self.coordinate_label = _label("", role="muted", wrap=True)
+        layout.addWidget(self.coordinate_label)
+        _rule(layout)
+        grid = QGridLayout()
+        grid.setContentsMargins(0, 0, 0, 0)
+        grid.setHorizontalSpacing(5)
+        grid.setVerticalSpacing(3)
+        self.entry_heading = _label("", role="column")
+        for column, heading in enumerate((_label("축", role="column"), _label("실측", role="column"),
+                                          _label("현재 목표", role="column"), self.entry_heading)):
+            if column:
+                heading.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
             grid.addWidget(heading, 0, column)
-        axes = [f"J{i + 1}" for i in range(6)] if self._joint_space else ("X", "Y", "Z", "Rx", "Ry", "Rz")
-        for i, axis in enumerate(axes):
-            linear = not self._joint_space and i < 3
-            unit = "mm" if linear else "°"
-            axis_label = QLabel(f"{axis} ({unit})")
-            grid.addWidget(axis_label, i + 1, 0)
+            grid.setColumnStretch(column, (1, 2, 2, 3)[column])
+        self.axis_labels, self.measured_cells, self.target_cells, self.target_inputs = [], [], [], []
+        fixed_font = QFontDatabase.systemFont(QFontDatabase.FixedFont)
+        fixed_font.setPointSizeF(self.window.font().pointSizeF())
+        for row in range(1, 7):
+            axis = _label("")
+            self.axis_labels.append(axis)
+            grid.addWidget(axis, row, 0)
             for column, cells in enumerate((self.measured_cells, self.target_cells), 1):
-                cell = QLabel("—")
-                cell.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                cell = _label("—")
                 cell.setFont(fixed_font)
-                grid.addWidget(cell, i + 1, column)
+                cell.setMinimumWidth(cell.fontMetrics().horizontalAdvance("-2000.0"))
+                cell.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+                grid.addWidget(cell, row, column)
                 cells.append(cell)
             box = QDoubleSpinBox()
-            # UI units only; each backend owns reach, joint and slew limits.
-            limit = 2000.0 if linear else 360.0
-            box.setRange(-limit, limit)
+            box.setFont(fixed_font)
+            box.setAlignment(Qt.AlignRight)
             box.setDecimals(2)
             box.setSingleStep(1.0)
             box.setKeyboardTracking(False)
-            box.setAccessibleName(f"{axis} {command} ({unit})")
-            axis_label.setBuddy(box)
+            axis.setBuddy(box)
             self.target_inputs.append(box)
-            grid.addWidget(box, i + 1, 3)
-        readout = source if self._joint_space else f"{source} · Rx/Ry/Rz는 회전벡터"
-        grid.addWidget(QLabel(readout), 7, 0, 1, 4)
-        self.load_target = QPushButton("실측값 불러오기")
-        self.load_target.setVisible(self._absolute)
-        self.load_target.clicked.connect(self._load_measured)
-        self.apply_target = QPushButton("목표 적용")
-        self.apply_target.clicked.connect(self._submit_target)
-        buttons = QHBoxLayout()
-        if self._absolute:
-            buttons.addWidget(self.load_target)
-        buttons.addWidget(self.apply_target)
-        grid.addLayout(buttons, 8, 0, 1, 4)
-        grid.addWidget(QLabel("클러치를 누른 상태에서 목표를 적용하세요."), 9, 0, 1, 4)
-        self._enable_target_controls()
-        layout.addWidget(targets)
+            grid.addWidget(box, row, 3)
+        layout.addLayout(grid)
 
+        layout.addWidget(_label("클러치를 누른 상태에서 목표를 적용하세요.", role="muted", wrap=True))
+        actions = QHBoxLayout()
+        actions.setSpacing(6)
+        actions.addStretch()
+        self.load_target = QPushButton("실측값 불러오기")
+        self.load_target.clicked.connect(self._load_measured)
+        actions.addWidget(self.load_target)
+        self.apply_target = QPushButton("목표 적용")
+        self.apply_target.setObjectName("apply")
+        self.apply_target.clicked.connect(self._submit_target)
+        actions.addWidget(self.apply_target)
+        layout.addLayout(actions)
+
+    def _build_footer(self, outer, simulation, robot_ip):
+        from PyQt5.QtWidgets import QFrame, QHBoxLayout, QPushButton
+
+        footer = QFrame()
+        footer.setObjectName("footer")
+        row = QHBoxLayout(footer)
+        row.setContentsMargins(16, 6, 16, 6)
+        source = "MuJoCo" if simulation else "RTDE"
+        if robot_ip and not simulation:
+            source += f" · {robot_ip}"
+        row.addWidget(_label(f"데이터 소스   {source}", role="muted", wrap=True), 1)
         exit_button = QPushButton("세션 종료")
         exit_button.clicked.connect(self.close)
-        layout.addWidget(exit_button)
-        screen = app.primaryScreen()
-        size = content.sizeHint()
-        # Reserve the scrollbar width as mode errors can wrap onto several lines.
-        min_width = content.minimumSizeHint().width() + scroll.verticalScrollBar().sizeHint().width()
-        self.window.setMinimumWidth(max(350, min_width))
-        self.window.resize(max(self.window.minimumWidth(), size.width()), size.height())
-        if screen:
-            area = screen.availableGeometry()
-            self.window.resize(self.window.width(), min(size.height(), max(1, area.height() - 64)))
-            self.window.move(max(area.left(), area.right() - self.window.width() - 16),
-                             area.top() + 32)
-        self.window.show()
+        row.addWidget(exit_button)
+        outer.addWidget(footer)
+
+    def _fit_window(self, *, initial=False):
+        from PyQt5.QtCore import QCoreApplication, QEvent
+        from PyQt5.QtWidgets import QStyle
+
+        # Nested layouts post requests when text or visibility changes.
+        QCoreApplication.sendPostedEvents(self.body, QEvent.LayoutRequest)
+        window = self.window
+        if not initial and window.size() != self._automatic_size:
+            return  # Preserve the operator's own window size.
+        handle = window.windowHandle()
+        frame = handle.frameMargins()
+        area = handle.screen().availableGeometry()
+        available_width = area.width() - frame.left() - frame.right()
+        available_height = area.height() - frame.top() - frame.bottom()
+        body = self.body.layout()
+        body.activate()
+        scrollbar = self.scroll.style().pixelMetric(QStyle.PM_ScrollBarExtent)
+        default_width = max(460, window.fontMetrics().horizontalAdvance("0") * 52,
+                            body.minimumSize().width() + scrollbar)
+        width = min(available_width, default_width) if initial else window.width()
+        outer = window.layout()
+        # QScrollArea.sizeHint() does not account for text wrapped at viewport width.
+        chrome_height = sum(outer.itemAt(i).heightForWidth(width) if outer.itemAt(i).hasHeightForWidth()
+                            else outer.itemAt(i).sizeHint().height() for i in (0, 2))
+        body_height = max(body.minimumSize().height(), body.heightForWidth(width))
+        height = min(available_height, body_height + chrome_height)
+        window.resize(width, height if initial else max(height, window.height()))
+        if initial:
+            x = max(area.left(), area.right() + 1 - window.width() - frame.right() - frame.left() - 12)
+            window.move(x, area.top())
+        self._automatic_size = window.size()
+
+    def _show_command_mode(self, mode):
+        from PyQt5.QtCore import QSignalBlocker
+
+        with QSignalBlocker(self.command_picker):
+            self.command_picker.setCurrentIndex(self.command_picker.findData(mode))
+        if self._command_mode == mode:
+            return
+        self._command_mode = mode
+        self._joint_space = mode.startswith("joint-")
+        self._absolute = mode.endswith("-absolute")
+        self._last_measured = self._target_event = None
+        self._loaded_absolute = False
+        command = "절대 목표" if self._absolute else "상대 변화량"
+        self.entry_heading.setText("절대값 입력" if self._absolute else "변화량 입력")
+        self.coordinate_label.setText("관절각 · J1–J6" if self._joint_space else "베이스 좌표계 · Rx/Ry/Rz 회전벡터")
+        axes = [f"J{i + 1}" for i in range(6)] if self._joint_space else ("X", "Y", "Z", "Rx", "Ry", "Rz")
+        for i, (axis, box) in enumerate(zip(axes, self.target_inputs)):
+            linear = not self._joint_space and i < 3
+            unit = "mm" if linear else "°"
+            self.axis_labels[i].setText(f"{axis} ({unit})")
+            box.setAccessibleName(f"{axis} {command} ({unit})")
+            limit = 2000.0 if linear else 360.0
+            box.setRange(-limit, limit)
+            box.setValue(0)
+            self.measured_cells[i].setText("—")
+            self.target_cells[i].setText("—")
+        self.load_target.setVisible(self._absolute)
+        self._enable_target_controls()
+
+    def _request_command_mode(self, index):
+        requested = self.command_picker.itemData(index)
+        self._show_command_mode(self._command_mode)
+        if requested == self._command_mode or self._awaiting_command_result or self._awaiting_mode_result:
+            return
+        self._requested_command_mode = requested
+        self._awaiting_command_result = True
+        self._target_event = None
+        self._enable_target_controls()
+        self._update_state_header()
+        self._set_message(f"{self.command_picker.itemText(index)} 전환 중…", reveal=True)
+
+    def take_command_mode(self):
+        mode, self._requested_command_mode = self._requested_command_mode, None
+        return mode
+
+    def command_mode_result(self, *, command_mode, message=""):
+        changed = command_mode != self._command_mode
+        self._awaiting_command_result = False
+        self._show_command_mode(command_mode)
+        self._enable_target_controls()
+        self._clear_operator_state()
+        self._set_message(message, reveal=True)
+        if changed:
+            self._fit_window()
+
+    def _set_message(self, message, *, reveal=False):
+        _set_status(self.message_label, message)
+        self.message_label.setVisible(bool(message))
+        if message and reveal:
+            self.scroll.verticalScrollBar().setValue(0)
 
     @property
     def is_open(self):
@@ -365,24 +627,26 @@ class _PanelWindow:
 
     def _request_mode(self, dry_run):
         self._show_mode(self._applied_dry_run)
-        if self._awaiting_mode_result or dry_run == self._applied_dry_run:
+        if self._awaiting_mode_result or self._awaiting_command_result or dry_run == self._applied_dry_run:
             return
         self._requested_dry_run = dry_run
         self._awaiting_mode_result = True
         self._target_event = None
         self._enable_target_controls()
-        self.run_button.setEnabled(False)
-        self.dry_button.setEnabled(False)
+        self._update_state_header()
         button = self.dry_button if dry_run else self.run_button
-        self.message_label.setText(f"{button.text()} 전환 중…")
-        self.message_label.show()
+        self._set_message(f"{button.text()} 전환 중…", reveal=True)
 
     def take_request(self):
         request, self._requested_dry_run = self._requested_dry_run, None
         return request
 
     def _enable_target_controls(self):
-        ready = not self._awaiting_mode_result and self._last_measured is not None
+        idle = not (self._awaiting_mode_result or self._awaiting_command_result)
+        self.run_button.setEnabled(idle)
+        self.dry_button.setEnabled(idle)
+        self.command_picker.setEnabled(idle)
+        ready = idle and self._last_measured is not None
         self.load_target.setEnabled(ready)
         self.apply_target.setEnabled(ready and (not self._absolute or self._loaded_absolute))
 
@@ -399,7 +663,7 @@ class _PanelWindow:
         display = [box.value() for box in self.target_inputs]
         values = ([math.radians(v) for v in display] if self._joint_space else
                   [v / 1000 for v in display[:3]] + [math.radians(v) for v in display[3:]])
-        self._target_event = {"time": time.monotonic(), "values": values}
+        self._target_event = {"time": time.monotonic(), "values": values, "command_mode": self._command_mode}
 
     def take_target_event(self):
         event, self._target_event = self._target_event, None
@@ -407,21 +671,21 @@ class _PanelWindow:
 
     def mode_result(self, *, dry_run, message=""):
         self._awaiting_mode_result = False
-        self.run_button.setEnabled(True)
-        self.dry_button.setEnabled(True)
         self._show_mode(dry_run)
         self._enable_target_controls()
-        self.message_label.setText(message)
-        self.message_label.setVisible(bool(message))
+        self._clear_operator_state()
+        self._set_message(message, reveal=True)
 
     def refresh(self, *, dry_run, clutch, measured, target, message="", gripper="",
-                measured_joints=None, target_joints=None):
-        if not self._awaiting_mode_result:
+                measured_joints=None, target_joints=None, operator_state="waiting-input"):
+        self._feedback_timer.start()
+        if not (self._awaiting_mode_result or self._awaiting_command_result):
             self._show_mode(dry_run)
-            self.message_label.setText(message)
-            self.message_label.setVisible(bool(message))
-        self.clutch_label.setText(clutch)
-        self.gripper_label.setText(gripper)
+            self._set_message(message)
+            self._operator_state = operator_state
+            self._update_state_header()
+        _set_status(self.clutch_label, clutch)
+        _set_status(self.gripper_label, gripper)
         if self._joint_space:
             measured, target = measured_joints, target_joints
         else:
@@ -434,6 +698,11 @@ class _PanelWindow:
             for i, cell in enumerate(cells):
                 cell.setText("—" if values is None else f"{values[i]:.1f}")
         self._enable_target_controls()
+        if self._first_frame:
+            from PyQt5.QtCore import QTimer
+
+            self._first_frame = False
+            QTimer.singleShot(0, self._fit_window)
 
     def close(self):
         self.window.close()
@@ -459,14 +728,19 @@ def _run_window(settings):
                 return
             if "mode_result" in state:
                 window.mode_result(**state["mode_result"])
+            elif "command_mode_result" in state:
+                window.command_mode_result(**state["command_mode_result"])
             else:
                 window.refresh(**state)
                 event["ack"] = True
         requested = window.take_request()
         if requested is not None:
             event["mode"] = requested
+        command_request = window.take_command_mode()
+        if command_request is not None:
+            event["command_mode"] = command_request
         target = window.take_target_event()
-        if target is not None:
+        if target is not None and requested is None and command_request is None:
             event["target"] = target
         if window.scale != previous_scale:
             previous_scale = window.scale

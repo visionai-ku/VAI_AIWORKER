@@ -107,7 +107,7 @@ class JointWriterTest(unittest.TestCase):
             robot.command_joint_impedance(target)
             opened.assert_not_called()
             robot.set_motion_enabled(True)
-            with self.assertRaisesRegex(ValueError, "startup"):
+            with self.assertRaisesRegex(ValueError, "selected robot-side writer"):
                 robot.command_joints(target)
             with self.assertRaisesRegex(RobotControlStopped, "lead"):
                 robot.command_joint_impedance(target + 1)

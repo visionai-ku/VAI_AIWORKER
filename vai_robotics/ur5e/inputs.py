@@ -37,6 +37,7 @@ class QuestInput:
         self.reference = {hand: np.eye(4)}
         self.previous_pose = None
         self.last_received = None
+        self.waiting_for_release = False
 
     def __enter__(self):
         if self.host in ("0.0.0.0", "::", "[::]"):
@@ -45,6 +46,7 @@ class QuestInput:
         self.receiver = QuestControllerServer(self.host, self.port, cert, key).start()
         self.mapper.reset()
         self.previous_pose = self.last_received = None
+        self.waiting_for_release = False
         print(f"Quest Browser: {self.receiver.url}  |  {self.hand} grip  |  certificate: {cert}", flush=True)
         return self
 
@@ -59,6 +61,7 @@ class QuestInput:
                 self.mapper.require_release()
             self.last_received = received
         result = self.mapper.update(frame, self.reference, enabled=True)
+        self.waiting_for_release = result["state"] == "WAIT_RELEASE"
         target = result["targets"].get(self.hand)
         if target is None:
             self.previous_pose = None
@@ -124,8 +127,12 @@ class SpaceMouseInput:
         return self
 
     @property
+    def connected(self):
+        return self.device is not None
+
+    @property
     def status(self):
-        return "SpaceMouse USB 연결 대기" if self.device is None else ""
+        return "" if self.connected else "SpaceMouse USB 연결 대기"
 
     @property
     def clutch_pressed(self):

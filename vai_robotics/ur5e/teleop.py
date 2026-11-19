@@ -33,9 +33,27 @@ def clutch_text(device, sample, active):
     return "놓음" if not sample.enabled else "클러치를 놓으세요"
 
 
+def operator_state(device, sample, controller):
+    """Summarize the latest control tick, including each input's release interlock."""
+    if controller.active:
+        return "active"
+    if getattr(device, "connected", True) is False:
+        return "waiting-device"
+    if hasattr(device, "clutch_pressed"):
+        if device.clutch_pressed is None:
+            return "waiting-clutch"
+        if device.clutch_pressed and not controller.ready_after_release:
+            return "release-clutch"
+    if getattr(device, "waiting_for_release", False) is True or (sample is not None and sample.enabled):
+        return "release-clutch"
+    if sample is not None and controller.ready_after_release:
+        return "ready"
+    return "waiting-input"
+
+
 def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper=None,
                gripper_force_n=DEFAULT_GRIP_FORCE_N, command_mode="eef-delta", control_law="position"):
-    limits = backend.joint_limits() if sim and command_mode.startswith("joint-") else None
+    limits = backend.joint_limits() if sim and (panel is not None or command_mode.startswith("joint-")) else None
     controller = TeleopController(backend, dry_run=dry_run, command_mode=command_mode,
                                   control_law=control_law, joint_limits=limits)
     last_report = float("-inf")
@@ -62,6 +80,7 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
             request = panel.poll() if panel is not None else None
             if panel is not None and not panel.is_open:
                 break
+            command_request = panel.take_command_mode() if panel is not None else None
             values = panel.take_target() if panel is not None else None
             if panel is not None and panel.open_width_mm != open_width_mm:
                 open_width_mm = panel.open_width_mm
@@ -84,7 +103,15 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
                         # before presenting the transition to read-only control as complete.
                         gripper.wait_for_writes()
             try:
-                notice = controller.update(sample, time.monotonic(), values=values,
+                arm_sample = sample
+                if command_request is not None:
+                    # Serialize execution- and command-mode changes; never interpret an
+                    # old target or held device input using the new coordinate system.
+                    if request is None:
+                        message = controller.set_command_mode(command_request, simulation=sim,
+                                                              sample=sample, device=device)
+                    arm_sample = values = None
+                notice = controller.update(arm_sample, time.monotonic(), values=values,
                                            scale=panel.scale if panel is not None else 1.0)
                 if values is not None:
                     message = notice or ""
@@ -109,6 +136,10 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
                 panel.mode_result(dry_run=controller.dry_run, message=message)
                 requested_mode = "DRY RUN" if request else ("SIM RUN" if sim else "REAL RUN")
                 print(f"{requested_mode} · {message or '전환 완료'}", flush=True)
+            if command_request is not None:
+                if request is not None and not message:
+                    message = "실행 모드 전환 후 명령 모드를 다시 선택하세요."
+                panel.command_mode_result(command_mode=controller.command_mode, message=message)
             measured_width = None
             chord = sample.gripper_chord if sample is not None else getattr(device, "gripper_chord", None)
             if gripper is not None:
@@ -152,6 +183,7 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
                     state = {True: "누름", False: "놓음", None: "입력 대기"}[device.gripper_chord]
                     gripper_text = f"버튼 0+1: {state} · {gripper_text}"
                 panel.refresh(dry_run=controller.dry_run, clutch=clutch_text(device, sample, active),
+                              operator_state=operator_state(device, sample, controller),
                               measured=controller.measured,
                               measured_joints=controller.measured_joints, target_joints=controller.joint_target,
                               target=controller.target, message=message, gripper=gripper_text)
