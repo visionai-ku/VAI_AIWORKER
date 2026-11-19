@@ -10,6 +10,7 @@ from unittest.mock import MagicMock, patch
 import numpy as np
 
 from vai_robotics.ur5e.joint_writer import JointImpedanceWriter, _check_firmware
+from vai_robotics.ur5e.impedance_gains import default_impedance_gains
 from vai_robotics.ur5e.real import RealUR5e, RobotControlStopped
 
 
@@ -29,12 +30,15 @@ class JointWriterTest(unittest.TestCase):
 
     def test_wire_atomic_setpoint_then_idle_and_exit(self):
         self.stream.recv.side_effect = [b"\x00\x00", b"\x00\x01", struct.pack("!i", 2), struct.pack("!i", 3)]
-        self.writer.command([0.017, -1.3, 0.2, 0, 0, 0.000001])
+        gains = {"stiffness": [5, 0, 1, 4, 20, 0.123456], "damping": [3, 4, 5, 2.5, 0, 3.2]}
+        self.writer.command([0.017, -1.3, 0.2, 0, 0, 0.000001], gains)
         self.writer.hold()
         self.writer.stopScript()
-        packets = [struct.unpack("!8i", call.args[0]) for call in self.stream.sendall.call_args_list]
-        self.assertEqual(packets, [(1, 1, 17000, -1300000, 200000, 0, 0, 1),
-                                   (2, 0, 0, 0, 0, 0, 0, 0), (3, 2, 0, 0, 0, 0, 0, 0)])
+        packets = [struct.unpack("!20i", call.args[0]) for call in self.stream.sendall.call_args_list]
+        self.assertEqual(packets[0], (1, 1, 17000, -1300000, 200000, 0, 0, 1,
+                                     5000000, 0, 1000000, 4000000, 20000000, 123456,
+                                     3000000, 4000000, 5000000, 2500000, 0, 3200000))
+        self.assertEqual(packets[1:], [(2, 0) + (0,) * 18, (3, 2) + (0,) * 18])
 
     def test_timeout_or_wrong_ack_consumes_session_without_retransmission(self):
         for response in [b"", socket.timeout(), struct.pack("!i", 2)]:
@@ -84,7 +88,8 @@ class JointWriterTest(unittest.TestCase):
         self.assertIn('socket_open("192.0.2.1", 42103, "vai")', script)
         self.assertNotIn("$", script)
         self.assertIn("direct_torque(tau)", script)
-        self.stream.sendall.assert_called_once_with(struct.pack("!8i", 1, 0, 0, 0, 0, 0, 0, 0))
+        self.assertIn('socket_read_binary_integer(20, "vai", 0.15)', script)
+        self.stream.sendall.assert_called_once_with(struct.pack("!20i", 1, 0, *((0,) * 18)))
         # An unrelated peer cannot attach even with an otherwise-valid upload.
         listener.accept.return_value = self.stream, ("192.0.2.3", 11111)
         self.receiver.getRuntimeState.side_effect = [1]
@@ -106,16 +111,24 @@ class JointWriterTest(unittest.TestCase):
             target = np.full(6, -0.99)
             robot.command_joint_impedance(target)
             opened.assert_not_called()
+            gains = default_impedance_gains("joint")
+            gains["damping"][4] = 0.314
+            robot.set_impedance_gains("joint", gains)
+            self.stream.sendall.assert_not_called()
             robot.set_motion_enabled(True)
             with self.assertRaisesRegex(ValueError, "selected robot-side writer"):
                 robot.command_joints(target)
             with self.assertRaisesRegex(RobotControlStopped, "lead"):
                 robot.command_joint_impedance(target + 1)
             robot.command_joint_impedance(target)
+            with self.assertRaises(ValueError):
+                robot.set_impedance_gains("joint", default_impedance_gains("joint"))
             robot.hold()
             robot.set_motion_enabled(False)
             robot.command_joint_impedance(target)
-        self.assertEqual([struct.unpack("!8i", call.args[0])[1] for call in self.stream.sendall.call_args_list],
-                         [1, 0, 2])
+            self.assertEqual(robot.get_impedance_gains("joint"), gains)
+        packets = [struct.unpack("!20i", call.args[0]) for call in self.stream.sendall.call_args_list]
+        self.assertEqual([p[1] for p in packets], [1, 0, 2])
+        self.assertEqual(packets[0][18], 314000)
         native.assert_not_called()
         self.stream.close.assert_called_once()

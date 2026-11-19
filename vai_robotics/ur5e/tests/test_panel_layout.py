@@ -100,7 +100,7 @@ class PanelLayoutTest(unittest.TestCase):
         self.settle()
         self.assertGreater(self.scroll.verticalScrollBar().maximum(), 0)
         body = self.scroll.widget()
-        last_input = max(body.findChildren(QDoubleSpinBox),
+        last_input = max((box for box in body.findChildren(QDoubleSpinBox) if box.isVisible()),
                          key=lambda box: box.mapTo(body, box.rect().bottomLeft()).y())
         self.scroll.ensureWidgetVisible(last_input)
         self.settle()

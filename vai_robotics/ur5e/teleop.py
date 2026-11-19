@@ -82,7 +82,11 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
                 break
             command_request = panel.take_command_mode() if panel is not None else None
             law_request = panel.take_control_law() if panel is not None else None
-            configuration_requested = command_request is not None or law_request is not None
+            gain_request = panel.take_impedance_gains() if panel is not None else None
+            gain_space = gain_request.get("space") if isinstance(gain_request, dict) else None
+            if gain_space not in ("eef", "joint"):
+                gain_space = None
+            configuration_count = sum(item is not None for item in (command_request, law_request, gain_request))
             values = panel.take_target() if panel is not None else None
             if panel is not None and panel.open_width_mm != open_width_mm:
                 open_width_mm = panel.open_width_mm
@@ -106,19 +110,24 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
                         gripper.wait_for_writes()
             try:
                 arm_sample = sample
-                if configuration_requested:
+                if configuration_count:
                     # A selection is a separate input event. Never replay an arm
                     # sample or target captured under the old mode or law.
                     arm_sample = values = None
                     if request is None:
-                        if command_request is not None and law_request is not None:
-                            message = "명령 모드와 제어 방식은 한 번에 하나씩 선택하세요."
+                        if configuration_count > 1:
+                            message = "제어 설정은 한 번에 하나씩 변경하세요."
                         elif command_request is not None:
                             message = controller.set_command_mode(command_request, simulation=sim,
                                                                   sample=sample, device=device)
-                        else:
+                        elif law_request is not None:
                             message = controller.set_control_law(law_request, simulation=sim,
                                                                  sample=sample, device=device)
+                        elif gain_space is not None:
+                            message = controller.set_impedance_gains(gain_space, gain_request.get("gains"),
+                                                                     simulation=sim, sample=sample, device=device)
+                        else:
+                            message = "강성·감쇠 설정의 좌표계를 확인하세요."
                 notice = controller.update(arm_sample, time.monotonic(), values=values,
                                            scale=panel.scale if panel is not None else 1.0)
                 if values is not None:
@@ -144,12 +153,15 @@ def run_teleop(device, backend, *, sim=False, dry_run=False, panel=None, gripper
                 panel.mode_result(dry_run=controller.dry_run, message=message)
                 requested_mode = "DRY RUN" if request else ("SIM RUN" if sim else "REAL RUN")
                 print(f"{requested_mode} · {message or '전환 완료'}", flush=True)
-            if configuration_requested and request is not None and not message:
+            if configuration_count and request is not None and not message:
                 message = "실행 모드 전환 후 설정을 다시 선택하세요."
             if command_request is not None:
                 panel.command_mode_result(command_mode=controller.command_mode, message=message)
             if law_request is not None:
                 panel.control_law_result(control_law=controller.control_law, message=message)
+            if gain_request is not None:
+                gains = backend.get_impedance_gains(gain_space) if gain_space is not None else None
+                panel.impedance_gains_result(space=gain_space, gains=gains, message=message)
             measured_width = None
             chord = sample.gripper_chord if sample is not None else getattr(device, "gripper_chord", None)
             if gripper is not None:

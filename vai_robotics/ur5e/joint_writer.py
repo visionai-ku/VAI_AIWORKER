@@ -8,7 +8,8 @@ import struct
 from string import Template
 import time
 
-from .impedance import JOINT_DAMPING, JOINT_STIFFNESS, JOINT_TORQUE_LIMIT
+from .impedance import JOINT_TORQUE_LIMIT
+from .impedance_gains import default_impedance_gains, max_impedance_gains, validate_impedance_gains
 
 
 def _read_int(stream, deadline):
@@ -60,8 +61,9 @@ class JointImpedanceWriter:
             listener.listen(1)
             listener.settimeout(3.0)
             nonce = secrets.randbelow(2**30) + 1
+            upper = max_impedance_gains("joint")
             script = template.substitute(HOST=local_ip, PORT=listener.getsockname()[1], NONCE=nonce,
-                                         STIFFNESS=list(JOINT_STIFFNESS), DAMPING=list(JOINT_DAMPING),
+                                         MAX_STIFFNESS=upper["stiffness"], MAX_DAMPING=upper["damping"],
                                          TORQUE_LIMIT=list(JOINT_TORQUE_LIMIT), MAX_LEAD=max_lead)
             if (receiver.getRuntimeState() != 1 or receiver.getRobotMode() != 7 or
                     receiver.getSafetyMode() not in (1, 2)):
@@ -85,9 +87,11 @@ class JointImpedanceWriter:
                 stream.close()
                 raise
 
-    def _send(self, mode, q=(0.0,) * 6):
+    def _send(self, mode, values=(0.,) * 18):
+        # A setpoint and both gain vectors are one sequenced command. All 18
+        # payload values use 1e-6 SI units; idle and stop carry zeros.
+        packet = struct.pack("!20i", self.sequence + 1, mode, *(round(x * 1_000_000) for x in values))
         self.sequence += 1
-        packet = struct.pack("!8i", self.sequence, mode, *(round(x * 1_000_000) for x in q))
         # An explicit stop can need time to decelerate before the acknowledgement.
         timeout = 0.10 if mode == 1 else 0.65
         try:
@@ -101,8 +105,9 @@ class JointImpedanceWriter:
             raise
         return True
 
-    def command(self, q):
-        return self._send(1, q)
+    def command(self, q, gains=None):
+        gains = default_impedance_gains("joint") if gains is None else validate_impedance_gains("joint", gains)
+        return self._send(1, (*q, *gains["stiffness"], *gains["damping"]))
 
     def hold(self):
         return self._send(0)

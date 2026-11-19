@@ -22,6 +22,31 @@ class LiveCommandModeTest(unittest.TestCase):
         self.backend.joints.return_value = np.full(6, 0.2)
         self.backend.joint_limits.return_value = np.full(6, -1.0), np.full(6, 1.0)
 
+    def test_idle_dry_run_tunes_each_impedance_space_independently(self):
+        robot = RealUR5e("test")
+        controller = TeleopController(robot, dry_run=True)
+        tcp = robot.get_impedance_gains("eef")
+        joint = robot.get_impedance_gains("joint")
+        tcp["stiffness"][0] *= 0.75
+        joint["damping"][3] *= 1.5
+        preview = dict(simulation=False, sample=None)
+        self.assertTrue(controller.set_impedance_gains("eef", tcp, **preview))
+        self.assertFalse(controller.set_control_law("impedance", **preview))
+        self.assertTrue(controller.set_impedance_gains("joint", joint, **preview))
+        self.assertFalse(controller.set_impedance_gains("eef", tcp, **preview))
+        self.assertFalse(controller.set_command_mode("joint-absolute", **preview))
+        self.assertTrue(controller.set_impedance_gains("joint", joint, simulation=False, sample=self.held))
+        self.assertFalse(controller.set_impedance_gains("joint", joint, **preview))
+        self.assertFalse(controller.set_control_law("position", **preview))
+        self.assertFalse(controller.set_command_mode("eef-delta", **preview))
+        self.assertFalse(controller.set_control_law("impedance", **preview))
+        self.assertEqual(robot.get_impedance_gains("eef"), tcp)
+        self.assertEqual(robot.get_impedance_gains("joint"), joint)
+        self.assertFalse(robot.motion_enabled)
+
+        live = TeleopController(robot, dry_run=False, control_law="impedance")
+        self.assertTrue(live.set_impedance_gains("eef", tcp, simulation=False, sample=None))
+
     def test_disconnected_preview_switch_reanchors_only_after_new_release(self):
         controller = TeleopController(self.backend, dry_run=True)
         self.assertFalse(controller.set_command_mode("joint-delta", simulation=False, sample=None))
@@ -76,6 +101,7 @@ class LiveCommandModeTest(unittest.TestCase):
     def test_runner_confirms_requested_mode_and_discards_stale_numeric_targets(self):
         panel = Mock(is_open=True, scale=1.0, open_width_mm=75.0)
         panel.take_control_law.return_value = None
+        panel.take_impedance_gains.return_value = None
         device = Mock(spec=["read"])
         samples = [self.rest, self.held, self.held, self.rest, self.rest, self.held,
                    self.rest, self.held, self.held, self.held]

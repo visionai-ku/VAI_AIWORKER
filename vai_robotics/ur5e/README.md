@@ -62,7 +62,17 @@ python -m vai_robotics.ur5e.teleop --backend sim --input spacemouse --command-mo
 
 **목표 적용**은 누를 때 한 번 반영된다. 클러치를 계속 누르면 속도 제한 안에서 목표에 접근하고, 놓거나 입력이 끊기면 목표를 지운다. 다음 조작은 그때의 실측 자세에서 시작한다. 절대 모드에서는 장치가 클러치를 담당한다. Python에서는 `controllers.TeleopController.update(sample, now, values=...)`로 같은 경로에 한 번에 여섯 값을 입력한다. EEF 값은 [x, y, z, rx, ry, rz] 순서로 m·rad, 관절값은 J1부터 J6 순서로 rad를 사용한다.
 
-`--control-law position`은 관절 또는 TCP 위치를 추종한다. `impedance`는 관절 모드에서 각도 오차와 각속도로 토크를 계산하고, EEF 모드에서 TCP 자세 오차와 속도로 힘·모멘트를 계산한다. [계수와 출력 한계](impedance.py)는 시뮬레이션에서 검증한 초기값이다. 외력에 대한 복원 동작을 보려면 **SIM RUN**에서 클러치를 유지한다. **DRY RUN**의 가상 팔은 목표 자세를 보여주는 운동학 미리보기다.
+`--control-law position`은 관절 또는 TCP 위치를 추종한다. `impedance`는 각 축의 오차에 강성을 곱하고 속도에 감쇠를 곱해 뺀다. Cartesian 임피던스는 베이스 기준으로 TCP에 가할 힘과 모멘트를, 관절 임피던스는 여섯 관절 각각에 가할 토크를 계산한다. [제어식과 출력 한계](impedance.py)
+
+**목표 제어 → 제어 방식 → 임피던스 제어**를 선택하고 강성·감쇠 설정을 펼친다. 축별 값을 편집한 뒤 클러치와 그리퍼 버튼을 놓고 **계수 적용**을 누른다. 다음에 클러치를 누르면 현재 자세에서 새 계수로 시작한다. 절대 목표는 새 실측값을 불러와서 입력한다. TCP와 관절 설정은 한 세션 안에서 별도로 유지되며, 새 세션은 다음 기본값으로 시작한다.
+
+| 조절할 축 | 강성 기본값 | 감쇠 기본값 |
+| --- | --- | --- |
+| TCP 이동 X, Y, Z | 각 300 N/m | 각 30 N·s/m |
+| TCP 회전 Rx, Ry, Rz | 각 8 N·m/rad | 각 1.5 N·m·s/rad |
+| 관절 J1–J6 순서 | 40, 45, 35, 12, 10, 8 N·m/rad | 10, 10, 8, 2.5, 2, 1.6 N·m·s/rad |
+
+패널의 입력 범위는 각 기본값의 0~2배다. 예를 들어 TCP X 강성을 300에서 150 N/m로 낮추면, 정지 상태에서 X 오차가 10 mm일 때 계산되는 X 방향 복원력은 3 N에서 1.5 N으로 줄어든다. **SIM RUN**에서 클러치를 유지하면 물리 응답을 비교할 수 있다. **DRY RUN**은 목표 자세를 보여주는 운동학 미리보기다. [기본값과 입력 범위](impedance_gains.py)
 
 ### 실물 UR5e 연결
 
@@ -70,7 +80,7 @@ python -m vai_robotics.ur5e.teleop --backend sim --input spacemouse --command-mo
 2. `--backend real`로 실행하면 PC가 `ur-rtde`의 수신 인터페이스로 컨트롤러의 RTDE 포트(TCP 30004)에 접속해 6개 관절 각도와 TCP 자세를 읽는다. 패널의 실측 TCP와 미리보기 가상 팔의 초기 자세를 확인한다. 기본 DRY RUN은 이 읽기 연결만 사용한다.
 3. 실기를 움직이기 전 TCP·페이로드·안전 평면·작업 공간을 확인하고, 펜던트에서 원격 제어 모드를 설정한 뒤 실행 중인 프로그램을 정지한다. **REAL RUN**에서 위치 제어는 TCP에 `servoL`, 관절에 `servoJ`를 사용한다. Cartesian impedance는 현재 TCP를 원점으로 베이스 축과 정렬한 좌표계에서 계산한 힘과 모멘트를 `forceMode`에 전달한다. 클러치를 놓으면 해당 모드를 정지한다. [ur_rtde 명령 사양](https://sdurobotics.gitlab.io/ur_rtde/pages/reference/api.html)
 
-관절 임피던스는 UR5e의 PolyScope 5.23 이상에서 제공하는 URScript `direct_torque`를 사용한다. **REAL RUN**으로 전환할 때 PC가 Dashboard(29999)로 버전과 원격 모드를 확인하고, 상태 확인 후 30002 포트로 전용 스크립트를 전송한다. 로봇에서 PC의 임시 TCP 포트로 연결할 수 있어야 한다. PC는 목표 관절각을 보내고, 로봇은 자체 500 Hz 루프에서 실측 각도와 속도로 토크를 계산한다. 목표 갱신이 150 ms 동안 끊기면 스크립트가 중단 처리한다. [URScript 직접 토크 명령](https://www.universal-robots.com/manuals/EN/HTML/SW5_23/Content/prod-scriptmanual/all_scripts/direct_torque.htm)
+관절 임피던스는 UR5e의 PolyScope 5.23 이상에서 제공하는 URScript `direct_torque`를 사용한다. **REAL RUN**으로 전환할 때 PC가 Dashboard(29999)로 버전과 원격 모드를 확인하고, 상태 확인 후 30002 포트로 전용 스크립트를 전송한다. 로봇에서 PC의 임시 TCP 포트로 연결할 수 있어야 한다. PC는 목표 관절각과 여섯 축의 강성·감쇠를 한 명령으로 보낸다. 로봇은 자체 500 Hz 루프에서 실측 각도와 속도로 토크를 계산한다. 목표 갱신이 150 ms 동안 끊기면 스크립트가 중단 처리한다. [URScript 직접 토크 명령](https://www.universal-robots.com/manuals/EN/HTML/SW5_23/Content/prod-scriptmanual/all_scripts/direct_torque.htm)
 
 검증 범위는 MuJoCo 물리 응답과 모의 실기 인터페이스다. 실물에서의 힘 응답, 페이로드 보상 및 관절 토크 루프는 해당 펌웨어와 장착 툴로 시운전 검증이 필요하다.
 

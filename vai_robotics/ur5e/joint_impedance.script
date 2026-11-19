@@ -7,15 +7,17 @@ def vai_joint_impedance():
     return None
   end
   # One packet in flight. TCP reads and acknowledgements run off the torque loop.
-  global vai_packet = [0,0,0,0,0,0,0,0,0]
+  # socket_read_binary_integer returns a count, sequence, mode, six target
+  # angles, six stiffnesses and six damping coefficients.
+  global vai_packet = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
   global vai_applied = 0
   global vai_failed = False
   global vai_finished = False
   thread read_command():
     local expected = 1
     while not vai_failed:
-      local p = socket_read_binary_integer(8, "vai", 0.15)
-      if p[0] != 8 or p[1] != expected or p[2] < 0 or p[2] > 2 or (expected == 1 and p[2] != 0):
+      local p = socket_read_binary_integer(20, "vai", 0.15)
+      if p[0] != 20 or p[1] != expected or p[2] < 0 or p[2] > 2 or (expected == 1 and p[2] != 0):
         global vai_failed = True
         break
       end
@@ -38,8 +40,10 @@ def vai_joint_impedance():
     global vai_finished = True
   end
   local reader = run read_command()
-  local kp = $STIFFNESS
-  local kd = $DAMPING
+  local max_kp = $MAX_STIFFNESS
+  local max_kd = $MAX_DAMPING
+  local kp = [0.0,0.0,0.0,0.0,0.0,0.0]
+  local kd = [0.0,0.0,0.0,0.0,0.0,0.0]
   local cap = $TORQUE_LIMIT
   local last = 0
   local updated = get_rtde_value("timestamp")
@@ -60,6 +64,25 @@ def vai_joint_impedance():
       mode = p[2]
       if mode == 1:
         target = [p[3],p[4],p[5],p[6],p[7],p[8]] / 1000000.0
+        local new_kp = [p[9],p[10],p[11],p[12],p[13],p[14]] / 1000000.0
+        local new_kd = [p[15],p[16],p[17],p[18],p[19],p[20]] / 1000000.0
+        local j = 0
+        while j < 6:
+          if new_kp[j] < 0 or new_kp[j] > max_kp[j] or new_kd[j] < 0 or new_kd[j] > max_kd[j]:
+            global vai_failed = True
+            break
+          end
+          if active and (new_kp[j] != kp[j] or new_kd[j] != kd[j]):
+            global vai_failed = True
+            break
+          end
+          j = j + 1
+        end
+        if vai_failed:
+          break
+        end
+        kp = new_kp
+        kd = new_kd
         if not is_within_safety_limits(target):
           global vai_failed = True
           break

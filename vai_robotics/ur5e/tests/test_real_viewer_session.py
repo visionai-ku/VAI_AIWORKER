@@ -5,7 +5,7 @@ from unittest.mock import Mock, PropertyMock, call, patch
 import numpy as np
 from scipy.spatial.transform import Rotation
 
-from vai_robotics.ur5e.real import RobotControlStopped
+from vai_robotics.ur5e.real import RealUR5e, RobotControlStopped
 from vai_robotics.ur5e.teleop import run_teleop
 from vai_robotics.ur5e.teleop_types import InputSample
 
@@ -18,6 +18,7 @@ class RealViewerSessionTest(unittest.TestCase):
         self.panel.take_target.return_value = None
         self.panel.take_command_mode.return_value = None
         self.panel.take_control_law.return_value = None
+        self.panel.take_impedance_gains.return_value = None
         self.released = InputSample(np.zeros(3), np.zeros(3), False)
         self.held = InputSample(np.array([0.001, 0, 0]), np.zeros(3), True)
         self.frame = -1
@@ -95,6 +96,56 @@ class RealViewerSessionTest(unittest.TestCase):
         for _, tick, xyz in dispatch:
             np.testing.assert_array_equal(xyz, [0.4, tick / 1000, 0.3])
         self.backend.set_motion_enabled.assert_called_once_with(False)  # Session cleanup only.
+
+    def test_gain_apply_requires_release_and_a_fresh_target(self):
+        # Use the real backend's local coefficient store without a network connection.
+        settings = RealUR5e("test")
+        self.backend.set_impedance_gains.side_effect = settings.set_impedance_gains
+        self.backend.get_impedance_gains.side_effect = settings.get_impedance_gains
+        original = settings.get_impedance_gains("eef")
+        edited = settings.get_impedance_gains("eef")
+        edited["stiffness"][0] /= 2
+        change = {"space": "eef", "gains": edited}
+
+        self.panel.take_control_law.side_effect = lambda: "impedance" if self.frame == 0 else None
+        self.panel.take_impedance_gains.side_effect = lambda: change if self.frame in (3, 5) else None
+        self.panel.take_target.side_effect = lambda: [0.1] * 6 if self.frame in (3, 5) else None
+        commanded = []
+        self.backend.command_cartesian_impedance.side_effect = lambda xyz, _: commanded.append((self.frame, xyz))
+        self.run_frames(dry_run=False, requests=[None] * 9,
+                        samples=[self.released, self.released, self.held, self.held, self.released,
+                                 self.released, self.held, self.released, self.held])
+
+        refused, accepted = [result.kwargs for result in self.panel.impedance_gains_result.call_args_list]
+        self.assertEqual(refused["gains"], original)
+        self.assertTrue(refused["message"])
+        self.assertEqual(accepted, dict(space="eef", gains=edited, message=""))
+        self.backend.set_impedance_gains.assert_called_once_with("eef", edited)
+        self.assertEqual([frame for frame, xyz in commanded], [2, 8])
+        for frame, xyz in commanded:
+            np.testing.assert_array_equal(xyz, [0.4, frame / 1000, 0.3])
+        self.backend.set_motion_enabled.assert_called_once_with(False)
+
+    def test_malformed_and_competing_gain_requests_preserve_stored_settings(self):
+        settings = RealUR5e("test")
+        self.backend.set_impedance_gains.side_effect = settings.set_impedance_gains
+        self.backend.get_impedance_gains.side_effect = settings.get_impedance_gains
+        defaults = settings.get_impedance_gains("eef")
+        change = dict(space="eef", gains=defaults)
+        self.panel.take_control_law.side_effect = ["impedance", None, None, None, None, None]
+        self.panel.take_command_mode.side_effect = [None, "joint-delta", None, None, None, None]
+        self.panel.take_impedance_gains.side_effect = [None, change, change, {"space": "eef"},
+                                                       {"space": []}, "bad event"]
+        self.run_frames(dry_run=False, requests=[None, None, True, None, None, None],
+                        samples=[self.released] * 6)
+
+        receipts = [result.kwargs for result in self.panel.impedance_gains_result.call_args_list]
+        self.assertTrue(all(r["message"] for r in receipts))
+        self.assertEqual([r["gains"] for r in receipts], [defaults, defaults, defaults, None, None])
+        self.assertEqual([r["space"] for r in receipts], ["eef", "eef", "eef", None, None])
+        self.assertEqual(self.panel.command_mode_result.call_args.kwargs["command_mode"], "eef-delta")
+        self.assertTrue(self.panel.mode_result.call_args.kwargs["dry_run"])
+        self.assertEqual(settings.get_impedance_gains("eef"), defaults)
 
     def test_concurrent_panel_requests_keep_confirmed_modes_and_prioritize_dry_run(self):
         self.panel.take_control_law.side_effect = ["impedance"] * 3

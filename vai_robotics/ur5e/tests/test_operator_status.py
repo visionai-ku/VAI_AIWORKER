@@ -20,6 +20,7 @@ class OperatorStatusTest(unittest.TestCase):
         panel = Mock(is_open=True, scale=1.0, open_width_mm=75.0)
         panel.poll.return_value = panel.take_target.return_value = panel.take_command_mode.return_value = None
         panel.take_control_law.return_value = None
+        panel.take_impedance_gains.return_value = None
         device = SpaceMouseInput()
         handle = object()
         released = InputSample(np.zeros(3), np.zeros(3), False)

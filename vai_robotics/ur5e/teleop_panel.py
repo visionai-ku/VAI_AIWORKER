@@ -11,6 +11,11 @@ import sys
 from threading import Thread
 import time
 
+if __package__:
+    from .impedance_gains import default_impedance_gains, max_impedance_gains, validate_impedance_gains
+else:  # Qt runs this file directly in a separate process.
+    from impedance_gains import default_impedance_gains, max_impedance_gains, validate_impedance_gains
+
 
 # A clicked target is an input event, just like a sample from the operator device.
 TARGET_TIMEOUT = 0.15
@@ -57,6 +62,8 @@ def _display_pose(pose):
 class TeleopPanel:
     """Qt owns the Cocoa event loop in a separate process from the MuJoCo viewer."""
 
+    _targets_valid_since = -math.inf
+
     def __init__(self, *, simulation, device_name, dry_run, robot_ip=None, open_width_mm=None,
                  command_mode="eef-delta", control_law="position"):
         from .rg2 import DEFAULT_OPEN_WIDTH_MM, normalize_open_width_mm
@@ -78,6 +85,7 @@ class TeleopPanel:
         self._control_law = control_law
         self._command_mode_request = None
         self._control_law_request = None
+        self._gains_request = None
         self._target_event = None
         self.scale = 1.0
         self._can_send = True
@@ -100,6 +108,7 @@ class TeleopPanel:
         request = None
         self._command_mode_request = None
         self._control_law_request = None
+        self._gains_request = None
         self._target_event = None
         for event in _drain(self._messages):
             if event is None:
@@ -111,6 +120,8 @@ class TeleopPanel:
                 self._command_mode_request = event["command_mode"]
             if "control_law" in event:
                 self._control_law_request = event["control_law"]
+            if "impedance_gains" in event:
+                self._gains_request = event["impedance_gains"]
             if "target" in event:
                 self._target_event = event["target"]
             if "scale" in event:
@@ -122,8 +133,9 @@ class TeleopPanel:
         if not self._open:
             self._command_mode_request = None
             self._control_law_request = None
+            self._gains_request = None
         if (not self._open or request is not None or self._command_mode_request is not None
-                or self._control_law_request is not None):
+                or self._control_law_request is not None or self._gains_request is not None):
             self._target_event = None
         return request
 
@@ -135,12 +147,16 @@ class TeleopPanel:
         request, self._control_law_request = self._control_law_request, None
         return request
 
+    def take_impedance_gains(self):
+        request, self._gains_request = self._gains_request, None
+        return request
+
     def take_target(self):
         event, self._target_event = self._target_event, None
         if (event is None or event.get("command_mode") != self._command_mode
                 or event.get("control_law") != self._control_law):
             return None
-        if 0 <= time.monotonic() - event["time"] <= TARGET_TIMEOUT:
+        if event["time"] >= self._targets_valid_since and 0 <= time.monotonic() - event["time"] <= TARGET_TIMEOUT:
             return event["values"]
         return None
 
@@ -172,6 +188,13 @@ class TeleopPanel:
     def control_law_result(self, *, control_law, message=""):
         self._control_law = control_law
         self._send_mode_result("control_law_result", message, control_law=control_law)
+
+    def impedance_gains_result(self, *, space, gains, message=""):
+        if not message and gains is not None:
+            # A late target tagged with the same mode and law can predate these gains.
+            self._targets_valid_since = time.monotonic()
+            self._target_event = None
+        self._send_mode_result("impedance_gains_result", message, space=space, gains=gains)
 
     def _send_mode_result(self, key, message, **state):
         """Acknowledge a switch independently of the telemetry frame rate."""
@@ -245,6 +268,136 @@ def _rule(layout):
     rule.setObjectName("rule")
     rule.setFixedHeight(1)
     layout.addWidget(rule)
+
+
+class _ImpedanceEditor:
+    """Keep TCP and joint gain edits local until the operator applies a complete set."""
+
+    linear_units = ("N/m", "N·s/m")
+    angular_units = ("N·m/rad", "N·m·s/rad")
+
+    def __init__(self, layout, submit):
+        from PyQt5.QtCore import Qt
+        from PyQt5.QtWidgets import (
+            QDoubleSpinBox, QGridLayout, QHBoxLayout, QPushButton, QToolButton, QVBoxLayout, QWidget,
+        )
+
+        self.space = None
+        self.confirmed = {space: default_impedance_gains(space) for space in ("eef", "joint")}
+        self.drafts = {}
+        self.toggle = QToolButton()
+        self.toggle.setObjectName("gainDisclosure")
+        self.toggle.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
+        self.toggle.setArrowType(Qt.RightArrow)
+        self.toggle.setCheckable(True)
+        layout.addWidget(self.toggle, 0, Qt.AlignLeft)
+        self.body = QWidget()
+        self.body.hide()
+        layout.addWidget(self.body)
+        body = QVBoxLayout(self.body)
+        body.setContentsMargins(0, 0, 0, 5)
+        body.setSpacing(5)
+        self.toggle.toggled.connect(self._expand)
+
+        grid = QGridLayout()
+        grid.setContentsMargins(0, 0, 0, 0)
+        grid.setHorizontalSpacing(6)
+        grid.setVerticalSpacing(3)
+        for col in (1, 2):
+            grid.setColumnStretch(col, 1)
+        self.headers = []
+        for row in (0, 4):
+            headings = [_label("", role="column") for _ in range(2)]
+            for col, label in enumerate(headings, 1):
+                grid.addWidget(label, row, col)
+            self.headers.append(headings)
+        self.axes = []
+        self.inputs = {"stiffness": [], "damping": []}
+        for i in range(6):
+            row = i + 1 if i < 3 else i + 2
+            axis = _label("")
+            self.axes.append(axis)
+            grid.addWidget(axis, row, 0)
+            for col, fields in enumerate(self.inputs.values(), 1):
+                box = QDoubleSpinBox()
+                box.setDecimals(2)
+                box.setAlignment(Qt.AlignRight)
+                box.valueChanged.connect(self._mark_edits)
+                fields.append(box)
+                grid.addWidget(box, row, col)
+        body.addLayout(grid)
+        actions = QHBoxLayout()
+        self.status = _label("", role="muted", wrap=True)
+        actions.addWidget(self.status, 1)
+        defaults = QPushButton("기본값 불러오기")
+        defaults.clicked.connect(lambda: self._set_values(default_impedance_gains(self.space)))
+        actions.addWidget(defaults)
+        self.apply = QPushButton("계수 적용")
+        self.apply.clicked.connect(lambda: submit(self.space, self.values()))
+        actions.addWidget(self.apply)
+        body.addLayout(actions)
+
+    def _expand(self, expanded):
+        from PyQt5.QtCore import Qt
+
+        self.toggle.setArrowType(Qt.DownArrow if expanded else Qt.RightArrow)
+        self.body.setVisible(expanded)
+
+    def values(self):
+        return {key: [field.value() for field in fields] for key, fields in self.inputs.items()}
+
+    def configure(self, space, visible):
+        self.toggle.setVisible(visible)
+        if not visible:
+            self.toggle.setChecked(False)
+        if self.space == space:
+            return
+        if self.space is not None:
+            self.drafts[self.space] = self.values()
+        self.space = space
+        joint = space == "joint"
+        self.toggle.setText(f"{'관절' if joint else 'TCP'} 임피던스 · 강성·감쇠 설정")
+        for col, name in enumerate(("강성", "감쇠")):
+            top_units = self.angular_units if joint else self.linear_units
+            self.headers[0][col].setText(f"{name}\n{top_units[col]}")
+            self.headers[1][col].setText(f"{name}\n{self.angular_units[col]}")
+            self.headers[1][col].setVisible(not joint)
+        self._set_values(self.drafts.get(space, self.confirmed[space]))
+
+    def _set_values(self, values):
+        from PyQt5.QtCore import QSignalBlocker
+
+        limits = max_impedance_gains(self.space)
+        joint = self.space == "joint"
+        for i in range(6):
+            axis = f"J{i + 1}" if joint else ("X", "Y", "Z", "Rx", "Ry", "Rz")[i]
+            self.axes[i].setText(axis)
+            for col, (key, fields) in enumerate(self.inputs.items()):
+                box = fields[i]
+                name = ("강성", "감쇠")[col]
+                unit = (self.angular_units if joint or i >= 3 else self.linear_units)[col]
+                box.setAccessibleName(f"{axis} {name} ({unit})")
+                box.setToolTip(f"{axis} {name} · 현재 적용값 {self.confirmed[self.space][key][i]:g} {unit}\n"
+                               f"입력 범위 0–{limits[key][i]:g} {unit}")
+                with QSignalBlocker(box):
+                    box.setRange(0, limits[key][i])
+                    box.setSingleStep(1 if limits[key][i] >= 20 else 0.1)
+                    box.setValue(values[key][i])
+        self._mark_edits()
+
+    def _mark_edits(self):
+        dirty = self.values() != self.confirmed[self.space]
+        self.status.setText("수정 중 · 미적용" if dirty else "적용된 값")
+        self.apply.setEnabled(dirty)
+
+    def result(self, space, gains, accepted):
+        if space not in self.confirmed or gains is None:
+            return
+        self.confirmed[space] = validate_impedance_gains(space, gains)
+        if accepted:
+            self.drafts.pop(space, None)
+        if space == self.space:
+            self._set_values(self.confirmed[space] if accepted else self.values())
 
 
 class _PanelWindow:
@@ -357,7 +510,7 @@ class _PanelWindow:
     def _update_state_header(self):
         if self._pending_switch:
             title = {"mode": "실행 모드 전환 중", "command_mode": "명령 모드 전환 중",
-                     "control_law": "제어 방식 전환 중"}[self._pending_switch]
+                     "control_law": "제어 방식 전환 중", "impedance_gains": "강성·감쇠 적용 중"}[self._pending_switch]
             color = "attention"
         elif self._operator_state == "active":
             if self._applied_dry_run:
@@ -465,6 +618,8 @@ class _PanelWindow:
             config.addWidget(caption, row, 0)
             config.addWidget(picker, row, 1)
         layout.addLayout(config)
+        self.gain_editor = _ImpedanceEditor(layout, self._request_impedance_gains)
+        self.gain_editor.toggle.toggled.connect(lambda expanded: self._fit_window(shrink=not expanded))
         self.coordinate_label = _label("", role="muted", wrap=True)
         layout.addWidget(self.coordinate_label)
         _rule(layout)
@@ -534,7 +689,7 @@ class _PanelWindow:
         row.addWidget(exit_button)
         outer.addWidget(footer)
 
-    def _fit_window(self, *, initial=False):
+    def _fit_window(self, *, initial=False, shrink=False):
         from PyQt5.QtCore import QCoreApplication, QEvent
         from PyQt5.QtWidgets import QStyle
 
@@ -560,7 +715,7 @@ class _PanelWindow:
                             else outer.itemAt(i).sizeHint().height() for i in (0, 2))
         body_height = max(body.minimumSize().height(), body.heightForWidth(width))
         height = min(available_height, body_height + chrome_height)
-        window.resize(width, height if initial else max(height, window.height()))
+        window.resize(width, height if initial or shrink else max(height, window.height()))
         if initial:
             x = max(area.left(), area.right() + 1 - window.width() - frame.right() - frame.left() - 12)
             window.move(x, area.top())
@@ -590,6 +745,7 @@ class _PanelWindow:
             self.axis_labels[i].setText(f"{axis} ({unit})")
             box.setAccessibleName(f"{axis} {command} ({unit})")
         self.load_target.setVisible(self._absolute)
+        self.gain_editor.configure("joint" if self._joint_space else "eef", self._control_law == "impedance")
         self._reset_target_editor()
         self._enable_target_controls()
 
@@ -615,6 +771,9 @@ class _PanelWindow:
         if requested is not None and requested != self._control_law:
             self._begin_switch("control_law", requested, self.control_law_picker.itemText(index))
 
+    def _request_impedance_gains(self, space, gains):
+        self._begin_switch("impedance_gains", {"space": space, "gains": gains}, "강성·감쇠")
+
     def _begin_switch(self, kind, value, caption):
         if self._pending_switch is not None:
             return
@@ -623,7 +782,7 @@ class _PanelWindow:
         self._target_event = None
         self._enable_target_controls()
         self._update_state_header()
-        self._set_message(f"{caption} 전환 중…")
+        self._set_message(f"{caption} 적용 중…" if kind == "impedance_gains" else f"{caption} 전환 중…")
 
     def _finish_switch(self, kind, message):
         if self._pending_switch == kind:
@@ -640,6 +799,9 @@ class _PanelWindow:
     def take_control_law(self):
         return self._switch_request.pop("control_law", None)
 
+    def take_impedance_gains(self):
+        return self._switch_request.pop("impedance_gains", None)
+
     def command_mode_result(self, *, command_mode, message=""):
         changed = command_mode != self._command_mode
         self._show_command_mode(command_mode)
@@ -651,8 +813,17 @@ class _PanelWindow:
         self._select_confirmed(self.control_law_picker, control_law)
         if self._control_law != control_law:
             self._control_law = control_law
+            self.gain_editor.configure("joint" if self._joint_space else "eef", control_law == "impedance")
             self._reset_target_editor()
         self._finish_switch("control_law", message)
+        self._fit_window()
+
+    def impedance_gains_result(self, *, space, gains, message=""):
+        accepted = not message and gains is not None
+        self.gain_editor.result(space, gains, accepted)
+        if accepted:
+            self._reset_target_editor()
+        self._finish_switch("impedance_gains", message)
 
     def _set_message(self, message, *, reveal=False):
         _set_status(self.message_label, message)
@@ -695,6 +866,8 @@ class _PanelWindow:
         self.dry_button.setEnabled(idle)
         self.command_picker.setEnabled(idle)
         self.control_law_picker.setEnabled(idle)
+        self.gain_editor.toggle.setEnabled(idle)
+        self.gain_editor.body.setEnabled(idle)
         ready = idle and self._last_measured is not None
         self.load_target.setEnabled(ready)
         self.apply_target.setEnabled(ready and (not self._absolute or self._loaded_absolute))
@@ -779,6 +952,8 @@ def _run_window(settings):
                 window.command_mode_result(**state["command_mode_result"])
             elif "control_law_result" in state:
                 window.control_law_result(**state["control_law_result"])
+            elif "impedance_gains_result" in state:
+                window.impedance_gains_result(**state["impedance_gains_result"])
             else:
                 window.refresh(**state)
                 event["ack"] = True
@@ -791,8 +966,11 @@ def _run_window(settings):
         law_request = window.take_control_law()
         if law_request is not None:
             event["control_law"] = law_request
+        gain_request = window.take_impedance_gains()
+        if gain_request is not None:
+            event["impedance_gains"] = gain_request
         target = window.take_target_event()
-        if target is not None and requested is None and command_request is None and law_request is None:
+        if target is not None and not event.keys() & {"mode", "command_mode", "control_law", "impedance_gains"}:
             event["target"] = target
         if window.scale != previous_scale:
             previous_scale = window.scale

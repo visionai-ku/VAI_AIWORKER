@@ -4,7 +4,7 @@ import mujoco
 import numpy as np
 from scipy.spatial.transform import Rotation
 
-from .impedance import cartesian_wrench, joint_torque
+from .impedance import ImpedanceSettings, cartesian_wrench, joint_torque
 from .rg2_visual import OPEN_WIDTH_MM, set_rg2_width
 from .sim import load_simulation
 
@@ -20,6 +20,7 @@ class SimBackend:
             raise ValueError("hz must be finite and positive")
         self.period = 1.0 / hz
         self.headless = headless
+        self._gains = ImpedanceSettings()
         self.sim = None
         self.active = False
         self._equilibrium = None
@@ -130,6 +131,16 @@ class SimBackend:
         self._equilibrium = self._checked_joints(q).copy()
         self.active = True
 
+    def get_impedance_gains(self, space):
+        return self._gains.snapshot(space)
+
+    def set_impedance_gains(self, space, gains):
+        if self._equilibrium is not None:
+            active_space = "eef" if isinstance(self._equilibrium, tuple) else "joint"
+            if space == active_space:
+                raise ValueError("Release the clutch before changing active impedance gains.")
+        self._gains.set(space, gains)
+
     def command_cartesian_impedance(self, xyz, rotation):
         xyz = np.asarray(xyz, dtype=float)
         if (xyz.shape != (3,) or not np.isfinite(xyz).all()
@@ -159,10 +170,12 @@ class SimBackend:
                 mujoco.mj_step1(model, data)
                 if isinstance(self._equilibrium, tuple):
                     jacobian = self._jacobian(data)
-                    wrench = cartesian_wrench(*self._equilibrium, *self._flange_pose(data), jacobian @ data.qvel)
+                    wrench = cartesian_wrench(*self._equilibrium, *self._flange_pose(data), jacobian @ data.qvel,
+                                              **self._gains.coefficients("eef"))
                     torque = jacobian.T @ wrench
                 else:
-                    torque = joint_torque(self._equilibrium, data.qpos, data.qvel)
+                    torque = joint_torque(self._equilibrium, data.qpos, data.qvel,
+                                          **self._gains.coefficients("joint"))
                 sim.compensate_gravity(["base"])
                 data.qfrc_applied[:] += external + torque
                 mujoco.mj_step2(model, data)

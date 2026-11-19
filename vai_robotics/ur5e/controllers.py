@@ -62,9 +62,7 @@ class TeleopController:
             return "지원하지 않는 제어 방식입니다."
         return self._configure(self.command_mode, control_law, simulation, sample, device)
 
-    def _configure(self, command_mode, control_law, simulation, sample, device):
-        if (command_mode, control_law) == (self.command_mode, self.control_law):
-            return ""
+    def _release_check(self, simulation, sample, device):
         if sample is None:
             if (self.active or not (simulation or self.dry_run) or
                     getattr(device, "clutch_pressed", None) is True or
@@ -73,6 +71,31 @@ class TeleopController:
                 return "입력 장치 연결을 확인하고 클러치를 놓은 뒤 다시 선택하세요."
         elif sample.enabled or not sample.buttons_released:
             return "클러치와 그리퍼 버튼을 놓은 뒤 다시 선택하세요."
+        return ""
+
+    def set_impedance_gains(self, space, gains, *, simulation, sample, device=None):
+        if self.control_law != "impedance" or space != ("joint" if self.joint_space else "eef"):
+            return "현재 명령 모드의 임피던스 제어를 선택한 뒤 적용하세요."
+        reason = self._release_check(simulation, sample, device)
+        if reason:
+            return reason
+        if self.active:
+            return "클러치를 놓고 팔 조작을 마친 뒤 적용하세요."
+        self.backend.hold()
+        try:
+            self.backend.set_impedance_gains(space, gains)
+        except ValueError as error:
+            return f"강성·감쇠 설정을 적용할 수 없습니다. {error}"
+        self._reset_targets()
+        self.measured = self.measured_joints = None
+        return ""
+
+    def _configure(self, command_mode, control_law, simulation, sample, device):
+        if (command_mode, control_law) == (self.command_mode, self.control_law):
+            return ""
+        reason = self._release_check(simulation, sample, device)
+        if reason:
+            return reason
 
         using_joint_writer = self.joint_space and self.control_law == "impedance"
         needs_joint_writer = command_mode.startswith("joint-") and control_law == "impedance"

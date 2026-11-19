@@ -6,7 +6,7 @@ import time
 import numpy as np
 from scipy.spatial.transform import Rotation
 
-from .impedance import cartesian_wrench
+from .impedance import ImpedanceSettings, cartesian_wrench
 
 
 # RTDE getRobotMode()/getSafetyMode() return UR's numeric modes.
@@ -45,6 +45,7 @@ class RealUR5e:
         self.host = host
         self._start_with_motion = enable_motion
         self._joint_impedance = joint_impedance
+        self._gains = ImpedanceSettings()
         self.period = 1.0 / frequency
         self._receive = None
         self._control = None
@@ -88,6 +89,14 @@ class RealUR5e:
         if self.motion_enabled and required != self._joint_impedance:
             raise RuntimeError("Switch to DRY RUN before changing the robot-side impedance program.")
         self._joint_impedance = required
+
+    def get_impedance_gains(self, space):
+        return self._gains.snapshot(space)
+
+    def set_impedance_gains(self, space, gains):
+        if (space, self._active_mode) in (("eef", "force"), ("joint", "joint_impedance")):
+            raise ValueError("Release the clutch before changing active impedance gains.")
+        self._gains.set(space, gains)
 
     def set_motion_enabled(self, enabled):
         """Acquire or release the motion writer while the feedback stream stays open."""
@@ -263,7 +272,7 @@ class RealUR5e:
         target = self._checked_joints(q)
         if self.motion_enabled:
             self._active_mode = "joint_impedance"
-            self._require_command(self._control.command, target,
+            self._require_command(self._control.command, target, self._gains.coefficients("joint"),
                                   reason="Joint impedance target rejected or acknowledgement lost.")
 
     def command_cartesian_impedance(self, xyz, rotation):
@@ -274,7 +283,8 @@ class RealUR5e:
             twist = np.asarray(self._receive.getActualTCPSpeed(), dtype=float)
             if twist.shape != (6,) or not np.isfinite(twist).all():
                 raise self._motion_denied("UR5e returned invalid TCP velocity feedback.")
-            wrench = cartesian_wrench(xyz, rotation, measured_xyz, measured_rotation, twist)
+            wrench = cartesian_wrench(xyz, rotation, measured_xyz, measured_rotation, twist,
+                                      **self._gains.coefficients("eef"))
             # Type 2 keeps the axes base-aligned. Locate the origin at the TCP
             # because the wrench's moment is computed about that point.
             task_frame = [*measured_xyz.tolist(), 0.0, 0.0, 0.0]
