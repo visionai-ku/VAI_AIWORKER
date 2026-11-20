@@ -7,6 +7,7 @@ import numpy as np
 from scipy.spatial.transform import Rotation
 
 from .impedance import TCP_SPEED_LIMITS, ImpedanceSettings, cartesian_wrench
+from .payload import ToolPayload
 
 
 # RTDE getRobotMode()/getSafetyMode() return UR's numeric modes.
@@ -25,6 +26,14 @@ class RobotControlStopped(RuntimeError):
     """The motion writer has stopped while the RTDE reader can still be healthy."""
 
 
+class TargetValidationExpired(RuntimeError):
+    """The robot approved the target too late. The previous motion has been stopped."""
+
+
+class StaleRobotFeedback(RuntimeError):
+    """The connected receiver's last valid frame has stopped advancing."""
+
+
 class RealUR5e:
     """One control loop owns this session and calls pose() even while idle."""
 
@@ -36,6 +45,7 @@ class RealUR5e:
     FORCE_SPEED_LIMITS = TCP_SPEED_LIMITS
     RTDE_FIELDS = ("timestamp", "actual_TCP_pose", "actual_TCP_speed", "actual_q",
                    "runtime_state", "robot_mode", "safety_mode")
+    PAYLOAD_FIELDS = ("payload", "payload_cog")
 
     def __init__(self, host, *, enable_motion=False, frequency=50.0, joint_impedance=False):
         if not host or not host.strip():
@@ -48,6 +58,7 @@ class RealUR5e:
         self._gains = ImpedanceSettings()
         self.period = 1.0 / frequency
         self._receive = None
+        self._has_payload_fields = False
         self._control = None
         self._lost_script = False
         self._active_mode = None
@@ -64,7 +75,7 @@ class RealUR5e:
             raise RuntimeError("Install ur-rtde in the teleoperation Python environment.") from exc
 
         try:
-            self._receive = RTDEReceiveInterface(self.host, -1.0, list(self.RTDE_FIELDS))
+            self._open_feedback(RTDEReceiveInterface)
             self.pose()
             if self._start_with_motion:
                 self.set_motion_enabled(True)
@@ -72,6 +83,21 @@ class RealUR5e:
         except BaseException:
             self.close()
             raise
+
+    def _open_feedback(self, open_receiver):
+        fields = [*self.RTDE_FIELDS, *self.PAYLOAD_FIELDS]
+        # The host consumes one observation per control tick. Keep at least
+        # 50 Hz for the feedback watchdog even for slower command loops.
+        rate = max(50., 1 / self.period)
+        try:
+            self._receive = open_receiver(self.host, rate, fields)
+            self._has_payload_fields = True
+        except RuntimeError as error:
+            # ur_rtde rejects the complete recipe if e.g. pre-5.5 lacks payload_cog.
+            if not any(field in str(error) for field in self.PAYLOAD_FIELDS):
+                raise
+            self._receive = open_receiver(self.host, rate, list(self.RTDE_FIELDS))
+            self._has_payload_fields = False
 
     @property
     def motion_enabled(self):
@@ -83,6 +109,50 @@ class RealUR5e:
         if q.shape != (6,) or not np.isfinite(q).all():
             raise RuntimeError("UR5e returned invalid joint feedback.")
         return q
+
+    def payload(self):
+        """Read the active mass and flange CoG without changing any robot settings."""
+        if not self._has_payload_fields:
+            return None
+        sample = self._feedback_sample(self._read_payload)
+        return sample[1] if sample is not None else None
+
+    def _read_payload(self):
+        return ToolPayload(self._receive.getPayload(), self._receive.getPayloadCog())
+
+    def _read_tcp_speed(self):
+        """Measured TCP twist in base axes (m/s, rad/s), if the vector is valid."""
+        twist = np.asarray(self._receive.getActualTCPSpeed(), dtype=float)
+        if twist.shape != (6,) or not np.isfinite(twist).all():
+            return None
+        return twist
+
+    def tcp_speed_feedback(self):
+        """Return controller time and TCP twist from the same RTDE packet, if available."""
+        return self._feedback_sample(self._read_tcp_speed)
+
+    def _feedback_sample(self, read):
+        """Retry a crossed packet once, without waiting for network input."""
+        receiver = self._receive
+        try:
+            if receiver is None or not receiver.isConnected():
+                return None
+            # ur_rtde getters return the latest packet independently.
+            for _ in range(2):
+                stamp = receiver.getTimestamp()
+                value = read()
+                if stamp != receiver.getTimestamp():
+                    continue
+                if value is None or not np.isfinite(stamp) or stamp <= 0:
+                    return None
+                if self._timestamp is not None and stamp < self._timestamp:
+                    return None
+                if stamp == self._timestamp and time.monotonic() - self._updated_at >= self.FEEDBACK_TIMEOUT:
+                    return None
+                return stamp, value
+        except (AttributeError, OSError, RuntimeError, TypeError, ValueError, OverflowError):
+            return None
+        return None
 
     def set_joint_impedance_writer(self, required):
         """Select the program for the next REAL RUN without disturbing the RTDE reader."""
@@ -199,7 +269,7 @@ class RealUR5e:
         if timestamp != self._timestamp:
             self._timestamp, self._updated_at = timestamp, now
         if now - self._updated_at >= self.FEEDBACK_TIMEOUT:
-            raise RuntimeError("UR5e feedback is stale.")
+            raise StaleRobotFeedback("UR5e feedback is stale.")
 
     def _service_motion_writer(self, now):
         running = self._owned_program_running()
@@ -223,11 +293,22 @@ class RealUR5e:
                 raise self._motion_denied(reason)
             raise ValueError(reason)
 
-    def _check_target(self, operation, target, reason):
+    def _check_target(self, operation, target, reason, space):
         checked_at = time.monotonic()
         self._require_command(operation, target, reason=reason)
-        if time.monotonic() - checked_at >= self.FEEDBACK_TIMEOUT:
-            raise self._motion_denied("UR5e target validation timed out.")
+        elapsed = time.monotonic() - checked_at
+        if elapsed >= self.FEEDBACK_TIMEOUT:
+            # Input could have been released during the synchronous robot-side
+            # check. Never dispatch this target. Stop any preceding stream.
+            message = (f"{space} target validation took {elapsed * 1000:.0f} ms "
+                       f"(limit {self.FEEDBACK_TIMEOUT * 1000:.0f} ms). Target discarded.")
+            self.hold()
+            try:
+                self.pose()  # Check feedback, safety, program ownership and idle watchdog.
+            except StaleRobotFeedback as error:
+                # Detach the writer. The receive-only panel can await new feedback.
+                raise RobotControlStopped(f"{message} {error}") from error
+            raise TargetValidationExpired(f"{message} Release the clutch to re-arm.")
 
     def _checked_tcp(self, xyz, rotation):
         measured_xyz, measured_rotation = self.pose()
@@ -242,7 +323,7 @@ class RealUR5e:
         target = np.concatenate((xyz, rotvec)).tolist()
         if self.motion_enabled:
             self._check_target(self._control.isPoseWithinSafetyLimits, target,
-                               "Target exceeds the robot's configured safety limits or IK reach.")
+                               "Target exceeds the robot's configured safety limits or IK reach.", "TCP")
         return target, measured_xyz, measured_rotation
 
     def command(self, xyz, rotation):
@@ -270,7 +351,7 @@ class RealUR5e:
         target = self._checked_joints(q)
         if self.motion_enabled:
             self._check_target(self._control.isJointsWithinSafetyLimits, target,
-                               "Joint target exceeds the robot's configured safety limits.")
+                               "Joint target exceeds the robot's configured safety limits.", "Joint")
             self._active_mode = "servo"
             self._require_command(self._control.servoJ, target, 0.10, 0.25, self.period, 0.10, 300,
                                   reason="UR5e rejected the joint servo command.")
@@ -289,8 +370,8 @@ class RealUR5e:
         self._stop_other_mode("force")
         _, measured_xyz, measured_rotation = self._checked_tcp(xyz, rotation)
         if self.motion_enabled:
-            twist = np.asarray(self._receive.getActualTCPSpeed(), dtype=float)
-            if twist.shape != (6,) or not np.isfinite(twist).all():
+            twist = self._read_tcp_speed()
+            if twist is None:
                 raise self._motion_denied("UR5e returned invalid TCP velocity feedback.")
             wrench = cartesian_wrench(xyz, rotation, measured_xyz, measured_rotation, twist,
                                       **self._gains.coefficients("eef"))
@@ -323,6 +404,7 @@ class RealUR5e:
             self.set_motion_enabled(False)
         finally:
             receiver, self._receive = self._receive, None
+            self._has_payload_fields = False
             self._timestamp = None
             if receiver is not None:
                 receiver.disconnect()

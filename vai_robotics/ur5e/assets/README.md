@@ -16,8 +16,15 @@ The four STL meshes in `assets/rg2/` come from the Osaka University Harada
 Laboratory RG2 description at commit `46fae3557dd3aff678adf6b3320ec1338493d84a`.
 `rg2_visual.xml` adapts its joint transforms to MJCF at metre scale. The base
 is flush with `attachment_site`, with the fingers extending along tool +Z.
-The visual links are massless and have contact disabled so the six arm
-actuators and the arm IK preserve their original dynamics.
+The standalone model uses massless visual links with contact disabled. In a
+robot-connected session, MuJoCo assigns the active RTDE payload mass to
+`rg2_base` at the reported flange-local CoG. This point-mass approximation
+includes its moment arm and omits the tool's intrinsic rotational inertia.
+The flange-relative visual mount places all RG2 meshes and pad sites together.
+With zero offsets the gripper base is flush with the flange, the fingers extend
+along flange +Z, and the jaws open along flange Y. The panel accepts XYZ in
+millimetres and roll, pitch and yaw about fixed flange axes in degrees.
+The TCP and the load CoG use their independently configured frames.
 [RG2 meshes and Xacro](https://github.com/UOsaka-Harada-Laboratory/onrobot/tree/46fae3557dd3aff678adf6b3320ec1338493d84a/onrobot_rg_description)
 · [MIT license](assets/rg2/LICENSE)
 

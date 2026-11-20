@@ -20,12 +20,12 @@ QLabel#message {
     border-left: 3px solid #c68629; padding: 6px 9px;
 }
 QFrame#rule { background: #dce4e7; border: none; }
-QToolButton#gainDisclosure {
+QToolButton[role="disclosure"] {
     color: #245a64; background: transparent; border: 1px solid transparent;
     border-radius: 4px; padding: 2px 4px;
 }
-QToolButton#gainDisclosure:hover { background: #eef4f6; }
-QToolButton#gainDisclosure:focus { border-color: #267dba; }
+QToolButton[role="disclosure"]:hover { background: #eef4f6; }
+QToolButton[role="disclosure"]:focus { border-color: #267dba; }
 QPushButton {
     background: #ffffff; color: #263e4c; border: 1px solid #b4c3cb;
     border-radius: 5px; padding: 4px 10px;

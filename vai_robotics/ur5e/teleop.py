@@ -110,6 +110,7 @@ def _make_panel(args, dry_run):
     return TeleopPanel(
         simulation=args.backend == "sim", device_name=device_name, dry_run=dry_run,
         robot_ip=args.robot_ip, command_mode=args.command_mode, control_law=args.control_law,
+        joint_rings=args.input == "spacemouse",
     )
 
 
@@ -118,7 +119,8 @@ def _make_input(args):
 
     if args.input == "quest":
         return QuestInput(host=args.quest_host, port=args.quest_port, hand=args.hand)
-    return SpaceMouseInput(button=args.button, wait_for_device=args.show_panel)
+    mouse_only_preview = args.show_panel and args.command_mode.startswith("joint-") and not args.enable_motion
+    return SpaceMouseInput(button=args.button, wait_for_device=args.show_panel, allow_mouse_only=mouse_only_preview)
 
 
 def _make_backend(args):

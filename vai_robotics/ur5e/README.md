@@ -28,7 +28,7 @@ python -m vai_robotics.ur5e.teleop --backend real --input spacemouse --robot-ip 
 
 데스크톱에서 teleop을 실행하면 설정 패널이 함께 열린다. 상단에는 Clutch와 제어 루프의 현재 상태가 표시된다. **조작 준비 완료**에서 Clutch를 누르면 현재 실행 모드에 따라 **미리보기 조작 중**, **시뮬레이션 조작 중**, **실기 조작 중**으로 바뀐다. 상태 데이터가 끊기면 **상태 수신 대기**가 표시된다.
 
-**DRY RUN**에서 Clutch를 누른 채 조작하면 MuJoCo의 가상 팔만 움직인다. Clutch를 놓으면 가상 팔이 기준 자세로 돌아간다. 기준은 시뮬레이션에서는 SIM RUN에 보존된 현재 관절 자세이고, 실기에서는 UR에서 읽은 현재 관절 자세다. 다음에 Clutch를 누르면 그 자세에서 새 미리보기를 시작한다. **Input Scale**은 이동과 회전에 함께 적용된다. 패널의 **Measured**와 **Target**에서 TCP 위치(mm)와 rotation vector(°)를 비교할 수 있다.
+**DRY RUN**에서 Clutch를 누른 채 조작하면 MuJoCo의 가상 팔만 움직인다. Clutch를 놓으면 가상 팔이 기준 자세로 돌아간다. 기준은 시뮬레이션에서는 SIM RUN에 보존된 현재 관절 자세이고, 실기에서는 UR에서 읽은 현재 관절 자세다. 다음에 Clutch를 누르면 그 자세에서 새 미리보기를 시작한다. **Input Scale**은 SpaceMouse 캡이나 Quest로 지정하는 이동과 회전에 적용된다. 패널의 **Measured**와 **Target**에서 TCP 위치(mm)와 rotation vector(°)를 비교할 수 있다.
 
 - **시뮬레이션**은 **SIM RUN**으로 시작한다. 처음부터 미리보기를 열려면 `python -m vai_robotics.ur5e.teleop --backend sim --input spacemouse --dry-run`을 실행한다. 노트북에서는 `START_IN_DRY_RUN = True`로 설정한다. 실행 중에는 패널에서 모드를 바꿀 수 있다.
 - **실기**는 수신 전용 **DRY RUN**으로 시작한다. Clutch를 놓고 **REAL RUN · 실기 구동**을 누르면 실기 제어가 시작된다. 같은 MuJoCo 창에서 가상 팔이 Clutch 상태와 관계없이 UR에서 수신한 6개 관절각을 따라 움직인다. 패널에서 실측 TCP와 명령 목표를 비교할 수 있다. **DRY RUN**으로 돌아가면 서보를 정지하고 제어 연결을 해제하며, 같은 창에서 다시 조작을 미리 볼 수 있다. MuJoCo 화면은 RTDE 제어 루프와 별도 프로세스에서 그린다.
@@ -39,17 +39,28 @@ SpaceMouse를 처음 연결하거나 세션을 다시 열었을 때 **상태 확
 
 실기 뷰어 왼쪽 위의 `DRY RUN · Preview`와 `REAL RUN · Measured` 표시로 현재 화면을 구분한다. REAL RUN에서 팔은 실측 관절각을, 색깔 좌표축은 컨트롤러가 보고한 현재 TCP의 위치와 방향을 보여준다. 실기 구동 중 운전·안전 상태 검사가 실패하거나 서보 명령이 거절되면 제어 연결을 해제한다. 자세 수신이 정상이면 패널과 뷰어는 수신 전용 DRY RUN을 유지하고 패널에 중단 사유를 표시한다. 다시 구동하려면 펜던트에서 로봇 상태와 원인을 확인한 뒤 Clutch를 놓고 REAL RUN을 선택한다.
 
+REAL RUN에서 로봇이 목표를 허용했어도 안전 검사 응답에 150 ms 이상 걸리면 해당 목표를 폐기하고 진행 중인 servo를 정지한다. 정지와 RTDE 상태가 정상이면 패널에 검사 종류와 소요 시간이 표시된다. Clutch를 놓았다가 다시 누르면 같은 REAL RUN에서 조작을 이어갈 수 있다. Joint 링은 새로 잡는다. 실기 피드백까지 정체되면 패널은 제어 연결을 해제하고 DRY RUN에서 새 실측 자세를 기다린다. 전환 중 입력은 폐기한다.
+
+### 로봇 연결 시 Payload와 TCP Speed 비교
+
+패널의 **TCP Speed**에서 로봇에 설정된 **RTDE Payload**(kg)와 **Flange CoG**(mm)를 확인한다. 로봇 설정이 바뀌면 MuJoCo에도 새 값을 적용한다. Impedance Control의 DRY RUN은 flange 좌표계의 CoG에 놓인 point mass로 하중을 모델링한다. Position Control의 DRY RUN은 기존 kinematic preview를 사용한다. Payload feedback이 끊기면 마지막으로 적용한 값을 유지하고 패널에 수신 상태를 표시한다.
+
+실기와 DRY RUN의 속도를 비교하려면 **REAL RUN**을 선택하고 팔이 정지한 자세에서 SpaceMouse Clutch를 누른 채 한 번 조작한다. MuJoCo에서 실측 joint 및 TCP 자세, 동일한 SpaceMouse 입력, Input Scale, Control Law와 Gains로 DRY RUN을 병행한다. **TCP Speed**의 **Live**에서 실기와 DRY RUN 각각의 linear speed(mm/s)와 angular speed(°/s)를 확인한다. 실기 속도의 출처는 RTDE `actual_TCP_speed`다. Clutch를 놓으면 **Last Clutch · Mean**에 같은 시간 구간의 평균이 남는다. 비교에 필요한 데이터가 누락되면 **Comparison unavailable**이 표시되며, 다음 Clutch에서 새로 비교한다.
+
 ### Command Mode와 Impedance Control
 
-**Target Control → Command Mode**에서 TCP 또는 Joint를 고르고 Delta 또는 Absolute 입력을 선택한다. Clutch와 Gripper 버튼을 놓은 채 선택하면 같은 세션에서 축 이름, 단위, 실측값이 바뀐다. 이전 모드의 입력값과 목표는 지워진다. Absolute 모드로 바꾼 뒤에는 **Load Measured**부터 시작한다.
+**Target Control → Command Mode**에서 TCP 또는 Joint를 고르고 Delta 또는 Absolute 입력을 선택한다. Clutch와 Gripper 버튼을 놓은 채 선택하면 같은 세션에서 축 이름, 단위, 실측값이 바뀐다. 이전 모드의 입력값과 목표는 지워진다. Absolute 모드에서 패널로 수치를 입력할 때는 **Load Measured**부터 시작한다.
 
-**Target Control → Control Law**에서 **Position Control** 또는 **Impedance Control**을 선택한다. Clutch와 Gripper 버튼을 놓고 선택하면 현재 Command Mode에서 이전 목표를 지운다. Absolute 모드에서는 새 실측값을 불러온 뒤 목표를 적용한다. 노트북의 `COMMAND_MODE`·`CONTROL_LAW`와 CLI의 `--command-mode`·`--control-law`는 시작값을 정한다. 기본 조합은 `eef-delta`와 `position`이다.
+**Target Control → Control Law**에서 **Position Control** 또는 **Impedance Control**을 선택한다. Clutch와 Gripper 버튼을 놓고 선택하면 현재 Command Mode에서 이전 목표를 지운다. Absolute 모드에서 수치를 입력하려면 새 실측값을 불러온 뒤 목표를 적용한다. 노트북의 `COMMAND_MODE`·`CONTROL_LAW`와 CLI의 `--command-mode`·`--control-law`는 시작값을 정한다. CLI와 실기 노트북의 기본 조합은 `eef-delta`와 `position`이다. 시뮬레이션 노트북은 Joint 링을 바로 조작할 수 있도록 `joint-delta`와 `position`으로 시작한다.
 
 MuJoCo와 실기 TCP 모드에서는 같은 실행 모드에서 Control Law를 전환할 수 있다. 실기에서 **Joint Impedance**에 들어가거나 나올 때는 로봇에서 실행하는 프로그램이 달라진다. 같은 패널에서 **DRY RUN → Control Law 또는 Command Mode 선택 → REAL RUN** 순서로 전환한다.
 
-SpaceMouse로 Cartesian Impedance를 시뮬레이션하려면 저장소 루트에서 실행한다.
+**SpaceMouse 세션의 Joint 조작**은 MuJoCo 뷰어에서 한다. **Joint Delta** 또는 **Joint Absolute**를 선택한 뒤 J1–J6 중 하나의 링을 마우스 왼쪽 버튼으로 잡고 돌린다. 선택한 관절의 목표 각도만 바뀐다. **SIM RUN**과 **DRY RUN**에서는 마우스로 드래그한다. DRY RUN에서 마우스를 놓으면 가상 팔이 기준 자세로 돌아간다. **REAL RUN**에서는 물리 Clutch를 먼저 누르고 링을 새로 잡아야 한다. 마우스 버튼이나 Clutch를 놓으면 조작이 끝난다.
+
+시뮬레이션에서 Joint 링을 사용하거나 SpaceMouse로 TCP를 조작하려면 저장소 루트에서 실행한다.
 
 ```bash
+python -m vai_robotics.ur5e.teleop --backend sim --input spacemouse --command-mode joint-delta
 python -m vai_robotics.ur5e.teleop --backend sim --input spacemouse --command-mode eef-delta --control-law impedance
 ```
 
@@ -57,10 +68,10 @@ python -m vai_robotics.ur5e.teleop --backend sim --input spacemouse --command-mo
 | --- | --- |
 | `eef-delta` | 장치의 6축 입력 또는 패널의 변화량으로 현재 TCP 목표를 이동·회전한다. 회전 증분은 베이스 좌표계에서 합성한다. |
 | `eef-absolute` | **Load Measured**로 시작해 베이스 기준 TCP 위치(mm)와 rotation vector(°)를 편집한 뒤 **Apply Target**을 누른다. |
-| `joint-delta` | 장치의 이동 X/Y/Z가 J1–J3, 회전 X/Y/Z가 J4–J6을 순서대로 조작한다. 패널에서는 관절별 변화량(°)을 입력한다. |
-| `joint-absolute` | **Load Measured**를 눌러 여섯 관절각을 가져와 편집한 뒤 **Apply Target**을 누른다. |
+| `joint-delta` | SpaceMouse 세션에서 링을 돌린다. Quest는 이동 X/Y/Z로 J1–J3, 회전 X/Y/Z로 J4–J6을 조작한다. 패널에서는 관절별 변화량(°)을 입력한다. |
+| `joint-absolute` | SpaceMouse 세션에서 링을 돌리거나, **Load Measured**로 여섯 관절각을 불러와 편집한 뒤 Clutch를 누른 채 **Apply Target**을 선택한다. |
 
-**Apply Target**은 누를 때 한 번 반영된다. Clutch를 계속 누르면 속도 제한 안에서 목표에 접근하고, 놓거나 입력이 끊기면 목표를 지운다. 다음 조작은 그때의 실측 자세에서 시작한다. Absolute 모드에서는 장치가 Clutch를 담당한다. Python에서는 `controllers.TeleopController.update(sample, now, values=...)`로 같은 경로에 한 번에 여섯 값을 입력한다. EEF 값은 [x, y, z, rx, ry, rz] 순서로 m·rad, 관절값은 J1부터 J6 순서로 rad를 사용한다.
+**Apply Target**은 누를 때 한 번 반영된다. Clutch를 계속 누르면 속도 제한 안에서 목표에 접근하고, 놓거나 입력이 끊기면 목표를 지운다. 다음 조작은 그때의 실측 자세에서 시작한다. 패널에서 입력한 Absolute 목표에도 장치의 Clutch를 사용한다. Python에서는 `controllers.TeleopController.update(sample, now, values=...)`로 같은 경로에 한 번에 여섯 값을 입력한다. EEF 값은 [x, y, z, rx, ry, rz] 순서로 m·rad, 관절값은 J1부터 J6 순서로 rad를 사용한다.
 
 `--control-law position`은 관절 또는 TCP 위치를 추종한다. `impedance`는 각 축에서 `Stiffness × position error − Damping × measured velocity`로 출력을 계산한다. Cartesian Impedance는 베이스 기준으로 TCP에 가할 힘과 모멘트를, Joint Impedance는 여섯 관절 각각에 가할 토크를 계산한다. [제어식과 출력 한계](impedance.py)
 
@@ -68,13 +79,15 @@ python -m vai_robotics.ur5e.teleop --backend sim --input spacemouse --command-mo
 
 | 조절할 축 | Stiffness 기본값 | Damping 기본값 |
 | --- | --- | --- |
-| TCP 이동 X, Y, Z | 각 360 N/m | 각 30 N·s/m |
-| TCP 회전 Rx, Ry, Rz | 각 8 N·m/rad | 각 1.5 N·m·s/rad |
+| TCP 이동 X, Y, Z | 각 3000 N/m | 각 400 N·s/m |
+| TCP 회전 Rx, Ry, Rz | 각 100 N·m/rad | 각 22 N·m·s/rad |
 | 관절 J1–J6 순서 | 40, 45, 35, 12, 10, 8 N·m/rad | 10, 10, 8, 2.5, 2, 1.6 N·m·s/rad |
 
-패널에서 TCP X/Y/Z Stiffness는 0–600 N/m로 설정할 수 있다. 예를 들어 X축 Stiffness가 기본값인 360 N/m이고 정지 상태의 X 오차가 10 mm라면 X 방향 spring force는 3.6 N이다. 값을 180 N/m로 낮추면 1.8 N이 된다. **SIM RUN**에서는 MuJoCo가 힘을 적용한 뒤의 움직임을 볼 수 있다. **DRY RUN**에서 Impedance Control을 선택하면 별도의 MuJoCo 상태에서 같은 Stiffness와 Damping으로 가상 팔을 움직인다. TCP 미리보기에는 실기와 같은 축별 Speed Limit이 적용된다. 패널의 Target은 입력으로 생성한 목표이고, 화면의 가상 팔은 그 목표를 따라가는 예측 자세다. 로봇에 연결한 DRY RUN에서 Measured는 RTDE 실측값을 표시한다. 장착된 tool의 payload, 접촉 상태, UR 내부 force controller에 따라 미리보기와 실측 속도에 차이가 날 수 있다. Clutch를 놓으면 즉시 기준 자세로 돌아간다. [기본값과 입력 범위](impedance_gains.py)
+패널에서 TCP의 축별 Stiffness와 Damping은 0부터 위 표의 기본값까지 설정할 수 있다. 기본값에서 X축 오차가 +5 mm이면 정지 상태의 요청 힘은 +15 N이다. 같은 오차에서 TCP가 +X로 20 mm/s 이동 중이면 Damping 항이 8 N을 빼서 +7 N을 요청한다. TCP force 벡터의 상한은 15 N, torque 벡터의 상한은 2 N·m다. [기본값과 입력 범위](impedance_gains.py)
 
-**REAL RUN**의 Cartesian Impedance에서는 TCP의 `Target`이 `Measured`보다 최대 25 mm 앞설 수 있다. 기본 Stiffness 360 N/m에서 이 거리에 해당하는 spring force는 9 N이다. `forceMode`에 지정한 각 축의 속도 상한은 이동 60 mm/s, 회전 0.25 rad/s다. SpaceMouse를 한 축으로 끝까지 밀면 Input Scale 100%에서 이동 입력은 80 mm/s에 해당한다. 패널의 `Target`과 `Measured`를 비교하면 입력으로 만든 목표와 로봇이 실제로 따라온 거리를 확인할 수 있다. [TCP target 계산](controllers.py) · [실기 forceMode 설정](real.py)
+**SIM RUN**에서는 MuJoCo가 힘을 적용한 뒤의 움직임을 볼 수 있다. **DRY RUN**에서 Impedance Control을 선택하면 별도의 MuJoCo 상태에서 같은 Stiffness와 Damping으로 가상 팔을 움직인다. TCP 미리보기에는 실기와 같은 축별 Speed Limit이 적용된다. 패널의 Target은 입력으로 생성한 목표이고, 화면의 가상 팔은 그 목표를 따라가는 예측 자세다. 로봇에 연결한 DRY RUN에서 Measured는 RTDE 실측값을 표시한다. 장착된 tool의 payload, 접촉 상태, UR 내부 force controller에 따라 미리보기와 실측 속도에 차이가 날 수 있다. Clutch를 놓으면 즉시 기준 자세로 돌아간다.
+
+**REAL RUN**의 Cartesian Impedance에서는 TCP의 `Target`이 `Measured`보다 최대 25 mm 앞설 수 있다. `forceMode`에 지정한 각 축의 속도 상한은 이동 60 mm/s, 회전 0.25 rad/s다. SpaceMouse를 한 축으로 끝까지 밀면 Input Scale 100%에서 이동 입력은 80 mm/s에 해당한다. 패널의 `Target`과 `Measured`를 비교하면 입력으로 만든 목표와 로봇이 실제로 따라온 거리를 확인할 수 있다. [TCP target 계산](controllers.py) · [실기 forceMode 설정](real.py)
 
 ### 실물 UR5e 연결
 
@@ -88,6 +101,10 @@ Joint Impedance는 UR5e의 PolyScope 5.23 이상에서 제공하는 URScript `di
 
 ### OnRobot RG2 연결과 조작
 
+**Input Device → RG2 Visual Mount**에서 손목 flange를 기준으로 MuJoCo의 RG2 장착 자세를 맞춘다. 기본 자세에서는 손가락이 flange +Z 방향으로 뻗고 Y 방향으로 벌어진다. 실제와 화면의 손가락이 같은 방향으로 뻗지만 벌어지는 선이 직각이면 **Yaw (°)** 를 90으로 바꿔 비교한다. 그리퍼 몸체가 통째로 옆을 향한다면 **Roll (°)** 또는 **Pitch (°)** 를 조절한다. X/Y/Z는 flange 좌표계에서 그리퍼 베이스의 위치(mm)이고, Roll/Pitch/Yaw는 고정된 flange X/Y/Z축 순서로 적용하는 회전이다.
+
+**Apply**는 RG2 시각 모델 전체에 적용하며 로봇 IP별로 저장한다. 이전에 저장한 Jaw rotation은 Yaw로 이어진다. **Reset**은 기본 위치와 방향을 복원한다. 실물 active TCP와 payload CoG는 로봇 설정을 사용한다.
+
 실물 그리퍼를 함께 쓰려면 **OnRobot Compute Box의 IP**를 실기 노트북의 `GRIPPER_IP`에 입력하거나 CLI에 `--gripper-ip`로 전달한다. 팔의 `ROBOT_IP`와 별도로 설정하는 Modbus TCP 연결이다(포트 502, 단일 그리퍼 장치 ID 65). 그리퍼 주소를 생략해도 팔을 조작할 수 있으며, 이때 실물 RG2의 개도 수신과 구동은 꺼져 있다. 아래 명령은 현재 워크스테이션의 주소를 사용한다.
 
 ```bash
@@ -97,7 +114,7 @@ python -m vai_robotics.ur5e.teleop --backend real --input spacemouse \
   --robot-ip "$ROBOT_IP" --gripper-ip "$GRIPPER_IP" --gripper-force-n 40
 ```
 
-SpaceMouse의 **0번과 1번을 함께 누르는 동안 그리퍼 닫힘을 요청한다**. Compact에서는 왼쪽이 0번, 오른쪽이 1번이다. 두 버튼을 누른 채 캡을 움직이면 물체를 잡은 상태로 팔을 이동할 수 있다. `--button`은 팔 Clutch 버튼 번호를 바꾼다. Gripper에는 항상 0번과 1번을 함께 사용한다.
+SpaceMouse의 **0번과 1번을 함께 누르는 동안 그리퍼 닫힘을 요청한다**. Compact에서는 왼쪽이 0번, 오른쪽이 1번이다. TCP Delta에서 두 버튼을 누른 채 캡을 움직이면 물체를 잡은 상태로 팔을 이동할 수 있다. `--button`은 팔 Clutch 버튼 번호를 바꾼다. Gripper에는 항상 0번과 1번을 함께 사용한다.
 
 실기와 시뮬레이션 모두 `--gripper-force-n`으로 RG2 파지력을 설정한다(기본 40 N, 범위 3–40 N). 노트북에서는 `GRIPPER_FORCE_N`을 바꾼다. 예를 들어 `python -m vai_robotics.ur5e.teleop --backend sim --input spacemouse --dry-run --gripper-force-n 40`으로 실기와 같은 설정을 미리 볼 수 있다.
 

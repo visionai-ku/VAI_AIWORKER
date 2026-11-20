@@ -60,6 +60,23 @@ class TeleopPanelTest(unittest.TestCase):
         panel.close()
         self.assertFalse(panel.is_open)
 
+    def test_joint_ring_guidance_follows_confirmed_run_and_command_modes(self):
+        panel = self.make_panel(joint_rings=True, command_mode="joint-delta")
+        self.assertFalse(panel.gain.isEnabled())
+        self.assertNotIn("SpaceMouse Clutch", panel.coordinate_label.text())
+        panel.run_button.click()
+        self.assertNotIn("SpaceMouse Clutch", panel.coordinate_label.text())
+        panel.mode_result(dry_run=False)
+        self.assertIn("SpaceMouse Clutch", panel.coordinate_label.text())
+        panel.command_mode_result(command_mode="eef-delta")
+        self.assertTrue(panel.gain.isEnabled())
+        self.assertIn("Base Frame", panel.coordinate_label.text())
+        panel.command_mode_result(command_mode="joint-absolute")
+        self.assertIn("SpaceMouse Clutch", panel.coordinate_label.text())
+        panel.mode_result(dry_run=True)
+        self.assertNotIn("SpaceMouse Clutch", panel.coordinate_label.text())
+        self.assertIn("J1–J6", panel.coordinate_label.text())
+
     def test_numeric_target_is_sent_once_only_on_apply_and_in_si_units(self):
         for space in ("eef", "joint"):
             for style in ("delta", "absolute"):

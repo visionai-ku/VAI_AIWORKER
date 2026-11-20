@@ -48,10 +48,11 @@ class SimBackendTest(unittest.TestCase):
             p, rotation = backend.pose()
             backend.command_cartesian_impedance(p, rotation)
             applied = backend.sim.data.xfrc_applied[backend.sim.model.body("wrist_3_link").id]
-            applied[0] = 4.0  # 4 N / 360 N/m = 11.11 mm TCP displacement in X
+            applied[0] = 4.0
+            expected_dx = applied[0] / backend.get_impedance_gains("eef")["stiffness"][0]
             for _ in range(150):
                 backend.tick()
-            np.testing.assert_allclose(backend.pose()[0] - p, [4/360, 0, 0], atol=.001)
+            np.testing.assert_allclose(backend.pose()[0] - p, [expected_dx, 0, 0], atol=.00025)
             self.assertEqual(applied[0], 4.0)
             applied[0] = 0.0
             for _ in range(180):

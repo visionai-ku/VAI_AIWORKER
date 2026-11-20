@@ -5,6 +5,7 @@ from unittest.mock import Mock, PropertyMock, call, patch
 import numpy as np
 from scipy.spatial.transform import Rotation
 
+from vai_robotics.ur5e.payload import ToolPayload
 from vai_robotics.ur5e.real import RealUR5e, RobotControlStopped
 from vai_robotics.ur5e.teleop import run_teleop
 from vai_robotics.ur5e.teleop_types import InputSample
@@ -13,6 +14,8 @@ from vai_robotics.ur5e.teleop_types import InputSample
 class RealViewerSessionTest(unittest.TestCase):
     def setUp(self):
         self.backend = Mock()
+        self.backend.payload.return_value = ToolPayload(0.91, (0.001, -0.005, 0.083))
+        self.backend.tcp_speed_feedback.side_effect = lambda: (10. + self.frame / 50, np.zeros(6))
         self.device = Mock(spec=["read"])
         self.panel = Mock(scale=1.0, is_open=True, open_width_mm=75.0)
         self.panel.take_target.return_value = None
@@ -75,6 +78,33 @@ class RealViewerSessionTest(unittest.TestCase):
             self.assertIsNone(state["target"])
         self.backend.command.assert_called_once()
         self.assertEqual(shutdown, [("motion", False), "viewer exit"])
+
+    def test_parallel_preview_uses_original_device_input_and_reanchors_each_grip(self):
+        samples = [self.released] + [self.held] * 45 + [self.released, self.held]
+        updates = self.run_frames(dry_run=False, requests=[None] * len(samples), samples=samples)
+        first, last, release, regrip = updates[1], updates[-3], updates[-2], updates[-1]
+        np.testing.assert_allclose(first["comparison_target"][0], first["measured_tcp"][0])
+        # 44 samples of 1 mm in X; the stationary real X clamps its own lead to 25 mm.
+        self.assertAlmostEqual(last["comparison_target"][0][0], first["measured_tcp"][0][0] + 0.044)
+        self.assertLessEqual(self.backend.command.call_args_list[-2].args[0][0], 0.425001)
+        self.assertIsNone(release["comparison_target"])
+        np.testing.assert_allclose(regrip["comparison_target"][0], regrip["measured_tcp"][0])
+        self.assertEqual(self.backend.command.call_count, 46)
+        self.assertEqual(last["payload"], self.backend.payload.return_value)
+        self.assertAlmostEqual(last["feedback_timestamp"], 10. + 45 / 50)
+        np.testing.assert_equal(last["actual_tcp_speed"], np.zeros(6))
+
+    def test_connected_dry_run_publishes_changed_payload_without_speed_comparison(self):
+        first = self.backend.payload.return_value
+        changed = ToolPayload(1.4, (0., 0., 0.10))
+        self.backend.payload.side_effect = [first, changed]
+        updates = self.run_frames(dry_run=True, requests=[None, None], samples=[self.released, self.held])
+        self.assertEqual([u["payload"] for u in updates], [first, changed])
+        self.assertIsNone(updates[-1]["comparison_target"])
+        self.assertIsNone(updates[-1]["actual_tcp_speed"])
+        self.backend.command.assert_not_called()
+        self.assertEqual(self.panel.refresh.call_args.kwargs["tool_payload"],
+                         {"mass_kg": 1.4, "cog_m": (0., 0., 0.10)})
 
     def test_preview_uses_confirmed_joint_gains_without_acquiring_a_motion_writer(self):
         settings = RealUR5e("test")

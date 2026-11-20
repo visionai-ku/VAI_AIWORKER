@@ -8,7 +8,7 @@ from unittest.mock import MagicMock, patch
 import numpy as np
 from scipy.spatial.transform import Rotation
 
-from vai_robotics.ur5e.real import RealUR5e, RobotControlStopped
+from vai_robotics.ur5e.real import RealUR5e, RobotControlStopped, TargetValidationExpired
 
 
 class RealUR5eTests(unittest.TestCase):
@@ -269,7 +269,7 @@ class RealUR5eTests(unittest.TestCase):
             self.control.stopScript.assert_called_once()
             self.control.disconnect.assert_called_once()
 
-    def test_watchdog_rejection_and_target_validation_timeout_stop_control(self):
+    def test_watchdog_rejection_and_stale_feedback_remain_hard_failures(self):
         with RealUR5e("test", enable_motion=True) as robot:
             self.clock.return_value += 0.06
             self.control.kickWatchdog.return_value = False
@@ -283,9 +283,34 @@ class RealUR5eTests(unittest.TestCase):
                 return True
 
             self.control.isPoseWithinSafetyLimits.side_effect = slow_validation
-            with self.assertRaisesRegex(RobotControlStopped, "target validation timed out"):
+            with self.assertRaisesRegex(RobotControlStopped, "TCP target validation took 160 ms.*stale"):
                 robot.command(*robot.pose())
             self.control.servoL.assert_not_called()
+
+    def test_late_accepted_joint_target_stops_the_previous_servo_and_preserves_healthy_writer(self):
+        q = np.zeros(6)
+        self.receiver.getActualQ.return_value = q
+        with RealUR5e("test", enable_motion=True) as robot:
+            robot.command_joints(q)
+            def delayed_approval(target):
+                self.clock.return_value += .16
+                self.receiver.getTimestamp.return_value += .16
+                return True
+            self.control.isJointsWithinSafetyLimits.side_effect = delayed_approval
+            with self.assertRaisesRegex(TargetValidationExpired, "Joint target validation took 160 ms"):
+                robot.command_joints(q + .005)
+            self.control.servoJ.assert_called_once()
+            self.control.servoStop.assert_called_once()
+            self.assertTrue(robot.motion_enabled)
+            self.control.isJointsWithinSafetyLimits.assert_called_with((q + .005).tolist())
+            # A failed stop acknowledgement must not be classed as recoverable.
+            self.control.isJointsWithinSafetyLimits.side_effect = None
+            robot.command_joints(q)
+            self.control.isJointsWithinSafetyLimits.side_effect = delayed_approval
+            self.control.servoStop.return_value = False
+            with self.assertRaisesRegex(RobotControlStopped, "servoStop"):
+                robot.command_joints(q + .006)
+            self.assertEqual(self.control.servoJ.call_count, 2)
 
     def test_reader_errors_stay_fatal_during_motion_session(self):
         with RealUR5e("test", enable_motion=True) as robot:

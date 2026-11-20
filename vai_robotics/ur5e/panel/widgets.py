@@ -2,14 +2,28 @@
 
 import re
 
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QComboBox, QFrame, QLabel, QSizePolicy, QVBoxLayout
+from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtWidgets import QApplication, QComboBox, QFrame, QLabel, QSizePolicy, QToolButton, QVBoxLayout
 
 
 class ModePicker(QComboBox):
     def wheelEvent(self, event):
         # Scrolling the panel should never request a controller change.
         event.ignore()
+
+
+def disclosure_button(text=""):
+    button = QToolButton()
+    button.setProperty("role", "disclosure")
+    button.setText(text)
+    button.setFont(QApplication.font("QLabel"))
+    arrow_size = button.fontMetrics().height() // 2
+    button.setIconSize(QSize(arrow_size, arrow_size))
+    button.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
+    button.setArrowType(Qt.RightArrow)
+    button.setCheckable(True)
+    button.toggled.connect(lambda expanded: button.setArrowType(Qt.DownArrow if expanded else Qt.RightArrow))
+    return button
 
 
 def make_label(text, *, role=None, wrap=False, emphasis=0):

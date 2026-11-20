@@ -38,13 +38,17 @@ def _load_spacemouse():
 class SpaceMouseInput:
     """Integrate normalized SpaceMouse velocity while the clutch button is held."""
 
-    def __init__(self, button=1, linear_speed=0.08, angular_speed=0.5, *, wait_for_device=False):
+    def __init__(self, button=1, linear_speed=0.08, angular_speed=0.5, *, wait_for_device=False,
+                 allow_mouse_only=False):
         if button < 0 or not all(np.isfinite(v) and v > 0 for v in (linear_speed, angular_speed)):
             raise ValueError("Use a nonnegative button index and positive, finite input speeds")
         self.button = button
         self.linear_speed = linear_speed
         self.angular_speed = angular_speed
         self.wait_for_device = wait_for_device
+        self.allow_mouse_only = allow_mouse_only
+        self._driver_error = ""
+        self._connection_error = ""
         self.device = None
         self._clutch_pressed = None
         self._reset_gripper_buttons()
@@ -56,8 +60,15 @@ class SpaceMouseInput:
         self._buttons_released = False
 
     def __enter__(self):
-        self.driver, self.hid_error = _load_spacemouse()
-        self._connect()
+        self._driver_error = ""
+        try:
+            self.driver, self.hid_error = _load_spacemouse()
+        except RuntimeError as error:
+            if not self.allow_mouse_only:
+                raise
+            self._driver_error = str(error)
+            return self
+        self._try_connect()
         return self
 
     @property
@@ -66,7 +77,9 @@ class SpaceMouseInput:
 
     @property
     def status(self):
-        return "" if self.connected else "SpaceMouse USB 연결 대기"
+        if self.connected:
+            return ""
+        return self._driver_error or self._connection_error or "SpaceMouse USB 연결 대기"
 
     @property
     def clutch_pressed(self):
@@ -77,6 +90,15 @@ class SpaceMouseInput:
     def gripper_chord(self):
         """Confirmed button 0+1 state, independent of the six-axis stream."""
         return self._gripper_chord if self.device is not None and self._gripper_armed else None
+
+    def _try_connect(self):
+        self._connection_error = ""
+        try:
+            self._connect()
+        except (OSError, RuntimeError, self.hid_error) as error:
+            if not self.allow_mouse_only:
+                raise
+            self._connection_error = str(error)
 
     def _connect(self):
         self.retry_at = time.monotonic() + 1.0
@@ -125,9 +147,11 @@ class SpaceMouseInput:
         self.motion_time = state.t
 
     def read(self):
+        if self._driver_error:
+            return None
         if self.device is None:
             if time.monotonic() >= self.retry_at:
-                self._connect()
+                self._try_connect()
             return None
 
         state = self._latest_report()

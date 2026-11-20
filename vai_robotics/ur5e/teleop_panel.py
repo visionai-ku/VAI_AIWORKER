@@ -71,7 +71,7 @@ class TeleopPanel:
     _targets_valid_since = -math.inf
 
     def __init__(self, *, simulation, device_name, dry_run, robot_ip=None, open_width_mm=None,
-                 command_mode="eef-delta", control_law="position"):
+                 command_mode="eef-delta", control_law="position", joint_rings=False):
         from .rg2 import DEFAULT_OPEN_WIDTH_MM, normalize_open_width_mm
 
         if open_width_mm is None:
@@ -85,6 +85,7 @@ class TeleopPanel:
             open_width_mm=self.open_width_mm,
             command_mode=command_mode,
             control_law=control_law,
+            joint_rings=joint_rings,
         )
         self._messages = _incoming(self._process.stdout)
         self._open = True
@@ -100,8 +101,10 @@ class TeleopPanel:
 
     def _wait_until_ready(self):
         try:
-            if self._messages.get(timeout=10) != "ready":
+            hello = self._messages.get(timeout=10)
+            if not isinstance(hello, dict) or hello.get("ready") is not True:
                 raise RuntimeError("UR5e 조작 패널을 열 수 없습니다.")
+            self.rg2_mount = tuple(hello["rg2_mount"])
         except Empty:
             self.close()
             raise RuntimeError("UR5e 조작 패널이 시작 시간 안에 응답하지 않았습니다.") from None
@@ -136,6 +139,8 @@ class TeleopPanel:
                 self.scale = event["scale"]
             if "open_width_mm" in event:
                 self.open_width_mm = event["open_width_mm"]
+            if "rg2_mount" in event:
+                self.rg2_mount = tuple(event["rg2_mount"])
             if "ack" in event:
                 self._can_send = True
         if not self._open:
@@ -171,7 +176,8 @@ class TeleopPanel:
         return None
 
     def refresh(self, *, dry_run, clutch, measured, target, message="", gripper="",
-                measured_joints=None, target_joints=None, operator_state="waiting-input", recording=None):
+                measured_joints=None, target_joints=None, operator_state="waiting-input", recording=None,
+                speed_comparison=None, tool_payload=None):
         now = time.monotonic()
         if not self.is_open or not self._can_send or now < self._next_update:
             return
@@ -182,6 +188,10 @@ class TeleopPanel:
                      target_joints=None if target_joints is None else list(map(math.degrees, target_joints)))
         if recording is not None:
             state["recording"] = recording
+        if speed_comparison is not None:
+            state["speed_comparison"] = speed_comparison
+        if tool_payload is not None:
+            state["tool_payload"] = tool_payload
         try:
             _send(self._process.stdin, state)
         except (BrokenPipeError, OSError):
@@ -260,6 +270,7 @@ class _WindowConnection:
         }
         self.previous_scale = window.scale
         self.previous_width = window.open_width_mm
+        self.previous_mount = window.rg2_mount
 
     def exchange(self):
         if not self.window.is_open:
@@ -299,6 +310,9 @@ class _WindowConnection:
         if self.window.open_width_mm != self.previous_width:
             self.previous_width = self.window.open_width_mm
             events["open_width_mm"] = self.previous_width
+        if self.window.rg2_mount != self.previous_mount:
+            self.previous_mount = self.window.rg2_mount
+            events["rg2_mount"] = self.previous_mount
         return events
 
 
@@ -312,7 +326,7 @@ def _run_window(settings):
     timer = QTimer()
     timer.timeout.connect(connection.exchange)
     timer.start(16)
-    _send(sys.stdout, "ready")
+    _send(sys.stdout, {"ready": True, "rg2_mount": window.rg2_mount})
     window.app.exec_()
     # Flush a Save click if the window closed before the 16 ms exchange timer.
     if window.recording.take_request() == "save":

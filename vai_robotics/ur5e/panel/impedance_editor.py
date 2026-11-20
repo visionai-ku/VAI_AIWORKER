@@ -1,13 +1,12 @@
 """Edit, validate and acknowledge the two sets of per-axis impedance gains."""
 
-from PyQt5.QtCore import QSignalBlocker, QSize, Qt
+from PyQt5.QtCore import QSignalBlocker, Qt
 from PyQt5.QtWidgets import (
-    QApplication, QDoubleSpinBox, QGridLayout, QHBoxLayout, QPushButton,
-    QToolButton, QVBoxLayout, QWidget,
+    QDoubleSpinBox, QGridLayout, QHBoxLayout, QPushButton, QVBoxLayout, QWidget,
 )
 
 from ..impedance_gains import default_impedance_gains, max_impedance_gains, validate_impedance_gains
-from .widgets import make_label
+from .widgets import disclosure_button, make_label
 
 
 class ImpedanceEditor:
@@ -21,7 +20,8 @@ class ImpedanceEditor:
         self.confirmed = {space: default_impedance_gains(space) for space in ("eef", "joint")}
         self.drafts = {}
 
-        self.toggle = self._make_disclosure()
+        self.toggle = disclosure_button()
+        self.toggle.setObjectName("gainDisclosure")
         layout.addWidget(self.toggle, 0, Qt.AlignLeft)
         self.body = QWidget()
         self.body.hide()
@@ -31,19 +31,7 @@ class ImpedanceEditor:
         body.setSpacing(5)
         body.addLayout(self._build_gain_table())
         body.addLayout(self._build_actions(submit))
-        self.toggle.toggled.connect(self._expand)
-
-    @staticmethod
-    def _make_disclosure():
-        toggle = QToolButton()
-        toggle.setObjectName("gainDisclosure")
-        toggle.setFont(QApplication.font("QLabel"))
-        arrow_size = toggle.fontMetrics().height() // 2
-        toggle.setIconSize(QSize(arrow_size, arrow_size))
-        toggle.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
-        toggle.setArrowType(Qt.RightArrow)
-        toggle.setCheckable(True)
-        return toggle
+        self.toggle.toggled.connect(self.body.setVisible)
 
     def _build_gain_table(self):
         grid = QGridLayout()
@@ -84,10 +72,6 @@ class ImpedanceEditor:
         self.apply.clicked.connect(lambda: submit(self.space, self.values()))
         actions.addWidget(self.apply)
         return actions
-
-    def _expand(self, expanded):
-        self.toggle.setArrowType(Qt.DownArrow if expanded else Qt.RightArrow)
-        self.body.setVisible(expanded)
 
     def values(self):
         return {key: [field.value() for field in fields] for key, fields in self.inputs.items()}

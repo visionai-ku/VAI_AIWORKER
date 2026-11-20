@@ -6,8 +6,9 @@ from numbers import Real
 
 # Cartesian entries use base-frame X/Y/Z translation then X/Y/Z rotation.
 # Joint entries follow shoulder pan through wrist 3.
-TCP_STIFFNESS = (360., 360., 360., 8., 8., 8.)    # N/m, Nm/rad
-TCP_DAMPING = (30., 30., 30., 1.5, 1.5, 1.5)      # N s/m, Nm s/rad
+# Match the Cartesian spring and damper in serl_vai's UrImpController_Thread.
+TCP_STIFFNESS = (3000., 3000., 3000., 100., 100., 100.)  # N/m, Nm/rad
+TCP_DAMPING = (400., 400., 400., 22., 22., 22.)          # N s/m, Nm s/rad
 JOINT_STIFFNESS = (40., 45., 35., 12., 10., 8.)    # Nm/rad
 JOINT_DAMPING = (10., 10., 8., 2.5, 2., 1.6)       # Nm s/rad
 
@@ -19,7 +20,10 @@ _DEFAULTS = {
 
 # Operator-editable gain limits are independent of the startup tuning.
 _MAXIMA = {
-    "eef": {"stiffness": (600., 600., 600., 16., 16., 16.), "damping": (60., 60., 60., 3., 3., 3.)},
+    "eef": {
+        "stiffness": (3000., 3000., 3000., 100., 100., 100.),
+        "damping": (400., 400., 400., 22., 22., 22.),
+    },
     "joint": {"stiffness": (80., 90., 70., 24., 20., 16.), "damping": (20., 20., 16., 5., 4., 3.2)},
 }
 

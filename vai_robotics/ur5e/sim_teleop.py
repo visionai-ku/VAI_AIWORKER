@@ -1,13 +1,17 @@
 """Joint and Cartesian teleoperation of the UR5e in the bundled MuJoCo scene."""
 
+import time
+
 import mujoco
 import numpy as np
 from scipy.spatial.transform import Rotation
 
 from .impedance import ImpedanceSettings, cartesian_wrench, joint_torque
 from .impedance_preview import ImpedancePreview
-from .rg2_visual import OPEN_WIDTH_MM, set_rg2_width
+from .payload import ToolPayload
+from .rg2_visual import DEFAULT_VISUAL_MOUNT, OPEN_WIDTH_MM, normalize_visual_mount, set_rg2_width
 from .sim import load_simulation
+from .teleop_types import INPUT_TIMEOUT
 
 
 class SimBackend:
@@ -31,6 +35,11 @@ class SimBackend:
         self._previewing = False
         self._preview_mode = None
         self._last_measured_width = OPEN_WIDTH_MM
+        self._payload = None
+        self._ring_epoch = 0
+        self._joint_rings = None
+        self._drag = None
+        self._drag_at = None
 
     def __enter__(self):
         self.sim = load_simulation()
@@ -54,7 +63,41 @@ class SimBackend:
         self._equilibrium = None
         self.tick_count = 0
         self._last_measured_width = OPEN_WIDTH_MM
+        self._payload = None
+        self._visual_mount = DEFAULT_VISUAL_MOUNT
         return self
+
+    def set_rg2_mount(self, pose):
+        """Set the flange-relative transform of the RG2 visual assembly."""
+        mount = normalize_visual_mount(pose)
+        if mount == self._visual_mount:
+            return
+        body = self.sim.model.body("rg2_visual_mount")
+        body.pos[:] = np.asarray(mount[:3]) / 1000
+        body.quat[:] = Rotation.from_euler("xyz", mount[3:], degrees=True).as_quat(scalar_first=True)
+        # Update both the live mirror and the independently articulated DRY arm.
+        mujoco.mj_forward(self.sim.model, self.sim.data)
+        mujoco.mj_forward(self.sim.model, self._shadow)
+        self._visual_mount = mount
+
+    def set_payload(self, payload: ToolPayload):
+        """Apply the configured total load once at the RG2's flange-aligned base."""
+        if payload == self._payload:
+            return
+        model = self.sim.model
+        body = model.body("rg2_base")
+        body.mass[0] = payload.mass_kg
+        body.ipos[:] = payload.cog_m
+        # PolyScope 5.9 supplies mass and CoG. Approximate it as a point mass
+        # there; MuJoCo includes the resulting moment arms in the joint inertia.
+        body.iquat[:] = (1, 0, 0, 0)
+        body.inertia[:] = 0
+        # mj_setConst computes reference-pose constants and mutates its MjData.
+        # Use scratch data to preserve both the live and the preview trajectory.
+        mujoco.mj_setConst(model, mujoco.MjData(model))
+        mujoco.mj_forward(model, self.sim.data)
+        mujoco.mj_forward(model, self._shadow)
+        self._payload = payload
 
     def _flange_pose(self, data):
         site = data.site(self.site_name)
@@ -69,6 +112,34 @@ class SimBackend:
     def joint_limits(self):
         lower, upper = self.sim.model.actuator_ctrlrange.T
         return lower.copy(), upper.copy()
+
+    def set_joint_ring_epoch(self, epoch):
+        """Zero hides the rings. Each new Joint configuration gets its own epoch."""
+        if epoch != self._ring_epoch:
+            self._ring_epoch = epoch
+            self._drag = self._drag_at = None
+
+    def joint_drag(self):
+        if not self._ring_epoch or self._drag_at is None or time.monotonic() - self._drag_at > INPUT_TIMEOUT:
+            return None
+        return self._drag
+
+    def _update_joint_rings(self, displayed_data):
+        if self._joint_rings is None:
+            if not self._ring_epoch:
+                return
+            from .joint_rings import JointRings
+
+            self._joint_rings = JointRings(self.sim)
+
+        now = time.monotonic()
+        if self._drag_at is not None and now - self._drag_at > INPUT_TIMEOUT:
+            # The viewer missed input edges while stalled. Require a fresh grab.
+            self._joint_rings.update(displayed_data, 0)
+        self._drag = self._joint_rings.update(displayed_data, self._ring_epoch)
+        self._drag_at = now
+        if self._ring_epoch:
+            self._joint_rings.draw()
 
     def preview_pose(self):
         """The displayed shadow TCP in UR base coordinates during DRY RUN."""
@@ -240,6 +311,18 @@ class SimBackend:
                 self._shadow, flange_xyz, flange_rotation, self._shadow.qpos)
             mujoco.mj_forward(self.sim.model, self._shadow)
 
+    def start_comparison(self, measured_q, measured_tcp, *, joint, impedance):
+        """Anchor the independent DRY model once per REAL clutch at the measured TCP."""
+        self._mirror_joints(measured_q)
+        self._reset_shadow_to_arm(measured_tcp)
+        self._preview_mode = ("joint" if joint else "eef", impedance)
+        return self._impedance_preview.tcp_pose(self._flange_to_tcp)
+
+    def advance_comparison(self, target, joint_target, *, impedance, incremental, dt):
+        """Apply a completed control interval to the shadow without rendering it."""
+        self._update_shadow(target, joint_target, None, False, impedance, dt, incremental)
+        return self._impedance_preview.tcp_pose(self._flange_to_tcp)
+
     def _update_gripper_width(self, width_mm, *, measured):
         # The RG2 is posed via its geometry, independently of the six RTDE joints.
         if width_mm is None:
@@ -259,6 +342,7 @@ class SimBackend:
     def _render_frame(self, display_tcp, *, mirroring_robot, width_available):
         sim = self.sim
         sim.viewer.data = self._shadow if self._previewing else sim.data
+        self._update_joint_rings(sim.viewer.data)
         if mirroring_robot:
             mode, source = ("DRY RUN", "Preview") if self._previewing else ("REAL RUN", "Measured")
             sim.viewer_text_overlay(mode, source, loc="top left")
@@ -271,7 +355,7 @@ class SimBackend:
 
     def tick(self, *, dry_run=False, target=None, joint_target=None, measured_q=None, measured_tcp=None,
              reset_preview=False, gripper_width_mm=None, preview_impedance=False, preview_dt=None,
-             preview_delta=False):
+             preview_delta=False, comparing=False):
         """Advance live physics, mirror RTDE joints, or articulate the independent preview."""
         mirroring_robot = measured_q is not None
         self._update_gripper_width(gripper_width_mm, measured=mirroring_robot and not dry_run)
@@ -284,7 +368,7 @@ class SimBackend:
         if dry_run:
             dt = self.period if preview_dt is None else preview_dt
             self._update_shadow(target, joint_target, measured_tcp, reset_preview, preview_impedance, dt, preview_delta)
-        else:
+        elif not comparing:
             self._preview_mode = None
 
         if self.headless or not self.is_running():
@@ -302,6 +386,8 @@ class SimBackend:
         return self.sim is not None and (self.headless or self.sim.is_viewer_alive())
 
     def close(self):
+        self.set_joint_ring_epoch(0)
+        self._joint_rings = self._drag = self._drag_at = None
         if self.sim is not None:
             if not self.headless:
                 self.sim.close_viewer()

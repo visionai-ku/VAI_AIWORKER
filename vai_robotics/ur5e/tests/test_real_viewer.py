@@ -30,6 +30,26 @@ class RealViewerTests(unittest.TestCase):
         self.viewer.update(q=self.q, measured_tcp=self.tcp, dry_run=dry_run, target=target,
                            gripper_width_mm=width)
 
+    def test_rg2_mount_setting_reaches_frames_in_both_modes_and_resets(self):
+        expected = (-3.5, 7.5, 24., 90., -30., 45.)
+        self.assertLessEqual(real_viewer._FRAME.size, 512)
+        self.viewer.set_rg2_mount(expected)
+        for dry_run in (True, False):
+            with self.subTest(dry_run=dry_run):
+                self.viewer._next_frame = 0.
+                self.send(dry_run, None)
+                frame = next(real_viewer._snapshots(self.read_fd))
+                self.assertEqual(frame.rg2_mount, expected)
+                view = Mock()
+                with patch.object(real_viewer, "_frame_batches", return_value=[[frame]]):
+                    real_viewer._display(view, self.read_fd, lambda: None)
+                view.set_rg2_mount.assert_called_once_with(expected)
+                np.testing.assert_array_equal(frame.q, self.q)
+        self.viewer.set_rg2_mount(real_viewer.DEFAULT_VISUAL_MOUNT)
+        self.viewer._next_frame = 0.
+        self.send(True, None)
+        self.assertEqual(next(real_viewer._snapshots(self.read_fd)).rg2_mount, (0.,) * 6)
+
     def test_draws_latest_measured_joints_and_tcp_in_real_and_reseeds_skipped_grips(self):
         # Run the production consumer against a real pipe. Simulate a renderer that
         # falls behind over multiple mode/clutch changes before servicing its window.

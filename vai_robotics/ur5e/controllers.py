@@ -165,24 +165,30 @@ class TeleopController:
 
     def update(self, sample, now, *, scale=1.0, values=None):
         """Apply one device tick plus an optional one-shot six-axis numerical command (SI)."""
+        notice = self.plan(sample, now, measured=self.backend.pose(),
+                           measured_joints=self.backend.joints() if self.joint_space else None,
+                           scale=scale, values=values)
+        if not self.active:
+            self.backend.hold()
+        elif not self.dry_run:
+            self._send_target()
+        return notice
+
+    def plan(self, sample, now, *, measured, measured_joints=None, scale=1.0, values=None):
+        """Advance the input and target state using supplied feedback, without robot I/O."""
         dt = 0.0 if self.last_tick is None else now - self.last_tick
         self.last_tick = now
-        self.measured = self.backend.pose()
-        if self.joint_space:
-            self.measured_joints = self.backend.joints()
+        self.measured = measured
+        self.measured_joints = measured_joints
 
         if not self._update_clutch(sample, dt):
             self.target = self.joint_target = self.goal = None
-            self.backend.hold()
             if values is not None:
                 return "Clutch를 놓았다 다시 누른 상태에서 Apply Target을 누르세요."
             return
 
         # A delayed tick may advance the target by at most two control periods.
-        notice = self._advance_target(sample, min(dt, 2 / HZ), scale, values)
-        if not self.dry_run:
-            self._send_target()
-        return notice
+        return self._advance_target(sample, min(dt, 2 / HZ), scale, values)
 
     def _update_clutch(self, sample, dt):
         """Return whether this tick may advance a target. Input loss requires a new release."""
@@ -213,9 +219,9 @@ class TeleopController:
             rotation = bounded_vector(sample.rotation, MAX_ANGULAR_SPEED * dt)
             delta = scale * np.r_[translation, rotation]
 
-        numerical = self.absolute or values is not None or self.goal is not None
+        numerical = self.absolute or values is not None or self.goal is not None or sample.joint_drag is not None
         if self.joint_space:
-            notice = self._advance_joints(delta, values, dt)
+            notice = self._advance_joints(delta, values, dt, sample.joint_drag)
             if notice:
                 return notice
         elif not starting or values is not None:
@@ -266,7 +272,7 @@ class TeleopController:
             if translation_error < GOAL_TOLERANCE and rotation_error < GOAL_TOLERANCE:
                 self.goal = None
 
-    def _advance_joints(self, delta, values, dt):
+    def _advance_joints(self, delta, values, dt, drag):
         if values is not None:
             requested = values if self.absolute else self.joint_target + values
             if self.joint_limits is not None:
@@ -275,7 +281,13 @@ class TeleopController:
                     self.goal = None
                     return "입력한 각도가 시뮬레이터의 Joint Limits를 벗어납니다."
             self.goal = requested
-        if self.goal is None:
+        if drag is not None:
+            if drag.joint not in range(6) or not np.isfinite(drag.angle):
+                raise ValueError("Expected a selected UR5e joint and a finite ring angle.")
+            self.goal = None
+            step = np.zeros(6)
+            step[drag.joint] = drag.angle - self.joint_target[drag.joint]
+        elif self.goal is None:
             step = np.r_[JOINT_RAD_PER_METRE * delta[:3], delta[3:]]
         else:
             step = self.goal - self.joint_target

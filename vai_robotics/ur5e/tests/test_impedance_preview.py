@@ -121,17 +121,22 @@ class ImpedancePreviewTest(unittest.TestCase):
         period = self.backend.period
         max_linear_step = np.array(RealUR5e.FORCE_SPEED_LIMITS[:3]) * period
         max_angular_step = np.array(RealUR5e.FORCE_SPEED_LIMITS[3:]) * period
-        for frame in range(1, 41):
-            target_xyz = tcp[0] + [frame * period * .08, 0, 0]
-            target_rot = Rotation.from_rotvec([0, frame * period * .5, 0]) * tcp[1]
+        # Jog above both speed limits for 0.8 s, then hold the final equilibrium.
+        # At an offset TCP the capped moment can lag while the arm translates.
+        for frame in range(1, 201):
+            jog_time = min(frame, 40) * period
+            target_xyz = tcp[0] + [jog_time * .08, 0, 0]
+            target_rot = Rotation.from_rotvec([0, jog_time * .5, 0]) * tcp[1]
             self.preview(measured_q=q, measured_tcp=tcp, target=(target_xyz, target_rot))
             next_position, next_rotation = self.backend.preview_pose()
             self.assertTrue(np.all(np.abs(next_position - position) <= max_linear_step + 2e-5))
             rotation_step = (next_rotation * rotation.inv()).as_rotvec()
             self.assertTrue(np.all(np.abs(rotation_step) <= max_angular_step + 1e-4))
             position, rotation = next_position, next_rotation
-        self.assertGreater(position[0] - tcp[0][0], .005)
-        self.assertGreater((rotation * tcp[1].inv()).as_rotvec()[1], .01)
+            if frame == 40:
+                self.assertGreater(position[0] - tcp[0][0], .005)
+        np.testing.assert_allclose(position, target_xyz, atol=.0005)
+        self.assertLess((rotation * target_rot.inv()).magnitude(), .002)
 
         # A renderer can miss the release while the physical arm is repositioned.
         new_q = q + [.15, 0, 0, 0, 0, 0]

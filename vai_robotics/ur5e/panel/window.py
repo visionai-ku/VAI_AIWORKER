@@ -15,6 +15,8 @@ from PyQt5.QtWidgets import (
 
 from .impedance_editor import ImpedanceEditor
 from .recording import EpisodeControls
+from .tcp_speed import TCPSpeedComparison
+from .visual_mount import VisualMountEditor
 from .widgets import ModePicker, add_divider, add_section, make_label, set_status_text
 
 
@@ -26,6 +28,7 @@ _PENDING_TITLES = {
 }
 
 _STATE_LABELS = {
+    "waiting-feedback": ("RTDE feedback 대기", "attention"),
     "waiting-device": ("입력 장치 연결 대기", "idle"),
     "waiting-input": ("입력 신호 대기", "idle"),
     "waiting-clutch": ("Clutch 확인 대기", "attention"),
@@ -50,9 +53,11 @@ class PanelWindow:
     """Show the active configuration until the control loop confirms a request."""
 
     def __init__(self, *, simulation, device_name, dry_run, open_width_mm, robot_ip=None,
-                 command_mode="eef-delta", control_law="position"):
+                 command_mode="eef-delta", control_law="position", joint_rings=False):
         self.app = _panel_application()
         self._simulation = simulation
+        self._joint_rings = joint_rings
+        self._robot_ip = robot_ip
         self._operator_state = None
         self._applied_dry_run = dry_run
         self._control_law = control_law
@@ -71,6 +76,8 @@ class PanelWindow:
         self._feedback_timer.timeout.connect(self._clear_operator_state)
 
         self._build_window(device_name, open_width_mm, robot_ip)
+        if self.speed_comparison is not None:
+            self._feedback_timer.timeout.connect(self._expire_speed_feedback)
         self._show_mode(dry_run)
         self._update_state_header()
         self._show_command_mode(command_mode)
@@ -103,6 +110,7 @@ class PanelWindow:
         self.message_label.hide()
         layout.addWidget(self.message_label)
         self._build_inputs(add_section(layout), device_name, open_width_mm)
+        self.speed_comparison = None if self._simulation else TCPSpeedComparison(add_section(layout))
         self.recording = EpisodeControls(add_section(layout))
         self._build_targets(add_section(layout))
         layout.addStretch()
@@ -174,6 +182,9 @@ class PanelWindow:
         self._operator_state = None
         self._update_state_header()
 
+    def _expire_speed_feedback(self):
+        self.speed_comparison.refresh(None, None, dry_run=self._applied_dry_run)
+
     def _build_inputs(self, layout, device_name, open_width_mm):
         device = {"spacemouse": "SpaceMouse", "quest": "Quest 3"}.get(device_name, device_name)
         top = QHBoxLayout()
@@ -195,6 +206,8 @@ class PanelWindow:
         self._add_scale_control(grid, row=2)
         self._add_open_width_control(grid, row=3, width_mm=open_width_mm)
         layout.addLayout(grid)
+        self.visual_mount = VisualMountEditor(layout, simulation=self._simulation, robot_ip=self._robot_ip)
+        self.visual_mount.toggle.toggled.connect(lambda expanded: self._fit_window(shrink=not expanded))
 
     def _add_scale_control(self, grid, row):
         self.gain = QSlider(Qt.Horizontal)
@@ -370,8 +383,8 @@ class PanelWindow:
         self._absolute = mode.endswith("-absolute")
         command = "Absolute" if self._absolute else "Delta"
         self.entry_heading.setText(command)
-        self.coordinate_label.setText("Joint Angles · J1–J6" if self._joint_space
-                                      else "Base Frame · Rotation Vector (Rx/Ry/Rz)")
+        self._show_coordinate_hint()
+        self.gain.setEnabled(not (self._joint_rings and self._joint_space))
         axes = [f"J{i + 1}" for i in range(6)] if self._joint_space else ("X", "Y", "Z", "Rx", "Ry", "Rz")
         for i, (axis, box) in enumerate(zip(axes, self.target_inputs)):
             linear = not self._joint_space and i < 3
@@ -382,6 +395,17 @@ class PanelWindow:
         self.gain_editor.configure("joint" if self._joint_space else "eef", self._control_law == "impedance")
         self._reset_target_editor()
         self._enable_target_controls()
+
+    def _show_coordinate_hint(self):
+        if not self._joint_space:
+            text = "Base Frame · Rotation Vector (Rx/Ry/Rz)"
+        elif not self._joint_rings:
+            text = "Joint Angles · J1–J6"
+        elif self._simulation or self._applied_dry_run:
+            text = "MuJoCo에서 J1–J6의 링을 마우스 왼쪽 버튼으로 드래그하세요."
+        else:
+            text = "SpaceMouse Clutch를 먼저 누른 채 MuJoCo의 관절 링을 왼쪽 버튼으로 드래그하세요."
+        self.coordinate_label.setText(text)
 
     def _reset_target_editor(self):
         self._last_measured = self._target_event = None
@@ -477,11 +501,16 @@ class PanelWindow:
     def open_width_mm(self):
         return round(self.open_width.value(), self.open_width.decimals())
 
+    @property
+    def rg2_mount(self):
+        return self.visual_mount.applied
+
     def _show_mode(self, dry_run):
         if dry_run != self._applied_dry_run:
+            self._applied_dry_run = dry_run
             self._target_event = self._last_measured = None
             self._loaded_absolute = False
-        self._applied_dry_run = dry_run
+            self._show_coordinate_hint()
         self.dry_button.setChecked(dry_run)
         self.run_button.setChecked(not dry_run)
 
@@ -553,8 +582,14 @@ class PanelWindow:
             QTimer.singleShot(0, self._fit_window)
 
     def refresh(self, *, dry_run, clutch, measured, target, message="", gripper="",
-                measured_joints=None, target_joints=None, operator_state="waiting-input", recording=None):
+                measured_joints=None, target_joints=None, operator_state="waiting-input", recording=None,
+                speed_comparison=None, tool_payload=None):
         self._feedback_timer.start()
+        if self.speed_comparison is not None:
+            was_hidden = self.speed_comparison.section.isHidden()
+            self.speed_comparison.refresh(speed_comparison, tool_payload, dry_run=dry_run)
+            if was_hidden and not self.speed_comparison.section.isHidden():
+                QTimer.singleShot(0, self._fit_window)
         if recording is not None:
             self._update_recording(recording)
         if self._pending_switch is None:

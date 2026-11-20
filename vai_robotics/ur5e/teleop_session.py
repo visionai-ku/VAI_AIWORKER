@@ -5,8 +5,11 @@ import sys
 
 import numpy as np
 
+from .connected_preview import ConnectedPreview
 from .controllers import TeleopController
-from .real import RobotControlStopped
+from .inputs.spacemouse import SpaceMouseInput
+from .joint_ring_input import JointRingInput
+from .real import RobotControlStopped, StaleRobotFeedback, TargetValidationExpired
 from .rg2 import DEFAULT_OPEN_WIDTH_MM
 from .rg2_visual import OPEN_WIDTH_MM, RG2Preview
 
@@ -193,11 +196,15 @@ class TeleopSession:
             limits = backend.joint_limits()
         self.controller = TeleopController(backend, dry_run=dry_run, command_mode=command_mode,
                                           control_law=control_law, joint_limits=limits)
+        self.connected_preview = ConnectedPreview() if not simulation and panel is not None else None
+        self.ring_input = JointRingInput() if isinstance(device, SpaceMouseInput) else None
         self.gripper = _SessionGripper(gripper, simulation, gripper_force_n)
         self.message = ""
         self._was_active = False
         self._last_report = float("-inf")
         self._last_preview_at = None
+        self._preview_paused = False
+        self._validation_release_required = False
 
     def step(self, view, started):
         """Return False when the panel closes, before sampling or sending commands."""
@@ -206,8 +213,27 @@ class TeleopSession:
             if self.recording is not None and self.panel.take_record_request() == "save":
                 self.recording.save_pending()
             return False
+        record = self.panel.take_record_request() if self.recording is not None and self.panel is not None else None
+        try:
+            if self._preview_paused:
+                self._resume_preview(view, started, requests, record)
+            else:
+                self._control_tick(view, started, requests, record)
+        except StaleRobotFeedback as error:
+            if self.simulation or (not self.controller.dry_run and self.panel is None):
+                raise
+            if not self.controller.dry_run:
+                self._detach_to_preview(error)
+            self._pause_preview(view, started, requests, record)
+        return True
+
+    def _control_tick(self, view, started, requests, request):
         if self.panel is not None:
             self.gripper.set_open_width(self.panel.open_width_mm)
+            if view is not None:
+                view.set_rg2_mount(self.panel.rg2_mount)
+        if self.ring_input is not None:
+            self.ring_input.poll(view, self.controller)
 
         run_switch = requests.dry_run is not None and requests.dry_run != self.controller.dry_run
         # A return to preview takes priority over polling USB or network input.
@@ -215,24 +241,62 @@ class TeleopSession:
         if run_switch:
             sample = self._switch_run_mode(requests.dry_run, sample)
 
-        request = self.panel.take_record_request() if self.recording is not None and self.panel is not None else None
         observation = self.recording.observe(self.controller, self.gripper, request) if self.recording else None
         try:
-            self._advance_arm(requests, sample, run_switch)
+            self._advance_arm(requests, sample, run_switch, view)
         except RobotControlStopped as error:
             if self.simulation or self.panel is None or self.controller.dry_run:
                 raise
             self._recover_to_preview(error)
+            if self.ring_input is not None:
+                self.ring_input.poll(view, self.controller, reset=True)
             sample = None
 
         self.message = requests.acknowledge(self.panel, self.controller, simulation=self.simulation,
                                             run_switch_requested=run_switch, message=self.message)
         width = self.gripper.update(self.device, sample, dry_run=self.controller.dry_run,
-                                    run_switch_requested=run_switch, monotonic=self.monotonic)
+                                    run_switch_requested=run_switch or self._validation_release_required,
+                                    monotonic=self.monotonic)
         recording_status = self._record_tick(request, observation, started)
         self._render(view, width, started)
         self._report(sample, width, started, recording_status)
-        return True
+
+    def _pause_preview(self, view, started, requests, record):
+        arm = self.controller
+        if not self._preview_paused:
+            self._preview_paused = True
+            arm.plan(None, self.monotonic(), measured=None)
+            if self.ring_input is not None:
+                self.ring_input.poll(view, arm, reset=True)
+            self.gripper.preview.reset(self.gripper.baseline_mm)
+            print("DRY RUN paused · waiting for fresh RTDE feedback.", file=sys.stderr, flush=True)
+        if self.gripper.hardware is not None:
+            self.gripper.hardware.update(None)
+        message = "DRY RUN paused · RTDE feedback is stale. Waiting for a new frame."
+        if self.message.startswith("DRY RUN 전환"):
+            message = f"{self.message} · Waiting for a new frame."
+        requests.acknowledge(self.panel, arm, simulation=False, run_switch_requested=True, message=message)
+        status = self._record_tick(record, None, started)
+        if self.panel is not None:
+            self.panel.refresh(dry_run=True, clutch="Waiting for RTDE", measured=None, target=None,
+                               operator_state="waiting-feedback", message=message, recording=status)
+
+    def _resume_preview(self, view, started, requests, record):
+        # Drain the device and decline queued REAL/target requests even on the
+        # first fresh tick. A new gesture must start against fresh measurements.
+        self.device.read()
+        arm = self.controller
+        arm.update(None, self.monotonic())  # May still raise StaleRobotFeedback.
+        if self.connected_preview is not None:
+            self.connected_preview.read_feedback(arm)
+        if self.ring_input is not None:
+            self.ring_input.poll(view, arm, reset=True)
+        self._preview_paused = False
+        self.message = "RTDE feedback restored · release the controls before starting a new gesture."
+        requests.acknowledge(self.panel, arm, simulation=False, run_switch_requested=True, message=self.message)
+        status = self._record_tick(record, None, started)
+        self._render(view, self.gripper.baseline_mm, started)
+        self._report(None, self.gripper.baseline_mm, started, status)
 
     def _record_tick(self, request, observation, started):
         if self.recording is None:
@@ -243,67 +307,139 @@ class TeleopSession:
         return status
 
     def _switch_run_mode(self, dry_run, sample):
+        if not dry_run and self.ring_input is not None and self.ring_input.dragging:
+            self.message = "Release the joint ring before switching run mode."
+            return None
         hardware = self.gripper.hardware
         if hardware is not None:
             hardware.update(None)
         self.message = self.controller.set_mode(dry_run, simulation=self.simulation, sample=sample, device=self.device)
         if self.controller.dry_run != dry_run:
             return sample  # Request refused; the old mode still owns the input.
+        self._validation_release_required = False
         self.gripper.preview.reset(self.gripper.baseline_mm)
         if dry_run and hardware is not None:
             # Finish pending Modbus writes before confirming read-only control.
             hardware.wait_for_writes()
         return None  # Input captured before switching writers cannot arm the new mode.
 
-    def _advance_arm(self, requests, sample, run_switch):
+    def _arm_input(self, requests, sample, run_switch, view):
+        if self._validation_release_required:
+            # Check the physical device before a ring can synthesize an idle
+            # sample. A held button must never re-arm the discarded target.
+            if sample is None or sample.enabled or not sample.buttons_released:
+                return None, None
+            self._validation_release_required = False
+            self.message = ""
         values = None if run_switch else requests.target
         if requests.config_count:
-            if requests.dry_run is None:
+            if self.ring_input is not None and self.ring_input.dragging:
+                self.message = "Release the joint ring before changing settings."
+            elif requests.dry_run is None:
                 self.message = requests.configure(self.controller, simulation=self.simulation,
                                                   sample=sample, device=self.device)
             # Never consume a held sample or target in a different control space.
             sample = values = None
-        notice = self.controller.update(sample, self.monotonic(), values=values,
-                                        scale=self.panel.scale if self.panel is not None else 1.0)
+        if self.ring_input is not None:
+            if requests.config_count or run_switch:
+                self.ring_input.poll(view, self.controller, reset=True)
+                sample = None
+            elif self.controller.joint_space:
+                real_motion = not (self.simulation or self.controller.dry_run)
+                if real_motion:
+                    self.ring_input.real_clutch(view, self.controller, sample)
+                sample = self.ring_input.arm_sample(
+                    sample, require_clutch=real_motion, numeric_request=values is not None,
+                )
+                if self.ring_input.dragging and values is not None:
+                    values = None
+                    self.message = "Release the joint ring before applying a panel target."
+        return sample, values
+
+    def _advance_arm(self, requests, sample, run_switch, view):
+        sample, values = self._arm_input(requests, sample, run_switch, view)
+        scale = self.panel.scale if self.panel is not None else 1.0
+        if self.connected_preview is not None:
+            self.connected_preview.read_feedback(self.controller)
+        now = self.monotonic()
+        try:
+            notice = self.controller.update(sample, now, values=values, scale=scale)
+        except TargetValidationExpired as error:
+            self._pause_for_new_clutch(view, error)
+            return
+        if self.connected_preview is not None:
+            self.connected_preview.plan_comparison(self.controller, sample, now, scale=scale, values=values)
         if values is not None:
             self.message = notice or ""
 
-    def _recover_to_preview(self, error):
+    def _pause_for_new_clutch(self, view, error):
+        self._validation_release_required = True
+        if self.recording is not None:
+            self.recording.fail(str(error))
+        now = self.monotonic()
+        self.controller.update(None, now)
+        if self.connected_preview is not None:
+            self.connected_preview.plan_comparison(self.controller, None, now, scale=1., values=None)
+        if self.ring_input is not None:
+            self.ring_input.poll(view, self.controller, reset=True)
+        self.message = str(error)
+        print(f"REAL RUN · {error}", file=sys.stderr, flush=True)
+
+    def _detach_to_preview(self, error):
         if self.recording is not None:
             self.recording.fail(str(error))
         hardware = self.gripper.hardware
         if hardware is not None:
             hardware.update(None)
         stop_message = self.controller.set_mode(True, simulation=False, sample=None)
+        self._validation_release_required = False
         if hardware is not None:
             hardware.wait_for_writes()
         self.gripper.preview.reset(self.gripper.baseline_mm)
-        self.controller.update(None, self.monotonic())  # Confirm fresh feedback before rendering.
         self.message = f"DRY RUN 전환 · {error}"
         if stop_message:
             self.message += f" · {stop_message}"
         print(self.message, file=sys.stderr, flush=True)
 
+    def _recover_to_preview(self, error):
+        self._detach_to_preview(error)
+        self.controller.update(None, self.monotonic())  # Confirm fresh feedback before rendering.
+        if self.connected_preview is not None:
+            self.connected_preview.read_feedback(self.controller)
+
     def _render(self, view, width, started):
         arm = self.controller
-        joint_preview = arm.joint_target if arm.dry_run else None
-        impedance_preview = arm.dry_run and arm.active and arm.control_law == "impedance"
-        preview_delta = impedance_preview and arm.target_from_device
         if self.simulation:
+            impedance_preview = arm.dry_run and arm.active and arm.control_law == "impedance"
             elapsed = None if self._last_preview_at is None else started - self._last_preview_at
             self._last_preview_at = started if impedance_preview else None
             self.backend.tick(
-                dry_run=arm.dry_run, target=arm.target, joint_target=joint_preview, gripper_width_mm=width,
-                preview_impedance=impedance_preview, preview_delta=preview_delta, preview_dt=elapsed,
+                dry_run=arm.dry_run, target=arm.target, joint_target=arm.joint_target if arm.dry_run else None,
+                gripper_width_mm=width, preview_impedance=impedance_preview,
+                preview_delta=impedance_preview and arm.target_from_device, preview_dt=elapsed,
             )
         elif view is not None:
-            q = arm.measured_joints if arm.joint_space else self.backend.joints()
-            gains = None
-            if impedance_preview:
-                gains = self.backend.get_impedance_gains("joint" if arm.joint_space else "eef")
-            view.update(q=q, measured_tcp=arm.measured, dry_run=arm.dry_run,
-                        target=arm.target if arm.dry_run else None, joint_target=joint_preview,
-                        gripper_width_mm=width, preview_gains=gains, preview_delta=preview_delta)
+            self.connected_preview.render(view, arm, width)
+
+    def _operator_feedback(self, sample):
+        arm = self.controller
+        if self._validation_release_required:
+            return "release-clutch", "Release Clutch to re-arm"
+        state = operator_state(self.device, sample, arm)
+        clutch = clutch_text(self.device, sample, arm.active)
+        rings = self.ring_input
+        if rings is None or not arm.joint_space:
+            return state, clutch
+
+        preview = self.simulation or arm.dry_run
+        if arm.active and rings.dragging:
+            selected = f"Mouse · J{rings.selection.joint + 1}"
+            return state, selected if preview else f"{clutch} · {selected}"
+        if not arm.active and preview:
+            return "ready", "Mouse · Left-drag a joint ring"
+        if not arm.active and sample is not None and sample.enabled:
+            return "ready", f"버튼 {self.device.button}: 누름 · Left-drag a joint ring"
+        return state, clutch
 
     def _report(self, sample, width, started, recording_status):
         arm = self.controller
@@ -312,11 +448,12 @@ class TeleopSession:
             print("Clutch active" if arm.active else "Holding", flush=True)
         if self.panel is not None:
             gripper_text = self.gripper.status(self.device, width, arm.dry_run)
-            self.panel.refresh(dry_run=arm.dry_run, clutch=clutch_text(self.device, sample, arm.active),
-                               operator_state=operator_state(self.device, sample, arm),
+            feedback = self.connected_preview.panel_status() if self.connected_preview else {}
+            state, clutch = self._operator_feedback(sample)
+            self.panel.refresh(dry_run=arm.dry_run, clutch=clutch, operator_state=state,
                                measured=arm.measured, target=arm.target, measured_joints=arm.measured_joints,
                                target_joints=arm.joint_target, message=self.message,
-                               gripper=gripper_text, recording=recording_status)
+                               gripper=gripper_text, recording=recording_status, **feedback)
         elif arm.dry_run and arm.active and started - self._last_report >= 0.5:
             if arm.joint_space:
                 print("Dry-run joints [rad]:", np.round(arm.joint_target, 4), flush=True)

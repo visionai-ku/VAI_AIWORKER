@@ -1,6 +1,7 @@
 """Pose the OnRobot RG2 visual linkage from the fingertip aperture in millimetres."""
 
 import math
+from numbers import Real
 
 import numpy as np
 
@@ -8,6 +9,22 @@ from .rg2 import DEFAULT_GRIP_FORCE_N, DEFAULT_OPEN_WIDTH_MM, normalize_open_wid
 
 
 OPEN_WIDTH_MM = 110.0
+DEFAULT_VISUAL_MOUNT = (0.0,) * 6
+
+
+def normalize_visual_mount(value):
+    """Return flange-frame (x, y, z) in mm and fixed-axis (roll, pitch, yaw) in degrees."""
+    if isinstance(value, Real):
+        # Older sessions store a single rotation about flange +Z.
+        value = (0., 0., 0., 0., 0., value)
+    try:
+        pose = np.asarray(value, dtype=float)
+    except (TypeError, ValueError, OverflowError) as exc:
+        raise ValueError("Expected a finite six-axis RG2 visual mount pose.") from exc
+    if pose.shape != (6,) or not np.isfinite(pose).all():
+        raise ValueError("Expected a finite six-axis RG2 visual mount pose.")
+    return tuple(pose.tolist())
+
 
 # Approximate aperture rates from OnRobot RG2 Datasheet v1.8, pp. 2–3.
 # Each row is (gap mm, speed mm/s at 3, 20, 40 N). Cap at the specified 127 mm/s.
